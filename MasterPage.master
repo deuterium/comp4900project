@@ -5,16 +5,44 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <link rel="stylesheet" type="text/css" href="App_Themes/BCCRC/StyleSheet.css" />
+
     <asp:ContentPlaceHolder id="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
-        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
-        
-        </asp:ContentPlaceHolder>
-    </div>
+
+
+        <div class="divcentertop">
+        </div>
+        <div class="page">
+            <div class="divmastermenubar">
+                <div class="divmastermenu">
+    	            <div id="navbar">
+		                <div class="invertedshiftdown">
+		                    <ul>
+		                        <li><a href="#" title="Home">Home</a></li>
+		                        <li><a href="#" title="Safety">Safety</a></li>
+		                        <li class="current"><a href="#" title="Revised">Revised</a></li>
+		                        <li><a href="#" title="Incident Report">Incident Report</a></li>
+		                        <li><a href="#" title="Lab Inspection">Lab Inspection</a></li>
+		                        <li><a href="#" title="Office Inspection">Office Inspection</a></li>
+		                    </ul>
+		                </div>
+	                </div>
+                </div>
+            </div>
+            <div class="content">
+                <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+        </div>
+        <div class="line">
+        </div>
+        <div class="footer">
+            Copyright &copy; Rainbow Motions 2011
+        </div>
     </form>
 </body>
 </html>
