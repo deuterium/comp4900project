@@ -1,16 +1,47 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
+<<<<<<< HEAD
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<asp:Content runat="server" ContentPlaceHolderID="head">
+</asp:Content>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-    <div>
-    
+<asp:Content runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
+</asp:Content>
+=======
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <div id="DivLogin">
+        <table id="TblLogin" style="background-color: #EFF3FB; border-color: #B5C7DE; border-width: 1px;
+            border-style: Solid; font-family: Verdana; font-size: 0.8em; border-collapse: collapse;
+            margin-left: auto; margin-right: auto;">
+            <tr>
+                <td>
+                    Username:
+                </td>
+                <td>
+                    <asp:TextBox ID="TbxLoginUsername" runat="server" ValidationGroup="VlgLogin" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Password:
+                </td>
+                <td>
+                    <asp:TextBox ID="TbxLoginPassword" runat="server" TextMode="Password" ValidationGroup="VlgLogin" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="right">
+                    <asp:Button ID="BtnLogin" Text="Login" runat="server" ValidationGroup="VlgLogin" />
+                </td>
+            </tr>
+        </table>
     </div>
-    </form>
-</body>
-</html>
+    <div id="DivLoginError">
+        
+    </div>
+</asp:Content>
+
+>>>>>>> 2e8c9017610808d0f3b9cf51afd16a830bd2124c
