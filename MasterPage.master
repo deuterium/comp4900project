@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
-    <link rel="stylesheet" type="text/css" href="Styles/StyleSheet.css" />
+    <link rel="stylesheet" type="text/css" href="App_Themes/BCCRC/StyleSheet.css" />
 
     <asp:ContentPlaceHolder id="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -24,7 +24,7 @@
 		                    <ul>
 		                        <li><a href="#" title="Home">Home</a></li>
 		                        <li><a href="#" title="Safety">Safety</a></li>
-		                        <li class="current"><a href="http://www.dynamicdrive.com/revised.htm" title="Revised">Revised</a></li>
+		                        <li class="current"><a href="#" title="Revised">Revised</a></li>
 		                        <li><a href="#" title="Incident Report">Incident Report</a></li>
 		                        <li><a href="#" title="Lab Inspection">Lab Inspection</a></li>
 		                        <li><a href="#" title="Office Inspection">Office Inspection</a></li>
