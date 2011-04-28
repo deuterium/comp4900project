@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
-
-<asp:Content runat="server" ContentPlaceHolderID="head">
-</asp:Content>
-
-<asp:Content runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
-</asp:Content>
-=======
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
@@ -43,5 +34,3 @@
         
     </div>
 </asp:Content>
-
->>>>>>> 2e8c9017610808d0f3b9cf51afd16a830bd2124c
