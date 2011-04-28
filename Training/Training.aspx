@@ -7,9 +7,22 @@
     <title></title>
 </head>
 <body>
-    <form id="form1" runat="server">
-    <div>
-    
+    <form id="frmTraining" runat="server">
+    <div style="width: 900px; background-color: #C6DEFF; margin-left: auto; margin-right: auto;">
+        <h2>Training and Orientation</h2>
+        
+        <div id="divReportInfo" style="background-color: #F778A1;">
+            <h3>Report Info</h3>
+
+        </div>
+
+        <div id="divCourses" style="background-color: #F778A1;">
+            <h3>Courses</h3>
+        </div>
+
+        <div id="divCourseDetails" style="background-color: #F778A1;">
+            <h3>Course Details</h3>
+        </div>
     </div>
     </form>
 </body>
