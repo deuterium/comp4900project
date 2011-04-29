@@ -19,7 +19,7 @@
         div#divReportInfo 
         {
             float: left;
-            width: 270px;
+            width: 250px;
             background-color: #BDEDFF;
             padding-left: 10px;
             height: 750px;
@@ -28,9 +28,9 @@
         div#divCourses 
         {
             float: left;
-            padding-left: 15px;
-            padding-right: 15px;
-            width: 360px;
+            padding-left: 10px;
+            padding-right: 10px;
+            width: 440px;
             background-color: #ADDFFF;
             height: 750px;
         }
@@ -38,11 +38,11 @@
         div#divCourseDetails
         {
             float: left;
-            width: 280px;
+            width: 230px;
             background-color: #B7CEEC;
             padding-left: 10px;
             height: 750px;
-        } 
+        }
     </style>
 </asp:Content>
 
@@ -152,16 +152,16 @@
 
         <div id="divCourses">
             <h3>Courses</h3>
-            Courses Completed:
+            Completed:
             <asp:GridView ID="gdvCoursesCompleted" runat="server" ForeColor="Green">
             </asp:GridView>
-            Courses Expired:
+            Expired:
             <asp:GridView ID="gdvCoursesExpired" runat="server" ForeColor="#F87217">
             </asp:GridView>
-            Courses Not Completed:
+            Not Completed:
             <asp:GridView ID="gdvCoursesNotCompleted" runat="server" ForeColor="Red">
             </asp:GridView>
-            Course Catalog:
+            Catalog:
             <asp:GridView ID="gdvCoursesCatalog" runat="server" ForeColor="Black">
             </asp:GridView>
         </div>
