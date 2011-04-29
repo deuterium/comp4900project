@@ -183,7 +183,7 @@ textarea {
 	margin: 0 auto;
 	padding: 0;
 	position: relative;
-	width: 900px;
+	width: 1000px; /* This changes the size of the Red bar on top of our menu items */
 	height: 28px;
 	background: #FFFFFF;
 }
@@ -210,8 +210,8 @@ textarea {
 {
     height: 30px;
     line-height:30px;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 .divmastermenu
@@ -261,5 +261,29 @@ textarea {
 .divline
 {
     margin-top:10px;
-    border-top:2px solid Grey;
+    border-top:2px solid #D10000;
+}
+
+/* Lab.aspx */
+
+.tblItem
+{
+    width: 400px;
+    padding-left:5px;
+    padding-right:5px;
+}
+
+.tblYesNoNA
+{
+    text-align: center;
+    width: 50px;
+    padding-left:5px;
+    padding-right:5px;
+}
+
+.tblComment
+{
+    width: 100px;
+    padding-left:5px;
+    padding-right:5px;
 }
