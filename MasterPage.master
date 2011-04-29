@@ -1,48 +1,38 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
     <link rel="stylesheet" type="text/css" href="App_Themes/BCCRC/StyleSheet.css" />
-
-    <asp:ContentPlaceHolder id="head" runat="server">
+    <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
-
-
-        <div class="divcentertop">
-        </div>
-        <div class="page">
-            <div class="divmastermenubar">
-                <div class="divmastermenu">
-    	            <div id="navbar">
-		                <div class="invertedshiftdown">
-		                    <ul>
-		                        <li><a href="#" title="Home">Home</a></li>
-		                        <li><a href="#" title="Safety">Safety</a></li>
-		                        <li class="current"><a href="#" title="Revised">Revised</a></li>
-		                        <li><a href="#" title="Incident Report">Incident Report</a></li>
-		                        <li><a href="#" title="Lab Inspection">Lab Inspection</a></li>
-		                        <li><a href="#" title="Office Inspection">Office Inspection</a></li>
-		                    </ul>
-		                </div>
-	                </div>
+    <div class="divcentertop">
+    </div>
+    <div class="page">
+        <div class="divmastermenubar">
+            <div class="divmastermenu">
+                <div id="navbar">
+                    <div class="invertedshiftdown">
+                        <asp:SiteMapDataSource runat="server" ID="siteMapDataSource" ShowStartingNode="false" />
+                        <asp:Menu ID="masterMenu" runat="server" Orientation="Horizontal" DataSourceID="siteMapDataSource" />
+                    </div>
                 </div>
             </div>
-            <div class="content">
-                <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
-                </asp:ContentPlaceHolder>
-            </div>
         </div>
-        <div class="line">
+        <div class="content">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
         </div>
-        <div class="footer">
-            Copyright &copy; Rainbow Motions 2011
-        </div>
+    </div>
+    <div class="line">
+    </div>
+    <div class="footer">
+        Copyright &copy; Rainbow Motions 2011
+    </div>
     </form>
 </body>
 </html>
