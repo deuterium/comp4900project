@@ -1,56 +1,53 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Training.aspx.cs" Inherits="Training_Training" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Training.aspx.cs" Inherits="Training_Training" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head id="Head1" runat="server">
-    <title></title>
+<asp:Content ID="Content1" runat="server" ContentPlaceHolderID="head">
     <style>
-    div.wrapper {
+        div.wrapper {
 
-    }
+        }
     
-    div#divContent {
-        width: 900px;
-        background-color: #E0FFFF;
-        margin-left: auto;
-        margin-right: auto;
-        height: 750px;
-    }
+        div#divContent {
+            width: 100%;
+            background-color: #E0FFFF;
+            margin-left: auto;
+            margin-right: auto;
+            height: 750px;
+        }
     
-    div#divReportInfo 
-    {
-        float: left;
-        width: 260px;
-        background-color: #BDEDFF;
-        padding-left: 10px;
-        height: 750px;
-    }
+        div#divReportInfo 
+        {
+            float: left;
+            width: 270px;
+            background-color: #BDEDFF;
+            padding-left: 10px;
+            height: 750px;
+        }
     
-    div#divCourses 
-    {
-        float: left;
-        padding-left: 15px;
-        padding-right: 15px;
-        width: 330px;
-        background-color: #ADDFFF;
-        height: 750px;
-    }
+        div#divCourses 
+        {
+            float: left;
+            padding-left: 15px;
+            padding-right: 15px;
+            width: 360px;
+            background-color: #ADDFFF;
+            height: 750px;
+        }
     
-    div#divCourseDetails
-    {
-        float: left;
-        width: 260px;
-        background-color: #B7CEEC;
-        padding-left: 10px;
-        height: 750px;
-    } 
+        div#divCourseDetails
+        {
+            float: left;
+            width: 280px;
+            background-color: #B7CEEC;
+            padding-left: 10px;
+            height: 750px;
+        } 
     </style>
-</head>
-<body>
-    <form id="frmTraining" runat="server">
+</asp:Content>
+
+<asp:Content ID="Content2" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
+
     <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
     </asp:ToolkitScriptManager>
     
@@ -232,6 +229,4 @@
             </table>
         </div>
     </div>
-    </form>
-</body>
-</html>
+</asp:Content>
