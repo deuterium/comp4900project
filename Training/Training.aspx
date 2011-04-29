@@ -1,5 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Training.aspx.cs" Inherits="Training_Training" %>
 
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -10,36 +12,49 @@
 
     }
     
+    div#divContent {
+        width: 900px;
+        background-color: #E0FFFF;
+        margin-left: auto;
+        margin-right: auto;
+        height: 750px;
+    }
+    
     div#divReportInfo 
     {
         float: left;
-        height: 350px;
-        width: 220px;
-        background-color: #F778A1;
+        width: 260px;
+        background-color: #BDEDFF;
+        padding-left: 10px;
+        height: 750px;
     }
     
     div#divCourses 
     {
         float: left;
-        padding-left: 10px;
-        padding-right: 10px;
-        height: 350px;
-        background-color: #F778A1;
-        width: 300px;
+        padding-left: 15px;
+        padding-right: 15px;
+        width: 330px;
+        background-color: #ADDFFF;
+        height: 750px;
     }
     
     div#divCourseDetails
     {
-        height: 350px;
         float: left;
-        width: 360px;
-        background-color: #F778A1;
+        width: 260px;
+        background-color: #B7CEEC;
+        padding-left: 10px;
+        height: 750px;
     } 
     </style>
 </head>
 <body>
     <form id="frmTraining" runat="server">
-    <div id="divContent" style="width: 900px; background-color: #C6DEFF; margin-left: auto; margin-right: auto;">
+    <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
+    </asp:ToolkitScriptManager>
+    
+    <div id="divContent">
         <h2>Training and Orientation</h2>
         
         <div id="divReportInfo">
@@ -115,6 +130,8 @@
                     </td>
                     <td>
                         <asp:TextBox ID="tbxStartDate" runat="server"></asp:TextBox>
+                        <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="yyyy/MM/dd" >
+                        </asp:CalendarExtender>
                     </td>
                 </tr>
                 <tr>
@@ -123,6 +140,8 @@
                     </td>
                     <td>
                         <asp:TextBox ID="tbxEndDate" runat="server"></asp:TextBox>
+                        <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="yyyy/MM/dd" >
+                        </asp:CalendarExtender>
                     </td>
                 </tr>
                 <tr> 
@@ -136,7 +155,17 @@
 
         <div id="divCourses">
             <h3>Courses</h3>
-            <asp:GridView ID="gdvCourses" runat="server">
+            Courses Completed:
+            <asp:GridView ID="gdvCoursesCompleted" runat="server" ForeColor="Green">
+            </asp:GridView>
+            Courses Expired:
+            <asp:GridView ID="gdvCoursesExpired" runat="server" ForeColor="#F87217">
+            </asp:GridView>
+            Courses Not Completed:
+            <asp:GridView ID="gdvCoursesNotCompleted" runat="server" ForeColor="Red">
+            </asp:GridView>
+            Course Catalog:
+            <asp:GridView ID="gdvCoursesCatalog" runat="server" ForeColor="Black">
             </asp:GridView>
         </div>
 

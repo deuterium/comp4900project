@@ -21,7 +21,16 @@ public partial class Training_Training : System.Web.UI.Page
             new { status = 2, name = "Training Course 1", dateCompleted = DateTime.Now.ToString("yyyy/MM/dd"), dateExpired = DateTime.Now.AddMonths(3).ToString("yyyy/MM/dd") }
         };
 
-        gdvCourses.DataSource = courses;
-        gdvCourses.DataBind();
+        gdvCoursesCompleted.DataSource = courses;
+        gdvCoursesCompleted.DataBind();
+
+        gdvCoursesExpired.DataSource = courses;
+        gdvCoursesExpired.DataBind();
+        
+        gdvCoursesNotCompleted.DataSource = courses;
+        gdvCoursesNotCompleted.DataBind();
+            
+        gdvCoursesCatalog.DataSource = courses;
+        gdvCoursesCatalog.DataBind();
     }
 }
