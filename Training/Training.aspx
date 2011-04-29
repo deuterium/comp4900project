@@ -5,13 +5,44 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
     <title></title>
+    <style>
+    div.wrapper {
+
+    }
+    
+    div#divReportInfo 
+    {
+        float: left;
+        height: 350px;
+        width: 220px;
+        background-color: #F778A1;
+    }
+    
+    div#divCourses 
+    {
+        float: left;
+        padding-left: 10px;
+        padding-right: 10px;
+        height: 350px;
+        background-color: #F778A1;
+        width: 300px;
+    }
+    
+    div#divCourseDetails
+    {
+        height: 350px;
+        float: left;
+        width: 360px;
+        background-color: #F778A1;
+    } 
+    </style>
 </head>
 <body>
     <form id="frmTraining" runat="server">
     <div id="divContent" style="width: 900px; background-color: #C6DEFF; margin-left: auto; margin-right: auto;">
         <h2>Training and Orientation</h2>
         
-        <div id="divReportInfo" style="background-color: #F778A1;">
+        <div id="divReportInfo">
             <h3>Report Info</h3>
             <table id="tblReportInfoForm">
                 <tr>
@@ -103,13 +134,13 @@
             
         </div>
 
-        <div id="divCourses" style="background-color: #F778A1;">
+        <div id="divCourses">
             <h3>Courses</h3>
             <asp:GridView ID="gdvCourses" runat="server">
             </asp:GridView>
         </div>
 
-        <div id="divCourseDetails" style="background-color: #F778A1;">
+        <div id="divCourseDetails">
             <h3>Course Details</h3>
             <table>
                 <tr>
