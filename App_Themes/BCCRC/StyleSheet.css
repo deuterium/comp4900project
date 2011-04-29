@@ -159,6 +159,11 @@ textarea {
 	color: white;
 }
 
+.navitem 
+{
+    text-align:left;
+}
+
 #myform{ /*CSS for sample search box. Remove if desired */
 	float: right;
 	margin: 0;
