@@ -43,9 +43,11 @@
     /// Function to check if user is authenticated
     /// Redirects to login if user has not logged in yet
     /// TODO: This is possibly unsecure to cookie editing, look into something around this
+    /// MAKE SESSION VALUE HASHED word constant
     /// </summary>
     public static void Session_Authentication() {
-        if (HttpContext.Current.Session["AuthenticatedUser"].ToString().Length == 0) 
+        if (!HttpContext.Current.Session["AuthenticatedUser"].ToString()
+            .Equals(FormsAuthentication.HashPasswordForStoringInConfigFile("&U74U53R", "MD5"))) 
         {
             HttpContext.Current.Response.Redirect("~/Login.aspx");
         }
