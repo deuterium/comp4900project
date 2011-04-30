@@ -70,7 +70,7 @@ public partial class Login : System.Web.UI.Page
         if (Check_Credentials(tbxLoginUsername.Text, tbxLoginPassword.Text))
         {
             lblLoginError.Text = "success!";//String.Empty;
-            Session["AuthenticatedUser"] = tbxLoginUsername.Text;
+            Session["AuthenticatedUser"] = FormsAuthentication.HashPasswordForStoringInConfigFile("&U74U53R", "MD5");
             Response.Redirect("ChrisTest.aspx");
         }
         //Authentication Failure
