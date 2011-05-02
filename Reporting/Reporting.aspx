@@ -559,45 +559,119 @@ Full descriptions and target completion dates for corrective actions are require
 <table>
     <tr>
         <td>
-            Do you know of any previous pain or dsiability in the area of the worker's present injury? If YES, please explain.
+            Do you know of any previous pain/disability in the area of the worker's present injury? If YES, please explain.
+            <br />
+            <asp:TextBox ID="tbxMgrReportPreviousPain" runat="server" Height="100px"></asp:TextBox>
         </td>
         <td>
-        
+            <asp:RadioButtonList ID="rblMgrReportPreviousPain" runat="server" RepeatDirection="Horizontal">
+                <asp:ListItem Text="Yes" ></asp:ListItem>
+                <asp:ListItem Text="No" ></asp:ListItem>
+            </asp:RadioButtonList>
         </td>
     </tr>
     <tr>
         <td>
             Do you have any objections to the claim being accepted? If YES, please explain.
+            <br />
+            <asp:TextBox ID="tbxMgrReportObjections" runat="server" Height="100px"></asp:TextBox>
         </td>
         <td>
-        
+            <asp:RadioButtonList ID="rblMgrReportObjections" runat="server" RepeatDirection="Horizontal">
+                <asp:ListItem Text="Yes" ></asp:ListItem>
+                <asp:ListItem Text="No" ></asp:ListItem>
+            </asp:RadioButtonList>
         </td>
     </tr>
     <tr>
         <td>
             Is alternative light duty or modified work available?
+            <br />
+            <asp:TextBox ID="tbxMgrReportAlt" runat="server" Height="100px"></asp:TextBox>
         </td>
         <td>
-            Y/N
+            <asp:RadioButtonList ID="rblMgrReportAlt" runat="server" RepeatDirection="Horizontal">
+                <asp:ListItem Text="Yes" ></asp:ListItem>
+                <asp:ListItem Text="No" ></asp:ListItem>
+            </asp:RadioButtonList>
         </td>
     </tr>
     <tr>
         <td>
-            Does the worker work a fixed shift rotation?
+            Does the worker work a fixed shift rotation? If yes, please provide:
+            <br />
+            <table>
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td>Sun</td>
+                        <td>Mon</td>
+                        <td>Tue</td>
+                        <td>Wed</td>
+                        <td>Thu</td>
+                        <td>Fri</td>
+                        <td>Sat</td>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>Week1</td>
+                    <td>
+                        <asp:TextBox ID="tbxW1Sun" runat="server" Width="20px" />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="tbxW1Mon" runat="server" Width="20px" />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="tbxW1Tue" runat="server" Width="20px" />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="tbxW1Wed" runat="server" Width="20px" />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="tbxW1Thu" runat="server" Width="20px" />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="tbxW1Fri" runat="server" Width="20px" />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="tbxW1Sat" runat="server" Width="20px" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Week2</td>
+                    <td>
+                        <asp:TextBox ID="tbxW2Sun" runat="server" Width="20px" />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="tbxW2Mon" runat="server" Width="20px" />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="tbxW2Tue" runat="server" Width="20px" />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="tbxW2Wed" runat="server" Width="20px" />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="tbxW2Thu" runat="server" Width="20px" />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="tbxW2Fri" runat="server" Width="20px" />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="tbxW2Sat" runat="server" Width="20px" />
+                    </td>
+                </tr>
+            </table>
+        </td>
         </td>
         <td>
-        
+            <asp:RadioButtonList ID="rblMgrReportFixedShift" runat="server" RepeatDirection="Horizontal">
+                <asp:ListItem Text="Yes" ></asp:ListItem>
+                <asp:ListItem Text="No" ></asp:ListItem>
+            </asp:RadioButtonList>
         </td>
     </tr>
-    <tr>
-        <td>
-            If yes, please provide:   
-        </td>
-        <td>
-            (TABLE)
-        </td>
-    </tr>
-</table>
+    </table> 
 </asp:Panel>
 </div>
 </asp:Content>
