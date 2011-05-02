@@ -14,7 +14,7 @@
     <div id="main">
 	<div id="maincontent">
 	    <div id="top">
-            <a href="/"><img class="logo" src="~/images/template/logo.gif" alt="BCCRC" runat="server" /></a>
+            <a href="~/Default.aspx" runat="server"><img class="logo" src="~/images/template/logo.gif" alt="BCCRC" runat="server" /></a>
 			<a href="Default.aspx"></a>
 			<div class="topblockcolour green"></div>	
 	    </div>

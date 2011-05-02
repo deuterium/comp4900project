@@ -38,7 +38,7 @@ CollapseControlID="hr3H" ExpandControlID="hr3H" TargetControlID="pnlH">
 <div>
 
 <h3 id="hr3A">A. Incident/Accident Information</h3>
-<asp:Panel ID="pnlA" runat="server">
+<asp:Panel ID="pnlA" CssClass="panel" runat="server">
     <table>
         <tr>
             <td>
@@ -105,7 +105,7 @@ CollapseControlID="hr3H" ExpandControlID="hr3H" TargetControlID="pnlH">
 </asp:Panel>
 
 <h3 id="hr3B">B. Nature of Injury</h3>
-<asp:Panel ID="pnlB" runat="server">
+<asp:Panel ID="pnlB" CssClass="panel" runat="server">
     <asp:CheckBoxList ID="cblNatureOfInjury" runat="server">
         <asp:ListItem Text="No Injury (Near Miss/ Unsafe Condition)" ></asp:ListItem>
         <asp:ListItem Text="Musculoskeletal Injyry (Strain / Sprain)" ></asp:ListItem>
@@ -119,7 +119,7 @@ CollapseControlID="hr3H" ExpandControlID="hr3H" TargetControlID="pnlH">
 </asp:Panel>
 
 <h3 id="hr3C">C. Accident Investigation</h3>
-<asp:Panel ID="pnlC" runat="server">
+<asp:Panel ID="pnlC" CssClass="panel" runat="server">
 <h4>Activity</h4>
 <asp:CheckBoxList ID="cblActivity" runat="server">
     <asp:ListItem Text="No Injury" ></asp:ListItem>
@@ -210,7 +210,7 @@ Material / Equipment Description (stretchers, carts, boxes, etc.):
 </asp:Panel>
 
 <h3 id="hr3D">D. Cause</h3>
-<asp:Panel ID="pnlD" runat="server">
+<asp:Panel ID="pnlD" CssClass="panel" runat="server">
 <h5>Bite</h5>
 <asp:CheckBoxList ID="cblbite" runat="server">
     <asp:ListItem Text="Human" ></asp:ListItem>
@@ -286,7 +286,7 @@ Checmical Name: <asp:TextBox ID="tbxExposureChemical" runat="server"></asp:TextB
 </asp:Panel>
 
 <h3 id="hr3E">E. Contributing Factors</h3>
-<asp:Panel ID="pnlE" runat="server">
+<asp:Panel ID="pnlE" CssClass="panel" runat="server">
 <h5>Equipment / Device</h5>
 <asp:CheckBoxList ID="cblEquipmentDevice" runat="server">
     <asp:ListItem Text="Malfunctioning" ></asp:ListItem>
@@ -369,7 +369,7 @@ Checmical Name: <asp:TextBox ID="tbxExposureChemical" runat="server"></asp:TextB
 </asp:Panel>
 
 <h3 id="hr3F">F. Corrective Action</h3>
-<asp:Panel ID="pnlF" runat="server">
+<asp:Panel ID="pnlF" CssClass="panel" runat="server">
 <table>
     <tr>
         <td>
@@ -443,7 +443,7 @@ Checmical Name: <asp:TextBox ID="tbxExposureChemical" runat="server"></asp:TextB
 </asp:Panel>
 
 <h3 id="hr3G">G. Relavant Corrective Actions and Follow Up</h3>    
-<asp:Panel ID="pnlG" runat="server">
+<asp:Panel ID="pnlG" CssClass="panel" runat="server">
 Full descriptions and target completion dates for corrective actions are required.
 <table>
     <tr>
@@ -555,7 +555,7 @@ Full descriptions and target completion dates for corrective actions are require
 </asp:Panel>
 
 <h3 id="hr3H">H. Managers Report</h3>
-<asp:Panel ID="pnlH" runat="server">
+<asp:Panel ID="pnlH" CssClass="panel" runat="server">
 <table>
     <tr>
         <td>

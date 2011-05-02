@@ -1,13 +1,24 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Lab.aspx.cs" Inherits="Inspections_Lab_Lab" %>
 
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+
 <asp:Content runat="server" ContentPlaceHolderID="head">
 </asp:Content>
 
+
 <asp:Content runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
+<asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
+</asp:ToolkitScriptManager>
+<asp:CollapsiblePanelExtender ID="cpeA" runat="server" Collapsed="true"
+CollapseControlID="labA" ExpandControlID="labA" TargetControlID="pnlA">
+</asp:CollapsiblePanelExtender>
+<asp:CollapsiblePanelExtender ID="cpeB" runat="server" Collapsed="true"
+CollapseControlID="labB" ExpandControlID="labB" TargetControlID="pnlB">
+</asp:CollapsiblePanelExtender>
 
 <div>
-    
-    <h2>Lab Inspection</h2>
+    <h3 id="labA">A. Department</h3>
+    <asp:Panel ID="pnlA" CssClass="panel" runat="server">
     <div class="divline"></div>
     <br />
 
@@ -72,8 +83,10 @@
             </td>
         </tr>
     </table>
+    </asp:Panel>
 
-    <h3>Emergency & Information Material</h3>
+    <h3 id="labB">B. Emergency & Information Material</h3>
+    <asp:Panel ID="pnlB" CssClass="panel" runat="server">
     <div class="divline"></div>
     <br />
 
@@ -300,6 +313,7 @@
             </td>
         </tr>
     </table>
+    </asp:Panel>
 
 </div>
 
