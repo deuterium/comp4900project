@@ -3,7 +3,7 @@
   <siteMapNode>
     <siteMapNode title="Login" url="~/Default.aspx" />
     <siteMapNode title="Safety" url="~/Safety.aspx" />
-    <siteMapNode title="Incident Reports" url="~/Reproting/Reporting.aspx" />
+    <siteMapNode title="Incident Reports" url="~/Reporting/Reporting.aspx" />
     <siteMapNode title="Lab Inspection" url="~/Inspections/Lab/Lab.aspx" />
     <siteMapNode title="Office Inspection" url="~/Inpsections/Office/Office.aspx" />
   </siteMapNode>

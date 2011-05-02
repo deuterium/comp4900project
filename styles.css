@@ -87,17 +87,23 @@ a:hover
 {
     text-align: right;
 }
-	
+
+/* This is for extending the page. Use textbox for content */
+
 #content   
 {
-    background: url(images/template/bkg_green.gif) repeat-y; 
-    height:800px;
+    background: url(images/template/bkg_green.gif) repeat-y;
+    min-height: 800px;
+    height:100%;
     width: 946px; 
     position: relative;
 }
 
+/* This is the real content div */
+
 #textbox 
 {
+    margin: 10px;
     width: 90%;
     position: relative;
 }
