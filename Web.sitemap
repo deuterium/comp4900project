@@ -2,7 +2,7 @@
 <siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
   <siteMapNode>
     <siteMapNode title="Login" url="~/Default.aspx" />
-    <siteMapNode title="Safety" url="~/Safety.aspx" />
+    <siteMapNode title="Training" url="~/Training/Training.aspx" />
     <siteMapNode title="Incident Reports" url="~/Reporting/Reporting.aspx" />
     <siteMapNode title="Lab Inspection" url="~/Inspections/Lab/Lab.aspx" />
     <siteMapNode title="Office Inspection" url="~/Inpsections/Office/Office.aspx" />

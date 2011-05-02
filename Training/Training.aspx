@@ -3,59 +3,41 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="head">
-    <style>
-        div.wrapper {
-
-        }
-    
-        div#divContent {
-            width: 100%;
-            background-color: #E0FFFF;
-            margin-left: auto;
-            margin-right: auto;
-            height: 750px;
-        }
-    
-        div#divReportInfo 
-        {
-            float: left;
-            width: 250px;
-            background-color: #BDEDFF;
-            padding-left: 10px;
-            height: 750px;
-        }
-    
-        div#divCourses 
-        {
-            float: left;
-            padding-left: 10px;
-            padding-right: 10px;
-            width: 440px;
-            background-color: #ADDFFF;
-            height: 750px;
-        }
-    
-        div#divCourseDetails
-        {
-            float: left;
-            width: 230px;
-            background-color: #B7CEEC;
-            padding-left: 10px;
-            height: 750px;
-        }
-    </style>
 </asp:Content>
 
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
 
-    <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
-    </asp:ToolkitScriptManager>
-    
+<asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
+</asp:ToolkitScriptManager>
+
+<asp:CollapsiblePanelExtender ID="cpeReportInfo" runat="server" Collapsed="true"
+CollapseControlID="hr3ReportInfo" ExpandControlID="hr3ReportInfo" TargetControlID="pnlReportInfo">
+</asp:CollapsiblePanelExtender>
+<asp:CollapsiblePanelExtender ID="cpeCourses" runat="server" Collapsed="false"
+CollapseControlID="hr3Courses" ExpandControlID="hr3Courses" TargetControlID="pnlCourses">
+</asp:CollapsiblePanelExtender>
+    <asp:CollapsiblePanelExtender ID="cpeCoursesCompleted" runat="server" Collapsed="true"
+    CollapseControlID="hr4CoursesCompleted" ExpandControlID="hr4CoursesCompleted" TargetControlID="pnlCoursesCompleted">
+    </asp:CollapsiblePanelExtender>
+    <asp:CollapsiblePanelExtender ID="cpeCoursesExpired" runat="server" Collapsed="true"
+    CollapseControlID="hr4CoursesExpired" ExpandControlID="hr4CoursesExpired" TargetControlID="pnlCoursesExpired">
+    </asp:CollapsiblePanelExtender>
+    <asp:CollapsiblePanelExtender ID="cpeCoursesNotCompleted" runat="server" Collapsed="true"
+    CollapseControlID="hr4CoursesNotCompleted" ExpandControlID="hr4CoursesNotCompleted" TargetControlID="pnlCoursesNotCompleted">
+    </asp:CollapsiblePanelExtender>
+    <asp:CollapsiblePanelExtender ID="cpeCoursesCatalog" runat="server" Collapsed="true"
+    CollapseControlID="hr4CoursesCatalog" ExpandControlID="hr4CoursesCatalog" TargetControlID="pnlCoursesCatalog">
+    </asp:CollapsiblePanelExtender>
+<asp:CollapsiblePanelExtender ID="cpeCourseDetails" runat="server" Collapsed="true"
+CollapseControlID="hr3CourseDetails" ExpandControlID="hr3CourseDetails" TargetControlID="pnlCourseDetails">
+</asp:CollapsiblePanelExtender>
+
     <div id="divContent">
         <h2>Training and Orientation</h2>
         
         <div id="divReportInfo">
-            <h3>Report Info</h3>
+            <h3 id="hr3ReportInfo">Report Info</h3>
+            <asp:Panel ID="pnlReportInfo" CssClass="panel" runat="server">
             <table id="tblReportInfoForm">
                 <tr>
                     <td>
@@ -64,48 +46,12 @@
                     <td>
                         <asp:TextBox ID="tbxId" runat="server"></asp:TextBox>
                     </td>
-                </tr>
-                <tr>
-                    <td>
-                        Last name:
-                    </td>
-                    <td>
-                        <asp:TextBox ID="tbxLastName" runat="server"></asp:TextBox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        First name:
-                    </td>
-                    <td>
-                        <asp:TextBox ID="tbxFirstName" runat="server"></asp:TextBox>
-                    </td>
-                </tr>
-                <tr>
                     <td>
                         Position:
                     </td>
                     <td>
                         <asp:DropDownList ID="ddlPositions" runat="server"></asp:DropDownList>
                     </td>
-                </tr>
-                <tr>
-                    <td>
-                        Employer:
-                    </td>
-                    <td>
-                        <asp:DropDownList ID="ddlEmployers" runat="server"></asp:DropDownList>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Department:
-                    </td>
-                    <td>
-                        <asp:DropDownList ID="ddlDepartments" runat="server"></asp:DropDownList>
-                    </td>
-                </tr>
-                <tr>
                     <td>
                        Room: 
                     </td>
@@ -115,6 +61,18 @@
                 </tr>
                 <tr>
                     <td>
+                        Last name:
+                    </td>
+                    <td>
+                        <asp:TextBox ID="tbxLastName" runat="server"></asp:TextBox>
+                    </td>
+                    <td>
+                        Employer:
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="ddlEmployers" runat="server"></asp:DropDownList>
+                    </td>
+                    <td>
                         Supervisor:
                     </td>
                     <td>
@@ -123,17 +81,33 @@
                 </tr>
                 <tr>
                     <td>
+                        First name:
+                    </td>
+                    <td>
+                        <asp:TextBox ID="tbxFirstName" runat="server"></asp:TextBox>
+                    </td>
+                    <td>
+                        Department:
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="ddlDepartments" runat="server"></asp:DropDownList>
+                    </td>
+                    <td>
                         Start date:
                     </td>
                     <td>
                         <asp:TextBox ID="tbxStartDate" runat="server"></asp:TextBox>
                         <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="yyyy/MM/dd" >
                         </asp:CalendarExtender>
-                    </td>
+                     </td>
                 </tr>
                 <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td>
-                       End date: 
+                        End date: 
                     </td>
                     <td>
                         <asp:TextBox ID="tbxEndDate" runat="server"></asp:TextBox>
@@ -147,27 +121,38 @@
                     </td>
                 </tr>
             </table>
-            
+            </asp:Panel>
         </div>
 
         <div id="divCourses">
-            <h3>Courses</h3>
-            Completed:
-            <asp:GridView ID="gdvCoursesCompleted" runat="server" ForeColor="Green">
-            </asp:GridView>
-            Expired:
-            <asp:GridView ID="gdvCoursesExpired" runat="server" ForeColor="#F87217">
-            </asp:GridView>
-            Not Completed:
-            <asp:GridView ID="gdvCoursesNotCompleted" runat="server" ForeColor="Red">
-            </asp:GridView>
-            Catalog:
-            <asp:GridView ID="gdvCoursesCatalog" runat="server" ForeColor="Black">
-            </asp:GridView>
+            <h3 id="hr3Courses">Courses</h3>
+            <asp:Panel ID="pnlCourses" CssClass="panel" runat="server">
+                <h4 id="hr4CoursesCompleted">Completed:</h4>
+                <asp:Panel ID="pnlCoursesCompleted" CssClass="panel" runat="server">
+                    <asp:GridView ID="gdvCoursesCompleted" runat="server" ForeColor="Green">
+                    </asp:GridView>
+                </asp:Panel>
+                <h4 id="hr4CoursesExpired">Expired:</h4>
+                <asp:Panel ID="pnlCoursesExpired" CssClass="panel" runat="server">
+                    <asp:GridView ID="gdvCoursesExpired" runat="server" ForeColor="#F87217">
+                    </asp:GridView>
+                </asp:Panel>
+                <h4 id="hr4CoursesNotCompleted">Not Completed:</h4>
+                <asp:Panel ID="pnlCoursesNotCompleted" CssClass="panel" runat="server">
+                    <asp:GridView ID="gdvCoursesNotCompleted" runat="server" ForeColor="Red">
+                    </asp:GridView>
+                </asp:Panel>
+                <h4 id="hr4CoursesCatalog">Catalog</h4>
+                <asp:Panel ID="pnlCoursesCatalog" CssClass="panel" runat="server">
+                    <asp:GridView ID="gdvCoursesCatalog" runat="server" ForeColor="Black">
+                    </asp:GridView>
+                </asp:Panel>
+            </asp:Panel>
         </div>
 
         <div id="divCourseDetails">
-            <h3>Course Details</h3>
+            <h3 id="hr3CourseDetails">Course Details</h3>
+            <asp:Panel ID="pnlCourseDetails" CssClass="panel" runat="server">
             <table>
                 <tr>
                     <td>
@@ -227,6 +212,7 @@
                     </td>
                 </tr>
             </table>
+            </asp:Panel>
         </div>
     </div>
 </asp:Content>
