@@ -1,37 +1,46 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+<head id="Head1" runat="server">
+    <link href="styles.css" rel="stylesheet" type="text/css" />
     <title></title>
-    <link rel="stylesheet" type="text/css" href="App_Themes/BCCRC/StyleSheet.css" />
-    <asp:ContentPlaceHolder ID="head" runat="server">
+    <asp:ContentPlaceHolder id="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
-    <div class="divcentertop">
-    </div>
-    <div class="page">
-        <div class="divmastermenubar">
-            <div class="divmastermenu">
-                <div id="navbar">
-                    <div class="invertedshiftdown">
-                        <asp:SiteMapDataSource runat="server" ID="siteMapDataSource" ShowStartingNode="false" />
-                        <asp:Menu ID="masterMenu" runat="server" Orientation="Horizontal" DataSourceID="siteMapDataSource" />
-                    </div>
-                </div>
+    <div id="main">
+	<div id="maincontent">
+	    <div id="top">
+            <a href="~/Default.aspx" runat="server"><img class="logo" src="~/images/template/logo.gif" alt="BCCRC" runat="server" /></a>
+			<a href="Default.aspx"></a>
+			<div class="topblockcolour green"></div>	
+	    </div>
+		<div class="clear"></div>
+		<div class="middleblockcolour green"></div>
+		<div id="bars">
+            <img src="images/template/bars.gif" runat="server" alt="" />
+            <div class="invertedshiftdown">
+                <asp:SiteMapDataSource runat="server" ID="siteMapDataSource" ShowStartingNode="false" />
+                <asp:Menu ID="masterMenu" runat="server" Orientation="Horizontal" DataSourceID="siteMapDataSource" />
             </div>
         </div>
-        <div class="content">
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-            </asp:ContentPlaceHolder>
-        </div>
-    </div>
-    <div class="line">
-    </div>
-    <div class="footer">
-        Copyright &copy; Rainbow Motions 2011
+
+		<div id="content" runat="server">
+            <div id="textbox">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+	    </div>
+		
+
+	</div>
+		<ul id="footer">
+			<li>&copy; 2011 BCCRC</li>
+		</ul>	
+
     </div>
     </form>
 </body>
