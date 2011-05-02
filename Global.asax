@@ -27,6 +27,7 @@
     void Session_Start(object sender, EventArgs e) 
     {
         Session["AuthenticatedUser"] = String.Empty;
+        Session["AuthenticationHash"] = String.Empty;
 
     }
     ///Not Used
@@ -46,7 +47,7 @@
     /// MAKE SESSION VALUE HASHED word constant
     /// </summary>
     public static void Session_Authentication() {
-        if (!HttpContext.Current.Session["AuthenticatedUser"].ToString()
+        if (!HttpContext.Current.Session["AuthenticationHash"].ToString()
             .Equals(FormsAuthentication.HashPasswordForStoringInConfigFile("&U74U53R", "MD5"))) 
         {
             HttpContext.Current.Response.Redirect("~/Login.aspx");
