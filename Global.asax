@@ -48,6 +48,7 @@
     /// </summary>
     public static void Session_Authentication() {
         if (!HttpContext.Current.Session["AuthenticationHash"].ToString()
+            //add some sort of user indication into the hash
             .Equals(FormsAuthentication.HashPasswordForStoringInConfigFile("&U74U53R", "MD5"))) 
         {
             HttpContext.Current.Response.Redirect("~/Login.aspx");
