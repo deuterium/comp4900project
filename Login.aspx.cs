@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Security;
+using System.Security.Cryptography;
+using System.Text;
 
 /// <summary>
 ///Login.aspx.cs
@@ -25,7 +27,8 @@ public partial class Login : System.Web.UI.Page
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void Page_Load(object sender, EventArgs e) {
+    protected void Page_Load(object sender, EventArgs e)
+    {
 
         //Following code is an example for checking session for authenticated user.
         //DO NOT uncomment on this page, inifinte load!
@@ -44,9 +47,10 @@ public partial class Login : System.Web.UI.Page
     protected bool Check_Credentials(string username, string password)
     {
         //Get password where username, this is for testing purposes
-        string dbPass = FormsAuthentication.HashPasswordForStoringInConfigFile("chris", "SHA1");
+        //db query goes here, no need for hash
+        string dbPass = HashPassword("chris");
 
-        if (FormsAuthentication.HashPasswordForStoringInConfigFile(password, "SHA1").Equals(dbPass))
+        if (HashPassword(password).Equals(dbPass))
         {
             return true;
         }
@@ -69,9 +73,11 @@ public partial class Login : System.Web.UI.Page
         //Authentication Success    
         if (Check_Credentials(tbxLoginUsername.Text, tbxLoginPassword.Text))
         {
-            lblLoginError.Text = "success!";//String.Empty;
-            Session["AuthenticatedUser"] = FormsAuthentication.HashPasswordForStoringInConfigFile("&U74U53R", "MD5");
-            Response.Redirect("ChrisTest.aspx");
+            lblLoginError.Text = String.Empty;
+            Session["AuthenticatedUser"] = tbxLoginUsername.Text;
+            Session["AuthenticationHash"] = FormsAuthentication.HashPasswordForStoringInConfigFile("&U74U53R", "MD5");
+            
+            Response.Redirect("Admin/Default.aspx");
         }
         //Authentication Failure
         else
@@ -79,5 +85,17 @@ public partial class Login : System.Web.UI.Page
             lblLoginError.Text = "Username/Password pair not found.";
             lblLoginError.ForeColor = System.Drawing.Color.Red;
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="pwd"></param>
+    /// <returns></returns>
+    protected String HashPassword(string pwd)
+    {
+        byte[] bytes = Encoding.Unicode.GetBytes(pwd);
+        byte[] inArray = HashAlgorithm.Create("SHA1").ComputeHash(bytes);
+        return Convert.ToBase64String(inArray);
     }
 }
