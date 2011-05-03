@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.Web.Security;
 using System.Security.Cryptography;
 using System.Text;
@@ -39,7 +34,6 @@ public partial class Login : System.Web.UI.Page
     /// <summary>
     /// Compares entered username and password to credentials in database
     /// Passwords are hashed to match hashed passwords in database
-    /// TODO: Database query for password
     /// </summary>
     /// <param name="username">Entered username</param>
     /// <param name="password">Entered password</param>
@@ -61,13 +55,25 @@ public partial class Login : System.Web.UI.Page
     }
 
     /// <summary>
+    /// Hashes the provided password with the SHA256 hash that is common
+    /// to .NET framework systems rather than just ASP.NET (FormsAuthentication)
+    /// </summary>
+    /// <param name="pwd">Password to hash</param>
+    /// <returns>Password hashed with SHA1</returns>
+    protected String HashPassword(string pwd)
+    {
+        byte[] bytes = Encoding.Unicode.GetBytes(pwd);
+        byte[] inArray = HashAlgorithm.Create("SHA256").ComputeHash(bytes);
+        return Convert.ToBase64String(inArray);
+    }
+
+    /// <summary>
     /// Authenticates User Credentials to database
     /// Redirects on success and stores login status in session
     /// Returns error on failure
-    /// TODO: Redirect on success, which page?
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void btnLogin_Click(object sender, EventArgs e)
     {
         //Authentication Success    
@@ -77,7 +83,7 @@ public partial class Login : System.Web.UI.Page
             Session["AuthenticatedUser"] = tbxLoginUsername.Text;
             Session["AuthenticationHash"] = FormsAuthentication.HashPasswordForStoringInConfigFile("&U74U53R", "MD5");
             
-            Response.Redirect("Admin/Default.aspx");
+            Response.Redirect("Default.aspx");
         }
         //Authentication Failure
         else
@@ -85,17 +91,5 @@ public partial class Login : System.Web.UI.Page
             lblLoginError.Text = "Username/Password pair not found.";
             lblLoginError.ForeColor = System.Drawing.Color.Red;
         }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="pwd"></param>
-    /// <returns></returns>
-    protected String HashPassword(string pwd)
-    {
-        byte[] bytes = Encoding.Unicode.GetBytes(pwd);
-        byte[] inArray = HashAlgorithm.Create("SHA1").ComputeHash(bytes);
-        return Convert.ToBase64String(inArray);
     }
 }
