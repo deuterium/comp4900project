@@ -1467,6 +1467,9 @@ CollapseControlID="labL" ExpandControlID="labL" TargetControlID="pnlL">
                 <asp:TextBox runat="server" ID="tbxInspector2" />
             </td>
             <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
+            </td>
+            <td>
                 Date:
             </td>
             <td>
