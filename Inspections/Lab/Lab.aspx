@@ -47,7 +47,6 @@ CollapseControlID="labK" ExpandControlID="labK" TargetControlID="pnlK">
     <h3 id="labA">A. Department</h3>
     <asp:Panel ID="pnlA" CssClass="panel" runat="server">
     <div class="divline"></div>
-    <br />
 
     <table>
         <tr>
@@ -115,7 +114,6 @@ CollapseControlID="labK" ExpandControlID="labK" TargetControlID="pnlK">
     <h3 id="labB">B. Emergency & Information Material</h3>
     <asp:Panel ID="pnlB" CssClass="panel" runat="server">
     <div class="divline"></div>
-    <br />
 
     <table>
         <tr>
@@ -357,7 +355,6 @@ CollapseControlID="labK" ExpandControlID="labK" TargetControlID="pnlK">
     <h3 id="labC">C. Personal Protection</h3>
     <asp:Panel ID="pnlC" CssClass="panel" runat="server">
     <div class="divline"></div>
-    <br />
 
     <table>
         <tr>
@@ -509,7 +506,6 @@ CollapseControlID="labK" ExpandControlID="labK" TargetControlID="pnlK">
     <h3 id="labD">D. Housekeeping</h3>
     <asp:Panel ID="pnlD" CssClass="panel" runat="server">
     <div class="divline"></div>
-    <br />
 
     <table>
         <tr>
@@ -661,7 +657,6 @@ CollapseControlID="labK" ExpandControlID="labK" TargetControlID="pnlK">
     <h3 id="labE">E. Waste Management</h3>
     <asp:Panel ID="pnlE" CssClass="panel" runat="server">
     <div class="divline"></div>
-    <br />
 
     <table>
         <tr>
@@ -831,7 +826,6 @@ CollapseControlID="labK" ExpandControlID="labK" TargetControlID="pnlK">
     <h3 id="labF">F. Biohazards</h3>
     <asp:Panel ID="pnlF" CssClass="panel" runat="server">
     <div class="divline"></div>
-    <br />
 
     <table>
         <tr>
@@ -893,7 +887,6 @@ CollapseControlID="labK" ExpandControlID="labK" TargetControlID="pnlK">
     <h3 id="labG">G. Fume Hoods/Biological Safety Cabinets</h3>
     <asp:Panel ID="pnlG" CssClass="panel" runat="server">
     <div class="divline"></div>
-    <br />
 
     <table>
         <tr>
@@ -991,7 +984,6 @@ CollapseControlID="labK" ExpandControlID="labK" TargetControlID="pnlK">
     <h3 id="labH">H. Electrical Apparatus</h3>
     <asp:Panel ID="pnlH" CssClass="panel" runat="server">
     <div class="divline"></div>
-    <br />
 
     <table>
         <tr>
@@ -1107,7 +1099,6 @@ CollapseControlID="labK" ExpandControlID="labK" TargetControlID="pnlK">
     <h3 id="labI">I. Chemicals and Reagents</h3>
     <asp:Panel ID="pnlI" CssClass="panel" runat="server">
     <div class="divline"></div>
-    <br />
 
     <table>
         <tr>
@@ -1277,7 +1268,6 @@ CollapseControlID="labK" ExpandControlID="labK" TargetControlID="pnlK">
     <h3 id="labJ">J. Training</h3>
     <asp:Panel ID="pnlJ" CssClass="panel" runat="server">
     <div class="divline"></div>
-    <br />
 
     <table>
         <tr>
@@ -1375,7 +1365,6 @@ CollapseControlID="labK" ExpandControlID="labK" TargetControlID="pnlK">
     <h3 id="labK">K. Miscellaneous</h3>
     <asp:Panel ID="pnlK" CssClass="panel" runat="server">
     <div class="divline"></div>
-    <br />
 
     <table>
         <tr>
