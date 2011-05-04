@@ -19,19 +19,47 @@ public partial class Admin_Default : System.Web.UI.Page
     }
 
     /// <summary>
-    /// Changes the button "mode" of the User button for creating new users
-    /// and editing existing users.
+    /// Postback event selecting the mode of the system user administration
+    /// section of the admin page. Two modes:
+    /// Create - Shows the UI for creating a new user
+    /// Edit - Shows the UI for editing a existing user
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void rblUsers_SelectedIndexChanged(object sender, EventArgs e)
     {
         switch(rblUsers.SelectedValue) {
             case "Create":
-                btnUser.Text = "< Create User";
+                tdUserSystemUsers.Visible = false;
+                divUserManage.Visible = true;
+                btnUser.Text = "Create User";
                 break;
             case "Edit":
-                btnUser.Text = "< Edit User";
+                tdUserSystemUsers.Visible = true;
+                divUserManage.Visible = true;
+                btnUser.Text = "Submit Changes";
+                break;
+        }
+    }
+    
+    /// <summary>
+    /// Postback event for selecting information for a user's role in the
+    /// system user administration section of the admin page. Two Roles:
+    /// Safety Officer - hides department dropdownmenu
+    /// Lab Manager - shows department dropdownmenu
+    /// Department shows what lab the Lab Manager looks after.
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
+    protected void rblUserRole_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        switch (rblUserRole.SelectedValue)
+        {
+            case "rwAll":
+                tdUserCreateLabDiv.Visible = false;
+                break;
+            case "rInspections":
+                tdUserCreateLabDiv.Visible = true;
                 break;
         }
     }
