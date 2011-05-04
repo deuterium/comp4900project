@@ -41,6 +41,9 @@ CollapseControlID="labJ" ExpandControlID="labJ" TargetControlID="pnlJ">
 <asp:CollapsiblePanelExtender ID="cpeK" runat="server" Collapsed="true"
 CollapseControlID="labK" ExpandControlID="labK" TargetControlID="pnlK">
 </asp:CollapsiblePanelExtender>
+<asp:CollapsiblePanelExtender ID="cpeL" runat="server" Collapsed="true"
+CollapseControlID="labL" ExpandControlID="labL" TargetControlID="pnlL">
+</asp:CollapsiblePanelExtender>
 
 <div>
 
@@ -1414,6 +1417,60 @@ CollapseControlID="labK" ExpandControlID="labK" TargetControlID="pnlK">
             </td>
             <td>
                 <asp:TextBox runat="server" ID="tbxCommentPressureTankSup"></asp:TextBox>
+            </td>
+        </tr>
+    </table>
+    </asp:Panel>
+
+    <h3 id="labL">L. Lab Supervisor and Inspector</h3>
+    <asp:Panel ID="pnlL" CssClass="panel" runat="server">
+    <table>
+        <tr>
+            <td>
+                Lab Supervisor: 
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxLabSupervisor"></asp:TextBox>
+            </td>
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
+            </td>
+            <td>
+                Date: 
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxLSDate"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Inspector(s): 
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxInspector1" />
+            </td>
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
+            </td>
+            <td>
+                Date: 
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxDateInspect1" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Inspector(s):
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxInspector2" />
+            </td>
+            <td>
+                Date:
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxDateInspect2" />
             </td>
         </tr>
     </table>
