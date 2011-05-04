@@ -151,147 +151,93 @@ CollapseControlID="workB" ExpandControlID="workB" TargetControlID="pnlB">
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList runat="server" ID="rblH&STrain" />
+            <asp:RadioButtonList runat="server" ID="rblHSTrain" />
             <td>
-                <asp:Label Text="Are staff encouraged to take H&S training" runat="server" ID="lblH&STrain" />
+                <asp:Label Text="Are staff encouraged to take H&S training" runat="server" ID="lblHSTrain" />
             </td>
             <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoH&STrainYes" runat="server" GroupName="rblH&STrain" />
+                <asp:RadioButton ID="rdoHSTrainYes" runat="server" GroupName="rblHSTrain" />
             </td>
             <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoH&STrainNo" runat="server" GroupName="rblH&STrain"  />
+                <asp:RadioButton ID="rdoHSTrainNo" runat="server" GroupName="rblHSTrain"  />
             </td>
             <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoH&STrainNA" runat="server" GroupName="rblH&STrain"  />
+                <asp:RadioButton ID="rdoHSTrainNA" runat="server" GroupName="rblHSTrain"  />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentH&STrain"></asp:TextBox>
+                <asp:TextBox runat="server" ID="tbxCommentHSTrain"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList runat="server" ID="rblMSDS" />
+            <asp:RadioButtonList runat="server" ID="rblExitSignWork" />
             <td>
-                <asp:Label Text="MSDS binder/computer station accessible & up to date" runat="server" ID="lblMSDS" />
+                <asp:Label Text="Are all exit signs working" runat="server" ID="lblExitSignWork" />
             </td>
             <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoMSDSYes" runat="server" GroupName="rblMSDS" />
+                <asp:RadioButton ID="rdoExitSignWorkYes" runat="server" GroupName="rblExitSignWork" />
             </td>
             <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoMSDSNo" runat="server" GroupName="rblMSDS" />
+                <asp:RadioButton ID="rdoExitSignWorkNo" runat="server" GroupName="rblExitSignWork" />
             </td>
             <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoMSDSNA" runat="server" GroupName="rblMSDS" />
+                <asp:RadioButton ID="rdoExitSignWorkNA" runat="server" GroupName="rblExitSignWork" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentMSDS"></asp:TextBox>
+                <asp:TextBox runat="server" ID="tbxCommentExitSignWork"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList runat="server" ID="rblEmergencyShower" />
+            <asp:RadioButtonList runat="server" ID="rblExitClear" />
             <td>
-                <asp:Label Text="Emergency Shower available/accessible" runat="server" ID="lblEmergencyShower" />
+                <asp:Label Text="Are fire exits kept clear" runat="server" ID="lblExitClear" />
             </td>
             <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoEmergencyShowerYes" runat="server" GroupName="rblEmergencyShower" />
+                <asp:RadioButton ID="rdoExitClearYes" runat="server" GroupName="rblExitClear" />
             </td>
             <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoEmergencyShowerNo" runat="server" GroupName="rblEmergencyShower" />
+                <asp:RadioButton ID="rdoExitClearNo" runat="server" GroupName="rblExitClear" />
             </td>
             <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoEmergencyShowerNA" runat="server" GroupName="rblEmergencyShower" />
+                <asp:RadioButton ID="rdoExitClearNA" runat="server" GroupName="rblExitClear" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentEmergencyShower"></asp:TextBox>
+                <asp:TextBox runat="server" ID="tbxCommentExitClear"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList runat="server" ID="rblEmergencyShowerTest" />
+            <asp:RadioButtonList runat="server" ID="rblExtinguishDate" />
             <td>
-                <asp:Label Text="Emergency Shower tested monthly (if located in section)" runat="server" ID="lblEmergencyShowerTest" />
+                <asp:Label Text="Are fire extinguishers inspected and up to date" runat="server" ID="lblExtinguishDate" />
             </td>
             <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoEmergencyShowerTestYes" runat="server" GroupName="rblEmergencyShowerTest" />
+                <asp:RadioButton ID="rdoExtinguishDateYes" runat="server" GroupName="rblExtinguishDate" />
             </td>
             <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoEmergencyShowerTestNo" runat="server" GroupName="rblEmergencyShowerTest" />
+                <asp:RadioButton ID="rdoExtinguishDateNo" runat="server" GroupName="rblExtinguishDate" />
             </td>
             <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoEmergencyShowerTestNA" runat="server" GroupName="rblEmergencyShowerTest" />
+                <asp:RadioButton ID="rdoExtinguishDateNA" runat="server" GroupName="rblExtinguishDate" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentEmergencyShowerTest"></asp:TextBox>
+                <asp:TextBox runat="server" ID="tbxCommentExtinguishDate"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList runat="server" ID="rblEyewash" />
+            <asp:RadioButtonList runat="server" ID="rblEmProcFloor" />
             <td>
-                <asp:Label Text="Eyewash available/accessible" runat="server" ID="lblEyewash" />
+                <asp:Label Text="Do emergency procedures/floor plans exist" runat="server" ID="lblEmProcFloor" />
             </td>
             <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoEyewashYes" runat="server" GroupName="rblEyewash" />
+                <asp:RadioButton ID="rdoEmProcFloorYes" runat="server" GroupName="rblEmProcFloor" />
             </td>
             <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoEyewashNo" runat="server" GroupName="rblEyewash" />
+                <asp:RadioButton ID="rdoEmProcFloorNo" runat="server" GroupName="rblEmProcFloor" />
             </td>
             <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoEyewashNA" runat="server" GroupName="rblEyewash" />
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxCommentEyewash"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
-            <asp:RadioButtonList runat="server" ID="rblEyewashTest" />
-            <td>
-                <asp:Label Text="Eyewash tested weekly if not sterile/sealed (& if in section)" runat="server" ID="lblEyewashTest" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoEyewashTestYes" runat="server" GroupName="rblEyewashTest" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoEyewashTestNo" runat="server" GroupName="rblEyewashTest" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoEyewashTestNA" runat="server" GroupName="rblEyewashTest" />
+                <asp:RadioButton ID="rdoEmProcFloorNA" runat="server" GroupName="rblEmProcFloor" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentEyewashTest"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
-            <asp:RadioButtonList runat="server" ID="rblChemicalSpill" />
-            <td>
-                <asp:Label Text="Chemical spill kit accessible/stocked adequately" runat="server" ID="lblChemicalSpill" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoChemicalSpillYes" runat="server" GroupName="rblChemicalSpill" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoChemicalSpillNo" runat="server" GroupName="rblChemicalSpill" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoChemicalSpillNA" runat="server" GroupName="rblChemicalSpill" />
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxCommentChemicalSpill"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
-            <asp:RadioButtonList runat="server" ID="rblBiohazard" />
-            <td>
-                <asp:Label Text="Biohazard spill kit accessible/stocked adequately" runat="server" ID="lblBiohazard" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoBiohazardYes" runat="server" GroupName="rblBiohazard" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoBiohazardNo" runat="server" GroupName="rblBiohazard" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoBiohazardNA" runat="server" GroupName="rblBiohazard" />
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxCommentBiohazard"></asp:TextBox>
+                <asp:TextBox runat="server" ID="tbxCommentEmProcFloor"></asp:TextBox>
             </td>
         </tr>
     </table>
