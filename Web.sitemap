@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
-  <siteMapNode>
-    <siteMapNode title="Login" url="~/Login.aspx" />
-    <siteMapNode title="Training and Orientation" url="~/Training/Training.aspx" />
-    <siteMapNode title="Incident Reports" url="~/Reporting/Reporting.aspx" />
-    <siteMapNode title="Lab Inspection" url="~/Inspections/Lab/Lab.aspx" />
-    <siteMapNode title="Office Inspection" url="~/Inpsections/Office/Office.aspx" />
-    <siteMapNode title="Summary" url="~/Summary.aspx" />
-    <siteMapNode title="Admin" url="~/Admin.aspx" />
-    <siteMapNode title="Record Tracking" url="~/Record.aspx" />
-  </siteMapNode>
+    <siteMapNode>
+        <siteMapNode title="Login" url="~/Login.aspx" />
+        <siteMapNode title="Training and Orientation" url="~/Training/Training.aspx" />
+        <siteMapNode title="Incident Reports" url="~/Reporting/Reporting.aspx" />
+        <siteMapNode title="Lab Inspection" url="~/Inspections/Lab/Lab.aspx" />
+        <siteMapNode title="Office Inspection" url="~/Inpsections/Office/Office.aspx" />
+        <siteMapNode title="Summary" url="~/Summary.aspx" />
+        <siteMapNode title="Admin" url="~/Admin.aspx" />
+        <siteMapNode title="Record Tracking" url="~/Record.aspx" />
+    </siteMapNode>
 </siteMap>
