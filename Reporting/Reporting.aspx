@@ -10,34 +10,58 @@
 
 <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
 </asp:ToolkitScriptManager>
+
 <asp:CollapsiblePanelExtender ID="cpeA" runat="server" Collapsed="true"
-CollapseControlID="hr3A" ExpandControlID="hr3A" TargetControlID="pnlA">
+CollapseControlID="hr3A" ExpandControlID="hr3A" TargetControlID="pnlA"
+ImageControlID="imgExpandCollapseA" TextLabelID="ExpandCollapse" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeB" runat="server" Collapsed="true"
-CollapseControlID="hr3B" ExpandControlID="hr3B" TargetControlID="pnlB">
+CollapseControlID="hr3B" ExpandControlID="hr3B" TargetControlID="pnlB"
+ImageControlID="imgExpandCollapseB" TextLabelID="ExpandCollapse" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeC" runat="server" Collapsed="true"
-CollapseControlID="hr3C" ExpandControlID="hr3C" TargetControlID="pnlC">
+CollapseControlID="hr3C" ExpandControlID="hr3C" TargetControlID="pnlC"
+ImageControlID="imgExpandCollapseC" TextLabelID="ExpandCollapse" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeD" runat="server" Collapsed="true"
-CollapseControlID="hr3D" ExpandControlID="hr3D" TargetControlID="pnlD">
+CollapseControlID="hr3D" ExpandControlID="hr3D" TargetControlID="pnlD"
+ImageControlID="imgExpandCollapseD" TextLabelID="ExpandCollapse" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeE" runat="server" Collapsed="true"
-CollapseControlID="hr3E" ExpandControlID="hr3E" TargetControlID="pnlE">
+CollapseControlID="hr3E" ExpandControlID="hr3E" TargetControlID="pnlE"
+ImageControlID="imgExpandCollapseE" TextLabelID="ExpandCollapse" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeF" runat="server" Collapsed="true"
-CollapseControlID="hr3F" ExpandControlID="hr3F" TargetControlID="pnlF">
+CollapseControlID="hr3F" ExpandControlID="hr3F" TargetControlID="pnlF"
+ImageControlID="imgExpandCollapseF" TextLabelID="ExpandCollapse" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeG" runat="server" Collapsed="true"
-CollapseControlID="hr3G" ExpandControlID="hr3G" TargetControlID="pnlG">
+CollapseControlID="hr3G" ExpandControlID="hr3G" TargetControlID="pnlG"
+ImageControlID="imgExpandCollapseG" TextLabelID="ExpandCollapse" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeH" runat="server" Collapsed="true"
-CollapseControlID="hr3H" ExpandControlID="hr3H" TargetControlID="pnlH">
+CollapseControlID="hr3H" ExpandControlID="hr3H" TargetControlID="pnlH"
+ImageControlID="imgExpandCollapseH" TextLabelID="ExpandCollapse" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <div>
 
-<h3 id="hr3A">A. Incident/Accident Information</h3>
+<h3 id="hr3A"><asp:Image ID="imgExpandCollapseA" runat="server" /> A. Incident/Accident Information <asp:Label ID="ExpandCollapse" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlA" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -104,7 +128,7 @@ CollapseControlID="hr3H" ExpandControlID="hr3H" TargetControlID="pnlH">
     </table>
 </asp:Panel>
 
-<h3 id="hr3B">B. Nature of Injury</h3>
+<h3 id="hr3B"><asp:Image ID="imgExpandCollapseB" runat="server" /> B. Nature of Injury <asp:Label ID="Label1" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlB" CssClass="panel" runat="server">
     <asp:CheckBoxList ID="cblNatureOfInjury" runat="server">
         <asp:ListItem Text="No Injury (Near Miss/ Unsafe Condition)" ></asp:ListItem>
@@ -118,7 +142,7 @@ CollapseControlID="hr3H" ExpandControlID="hr3H" TargetControlID="pnlH">
     </asp:CheckBoxList>
 </asp:Panel>
 
-<h3 id="hr3C">C. Accident Investigation</h3>
+<h3 id="hr3C"><asp:Image ID="imgExpandCollapseC" runat="server" /> C. Accident Investigation <asp:Label ID="Label2" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlC" CssClass="panel" runat="server">
 <h4>Activity</h4>
 <asp:CheckBoxList ID="cblActivity" runat="server">
@@ -209,7 +233,7 @@ Material / Equipment Description (stretchers, carts, boxes, etc.):
 
 </asp:Panel>
 
-<h3 id="hr3D">D. Cause</h3>
+<h3 id="hr3D"><asp:Image ID="imgExpandCollapseD" runat="server" /> D. Cause <asp:Label ID="Label3" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlD" CssClass="panel" runat="server">
 <h5>Bite</h5>
 <asp:CheckBoxList ID="cblbite" runat="server">
@@ -285,7 +309,7 @@ Checmical Name: <asp:TextBox ID="tbxExposureChemical" runat="server"></asp:TextB
 
 </asp:Panel>
 
-<h3 id="hr3E">E. Contributing Factors</h3>
+<h3 id="hr3E"><asp:Image ID="imgExpandCollapseE" runat="server" /> E. Contributing Factors <asp:Label ID="Label4" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlE" CssClass="panel" runat="server">
 <h5>Equipment / Device</h5>
 <asp:CheckBoxList ID="cblEquipmentDevice" runat="server">
@@ -368,7 +392,7 @@ Checmical Name: <asp:TextBox ID="tbxExposureChemical" runat="server"></asp:TextB
 
 </asp:Panel>
 
-<h3 id="hr3F">F. Corrective Action</h3>
+<h3 id="hr3F"<h3 id="h1"><asp:Image ID="imgExpandCollapseF" runat="server" /> F. Corrective Action <asp:Label ID="Label5" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlF" CssClass="panel" runat="server">
 <table>
     <tr>
@@ -442,7 +466,7 @@ Checmical Name: <asp:TextBox ID="tbxExposureChemical" runat="server"></asp:TextB
 </table>
 </asp:Panel>
 
-<h3 id="hr3G">G. Relavant Corrective Actions and Follow Up</h3>    
+<h3 id="hr3G"><asp:Image ID="imgExpandCollapseG" runat="server" /> G. Relavant Corrective Actions and Follow Up <asp:Label ID="Label6" runat="server" Text=""></asp:Label></h3>    
 <asp:Panel ID="pnlG" CssClass="panel" runat="server">
 Full descriptions and target completion dates for corrective actions are required.
 <table>
@@ -554,7 +578,7 @@ Full descriptions and target completion dates for corrective actions are require
 </table>
 </asp:Panel>
 
-<h3 id="hr3H">H. Managers Report</h3>
+<h3 id="hr3H"><asp:Image ID="imgExpandCollapseH" runat="server" /> H. Managers Report <asp:Label ID="Label7" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlH" CssClass="panel" runat="server">
 <table>
     <tr>
