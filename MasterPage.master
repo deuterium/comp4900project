@@ -24,7 +24,7 @@
             <img src="images/template/bars.gif" runat="server" alt="" />
             <div class="invertedshiftdown">
                 <asp:SiteMapDataSource runat="server" ID="siteMapDataSource" ShowStartingNode="false" />
-                <asp:Menu ID="masterMenu" runat="server" Orientation="Horizontal" DataSourceID="siteMapDataSource" />
+                <asp:Menu ID="masterMenu" runat="server" Orientation="Horizontal" DataSourceID="siteMapDataSource" StaticDisplayLevels="2" />
             </div>
         </div>
 

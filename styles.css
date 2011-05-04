@@ -174,7 +174,7 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 .invertedshiftdown li
 {
     display: inline;
-    margin: 0 2px 0 0;
+    margin: 0 8px 0 0;
     padding: 0;
     text-transform:uppercase;
 }
@@ -209,6 +209,14 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 
 .invertedshiftdown .current a /** currently selected menu item **/
 { 
+    background-color: #89c123; /*Red color theme*/
+    padding-top: 9px; /*Flip default padding-top value with padding-bottom */
+    padding-bottom: 5px; /*Flip default padding-bottom value with padding-top*/
+    color: white;
+}
+
+.level1 .selected /* dirty fix for menu hover */
+{
     background-color: #89c123; /*Red color theme*/
     padding-top: 9px; /*Flip default padding-top value with padding-bottom */
     padding-bottom: 5px; /*Flip default padding-bottom value with padding-top*/
