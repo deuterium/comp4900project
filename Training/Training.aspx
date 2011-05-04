@@ -38,89 +38,30 @@ CollapseControlID="hr3CourseDetails" ExpandControlID="hr3CourseDetails" TargetCo
         <div id="divReportInfo">
             <h3 id="hr3ReportInfo">Report Info</h3>
             <asp:Panel ID="pnlReportInfo" CssClass="panel" runat="server">
-            <table id="tblReportInfoForm">
-                <tr>
-                    <td>
-                        Id:
-                    </td>
-                    <td>
-                        <asp:TextBox ID="tbxId" runat="server"></asp:TextBox>
-                    </td>
-                    <td>
-                        Position:
-                    </td>
-                    <td>
-                        <asp:DropDownList ID="ddlPositions" runat="server"></asp:DropDownList>
-                    </td>
-                    <td>
-                       Room: 
-                    </td>
-                    <td>
-                        <asp:TextBox ID="tbxRoom" runat="server"></asp:TextBox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Last name:
-                    </td>
-                    <td>
-                        <asp:TextBox ID="tbxLastName" runat="server"></asp:TextBox>
-                    </td>
-                    <td>
-                        Employer:
-                    </td>
-                    <td>
-                        <asp:DropDownList ID="ddlEmployers" runat="server"></asp:DropDownList>
-                    </td>
-                    <td>
-                        Supervisor:
-                    </td>
-                    <td>
-                        <asp:TextBox ID="tbxSupervisor" runat="server"></asp:TextBox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        First name:
-                    </td>
-                    <td>
-                        <asp:TextBox ID="tbxFirstName" runat="server"></asp:TextBox>
-                    </td>
-                    <td>
-                        Department:
-                    </td>
-                    <td>
-                        <asp:DropDownList ID="ddlDepartments" runat="server"></asp:DropDownList>
-                    </td>
-                    <td>
-                        Start date:
-                    </td>
-                    <td>
-                        <asp:TextBox ID="tbxStartDate" runat="server"></asp:TextBox>
-                        <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="yyyy/MM/dd" >
-                        </asp:CalendarExtender>
-                     </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        End date: 
-                    </td>
-                    <td>
-                        <asp:TextBox ID="tbxEndDate" runat="server"></asp:TextBox>
-                        <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="yyyy/MM/dd" >
-                        </asp:CalendarExtender>
-                    </td>
-                </tr>
-                <tr> 
-                    <td>
-                        <asp:Button ID="btnSubmit" runat="server" Text="Submit" />
-                    </td>
-                </tr>
-            </table>
+                <div id="divRecordHeaderLeft">
+                    Id:<asp:TextBox ID="tbxId" runat="server"></asp:TextBox><br />
+                    Last name:<asp:TextBox ID="tbxFirstName" runat="server"></asp:TextBox><br />
+                    First name:<asp:TextBox ID="tbxLastName" runat="server"></asp:TextBox>
+                </div>
+                <div id="divRecordHeaderMiddle">
+                    Position:<asp:DropDownList ID="ddlPositions" runat="server"></asp:DropDownList><br />
+                    Employer:<asp:DropDownList ID="ddlEmployers" runat="server"></asp:DropDownList><br />
+                    Department:<asp:DropDownList ID="ddlDepartments" runat="server"></asp:DropDownList><br />
+                </div>
+                <div id="divRecordHeaderRight">
+                    Room:<asp:TextBox ID="tbxRoom" runat="server"></asp:TextBox><br />
+                    Supervisor:<asp:TextBox ID="tbxSupervisor" runat="server"></asp:TextBox><br />
+                    Start date:
+                    <asp:TextBox ID="tbxStartDate" runat="server"></asp:TextBox><br />
+                    <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="yyyy/MM/dd" >
+                    </asp:CalendarExtender>
+                    End date:
+                    <asp:TextBox ID="tbxEndDate" runat="server"></asp:TextBox><br />
+                    <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="yyyy/MM/dd" >
+                    </asp:CalendarExtender>
+                </div>
+                <asp:Button ID="btnUpdateEmployee" runat="server" Text="Update Employee" />
+                <asp:Button ID="btnGetCourses" runat="server" Text="Get Courses" />
             </asp:Panel>
         </div>
 
@@ -153,65 +94,28 @@ CollapseControlID="hr3CourseDetails" ExpandControlID="hr3CourseDetails" TargetCo
         <div id="divCourseDetails">
             <h3 id="hr3CourseDetails">Course Details</h3>
             <asp:Panel ID="pnlCourseDetails" CssClass="panel" runat="server">
-            <table>
-                <tr>
-                    <td>
-                        Date of Course:
-                    </td>
-                    <td>
-                        
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        CL2 SOP Signed:
-                    </td>
-                    <td>
-                        <asp:RadioButtonList ID="rblSigned" runat="server" RepeatDirection="Horizontal">
-                            <asp:ListItem ID="limSigned" runat="server" Text="Yes" Value="Yes" />
-                            <asp:ListItem ID="limNotSigned" runat="server" Text="No" Value="No" />
-                        </asp:RadioButtonList>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Evaluation:
-                    </td>
-                    <td>
-                        <asp:RadioButtonList ID="rblEvaluation" runat="server" RepeatDirection="Horizontal">
-                            <asp:ListItem ID="limPassed" runat="server" Text="Yes" Value="Yes" />
-                            <asp:ListItem ID="limFailed" runat="server" Text="No" Value="No" />
-                        </asp:RadioButtonList>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Respirator Fit-Testing:
-                    </td>
-                    <td>
-                        <asp:DropDownList ID="ddlRespiratorFitTesting" runat="server"></asp:DropDownList>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Spill Clean-up training:
-                    </td>
-                    <td>
-                        <asp:RadioButtonList ID="rblSpillCleanUpTraining" runat="server" RepeatDirection="Horizontal">
-                            <asp:ListItem ID="limComplete" runat="server" Text="Yes" Value="Yes" />
-                            <asp:ListItem ID="limNotComplete" runat="server" Text="No" Value="No" />
-                        </asp:RadioButtonList>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        
-                    </td>
-                </tr>
-            </table>
+            <div id="divCourseDetails">
+                Date of Course:
+                <br />
+                CL2 SOP Signed:
+                <asp:RadioButtonList ID="rblSigned" runat="server" RepeatDirection="Horizontal">
+                    <asp:ListItem ID="limSigned" runat="server" Text="Yes" Value="Yes" />
+                    <asp:ListItem ID="limNotSigned" runat="server" Text="No" Value="No" />
+                </asp:RadioButtonList>
+                Evaluation:
+                <asp:RadioButtonList ID="rblEvaluation" runat="server" RepeatDirection="Horizontal">
+                    <asp:ListItem ID="limPassed" runat="server" Text="Yes" Value="Yes" />
+                    <asp:ListItem ID="limFailed" runat="server" Text="No" Value="No" />
+                </asp:RadioButtonList>
+                Respirator Fit-Testing:
+                <asp:DropDownList ID="ddlRespiratorFitTesting" runat="server"></asp:DropDownList>
+                <br />
+                Spill Clean-up training:
+                <asp:RadioButtonList ID="rblSpillCleanUpTraining" runat="server" RepeatDirection="Horizontal">
+                    <asp:ListItem ID="limComplete" runat="server" Text="Yes" Value="Yes" />
+                    <asp:ListItem ID="limNotComplete" runat="server" Text="No" Value="No" />
+                </asp:RadioButtonList>
+            </div>
             </asp:Panel>
         </div>
     </div>
