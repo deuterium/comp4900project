@@ -7,7 +7,7 @@
         <siteMapNode title="Lab Inspection" url="~/Inspections/Lab/Lab.aspx" />
         <siteMapNode title="Office Inspection" url="~/Inpsections/Office/Office.aspx" />
         <siteMapNode title="Summary" url="~/Summary.aspx" />
-        <siteMapNode title="Admin" url="~/Admin.aspx" />
+        <siteMapNode title="Admin" url="~/Admin/Default.aspx" />
         <siteMapNode title="Record Tracking" url="~/Record.aspx" />
     </siteMapNode>
 </siteMap>
