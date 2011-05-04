@@ -19,8 +19,7 @@ public partial class Admin_Default : System.Web.UI.Page
     }
 
     /// <summary>
-    /// Changes the button "mode" of the User button for creating new users
-    /// and editing existing users.
+    ///
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -28,10 +27,32 @@ public partial class Admin_Default : System.Web.UI.Page
     {
         switch(rblUsers.SelectedValue) {
             case "Create":
-                btnUser.Text = "< Create User";
+                tdUserSystemUsers.Visible = false;
+                divUserManage.Visible = true;
+                btnUser.Text = "Create User";
                 break;
             case "Edit":
-                btnUser.Text = "< Edit User";
+                tdUserSystemUsers.Visible = true;
+                divUserManage.Visible = true;
+                btnUser.Text = "Submit Changes";
+                break;
+        }
+    }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void rblUserRole_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        switch (rblUserRole.SelectedValue)
+        {
+            case "rwAll":
+                tdUserCreateLabDiv.Visible = false;
+                break;
+            case "rInspections":
+                tdUserCreateLabDiv.Visible = true;
                 break;
         }
     }
