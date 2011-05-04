@@ -215,7 +215,7 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     color: white;
 }
 
-.level1 .selected /* dirty fix for menu hovering */
+.level1 .selected /* dirty fix for menu hover */
 {
     background-color: #89c123; /*Red color theme*/
     padding-top: 9px; /*Flip default padding-top value with padding-bottom */
