@@ -13,6 +13,15 @@
 <asp:CollapsiblePanelExtender ID="cpeB" runat="server" Collapsed="true"
 CollapseControlID="workB" ExpandControlID="workB" TargetControlID="pnlB">
 </asp:CollapsiblePanelExtender>
+<asp:CollapsiblePanelExtender ID="cpeC" runat="server" Collapsed="true"
+CollapseControlID="workC" ExpandControlID="workC" TargetControlID="pnlC">
+</asp:CollapsiblePanelExtender>
+<asp:CollapsiblePanelExtender ID="cpeD" runat="server" Collapsed="true"
+CollapseControlID="workD" ExpandControlID="workD" TargetControlID="pnlD">
+</asp:CollapsiblePanelExtender>
+<asp:CollapsiblePanelExtender ID="cpeE" runat="server" Collapsed="true"
+CollapseControlID="workE" ExpandControlID="workE" TargetControlID="pnlE">
+</asp:CollapsiblePanelExtender>
 
 <div>
 
@@ -238,6 +247,481 @@ CollapseControlID="workB" ExpandControlID="workB" TargetControlID="pnlB">
             </td>
             <td>
                 <asp:TextBox runat="server" ID="tbxCommentEmProcFloor"></asp:TextBox>
+            </td>
+        </tr>
+    </table>
+    </asp:Panel>
+
+    <h3 id="workC">C. Work Areas</h3>
+    <asp:Panel ID="pnlC" CssClass="panel" runat="server">
+    <table>
+        <tr>
+            <td class="tblItem">
+                <h3>Item</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>Yes</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>No</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>N/A</h3>
+            </td>
+            <td class="tblComments">
+                <h3>Comments</h3>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblSpace" />
+            <td>
+                <asp:Label Text="Is adequate space provided to work safely" runat="server" ID="lblSpace" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoSpaceYes" runat="server" GroupName="rblSpace" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoSpaceNo" runat="server" GroupName="rblSpace" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoSpaceNA" runat="server" GroupName="rblSpace" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tdbCommentSpace"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblGlareReflect" />
+            <td>
+                <asp:Label Text="Is work area free of glare and reflection" runat="server" ID="lblGlareReflect" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoGlareReflectYes" runat="server" GroupName="rblGlareReflect" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoGlareReflectNo" runat="server" GroupName="rblGlareReflect" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoGlareReflectNA" runat="server" GroupName="rblGlareReflect" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentGlareReflect"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblChairs" />
+            <td>
+                <asp:Label Text="Are appropriate chairs available (5 castors, adjustments etc)" runat="server" ID="lblChairs" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoChairsYes" runat="server" GroupName="rblChairs" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoChairsNo" runat="server" GroupName="rblChairs" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoChairsNA" runat="server" GroupName="rblChairs" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentChairs"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblHousekeep" />
+            <td>
+                <asp:Label Text="Is area free of clutter (housekeeping)" runat="server" ID="lblHousekeep" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoHousekeepYes" runat="server" GroupName="rblHousekeep" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoHousekeepNo" runat="server" GroupName="rblHousekeep" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoHousekeepNA" runat="server" GroupName="rblHousekeep" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentHousekeep"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblOverstack" />
+            <td>
+                <asp:Label Text="Are shelves kept free of overstacking" runat="server" ID="lblOverstack" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoOverstackYes" runat="server" GroupName="rblOverstack" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoOverstackNo" runat="server" GroupName="rblOverstack"  />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoOverstackNA" runat="server" GroupName="rblOverstack"  />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentOverstack"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblPosture" />
+            <td>
+                <asp:Label Text="Are working surfaces at appropriate heights to limit posture concerns" runat="server" ID="lblPosture" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoPostureYes" runat="server" GroupName="rblPosture" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoPostureNo" runat="server" GroupName="rblPosture" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoPostureNA" runat="server" GroupName="rblPosture" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentPosture"></asp:TextBox>
+            </td>
+        </tr>
+    </table>
+    </asp:Panel>
+
+    <h3 id="workD">D. Support and Structure</h3>
+    <asp:Panel ID="pnlD" CssClass="panel" runat="server">
+    <table>
+        <tr>
+            <td class="tblItem">
+                <h3>Item</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>Yes</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>No</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>N/A</h3>
+            </td>
+            <td class="tblComments">
+                <h3>Comments</h3>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblLevel" />
+            <td>
+                <asp:Label Text="Are surfaces level and even" runat="server" ID="lblLevel" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoLevelYes" runat="server" GroupName="rblLevel" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoLevelNo" runat="server" GroupName="rblLevel" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoLevelNA" runat="server" GroupName="rblLevel" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentLevel"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblTripSlipFall" />
+            <td>
+                <asp:Label Text="Is area free of hazards that may cause trips, slips and falls" runat="server" ID="lblTripSlipFall" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoTripSlipFallYes" runat="server" GroupName="rblTripSlipFall" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoTripSlipFallNo" runat="server" GroupName="rblTripSlipFall" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoTripSlipFallNA" runat="server" GroupName="rblTripSlipFall" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentTripSlipFall"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblSlipRes" />
+            <td>
+                <asp:Label Text="Are surfaces slip resistant where necessary" runat="server" ID="lblSlipRes" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoSlipResYes" runat="server" GroupName="rblSlipRes" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoSlipResNo" runat="server" GroupName="rblSlipRes" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoSlipResNA" runat="server" GroupName="rblSlipRes" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentSlipRes"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblSteps" />
+            <td>
+                <asp:Label Text="Are steps in good condition" runat="server" ID="lblSteps" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoStepsYes" runat="server" GroupName="rblSteps" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoStepsNo" runat="server" GroupName="rblSteps" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoStepsNA" runat="server" GroupName="rblSteps" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentSteps"></asp:TextBox>
+            </td>
+        </tr>
+    </table>
+    </asp:Panel>
+
+    <h3 id="workE">E. Electrical</h3>
+    <asp:Panel ID="pnlE" CssClass="panel" runat="server">
+    <table>
+        <tr>
+            <td class="tblItem">
+                <h3>Item</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>Yes</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>No</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>N/A</h3>
+            </td>
+            <td class="tblComments">
+                <h3>Comments</h3>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblSwitchPanel" />
+            <td>
+                <asp:Label Text="Are switch panels free of clutter and accessible" runat="server" ID="lblSwitchPanel" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoSwitchPanelYes" runat="server" GroupName="rblSwitchPanel" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoSwitchPanelNo" runat="server" GroupName="rblSwitchPanel" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoSwitchPanelNA" runat="server" GroupName="rblSwitchPanel" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentSwitchPanel"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblCordPlug" />
+            <td>
+                <asp:Label Text="Are cords and plugs in good condition" runat="server" ID="lblCordPlug" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoCordPlugYes" runat="server" GroupName="rblCordPlug" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoCordPlugNo" runat="server" GroupName="rblCordPlug" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoCordPlugNA" runat="server" GroupName="rblCordPlug" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentCordPlug"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblOverload" />
+            <td>
+                <asp:Label Text="Are circuits free of overload" runat="server" ID="lblOverload" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoOverloadYes" runat="server" GroupName="rblOverload" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoOverloadNo" runat="server" GroupName="rblOverload" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoOverloadNA" runat="server" GroupName="rblOverload" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentOverload"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblTripCord" />
+            <td>
+                <asp:Label Text="Are cords out of the way as not to contribute to tripping hazards" runat="server" ID="lblTripCord" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoTripCordYes" runat="server" GroupName="rblTripCord" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoTripCordNo" runat="server" GroupName="rblTripCord" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoTripCordNA" runat="server" GroupName="rblTripCord" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentTripCord"></asp:TextBox>
+            </td>
+        </tr>
+    </table>
+    </asp:Panel>
+
+    <h3 id="workF">E. Ventilation, Illumination, Noise</h3>
+    <asp:Panel ID="pnlF" CssClass="panel" runat="server">
+    <table>
+        <tr>
+            <td class="tblItem">
+                <h3>Item</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>Yes</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>No</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>N/A</h3>
+            </td>
+            <td class="tblComments">
+                <h3>Comments</h3>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblVent" />
+            <td>
+                <asp:Label Text="Does there appear to be adequate ventilation (may have to ask staff to find out about complaints)" runat="server" ID="lblVent" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoVentYes" runat="server" GroupName="rblVent" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoVentNo" runat="server" GroupName="rblVent" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoVentNA" runat="server" GroupName="rblVent" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentVent"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblNoise" />
+            <td>
+                <asp:Label Text="Is the workplace free of excessive noise" runat="server" ID="lblNoise" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoNoiseYes" runat="server" GroupName="rblNoise" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoNoiseNo" runat="server" GroupName="rblNoise" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoNoiseNA" runat="server" GroupName="rblNoise" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentNoise"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblLighting" />
+            <td>
+                <asp:Label Text="Is there adequate lighting (overhead or task)" runat="server" ID="lblLighting" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoLightingYes" runat="server" GroupName="rblLighting" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoLightingNo" runat="server" GroupName="rblLighting" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoLightingNA" runat="server" GroupName="rblLighting" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentLighting"></asp:TextBox>
+            </td>
+        </tr>
+    </table>
+    </asp:Panel>
+
+    <h3 id="workG">G. Work Practices Section</h3>
+    <asp:Panel ID="pnlG" CssClass="panel" runat="server">
+    <table>
+        <tr>
+            <td class="tblItem">
+                <h3>Item</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>Yes</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>No</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>N/A</h3>
+            </td>
+            <td class="tblComments">
+                <h3>Comments</h3>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblSafeProc" />
+            <td>
+                <asp:Label Text="Are safety procedures in place and known to staff" runat="server" ID="lblSafeProc" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoSafeProcYes" runat="server" GroupName="rblSafeProc" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoSafeProcNo" runat="server" GroupName="rblSafeProc" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoSafeProcNA" runat="server" GroupName="rblSafeProc" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentSafeProc"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblDocs" />
+            <td>
+                <asp:Label Text="Are procedures documented" runat="server" ID="lblDocs" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoDocsYes" runat="server" GroupName="rblDocs" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoDocsNo" runat="server" GroupName="rblDocs" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoDocsNA" runat="server" GroupName="rblDocs" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentDocs"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblConcern" />
+            <td>
+                <asp:Label Text="Do staff know how to report concerns" runat="server" ID="lblConcern" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoConcernYes" runat="server" GroupName="rblConcern" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoConcernNo" runat="server" GroupName="rblConcern" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoConcernNA" runat="server" GroupName="rblConcern" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentConcern"></asp:TextBox>
             </td>
         </tr>
     </table>
