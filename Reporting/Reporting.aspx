@@ -392,7 +392,7 @@ Checmical Name: <asp:TextBox ID="tbxExposureChemical" runat="server"></asp:TextB
 
 </asp:Panel>
 
-<h3 id="hr3F"<h3 id="h1"><asp:Image ID="imgExpandCollapseF" runat="server" /> F. Corrective Action <asp:Label ID="ExpandCollapseF" runat="server" Text=""></asp:Label></h3>
+<h3 id="hr3F"><asp:Image ID="imgExpandCollapseF" runat="server" /> F. Corrective Action <asp:Label ID="ExpandCollapseF" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlF" CssClass="panel" runat="server">
 <table>
     <tr>
@@ -687,7 +687,7 @@ Full descriptions and target completion dates for corrective actions are require
                 </tr>
             </table>
         </td>
-        </td>
+       
         <td>
             <asp:RadioButtonList ID="rblMgrReportFixedShift" runat="server" RepeatDirection="Horizontal">
                 <asp:ListItem Text="Yes" ></asp:ListItem>
