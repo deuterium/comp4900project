@@ -234,7 +234,7 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 #divLogin 
 {
     padding: 10px; 
-    width: 210px; 
+    width: 230px; 
     margin: 0; 
     background: #e8f7fb; 
     border: 1px solid #dbeff5;
@@ -242,7 +242,7 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 
 .loginTableWidth
 {
-    width: 100px;
+    width: 75px;
 }
 
 .tblLogin 
@@ -250,12 +250,6 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     width: 100px;   
 }
 
-.
-
-.loginTableWidth
-{
-    width: 100px;
-}
 
 /* Lab.aspx */
 
@@ -293,7 +287,7 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 
 .trainingTableWidth
 {
-    width: 80px;
+    width: 100px;
 }
 
 /* Collapsible Forms Panel Styling */
@@ -302,15 +296,6 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 {
     padding: 10px; 
     width: 800px; 
-    margin: 0; 
-    background: #e8f7fb; 
-    border: 1px solid #dbeff5;
-}
-
-#divLogin 
-{
-    padding: 10px; 
-    width: 200px; 
     margin: 0; 
     background: #e8f7fb; 
     border: 1px solid #dbeff5;

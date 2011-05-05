@@ -18,14 +18,14 @@
         <tr>
             <td class="loginTableWidth">
                 Password:</td>
-            <td class="loginTableWidth">
+            <td>
                 <asp:TextBox ID="tbxLoginPassword" width="100" runat="server" TextMode="Password" ValidationGroup="vgrLogin" />
                     <asp:RequiredFieldValidator ID="rfvPassword" runat="server" ErrorMessage="Password is required."
                         ControlToValidate="tbxLoginPassword" Display="Dynamic" ForeColor="Red" ValidationGroup="vgrLogin">*</asp:RequiredFieldValidator>
             </td>
         </tr>
         <tr>
-            <td class="loginTableWidth">
+            <td>
                 
             </td>
             <td>
