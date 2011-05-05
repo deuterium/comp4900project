@@ -260,3 +260,10 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     background: #e8f7fb; 
     border: 1px solid #dbeff5;
 }
+
+/* Inspection Form Styling */
+
+.inspectionComments
+{
+    width: 200px;
+}
