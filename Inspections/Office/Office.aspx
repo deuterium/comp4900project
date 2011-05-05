@@ -8,7 +8,7 @@
 <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server"></asp:ToolkitScriptManager>
 
 <asp:CollapsiblePanelExtender ID="cpeA" runat="server" Collapsed="true"
- CollapseControlID="workA" ExpandControlID="workA" TargetControlID="pnlA">
+CollapseControlID="workA" ExpandControlID="workA" TargetControlID="pnlA">
 </asp:CollapsiblePanelExtender>
 <asp:CollapsiblePanelExtender ID="cpeB" runat="server" Collapsed="true"
 CollapseControlID="workB" ExpandControlID="workB" TargetControlID="pnlB">
@@ -22,10 +22,31 @@ CollapseControlID="workD" ExpandControlID="workD" TargetControlID="pnlD">
 <asp:CollapsiblePanelExtender ID="cpeE" runat="server" Collapsed="true"
 CollapseControlID="workE" ExpandControlID="workE" TargetControlID="pnlE">
 </asp:CollapsiblePanelExtender>
+<asp:CollapsiblePanelExtender ID="cpeF" runat="server" Collapsed="true"
+CollapseControlID="workF" ExpandControlID="workF" TargetControlID="pnlF">
+</asp:CollapsiblePanelExtender>
+<asp:CollapsiblePanelExtender ID="cpeG" runat="server" Collapsed="true"
+CollapseControlID="workG" ExpandControlID="workG" TargetControlID="pnlG">
+</asp:CollapsiblePanelExtender>
+<asp:CollapsiblePanelExtender ID="cpeH" runat="server" Collapsed="true"
+CollapseControlID="workH" ExpandControlID="workH" TargetControlID="pnlH">
+</asp:CollapsiblePanelExtender>
+<asp:CollapsiblePanelExtender ID="cpeI" runat="server" Collapsed="true"
+CollapseControlID="workI" ExpandControlID="workI" TargetControlID="pnlI">
+</asp:CollapsiblePanelExtender>
+<asp:CollapsiblePanelExtender ID="cpeJ" runat="server" Collapsed="true"
+CollapseControlID="workJ" ExpandControlID="workJ" TargetControlID="pnlJ">
+</asp:CollapsiblePanelExtender>
+<asp:CollapsiblePanelExtender ID="cpeK" runat="server" Collapsed="true"
+CollapseControlID="workK" ExpandControlID="workK" TargetControlID="pnlK">
+</asp:CollapsiblePanelExtender>
+<asp:CollapsiblePanelExtender ID="cpeL" runat="server" Collapsed="true"
+CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
+</asp:CollapsiblePanelExtender>
 
 <div>
 
-    <h3 id="workA">A. Inspection Information</h3>
+    <h3 id="workA">Inspection Information</h3>
     <asp:Panel ID="pnlA" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -67,7 +88,7 @@ CollapseControlID="workE" ExpandControlID="workE" TargetControlID="pnlE">
     </table>
     </asp:Panel>
 
-    <h3 id="workB">B. General Safety</h3>
+    <h3 id="workB">1. General Safety</h3>
     <asp:Panel ID="pnlB" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -252,7 +273,7 @@ CollapseControlID="workE" ExpandControlID="workE" TargetControlID="pnlE">
     </table>
     </asp:Panel>
 
-    <h3 id="workC">C. Work Areas</h3>
+    <h3 id="workC">2. Work Areas</h3>
     <asp:Panel ID="pnlC" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -383,7 +404,7 @@ CollapseControlID="workE" ExpandControlID="workE" TargetControlID="pnlE">
     </table>
     </asp:Panel>
 
-    <h3 id="workD">D. Support and Structure</h3>
+    <h3 id="workD">3. Support and Structure</h3>
     <asp:Panel ID="pnlD" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -478,7 +499,7 @@ CollapseControlID="workE" ExpandControlID="workE" TargetControlID="pnlE">
     </table>
     </asp:Panel>
 
-    <h3 id="workE">E. Electrical</h3>
+    <h3 id="workE">4. Electrical</h3>
     <asp:Panel ID="pnlE" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -573,7 +594,7 @@ CollapseControlID="workE" ExpandControlID="workE" TargetControlID="pnlE">
     </table>
     </asp:Panel>
 
-    <h3 id="workF">E. Ventilation, Illumination, Noise</h3>
+    <h3 id="workF">5. Ventilation, Illumination, Noise</h3>
     <asp:Panel ID="pnlF" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -650,7 +671,7 @@ CollapseControlID="workE" ExpandControlID="workE" TargetControlID="pnlE">
     </table>
     </asp:Panel>
 
-    <h3 id="workG">G. Work Practices Section</h3>
+    <h3 id="workG">6. Work Practices Section</h3>
     <asp:Panel ID="pnlG" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -725,6 +746,409 @@ CollapseControlID="workE" ExpandControlID="workE" TargetControlID="pnlE">
             </td>
         </tr>
     </table>
+    </asp:Panel>
+
+    <h3 id="workH">7. Personal Protective Equipment</h3>
+    <asp:Panel ID="pnlH" CssClass="panel" runat="server">
+    <table>
+        <tr>
+            <td class="tblItem">
+                <h3>Item</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>Yes</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>No</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>N/A</h3>
+            </td>
+            <td class="tblComments">
+                <h3>Comments</h3>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblPersonEquipReq" />
+            <td>
+                <asp:Label Text="Is personal protective equipment required for any specific work" runat="server" ID="lblPersonEquipReq" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoPersonEquipReqYes" runat="server" GroupName="rblPersonEquipReq" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoPersonEquipReqNo" runat="server" GroupName="rblPersonEquipReq" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoPersonEquipReqNA" runat="server" GroupName="rblPersonEquipReq" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentPersonEquipReq"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblEquipProp" />
+            <td>
+                <asp:Label Text="Do staff know how to use it properly and have been trained where appropriate (E.G. respirator fit test)" runat="server" ID="lblEquipProp" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoEquipPropYes" runat="server" GroupName="rblEquipProp" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoEquipPropNo" runat="server" GroupName="rblEquipProp" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoEquipPropNA" runat="server" GroupName="rblEquipProp" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentEquipProp"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblPPE" />
+            <td>
+                <asp:Label Text="Is it available, or do they know how to access PPE" runat="server" ID="lblPPE" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoPPEYes" runat="server" GroupName="rblPPE" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoPPENo" runat="server" GroupName="rblPPE" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoPPENA" runat="server" GroupName="rblPPE" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentPPE"></asp:TextBox>
+            </td>
+        </tr>
+    </table>
+    </asp:Panel>
+
+    <h3 id="workI">8. Strain, Sprain, Overexertion</h3>
+    <asp:Panel ID="pnlI" CssClass="panel" runat="server">
+    <table>
+        <tr>
+            <td class="tblItem">
+                <h3>Item</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>Yes</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>No</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>N/A</h3>
+            </td>
+            <td class="tblComments">
+                <h3>Comments</h3>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblLiftTech" />
+            <td>
+                <asp:Label Text="Are staff trained in proper lift techniques" runat="server" ID="lblLiftTech" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoLiftTechYes" runat="server" GroupName="rblLiftTech" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoLiftTechNo" runat="server" GroupName="rblLiftTech" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoLiftTechNA" runat="server" GroupName="rblLiftTech" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentLiftTech"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblPoorPosture" />
+            <td>
+                <asp:Label Text="Are workstations set up to reduce poor posture" runat="server" ID="lblPoorPosture" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoPoorPostureYes" runat="server" GroupName="rblPoorPosture" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoPoorPostureNo" runat="server" GroupName="rblPoorPosture" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoPoorPostureNA" runat="server" GroupName="rblPoorPosture" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentPoorPosture"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblHandle" />
+            <td>
+                <asp:Label Text="Are staff aware of safe handling procedures" runat="server" ID="lblHandle" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoHandleYes" runat="server" GroupName="rblHandle" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoHandleNo" runat="server" GroupName="rblHandle" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoHandleNA" runat="server" GroupName="rblHandle" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentHandle"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblHandleProc" />
+            <td>
+                <asp:Label Text="Do staff know where to find safe handling procedures" runat="server" ID="lblHandleProc" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoHandleProcYes" runat="server" GroupName="rblHandleProc" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoHandleProcNo" runat="server" GroupName="rblHandleProc" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoHandleProcNA" runat="server" GroupName="rblHandleProc" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentHandleProc"></asp:TextBox>
+            </td>
+        </tr>
+    </table>
+    </asp:Panel>
+
+    <h3 id="workJ">9. WHMIS / Hazardous Materials</h3>
+    <asp:Panel ID="pnlJ" CssClass="panel" runat="server">
+    <table>
+        <tr>
+            <td class="tblItem">
+                <h3>Item</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>Yes</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>No</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>N/A</h3>
+            </td>
+            <td class="tblComments">
+                <h3>Comments</h3>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblMSDSandOHSAH" />
+            <td>
+                <asp:Label Text="Are Material Safety Data Sheets (MSDS) accessible for staff (via a binder or on-line link to OHSAH)" runat="server" ID="lblMSDSandOHSAH" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoMSDSandOHSAHYes" runat="server" GroupName="rblMSDSandOHSAH" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoMSDSandOHSAHNo" runat="server" GroupName="rblMSDSandOHSAH" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoMSDSandOHSAHNA" runat="server" GroupName="rblMSDSandOHSAH" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentMSDSandOHSAH"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblWHMISTrain" />
+            <td>
+                <asp:Label Text="Have staff who work with hazardous products had WHMIS training" runat="server" ID="lblWHMISTrain" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoWHMISTrainYes" runat="server" GroupName="rblWHMISTrain" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoWHMISTrainNo" runat="server" GroupName="rblWHMISTrain" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoWHMISTrainNA" runat="server" GroupName="rblWHMISTrain" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentWHMISTrain"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblFourQuestions" />
+            <td>
+                <asp:Label Text="Worker can answer the following four questions: 1. What are the hazards of the products you are using? 2. How do you protect yourself from the hazards of these products? 3. What do you do in the event of an emergency? 4. Where can additional information be found?" runat="server" ID="lblFourQuestions" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoFourQuestionsYes" runat="server" GroupName="rblFourQuestions" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoFourQuestionsNo" runat="server" GroupName="rblFourQuestions" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoFourQuestionsNA" runat="server" GroupName="rblFourQuestions" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentFourQuestions"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblOnLineTrain" />
+            <td>
+                <asp:Label Text="Do staff know how to access the on-line training module" runat="server" ID="lblOnLineTrain" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoOnLineTrainYes" runat="server" GroupName="rblOnLineTrain" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoOnLineTrainNo" runat="server" GroupName="rblOnLineTrain" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoOnLineTrainNA" runat="server" GroupName="rblOnLineTrain" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentsOnLineTrain"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblSpill" />
+            <td>
+                <asp:Label Text="Do staff know what to do in the event of a spill" runat="server" ID="lblSpill" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoSpillYes" runat="server" GroupName="rblSpill" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoSpillNo" runat="server" GroupName="rblSpill" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoSpillNA" runat="server" GroupName="rblSpill" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentSpill"></asp:TextBox>
+            </td>
+        </tr>
+    </table>
+    </asp:Panel>
+
+    <h3 id="workK">10. Fire Safety and Emergency Response</h3>
+    <asp:Panel ID="pnlK" CssClass="panel" runat="server">
+    <table>
+        <tr>
+            <td class="tblItem">
+                <h3>Item</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>Yes</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>No</h3>
+            </td>
+            <td class="tblYesNoNA">
+                <h3>N/A</h3>
+            </td>
+            <td class="tblComments">
+                <h3>Comments</h3>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblEvacAlarm" />
+            <td>
+                <asp:Label Text="Do staff know what to do in the event of an evacuation alarm" runat="server" ID="lblEvacAlarm" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoEvacAlarmYes" runat="server" GroupName="rblEvacAlarm" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoEvacAlarmNo" runat="server" GroupName="rblEvacAlarm" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoEvacAlarmNA" runat="server" GroupName="rblEvacAlarm" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentEvacAlarm"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblMuster" />
+            <td>
+                <asp:Label Text="Do staff know where the muster station is in the event of an evacuation" runat="server" ID="lblMuster" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoMusterYes" runat="server" GroupName="rblMuster" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoMusterNo" runat="server" GroupName="rblMuster" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoMusterNA" runat="server" GroupName="rblMuster" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentMuster"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblWarden" />
+            <td>
+                <asp:Label Text="Are there designated fire wardens and have they had appropriate training" runat="server" ID="lblWarden" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoWardenYes" runat="server" GroupName="rblWarden" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoWardenNo" runat="server" GroupName="rblWarden" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoWardenNA" runat="server" GroupName="rblWarden" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentWarden"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblExtinguishWork" />
+            <td>
+                <asp:Label Text="Are fire extinguishers in working condition" runat="server" ID="lblExtinguishWork" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoExtinguishWorkYes" runat="server" GroupName="rblExtinguishWork" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoExtinguishWorkNo" runat="server" GroupName="rblExtinguishWork" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoExtinguishWorkNA" runat="server" GroupName="rblExtinguishWork" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentExtinguishWork"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <asp:RadioButtonList runat="server" ID="rblOfficeClear" />
+            <td>
+                <asp:Label Text="Are corridors outside the office area clear and free of storage" runat="server" ID="lblOfficeClear" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoOfficeClearYes" runat="server" GroupName="rblOfficeClear" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoOfficeClearNo" runat="server" GroupName="rblOfficeClear" />
+            </td>
+            <td class="tblYesNoNA">
+                <asp:RadioButton ID="rdoOfficeClearNA" runat="server" GroupName="rblOfficeClear" />
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxCommentOfficeClear"></asp:TextBox>
+            </td>
+        </tr>
+    </table>
+    </asp:Panel>
+
+    <h3 id="workL">11. Comments</h3>
+    <asp:Panel ID="pnlL" CssClass="panel" runat="server">
+        <asp:TextBox TextMode="MultiLine" Wrap="true" Width="795px" Height="200px" ID="tbxCommentOfficeComments" runat="server"></asp:TextBox>
     </asp:Panel>
 
 </div>
