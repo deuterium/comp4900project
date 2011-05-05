@@ -28,10 +28,10 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__FollowUp__labIns__5F7E2DAC", "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.LabInspection), "FollowUp", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.FollowUp), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__FollowUp__labIns__607251E5", "LabInspectionItem", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.LabInspectionItem), "FollowUp", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.FollowUp), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__LabInspec__labIn__625A9A57", "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.LabInspection), "LabInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.LabInspectionDetail), true)]
-[assembly: EdmRelationshipAttribute("BCCAModel", "FK__LabInspec__roomN__5AB9788F", "Room", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Room), "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabInspection), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__LabInspec__labIt__634EBE90", "LabInspectionItem", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.LabInspectionItem), "LabInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabInspectionDetail), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__Users__roleNo__7849DB76", "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Role), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.User), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__TrainingT__train__51300E55", "TrainingCourses", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.TrainingCours), "TrainingTaken", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.TrainingTaken), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "LabInspectionRoomDetails", "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabInspection), "Room", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Room))]
 
 #endregion
 
@@ -5970,13 +5970,11 @@ namespace BCCAModel
         /// Create a new LabInspection object.
         /// </summary>
         /// <param name="labInsNo">Initial value of the labInsNo property.</param>
-        /// <param name="roomNo">Initial value of the roomNo property.</param>
         /// <param name="date">Initial value of the date property.</param>
-        public static LabInspection CreateLabInspection(global::System.Int32 labInsNo, global::System.Int32 roomNo, global::System.DateTime date)
+        public static LabInspection CreateLabInspection(global::System.Int32 labInsNo, global::System.DateTime date)
         {
             LabInspection labInspection = new LabInspection();
             labInspection.labInsNo = labInsNo;
-            labInspection.roomNo = roomNo;
             labInspection.date = date;
             return labInspection;
         }
@@ -6034,30 +6032,6 @@ namespace BCCAModel
         private Nullable<global::System.Int32> _deptNo;
         partial void OndeptNoChanging(Nullable<global::System.Int32> value);
         partial void OndeptNoChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 roomNo
-        {
-            get
-            {
-                return _roomNo;
-            }
-            set
-            {
-                OnroomNoChanging(value);
-                ReportPropertyChanging("roomNo");
-                _roomNo = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("roomNo");
-                OnroomNoChanged();
-            }
-        }
-        private global::System.Int32 _roomNo;
-        partial void OnroomNoChanging(global::System.Int32 value);
-        partial void OnroomNoChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -6263,34 +6237,18 @@ namespace BCCAModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__LabInspec__roomN__5AB9788F", "Room")]
-        public Room Room
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "LabInspectionRoomDetails", "Room")]
+        public EntityCollection<Room> Rooms
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("BCCAModel.FK__LabInspec__roomN__5AB9788F", "Room").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("BCCAModel.FK__LabInspec__roomN__5AB9788F", "Room").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Room> RoomReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("BCCAModel.FK__LabInspec__roomN__5AB9788F", "Room");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Room>("BCCAModel.LabInspectionRoomDetails", "Room");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Room>("BCCAModel.FK__LabInspec__roomN__5AB9788F", "Room", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Room>("BCCAModel.LabInspectionRoomDetails", "Room", value);
                 }
             }
         }
@@ -7182,18 +7140,18 @@ namespace BCCAModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__LabInspec__roomN__5AB9788F", "LabInspection")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "LabInspectionRoomDetails", "LabInspection")]
         public EntityCollection<LabInspection> LabInspections
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<LabInspection>("BCCAModel.FK__LabInspec__roomN__5AB9788F", "LabInspection");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<LabInspection>("BCCAModel.LabInspectionRoomDetails", "LabInspection");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<LabInspection>("BCCAModel.FK__LabInspec__roomN__5AB9788F", "LabInspection", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<LabInspection>("BCCAModel.LabInspectionRoomDetails", "LabInspection", value);
                 }
             }
         }
