@@ -2,6 +2,8 @@
 using System.Web.Security;
 using System.Security.Cryptography;
 using System.Text;
+using System.Linq;
+using BCCAModel;
 
 /// <summary>
 ///Login.aspx.cs
@@ -16,6 +18,8 @@ using System.Text;
 /// </summary>
 public partial class Login : System.Web.UI.Page
 {
+    BCCAEntities ctx = new BCCAEntities();
+
     /// <summary>
     /// Login Page Load Method
     /// TODO:
@@ -40,9 +44,14 @@ public partial class Login : System.Web.UI.Page
     /// <returns>true if exists, false if does not exist</returns>
     protected bool Check_Credentials(string username, string password)
     {
+        string dbPass = string.Empty;
         //Get password where username, this is for testing purposes
         //db query goes here, no need for hash
-        string dbPass = HashPassword("chris");
+        try
+        {
+            dbPass = ctx.Users.Where(u => u.userName == username).Select(u => u.password).First();
+        }
+        catch (Exception e) { }
 
         if (HashPassword(password).Equals(dbPass))
         {
@@ -82,7 +91,7 @@ public partial class Login : System.Web.UI.Page
             lblLoginError.Text = String.Empty;
             Session["AuthenticatedUser"] = tbxLoginUsername.Text;
             Session["AuthenticationHash"] = FormsAuthentication.HashPasswordForStoringInConfigFile("&U74U53R", "MD5");
-            
+
             Response.Redirect("Default.aspx");
         }
         //Authentication Failure
