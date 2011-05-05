@@ -229,6 +229,34 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     color: white;
 }
 
+/* Login.aspx */
+
+#divLogin 
+{
+    padding: 10px; 
+    width: 210px; 
+    margin: 0; 
+    background: #e8f7fb; 
+    border: 1px solid #dbeff5;
+}
+
+.loginTableWidth
+{
+    width: 100px;
+}
+
+.tblLogin 
+{
+    width: 100px;   
+}
+
+.
+
+.loginTableWidth
+{
+    width: 100px;
+}
+
 /* Lab.aspx */
 
 .tblItem
@@ -261,12 +289,28 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     width: 500px;
 }
 
+/* Training.aspx */
+
+.trainingTableWidth
+{
+    width: 80px;
+}
+
 /* Collapsible Forms Panel Styling */
 
 .panel 
 {
     padding: 10px; 
     width: 800px; 
+    margin: 0; 
+    background: #e8f7fb; 
+    border: 1px solid #dbeff5;
+}
+
+#divLogin 
+{
+    padding: 10px; 
+    width: 200px; 
     margin: 0; 
     background: #e8f7fb; 
     border: 1px solid #dbeff5;

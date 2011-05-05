@@ -5,33 +5,34 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div id="divLogin">
-        <table id="tblLogin">
-            <tr>
-                <td>
-                    Username:
-                </td>
-                <td>
-                    <asp:TextBox ID="tbxLoginUsername" runat="server" ValidationGroup="vgrLogin" />
+        <table>
+        <tr>
+            <td class="loginTableWidth">
+                Username:</td>
+            <td>
+                <asp:TextBox ID="tbxLoginUsername" width="100" runat="server" ValidationGroup="vgrLogin" />
                     <asp:RequiredFieldValidator ID="rfvUsername" runat="server" ErrorMessage="Username is required."
                         ControlToValidate="tbxLoginUsername" Display="Dynamic" ForeColor="Red" ValidationGroup="vgrLogin">*</asp:RequiredFieldValidator>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Password:
-                </td>
-                <td>
-                    <asp:TextBox ID="tbxLoginPassword" runat="server" TextMode="Password" ValidationGroup="vgrLogin" />
+            </td>
+        </tr>
+        <tr>
+            <td class="loginTableWidth">
+                Password:</td>
+            <td class="loginTableWidth">
+                <asp:TextBox ID="tbxLoginPassword" width="100" runat="server" TextMode="Password" ValidationGroup="vgrLogin" />
                     <asp:RequiredFieldValidator ID="rfvPassword" runat="server" ErrorMessage="Password is required."
                         ControlToValidate="tbxLoginPassword" Display="Dynamic" ForeColor="Red" ValidationGroup="vgrLogin">*</asp:RequiredFieldValidator>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" align="right">
-                    <asp:Button ID="btnLogin" Text="Login" runat="server" ValidationGroup="vgrLogin"
-                        OnClick="btnLogin_Click" />
-                </td>
-            </tr>
+            </td>
+        </tr>
+        <tr>
+            <td class="loginTableWidth">
+                
+            </td>
+            <td>
+            <asp:Button ID="btnLogin" Text="Login" runat="server" ValidationGroup="vgrLogin"
+                        OnClick="btnLogin_Click" Width="105px" />
+            </td>
+        </tr>
         </table>
     </div>
     <div id="divLoginError">
