@@ -87,7 +87,9 @@
                                 </div>
                             </td>
                             <td valign="bottom">
-                                <asp:Button ID="btnUser" runat="server" Text="Create User" />
+                                <asp:Button ID="btnDelete" runat="server" Text="Delete User" width="100" visible="false"/>
+                                <br />
+                                <asp:Button ID="btnUser" runat="server" Text="Create User" width="100" />
                             </td>
                         </tr>
                     </table>

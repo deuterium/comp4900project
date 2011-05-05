@@ -32,11 +32,13 @@ public partial class Admin_Default : System.Web.UI.Page
             case "Create":
                 tdUserSystemUsers.Visible = false;
                 divUserManage.Visible = true;
+                btnDelete.Visible = false;
                 btnUser.Text = "Create User";
                 break;
             case "Edit":
                 tdUserSystemUsers.Visible = true;
                 divUserManage.Visible = true;
+                btnDelete.Visible = true;
                 btnUser.Text = "Submit Changes";
                 break;
         }

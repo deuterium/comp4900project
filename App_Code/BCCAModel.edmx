@@ -1,0 +1,1674 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="comp4900t4waveturtleModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="comp4900t4waveturtleModelStoreContainer">
+          <EntitySet Name="Department" EntityType="comp4900t4waveturtleModel.Store.Department" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Employee" EntityType="comp4900t4waveturtleModel.Store.Employee" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FollowUp" EntityType="comp4900t4waveturtleModel.Store.FollowUp" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Incident" EntityType="comp4900t4waveturtleModel.Store.Incident" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="LabInspection" EntityType="comp4900t4waveturtleModel.Store.LabInspection" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="LabInspectionDetails" EntityType="comp4900t4waveturtleModel.Store.LabInspectionDetails" store:Type="Tables" store:Schema="dbo" store:Name="LabInspectionDetails">
+            <DefiningQuery>SELECT 
+      [LabInspectionDetails].[labInsNo] AS [labInsNo], 
+      [LabInspectionDetails].[labItemNo] AS [labItemNo], 
+      [LabInspectionDetails].[comments] AS [comments], 
+      [LabInspectionDetails].[checked] AS [checked]
+      FROM [dbo].[LabInspectionDetails] AS [LabInspectionDetails]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="LabInspectionItem" EntityType="comp4900t4waveturtleModel.Store.LabInspectionItem" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OfficeInspection" EntityType="comp4900t4waveturtleModel.Store.OfficeInspection" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OfficeInspectionItems" EntityType="comp4900t4waveturtleModel.Store.OfficeInspectionItems" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Role" EntityType="comp4900t4waveturtleModel.Store.Role" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Room" EntityType="comp4900t4waveturtleModel.Store.Room" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Severity" EntityType="comp4900t4waveturtleModel.Store.Severity" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TrainingCourses" EntityType="comp4900t4waveturtleModel.Store.TrainingCourses" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TrainingTaken" EntityType="comp4900t4waveturtleModel.Store.TrainingTaken" store:Type="Tables" store:Schema="dbo" store:Name="TrainingTaken">
+            <DefiningQuery>SELECT 
+      [TrainingTaken].[empNo] AS [empNo], 
+      [TrainingTaken].[trainingNo] AS [trainingNo], 
+      [TrainingTaken].[startDate] AS [startDate], 
+      [TrainingTaken].[endDate] AS [endDate], 
+      [TrainingTaken].[active] AS [active], 
+      [TrainingTaken].[evaluation] AS [evaluation], 
+      [TrainingTaken].[biosafety_BSCSeminar] AS [biosafety_BSCSeminar], 
+      [TrainingTaken].[SOPsigned] AS [SOPsigned], 
+      [TrainingTaken].[spillCleanupPracticalDate] AS [spillCleanupPracticalDate], 
+      [TrainingTaken].[respiratorDate] AS [respiratorDate], 
+      [TrainingTaken].[respiratorType] AS [respiratorType], 
+      [TrainingTaken].[respiratorModel] AS [respiratorModel], 
+      [TrainingTaken].[respiratorComments] AS [respiratorComments], 
+      [TrainingTaken].[certificateNum] AS [certificateNum], 
+      [TrainingTaken].[radiation_dosimeterSubmitted] AS [radiation_dosimeterSubmitted], 
+      [TrainingTaken].[radiation_dosimeterIssued] AS [radiation_dosimeterIssued], 
+      [TrainingTaken].[radiation_ringIssued] AS [radiation_ringIssued]
+      FROM [dbo].[TrainingTaken] AS [TrainingTaken]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Users" EntityType="comp4900t4waveturtleModel.Store.Users" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__Employee__deptNo__489AC854" Association="comp4900t4waveturtleModel.Store.FK__Employee__deptNo__489AC854">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__roleNo__4A8310C6" Association="comp4900t4waveturtleModel.Store.FK__Employee__roleNo__4A8310C6">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__roomNo__498EEC8D" Association="comp4900t4waveturtleModel.Store.FK__Employee__roomNo__498EEC8D">
+            <End Role="Room" EntitySet="Room" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FollowUp__labIns__5F7E2DAC" Association="comp4900t4waveturtleModel.Store.FK__FollowUp__labIns__5F7E2DAC">
+            <End Role="LabInspection" EntitySet="LabInspection" />
+            <End Role="FollowUp" EntitySet="FollowUp" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FollowUp__labIns__607251E5" Association="comp4900t4waveturtleModel.Store.FK__FollowUp__labIns__607251E5">
+            <End Role="LabInspectionItem" EntitySet="LabInspectionItem" />
+            <End Role="FollowUp" EntitySet="FollowUp" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Incident__empNo__04AFB25B" Association="comp4900t4waveturtleModel.Store.FK__Incident__empNo__04AFB25B">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Incident" EntitySet="Incident" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LabInspec__deptN__59C55456" Association="comp4900t4waveturtleModel.Store.FK__LabInspec__deptN__59C55456">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="LabInspection" EntitySet="LabInspection" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LabInspec__labIn__625A9A57" Association="comp4900t4waveturtleModel.Store.FK__LabInspec__labIn__625A9A57">
+            <End Role="LabInspection" EntitySet="LabInspection" />
+            <End Role="LabInspectionDetails" EntitySet="LabInspectionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LabInspec__labIt__634EBE90" Association="comp4900t4waveturtleModel.Store.FK__LabInspec__labIt__634EBE90">
+            <End Role="LabInspectionItem" EntitySet="LabInspectionItem" />
+            <End Role="LabInspectionDetails" EntitySet="LabInspectionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LabInspec__roomN__5AB9788F" Association="comp4900t4waveturtleModel.Store.FK__LabInspec__roomN__5AB9788F">
+            <End Role="Room" EntitySet="Room" />
+            <End Role="LabInspection" EntitySet="LabInspection" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OfficeIns__deptN__6FB49575" Association="comp4900t4waveturtleModel.Store.FK__OfficeIns__deptN__6FB49575">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="OfficeInspection" EntitySet="OfficeInspection" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainingT__empNo__503BEA1C" Association="comp4900t4waveturtleModel.Store.FK__TrainingT__empNo__503BEA1C">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="TrainingTaken" EntitySet="TrainingTaken" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainingT__train__51300E55" Association="comp4900t4waveturtleModel.Store.FK__TrainingT__train__51300E55">
+            <End Role="TrainingCourses" EntitySet="TrainingCourses" />
+            <End Role="TrainingTaken" EntitySet="TrainingTaken" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Users__roleNo__7849DB76" Association="comp4900t4waveturtleModel.Store.FK__Users__roleNo__7849DB76">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="deptNo" />
+          </Key>
+          <Property Name="deptNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="deptName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="empNo" />
+          </Key>
+          <Property Name="empNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="lname" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="fname" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="position" Type="varchar" MaxLength="10" />
+          <Property Name="employer" Type="varchar" MaxLength="10" />
+          <Property Name="deptNo" Type="int" />
+          <Property Name="roomNo" Type="int" />
+          <Property Name="roleNo" Type="int" Nullable="false" />
+          <Property Name="startDate" Type="datetime" Nullable="false" />
+          <Property Name="endDate" Type="datetime" />
+          <Property Name="active" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="FollowUp">
+          <Key>
+            <PropertyRef Name="followUpNo" />
+          </Key>
+          <Property Name="followUpNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="labInsNo" Type="int" Nullable="false" />
+          <Property Name="labInsItemNo" Type="int" />
+          <Property Name="actionTaken" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Incident">
+          <Key>
+            <PropertyRef Name="incidentNo" />
+          </Key>
+          <Property Name="incidentNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="empNo" Type="int" Nullable="false" />
+          <Property Name="p1_dateOfIncident" Type="datetime" />
+          <Property Name="p1_timeReported" Type="smalldatetime" />
+          <Property Name="p1_incidentDesc" Type="varchar(max)" />
+          <Property Name="p1_witnessName1" Type="varchar" MaxLength="20" />
+          <Property Name="p1_witnessPhone1" Type="varchar" MaxLength="10" />
+          <Property Name="p1_witnessName2" Type="varchar" MaxLength="20" />
+          <Property Name="p1_witnessPhone2" Type="varchar" MaxLength="10" />
+          <Property Name="p1_actionTaken" Type="varchar(max)" />
+          <Property Name="p1_nature_no" Type="char" MaxLength="1" />
+          <Property Name="p1_nature_musculoskeletal" Type="char" MaxLength="1" />
+          <Property Name="p1_nature_bruise" Type="char" MaxLength="1" />
+          <Property Name="p1_nature_cut" Type="char" MaxLength="1" />
+          <Property Name="p1_nature_puncture" Type="char" MaxLength="1" />
+          <Property Name="p1_nature_skinIrritation" Type="char" MaxLength="1" />
+          <Property Name="p1_nature_skinMucous" Type="char" MaxLength="1" />
+          <Property Name="p1_nature_eye" Type="char" MaxLength="1" />
+          <Property Name="p1_nature_allergic" Type="char" MaxLength="1" />
+          <Property Name="p1_nature_psychological" Type="char" MaxLength="1" />
+          <Property Name="p1_nature_respiratory" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_no" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_repositioning" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_transferring" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_assistedWalking" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_assistedFloor" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_fall" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_holding" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_toileting" Type="char" MaxLength="1" />
+          <Property Name="p2_patient_celingLift" Type="char" MaxLength="1" />
+          <Property Name="p2_patient_sitStandLift" Type="char" MaxLength="1" />
+          <Property Name="p2_patient_floorLift" Type="char" MaxLength="1" />
+          <Property Name="p2_patient_manualLift" Type="char" MaxLength="1" />
+          <Property Name="p2_patient_other" Type="char" MaxLength="1" />
+          <Property Name="p2_patient_otherSpecify" Type="varchar" MaxLength="30" />
+          <Property Name="p2_patient_adequateAssist" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_washing" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_dressing" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_changing" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_feeding" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_prep" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_dressingChanges" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_otherPatientCare" Type="varchar" MaxLength="30" />
+          <Property Name="p2_activity_recapping" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_puncture" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_sharpsDisposal" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_otherSharps" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_material" Type="varchar" MaxLength="50" />
+          <Property Name="p2_activity_lift" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_push" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_carry" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_otherMat" Type="varchar" MaxLength="50" />
+          <Property Name="p2_activity_driving" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_otherEquip" Type="varchar" MaxLength="50" />
+          <Property Name="p2_activity_otherEquipDesc" Type="varchar" MaxLength="50" />
+          <Property Name="p2_activity_equipMain" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_comp" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_nonComp" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_walking" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_bending" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_reading" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_spill" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_cleaning" Type="char" MaxLength="1" />
+          <Property Name="p2_activity_other" Type="varchar" MaxLength="50" />
+          <Property Name="p2_cause_human" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_animal" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_needle" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_otherSharps" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_skin" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_awkwardPosture" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_staticPosture" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_force" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_rep" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_motor" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_slip" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_aggression" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_undeterminded" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_event" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_underEquip" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_hit" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_other" Type="varchar" MaxLength="50" />
+          <Property Name="p2_aggression_verbal" Type="char" MaxLength="1" />
+          <Property Name="p2_aggression_biting" Type="char" MaxLength="1" />
+          <Property Name="p2_aggression_hitting" Type="char" MaxLength="1" />
+          <Property Name="p2_aggression_squeezing" Type="char" MaxLength="1" />
+          <Property Name="p2_aggression_assault" Type="char" MaxLength="1" />
+          <Property Name="p2_aggression_patient" Type="char" MaxLength="1" />
+          <Property Name="p2_aggression_family" Type="char" MaxLength="1" />
+          <Property Name="p2_aggression_public" Type="char" MaxLength="1" />
+          <Property Name="p2_aggression_worker" Type="char" MaxLength="1" />
+          <Property Name="p2_aggression_other" Type="varchar" MaxLength="50" />
+          <Property Name="p2_cause_chemInhalation" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_chemIngest" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_chemContact" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_latex" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_dust" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_disease" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_temp" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_noise" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_radiation" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_elec" Type="char" MaxLength="1" />
+          <Property Name="p2_cause_air" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_malfunction" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_improperUse" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_signage" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_notAvailable" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_poorDesign" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_otherEquip" Type="varchar" MaxLength="50" />
+          <Property Name="p2_factors_temp" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_workplace" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_layout" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_limitedWorkspace" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_slippery" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_lighting" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_noise" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_vent" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_storage" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_otherEnv" Type="varchar" MaxLength="50" />
+          <Property Name="p2_factors_assessment" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_procedure" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_equip" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_conduct" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_extended" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_comm" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_unaccustomed" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_otherWorkPractice" Type="varchar" MaxLength="50" />
+          <Property Name="p2_factors_directions" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_weight" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_aggressive" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_movement" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_confused" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_influence" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_lang" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_otherPatient" Type="varchar" MaxLength="50" />
+          <Property Name="p2_factors_alone" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_info" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_scheduling" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_training" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_education" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_appropriateEquip" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_personal" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_safe" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_perceived" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_otherOrganizational" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_inexperienced" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_communication" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_fatigued" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_distracted" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_preexisting" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_sick" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_otherWorker" Type="varchar" MaxLength="50" />
+          <Property Name="p2_corrective_person" Type="varchar" MaxLength="50" />
+          <Property Name="p2_corrective_personDate" Type="datetime" />
+          <Property Name="p2_corrective_maintenance" Type="char" MaxLength="1" />
+          <Property Name="p2_corrective_maintenanceDate" Type="datetime" />
+          <Property Name="p2_corrective_communicated" Type="char" MaxLength="1" />
+          <Property Name="p2_corrective_communicatedDate" Type="datetime" />
+          <Property Name="p2_corrective_time" Type="char" MaxLength="1" />
+          <Property Name="p2_corrective_timeDate" Type="datetime" />
+          <Property Name="p2_corrective_written" Type="varchar(max)" />
+          <Property Name="p2_corrective_writtentTargetDate" Type="datetime" />
+          <Property Name="p2_corrective_writtentCompletedDate" Type="datetime" />
+          <Property Name="p2_corrective_education" Type="varchar(max)" />
+          <Property Name="p2_corrective_educationTargetDate" Type="datetime" />
+          <Property Name="p2_corrective_educationCompletedDate" Type="datetime" />
+          <Property Name="p2_corrective_equipment" Type="varchar(max)" />
+          <Property Name="p2_corrective_equipmentTargetDate" Type="datetime" />
+          <Property Name="p2_corrective_equipmentCompletedDate" Type="datetime" />
+          <Property Name="p2_corrective_environment" Type="varchar(max)" />
+          <Property Name="p2_corrective_environmentTargetDate" Type="datetime" />
+          <Property Name="p2_corrective_environmentCompletedDate" Type="datetime" />
+          <Property Name="p2_corrective_patient" Type="varchar(max)" />
+          <Property Name="p2_corrective_patientTargetDate" Type="datetime" />
+          <Property Name="p2_corrective_patientCompletedDate" Type="datetime" />
+          <Property Name="p2_manager_previous" Type="char" MaxLength="1" />
+          <Property Name="p2_manager_objections" Type="char" MaxLength="1" />
+          <Property Name="p2_manager_alternative" Type="char" MaxLength="1" />
+          <Property Name="p2_manager_normal" Type="char" MaxLength="1" />
+          <Property Name="p2_manager_week1_sun" Type="decimal" Precision="2" />
+          <Property Name="p2_manager_week1_mon" Type="decimal" Precision="2" />
+          <Property Name="p2_manager_week1_tue" Type="decimal" Precision="2" />
+          <Property Name="p2_manager_week1_wed" Type="decimal" Precision="2" />
+          <Property Name="p2_manager_week1_thu" Type="decimal" Precision="2" />
+          <Property Name="p2_manager_week1_fri" Type="decimal" Precision="2" />
+          <Property Name="p2_manager_week1_sat" Type="decimal" Precision="2" />
+          <Property Name="p2_manager_week2_sun" Type="decimal" Precision="2" />
+          <Property Name="p2_manager_week2_mon" Type="decimal" Precision="2" />
+          <Property Name="p2_manager_week2_tue" Type="decimal" Precision="2" />
+          <Property Name="p2_manager_week2_wed" Type="decimal" Precision="2" />
+          <Property Name="p2_manager_week2_thu" Type="decimal" Precision="2" />
+          <Property Name="p2_manager_week2_fri" Type="decimal" Precision="2" />
+          <Property Name="p2_manager_week2_sat" Type="decimal" Precision="2" />
+        </EntityType>
+        <EntityType Name="LabInspection">
+          <Key>
+            <PropertyRef Name="labInsNo" />
+          </Key>
+          <Property Name="labInsNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="deptNo" Type="int" />
+          <Property Name="roomNo" Type="int" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+          <Property Name="followupDate" Type="datetime" />
+          <Property Name="inspector" Type="varchar" MaxLength="50" />
+          <Property Name="labMgr" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'comp4900t4waveturtle.dbo.LabInspectionDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="LabInspectionDetails">
+          <Key>
+            <PropertyRef Name="labInsNo" />
+          </Key>
+          <Property Name="labInsNo" Type="int" Nullable="false" />
+          <Property Name="labItemNo" Type="int" />
+          <Property Name="comments" Type="varchar" MaxLength="50" />
+          <Property Name="checked" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="LabInspectionItem">
+          <Key>
+            <PropertyRef Name="labInsItemNo" />
+          </Key>
+          <Property Name="labInsItemNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="labInsItem" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="OfficeInspection">
+          <Key>
+            <PropertyRef Name="officeInsNo" />
+          </Key>
+          <Property Name="officeInsNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="insDate" Type="datetime" />
+          <Property Name="inspector" Type="varchar" MaxLength="30" />
+          <Property Name="area" Type="varchar" MaxLength="20" />
+          <Property Name="deptNo" Type="int" />
+        </EntityType>
+        <EntityType Name="OfficeInspectionItems">
+          <Key>
+            <PropertyRef Name="officeInsItemNo" />
+          </Key>
+          <Property Name="officeInsItemNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="officeInsName" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="roleNo" />
+          </Key>
+          <Property Name="roleNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="role" Type="varchar" MaxLength="10" />
+          <Property Name="readAccess" Type="char" MaxLength="1" />
+          <Property Name="writeAccess" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="roomNo" />
+          </Key>
+          <Property Name="roomNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="room" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Severity">
+          <Key>
+            <PropertyRef Name="severityNo" />
+          </Key>
+          <Property Name="severityNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="severityDesc" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="TrainingCourses">
+          <Key>
+            <PropertyRef Name="trainingNo" />
+          </Key>
+          <Property Name="trainingNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="monthsValid" Type="decimal" Precision="3" />
+          <Property Name="trainingName" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'comp4900t4waveturtle.dbo.TrainingTaken' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="TrainingTaken">
+          <Key>
+            <PropertyRef Name="empNo" />
+            <PropertyRef Name="trainingNo" />
+            <PropertyRef Name="active" />
+          </Key>
+          <Property Name="empNo" Type="int" Nullable="false" />
+          <Property Name="trainingNo" Type="int" Nullable="false" />
+          <Property Name="startDate" Type="datetime" />
+          <Property Name="endDate" Type="datetime" />
+          <Property Name="active" Type="decimal" Nullable="false" Precision="1" />
+          <Property Name="evaluation" Type="char" MaxLength="1" />
+          <Property Name="biosafety_BSCSeminar" Type="datetime" />
+          <Property Name="SOPsigned" Type="char" MaxLength="1" />
+          <Property Name="spillCleanupPracticalDate" Type="datetime" />
+          <Property Name="respiratorDate" Type="datetime" />
+          <Property Name="respiratorType" Type="varchar" MaxLength="20" />
+          <Property Name="respiratorModel" Type="varchar" MaxLength="30" />
+          <Property Name="respiratorComments" Type="varchar(max)" />
+          <Property Name="certificateNum" Type="varchar" MaxLength="30" />
+          <Property Name="radiation_dosimeterSubmitted" Type="char" MaxLength="1" />
+          <Property Name="radiation_dosimeterIssued" Type="char" MaxLength="1" />
+          <Property Name="radiation_ringIssued" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="userNo" />
+          </Key>
+          <Property Name="userNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="roleNo" Type="int" Nullable="false" />
+          <Property Name="userName" Type="varchar(max)" />
+          <Property Name="password" Type="varchar(max)" />
+        </EntityType>
+        <Association Name="FK__Employee__deptNo__489AC854">
+          <End Role="Department" Type="comp4900t4waveturtleModel.Store.Department" Multiplicity="0..1" />
+          <End Role="Employee" Type="comp4900t4waveturtleModel.Store.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="deptNo" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="deptNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__roleNo__4A8310C6">
+          <End Role="Role" Type="comp4900t4waveturtleModel.Store.Role" Multiplicity="1" />
+          <End Role="Employee" Type="comp4900t4waveturtleModel.Store.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="roleNo" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="roleNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__roomNo__498EEC8D">
+          <End Role="Room" Type="comp4900t4waveturtleModel.Store.Room" Multiplicity="0..1" />
+          <End Role="Employee" Type="comp4900t4waveturtleModel.Store.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="roomNo" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="roomNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FollowUp__labIns__5F7E2DAC">
+          <End Role="LabInspection" Type="comp4900t4waveturtleModel.Store.LabInspection" Multiplicity="1" />
+          <End Role="FollowUp" Type="comp4900t4waveturtleModel.Store.FollowUp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LabInspection">
+              <PropertyRef Name="labInsNo" />
+            </Principal>
+            <Dependent Role="FollowUp">
+              <PropertyRef Name="labInsNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FollowUp__labIns__607251E5">
+          <End Role="LabInspectionItem" Type="comp4900t4waveturtleModel.Store.LabInspectionItem" Multiplicity="0..1" />
+          <End Role="FollowUp" Type="comp4900t4waveturtleModel.Store.FollowUp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LabInspectionItem">
+              <PropertyRef Name="labInsItemNo" />
+            </Principal>
+            <Dependent Role="FollowUp">
+              <PropertyRef Name="labInsItemNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Incident__empNo__04AFB25B">
+          <End Role="Employee" Type="comp4900t4waveturtleModel.Store.Employee" Multiplicity="1" />
+          <End Role="Incident" Type="comp4900t4waveturtleModel.Store.Incident" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="empNo" />
+            </Principal>
+            <Dependent Role="Incident">
+              <PropertyRef Name="empNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LabInspec__deptN__59C55456">
+          <End Role="Department" Type="comp4900t4waveturtleModel.Store.Department" Multiplicity="0..1" />
+          <End Role="LabInspection" Type="comp4900t4waveturtleModel.Store.LabInspection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="deptNo" />
+            </Principal>
+            <Dependent Role="LabInspection">
+              <PropertyRef Name="deptNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LabInspec__labIn__625A9A57">
+          <End Role="LabInspection" Type="comp4900t4waveturtleModel.Store.LabInspection" Multiplicity="1" />
+          <End Role="LabInspectionDetails" Type="comp4900t4waveturtleModel.Store.LabInspectionDetails" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="LabInspection">
+              <PropertyRef Name="labInsNo" />
+            </Principal>
+            <Dependent Role="LabInspectionDetails">
+              <PropertyRef Name="labInsNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LabInspec__labIt__634EBE90">
+          <End Role="LabInspectionItem" Type="comp4900t4waveturtleModel.Store.LabInspectionItem" Multiplicity="0..1" />
+          <End Role="LabInspectionDetails" Type="comp4900t4waveturtleModel.Store.LabInspectionDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LabInspectionItem">
+              <PropertyRef Name="labInsItemNo" />
+            </Principal>
+            <Dependent Role="LabInspectionDetails">
+              <PropertyRef Name="labItemNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LabInspec__roomN__5AB9788F">
+          <End Role="Room" Type="comp4900t4waveturtleModel.Store.Room" Multiplicity="1" />
+          <End Role="LabInspection" Type="comp4900t4waveturtleModel.Store.LabInspection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="roomNo" />
+            </Principal>
+            <Dependent Role="LabInspection">
+              <PropertyRef Name="roomNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OfficeIns__deptN__6FB49575">
+          <End Role="Department" Type="comp4900t4waveturtleModel.Store.Department" Multiplicity="0..1" />
+          <End Role="OfficeInspection" Type="comp4900t4waveturtleModel.Store.OfficeInspection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="deptNo" />
+            </Principal>
+            <Dependent Role="OfficeInspection">
+              <PropertyRef Name="deptNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrainingT__empNo__503BEA1C">
+          <End Role="Employee" Type="comp4900t4waveturtleModel.Store.Employee" Multiplicity="1" />
+          <End Role="TrainingTaken" Type="comp4900t4waveturtleModel.Store.TrainingTaken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="empNo" />
+            </Principal>
+            <Dependent Role="TrainingTaken">
+              <PropertyRef Name="empNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrainingT__train__51300E55">
+          <End Role="TrainingCourses" Type="comp4900t4waveturtleModel.Store.TrainingCourses" Multiplicity="1" />
+          <End Role="TrainingTaken" Type="comp4900t4waveturtleModel.Store.TrainingTaken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrainingCourses">
+              <PropertyRef Name="trainingNo" />
+            </Principal>
+            <Dependent Role="TrainingTaken">
+              <PropertyRef Name="trainingNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Users__roleNo__7849DB76">
+          <End Role="Role" Type="comp4900t4waveturtleModel.Store.Role" Multiplicity="1" />
+          <End Role="Users" Type="comp4900t4waveturtleModel.Store.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="roleNo" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="roleNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+      warning 6013: The table/view 'comp4900t4waveturtle.dbo.OfficeInspectionDetails' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+      
+      <EntityType Name="OfficeInspectionDetails">
+        <Property Name="officeInsNo" Type="int" />
+        <Property Name="officeInsItemNo" Type="int" />
+        <Property Name="checked" Type="decimal" Precision="1" />
+        <Property Name="severityNo" Type="int" />
+        <Property Name="comments" Type="varchar(max)" />
+      </EntityType>-->
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="comp4900t4waveturtleModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="BCCAEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Departments" EntityType="comp4900t4waveturtleModel.Department" />
+          <EntitySet Name="Employees" EntityType="comp4900t4waveturtleModel.Employee" />
+          <EntitySet Name="FollowUps" EntityType="comp4900t4waveturtleModel.FollowUp" />
+          <EntitySet Name="Incidents" EntityType="comp4900t4waveturtleModel.Incident" />
+          <EntitySet Name="LabInspections" EntityType="comp4900t4waveturtleModel.LabInspection" />
+          <EntitySet Name="LabInspectionDetails" EntityType="comp4900t4waveturtleModel.LabInspectionDetail" />
+          <EntitySet Name="LabInspectionItems" EntityType="comp4900t4waveturtleModel.LabInspectionItem" />
+          <EntitySet Name="OfficeInspections" EntityType="comp4900t4waveturtleModel.OfficeInspection" />
+          <EntitySet Name="OfficeInspectionItems" EntityType="comp4900t4waveturtleModel.OfficeInspectionItem" />
+          <EntitySet Name="Roles" EntityType="comp4900t4waveturtleModel.Role" />
+          <EntitySet Name="Rooms" EntityType="comp4900t4waveturtleModel.Room" />
+          <EntitySet Name="Severities" EntityType="comp4900t4waveturtleModel.Severity" />
+          <EntitySet Name="TrainingCourses" EntityType="comp4900t4waveturtleModel.TrainingCours" />
+          <EntitySet Name="TrainingTakens" EntityType="comp4900t4waveturtleModel.TrainingTaken" />
+          <EntitySet Name="Users" EntityType="comp4900t4waveturtleModel.User" />
+          <AssociationSet Name="FK__Employee__deptNo__489AC854" Association="comp4900t4waveturtleModel.FK__Employee__deptNo__489AC854">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LabInspec__deptN__59C55456" Association="comp4900t4waveturtleModel.FK__LabInspec__deptN__59C55456">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="LabInspection" EntitySet="LabInspections" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OfficeIns__deptN__6FB49575" Association="comp4900t4waveturtleModel.FK__OfficeIns__deptN__6FB49575">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="OfficeInspection" EntitySet="OfficeInspections" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__roleNo__4A8310C6" Association="comp4900t4waveturtleModel.FK__Employee__roleNo__4A8310C6">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__roomNo__498EEC8D" Association="comp4900t4waveturtleModel.FK__Employee__roomNo__498EEC8D">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Incident__empNo__04AFB25B" Association="comp4900t4waveturtleModel.FK__Incident__empNo__04AFB25B">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Incident" EntitySet="Incidents" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainingT__empNo__503BEA1C" Association="comp4900t4waveturtleModel.FK__TrainingT__empNo__503BEA1C">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="TrainingTaken" EntitySet="TrainingTakens" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FollowUp__labIns__5F7E2DAC" Association="comp4900t4waveturtleModel.FK__FollowUp__labIns__5F7E2DAC">
+            <End Role="LabInspection" EntitySet="LabInspections" />
+            <End Role="FollowUp" EntitySet="FollowUps" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FollowUp__labIns__607251E5" Association="comp4900t4waveturtleModel.FK__FollowUp__labIns__607251E5">
+            <End Role="LabInspectionItem" EntitySet="LabInspectionItems" />
+            <End Role="FollowUp" EntitySet="FollowUps" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LabInspec__labIn__625A9A57" Association="comp4900t4waveturtleModel.FK__LabInspec__labIn__625A9A57">
+            <End Role="LabInspection" EntitySet="LabInspections" />
+            <End Role="LabInspectionDetails" EntitySet="LabInspectionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LabInspec__roomN__5AB9788F" Association="comp4900t4waveturtleModel.FK__LabInspec__roomN__5AB9788F">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="LabInspection" EntitySet="LabInspections" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LabInspec__labIt__634EBE90" Association="comp4900t4waveturtleModel.FK__LabInspec__labIt__634EBE90">
+            <End Role="LabInspectionItem" EntitySet="LabInspectionItems" />
+            <End Role="LabInspectionDetails" EntitySet="LabInspectionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Users__roleNo__7849DB76" Association="comp4900t4waveturtleModel.FK__Users__roleNo__7849DB76">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainingT__train__51300E55" Association="comp4900t4waveturtleModel.FK__TrainingT__train__51300E55">
+            <End Role="TrainingCourses" EntitySet="TrainingCourses" />
+            <End Role="TrainingTaken" EntitySet="TrainingTakens" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="deptNo" />
+          </Key>
+          <Property Name="deptNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="deptName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Employees" Relationship="comp4900t4waveturtleModel.FK__Employee__deptNo__489AC854" FromRole="Department" ToRole="Employee" />
+          <NavigationProperty Name="LabInspections" Relationship="comp4900t4waveturtleModel.FK__LabInspec__deptN__59C55456" FromRole="Department" ToRole="LabInspection" />
+          <NavigationProperty Name="OfficeInspections" Relationship="comp4900t4waveturtleModel.FK__OfficeIns__deptN__6FB49575" FromRole="Department" ToRole="OfficeInspection" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="empNo" />
+          </Key>
+          <Property Name="empNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="lname" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="fname" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="position" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="employer" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="deptNo" Type="Int32" />
+          <Property Name="roomNo" Type="Int32" />
+          <Property Name="roleNo" Type="Int32" Nullable="false" />
+          <Property Name="startDate" Type="DateTime" Nullable="false" />
+          <Property Name="endDate" Type="DateTime" />
+          <Property Name="active" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <NavigationProperty Name="Department" Relationship="comp4900t4waveturtleModel.FK__Employee__deptNo__489AC854" FromRole="Employee" ToRole="Department" />
+          <NavigationProperty Name="Role" Relationship="comp4900t4waveturtleModel.FK__Employee__roleNo__4A8310C6" FromRole="Employee" ToRole="Role" />
+          <NavigationProperty Name="Room" Relationship="comp4900t4waveturtleModel.FK__Employee__roomNo__498EEC8D" FromRole="Employee" ToRole="Room" />
+          <NavigationProperty Name="Incidents" Relationship="comp4900t4waveturtleModel.FK__Incident__empNo__04AFB25B" FromRole="Employee" ToRole="Incident" />
+          <NavigationProperty Name="TrainingTakens" Relationship="comp4900t4waveturtleModel.FK__TrainingT__empNo__503BEA1C" FromRole="Employee" ToRole="TrainingTaken" />
+        </EntityType>
+        <EntityType Name="FollowUp">
+          <Key>
+            <PropertyRef Name="followUpNo" />
+          </Key>
+          <Property Name="followUpNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="labInsNo" Type="Int32" Nullable="false" />
+          <Property Name="labInsItemNo" Type="Int32" />
+          <Property Name="actionTaken" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="LabInspection" Relationship="comp4900t4waveturtleModel.FK__FollowUp__labIns__5F7E2DAC" FromRole="FollowUp" ToRole="LabInspection" />
+          <NavigationProperty Name="LabInspectionItem" Relationship="comp4900t4waveturtleModel.FK__FollowUp__labIns__607251E5" FromRole="FollowUp" ToRole="LabInspectionItem" />
+        </EntityType>
+        <EntityType Name="Incident">
+          <Key>
+            <PropertyRef Name="incidentNo" />
+          </Key>
+          <Property Name="incidentNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="empNo" Type="Int32" Nullable="false" />
+          <Property Name="p1_dateOfIncident" Type="DateTime" />
+          <Property Name="p1_timeReported" Type="DateTime" />
+          <Property Name="p1_incidentDesc" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="p1_witnessName1" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="p1_witnessPhone1" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="p1_witnessName2" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="p1_witnessPhone2" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="p1_actionTaken" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="p1_nature_no" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p1_nature_musculoskeletal" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p1_nature_bruise" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p1_nature_cut" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p1_nature_puncture" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p1_nature_skinIrritation" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p1_nature_skinMucous" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p1_nature_eye" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p1_nature_allergic" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p1_nature_psychological" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p1_nature_respiratory" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_no" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_repositioning" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_transferring" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_assistedWalking" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_assistedFloor" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_fall" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_holding" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_toileting" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_patient_celingLift" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_patient_sitStandLift" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_patient_floorLift" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_patient_manualLift" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_patient_other" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_patient_otherSpecify" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="p2_patient_adequateAssist" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_washing" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_dressing" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_changing" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_feeding" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_prep" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_dressingChanges" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_otherPatientCare" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="p2_activity_recapping" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_puncture" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_sharpsDisposal" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_otherSharps" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_material" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_activity_lift" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_push" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_carry" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_otherMat" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_activity_driving" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_otherEquip" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_activity_otherEquipDesc" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_activity_equipMain" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_comp" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_nonComp" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_walking" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_bending" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_reading" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_spill" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_cleaning" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_activity_other" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_cause_human" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_animal" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_needle" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_otherSharps" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_skin" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_awkwardPosture" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_staticPosture" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_force" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_rep" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_motor" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_slip" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_aggression" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_undeterminded" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_event" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_underEquip" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_hit" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_other" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_aggression_verbal" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_aggression_biting" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_aggression_hitting" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_aggression_squeezing" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_aggression_assault" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_aggression_patient" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_aggression_family" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_aggression_public" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_aggression_worker" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_aggression_other" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_cause_chemInhalation" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_chemIngest" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_chemContact" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_latex" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_dust" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_disease" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_temp" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_noise" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_radiation" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_elec" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_cause_air" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_malfunction" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_improperUse" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_signage" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_notAvailable" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_poorDesign" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_otherEquip" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_factors_temp" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_workplace" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_layout" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_limitedWorkspace" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_slippery" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_lighting" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_noise" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_vent" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_storage" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_otherEnv" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_factors_assessment" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_procedure" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_equip" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_conduct" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_extended" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_comm" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_unaccustomed" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_otherWorkPractice" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_factors_directions" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_weight" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_aggressive" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_movement" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_confused" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_influence" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_lang" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_otherPatient" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_factors_alone" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_info" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_scheduling" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_training" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_education" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_appropriateEquip" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_personal" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_safe" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_perceived" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_otherOrganizational" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_inexperienced" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_communication" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_fatigued" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_distracted" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_preexisting" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_sick" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_otherWorker" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_corrective_person" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_corrective_personDate" Type="DateTime" />
+          <Property Name="p2_corrective_maintenance" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_corrective_maintenanceDate" Type="DateTime" />
+          <Property Name="p2_corrective_communicated" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_corrective_communicatedDate" Type="DateTime" />
+          <Property Name="p2_corrective_time" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_corrective_timeDate" Type="DateTime" />
+          <Property Name="p2_corrective_written" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="p2_corrective_writtentTargetDate" Type="DateTime" />
+          <Property Name="p2_corrective_writtentCompletedDate" Type="DateTime" />
+          <Property Name="p2_corrective_education" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="p2_corrective_educationTargetDate" Type="DateTime" />
+          <Property Name="p2_corrective_educationCompletedDate" Type="DateTime" />
+          <Property Name="p2_corrective_equipment" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="p2_corrective_equipmentTargetDate" Type="DateTime" />
+          <Property Name="p2_corrective_equipmentCompletedDate" Type="DateTime" />
+          <Property Name="p2_corrective_environment" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="p2_corrective_environmentTargetDate" Type="DateTime" />
+          <Property Name="p2_corrective_environmentCompletedDate" Type="DateTime" />
+          <Property Name="p2_corrective_patient" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="p2_corrective_patientTargetDate" Type="DateTime" />
+          <Property Name="p2_corrective_patientCompletedDate" Type="DateTime" />
+          <Property Name="p2_manager_previous" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_manager_objections" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_manager_alternative" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_manager_normal" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_manager_week1_sun" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="p2_manager_week1_mon" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="p2_manager_week1_tue" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="p2_manager_week1_wed" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="p2_manager_week1_thu" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="p2_manager_week1_fri" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="p2_manager_week1_sat" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="p2_manager_week2_sun" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="p2_manager_week2_mon" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="p2_manager_week2_tue" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="p2_manager_week2_wed" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="p2_manager_week2_thu" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="p2_manager_week2_fri" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="p2_manager_week2_sat" Type="Decimal" Precision="2" Scale="0" />
+          <NavigationProperty Name="Employee" Relationship="comp4900t4waveturtleModel.FK__Incident__empNo__04AFB25B" FromRole="Incident" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="LabInspection">
+          <Key>
+            <PropertyRef Name="labInsNo" />
+          </Key>
+          <Property Name="labInsNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="deptNo" Type="Int32" />
+          <Property Name="roomNo" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" />
+          <Property Name="followupDate" Type="DateTime" />
+          <Property Name="inspector" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="labMgr" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Department" Relationship="comp4900t4waveturtleModel.FK__LabInspec__deptN__59C55456" FromRole="LabInspection" ToRole="Department" />
+          <NavigationProperty Name="FollowUps" Relationship="comp4900t4waveturtleModel.FK__FollowUp__labIns__5F7E2DAC" FromRole="LabInspection" ToRole="FollowUp" />
+          <NavigationProperty Name="LabInspectionDetail" Relationship="comp4900t4waveturtleModel.FK__LabInspec__labIn__625A9A57" FromRole="LabInspection" ToRole="LabInspectionDetails" />
+          <NavigationProperty Name="Room" Relationship="comp4900t4waveturtleModel.FK__LabInspec__roomN__5AB9788F" FromRole="LabInspection" ToRole="Room" />
+        </EntityType>
+        <EntityType Name="LabInspectionDetail">
+          <Key>
+            <PropertyRef Name="labInsNo" />
+          </Key>
+          <Property Name="labInsNo" Type="Int32" Nullable="false" />
+          <Property Name="labItemNo" Type="Int32" />
+          <Property Name="comments" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="checked" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <NavigationProperty Name="LabInspection" Relationship="comp4900t4waveturtleModel.FK__LabInspec__labIn__625A9A57" FromRole="LabInspectionDetails" ToRole="LabInspection" />
+          <NavigationProperty Name="LabInspectionItem" Relationship="comp4900t4waveturtleModel.FK__LabInspec__labIt__634EBE90" FromRole="LabInspectionDetails" ToRole="LabInspectionItem" />
+        </EntityType>
+        <EntityType Name="LabInspectionItem">
+          <Key>
+            <PropertyRef Name="labInsItemNo" />
+          </Key>
+          <Property Name="labInsItemNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="labInsItem" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="FollowUps" Relationship="comp4900t4waveturtleModel.FK__FollowUp__labIns__607251E5" FromRole="LabInspectionItem" ToRole="FollowUp" />
+          <NavigationProperty Name="LabInspectionDetails" Relationship="comp4900t4waveturtleModel.FK__LabInspec__labIt__634EBE90" FromRole="LabInspectionItem" ToRole="LabInspectionDetails" />
+        </EntityType>
+        <EntityType Name="OfficeInspection">
+          <Key>
+            <PropertyRef Name="officeInsNo" />
+          </Key>
+          <Property Name="officeInsNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="insDate" Type="DateTime" />
+          <Property Name="inspector" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="area" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="deptNo" Type="Int32" />
+          <NavigationProperty Name="Department" Relationship="comp4900t4waveturtleModel.FK__OfficeIns__deptN__6FB49575" FromRole="OfficeInspection" ToRole="Department" />
+        </EntityType>
+        <EntityType Name="OfficeInspectionItem">
+          <Key>
+            <PropertyRef Name="officeInsItemNo" />
+          </Key>
+          <Property Name="officeInsItemNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="officeInsName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="roleNo" />
+          </Key>
+          <Property Name="roleNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="role1" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="readAccess" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="writeAccess" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <NavigationProperty Name="Employees" Relationship="comp4900t4waveturtleModel.FK__Employee__roleNo__4A8310C6" FromRole="Role" ToRole="Employee" />
+          <NavigationProperty Name="Users" Relationship="comp4900t4waveturtleModel.FK__Users__roleNo__7849DB76" FromRole="Role" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="roomNo" />
+          </Key>
+          <Property Name="roomNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="room1" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Employees" Relationship="comp4900t4waveturtleModel.FK__Employee__roomNo__498EEC8D" FromRole="Room" ToRole="Employee" />
+          <NavigationProperty Name="LabInspections" Relationship="comp4900t4waveturtleModel.FK__LabInspec__roomN__5AB9788F" FromRole="Room" ToRole="LabInspection" />
+        </EntityType>
+        <EntityType Name="Severity">
+          <Key>
+            <PropertyRef Name="severityNo" />
+          </Key>
+          <Property Name="severityNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="severityDesc" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TrainingCours">
+          <Key>
+            <PropertyRef Name="trainingNo" />
+          </Key>
+          <Property Name="trainingNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="monthsValid" Type="Decimal" Precision="3" Scale="0" />
+          <Property Name="trainingName" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="TrainingTakens" Relationship="comp4900t4waveturtleModel.FK__TrainingT__train__51300E55" FromRole="TrainingCourses" ToRole="TrainingTaken" />
+        </EntityType>
+        <EntityType Name="TrainingTaken">
+          <Key>
+            <PropertyRef Name="empNo" />
+            <PropertyRef Name="trainingNo" />
+            <PropertyRef Name="active" />
+          </Key>
+          <Property Name="empNo" Type="Int32" Nullable="false" />
+          <Property Name="trainingNo" Type="Int32" Nullable="false" />
+          <Property Name="startDate" Type="DateTime" />
+          <Property Name="endDate" Type="DateTime" />
+          <Property Name="active" Type="Decimal" Nullable="false" Precision="1" Scale="0" />
+          <Property Name="evaluation" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="biosafety_BSCSeminar" Type="DateTime" />
+          <Property Name="SOPsigned" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="spillCleanupPracticalDate" Type="DateTime" />
+          <Property Name="respiratorDate" Type="DateTime" />
+          <Property Name="respiratorType" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="respiratorModel" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="respiratorComments" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="certificateNum" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="radiation_dosimeterSubmitted" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="radiation_dosimeterIssued" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="radiation_ringIssued" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <NavigationProperty Name="Employee" Relationship="comp4900t4waveturtleModel.FK__TrainingT__empNo__503BEA1C" FromRole="TrainingTaken" ToRole="Employee" />
+          <NavigationProperty Name="TrainingCours" Relationship="comp4900t4waveturtleModel.FK__TrainingT__train__51300E55" FromRole="TrainingTaken" ToRole="TrainingCourses" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userNo" />
+          </Key>
+          <Property Name="userNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="roleNo" Type="Int32" Nullable="false" />
+          <Property Name="userName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="password" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Role" Relationship="comp4900t4waveturtleModel.FK__Users__roleNo__7849DB76" FromRole="Users" ToRole="Role" />
+        </EntityType>
+        <Association Name="FK__Employee__deptNo__489AC854">
+          <End Role="Department" Type="comp4900t4waveturtleModel.Department" Multiplicity="0..1" />
+          <End Role="Employee" Type="comp4900t4waveturtleModel.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="deptNo" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="deptNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LabInspec__deptN__59C55456">
+          <End Role="Department" Type="comp4900t4waveturtleModel.Department" Multiplicity="0..1" />
+          <End Role="LabInspection" Type="comp4900t4waveturtleModel.LabInspection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="deptNo" />
+            </Principal>
+            <Dependent Role="LabInspection">
+              <PropertyRef Name="deptNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OfficeIns__deptN__6FB49575">
+          <End Role="Department" Type="comp4900t4waveturtleModel.Department" Multiplicity="0..1" />
+          <End Role="OfficeInspection" Type="comp4900t4waveturtleModel.OfficeInspection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="deptNo" />
+            </Principal>
+            <Dependent Role="OfficeInspection">
+              <PropertyRef Name="deptNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__roleNo__4A8310C6">
+          <End Role="Role" Type="comp4900t4waveturtleModel.Role" Multiplicity="1" />
+          <End Role="Employee" Type="comp4900t4waveturtleModel.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="roleNo" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="roleNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__roomNo__498EEC8D">
+          <End Role="Room" Type="comp4900t4waveturtleModel.Room" Multiplicity="0..1" />
+          <End Role="Employee" Type="comp4900t4waveturtleModel.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="roomNo" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="roomNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Incident__empNo__04AFB25B">
+          <End Role="Employee" Type="comp4900t4waveturtleModel.Employee" Multiplicity="1" />
+          <End Role="Incident" Type="comp4900t4waveturtleModel.Incident" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="empNo" />
+            </Principal>
+            <Dependent Role="Incident">
+              <PropertyRef Name="empNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrainingT__empNo__503BEA1C">
+          <End Role="Employee" Type="comp4900t4waveturtleModel.Employee" Multiplicity="1" />
+          <End Role="TrainingTaken" Type="comp4900t4waveturtleModel.TrainingTaken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="empNo" />
+            </Principal>
+            <Dependent Role="TrainingTaken">
+              <PropertyRef Name="empNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FollowUp__labIns__5F7E2DAC">
+          <End Role="LabInspection" Type="comp4900t4waveturtleModel.LabInspection" Multiplicity="1" />
+          <End Role="FollowUp" Type="comp4900t4waveturtleModel.FollowUp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LabInspection">
+              <PropertyRef Name="labInsNo" />
+            </Principal>
+            <Dependent Role="FollowUp">
+              <PropertyRef Name="labInsNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FollowUp__labIns__607251E5">
+          <End Role="LabInspectionItem" Type="comp4900t4waveturtleModel.LabInspectionItem" Multiplicity="0..1" />
+          <End Role="FollowUp" Type="comp4900t4waveturtleModel.FollowUp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LabInspectionItem">
+              <PropertyRef Name="labInsItemNo" />
+            </Principal>
+            <Dependent Role="FollowUp">
+              <PropertyRef Name="labInsItemNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LabInspec__labIn__625A9A57">
+          <End Role="LabInspection" Type="comp4900t4waveturtleModel.LabInspection" Multiplicity="1" />
+          <End Role="LabInspectionDetails" Type="comp4900t4waveturtleModel.LabInspectionDetail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="LabInspection">
+              <PropertyRef Name="labInsNo" />
+            </Principal>
+            <Dependent Role="LabInspectionDetails">
+              <PropertyRef Name="labInsNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LabInspec__roomN__5AB9788F">
+          <End Role="Room" Type="comp4900t4waveturtleModel.Room" Multiplicity="1" />
+          <End Role="LabInspection" Type="comp4900t4waveturtleModel.LabInspection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="roomNo" />
+            </Principal>
+            <Dependent Role="LabInspection">
+              <PropertyRef Name="roomNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LabInspec__labIt__634EBE90">
+          <End Role="LabInspectionItem" Type="comp4900t4waveturtleModel.LabInspectionItem" Multiplicity="0..1" />
+          <End Role="LabInspectionDetails" Type="comp4900t4waveturtleModel.LabInspectionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LabInspectionItem">
+              <PropertyRef Name="labInsItemNo" />
+            </Principal>
+            <Dependent Role="LabInspectionDetails">
+              <PropertyRef Name="labItemNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Users__roleNo__7849DB76">
+          <End Role="Role" Type="comp4900t4waveturtleModel.Role" Multiplicity="1" />
+          <End Role="Users" Type="comp4900t4waveturtleModel.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="roleNo" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="roleNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrainingT__train__51300E55">
+          <End Role="TrainingCourses" Type="comp4900t4waveturtleModel.TrainingCours" Multiplicity="1" />
+          <End Role="TrainingTaken" Type="comp4900t4waveturtleModel.TrainingTaken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrainingCourses">
+              <PropertyRef Name="trainingNo" />
+            </Principal>
+            <Dependent Role="TrainingTaken">
+              <PropertyRef Name="trainingNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="comp4900t4waveturtleModelStoreContainer" CdmEntityContainer="BCCAEntities">
+          <EntitySetMapping Name="Departments"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.Department"><MappingFragment StoreEntitySet="Department">
+            <ScalarProperty Name="deptNo" ColumnName="deptNo" />
+            <ScalarProperty Name="deptName" ColumnName="deptName" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Employees"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.Employee"><MappingFragment StoreEntitySet="Employee">
+            <ScalarProperty Name="empNo" ColumnName="empNo" />
+            <ScalarProperty Name="lname" ColumnName="lname" />
+            <ScalarProperty Name="fname" ColumnName="fname" />
+            <ScalarProperty Name="position" ColumnName="position" />
+            <ScalarProperty Name="employer" ColumnName="employer" />
+            <ScalarProperty Name="deptNo" ColumnName="deptNo" />
+            <ScalarProperty Name="roomNo" ColumnName="roomNo" />
+            <ScalarProperty Name="roleNo" ColumnName="roleNo" />
+            <ScalarProperty Name="startDate" ColumnName="startDate" />
+            <ScalarProperty Name="endDate" ColumnName="endDate" />
+            <ScalarProperty Name="active" ColumnName="active" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="FollowUps"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.FollowUp"><MappingFragment StoreEntitySet="FollowUp">
+            <ScalarProperty Name="followUpNo" ColumnName="followUpNo" />
+            <ScalarProperty Name="labInsNo" ColumnName="labInsNo" />
+            <ScalarProperty Name="labInsItemNo" ColumnName="labInsItemNo" />
+            <ScalarProperty Name="actionTaken" ColumnName="actionTaken" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Incidents"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.Incident"><MappingFragment StoreEntitySet="Incident">
+            <ScalarProperty Name="incidentNo" ColumnName="incidentNo" />
+            <ScalarProperty Name="empNo" ColumnName="empNo" />
+            <ScalarProperty Name="p1_dateOfIncident" ColumnName="p1_dateOfIncident" />
+            <ScalarProperty Name="p1_timeReported" ColumnName="p1_timeReported" />
+            <ScalarProperty Name="p1_incidentDesc" ColumnName="p1_incidentDesc" />
+            <ScalarProperty Name="p1_witnessName1" ColumnName="p1_witnessName1" />
+            <ScalarProperty Name="p1_witnessPhone1" ColumnName="p1_witnessPhone1" />
+            <ScalarProperty Name="p1_witnessName2" ColumnName="p1_witnessName2" />
+            <ScalarProperty Name="p1_witnessPhone2" ColumnName="p1_witnessPhone2" />
+            <ScalarProperty Name="p1_actionTaken" ColumnName="p1_actionTaken" />
+            <ScalarProperty Name="p1_nature_no" ColumnName="p1_nature_no" />
+            <ScalarProperty Name="p1_nature_musculoskeletal" ColumnName="p1_nature_musculoskeletal" />
+            <ScalarProperty Name="p1_nature_bruise" ColumnName="p1_nature_bruise" />
+            <ScalarProperty Name="p1_nature_cut" ColumnName="p1_nature_cut" />
+            <ScalarProperty Name="p1_nature_puncture" ColumnName="p1_nature_puncture" />
+            <ScalarProperty Name="p1_nature_skinIrritation" ColumnName="p1_nature_skinIrritation" />
+            <ScalarProperty Name="p1_nature_skinMucous" ColumnName="p1_nature_skinMucous" />
+            <ScalarProperty Name="p1_nature_eye" ColumnName="p1_nature_eye" />
+            <ScalarProperty Name="p1_nature_allergic" ColumnName="p1_nature_allergic" />
+            <ScalarProperty Name="p1_nature_psychological" ColumnName="p1_nature_psychological" />
+            <ScalarProperty Name="p1_nature_respiratory" ColumnName="p1_nature_respiratory" />
+            <ScalarProperty Name="p2_activity_no" ColumnName="p2_activity_no" />
+            <ScalarProperty Name="p2_activity_repositioning" ColumnName="p2_activity_repositioning" />
+            <ScalarProperty Name="p2_activity_transferring" ColumnName="p2_activity_transferring" />
+            <ScalarProperty Name="p2_activity_assistedWalking" ColumnName="p2_activity_assistedWalking" />
+            <ScalarProperty Name="p2_activity_assistedFloor" ColumnName="p2_activity_assistedFloor" />
+            <ScalarProperty Name="p2_activity_fall" ColumnName="p2_activity_fall" />
+            <ScalarProperty Name="p2_activity_holding" ColumnName="p2_activity_holding" />
+            <ScalarProperty Name="p2_activity_toileting" ColumnName="p2_activity_toileting" />
+            <ScalarProperty Name="p2_patient_celingLift" ColumnName="p2_patient_celingLift" />
+            <ScalarProperty Name="p2_patient_sitStandLift" ColumnName="p2_patient_sitStandLift" />
+            <ScalarProperty Name="p2_patient_floorLift" ColumnName="p2_patient_floorLift" />
+            <ScalarProperty Name="p2_patient_manualLift" ColumnName="p2_patient_manualLift" />
+            <ScalarProperty Name="p2_patient_other" ColumnName="p2_patient_other" />
+            <ScalarProperty Name="p2_patient_otherSpecify" ColumnName="p2_patient_otherSpecify" />
+            <ScalarProperty Name="p2_patient_adequateAssist" ColumnName="p2_patient_adequateAssist" />
+            <ScalarProperty Name="p2_activity_washing" ColumnName="p2_activity_washing" />
+            <ScalarProperty Name="p2_activity_dressing" ColumnName="p2_activity_dressing" />
+            <ScalarProperty Name="p2_activity_changing" ColumnName="p2_activity_changing" />
+            <ScalarProperty Name="p2_activity_feeding" ColumnName="p2_activity_feeding" />
+            <ScalarProperty Name="p2_activity_prep" ColumnName="p2_activity_prep" />
+            <ScalarProperty Name="p2_activity_dressingChanges" ColumnName="p2_activity_dressingChanges" />
+            <ScalarProperty Name="p2_activity_otherPatientCare" ColumnName="p2_activity_otherPatientCare" />
+            <ScalarProperty Name="p2_activity_recapping" ColumnName="p2_activity_recapping" />
+            <ScalarProperty Name="p2_activity_puncture" ColumnName="p2_activity_puncture" />
+            <ScalarProperty Name="p2_activity_sharpsDisposal" ColumnName="p2_activity_sharpsDisposal" />
+            <ScalarProperty Name="p2_activity_otherSharps" ColumnName="p2_activity_otherSharps" />
+            <ScalarProperty Name="p2_activity_material" ColumnName="p2_activity_material" />
+            <ScalarProperty Name="p2_activity_lift" ColumnName="p2_activity_lift" />
+            <ScalarProperty Name="p2_activity_push" ColumnName="p2_activity_push" />
+            <ScalarProperty Name="p2_activity_carry" ColumnName="p2_activity_carry" />
+            <ScalarProperty Name="p2_activity_otherMat" ColumnName="p2_activity_otherMat" />
+            <ScalarProperty Name="p2_activity_driving" ColumnName="p2_activity_driving" />
+            <ScalarProperty Name="p2_activity_otherEquip" ColumnName="p2_activity_otherEquip" />
+            <ScalarProperty Name="p2_activity_otherEquipDesc" ColumnName="p2_activity_otherEquipDesc" />
+            <ScalarProperty Name="p2_activity_equipMain" ColumnName="p2_activity_equipMain" />
+            <ScalarProperty Name="p2_activity_comp" ColumnName="p2_activity_comp" />
+            <ScalarProperty Name="p2_activity_nonComp" ColumnName="p2_activity_nonComp" />
+            <ScalarProperty Name="p2_activity_walking" ColumnName="p2_activity_walking" />
+            <ScalarProperty Name="p2_activity_bending" ColumnName="p2_activity_bending" />
+            <ScalarProperty Name="p2_activity_reading" ColumnName="p2_activity_reading" />
+            <ScalarProperty Name="p2_activity_spill" ColumnName="p2_activity_spill" />
+            <ScalarProperty Name="p2_activity_cleaning" ColumnName="p2_activity_cleaning" />
+            <ScalarProperty Name="p2_activity_other" ColumnName="p2_activity_other" />
+            <ScalarProperty Name="p2_cause_human" ColumnName="p2_cause_human" />
+            <ScalarProperty Name="p2_cause_animal" ColumnName="p2_cause_animal" />
+            <ScalarProperty Name="p2_cause_needle" ColumnName="p2_cause_needle" />
+            <ScalarProperty Name="p2_cause_otherSharps" ColumnName="p2_cause_otherSharps" />
+            <ScalarProperty Name="p2_cause_skin" ColumnName="p2_cause_skin" />
+            <ScalarProperty Name="p2_cause_awkwardPosture" ColumnName="p2_cause_awkwardPosture" />
+            <ScalarProperty Name="p2_cause_staticPosture" ColumnName="p2_cause_staticPosture" />
+            <ScalarProperty Name="p2_cause_force" ColumnName="p2_cause_force" />
+            <ScalarProperty Name="p2_cause_rep" ColumnName="p2_cause_rep" />
+            <ScalarProperty Name="p2_cause_motor" ColumnName="p2_cause_motor" />
+            <ScalarProperty Name="p2_cause_slip" ColumnName="p2_cause_slip" />
+            <ScalarProperty Name="p2_cause_aggression" ColumnName="p2_cause_aggression" />
+            <ScalarProperty Name="p2_cause_undeterminded" ColumnName="p2_cause_undeterminded" />
+            <ScalarProperty Name="p2_cause_event" ColumnName="p2_cause_event" />
+            <ScalarProperty Name="p2_cause_underEquip" ColumnName="p2_cause_underEquip" />
+            <ScalarProperty Name="p2_cause_hit" ColumnName="p2_cause_hit" />
+            <ScalarProperty Name="p2_cause_other" ColumnName="p2_cause_other" />
+            <ScalarProperty Name="p2_aggression_verbal" ColumnName="p2_aggression_verbal" />
+            <ScalarProperty Name="p2_aggression_biting" ColumnName="p2_aggression_biting" />
+            <ScalarProperty Name="p2_aggression_hitting" ColumnName="p2_aggression_hitting" />
+            <ScalarProperty Name="p2_aggression_squeezing" ColumnName="p2_aggression_squeezing" />
+            <ScalarProperty Name="p2_aggression_assault" ColumnName="p2_aggression_assault" />
+            <ScalarProperty Name="p2_aggression_patient" ColumnName="p2_aggression_patient" />
+            <ScalarProperty Name="p2_aggression_family" ColumnName="p2_aggression_family" />
+            <ScalarProperty Name="p2_aggression_public" ColumnName="p2_aggression_public" />
+            <ScalarProperty Name="p2_aggression_worker" ColumnName="p2_aggression_worker" />
+            <ScalarProperty Name="p2_aggression_other" ColumnName="p2_aggression_other" />
+            <ScalarProperty Name="p2_cause_chemInhalation" ColumnName="p2_cause_chemInhalation" />
+            <ScalarProperty Name="p2_cause_chemIngest" ColumnName="p2_cause_chemIngest" />
+            <ScalarProperty Name="p2_cause_chemContact" ColumnName="p2_cause_chemContact" />
+            <ScalarProperty Name="p2_cause_latex" ColumnName="p2_cause_latex" />
+            <ScalarProperty Name="p2_cause_dust" ColumnName="p2_cause_dust" />
+            <ScalarProperty Name="p2_cause_disease" ColumnName="p2_cause_disease" />
+            <ScalarProperty Name="p2_cause_temp" ColumnName="p2_cause_temp" />
+            <ScalarProperty Name="p2_cause_noise" ColumnName="p2_cause_noise" />
+            <ScalarProperty Name="p2_cause_radiation" ColumnName="p2_cause_radiation" />
+            <ScalarProperty Name="p2_cause_elec" ColumnName="p2_cause_elec" />
+            <ScalarProperty Name="p2_cause_air" ColumnName="p2_cause_air" />
+            <ScalarProperty Name="p2_factors_malfunction" ColumnName="p2_factors_malfunction" />
+            <ScalarProperty Name="p2_factors_improperUse" ColumnName="p2_factors_improperUse" />
+            <ScalarProperty Name="p2_factors_signage" ColumnName="p2_factors_signage" />
+            <ScalarProperty Name="p2_factors_notAvailable" ColumnName="p2_factors_notAvailable" />
+            <ScalarProperty Name="p2_factors_poorDesign" ColumnName="p2_factors_poorDesign" />
+            <ScalarProperty Name="p2_factors_otherEquip" ColumnName="p2_factors_otherEquip" />
+            <ScalarProperty Name="p2_factors_temp" ColumnName="p2_factors_temp" />
+            <ScalarProperty Name="p2_factors_workplace" ColumnName="p2_factors_workplace" />
+            <ScalarProperty Name="p2_factors_layout" ColumnName="p2_factors_layout" />
+            <ScalarProperty Name="p2_factors_limitedWorkspace" ColumnName="p2_factors_limitedWorkspace" />
+            <ScalarProperty Name="p2_factors_slippery" ColumnName="p2_factors_slippery" />
+            <ScalarProperty Name="p2_factors_lighting" ColumnName="p2_factors_lighting" />
+            <ScalarProperty Name="p2_factors_noise" ColumnName="p2_factors_noise" />
+            <ScalarProperty Name="p2_factors_vent" ColumnName="p2_factors_vent" />
+            <ScalarProperty Name="p2_factors_storage" ColumnName="p2_factors_storage" />
+            <ScalarProperty Name="p2_factors_otherEnv" ColumnName="p2_factors_otherEnv" />
+            <ScalarProperty Name="p2_factors_assessment" ColumnName="p2_factors_assessment" />
+            <ScalarProperty Name="p2_factors_procedure" ColumnName="p2_factors_procedure" />
+            <ScalarProperty Name="p2_factors_equip" ColumnName="p2_factors_equip" />
+            <ScalarProperty Name="p2_factors_conduct" ColumnName="p2_factors_conduct" />
+            <ScalarProperty Name="p2_factors_extended" ColumnName="p2_factors_extended" />
+            <ScalarProperty Name="p2_factors_comm" ColumnName="p2_factors_comm" />
+            <ScalarProperty Name="p2_factors_unaccustomed" ColumnName="p2_factors_unaccustomed" />
+            <ScalarProperty Name="p2_factors_otherWorkPractice" ColumnName="p2_factors_otherWorkPractice" />
+            <ScalarProperty Name="p2_factors_directions" ColumnName="p2_factors_directions" />
+            <ScalarProperty Name="p2_factors_weight" ColumnName="p2_factors_weight" />
+            <ScalarProperty Name="p2_factors_aggressive" ColumnName="p2_factors_aggressive" />
+            <ScalarProperty Name="p2_factors_movement" ColumnName="p2_factors_movement" />
+            <ScalarProperty Name="p2_factors_confused" ColumnName="p2_factors_confused" />
+            <ScalarProperty Name="p2_factors_influence" ColumnName="p2_factors_influence" />
+            <ScalarProperty Name="p2_factors_lang" ColumnName="p2_factors_lang" />
+            <ScalarProperty Name="p2_factors_otherPatient" ColumnName="p2_factors_otherPatient" />
+            <ScalarProperty Name="p2_factors_alone" ColumnName="p2_factors_alone" />
+            <ScalarProperty Name="p2_factors_info" ColumnName="p2_factors_info" />
+            <ScalarProperty Name="p2_factors_scheduling" ColumnName="p2_factors_scheduling" />
+            <ScalarProperty Name="p2_factors_training" ColumnName="p2_factors_training" />
+            <ScalarProperty Name="p2_factors_education" ColumnName="p2_factors_education" />
+            <ScalarProperty Name="p2_factors_appropriateEquip" ColumnName="p2_factors_appropriateEquip" />
+            <ScalarProperty Name="p2_factors_personal" ColumnName="p2_factors_personal" />
+            <ScalarProperty Name="p2_factors_safe" ColumnName="p2_factors_safe" />
+            <ScalarProperty Name="p2_factors_perceived" ColumnName="p2_factors_perceived" />
+            <ScalarProperty Name="p2_factors_otherOrganizational" ColumnName="p2_factors_otherOrganizational" />
+            <ScalarProperty Name="p2_factors_inexperienced" ColumnName="p2_factors_inexperienced" />
+            <ScalarProperty Name="p2_factors_communication" ColumnName="p2_factors_communication" />
+            <ScalarProperty Name="p2_factors_fatigued" ColumnName="p2_factors_fatigued" />
+            <ScalarProperty Name="p2_factors_distracted" ColumnName="p2_factors_distracted" />
+            <ScalarProperty Name="p2_factors_preexisting" ColumnName="p2_factors_preexisting" />
+            <ScalarProperty Name="p2_factors_sick" ColumnName="p2_factors_sick" />
+            <ScalarProperty Name="p2_factors_otherWorker" ColumnName="p2_factors_otherWorker" />
+            <ScalarProperty Name="p2_corrective_person" ColumnName="p2_corrective_person" />
+            <ScalarProperty Name="p2_corrective_personDate" ColumnName="p2_corrective_personDate" />
+            <ScalarProperty Name="p2_corrective_maintenance" ColumnName="p2_corrective_maintenance" />
+            <ScalarProperty Name="p2_corrective_maintenanceDate" ColumnName="p2_corrective_maintenanceDate" />
+            <ScalarProperty Name="p2_corrective_communicated" ColumnName="p2_corrective_communicated" />
+            <ScalarProperty Name="p2_corrective_communicatedDate" ColumnName="p2_corrective_communicatedDate" />
+            <ScalarProperty Name="p2_corrective_time" ColumnName="p2_corrective_time" />
+            <ScalarProperty Name="p2_corrective_timeDate" ColumnName="p2_corrective_timeDate" />
+            <ScalarProperty Name="p2_corrective_written" ColumnName="p2_corrective_written" />
+            <ScalarProperty Name="p2_corrective_writtentTargetDate" ColumnName="p2_corrective_writtentTargetDate" />
+            <ScalarProperty Name="p2_corrective_writtentCompletedDate" ColumnName="p2_corrective_writtentCompletedDate" />
+            <ScalarProperty Name="p2_corrective_education" ColumnName="p2_corrective_education" />
+            <ScalarProperty Name="p2_corrective_educationTargetDate" ColumnName="p2_corrective_educationTargetDate" />
+            <ScalarProperty Name="p2_corrective_educationCompletedDate" ColumnName="p2_corrective_educationCompletedDate" />
+            <ScalarProperty Name="p2_corrective_equipment" ColumnName="p2_corrective_equipment" />
+            <ScalarProperty Name="p2_corrective_equipmentTargetDate" ColumnName="p2_corrective_equipmentTargetDate" />
+            <ScalarProperty Name="p2_corrective_equipmentCompletedDate" ColumnName="p2_corrective_equipmentCompletedDate" />
+            <ScalarProperty Name="p2_corrective_environment" ColumnName="p2_corrective_environment" />
+            <ScalarProperty Name="p2_corrective_environmentTargetDate" ColumnName="p2_corrective_environmentTargetDate" />
+            <ScalarProperty Name="p2_corrective_environmentCompletedDate" ColumnName="p2_corrective_environmentCompletedDate" />
+            <ScalarProperty Name="p2_corrective_patient" ColumnName="p2_corrective_patient" />
+            <ScalarProperty Name="p2_corrective_patientTargetDate" ColumnName="p2_corrective_patientTargetDate" />
+            <ScalarProperty Name="p2_corrective_patientCompletedDate" ColumnName="p2_corrective_patientCompletedDate" />
+            <ScalarProperty Name="p2_manager_previous" ColumnName="p2_manager_previous" />
+            <ScalarProperty Name="p2_manager_objections" ColumnName="p2_manager_objections" />
+            <ScalarProperty Name="p2_manager_alternative" ColumnName="p2_manager_alternative" />
+            <ScalarProperty Name="p2_manager_normal" ColumnName="p2_manager_normal" />
+            <ScalarProperty Name="p2_manager_week1_sun" ColumnName="p2_manager_week1_sun" />
+            <ScalarProperty Name="p2_manager_week1_mon" ColumnName="p2_manager_week1_mon" />
+            <ScalarProperty Name="p2_manager_week1_tue" ColumnName="p2_manager_week1_tue" />
+            <ScalarProperty Name="p2_manager_week1_wed" ColumnName="p2_manager_week1_wed" />
+            <ScalarProperty Name="p2_manager_week1_thu" ColumnName="p2_manager_week1_thu" />
+            <ScalarProperty Name="p2_manager_week1_fri" ColumnName="p2_manager_week1_fri" />
+            <ScalarProperty Name="p2_manager_week1_sat" ColumnName="p2_manager_week1_sat" />
+            <ScalarProperty Name="p2_manager_week2_sun" ColumnName="p2_manager_week2_sun" />
+            <ScalarProperty Name="p2_manager_week2_mon" ColumnName="p2_manager_week2_mon" />
+            <ScalarProperty Name="p2_manager_week2_tue" ColumnName="p2_manager_week2_tue" />
+            <ScalarProperty Name="p2_manager_week2_wed" ColumnName="p2_manager_week2_wed" />
+            <ScalarProperty Name="p2_manager_week2_thu" ColumnName="p2_manager_week2_thu" />
+            <ScalarProperty Name="p2_manager_week2_fri" ColumnName="p2_manager_week2_fri" />
+            <ScalarProperty Name="p2_manager_week2_sat" ColumnName="p2_manager_week2_sat" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="LabInspections"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.LabInspection"><MappingFragment StoreEntitySet="LabInspection">
+            <ScalarProperty Name="labInsNo" ColumnName="labInsNo" />
+            <ScalarProperty Name="deptNo" ColumnName="deptNo" />
+            <ScalarProperty Name="roomNo" ColumnName="roomNo" />
+            <ScalarProperty Name="date" ColumnName="date" />
+            <ScalarProperty Name="followupDate" ColumnName="followupDate" />
+            <ScalarProperty Name="inspector" ColumnName="inspector" />
+            <ScalarProperty Name="labMgr" ColumnName="labMgr" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="LabInspectionDetails"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.LabInspectionDetail"><MappingFragment StoreEntitySet="LabInspectionDetails">
+            <ScalarProperty Name="labInsNo" ColumnName="labInsNo" />
+            <ScalarProperty Name="labItemNo" ColumnName="labItemNo" />
+            <ScalarProperty Name="comments" ColumnName="comments" />
+            <ScalarProperty Name="checked" ColumnName="checked" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="LabInspectionItems"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.LabInspectionItem"><MappingFragment StoreEntitySet="LabInspectionItem">
+            <ScalarProperty Name="labInsItemNo" ColumnName="labInsItemNo" />
+            <ScalarProperty Name="labInsItem" ColumnName="labInsItem" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="OfficeInspections"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.OfficeInspection"><MappingFragment StoreEntitySet="OfficeInspection">
+            <ScalarProperty Name="officeInsNo" ColumnName="officeInsNo" />
+            <ScalarProperty Name="insDate" ColumnName="insDate" />
+            <ScalarProperty Name="inspector" ColumnName="inspector" />
+            <ScalarProperty Name="area" ColumnName="area" />
+            <ScalarProperty Name="deptNo" ColumnName="deptNo" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="OfficeInspectionItems"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.OfficeInspectionItem"><MappingFragment StoreEntitySet="OfficeInspectionItems">
+            <ScalarProperty Name="officeInsItemNo" ColumnName="officeInsItemNo" />
+            <ScalarProperty Name="officeInsName" ColumnName="officeInsName" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Roles"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.Role"><MappingFragment StoreEntitySet="Role">
+            <ScalarProperty Name="roleNo" ColumnName="roleNo" />
+            <ScalarProperty Name="role1" ColumnName="role" />
+            <ScalarProperty Name="readAccess" ColumnName="readAccess" />
+            <ScalarProperty Name="writeAccess" ColumnName="writeAccess" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Rooms"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.Room"><MappingFragment StoreEntitySet="Room">
+            <ScalarProperty Name="roomNo" ColumnName="roomNo" />
+            <ScalarProperty Name="room1" ColumnName="room" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Severities"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.Severity"><MappingFragment StoreEntitySet="Severity">
+            <ScalarProperty Name="severityNo" ColumnName="severityNo" />
+            <ScalarProperty Name="severityDesc" ColumnName="severityDesc" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="TrainingCourses"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.TrainingCours"><MappingFragment StoreEntitySet="TrainingCourses">
+            <ScalarProperty Name="trainingNo" ColumnName="trainingNo" />
+            <ScalarProperty Name="monthsValid" ColumnName="monthsValid" />
+            <ScalarProperty Name="trainingName" ColumnName="trainingName" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="TrainingTakens"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.TrainingTaken"><MappingFragment StoreEntitySet="TrainingTaken">
+            <ScalarProperty Name="empNo" ColumnName="empNo" />
+            <ScalarProperty Name="trainingNo" ColumnName="trainingNo" />
+            <ScalarProperty Name="startDate" ColumnName="startDate" />
+            <ScalarProperty Name="endDate" ColumnName="endDate" />
+            <ScalarProperty Name="active" ColumnName="active" />
+            <ScalarProperty Name="evaluation" ColumnName="evaluation" />
+            <ScalarProperty Name="biosafety_BSCSeminar" ColumnName="biosafety_BSCSeminar" />
+            <ScalarProperty Name="SOPsigned" ColumnName="SOPsigned" />
+            <ScalarProperty Name="spillCleanupPracticalDate" ColumnName="spillCleanupPracticalDate" />
+            <ScalarProperty Name="respiratorDate" ColumnName="respiratorDate" />
+            <ScalarProperty Name="respiratorType" ColumnName="respiratorType" />
+            <ScalarProperty Name="respiratorModel" ColumnName="respiratorModel" />
+            <ScalarProperty Name="respiratorComments" ColumnName="respiratorComments" />
+            <ScalarProperty Name="certificateNum" ColumnName="certificateNum" />
+            <ScalarProperty Name="radiation_dosimeterSubmitted" ColumnName="radiation_dosimeterSubmitted" />
+            <ScalarProperty Name="radiation_dosimeterIssued" ColumnName="radiation_dosimeterIssued" />
+            <ScalarProperty Name="radiation_ringIssued" ColumnName="radiation_ringIssued" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Users"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.User"><MappingFragment StoreEntitySet="Users">
+            <ScalarProperty Name="userNo" ColumnName="userNo" />
+            <ScalarProperty Name="roleNo" ColumnName="roleNo" />
+            <ScalarProperty Name="userName" ColumnName="userName" />
+            <ScalarProperty Name="password" ColumnName="password" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="BCCAModel">
+        <EntityTypeShape EntityType="comp4900t4waveturtleModel.Department" Width="1.5" PointX="0.75" PointY="28.625" Height="1.9802864583333317" IsExpanded="true" />
+        <EntityTypeShape EntityType="comp4900t4waveturtleModel.Employee" Width="1.5" PointX="3" PointY="27.5" Height="4.0956022135416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="comp4900t4waveturtleModel.FollowUp" Width="1.5" PointX="11.25" PointY="28.5" Height="2.172587890624996" IsExpanded="true" />
+        <EntityTypeShape EntityType="comp4900t4waveturtleModel.Incident" Width="1.5" PointX="5.25" PointY="32" Height="38.132955729166667" IsExpanded="true" />
+        <EntityTypeShape EntityType="comp4900t4waveturtleModel.LabInspection" Width="1.5" PointX="6" PointY="28" Height="3.1340950520833317" IsExpanded="true" />
+        <EntityTypeShape EntityType="comp4900t4waveturtleModel.LabInspectionDetail" Width="1.5" PointX="11.25" PointY="25.5" Height="2.172587890624996" IsExpanded="true" />
+        <EntityTypeShape EntityType="comp4900t4waveturtleModel.LabInspectionItem" Width="1.5" PointX="9" PointY="24.75" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="comp4900t4waveturtleModel.OfficeInspection" Width="1.5" PointX="3" PointY="71.25" Height="2.1725878906250102" IsExpanded="true" />
+        <EntityTypeShape EntityType="comp4900t4waveturtleModel.OfficeInspectionItem" Width="1.5" PointX="0.75" PointY="0.75" Height="1.4033821614583317" IsExpanded="true" />
+        <EntityTypeShape EntityType="comp4900t4waveturtleModel.Role" Width="1.5" PointX="0.75" PointY="25.25" Height="2.172587890624996" IsExpanded="true" />
+        <EntityTypeShape EntityType="comp4900t4waveturtleModel.Room" Width="1.5" PointX="0.75" PointY="32.125" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="comp4900t4waveturtleModel.Severity" Width="1.5" PointX="2.75" PointY="0.75" Height="1.4033821614583317" IsExpanded="true" />
+        <EntityTypeShape EntityType="comp4900t4waveturtleModel.TrainingCours" Width="1.5" PointX="6" PointY="24.75" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="comp4900t4waveturtleModel.TrainingTaken" Width="1.5" PointX="8.25" PointY="27.25" Height="4.6725065104166674" IsExpanded="true" />
+        <EntityTypeShape EntityType="comp4900t4waveturtleModel.User" Width="1.5" PointX="3" PointY="24.375" Height="1.9802864583333388" IsExpanded="true" />
+        <AssociationConnector Association="comp4900t4waveturtleModel.FK__Employee__deptNo__489AC854" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="29.615143229166666" />
+          <ConnectorPoint PointX="3" PointY="29.615143229166666" />
+        </AssociationConnector>
+        <AssociationConnector Association="comp4900t4waveturtleModel.FK__LabInspec__deptN__59C55456" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="29.088819614583336" />
+          <ConnectorPoint PointX="2.75" PointY="29.088819614583336" />
+          <ConnectorPoint PointX="2.75" PointY="27.25" />
+          <ConnectorPoint PointX="6.75" PointY="27.25" />
+          <ConnectorPoint PointX="6.75" PointY="28" />
+        </AssociationConnector>
+        <AssociationConnector Association="comp4900t4waveturtleModel.FK__OfficeIns__deptN__6FB49575" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.2499999999999996" PointY="30.605286458333332" />
+          <ConnectorPoint PointX="2.625" PointY="30.980286458333332" />
+          <ConnectorPoint PointX="2.625" PointY="72.3362939453125" />
+          <ConnectorPoint PointX="3" PointY="72.3362939453125" />
+        </AssociationConnector>
+        <AssociationConnector Association="comp4900t4waveturtleModel.FK__Employee__roleNo__4A8310C6" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.2499999999999996" PointY="27.422587890624996" />
+          <ConnectorPoint PointX="2.625" PointY="27.797587890624996" />
+          <ConnectorPoint PointX="2.625" PointY="27.123847153846153" />
+          <ConnectorPoint PointX="3.0011528461538459" PointY="27.5" />
+        </AssociationConnector>
+        <AssociationConnector Association="comp4900t4waveturtleModel.FK__Employee__roomNo__498EEC8D" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="33.018992513020834" />
+          <ConnectorPoint PointX="2.5416666666666665" PointY="33.018992513020834" />
+          <ConnectorPoint PointX="2.7083333333333335" PointY="33.018992513020834" />
+          <ConnectorPoint PointX="3.75" PointY="33.018992513020834" />
+          <ConnectorPoint PointX="3.75" PointY="31.595602213541667" />
+        </AssociationConnector>
+        <AssociationConnector Association="comp4900t4waveturtleModel.FK__Incident__empNo__04AFB25B" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="27.71875" />
+          <ConnectorPoint PointX="5.59375" PointY="27.71875" />
+          <ConnectorPoint PointX="5.59375" PointY="32" />
+        </AssociationConnector>
+        <AssociationConnector Association="comp4900t4waveturtleModel.FK__TrainingT__empNo__503BEA1C" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="31.3960986328125" />
+          <ConnectorPoint PointX="5.510416666666667" PointY="31.3960986328125" />
+          <ConnectorPoint PointX="5.677083333333333" PointY="31.3960986328125" />
+          <ConnectorPoint PointX="6.2604146666666667" PointY="31.3960986328125" />
+          <ConnectorPoint PointX="6.4270813333333328" PointY="31.3960986328125" />
+          <ConnectorPoint PointX="6.666666666666667" PointY="31.3960986328125" />
+          <ConnectorPoint PointX="6.833333333333333" PointY="31.3960986328125" />
+          <ConnectorPoint PointX="8.25" PointY="31.3960986328125" />
+        </AssociationConnector>
+        <AssociationConnector Association="comp4900t4waveturtleModel.FK__FollowUp__labIns__5F7E2DAC" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.75" PointY="31.134095052083332" />
+          <ConnectorPoint PointX="6.75" PointY="31.634095052083332" />
+          <ConnectorPoint PointX="8" PointY="31.634095052083332" />
+          <ConnectorPoint PointX="8" PointY="32.172506510416667" />
+          <ConnectorPoint PointX="10.875" PointY="32.172506510416667" />
+          <ConnectorPoint PointX="10.875" PointY="29.586293945312498" />
+          <ConnectorPoint PointX="11.25" PointY="29.586293945312498" />
+        </AssociationConnector>
+        <AssociationConnector Association="comp4900t4waveturtleModel.FK__FollowUp__labIns__607251E5" ManuallyRouted="false">
+          <ConnectorPoint PointX="10.5" PointY="26.475676333733976" />
+          <ConnectorPoint PointX="10.9375" PointY="26.913176333733976" />
+          <ConnectorPoint PointX="10.9375" PointY="29.011894972656251" />
+          <ConnectorPoint PointX="11.25" PointY="29.011894972656251" />
+        </AssociationConnector>
+        <AssociationConnector Association="comp4900t4waveturtleModel.FK__LabInspec__labIn__625A9A57" ManuallyRouted="false">
+          <ConnectorPoint PointX="7.156252" PointY="28" />
+          <ConnectorPoint PointX="7.156252" PointY="26.787985026041667" />
+          <ConnectorPoint PointX="7.666666666666667" PointY="26.787985026041667" />
+          <ConnectorPoint PointX="7.833333333333333" PointY="26.787985026041667" />
+          <ConnectorPoint PointX="10.75" PointY="26.787985026041667" />
+          <ConnectorPoint PointX="10.75" PointY="26.586293945312498" />
+          <ConnectorPoint PointX="11.25" PointY="26.586293945312498" />
+        </AssociationConnector>
+        <AssociationConnector Association="comp4900t4waveturtleModel.FK__LabInspec__roomN__5AB9788F" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="32.540744256510415" />
+          <ConnectorPoint PointX="2.5416666666666665" PointY="32.540744256510415" />
+          <ConnectorPoint PointX="2.7083333333333335" PointY="32.540744256510415" />
+          <ConnectorPoint PointX="3.6666666666666665" PointY="32.540744256510415" />
+          <ConnectorPoint PointX="3.8333333333333335" PointY="32.540744256510415" />
+          <ConnectorPoint PointX="5" PointY="32.540744256510415" />
+          <ConnectorPoint PointX="5" PointY="31.75" />
+          <ConnectorPoint PointX="5.510416666666667" PointY="31.75" />
+          <ConnectorPoint PointX="5.677083333333333" PointY="31.75" />
+          <ConnectorPoint PointX="6.343748" PointY="31.75" />
+          <ConnectorPoint PointX="6.343748" PointY="31.134095052083332" />
+        </AssociationConnector>
+        <AssociationConnector Association="comp4900t4waveturtleModel.FK__LabInspec__labIt__634EBE90" ManuallyRouted="false">
+          <ConnectorPoint PointX="10.5" PointY="25.956585666866985" />
+          <ConnectorPoint PointX="11.25" PointY="25.956585666866985" />
+        </AssociationConnector>
+        <AssociationConnector Association="comp4900t4waveturtleModel.FK__Users__roleNo__7849DB76" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="25.802643229166669" />
+          <ConnectorPoint PointX="3" PointY="25.802643229166669" />
+        </AssociationConnector>
+        <AssociationConnector Association="comp4900t4waveturtleModel.FK__TrainingT__train__51300E55" ManuallyRouted="false">
+          <ConnectorPoint PointX="7.5" PointY="26.537985026041667" />
+          <ConnectorPoint PointX="7.875" PointY="26.912985026041667" />
+          <ConnectorPoint PointX="7.875" PointY="29.291797316406257" />
+          <ConnectorPoint PointX="8.25" PointY="29.291797316406257" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
