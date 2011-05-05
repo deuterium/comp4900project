@@ -67,7 +67,8 @@ a:hover
 
 .topblockcolour  
 {
-    width:69px; height: 132px; 
+    width:69px; 
+    height: 132px; 
     float: right;
 }
 
@@ -103,7 +104,9 @@ a:hover
 
 #textbox 
 {
-    margin: 10px;
+    padding-bottom: 20px;
+    margin-left: 25px;
+    margin-bottom: -20px;
     width: 90%;
     position: relative;
 }
