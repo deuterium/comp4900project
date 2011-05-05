@@ -13,10 +13,15 @@
 /// </summary>
 public partial class Admin_Default : System.Web.UI.Page
 {
-    protected void Page_Load(object sender, EventArgs e)
-    {
-        
-    }
+    //Database Entities
+    BCCAModel.BCCAEntities ctx = new BCCAModel.BCCAEntities();
+
+    /// <summary>
+    /// Page load method, SO FAR NOT USED
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
+    protected void Page_Load(object sender, EventArgs e) {}
 
     /// <summary>
     /// Postback event selecting the mode of the system user administration
@@ -32,11 +37,13 @@ public partial class Admin_Default : System.Web.UI.Page
             case "Create":
                 tdUserSystemUsers.Visible = false;
                 divUserManage.Visible = true;
+                btnDelete.Visible = false;
                 btnUser.Text = "Create User";
                 break;
             case "Edit":
                 tdUserSystemUsers.Visible = true;
                 divUserManage.Visible = true;
+                btnDelete.Visible = true;
                 btnUser.Text = "Submit Changes";
                 break;
         }
