@@ -2,6 +2,8 @@
 using System.Web.Security;
 using System.Security.Cryptography;
 using System.Text;
+using BCCAModel;
+using System.Linq;
 
 /// <summary>
 ///Login.aspx.cs
@@ -16,6 +18,8 @@ using System.Text;
 /// </summary>
 public partial class Login : System.Web.UI.Page
 {
+    BCCAEntities ctx = new BCCAEntities();
+
     /// <summary>
     /// Login Page Load Method
     /// TODO:
@@ -43,7 +47,7 @@ public partial class Login : System.Web.UI.Page
         //Get password where username, this is for testing purposes
         //db query goes here, no need for hash
         string dbPass = HashPassword("chris");
-
+        //ctx.Users.Where(u => u.userName == username).Select(u => u.password).First();
         if (HashPassword(password).Equals(dbPass))
         {
             return true;
