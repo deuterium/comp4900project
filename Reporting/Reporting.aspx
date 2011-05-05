@@ -402,7 +402,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
     </div>
 </asp:Panel>
 
-<h3 id="hr3F"<h3 id="h1"><asp:Image ID="imgExpandCollapseF" runat="server" /> F. Corrective Action <asp:Label ID="ExpandCollapseF" runat="server" Text=""></asp:Label></h3>
+<h3 id="hr3F"<asp:Image ID="imgExpandCollapseF" runat="server" /> F. Corrective Action <asp:Label ID="ExpandCollapseF" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlF" CssClass="panel" runat="server">
     <div id="divFLeftPanel">
         Person assigned to corrective action:
