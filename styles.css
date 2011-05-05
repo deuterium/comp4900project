@@ -105,11 +105,14 @@ a:hover
 #textbox 
 {
     padding-bottom: 20px;
+    padding-top: 25px;
     margin-left: 25px;
-    margin-bottom: -20px;
-    width: 90%;
+    margin-right: 600px;
+    margin-bottom: -25px;
+    width: 825px;
     position: relative;
 }
+
 	
 #leftcontent { width: 430px; padding: 35px 0 0 40px;  }
 .h1 { padding-bottom: 10px;}
