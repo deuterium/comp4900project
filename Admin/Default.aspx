@@ -8,10 +8,20 @@
     <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server" />
     <asp:CollapsiblePanelExtender ID="cpeUsers" runat="server" CollapseControlID="hr3Users"
         ExpandControlID="hr3Users" TargetControlID="pnlUsers" Collapsed="true" />
+    <asp:CollapsiblePanelExtender ID="cpeDepartments" runat="server" CollapseControlID="hr3Departments"
+        ExpandControlID="hr3Departments" TargetControlID="pnlDepartments" Collapsed="true" />
+    <asp:CollapsiblePanelExtender ID="cpeRooms" runat="server" CollapseControlID="hr3Rooms"
+        ExpandControlID="hr3Rooms" TargetControlID="pnlRooms" Collapsed="true" />
+    <asp:CollapsiblePanelExtender ID="cpePositions" runat="server" CollapseControlID="hr3Positions"
+        ExpandControlID="hr3Positions" TargetControlID="pnlPositions" Collapsed="true" />
+    <asp:CollapsiblePanelExtender ID="cpeSupervisors" runat="server" CollapseControlID="hr3Supervisors"
+        ExpandControlID="hr3Supervisors" TargetControlID="pnlSupervisors" Collapsed="true" />
+    <asp:CollapsiblePanelExtender ID="cpeCourses" runat="server" CollapseControlID="hr3Courses"
+        ExpandControlID="hr3Courses" TargetControlID="pnlCourses" Collapsed="true" />
     <div id="divContent">
         <div id="divUsers">
             <h3 id="hr3Users">
-                System User Administration</h3>
+                Manage System Users</h3>
             <asp:Panel ID="pnlUsers" CssClass="panel" runat="server">
                 Select a user from the System Users to edit them, or fill out the Username and Password
                 fields and click "Create User" to create a new System User.
@@ -82,6 +92,36 @@
                         </tr>
                     </table>
                 </div>
+            </asp:Panel>
+        </div>
+        <div id="divDepartments">
+            <h3 id="hr3Departments">
+                Manage Departments</h3>
+            <asp:Panel ID="pnlDepartments" CssClass="panel" runat="server">
+            </asp:Panel>
+        </div>
+        <div id="divRooms">
+            <h3 id="hr3Rooms">
+                Manage Rooms</h3>
+            <asp:Panel ID="pnlRooms" CssClass="panel" runat="server">
+            </asp:Panel>
+        </div>
+        <div id="divPositions">
+            <h3 id="hr3Positions">
+                Manage Positions</h3>
+            <asp:Panel ID="pnlPositions" CssClass="panel" runat="server">
+            </asp:Panel>
+        </div>
+        <div id="divSupervisors">
+            <h3 id="hr3Supervisors">
+                Manage Supervisors</h3>
+            <asp:Panel ID="pnlSupervisors" CssClass="panel" runat="server">
+            </asp:Panel>
+        </div>
+        <div id="divCourses">
+            <h3 id="hr3Courses">
+                Manage Courses</h3>
+            <asp:Panel ID="pnlCourses" CssClass="panel" runat="server">
             </asp:Panel>
         </div>
     </div>
