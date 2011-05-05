@@ -5,9 +5,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div id="divLogin">
-        <table id="tblLogin" style="background-color: #EFF3FB; border-color: #B5C7DE; border-width: 1px;
-            border-style: Solid; font-family: Verdana; font-size: 0.8em; border-collapse: collapse;
-            margin-left: auto; margin-right: auto;" cellpadding="3">
+        <table id="tblLogin">
             <tr>
                 <td>
                     Username:

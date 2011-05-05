@@ -74,12 +74,6 @@ ImageControlID="imgExpandCollapseK" TextLabelID="ExpandCollapseK" CollapsedText=
 ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
-<asp:CollapsiblePanelExtender ID="cpeL" runat="server" Collapsed="true"
-CollapseControlID="labL" ExpandControlID="labL" TargetControlID="pnlL"
-ImageControlID="imgExpandCollapseL" TextLabelID="ExpandCollapseL" CollapsedText="(Show Details)"
-ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
-</asp:CollapsiblePanelExtender>
-
 <div>
 
     <h3 id="labA"><asp:Image ID="imgExpandCollapseA" runat="server" /> A. Department <asp:Label ID="ExpandCollapseA" runat="server" Text=""></asp:Label></h3>
@@ -90,7 +84,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 Department: 
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxDepartment"></asp:TextBox>
+                <asp:TextBox runat="server" ID="tbxLabDepartment"></asp:TextBox>
             </td>
             <td>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -99,7 +93,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 Supervisor: 
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxSupervisor"></asp:TextBox>
+                <asp:TextBox runat="server" ID="tbxLabSupervisor"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -107,7 +101,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 Room: 
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxRoom" />
+                <asp:TextBox runat="server" ID="tbxLabRoom" />
             </td>
             <td>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -116,7 +110,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 Inspectors: 
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxInspectors"></asp:TextBox>
+                <asp:TextBox runat="server" ID="tbxLabInspectors"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -124,7 +118,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 Lab Manager:
             </td>
             <td>
-                <asp:DropDownList runat="server" ID="ddlLabManager"></asp:DropDownList>
+                <asp:DropDownList runat="server" ID="ddlLabLabManager"></asp:DropDownList>
             </td>
         </tr>
         <tr>
@@ -184,7 +178,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoFireEvacNA" runat="server" GroupName="rblFireEvac" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentFireEvac"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFireEvac"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -202,7 +196,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoFireExtinguishNA" runat="server" GroupName="rblFireExtinguish" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentFireExtinguish"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFireExtinguish"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -220,7 +214,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoBloodandBodyNA" runat="server" GroupName="rblBloodandBody" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentBloodandBody"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBloodandBody"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -238,7 +232,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoInjuryonDutyNA" runat="server" GroupName="rblInjuryonDuty" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentInjuryonDuty"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentInjuryonDuty"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -256,7 +250,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoEmergencyNumberNA" runat="server" GroupName="rblEmergencyNumber"  />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentEmergencyNumber"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEmergencyNumber"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -274,7 +268,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoMSDSNA" runat="server" GroupName="rblMSDS" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentMSDS"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentMSDS"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -292,7 +286,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoEmergencyShowerNA" runat="server" GroupName="rblEmergencyShower" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentEmergencyShower"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEmergencyShower"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -310,7 +304,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoEmergencyShowerTestNA" runat="server" GroupName="rblEmergencyShowerTest" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentEmergencyShowerTest"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEmergencyShowerTest"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -328,7 +322,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoEyewashNA" runat="server" GroupName="rblEyewash" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentEyewash"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEyewash"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -346,7 +340,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoEyewashTestNA" runat="server" GroupName="rblEyewashTest" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentEyewashTest"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEyewashTest"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -364,7 +358,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoChemicalSpillNA" runat="server" GroupName="rblChemicalSpill" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentChemicalSpill"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentChemicalSpill"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -382,7 +376,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoBiohazardNA" runat="server" GroupName="rblBiohazard" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentBiohazard"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBiohazard"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -423,7 +417,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoSafetyNA" runat="server" GroupName="rblSafety" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentSafety"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSafety"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -441,7 +435,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoLabCoatNA" runat="server" GroupName="rblLabCoat" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentLabCoat"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentLabCoat"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -459,7 +453,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoFootwearNA" runat="server" GroupName="rblFootwear" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentFootwear"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFootwear"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -477,7 +471,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoRespiratorNA" runat="server" GroupName="rblRespirator" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentRespirator"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentRespirator"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -495,7 +489,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoVacuumNA" runat="server" GroupName="rblVacuum" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentVacuum"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentVacuum"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -513,7 +507,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoSplashGuardNA" runat="server" GroupName="rblSplashGuard" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentSplashGuard"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSplashGuard"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -531,7 +525,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoHealthSurvNA" runat="server" GroupName="rblHealthSurv" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentHealthSurv"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentHealthSurv"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -572,7 +566,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoBenchTidyNA" runat="server" GroupName="rblBenchTidy" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentBenchTidy"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBenchTidy"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -590,7 +584,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoTripHazNA" runat="server" GroupName="rblTripHaz" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentTripHaz"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentTripHaz"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -608,7 +602,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoExitsNA" runat="server" GroupName="rblExits" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentExits"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentExits"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -626,7 +620,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoFoodDrinkNA" runat="server" GroupName="rblFoodDrink" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentFoodDrink"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFoodDrink"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -644,7 +638,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoGlassTubeNA" runat="server" GroupName="rblGlassTube" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentGlassTube"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentGlassTube"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -662,7 +656,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoFallHazNA" runat="server" GroupName="rblFallHaz" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentFallHaz"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFallHaz"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -680,7 +674,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoStoolNA" runat="server" GroupName="rblStool" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentStool"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentStool"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -721,7 +715,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoSharpContNA" runat="server" GroupName="rblSharpCont" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentSharpCont"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSharpCont"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -739,7 +733,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoYellowContNA" runat="server" GroupName="rblYellowCont" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentYellowCont"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentYellowCont"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -757,7 +751,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoYellowBagHSSNA" runat="server" GroupName="rblYellowBagHSS" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentYellowBagHSS"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentYellowBagHSS"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -775,7 +769,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoCytoNA" runat="server" GroupName="rblCyto" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentCyto"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentCyto"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -793,7 +787,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoBulkLabelNA" runat="server" GroupName="rblBulkLabel" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentBulkLabel"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBulkLabel"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -811,7 +805,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoBulk25LNA" runat="server" GroupName="rblBulk25L" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentBulk25L"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBulk25L"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -829,7 +823,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoInterimNA" runat="server" GroupName="rblInterim" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentInterim"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentInterim"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -847,7 +841,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoEthidiumNA" runat="server" GroupName="rblEthidium" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentEthidium"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEthidium"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -888,7 +882,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoDisenfectNA" runat="server" GroupName="rblDisenfect" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentDisenfect"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentDisenfect"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -906,7 +900,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoBioHazSignNA" runat="server" GroupName="rblBioHazSign" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentBioHazSign"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBioHazSign"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -947,7 +941,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoSashNA" runat="server" GroupName="rblSash" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentSash"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSash"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -965,7 +959,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoBioCabCertNA" runat="server" GroupName="rblBioCabCert" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentBioCabCert"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBioCabCert"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -983,7 +977,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoBioCabCleanNA" runat="server" GroupName="rblBioCabClean" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentBioCabClean"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBioCabClean"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1001,7 +995,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoFumeFuncNA" runat="server" GroupName="rblFumeFunc" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentFumeFunc"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFumeFunc"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -1042,7 +1036,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoVacuumPumpNA" runat="server" GroupName="rblVacuumPump" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentVacuumPump"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentVacuumPump"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1060,7 +1054,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoFrayedCordsNA" runat="server" GroupName="rblFrayedCords" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentFrayedCords"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFrayedCords"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1078,7 +1072,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoOutletsNA" runat="server" GroupName="rblOutlets" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentOutlets"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentOutlets"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1096,7 +1090,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoPowerBarNA" runat="server" GroupName="rblPowerBar" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentPowerBar"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentPowerBar"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1114,7 +1108,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoEmPowerNA" runat="server" GroupName="rblEmPower" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentEmPower"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEmPower"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -1155,7 +1149,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoFlamNA" runat="server" GroupName="rblFlam" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentFlam"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFlam"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1173,7 +1167,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoSolventCabNA" runat="server" GroupName="rblSolventCab" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentSolventCab"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSolventCab"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1191,7 +1185,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoSolventOutsideNA" runat="server" GroupName="rblSolventOutside" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentSolventOutside"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSolventOutside"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1209,7 +1203,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoPropHazNA" runat="server" GroupName="rblPropHaz" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentPropHaz"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentPropHaz"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1227,7 +1221,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoPropCytoNA" runat="server" GroupName="rblPropCyto" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentPropCyto"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentPropCyto"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1245,7 +1239,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoCytoToDateNA" runat="server" GroupName="rblCytoToDate" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentCytoToDate"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentCytoToDate"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1263,7 +1257,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoReagentSecureNA" runat="server" GroupName="rblReagentSecure" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentReagentSecure"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentReagentSecure"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1281,7 +1275,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoIncompatNA" runat="server" GroupName="rblIncompat" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentIncompat"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentIncompat"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -1322,7 +1316,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoBiosafetyNA" runat="server" GroupName="rblBiosafety" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentBiosafety"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBiosafety"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1340,7 +1334,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoWorkplaceSafetyNA" runat="server" GroupName="rblWorkplaceSafety" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentWorkplaceSafety"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentWorkplaceSafety"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1358,7 +1352,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoWHMISNA" runat="server" GroupName="rblWHMIS" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentWHMIS"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentWHMIS"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1376,7 +1370,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoTDGNA" runat="server" GroupName="rblTDG" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentTDG"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentTDG"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -1417,7 +1411,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoStorageSeisNA" runat="server" GroupName="rblStorageSeis" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentStorageSeis"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentStorageSeis"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1435,7 +1429,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoEquipGuardsNA" runat="server" GroupName="rblEquipGuards" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentEquipGuards"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEquipGuards"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1453,64 +1447,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:RadioButton ID="rdoPressureTankSupNA" runat="server" GroupName="rblPressureTankSup" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentPressureTankSup"></asp:TextBox>
-            </td>
-        </tr>
-    </table>
-    </asp:Panel>
-
-    <h3 id="labL"><asp:Image ID="imgExpandCollapseL" runat="server" /> L. Lab Supervisor and Inspector <asp:Label ID="ExpandCollapseL" runat="server" Text=""/></h3>
-    <asp:Panel ID="pnlL" CssClass="panel" runat="server">
-    <table>
-        <tr>
-            <td>
-                Lab Supervisor: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxLabSupervisor"></asp:TextBox>
-            </td>
-            <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
-            </td>
-            <td>
-                Date: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxLSDate"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Inspector(s): 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxInspector1" />
-            </td>
-            <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
-            </td>
-            <td>
-                Date: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxDateInspect1" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Inspector(s):
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxInspector2" />
-            </td>
-            <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
-            </td>
-            <td>
-                Date:
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxDateInspect2" />
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentPressureTankSup"></asp:TextBox>
             </td>
         </tr>
     </table>
