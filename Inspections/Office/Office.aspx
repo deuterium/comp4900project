@@ -82,7 +82,8 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 Date of Inspection: 
             </td>
             <td>
-                //Calendar Goes Here//
+                <asp:TextBox ID="tbxOfficeInspectionDate" runat="server"></asp:TextBox>
+                <asp:CalendarExtender ID="cexOfficeInspectionDate" runat="server" TargetControlID="tbxOfficeInspectionDate" Format="yyyy/MM/dd" ></asp:CalendarExtender>
             </td>
         </tr>
     </table>
