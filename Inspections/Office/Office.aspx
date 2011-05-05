@@ -160,7 +160,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoWorkFormNA" runat="server" GroupName="rblWorkForm" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentWorkForm"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentWorkForm"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -178,7 +178,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoNewWorkHazNA" runat="server" GroupName="rblNewWorkHaz" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentNewWorkHaz"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentNewWorkHaz"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -196,7 +196,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoConFirstANA" runat="server" GroupName="rblConFirstA" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentConFirstA"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentConFirstA"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -214,7 +214,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoSafeHealthNA" runat="server" GroupName="rblSafeHealth" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentSafeHealth"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSafeHealth"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -232,7 +232,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoHSTrainNA" runat="server" GroupName="rblHSTrain"  />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentHSTrain"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentHSTrain"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -250,7 +250,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoExitSignWorkNA" runat="server" GroupName="rblExitSignWork" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentExitSignWork"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentExitSignWork"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -268,7 +268,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoExitClearNA" runat="server" GroupName="rblExitClear" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentExitClear"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentExitClear"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -286,7 +286,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoExtinguishDateNA" runat="server" GroupName="rblExtinguishDate" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentExtinguishDate"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentExtinguishDate"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -304,7 +304,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoEmProcFloorNA" runat="server" GroupName="rblEmProcFloor" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentEmProcFloor"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEmProcFloor"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -345,7 +345,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoSpaceNA" runat="server" GroupName="rblSpace" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tdbCommentSpace"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tdbCommentSpace"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -363,7 +363,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoGlareReflectNA" runat="server" GroupName="rblGlareReflect" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentGlareReflect"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentGlareReflect"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -381,7 +381,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoChairsNA" runat="server" GroupName="rblChairs" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentChairs"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentChairs"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -399,7 +399,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoHousekeepNA" runat="server" GroupName="rblHousekeep" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentHousekeep"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentHousekeep"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -417,7 +417,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoOverstackNA" runat="server" GroupName="rblOverstack"  />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentOverstack"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentOverstack"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -435,7 +435,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoPostureNA" runat="server" GroupName="rblPosture" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentPosture"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentPosture"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -476,7 +476,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoLevelNA" runat="server" GroupName="rblLevel" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentLevel"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentLevel"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -494,7 +494,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoTripSlipFallNA" runat="server" GroupName="rblTripSlipFall" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentTripSlipFall"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentTripSlipFall"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -512,7 +512,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoSlipResNA" runat="server" GroupName="rblSlipRes" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentSlipRes"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSlipRes"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -530,7 +530,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoStepsNA" runat="server" GroupName="rblSteps" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentSteps"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSteps"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -571,7 +571,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoSwitchPanelNA" runat="server" GroupName="rblSwitchPanel" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentSwitchPanel"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSwitchPanel"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -589,7 +589,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoCordPlugNA" runat="server" GroupName="rblCordPlug" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentCordPlug"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentCordPlug"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -607,7 +607,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoOverloadNA" runat="server" GroupName="rblOverload" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentOverload"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentOverload"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -625,7 +625,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoTripCordNA" runat="server" GroupName="rblTripCord" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentTripCord"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentTripCord"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -666,7 +666,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoVentNA" runat="server" GroupName="rblVent" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentVent"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentVent"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -684,7 +684,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoNoiseNA" runat="server" GroupName="rblNoise" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentNoise"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentNoise"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -702,7 +702,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoLightingNA" runat="server" GroupName="rblLighting" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentLighting"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentLighting"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -743,7 +743,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoSafeProcNA" runat="server" GroupName="rblSafeProc" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentSafeProc"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSafeProc"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -761,7 +761,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoDocsNA" runat="server" GroupName="rblDocs" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentDocs"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentDocs"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -779,7 +779,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoConcernNA" runat="server" GroupName="rblConcern" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentConcern"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentConcern"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -820,7 +820,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoPersonEquipReqNA" runat="server" GroupName="rblPersonEquipReq" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentPersonEquipReq"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentPersonEquipReq"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -838,7 +838,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoEquipPropNA" runat="server" GroupName="rblEquipProp" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentEquipProp"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEquipProp"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -856,7 +856,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoPPENA" runat="server" GroupName="rblPPE" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentPPE"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentPPE"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -897,7 +897,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoLiftTechNA" runat="server" GroupName="rblLiftTech" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentLiftTech"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentLiftTech"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -915,7 +915,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoPoorPostureNA" runat="server" GroupName="rblPoorPosture" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentPoorPosture"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentPoorPosture"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -933,7 +933,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoHandleNA" runat="server" GroupName="rblHandle" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentHandle"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentHandle"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -951,7 +951,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoHandleProcNA" runat="server" GroupName="rblHandleProc" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentHandleProc"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentHandleProc"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -992,7 +992,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoMSDSandOHSAHNA" runat="server" GroupName="rblMSDSandOHSAH" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentMSDSandOHSAH"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentMSDSandOHSAH"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1010,7 +1010,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoWHMISTrainNA" runat="server" GroupName="rblWHMISTrain" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentWHMISTrain"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentWHMISTrain"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1028,7 +1028,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoFourQuestionsNA" runat="server" GroupName="rblFourQuestions" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentFourQuestions"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFourQuestions"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1046,7 +1046,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoOnLineTrainNA" runat="server" GroupName="rblOnLineTrain" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentsOnLineTrain"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentsOnLineTrain"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1064,7 +1064,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoSpillNA" runat="server" GroupName="rblSpill" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentSpill"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSpill"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -1105,7 +1105,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoEvacAlarmNA" runat="server" GroupName="rblEvacAlarm" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentEvacAlarm"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEvacAlarm"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1123,7 +1123,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoMusterNA" runat="server" GroupName="rblMuster" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentMuster"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentMuster"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1141,7 +1141,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoWardenNA" runat="server" GroupName="rblWarden" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentWarden"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentWarden"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1159,7 +1159,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoExtinguishWorkNA" runat="server" GroupName="rblExtinguishWork" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentExtinguishWork"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentExtinguishWork"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1177,7 +1177,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 <asp:RadioButton ID="rdoOfficeClearNA" runat="server" GroupName="rblOfficeClear" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxCommentOfficeClear"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentOfficeClear"></asp:TextBox>
             </td>
         </tr>
     </table>
