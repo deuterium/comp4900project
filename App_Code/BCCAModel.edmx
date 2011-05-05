@@ -4,14 +4,14 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="comp4900t4waveturtleModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
-        <EntityContainer Name="comp4900t4waveturtleModelStoreContainer">
-          <EntitySet Name="Department" EntityType="comp4900t4waveturtleModel.Store.Department" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Employee" EntityType="comp4900t4waveturtleModel.Store.Employee" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="FollowUp" EntityType="comp4900t4waveturtleModel.Store.FollowUp" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Incident" EntityType="comp4900t4waveturtleModel.Store.Incident" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="LabInspection" EntityType="comp4900t4waveturtleModel.Store.LabInspection" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="LabInspectionDetails" EntityType="comp4900t4waveturtleModel.Store.LabInspectionDetails" store:Type="Tables" store:Schema="dbo" store:Name="LabInspectionDetails">
+      <Schema Namespace="BCCAModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="BCCAModelStoreContainer">
+          <EntitySet Name="Department" EntityType="BCCAModel.Store.Department" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Employee" EntityType="BCCAModel.Store.Employee" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FollowUp" EntityType="BCCAModel.Store.FollowUp" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Incident" EntityType="BCCAModel.Store.Incident" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="LabInspection" EntityType="BCCAModel.Store.LabInspection" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="LabInspectionDetails" EntityType="BCCAModel.Store.LabInspectionDetails" store:Type="Tables" store:Schema="dbo" store:Name="LabInspectionDetails">
             <DefiningQuery>SELECT 
       [LabInspectionDetails].[labInsNo] AS [labInsNo], 
       [LabInspectionDetails].[labItemNo] AS [labItemNo], 
@@ -19,14 +19,14 @@
       [LabInspectionDetails].[checked] AS [checked]
       FROM [dbo].[LabInspectionDetails] AS [LabInspectionDetails]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="LabInspectionItem" EntityType="comp4900t4waveturtleModel.Store.LabInspectionItem" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="OfficeInspection" EntityType="comp4900t4waveturtleModel.Store.OfficeInspection" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="OfficeInspectionItems" EntityType="comp4900t4waveturtleModel.Store.OfficeInspectionItems" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Role" EntityType="comp4900t4waveturtleModel.Store.Role" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Room" EntityType="comp4900t4waveturtleModel.Store.Room" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Severity" EntityType="comp4900t4waveturtleModel.Store.Severity" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="TrainingCourses" EntityType="comp4900t4waveturtleModel.Store.TrainingCourses" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="TrainingTaken" EntityType="comp4900t4waveturtleModel.Store.TrainingTaken" store:Type="Tables" store:Schema="dbo" store:Name="TrainingTaken">
+          <EntitySet Name="LabInspectionItem" EntityType="BCCAModel.Store.LabInspectionItem" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OfficeInspection" EntityType="BCCAModel.Store.OfficeInspection" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OfficeInspectionItems" EntityType="BCCAModel.Store.OfficeInspectionItems" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Role" EntityType="BCCAModel.Store.Role" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Room" EntityType="BCCAModel.Store.Room" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Severity" EntityType="BCCAModel.Store.Severity" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TrainingCourses" EntityType="BCCAModel.Store.TrainingCourses" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TrainingTaken" EntityType="BCCAModel.Store.TrainingTaken" store:Type="Tables" store:Schema="dbo" store:Name="TrainingTaken">
             <DefiningQuery>SELECT 
       [TrainingTaken].[empNo] AS [empNo], 
       [TrainingTaken].[trainingNo] AS [trainingNo], 
@@ -47,60 +47,60 @@
       [TrainingTaken].[radiation_ringIssued] AS [radiation_ringIssued]
       FROM [dbo].[TrainingTaken] AS [TrainingTaken]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Users" EntityType="comp4900t4waveturtleModel.Store.Users" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK__Employee__deptNo__489AC854" Association="comp4900t4waveturtleModel.Store.FK__Employee__deptNo__489AC854">
+          <EntitySet Name="Users" EntityType="BCCAModel.Store.Users" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__Employee__deptNo__489AC854" Association="BCCAModel.Store.FK__Employee__deptNo__489AC854">
             <End Role="Department" EntitySet="Department" />
             <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
-          <AssociationSet Name="FK__Employee__roleNo__4A8310C6" Association="comp4900t4waveturtleModel.Store.FK__Employee__roleNo__4A8310C6">
+          <AssociationSet Name="FK__Employee__roleNo__4A8310C6" Association="BCCAModel.Store.FK__Employee__roleNo__4A8310C6">
             <End Role="Role" EntitySet="Role" />
             <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
-          <AssociationSet Name="FK__Employee__roomNo__498EEC8D" Association="comp4900t4waveturtleModel.Store.FK__Employee__roomNo__498EEC8D">
+          <AssociationSet Name="FK__Employee__roomNo__498EEC8D" Association="BCCAModel.Store.FK__Employee__roomNo__498EEC8D">
             <End Role="Room" EntitySet="Room" />
             <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
-          <AssociationSet Name="FK__FollowUp__labIns__5F7E2DAC" Association="comp4900t4waveturtleModel.Store.FK__FollowUp__labIns__5F7E2DAC">
+          <AssociationSet Name="FK__FollowUp__labIns__5F7E2DAC" Association="BCCAModel.Store.FK__FollowUp__labIns__5F7E2DAC">
             <End Role="LabInspection" EntitySet="LabInspection" />
             <End Role="FollowUp" EntitySet="FollowUp" />
           </AssociationSet>
-          <AssociationSet Name="FK__FollowUp__labIns__607251E5" Association="comp4900t4waveturtleModel.Store.FK__FollowUp__labIns__607251E5">
+          <AssociationSet Name="FK__FollowUp__labIns__607251E5" Association="BCCAModel.Store.FK__FollowUp__labIns__607251E5">
             <End Role="LabInspectionItem" EntitySet="LabInspectionItem" />
             <End Role="FollowUp" EntitySet="FollowUp" />
           </AssociationSet>
-          <AssociationSet Name="FK__Incident__empNo__04AFB25B" Association="comp4900t4waveturtleModel.Store.FK__Incident__empNo__04AFB25B">
+          <AssociationSet Name="FK__Incident__empNo__04AFB25B" Association="BCCAModel.Store.FK__Incident__empNo__04AFB25B">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="Incident" EntitySet="Incident" />
           </AssociationSet>
-          <AssociationSet Name="FK__LabInspec__deptN__59C55456" Association="comp4900t4waveturtleModel.Store.FK__LabInspec__deptN__59C55456">
+          <AssociationSet Name="FK__LabInspec__deptN__59C55456" Association="BCCAModel.Store.FK__LabInspec__deptN__59C55456">
             <End Role="Department" EntitySet="Department" />
             <End Role="LabInspection" EntitySet="LabInspection" />
           </AssociationSet>
-          <AssociationSet Name="FK__LabInspec__labIn__625A9A57" Association="comp4900t4waveturtleModel.Store.FK__LabInspec__labIn__625A9A57">
+          <AssociationSet Name="FK__LabInspec__labIn__625A9A57" Association="BCCAModel.Store.FK__LabInspec__labIn__625A9A57">
             <End Role="LabInspection" EntitySet="LabInspection" />
             <End Role="LabInspectionDetails" EntitySet="LabInspectionDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__LabInspec__labIt__634EBE90" Association="comp4900t4waveturtleModel.Store.FK__LabInspec__labIt__634EBE90">
+          <AssociationSet Name="FK__LabInspec__labIt__634EBE90" Association="BCCAModel.Store.FK__LabInspec__labIt__634EBE90">
             <End Role="LabInspectionItem" EntitySet="LabInspectionItem" />
             <End Role="LabInspectionDetails" EntitySet="LabInspectionDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__LabInspec__roomN__5AB9788F" Association="comp4900t4waveturtleModel.Store.FK__LabInspec__roomN__5AB9788F">
+          <AssociationSet Name="FK__LabInspec__roomN__5AB9788F" Association="BCCAModel.Store.FK__LabInspec__roomN__5AB9788F">
             <End Role="Room" EntitySet="Room" />
             <End Role="LabInspection" EntitySet="LabInspection" />
           </AssociationSet>
-          <AssociationSet Name="FK__OfficeIns__deptN__6FB49575" Association="comp4900t4waveturtleModel.Store.FK__OfficeIns__deptN__6FB49575">
+          <AssociationSet Name="FK__OfficeIns__deptN__6FB49575" Association="BCCAModel.Store.FK__OfficeIns__deptN__6FB49575">
             <End Role="Department" EntitySet="Department" />
             <End Role="OfficeInspection" EntitySet="OfficeInspection" />
           </AssociationSet>
-          <AssociationSet Name="FK__TrainingT__empNo__503BEA1C" Association="comp4900t4waveturtleModel.Store.FK__TrainingT__empNo__503BEA1C">
+          <AssociationSet Name="FK__TrainingT__empNo__503BEA1C" Association="BCCAModel.Store.FK__TrainingT__empNo__503BEA1C">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="TrainingTaken" EntitySet="TrainingTaken" />
           </AssociationSet>
-          <AssociationSet Name="FK__TrainingT__train__51300E55" Association="comp4900t4waveturtleModel.Store.FK__TrainingT__train__51300E55">
+          <AssociationSet Name="FK__TrainingT__train__51300E55" Association="BCCAModel.Store.FK__TrainingT__train__51300E55">
             <End Role="TrainingCourses" EntitySet="TrainingCourses" />
             <End Role="TrainingTaken" EntitySet="TrainingTaken" />
           </AssociationSet>
-          <AssociationSet Name="FK__Users__roleNo__7849DB76" Association="comp4900t4waveturtleModel.Store.FK__Users__roleNo__7849DB76">
+          <AssociationSet Name="FK__Users__roleNo__7849DB76" Association="BCCAModel.Store.FK__Users__roleNo__7849DB76">
             <End Role="Role" EntitySet="Role" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
@@ -450,8 +450,8 @@
           <Property Name="password" Type="varchar(max)" />
         </EntityType>
         <Association Name="FK__Employee__deptNo__489AC854">
-          <End Role="Department" Type="comp4900t4waveturtleModel.Store.Department" Multiplicity="0..1" />
-          <End Role="Employee" Type="comp4900t4waveturtleModel.Store.Employee" Multiplicity="*" />
+          <End Role="Department" Type="BCCAModel.Store.Department" Multiplicity="0..1" />
+          <End Role="Employee" Type="BCCAModel.Store.Employee" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Department">
               <PropertyRef Name="deptNo" />
@@ -462,8 +462,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Employee__roleNo__4A8310C6">
-          <End Role="Role" Type="comp4900t4waveturtleModel.Store.Role" Multiplicity="1" />
-          <End Role="Employee" Type="comp4900t4waveturtleModel.Store.Employee" Multiplicity="*" />
+          <End Role="Role" Type="BCCAModel.Store.Role" Multiplicity="1" />
+          <End Role="Employee" Type="BCCAModel.Store.Employee" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
               <PropertyRef Name="roleNo" />
@@ -474,8 +474,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Employee__roomNo__498EEC8D">
-          <End Role="Room" Type="comp4900t4waveturtleModel.Store.Room" Multiplicity="0..1" />
-          <End Role="Employee" Type="comp4900t4waveturtleModel.Store.Employee" Multiplicity="*" />
+          <End Role="Room" Type="BCCAModel.Store.Room" Multiplicity="0..1" />
+          <End Role="Employee" Type="BCCAModel.Store.Employee" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Room">
               <PropertyRef Name="roomNo" />
@@ -486,8 +486,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__FollowUp__labIns__5F7E2DAC">
-          <End Role="LabInspection" Type="comp4900t4waveturtleModel.Store.LabInspection" Multiplicity="1" />
-          <End Role="FollowUp" Type="comp4900t4waveturtleModel.Store.FollowUp" Multiplicity="*" />
+          <End Role="LabInspection" Type="BCCAModel.Store.LabInspection" Multiplicity="1" />
+          <End Role="FollowUp" Type="BCCAModel.Store.FollowUp" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="LabInspection">
               <PropertyRef Name="labInsNo" />
@@ -498,8 +498,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__FollowUp__labIns__607251E5">
-          <End Role="LabInspectionItem" Type="comp4900t4waveturtleModel.Store.LabInspectionItem" Multiplicity="0..1" />
-          <End Role="FollowUp" Type="comp4900t4waveturtleModel.Store.FollowUp" Multiplicity="*" />
+          <End Role="LabInspectionItem" Type="BCCAModel.Store.LabInspectionItem" Multiplicity="0..1" />
+          <End Role="FollowUp" Type="BCCAModel.Store.FollowUp" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="LabInspectionItem">
               <PropertyRef Name="labInsItemNo" />
@@ -510,8 +510,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Incident__empNo__04AFB25B">
-          <End Role="Employee" Type="comp4900t4waveturtleModel.Store.Employee" Multiplicity="1" />
-          <End Role="Incident" Type="comp4900t4waveturtleModel.Store.Incident" Multiplicity="*" />
+          <End Role="Employee" Type="BCCAModel.Store.Employee" Multiplicity="1" />
+          <End Role="Incident" Type="BCCAModel.Store.Incident" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Employee">
               <PropertyRef Name="empNo" />
@@ -522,8 +522,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__LabInspec__deptN__59C55456">
-          <End Role="Department" Type="comp4900t4waveturtleModel.Store.Department" Multiplicity="0..1" />
-          <End Role="LabInspection" Type="comp4900t4waveturtleModel.Store.LabInspection" Multiplicity="*" />
+          <End Role="Department" Type="BCCAModel.Store.Department" Multiplicity="0..1" />
+          <End Role="LabInspection" Type="BCCAModel.Store.LabInspection" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Department">
               <PropertyRef Name="deptNo" />
@@ -534,8 +534,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__LabInspec__labIn__625A9A57">
-          <End Role="LabInspection" Type="comp4900t4waveturtleModel.Store.LabInspection" Multiplicity="1" />
-          <End Role="LabInspectionDetails" Type="comp4900t4waveturtleModel.Store.LabInspectionDetails" Multiplicity="0..1" />
+          <End Role="LabInspection" Type="BCCAModel.Store.LabInspection" Multiplicity="1" />
+          <End Role="LabInspectionDetails" Type="BCCAModel.Store.LabInspectionDetails" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="LabInspection">
               <PropertyRef Name="labInsNo" />
@@ -546,8 +546,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__LabInspec__labIt__634EBE90">
-          <End Role="LabInspectionItem" Type="comp4900t4waveturtleModel.Store.LabInspectionItem" Multiplicity="0..1" />
-          <End Role="LabInspectionDetails" Type="comp4900t4waveturtleModel.Store.LabInspectionDetails" Multiplicity="*" />
+          <End Role="LabInspectionItem" Type="BCCAModel.Store.LabInspectionItem" Multiplicity="0..1" />
+          <End Role="LabInspectionDetails" Type="BCCAModel.Store.LabInspectionDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="LabInspectionItem">
               <PropertyRef Name="labInsItemNo" />
@@ -558,8 +558,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__LabInspec__roomN__5AB9788F">
-          <End Role="Room" Type="comp4900t4waveturtleModel.Store.Room" Multiplicity="1" />
-          <End Role="LabInspection" Type="comp4900t4waveturtleModel.Store.LabInspection" Multiplicity="*" />
+          <End Role="Room" Type="BCCAModel.Store.Room" Multiplicity="1" />
+          <End Role="LabInspection" Type="BCCAModel.Store.LabInspection" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Room">
               <PropertyRef Name="roomNo" />
@@ -570,8 +570,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__OfficeIns__deptN__6FB49575">
-          <End Role="Department" Type="comp4900t4waveturtleModel.Store.Department" Multiplicity="0..1" />
-          <End Role="OfficeInspection" Type="comp4900t4waveturtleModel.Store.OfficeInspection" Multiplicity="*" />
+          <End Role="Department" Type="BCCAModel.Store.Department" Multiplicity="0..1" />
+          <End Role="OfficeInspection" Type="BCCAModel.Store.OfficeInspection" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Department">
               <PropertyRef Name="deptNo" />
@@ -582,8 +582,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__TrainingT__empNo__503BEA1C">
-          <End Role="Employee" Type="comp4900t4waveturtleModel.Store.Employee" Multiplicity="1" />
-          <End Role="TrainingTaken" Type="comp4900t4waveturtleModel.Store.TrainingTaken" Multiplicity="*" />
+          <End Role="Employee" Type="BCCAModel.Store.Employee" Multiplicity="1" />
+          <End Role="TrainingTaken" Type="BCCAModel.Store.TrainingTaken" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Employee">
               <PropertyRef Name="empNo" />
@@ -594,8 +594,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__TrainingT__train__51300E55">
-          <End Role="TrainingCourses" Type="comp4900t4waveturtleModel.Store.TrainingCourses" Multiplicity="1" />
-          <End Role="TrainingTaken" Type="comp4900t4waveturtleModel.Store.TrainingTaken" Multiplicity="*" />
+          <End Role="TrainingCourses" Type="BCCAModel.Store.TrainingCourses" Multiplicity="1" />
+          <End Role="TrainingTaken" Type="BCCAModel.Store.TrainingTaken" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TrainingCourses">
               <PropertyRef Name="trainingNo" />
@@ -606,8 +606,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Users__roleNo__7849DB76">
-          <End Role="Role" Type="comp4900t4waveturtleModel.Store.Role" Multiplicity="1" />
-          <End Role="Users" Type="comp4900t4waveturtleModel.Store.Users" Multiplicity="*" />
+          <End Role="Role" Type="BCCAModel.Store.Role" Multiplicity="1" />
+          <End Role="Users" Type="BCCAModel.Store.Users" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
               <PropertyRef Name="roleNo" />
@@ -631,76 +631,76 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="comp4900t4waveturtleModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+      <Schema Namespace="BCCAModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="BCCAEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Departments" EntityType="comp4900t4waveturtleModel.Department" />
-          <EntitySet Name="Employees" EntityType="comp4900t4waveturtleModel.Employee" />
-          <EntitySet Name="FollowUps" EntityType="comp4900t4waveturtleModel.FollowUp" />
-          <EntitySet Name="Incidents" EntityType="comp4900t4waveturtleModel.Incident" />
-          <EntitySet Name="LabInspections" EntityType="comp4900t4waveturtleModel.LabInspection" />
-          <EntitySet Name="LabInspectionDetails" EntityType="comp4900t4waveturtleModel.LabInspectionDetail" />
-          <EntitySet Name="LabInspectionItems" EntityType="comp4900t4waveturtleModel.LabInspectionItem" />
-          <EntitySet Name="OfficeInspections" EntityType="comp4900t4waveturtleModel.OfficeInspection" />
-          <EntitySet Name="OfficeInspectionItems" EntityType="comp4900t4waveturtleModel.OfficeInspectionItem" />
-          <EntitySet Name="Roles" EntityType="comp4900t4waveturtleModel.Role" />
-          <EntitySet Name="Rooms" EntityType="comp4900t4waveturtleModel.Room" />
-          <EntitySet Name="Severities" EntityType="comp4900t4waveturtleModel.Severity" />
-          <EntitySet Name="TrainingCourses" EntityType="comp4900t4waveturtleModel.TrainingCours" />
-          <EntitySet Name="TrainingTakens" EntityType="comp4900t4waveturtleModel.TrainingTaken" />
-          <EntitySet Name="Users" EntityType="comp4900t4waveturtleModel.User" />
-          <AssociationSet Name="FK__Employee__deptNo__489AC854" Association="comp4900t4waveturtleModel.FK__Employee__deptNo__489AC854">
+          <EntitySet Name="Departments" EntityType="BCCAModel.Department" />
+          <EntitySet Name="Employees" EntityType="BCCAModel.Employee" />
+          <EntitySet Name="FollowUps" EntityType="BCCAModel.FollowUp" />
+          <EntitySet Name="Incidents" EntityType="BCCAModel.Incident" />
+          <EntitySet Name="LabInspections" EntityType="BCCAModel.LabInspection" />
+          <EntitySet Name="LabInspectionDetails" EntityType="BCCAModel.LabInspectionDetail" />
+          <EntitySet Name="LabInspectionItems" EntityType="BCCAModel.LabInspectionItem" />
+          <EntitySet Name="OfficeInspections" EntityType="BCCAModel.OfficeInspection" />
+          <EntitySet Name="OfficeInspectionItems" EntityType="BCCAModel.OfficeInspectionItem" />
+          <EntitySet Name="Roles" EntityType="BCCAModel.Role" />
+          <EntitySet Name="Rooms" EntityType="BCCAModel.Room" />
+          <EntitySet Name="Severities" EntityType="BCCAModel.Severity" />
+          <EntitySet Name="TrainingCourses" EntityType="BCCAModel.TrainingCours" />
+          <EntitySet Name="TrainingTakens" EntityType="BCCAModel.TrainingTaken" />
+          <EntitySet Name="Users" EntityType="BCCAModel.User" />
+          <AssociationSet Name="FK__Employee__deptNo__489AC854" Association="BCCAModel.FK__Employee__deptNo__489AC854">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
-          <AssociationSet Name="FK__LabInspec__deptN__59C55456" Association="comp4900t4waveturtleModel.FK__LabInspec__deptN__59C55456">
+          <AssociationSet Name="FK__LabInspec__deptN__59C55456" Association="BCCAModel.FK__LabInspec__deptN__59C55456">
             <End Role="Department" EntitySet="Departments" />
             <End Role="LabInspection" EntitySet="LabInspections" />
           </AssociationSet>
-          <AssociationSet Name="FK__OfficeIns__deptN__6FB49575" Association="comp4900t4waveturtleModel.FK__OfficeIns__deptN__6FB49575">
+          <AssociationSet Name="FK__OfficeIns__deptN__6FB49575" Association="BCCAModel.FK__OfficeIns__deptN__6FB49575">
             <End Role="Department" EntitySet="Departments" />
             <End Role="OfficeInspection" EntitySet="OfficeInspections" />
           </AssociationSet>
-          <AssociationSet Name="FK__Employee__roleNo__4A8310C6" Association="comp4900t4waveturtleModel.FK__Employee__roleNo__4A8310C6">
+          <AssociationSet Name="FK__Employee__roleNo__4A8310C6" Association="BCCAModel.FK__Employee__roleNo__4A8310C6">
             <End Role="Role" EntitySet="Roles" />
             <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
-          <AssociationSet Name="FK__Employee__roomNo__498EEC8D" Association="comp4900t4waveturtleModel.FK__Employee__roomNo__498EEC8D">
+          <AssociationSet Name="FK__Employee__roomNo__498EEC8D" Association="BCCAModel.FK__Employee__roomNo__498EEC8D">
             <End Role="Room" EntitySet="Rooms" />
             <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
-          <AssociationSet Name="FK__Incident__empNo__04AFB25B" Association="comp4900t4waveturtleModel.FK__Incident__empNo__04AFB25B">
+          <AssociationSet Name="FK__Incident__empNo__04AFB25B" Association="BCCAModel.FK__Incident__empNo__04AFB25B">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="Incident" EntitySet="Incidents" />
           </AssociationSet>
-          <AssociationSet Name="FK__TrainingT__empNo__503BEA1C" Association="comp4900t4waveturtleModel.FK__TrainingT__empNo__503BEA1C">
+          <AssociationSet Name="FK__TrainingT__empNo__503BEA1C" Association="BCCAModel.FK__TrainingT__empNo__503BEA1C">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="TrainingTaken" EntitySet="TrainingTakens" />
           </AssociationSet>
-          <AssociationSet Name="FK__FollowUp__labIns__5F7E2DAC" Association="comp4900t4waveturtleModel.FK__FollowUp__labIns__5F7E2DAC">
+          <AssociationSet Name="FK__FollowUp__labIns__5F7E2DAC" Association="BCCAModel.FK__FollowUp__labIns__5F7E2DAC">
             <End Role="LabInspection" EntitySet="LabInspections" />
             <End Role="FollowUp" EntitySet="FollowUps" />
           </AssociationSet>
-          <AssociationSet Name="FK__FollowUp__labIns__607251E5" Association="comp4900t4waveturtleModel.FK__FollowUp__labIns__607251E5">
+          <AssociationSet Name="FK__FollowUp__labIns__607251E5" Association="BCCAModel.FK__FollowUp__labIns__607251E5">
             <End Role="LabInspectionItem" EntitySet="LabInspectionItems" />
             <End Role="FollowUp" EntitySet="FollowUps" />
           </AssociationSet>
-          <AssociationSet Name="FK__LabInspec__labIn__625A9A57" Association="comp4900t4waveturtleModel.FK__LabInspec__labIn__625A9A57">
+          <AssociationSet Name="FK__LabInspec__labIn__625A9A57" Association="BCCAModel.FK__LabInspec__labIn__625A9A57">
             <End Role="LabInspection" EntitySet="LabInspections" />
             <End Role="LabInspectionDetails" EntitySet="LabInspectionDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__LabInspec__roomN__5AB9788F" Association="comp4900t4waveturtleModel.FK__LabInspec__roomN__5AB9788F">
+          <AssociationSet Name="FK__LabInspec__roomN__5AB9788F" Association="BCCAModel.FK__LabInspec__roomN__5AB9788F">
             <End Role="Room" EntitySet="Rooms" />
             <End Role="LabInspection" EntitySet="LabInspections" />
           </AssociationSet>
-          <AssociationSet Name="FK__LabInspec__labIt__634EBE90" Association="comp4900t4waveturtleModel.FK__LabInspec__labIt__634EBE90">
+          <AssociationSet Name="FK__LabInspec__labIt__634EBE90" Association="BCCAModel.FK__LabInspec__labIt__634EBE90">
             <End Role="LabInspectionItem" EntitySet="LabInspectionItems" />
             <End Role="LabInspectionDetails" EntitySet="LabInspectionDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Users__roleNo__7849DB76" Association="comp4900t4waveturtleModel.FK__Users__roleNo__7849DB76">
+          <AssociationSet Name="FK__Users__roleNo__7849DB76" Association="BCCAModel.FK__Users__roleNo__7849DB76">
             <End Role="Role" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
-          <AssociationSet Name="FK__TrainingT__train__51300E55" Association="comp4900t4waveturtleModel.FK__TrainingT__train__51300E55">
+          <AssociationSet Name="FK__TrainingT__train__51300E55" Association="BCCAModel.FK__TrainingT__train__51300E55">
             <End Role="TrainingCourses" EntitySet="TrainingCourses" />
             <End Role="TrainingTaken" EntitySet="TrainingTakens" />
           </AssociationSet>
@@ -711,9 +711,9 @@
           </Key>
           <Property Name="deptNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="deptName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="Employees" Relationship="comp4900t4waveturtleModel.FK__Employee__deptNo__489AC854" FromRole="Department" ToRole="Employee" />
-          <NavigationProperty Name="LabInspections" Relationship="comp4900t4waveturtleModel.FK__LabInspec__deptN__59C55456" FromRole="Department" ToRole="LabInspection" />
-          <NavigationProperty Name="OfficeInspections" Relationship="comp4900t4waveturtleModel.FK__OfficeIns__deptN__6FB49575" FromRole="Department" ToRole="OfficeInspection" />
+          <NavigationProperty Name="Employees" Relationship="BCCAModel.FK__Employee__deptNo__489AC854" FromRole="Department" ToRole="Employee" />
+          <NavigationProperty Name="LabInspections" Relationship="BCCAModel.FK__LabInspec__deptN__59C55456" FromRole="Department" ToRole="LabInspection" />
+          <NavigationProperty Name="OfficeInspections" Relationship="BCCAModel.FK__OfficeIns__deptN__6FB49575" FromRole="Department" ToRole="OfficeInspection" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -730,11 +730,11 @@
           <Property Name="startDate" Type="DateTime" Nullable="false" />
           <Property Name="endDate" Type="DateTime" />
           <Property Name="active" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <NavigationProperty Name="Department" Relationship="comp4900t4waveturtleModel.FK__Employee__deptNo__489AC854" FromRole="Employee" ToRole="Department" />
-          <NavigationProperty Name="Role" Relationship="comp4900t4waveturtleModel.FK__Employee__roleNo__4A8310C6" FromRole="Employee" ToRole="Role" />
-          <NavigationProperty Name="Room" Relationship="comp4900t4waveturtleModel.FK__Employee__roomNo__498EEC8D" FromRole="Employee" ToRole="Room" />
-          <NavigationProperty Name="Incidents" Relationship="comp4900t4waveturtleModel.FK__Incident__empNo__04AFB25B" FromRole="Employee" ToRole="Incident" />
-          <NavigationProperty Name="TrainingTakens" Relationship="comp4900t4waveturtleModel.FK__TrainingT__empNo__503BEA1C" FromRole="Employee" ToRole="TrainingTaken" />
+          <NavigationProperty Name="Department" Relationship="BCCAModel.FK__Employee__deptNo__489AC854" FromRole="Employee" ToRole="Department" />
+          <NavigationProperty Name="Role" Relationship="BCCAModel.FK__Employee__roleNo__4A8310C6" FromRole="Employee" ToRole="Role" />
+          <NavigationProperty Name="Room" Relationship="BCCAModel.FK__Employee__roomNo__498EEC8D" FromRole="Employee" ToRole="Room" />
+          <NavigationProperty Name="Incidents" Relationship="BCCAModel.FK__Incident__empNo__04AFB25B" FromRole="Employee" ToRole="Incident" />
+          <NavigationProperty Name="TrainingTakens" Relationship="BCCAModel.FK__TrainingT__empNo__503BEA1C" FromRole="Employee" ToRole="TrainingTaken" />
         </EntityType>
         <EntityType Name="FollowUp">
           <Key>
@@ -744,8 +744,8 @@
           <Property Name="labInsNo" Type="Int32" Nullable="false" />
           <Property Name="labInsItemNo" Type="Int32" />
           <Property Name="actionTaken" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="LabInspection" Relationship="comp4900t4waveturtleModel.FK__FollowUp__labIns__5F7E2DAC" FromRole="FollowUp" ToRole="LabInspection" />
-          <NavigationProperty Name="LabInspectionItem" Relationship="comp4900t4waveturtleModel.FK__FollowUp__labIns__607251E5" FromRole="FollowUp" ToRole="LabInspectionItem" />
+          <NavigationProperty Name="LabInspection" Relationship="BCCAModel.FK__FollowUp__labIns__5F7E2DAC" FromRole="FollowUp" ToRole="LabInspection" />
+          <NavigationProperty Name="LabInspectionItem" Relationship="BCCAModel.FK__FollowUp__labIns__607251E5" FromRole="FollowUp" ToRole="LabInspectionItem" />
         </EntityType>
         <EntityType Name="Incident">
           <Key>
@@ -943,7 +943,7 @@
           <Property Name="p2_manager_week2_thu" Type="Decimal" Precision="2" Scale="0" />
           <Property Name="p2_manager_week2_fri" Type="Decimal" Precision="2" Scale="0" />
           <Property Name="p2_manager_week2_sat" Type="Decimal" Precision="2" Scale="0" />
-          <NavigationProperty Name="Employee" Relationship="comp4900t4waveturtleModel.FK__Incident__empNo__04AFB25B" FromRole="Incident" ToRole="Employee" />
+          <NavigationProperty Name="Employee" Relationship="BCCAModel.FK__Incident__empNo__04AFB25B" FromRole="Incident" ToRole="Employee" />
         </EntityType>
         <EntityType Name="LabInspection">
           <Key>
@@ -956,10 +956,10 @@
           <Property Name="followupDate" Type="DateTime" />
           <Property Name="inspector" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="labMgr" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="Department" Relationship="comp4900t4waveturtleModel.FK__LabInspec__deptN__59C55456" FromRole="LabInspection" ToRole="Department" />
-          <NavigationProperty Name="FollowUps" Relationship="comp4900t4waveturtleModel.FK__FollowUp__labIns__5F7E2DAC" FromRole="LabInspection" ToRole="FollowUp" />
-          <NavigationProperty Name="LabInspectionDetail" Relationship="comp4900t4waveturtleModel.FK__LabInspec__labIn__625A9A57" FromRole="LabInspection" ToRole="LabInspectionDetails" />
-          <NavigationProperty Name="Room" Relationship="comp4900t4waveturtleModel.FK__LabInspec__roomN__5AB9788F" FromRole="LabInspection" ToRole="Room" />
+          <NavigationProperty Name="Department" Relationship="BCCAModel.FK__LabInspec__deptN__59C55456" FromRole="LabInspection" ToRole="Department" />
+          <NavigationProperty Name="FollowUps" Relationship="BCCAModel.FK__FollowUp__labIns__5F7E2DAC" FromRole="LabInspection" ToRole="FollowUp" />
+          <NavigationProperty Name="LabInspectionDetail" Relationship="BCCAModel.FK__LabInspec__labIn__625A9A57" FromRole="LabInspection" ToRole="LabInspectionDetails" />
+          <NavigationProperty Name="Room" Relationship="BCCAModel.FK__LabInspec__roomN__5AB9788F" FromRole="LabInspection" ToRole="Room" />
         </EntityType>
         <EntityType Name="LabInspectionDetail">
           <Key>
@@ -969,8 +969,8 @@
           <Property Name="labItemNo" Type="Int32" />
           <Property Name="comments" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="checked" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <NavigationProperty Name="LabInspection" Relationship="comp4900t4waveturtleModel.FK__LabInspec__labIn__625A9A57" FromRole="LabInspectionDetails" ToRole="LabInspection" />
-          <NavigationProperty Name="LabInspectionItem" Relationship="comp4900t4waveturtleModel.FK__LabInspec__labIt__634EBE90" FromRole="LabInspectionDetails" ToRole="LabInspectionItem" />
+          <NavigationProperty Name="LabInspection" Relationship="BCCAModel.FK__LabInspec__labIn__625A9A57" FromRole="LabInspectionDetails" ToRole="LabInspection" />
+          <NavigationProperty Name="LabInspectionItem" Relationship="BCCAModel.FK__LabInspec__labIt__634EBE90" FromRole="LabInspectionDetails" ToRole="LabInspectionItem" />
         </EntityType>
         <EntityType Name="LabInspectionItem">
           <Key>
@@ -978,8 +978,8 @@
           </Key>
           <Property Name="labInsItemNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="labInsItem" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="FollowUps" Relationship="comp4900t4waveturtleModel.FK__FollowUp__labIns__607251E5" FromRole="LabInspectionItem" ToRole="FollowUp" />
-          <NavigationProperty Name="LabInspectionDetails" Relationship="comp4900t4waveturtleModel.FK__LabInspec__labIt__634EBE90" FromRole="LabInspectionItem" ToRole="LabInspectionDetails" />
+          <NavigationProperty Name="FollowUps" Relationship="BCCAModel.FK__FollowUp__labIns__607251E5" FromRole="LabInspectionItem" ToRole="FollowUp" />
+          <NavigationProperty Name="LabInspectionDetails" Relationship="BCCAModel.FK__LabInspec__labIt__634EBE90" FromRole="LabInspectionItem" ToRole="LabInspectionDetails" />
         </EntityType>
         <EntityType Name="OfficeInspection">
           <Key>
@@ -990,7 +990,7 @@
           <Property Name="inspector" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
           <Property Name="area" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
           <Property Name="deptNo" Type="Int32" />
-          <NavigationProperty Name="Department" Relationship="comp4900t4waveturtleModel.FK__OfficeIns__deptN__6FB49575" FromRole="OfficeInspection" ToRole="Department" />
+          <NavigationProperty Name="Department" Relationship="BCCAModel.FK__OfficeIns__deptN__6FB49575" FromRole="OfficeInspection" ToRole="Department" />
         </EntityType>
         <EntityType Name="OfficeInspectionItem">
           <Key>
@@ -1007,8 +1007,8 @@
           <Property Name="role1" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
           <Property Name="readAccess" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="writeAccess" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <NavigationProperty Name="Employees" Relationship="comp4900t4waveturtleModel.FK__Employee__roleNo__4A8310C6" FromRole="Role" ToRole="Employee" />
-          <NavigationProperty Name="Users" Relationship="comp4900t4waveturtleModel.FK__Users__roleNo__7849DB76" FromRole="Role" ToRole="Users" />
+          <NavigationProperty Name="Employees" Relationship="BCCAModel.FK__Employee__roleNo__4A8310C6" FromRole="Role" ToRole="Employee" />
+          <NavigationProperty Name="Users" Relationship="BCCAModel.FK__Users__roleNo__7849DB76" FromRole="Role" ToRole="Users" />
         </EntityType>
         <EntityType Name="Room">
           <Key>
@@ -1016,8 +1016,8 @@
           </Key>
           <Property Name="roomNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="room1" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="Employees" Relationship="comp4900t4waveturtleModel.FK__Employee__roomNo__498EEC8D" FromRole="Room" ToRole="Employee" />
-          <NavigationProperty Name="LabInspections" Relationship="comp4900t4waveturtleModel.FK__LabInspec__roomN__5AB9788F" FromRole="Room" ToRole="LabInspection" />
+          <NavigationProperty Name="Employees" Relationship="BCCAModel.FK__Employee__roomNo__498EEC8D" FromRole="Room" ToRole="Employee" />
+          <NavigationProperty Name="LabInspections" Relationship="BCCAModel.FK__LabInspec__roomN__5AB9788F" FromRole="Room" ToRole="LabInspection" />
         </EntityType>
         <EntityType Name="Severity">
           <Key>
@@ -1033,7 +1033,7 @@
           <Property Name="trainingNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="monthsValid" Type="Decimal" Precision="3" Scale="0" />
           <Property Name="trainingName" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="TrainingTakens" Relationship="comp4900t4waveturtleModel.FK__TrainingT__train__51300E55" FromRole="TrainingCourses" ToRole="TrainingTaken" />
+          <NavigationProperty Name="TrainingTakens" Relationship="BCCAModel.FK__TrainingT__train__51300E55" FromRole="TrainingCourses" ToRole="TrainingTaken" />
         </EntityType>
         <EntityType Name="TrainingTaken">
           <Key>
@@ -1058,8 +1058,8 @@
           <Property Name="radiation_dosimeterSubmitted" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="radiation_dosimeterIssued" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="radiation_ringIssued" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <NavigationProperty Name="Employee" Relationship="comp4900t4waveturtleModel.FK__TrainingT__empNo__503BEA1C" FromRole="TrainingTaken" ToRole="Employee" />
-          <NavigationProperty Name="TrainingCours" Relationship="comp4900t4waveturtleModel.FK__TrainingT__train__51300E55" FromRole="TrainingTaken" ToRole="TrainingCourses" />
+          <NavigationProperty Name="Employee" Relationship="BCCAModel.FK__TrainingT__empNo__503BEA1C" FromRole="TrainingTaken" ToRole="Employee" />
+          <NavigationProperty Name="TrainingCours" Relationship="BCCAModel.FK__TrainingT__train__51300E55" FromRole="TrainingTaken" ToRole="TrainingCourses" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -1069,11 +1069,11 @@
           <Property Name="roleNo" Type="Int32" Nullable="false" />
           <Property Name="userName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="password" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="Role" Relationship="comp4900t4waveturtleModel.FK__Users__roleNo__7849DB76" FromRole="Users" ToRole="Role" />
+          <NavigationProperty Name="Role" Relationship="BCCAModel.FK__Users__roleNo__7849DB76" FromRole="Users" ToRole="Role" />
         </EntityType>
         <Association Name="FK__Employee__deptNo__489AC854">
-          <End Role="Department" Type="comp4900t4waveturtleModel.Department" Multiplicity="0..1" />
-          <End Role="Employee" Type="comp4900t4waveturtleModel.Employee" Multiplicity="*" />
+          <End Role="Department" Type="BCCAModel.Department" Multiplicity="0..1" />
+          <End Role="Employee" Type="BCCAModel.Employee" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Department">
               <PropertyRef Name="deptNo" />
@@ -1084,8 +1084,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__LabInspec__deptN__59C55456">
-          <End Role="Department" Type="comp4900t4waveturtleModel.Department" Multiplicity="0..1" />
-          <End Role="LabInspection" Type="comp4900t4waveturtleModel.LabInspection" Multiplicity="*" />
+          <End Role="Department" Type="BCCAModel.Department" Multiplicity="0..1" />
+          <End Role="LabInspection" Type="BCCAModel.LabInspection" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Department">
               <PropertyRef Name="deptNo" />
@@ -1096,8 +1096,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__OfficeIns__deptN__6FB49575">
-          <End Role="Department" Type="comp4900t4waveturtleModel.Department" Multiplicity="0..1" />
-          <End Role="OfficeInspection" Type="comp4900t4waveturtleModel.OfficeInspection" Multiplicity="*" />
+          <End Role="Department" Type="BCCAModel.Department" Multiplicity="0..1" />
+          <End Role="OfficeInspection" Type="BCCAModel.OfficeInspection" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Department">
               <PropertyRef Name="deptNo" />
@@ -1108,8 +1108,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Employee__roleNo__4A8310C6">
-          <End Role="Role" Type="comp4900t4waveturtleModel.Role" Multiplicity="1" />
-          <End Role="Employee" Type="comp4900t4waveturtleModel.Employee" Multiplicity="*" />
+          <End Role="Role" Type="BCCAModel.Role" Multiplicity="1" />
+          <End Role="Employee" Type="BCCAModel.Employee" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
               <PropertyRef Name="roleNo" />
@@ -1120,8 +1120,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Employee__roomNo__498EEC8D">
-          <End Role="Room" Type="comp4900t4waveturtleModel.Room" Multiplicity="0..1" />
-          <End Role="Employee" Type="comp4900t4waveturtleModel.Employee" Multiplicity="*" />
+          <End Role="Room" Type="BCCAModel.Room" Multiplicity="0..1" />
+          <End Role="Employee" Type="BCCAModel.Employee" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Room">
               <PropertyRef Name="roomNo" />
@@ -1132,8 +1132,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Incident__empNo__04AFB25B">
-          <End Role="Employee" Type="comp4900t4waveturtleModel.Employee" Multiplicity="1" />
-          <End Role="Incident" Type="comp4900t4waveturtleModel.Incident" Multiplicity="*" />
+          <End Role="Employee" Type="BCCAModel.Employee" Multiplicity="1" />
+          <End Role="Incident" Type="BCCAModel.Incident" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Employee">
               <PropertyRef Name="empNo" />
@@ -1144,8 +1144,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__TrainingT__empNo__503BEA1C">
-          <End Role="Employee" Type="comp4900t4waveturtleModel.Employee" Multiplicity="1" />
-          <End Role="TrainingTaken" Type="comp4900t4waveturtleModel.TrainingTaken" Multiplicity="*" />
+          <End Role="Employee" Type="BCCAModel.Employee" Multiplicity="1" />
+          <End Role="TrainingTaken" Type="BCCAModel.TrainingTaken" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Employee">
               <PropertyRef Name="empNo" />
@@ -1156,8 +1156,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__FollowUp__labIns__5F7E2DAC">
-          <End Role="LabInspection" Type="comp4900t4waveturtleModel.LabInspection" Multiplicity="1" />
-          <End Role="FollowUp" Type="comp4900t4waveturtleModel.FollowUp" Multiplicity="*" />
+          <End Role="LabInspection" Type="BCCAModel.LabInspection" Multiplicity="1" />
+          <End Role="FollowUp" Type="BCCAModel.FollowUp" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="LabInspection">
               <PropertyRef Name="labInsNo" />
@@ -1168,8 +1168,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__FollowUp__labIns__607251E5">
-          <End Role="LabInspectionItem" Type="comp4900t4waveturtleModel.LabInspectionItem" Multiplicity="0..1" />
-          <End Role="FollowUp" Type="comp4900t4waveturtleModel.FollowUp" Multiplicity="*" />
+          <End Role="LabInspectionItem" Type="BCCAModel.LabInspectionItem" Multiplicity="0..1" />
+          <End Role="FollowUp" Type="BCCAModel.FollowUp" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="LabInspectionItem">
               <PropertyRef Name="labInsItemNo" />
@@ -1180,8 +1180,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__LabInspec__labIn__625A9A57">
-          <End Role="LabInspection" Type="comp4900t4waveturtleModel.LabInspection" Multiplicity="1" />
-          <End Role="LabInspectionDetails" Type="comp4900t4waveturtleModel.LabInspectionDetail" Multiplicity="0..1" />
+          <End Role="LabInspection" Type="BCCAModel.LabInspection" Multiplicity="1" />
+          <End Role="LabInspectionDetails" Type="BCCAModel.LabInspectionDetail" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="LabInspection">
               <PropertyRef Name="labInsNo" />
@@ -1192,8 +1192,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__LabInspec__roomN__5AB9788F">
-          <End Role="Room" Type="comp4900t4waveturtleModel.Room" Multiplicity="1" />
-          <End Role="LabInspection" Type="comp4900t4waveturtleModel.LabInspection" Multiplicity="*" />
+          <End Role="Room" Type="BCCAModel.Room" Multiplicity="1" />
+          <End Role="LabInspection" Type="BCCAModel.LabInspection" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Room">
               <PropertyRef Name="roomNo" />
@@ -1204,8 +1204,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__LabInspec__labIt__634EBE90">
-          <End Role="LabInspectionItem" Type="comp4900t4waveturtleModel.LabInspectionItem" Multiplicity="0..1" />
-          <End Role="LabInspectionDetails" Type="comp4900t4waveturtleModel.LabInspectionDetail" Multiplicity="*" />
+          <End Role="LabInspectionItem" Type="BCCAModel.LabInspectionItem" Multiplicity="0..1" />
+          <End Role="LabInspectionDetails" Type="BCCAModel.LabInspectionDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="LabInspectionItem">
               <PropertyRef Name="labInsItemNo" />
@@ -1216,8 +1216,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Users__roleNo__7849DB76">
-          <End Role="Role" Type="comp4900t4waveturtleModel.Role" Multiplicity="1" />
-          <End Role="Users" Type="comp4900t4waveturtleModel.User" Multiplicity="*" />
+          <End Role="Role" Type="BCCAModel.Role" Multiplicity="1" />
+          <End Role="Users" Type="BCCAModel.User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
               <PropertyRef Name="roleNo" />
@@ -1228,8 +1228,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__TrainingT__train__51300E55">
-          <End Role="TrainingCourses" Type="comp4900t4waveturtleModel.TrainingCours" Multiplicity="1" />
-          <End Role="TrainingTaken" Type="comp4900t4waveturtleModel.TrainingTaken" Multiplicity="*" />
+          <End Role="TrainingCourses" Type="BCCAModel.TrainingCours" Multiplicity="1" />
+          <End Role="TrainingTaken" Type="BCCAModel.TrainingTaken" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TrainingCourses">
               <PropertyRef Name="trainingNo" />
@@ -1244,12 +1244,12 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="comp4900t4waveturtleModelStoreContainer" CdmEntityContainer="BCCAEntities">
-          <EntitySetMapping Name="Departments"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.Department"><MappingFragment StoreEntitySet="Department">
+        <EntityContainerMapping StorageEntityContainer="BCCAModelStoreContainer" CdmEntityContainer="BCCAEntities">
+          <EntitySetMapping Name="Departments"><EntityTypeMapping TypeName="BCCAModel.Department"><MappingFragment StoreEntitySet="Department">
             <ScalarProperty Name="deptNo" ColumnName="deptNo" />
             <ScalarProperty Name="deptName" ColumnName="deptName" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="Employees"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.Employee"><MappingFragment StoreEntitySet="Employee">
+          <EntitySetMapping Name="Employees"><EntityTypeMapping TypeName="BCCAModel.Employee"><MappingFragment StoreEntitySet="Employee">
             <ScalarProperty Name="empNo" ColumnName="empNo" />
             <ScalarProperty Name="lname" ColumnName="lname" />
             <ScalarProperty Name="fname" ColumnName="fname" />
@@ -1262,13 +1262,13 @@
             <ScalarProperty Name="endDate" ColumnName="endDate" />
             <ScalarProperty Name="active" ColumnName="active" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="FollowUps"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.FollowUp"><MappingFragment StoreEntitySet="FollowUp">
+          <EntitySetMapping Name="FollowUps"><EntityTypeMapping TypeName="BCCAModel.FollowUp"><MappingFragment StoreEntitySet="FollowUp">
             <ScalarProperty Name="followUpNo" ColumnName="followUpNo" />
             <ScalarProperty Name="labInsNo" ColumnName="labInsNo" />
             <ScalarProperty Name="labInsItemNo" ColumnName="labInsItemNo" />
             <ScalarProperty Name="actionTaken" ColumnName="actionTaken" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="Incidents"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.Incident"><MappingFragment StoreEntitySet="Incident">
+          <EntitySetMapping Name="Incidents"><EntityTypeMapping TypeName="BCCAModel.Incident"><MappingFragment StoreEntitySet="Incident">
             <ScalarProperty Name="incidentNo" ColumnName="incidentNo" />
             <ScalarProperty Name="empNo" ColumnName="empNo" />
             <ScalarProperty Name="p1_dateOfIncident" ColumnName="p1_dateOfIncident" />
@@ -1462,7 +1462,7 @@
             <ScalarProperty Name="p2_manager_week2_fri" ColumnName="p2_manager_week2_fri" />
             <ScalarProperty Name="p2_manager_week2_sat" ColumnName="p2_manager_week2_sat" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="LabInspections"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.LabInspection"><MappingFragment StoreEntitySet="LabInspection">
+          <EntitySetMapping Name="LabInspections"><EntityTypeMapping TypeName="BCCAModel.LabInspection"><MappingFragment StoreEntitySet="LabInspection">
             <ScalarProperty Name="labInsNo" ColumnName="labInsNo" />
             <ScalarProperty Name="deptNo" ColumnName="deptNo" />
             <ScalarProperty Name="roomNo" ColumnName="roomNo" />
@@ -1471,47 +1471,47 @@
             <ScalarProperty Name="inspector" ColumnName="inspector" />
             <ScalarProperty Name="labMgr" ColumnName="labMgr" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="LabInspectionDetails"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.LabInspectionDetail"><MappingFragment StoreEntitySet="LabInspectionDetails">
+          <EntitySetMapping Name="LabInspectionDetails"><EntityTypeMapping TypeName="BCCAModel.LabInspectionDetail"><MappingFragment StoreEntitySet="LabInspectionDetails">
             <ScalarProperty Name="labInsNo" ColumnName="labInsNo" />
             <ScalarProperty Name="labItemNo" ColumnName="labItemNo" />
             <ScalarProperty Name="comments" ColumnName="comments" />
             <ScalarProperty Name="checked" ColumnName="checked" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="LabInspectionItems"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.LabInspectionItem"><MappingFragment StoreEntitySet="LabInspectionItem">
+          <EntitySetMapping Name="LabInspectionItems"><EntityTypeMapping TypeName="BCCAModel.LabInspectionItem"><MappingFragment StoreEntitySet="LabInspectionItem">
             <ScalarProperty Name="labInsItemNo" ColumnName="labInsItemNo" />
             <ScalarProperty Name="labInsItem" ColumnName="labInsItem" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="OfficeInspections"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.OfficeInspection"><MappingFragment StoreEntitySet="OfficeInspection">
+          <EntitySetMapping Name="OfficeInspections"><EntityTypeMapping TypeName="BCCAModel.OfficeInspection"><MappingFragment StoreEntitySet="OfficeInspection">
             <ScalarProperty Name="officeInsNo" ColumnName="officeInsNo" />
             <ScalarProperty Name="insDate" ColumnName="insDate" />
             <ScalarProperty Name="inspector" ColumnName="inspector" />
             <ScalarProperty Name="area" ColumnName="area" />
             <ScalarProperty Name="deptNo" ColumnName="deptNo" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="OfficeInspectionItems"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.OfficeInspectionItem"><MappingFragment StoreEntitySet="OfficeInspectionItems">
+          <EntitySetMapping Name="OfficeInspectionItems"><EntityTypeMapping TypeName="BCCAModel.OfficeInspectionItem"><MappingFragment StoreEntitySet="OfficeInspectionItems">
             <ScalarProperty Name="officeInsItemNo" ColumnName="officeInsItemNo" />
             <ScalarProperty Name="officeInsName" ColumnName="officeInsName" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="Roles"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.Role"><MappingFragment StoreEntitySet="Role">
+          <EntitySetMapping Name="Roles"><EntityTypeMapping TypeName="BCCAModel.Role"><MappingFragment StoreEntitySet="Role">
             <ScalarProperty Name="roleNo" ColumnName="roleNo" />
             <ScalarProperty Name="role1" ColumnName="role" />
             <ScalarProperty Name="readAccess" ColumnName="readAccess" />
             <ScalarProperty Name="writeAccess" ColumnName="writeAccess" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="Rooms"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.Room"><MappingFragment StoreEntitySet="Room">
+          <EntitySetMapping Name="Rooms"><EntityTypeMapping TypeName="BCCAModel.Room"><MappingFragment StoreEntitySet="Room">
             <ScalarProperty Name="roomNo" ColumnName="roomNo" />
             <ScalarProperty Name="room1" ColumnName="room" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="Severities"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.Severity"><MappingFragment StoreEntitySet="Severity">
+          <EntitySetMapping Name="Severities"><EntityTypeMapping TypeName="BCCAModel.Severity"><MappingFragment StoreEntitySet="Severity">
             <ScalarProperty Name="severityNo" ColumnName="severityNo" />
             <ScalarProperty Name="severityDesc" ColumnName="severityDesc" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="TrainingCourses"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.TrainingCours"><MappingFragment StoreEntitySet="TrainingCourses">
+          <EntitySetMapping Name="TrainingCourses"><EntityTypeMapping TypeName="BCCAModel.TrainingCours"><MappingFragment StoreEntitySet="TrainingCourses">
             <ScalarProperty Name="trainingNo" ColumnName="trainingNo" />
             <ScalarProperty Name="monthsValid" ColumnName="monthsValid" />
             <ScalarProperty Name="trainingName" ColumnName="trainingName" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="TrainingTakens"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.TrainingTaken"><MappingFragment StoreEntitySet="TrainingTaken">
+          <EntitySetMapping Name="TrainingTakens"><EntityTypeMapping TypeName="BCCAModel.TrainingTaken"><MappingFragment StoreEntitySet="TrainingTaken">
             <ScalarProperty Name="empNo" ColumnName="empNo" />
             <ScalarProperty Name="trainingNo" ColumnName="trainingNo" />
             <ScalarProperty Name="startDate" ColumnName="startDate" />
@@ -1530,7 +1530,7 @@
             <ScalarProperty Name="radiation_dosimeterIssued" ColumnName="radiation_dosimeterIssued" />
             <ScalarProperty Name="radiation_ringIssued" ColumnName="radiation_ringIssued" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="Users"><EntityTypeMapping TypeName="comp4900t4waveturtleModel.User"><MappingFragment StoreEntitySet="Users">
+          <EntitySetMapping Name="Users"><EntityTypeMapping TypeName="BCCAModel.User"><MappingFragment StoreEntitySet="Users">
             <ScalarProperty Name="userNo" ColumnName="userNo" />
             <ScalarProperty Name="roleNo" ColumnName="roleNo" />
             <ScalarProperty Name="userName" ColumnName="userName" />
@@ -1557,57 +1557,57 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="BCCAModel">
-        <EntityTypeShape EntityType="comp4900t4waveturtleModel.Department" Width="1.5" PointX="0.75" PointY="28.625" Height="1.9802864583333317" IsExpanded="true" />
-        <EntityTypeShape EntityType="comp4900t4waveturtleModel.Employee" Width="1.5" PointX="3" PointY="27.5" Height="4.0956022135416674" IsExpanded="true" />
-        <EntityTypeShape EntityType="comp4900t4waveturtleModel.FollowUp" Width="1.5" PointX="11.25" PointY="28.5" Height="2.172587890624996" IsExpanded="true" />
-        <EntityTypeShape EntityType="comp4900t4waveturtleModel.Incident" Width="1.5" PointX="5.25" PointY="32" Height="38.132955729166667" IsExpanded="true" />
-        <EntityTypeShape EntityType="comp4900t4waveturtleModel.LabInspection" Width="1.5" PointX="6" PointY="28" Height="3.1340950520833317" IsExpanded="true" />
-        <EntityTypeShape EntityType="comp4900t4waveturtleModel.LabInspectionDetail" Width="1.5" PointX="11.25" PointY="25.5" Height="2.172587890624996" IsExpanded="true" />
-        <EntityTypeShape EntityType="comp4900t4waveturtleModel.LabInspectionItem" Width="1.5" PointX="9" PointY="24.75" Height="1.7879850260416674" IsExpanded="true" />
-        <EntityTypeShape EntityType="comp4900t4waveturtleModel.OfficeInspection" Width="1.5" PointX="3" PointY="71.25" Height="2.1725878906250102" IsExpanded="true" />
-        <EntityTypeShape EntityType="comp4900t4waveturtleModel.OfficeInspectionItem" Width="1.5" PointX="0.75" PointY="0.75" Height="1.4033821614583317" IsExpanded="true" />
-        <EntityTypeShape EntityType="comp4900t4waveturtleModel.Role" Width="1.5" PointX="0.75" PointY="25.25" Height="2.172587890624996" IsExpanded="true" />
-        <EntityTypeShape EntityType="comp4900t4waveturtleModel.Room" Width="1.5" PointX="0.75" PointY="32.125" Height="1.7879850260416674" IsExpanded="true" />
-        <EntityTypeShape EntityType="comp4900t4waveturtleModel.Severity" Width="1.5" PointX="2.75" PointY="0.75" Height="1.4033821614583317" IsExpanded="true" />
-        <EntityTypeShape EntityType="comp4900t4waveturtleModel.TrainingCours" Width="1.5" PointX="6" PointY="24.75" Height="1.7879850260416674" IsExpanded="true" />
-        <EntityTypeShape EntityType="comp4900t4waveturtleModel.TrainingTaken" Width="1.5" PointX="8.25" PointY="27.25" Height="4.6725065104166674" IsExpanded="true" />
-        <EntityTypeShape EntityType="comp4900t4waveturtleModel.User" Width="1.5" PointX="3" PointY="24.375" Height="1.9802864583333388" IsExpanded="true" />
-        <AssociationConnector Association="comp4900t4waveturtleModel.FK__Employee__deptNo__489AC854" ManuallyRouted="false">
+        <EntityTypeShape EntityType="BCCAModel.Department" Width="1.5" PointX="0.75" PointY="28.625" Height="1.9802864583333317" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Employee" Width="1.5" PointX="3" PointY="27.5" Height="4.0956022135416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.FollowUp" Width="1.5" PointX="11.25" PointY="28.5" Height="2.172587890624996" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Incident" Width="1.5" PointX="5.25" PointY="32" Height="38.132955729166667" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.LabInspection" Width="1.5" PointX="6" PointY="28" Height="3.1340950520833317" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.LabInspectionDetail" Width="1.5" PointX="11.25" PointY="25.5" Height="2.172587890624996" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.LabInspectionItem" Width="1.5" PointX="9" PointY="24.75" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.OfficeInspection" Width="1.5" PointX="3" PointY="71.25" Height="2.1725878906250102" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.OfficeInspectionItem" Width="1.5" PointX="0.75" PointY="0.75" Height="1.4033821614583317" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Role" Width="1.5" PointX="0.75" PointY="25.25" Height="2.172587890624996" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Room" Width="1.5" PointX="0.75" PointY="32.125" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Severity" Width="1.5" PointX="2.75" PointY="0.75" Height="1.4033821614583317" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.TrainingCours" Width="1.5" PointX="6" PointY="24.75" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.TrainingTaken" Width="1.5" PointX="8.25" PointY="27.25" Height="4.6725065104166674" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.User" Width="1.5" PointX="3" PointY="24.375" Height="1.9802864583333388" IsExpanded="true" />
+        <AssociationConnector Association="BCCAModel.FK__Employee__deptNo__489AC854" ManuallyRouted="false">
           <ConnectorPoint PointX="2.25" PointY="29.615143229166666" />
           <ConnectorPoint PointX="3" PointY="29.615143229166666" />
         </AssociationConnector>
-        <AssociationConnector Association="comp4900t4waveturtleModel.FK__LabInspec__deptN__59C55456" ManuallyRouted="false">
+        <AssociationConnector Association="BCCAModel.FK__LabInspec__deptN__59C55456" ManuallyRouted="false">
           <ConnectorPoint PointX="2.25" PointY="29.088819614583336" />
           <ConnectorPoint PointX="2.75" PointY="29.088819614583336" />
           <ConnectorPoint PointX="2.75" PointY="27.25" />
           <ConnectorPoint PointX="6.75" PointY="27.25" />
           <ConnectorPoint PointX="6.75" PointY="28" />
         </AssociationConnector>
-        <AssociationConnector Association="comp4900t4waveturtleModel.FK__OfficeIns__deptN__6FB49575" ManuallyRouted="false">
+        <AssociationConnector Association="BCCAModel.FK__OfficeIns__deptN__6FB49575" ManuallyRouted="false">
           <ConnectorPoint PointX="2.2499999999999996" PointY="30.605286458333332" />
           <ConnectorPoint PointX="2.625" PointY="30.980286458333332" />
           <ConnectorPoint PointX="2.625" PointY="72.3362939453125" />
           <ConnectorPoint PointX="3" PointY="72.3362939453125" />
         </AssociationConnector>
-        <AssociationConnector Association="comp4900t4waveturtleModel.FK__Employee__roleNo__4A8310C6" ManuallyRouted="false">
+        <AssociationConnector Association="BCCAModel.FK__Employee__roleNo__4A8310C6" ManuallyRouted="false">
           <ConnectorPoint PointX="2.2499999999999996" PointY="27.422587890624996" />
           <ConnectorPoint PointX="2.625" PointY="27.797587890624996" />
           <ConnectorPoint PointX="2.625" PointY="27.123847153846153" />
           <ConnectorPoint PointX="3.0011528461538459" PointY="27.5" />
         </AssociationConnector>
-        <AssociationConnector Association="comp4900t4waveturtleModel.FK__Employee__roomNo__498EEC8D" ManuallyRouted="false">
+        <AssociationConnector Association="BCCAModel.FK__Employee__roomNo__498EEC8D" ManuallyRouted="false">
           <ConnectorPoint PointX="2.25" PointY="33.018992513020834" />
           <ConnectorPoint PointX="2.5416666666666665" PointY="33.018992513020834" />
           <ConnectorPoint PointX="2.7083333333333335" PointY="33.018992513020834" />
           <ConnectorPoint PointX="3.75" PointY="33.018992513020834" />
           <ConnectorPoint PointX="3.75" PointY="31.595602213541667" />
         </AssociationConnector>
-        <AssociationConnector Association="comp4900t4waveturtleModel.FK__Incident__empNo__04AFB25B" ManuallyRouted="false">
+        <AssociationConnector Association="BCCAModel.FK__Incident__empNo__04AFB25B" ManuallyRouted="false">
           <ConnectorPoint PointX="4.5" PointY="27.71875" />
           <ConnectorPoint PointX="5.59375" PointY="27.71875" />
           <ConnectorPoint PointX="5.59375" PointY="32" />
         </AssociationConnector>
-        <AssociationConnector Association="comp4900t4waveturtleModel.FK__TrainingT__empNo__503BEA1C" ManuallyRouted="false">
+        <AssociationConnector Association="BCCAModel.FK__TrainingT__empNo__503BEA1C" ManuallyRouted="false">
           <ConnectorPoint PointX="4.5" PointY="31.3960986328125" />
           <ConnectorPoint PointX="5.510416666666667" PointY="31.3960986328125" />
           <ConnectorPoint PointX="5.677083333333333" PointY="31.3960986328125" />
@@ -1617,7 +1617,7 @@
           <ConnectorPoint PointX="6.833333333333333" PointY="31.3960986328125" />
           <ConnectorPoint PointX="8.25" PointY="31.3960986328125" />
         </AssociationConnector>
-        <AssociationConnector Association="comp4900t4waveturtleModel.FK__FollowUp__labIns__5F7E2DAC" ManuallyRouted="false">
+        <AssociationConnector Association="BCCAModel.FK__FollowUp__labIns__5F7E2DAC" ManuallyRouted="false">
           <ConnectorPoint PointX="6.75" PointY="31.134095052083332" />
           <ConnectorPoint PointX="6.75" PointY="31.634095052083332" />
           <ConnectorPoint PointX="8" PointY="31.634095052083332" />
@@ -1626,13 +1626,13 @@
           <ConnectorPoint PointX="10.875" PointY="29.586293945312498" />
           <ConnectorPoint PointX="11.25" PointY="29.586293945312498" />
         </AssociationConnector>
-        <AssociationConnector Association="comp4900t4waveturtleModel.FK__FollowUp__labIns__607251E5" ManuallyRouted="false">
+        <AssociationConnector Association="BCCAModel.FK__FollowUp__labIns__607251E5" ManuallyRouted="false">
           <ConnectorPoint PointX="10.5" PointY="26.475676333733976" />
           <ConnectorPoint PointX="10.9375" PointY="26.913176333733976" />
           <ConnectorPoint PointX="10.9375" PointY="29.011894972656251" />
           <ConnectorPoint PointX="11.25" PointY="29.011894972656251" />
         </AssociationConnector>
-        <AssociationConnector Association="comp4900t4waveturtleModel.FK__LabInspec__labIn__625A9A57" ManuallyRouted="false">
+        <AssociationConnector Association="BCCAModel.FK__LabInspec__labIn__625A9A57" ManuallyRouted="false">
           <ConnectorPoint PointX="7.156252" PointY="28" />
           <ConnectorPoint PointX="7.156252" PointY="26.787985026041667" />
           <ConnectorPoint PointX="7.666666666666667" PointY="26.787985026041667" />
@@ -1641,7 +1641,7 @@
           <ConnectorPoint PointX="10.75" PointY="26.586293945312498" />
           <ConnectorPoint PointX="11.25" PointY="26.586293945312498" />
         </AssociationConnector>
-        <AssociationConnector Association="comp4900t4waveturtleModel.FK__LabInspec__roomN__5AB9788F" ManuallyRouted="false">
+        <AssociationConnector Association="BCCAModel.FK__LabInspec__roomN__5AB9788F" ManuallyRouted="false">
           <ConnectorPoint PointX="2.25" PointY="32.540744256510415" />
           <ConnectorPoint PointX="2.5416666666666665" PointY="32.540744256510415" />
           <ConnectorPoint PointX="2.7083333333333335" PointY="32.540744256510415" />
@@ -1654,15 +1654,15 @@
           <ConnectorPoint PointX="6.343748" PointY="31.75" />
           <ConnectorPoint PointX="6.343748" PointY="31.134095052083332" />
         </AssociationConnector>
-        <AssociationConnector Association="comp4900t4waveturtleModel.FK__LabInspec__labIt__634EBE90" ManuallyRouted="false">
+        <AssociationConnector Association="BCCAModel.FK__LabInspec__labIt__634EBE90" ManuallyRouted="false">
           <ConnectorPoint PointX="10.5" PointY="25.956585666866985" />
           <ConnectorPoint PointX="11.25" PointY="25.956585666866985" />
         </AssociationConnector>
-        <AssociationConnector Association="comp4900t4waveturtleModel.FK__Users__roleNo__7849DB76" ManuallyRouted="false">
+        <AssociationConnector Association="BCCAModel.FK__Users__roleNo__7849DB76" ManuallyRouted="false">
           <ConnectorPoint PointX="2.25" PointY="25.802643229166669" />
           <ConnectorPoint PointX="3" PointY="25.802643229166669" />
         </AssociationConnector>
-        <AssociationConnector Association="comp4900t4waveturtleModel.FK__TrainingT__train__51300E55" ManuallyRouted="false">
+        <AssociationConnector Association="BCCAModel.FK__TrainingT__train__51300E55" ManuallyRouted="false">
           <ConnectorPoint PointX="7.5" PointY="26.537985026041667" />
           <ConnectorPoint PointX="7.875" PointY="26.912985026041667" />
           <ConnectorPoint PointX="7.875" PointY="29.291797316406257" />

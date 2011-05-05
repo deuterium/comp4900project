@@ -18,24 +18,24 @@ using System.Runtime.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("comp4900t4waveturtleModel", "FK__Employee__deptNo__489AC854", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(comp4900t4waveturtleModel.Department), "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(comp4900t4waveturtleModel.Employee), true)]
-[assembly: EdmRelationshipAttribute("comp4900t4waveturtleModel", "FK__LabInspec__deptN__59C55456", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(comp4900t4waveturtleModel.Department), "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(comp4900t4waveturtleModel.LabInspection), true)]
-[assembly: EdmRelationshipAttribute("comp4900t4waveturtleModel", "FK__OfficeIns__deptN__6FB49575", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(comp4900t4waveturtleModel.Department), "OfficeInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(comp4900t4waveturtleModel.OfficeInspection), true)]
-[assembly: EdmRelationshipAttribute("comp4900t4waveturtleModel", "FK__Employee__roleNo__4A8310C6", "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(comp4900t4waveturtleModel.Role), "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(comp4900t4waveturtleModel.Employee), true)]
-[assembly: EdmRelationshipAttribute("comp4900t4waveturtleModel", "FK__Employee__roomNo__498EEC8D", "Room", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(comp4900t4waveturtleModel.Room), "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(comp4900t4waveturtleModel.Employee), true)]
-[assembly: EdmRelationshipAttribute("comp4900t4waveturtleModel", "FK__Incident__empNo__04AFB25B", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(comp4900t4waveturtleModel.Employee), "Incident", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(comp4900t4waveturtleModel.Incident), true)]
-[assembly: EdmRelationshipAttribute("comp4900t4waveturtleModel", "FK__TrainingT__empNo__503BEA1C", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(comp4900t4waveturtleModel.Employee), "TrainingTaken", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(comp4900t4waveturtleModel.TrainingTaken), true)]
-[assembly: EdmRelationshipAttribute("comp4900t4waveturtleModel", "FK__FollowUp__labIns__5F7E2DAC", "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(comp4900t4waveturtleModel.LabInspection), "FollowUp", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(comp4900t4waveturtleModel.FollowUp), true)]
-[assembly: EdmRelationshipAttribute("comp4900t4waveturtleModel", "FK__FollowUp__labIns__607251E5", "LabInspectionItem", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(comp4900t4waveturtleModel.LabInspectionItem), "FollowUp", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(comp4900t4waveturtleModel.FollowUp), true)]
-[assembly: EdmRelationshipAttribute("comp4900t4waveturtleModel", "FK__LabInspec__labIn__625A9A57", "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(comp4900t4waveturtleModel.LabInspection), "LabInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(comp4900t4waveturtleModel.LabInspectionDetail), true)]
-[assembly: EdmRelationshipAttribute("comp4900t4waveturtleModel", "FK__LabInspec__roomN__5AB9788F", "Room", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(comp4900t4waveturtleModel.Room), "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(comp4900t4waveturtleModel.LabInspection), true)]
-[assembly: EdmRelationshipAttribute("comp4900t4waveturtleModel", "FK__LabInspec__labIt__634EBE90", "LabInspectionItem", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(comp4900t4waveturtleModel.LabInspectionItem), "LabInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(comp4900t4waveturtleModel.LabInspectionDetail), true)]
-[assembly: EdmRelationshipAttribute("comp4900t4waveturtleModel", "FK__Users__roleNo__7849DB76", "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(comp4900t4waveturtleModel.Role), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(comp4900t4waveturtleModel.User), true)]
-[assembly: EdmRelationshipAttribute("comp4900t4waveturtleModel", "FK__TrainingT__train__51300E55", "TrainingCourses", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(comp4900t4waveturtleModel.TrainingCours), "TrainingTaken", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(comp4900t4waveturtleModel.TrainingTaken), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__Employee__deptNo__489AC854", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Employee), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__LabInspec__deptN__59C55456", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabInspection), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__OfficeIns__deptN__6FB49575", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "OfficeInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.OfficeInspection), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__Employee__roleNo__4A8310C6", "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Role), "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Employee), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__Employee__roomNo__498EEC8D", "Room", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Room), "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Employee), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__Incident__empNo__04AFB25B", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Employee), "Incident", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Incident), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__TrainingT__empNo__503BEA1C", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Employee), "TrainingTaken", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.TrainingTaken), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__FollowUp__labIns__5F7E2DAC", "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.LabInspection), "FollowUp", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.FollowUp), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__FollowUp__labIns__607251E5", "LabInspectionItem", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.LabInspectionItem), "FollowUp", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.FollowUp), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__LabInspec__labIn__625A9A57", "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.LabInspection), "LabInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.LabInspectionDetail), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__LabInspec__roomN__5AB9788F", "Room", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Room), "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabInspection), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__LabInspec__labIt__634EBE90", "LabInspectionItem", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.LabInspectionItem), "LabInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabInspectionDetail), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__Users__roleNo__7849DB76", "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Role), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.User), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__TrainingT__train__51300E55", "TrainingCourses", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.TrainingCours), "TrainingTaken", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.TrainingTaken), true)]
 
 #endregion
 
-namespace comp4900t4waveturtleModel
+namespace BCCAModel
 {
     #region Contexts
     
@@ -457,7 +457,7 @@ namespace comp4900t4waveturtleModel
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="comp4900t4waveturtleModel", Name="Department")]
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="Department")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class Department : EntityObject
@@ -539,18 +539,18 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__Employee__deptNo__489AC854", "Employee")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Employee__deptNo__489AC854", "Employee")]
         public EntityCollection<Employee> Employees
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Employee>("comp4900t4waveturtleModel.FK__Employee__deptNo__489AC854", "Employee");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Employee>("BCCAModel.FK__Employee__deptNo__489AC854", "Employee");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Employee>("comp4900t4waveturtleModel.FK__Employee__deptNo__489AC854", "Employee", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Employee>("BCCAModel.FK__Employee__deptNo__489AC854", "Employee", value);
                 }
             }
         }
@@ -561,18 +561,18 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__LabInspec__deptN__59C55456", "LabInspection")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__LabInspec__deptN__59C55456", "LabInspection")]
         public EntityCollection<LabInspection> LabInspections
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<LabInspection>("comp4900t4waveturtleModel.FK__LabInspec__deptN__59C55456", "LabInspection");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<LabInspection>("BCCAModel.FK__LabInspec__deptN__59C55456", "LabInspection");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<LabInspection>("comp4900t4waveturtleModel.FK__LabInspec__deptN__59C55456", "LabInspection", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<LabInspection>("BCCAModel.FK__LabInspec__deptN__59C55456", "LabInspection", value);
                 }
             }
         }
@@ -583,18 +583,18 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__OfficeIns__deptN__6FB49575", "OfficeInspection")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__OfficeIns__deptN__6FB49575", "OfficeInspection")]
         public EntityCollection<OfficeInspection> OfficeInspections
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<OfficeInspection>("comp4900t4waveturtleModel.FK__OfficeIns__deptN__6FB49575", "OfficeInspection");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<OfficeInspection>("BCCAModel.FK__OfficeIns__deptN__6FB49575", "OfficeInspection");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<OfficeInspection>("comp4900t4waveturtleModel.FK__OfficeIns__deptN__6FB49575", "OfficeInspection", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<OfficeInspection>("BCCAModel.FK__OfficeIns__deptN__6FB49575", "OfficeInspection", value);
                 }
             }
         }
@@ -605,7 +605,7 @@ namespace comp4900t4waveturtleModel
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="comp4900t4waveturtleModel", Name="Employee")]
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="Employee")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class Employee : EntityObject
@@ -911,16 +911,16 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__Employee__deptNo__489AC854", "Department")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Employee__deptNo__489AC854", "Department")]
         public Department Department
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("comp4900t4waveturtleModel.FK__Employee__deptNo__489AC854", "Department").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__Employee__deptNo__489AC854", "Department").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("comp4900t4waveturtleModel.FK__Employee__deptNo__489AC854", "Department").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__Employee__deptNo__489AC854", "Department").Value = value;
             }
         }
         /// <summary>
@@ -932,13 +932,13 @@ namespace comp4900t4waveturtleModel
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("comp4900t4waveturtleModel.FK__Employee__deptNo__489AC854", "Department");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__Employee__deptNo__489AC854", "Department");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Department>("comp4900t4waveturtleModel.FK__Employee__deptNo__489AC854", "Department", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Department>("BCCAModel.FK__Employee__deptNo__489AC854", "Department", value);
                 }
             }
         }
@@ -949,16 +949,16 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__Employee__roleNo__4A8310C6", "Role")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Employee__roleNo__4A8310C6", "Role")]
         public Role Role
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Role>("comp4900t4waveturtleModel.FK__Employee__roleNo__4A8310C6", "Role").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Role>("BCCAModel.FK__Employee__roleNo__4A8310C6", "Role").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Role>("comp4900t4waveturtleModel.FK__Employee__roleNo__4A8310C6", "Role").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Role>("BCCAModel.FK__Employee__roleNo__4A8310C6", "Role").Value = value;
             }
         }
         /// <summary>
@@ -970,13 +970,13 @@ namespace comp4900t4waveturtleModel
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Role>("comp4900t4waveturtleModel.FK__Employee__roleNo__4A8310C6", "Role");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Role>("BCCAModel.FK__Employee__roleNo__4A8310C6", "Role");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Role>("comp4900t4waveturtleModel.FK__Employee__roleNo__4A8310C6", "Role", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Role>("BCCAModel.FK__Employee__roleNo__4A8310C6", "Role", value);
                 }
             }
         }
@@ -987,16 +987,16 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__Employee__roomNo__498EEC8D", "Room")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Employee__roomNo__498EEC8D", "Room")]
         public Room Room
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("comp4900t4waveturtleModel.FK__Employee__roomNo__498EEC8D", "Room").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("BCCAModel.FK__Employee__roomNo__498EEC8D", "Room").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("comp4900t4waveturtleModel.FK__Employee__roomNo__498EEC8D", "Room").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("BCCAModel.FK__Employee__roomNo__498EEC8D", "Room").Value = value;
             }
         }
         /// <summary>
@@ -1008,13 +1008,13 @@ namespace comp4900t4waveturtleModel
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("comp4900t4waveturtleModel.FK__Employee__roomNo__498EEC8D", "Room");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("BCCAModel.FK__Employee__roomNo__498EEC8D", "Room");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Room>("comp4900t4waveturtleModel.FK__Employee__roomNo__498EEC8D", "Room", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Room>("BCCAModel.FK__Employee__roomNo__498EEC8D", "Room", value);
                 }
             }
         }
@@ -1025,18 +1025,18 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__Incident__empNo__04AFB25B", "Incident")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Incident__empNo__04AFB25B", "Incident")]
         public EntityCollection<Incident> Incidents
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Incident>("comp4900t4waveturtleModel.FK__Incident__empNo__04AFB25B", "Incident");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Incident>("BCCAModel.FK__Incident__empNo__04AFB25B", "Incident");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Incident>("comp4900t4waveturtleModel.FK__Incident__empNo__04AFB25B", "Incident", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Incident>("BCCAModel.FK__Incident__empNo__04AFB25B", "Incident", value);
                 }
             }
         }
@@ -1047,18 +1047,18 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__TrainingT__empNo__503BEA1C", "TrainingTaken")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__TrainingT__empNo__503BEA1C", "TrainingTaken")]
         public EntityCollection<TrainingTaken> TrainingTakens
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TrainingTaken>("comp4900t4waveturtleModel.FK__TrainingT__empNo__503BEA1C", "TrainingTaken");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TrainingTaken>("BCCAModel.FK__TrainingT__empNo__503BEA1C", "TrainingTaken");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TrainingTaken>("comp4900t4waveturtleModel.FK__TrainingT__empNo__503BEA1C", "TrainingTaken", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TrainingTaken>("BCCAModel.FK__TrainingT__empNo__503BEA1C", "TrainingTaken", value);
                 }
             }
         }
@@ -1069,7 +1069,7 @@ namespace comp4900t4waveturtleModel
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="comp4900t4waveturtleModel", Name="FollowUp")]
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="FollowUp")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class FollowUp : EntityObject
@@ -1201,16 +1201,16 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__FollowUp__labIns__5F7E2DAC", "LabInspection")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__FollowUp__labIns__5F7E2DAC", "LabInspection")]
         public LabInspection LabInspection
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspection>("comp4900t4waveturtleModel.FK__FollowUp__labIns__5F7E2DAC", "LabInspection").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspection>("BCCAModel.FK__FollowUp__labIns__5F7E2DAC", "LabInspection").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspection>("comp4900t4waveturtleModel.FK__FollowUp__labIns__5F7E2DAC", "LabInspection").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspection>("BCCAModel.FK__FollowUp__labIns__5F7E2DAC", "LabInspection").Value = value;
             }
         }
         /// <summary>
@@ -1222,13 +1222,13 @@ namespace comp4900t4waveturtleModel
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspection>("comp4900t4waveturtleModel.FK__FollowUp__labIns__5F7E2DAC", "LabInspection");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspection>("BCCAModel.FK__FollowUp__labIns__5F7E2DAC", "LabInspection");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<LabInspection>("comp4900t4waveturtleModel.FK__FollowUp__labIns__5F7E2DAC", "LabInspection", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<LabInspection>("BCCAModel.FK__FollowUp__labIns__5F7E2DAC", "LabInspection", value);
                 }
             }
         }
@@ -1239,16 +1239,16 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__FollowUp__labIns__607251E5", "LabInspectionItem")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__FollowUp__labIns__607251E5", "LabInspectionItem")]
         public LabInspectionItem LabInspectionItem
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionItem>("comp4900t4waveturtleModel.FK__FollowUp__labIns__607251E5", "LabInspectionItem").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionItem>("BCCAModel.FK__FollowUp__labIns__607251E5", "LabInspectionItem").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionItem>("comp4900t4waveturtleModel.FK__FollowUp__labIns__607251E5", "LabInspectionItem").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionItem>("BCCAModel.FK__FollowUp__labIns__607251E5", "LabInspectionItem").Value = value;
             }
         }
         /// <summary>
@@ -1260,13 +1260,13 @@ namespace comp4900t4waveturtleModel
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionItem>("comp4900t4waveturtleModel.FK__FollowUp__labIns__607251E5", "LabInspectionItem");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionItem>("BCCAModel.FK__FollowUp__labIns__607251E5", "LabInspectionItem");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<LabInspectionItem>("comp4900t4waveturtleModel.FK__FollowUp__labIns__607251E5", "LabInspectionItem", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<LabInspectionItem>("BCCAModel.FK__FollowUp__labIns__607251E5", "LabInspectionItem", value);
                 }
             }
         }
@@ -1277,7 +1277,7 @@ namespace comp4900t4waveturtleModel
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="comp4900t4waveturtleModel", Name="Incident")]
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="Incident")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class Incident : EntityObject
@@ -5921,16 +5921,16 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__Incident__empNo__04AFB25B", "Employee")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Incident__empNo__04AFB25B", "Employee")]
         public Employee Employee
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("comp4900t4waveturtleModel.FK__Incident__empNo__04AFB25B", "Employee").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("BCCAModel.FK__Incident__empNo__04AFB25B", "Employee").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("comp4900t4waveturtleModel.FK__Incident__empNo__04AFB25B", "Employee").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("BCCAModel.FK__Incident__empNo__04AFB25B", "Employee").Value = value;
             }
         }
         /// <summary>
@@ -5942,13 +5942,13 @@ namespace comp4900t4waveturtleModel
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("comp4900t4waveturtleModel.FK__Incident__empNo__04AFB25B", "Employee");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("BCCAModel.FK__Incident__empNo__04AFB25B", "Employee");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Employee>("comp4900t4waveturtleModel.FK__Incident__empNo__04AFB25B", "Employee", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Employee>("BCCAModel.FK__Incident__empNo__04AFB25B", "Employee", value);
                 }
             }
         }
@@ -5959,7 +5959,7 @@ namespace comp4900t4waveturtleModel
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="comp4900t4waveturtleModel", Name="LabInspection")]
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="LabInspection")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class LabInspection : EntityObject
@@ -6165,16 +6165,16 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__LabInspec__deptN__59C55456", "Department")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__LabInspec__deptN__59C55456", "Department")]
         public Department Department
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("comp4900t4waveturtleModel.FK__LabInspec__deptN__59C55456", "Department").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__LabInspec__deptN__59C55456", "Department").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("comp4900t4waveturtleModel.FK__LabInspec__deptN__59C55456", "Department").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__LabInspec__deptN__59C55456", "Department").Value = value;
             }
         }
         /// <summary>
@@ -6186,13 +6186,13 @@ namespace comp4900t4waveturtleModel
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("comp4900t4waveturtleModel.FK__LabInspec__deptN__59C55456", "Department");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__LabInspec__deptN__59C55456", "Department");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Department>("comp4900t4waveturtleModel.FK__LabInspec__deptN__59C55456", "Department", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Department>("BCCAModel.FK__LabInspec__deptN__59C55456", "Department", value);
                 }
             }
         }
@@ -6203,18 +6203,18 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__FollowUp__labIns__5F7E2DAC", "FollowUp")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__FollowUp__labIns__5F7E2DAC", "FollowUp")]
         public EntityCollection<FollowUp> FollowUps
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<FollowUp>("comp4900t4waveturtleModel.FK__FollowUp__labIns__5F7E2DAC", "FollowUp");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<FollowUp>("BCCAModel.FK__FollowUp__labIns__5F7E2DAC", "FollowUp");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<FollowUp>("comp4900t4waveturtleModel.FK__FollowUp__labIns__5F7E2DAC", "FollowUp", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<FollowUp>("BCCAModel.FK__FollowUp__labIns__5F7E2DAC", "FollowUp", value);
                 }
             }
         }
@@ -6225,16 +6225,16 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__LabInspec__labIn__625A9A57", "LabInspectionDetails")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__LabInspec__labIn__625A9A57", "LabInspectionDetails")]
         public LabInspectionDetail LabInspectionDetail
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionDetail>("comp4900t4waveturtleModel.FK__LabInspec__labIn__625A9A57", "LabInspectionDetails").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionDetail>("BCCAModel.FK__LabInspec__labIn__625A9A57", "LabInspectionDetails").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionDetail>("comp4900t4waveturtleModel.FK__LabInspec__labIn__625A9A57", "LabInspectionDetails").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionDetail>("BCCAModel.FK__LabInspec__labIn__625A9A57", "LabInspectionDetails").Value = value;
             }
         }
         /// <summary>
@@ -6246,13 +6246,13 @@ namespace comp4900t4waveturtleModel
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionDetail>("comp4900t4waveturtleModel.FK__LabInspec__labIn__625A9A57", "LabInspectionDetails");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionDetail>("BCCAModel.FK__LabInspec__labIn__625A9A57", "LabInspectionDetails");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<LabInspectionDetail>("comp4900t4waveturtleModel.FK__LabInspec__labIn__625A9A57", "LabInspectionDetails", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<LabInspectionDetail>("BCCAModel.FK__LabInspec__labIn__625A9A57", "LabInspectionDetails", value);
                 }
             }
         }
@@ -6263,16 +6263,16 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__LabInspec__roomN__5AB9788F", "Room")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__LabInspec__roomN__5AB9788F", "Room")]
         public Room Room
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("comp4900t4waveturtleModel.FK__LabInspec__roomN__5AB9788F", "Room").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("BCCAModel.FK__LabInspec__roomN__5AB9788F", "Room").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("comp4900t4waveturtleModel.FK__LabInspec__roomN__5AB9788F", "Room").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("BCCAModel.FK__LabInspec__roomN__5AB9788F", "Room").Value = value;
             }
         }
         /// <summary>
@@ -6284,13 +6284,13 @@ namespace comp4900t4waveturtleModel
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("comp4900t4waveturtleModel.FK__LabInspec__roomN__5AB9788F", "Room");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("BCCAModel.FK__LabInspec__roomN__5AB9788F", "Room");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Room>("comp4900t4waveturtleModel.FK__LabInspec__roomN__5AB9788F", "Room", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Room>("BCCAModel.FK__LabInspec__roomN__5AB9788F", "Room", value);
                 }
             }
         }
@@ -6301,7 +6301,7 @@ namespace comp4900t4waveturtleModel
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="comp4900t4waveturtleModel", Name="LabInspectionDetail")]
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="LabInspectionDetail")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class LabInspectionDetail : EntityObject
@@ -6431,16 +6431,16 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__LabInspec__labIn__625A9A57", "LabInspection")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__LabInspec__labIn__625A9A57", "LabInspection")]
         public LabInspection LabInspection
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspection>("comp4900t4waveturtleModel.FK__LabInspec__labIn__625A9A57", "LabInspection").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspection>("BCCAModel.FK__LabInspec__labIn__625A9A57", "LabInspection").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspection>("comp4900t4waveturtleModel.FK__LabInspec__labIn__625A9A57", "LabInspection").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspection>("BCCAModel.FK__LabInspec__labIn__625A9A57", "LabInspection").Value = value;
             }
         }
         /// <summary>
@@ -6452,13 +6452,13 @@ namespace comp4900t4waveturtleModel
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspection>("comp4900t4waveturtleModel.FK__LabInspec__labIn__625A9A57", "LabInspection");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspection>("BCCAModel.FK__LabInspec__labIn__625A9A57", "LabInspection");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<LabInspection>("comp4900t4waveturtleModel.FK__LabInspec__labIn__625A9A57", "LabInspection", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<LabInspection>("BCCAModel.FK__LabInspec__labIn__625A9A57", "LabInspection", value);
                 }
             }
         }
@@ -6469,16 +6469,16 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__LabInspec__labIt__634EBE90", "LabInspectionItem")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__LabInspec__labIt__634EBE90", "LabInspectionItem")]
         public LabInspectionItem LabInspectionItem
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionItem>("comp4900t4waveturtleModel.FK__LabInspec__labIt__634EBE90", "LabInspectionItem").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionItem>("BCCAModel.FK__LabInspec__labIt__634EBE90", "LabInspectionItem").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionItem>("comp4900t4waveturtleModel.FK__LabInspec__labIt__634EBE90", "LabInspectionItem").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionItem>("BCCAModel.FK__LabInspec__labIt__634EBE90", "LabInspectionItem").Value = value;
             }
         }
         /// <summary>
@@ -6490,13 +6490,13 @@ namespace comp4900t4waveturtleModel
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionItem>("comp4900t4waveturtleModel.FK__LabInspec__labIt__634EBE90", "LabInspectionItem");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionItem>("BCCAModel.FK__LabInspec__labIt__634EBE90", "LabInspectionItem");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<LabInspectionItem>("comp4900t4waveturtleModel.FK__LabInspec__labIt__634EBE90", "LabInspectionItem", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<LabInspectionItem>("BCCAModel.FK__LabInspec__labIt__634EBE90", "LabInspectionItem", value);
                 }
             }
         }
@@ -6507,7 +6507,7 @@ namespace comp4900t4waveturtleModel
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="comp4900t4waveturtleModel", Name="LabInspectionItem")]
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="LabInspectionItem")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class LabInspectionItem : EntityObject
@@ -6589,18 +6589,18 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__FollowUp__labIns__607251E5", "FollowUp")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__FollowUp__labIns__607251E5", "FollowUp")]
         public EntityCollection<FollowUp> FollowUps
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<FollowUp>("comp4900t4waveturtleModel.FK__FollowUp__labIns__607251E5", "FollowUp");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<FollowUp>("BCCAModel.FK__FollowUp__labIns__607251E5", "FollowUp");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<FollowUp>("comp4900t4waveturtleModel.FK__FollowUp__labIns__607251E5", "FollowUp", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<FollowUp>("BCCAModel.FK__FollowUp__labIns__607251E5", "FollowUp", value);
                 }
             }
         }
@@ -6611,18 +6611,18 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__LabInspec__labIt__634EBE90", "LabInspectionDetails")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__LabInspec__labIt__634EBE90", "LabInspectionDetails")]
         public EntityCollection<LabInspectionDetail> LabInspectionDetails
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<LabInspectionDetail>("comp4900t4waveturtleModel.FK__LabInspec__labIt__634EBE90", "LabInspectionDetails");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<LabInspectionDetail>("BCCAModel.FK__LabInspec__labIt__634EBE90", "LabInspectionDetails");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<LabInspectionDetail>("comp4900t4waveturtleModel.FK__LabInspec__labIt__634EBE90", "LabInspectionDetails", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<LabInspectionDetail>("BCCAModel.FK__LabInspec__labIt__634EBE90", "LabInspectionDetails", value);
                 }
             }
         }
@@ -6633,7 +6633,7 @@ namespace comp4900t4waveturtleModel
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="comp4900t4waveturtleModel", Name="OfficeInspection")]
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="OfficeInspection")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class OfficeInspection : EntityObject
@@ -6787,16 +6787,16 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__OfficeIns__deptN__6FB49575", "Department")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__OfficeIns__deptN__6FB49575", "Department")]
         public Department Department
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("comp4900t4waveturtleModel.FK__OfficeIns__deptN__6FB49575", "Department").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__OfficeIns__deptN__6FB49575", "Department").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("comp4900t4waveturtleModel.FK__OfficeIns__deptN__6FB49575", "Department").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__OfficeIns__deptN__6FB49575", "Department").Value = value;
             }
         }
         /// <summary>
@@ -6808,13 +6808,13 @@ namespace comp4900t4waveturtleModel
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("comp4900t4waveturtleModel.FK__OfficeIns__deptN__6FB49575", "Department");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__OfficeIns__deptN__6FB49575", "Department");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Department>("comp4900t4waveturtleModel.FK__OfficeIns__deptN__6FB49575", "Department", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Department>("BCCAModel.FK__OfficeIns__deptN__6FB49575", "Department", value);
                 }
             }
         }
@@ -6825,7 +6825,7 @@ namespace comp4900t4waveturtleModel
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="comp4900t4waveturtleModel", Name="OfficeInspectionItem")]
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="OfficeInspectionItem")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class OfficeInspectionItem : EntityObject
@@ -6904,7 +6904,7 @@ namespace comp4900t4waveturtleModel
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="comp4900t4waveturtleModel", Name="Role")]
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="Role")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class Role : EntityObject
@@ -7034,18 +7034,18 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__Employee__roleNo__4A8310C6", "Employee")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Employee__roleNo__4A8310C6", "Employee")]
         public EntityCollection<Employee> Employees
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Employee>("comp4900t4waveturtleModel.FK__Employee__roleNo__4A8310C6", "Employee");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Employee>("BCCAModel.FK__Employee__roleNo__4A8310C6", "Employee");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Employee>("comp4900t4waveturtleModel.FK__Employee__roleNo__4A8310C6", "Employee", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Employee>("BCCAModel.FK__Employee__roleNo__4A8310C6", "Employee", value);
                 }
             }
         }
@@ -7056,18 +7056,18 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__Users__roleNo__7849DB76", "Users")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Users__roleNo__7849DB76", "Users")]
         public EntityCollection<User> Users
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<User>("comp4900t4waveturtleModel.FK__Users__roleNo__7849DB76", "Users");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<User>("BCCAModel.FK__Users__roleNo__7849DB76", "Users");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<User>("comp4900t4waveturtleModel.FK__Users__roleNo__7849DB76", "Users", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<User>("BCCAModel.FK__Users__roleNo__7849DB76", "Users", value);
                 }
             }
         }
@@ -7078,7 +7078,7 @@ namespace comp4900t4waveturtleModel
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="comp4900t4waveturtleModel", Name="Room")]
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="Room")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class Room : EntityObject
@@ -7160,18 +7160,18 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__Employee__roomNo__498EEC8D", "Employee")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Employee__roomNo__498EEC8D", "Employee")]
         public EntityCollection<Employee> Employees
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Employee>("comp4900t4waveturtleModel.FK__Employee__roomNo__498EEC8D", "Employee");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Employee>("BCCAModel.FK__Employee__roomNo__498EEC8D", "Employee");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Employee>("comp4900t4waveturtleModel.FK__Employee__roomNo__498EEC8D", "Employee", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Employee>("BCCAModel.FK__Employee__roomNo__498EEC8D", "Employee", value);
                 }
             }
         }
@@ -7182,18 +7182,18 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__LabInspec__roomN__5AB9788F", "LabInspection")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__LabInspec__roomN__5AB9788F", "LabInspection")]
         public EntityCollection<LabInspection> LabInspections
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<LabInspection>("comp4900t4waveturtleModel.FK__LabInspec__roomN__5AB9788F", "LabInspection");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<LabInspection>("BCCAModel.FK__LabInspec__roomN__5AB9788F", "LabInspection");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<LabInspection>("comp4900t4waveturtleModel.FK__LabInspec__roomN__5AB9788F", "LabInspection", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<LabInspection>("BCCAModel.FK__LabInspec__roomN__5AB9788F", "LabInspection", value);
                 }
             }
         }
@@ -7204,7 +7204,7 @@ namespace comp4900t4waveturtleModel
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="comp4900t4waveturtleModel", Name="Severity")]
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="Severity")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class Severity : EntityObject
@@ -7283,7 +7283,7 @@ namespace comp4900t4waveturtleModel
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="comp4900t4waveturtleModel", Name="TrainingCours")]
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="TrainingCours")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class TrainingCours : EntityObject
@@ -7391,18 +7391,18 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__TrainingT__train__51300E55", "TrainingTaken")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__TrainingT__train__51300E55", "TrainingTaken")]
         public EntityCollection<TrainingTaken> TrainingTakens
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TrainingTaken>("comp4900t4waveturtleModel.FK__TrainingT__train__51300E55", "TrainingTaken");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TrainingTaken>("BCCAModel.FK__TrainingT__train__51300E55", "TrainingTaken");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TrainingTaken>("comp4900t4waveturtleModel.FK__TrainingT__train__51300E55", "TrainingTaken", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TrainingTaken>("BCCAModel.FK__TrainingT__train__51300E55", "TrainingTaken", value);
                 }
             }
         }
@@ -7413,7 +7413,7 @@ namespace comp4900t4waveturtleModel
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="comp4900t4waveturtleModel", Name="TrainingTaken")]
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="TrainingTaken")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class TrainingTaken : EntityObject
@@ -7865,16 +7865,16 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__TrainingT__empNo__503BEA1C", "Employee")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__TrainingT__empNo__503BEA1C", "Employee")]
         public Employee Employee
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("comp4900t4waveturtleModel.FK__TrainingT__empNo__503BEA1C", "Employee").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("BCCAModel.FK__TrainingT__empNo__503BEA1C", "Employee").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("comp4900t4waveturtleModel.FK__TrainingT__empNo__503BEA1C", "Employee").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("BCCAModel.FK__TrainingT__empNo__503BEA1C", "Employee").Value = value;
             }
         }
         /// <summary>
@@ -7886,13 +7886,13 @@ namespace comp4900t4waveturtleModel
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("comp4900t4waveturtleModel.FK__TrainingT__empNo__503BEA1C", "Employee");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("BCCAModel.FK__TrainingT__empNo__503BEA1C", "Employee");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Employee>("comp4900t4waveturtleModel.FK__TrainingT__empNo__503BEA1C", "Employee", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Employee>("BCCAModel.FK__TrainingT__empNo__503BEA1C", "Employee", value);
                 }
             }
         }
@@ -7903,16 +7903,16 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__TrainingT__train__51300E55", "TrainingCourses")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__TrainingT__train__51300E55", "TrainingCourses")]
         public TrainingCours TrainingCours
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TrainingCours>("comp4900t4waveturtleModel.FK__TrainingT__train__51300E55", "TrainingCourses").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TrainingCours>("BCCAModel.FK__TrainingT__train__51300E55", "TrainingCourses").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TrainingCours>("comp4900t4waveturtleModel.FK__TrainingT__train__51300E55", "TrainingCourses").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TrainingCours>("BCCAModel.FK__TrainingT__train__51300E55", "TrainingCourses").Value = value;
             }
         }
         /// <summary>
@@ -7924,13 +7924,13 @@ namespace comp4900t4waveturtleModel
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TrainingCours>("comp4900t4waveturtleModel.FK__TrainingT__train__51300E55", "TrainingCourses");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TrainingCours>("BCCAModel.FK__TrainingT__train__51300E55", "TrainingCourses");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TrainingCours>("comp4900t4waveturtleModel.FK__TrainingT__train__51300E55", "TrainingCourses", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TrainingCours>("BCCAModel.FK__TrainingT__train__51300E55", "TrainingCourses", value);
                 }
             }
         }
@@ -7941,7 +7941,7 @@ namespace comp4900t4waveturtleModel
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="comp4900t4waveturtleModel", Name="User")]
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="User")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     public partial class User : EntityObject
@@ -8073,16 +8073,16 @@ namespace comp4900t4waveturtleModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("comp4900t4waveturtleModel", "FK__Users__roleNo__7849DB76", "Role")]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Users__roleNo__7849DB76", "Role")]
         public Role Role
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Role>("comp4900t4waveturtleModel.FK__Users__roleNo__7849DB76", "Role").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Role>("BCCAModel.FK__Users__roleNo__7849DB76", "Role").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Role>("comp4900t4waveturtleModel.FK__Users__roleNo__7849DB76", "Role").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Role>("BCCAModel.FK__Users__roleNo__7849DB76", "Role").Value = value;
             }
         }
         /// <summary>
@@ -8094,13 +8094,13 @@ namespace comp4900t4waveturtleModel
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Role>("comp4900t4waveturtleModel.FK__Users__roleNo__7849DB76", "Role");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Role>("BCCAModel.FK__Users__roleNo__7849DB76", "Role");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Role>("comp4900t4waveturtleModel.FK__Users__roleNo__7849DB76", "Role", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Role>("BCCAModel.FK__Users__roleNo__7849DB76", "Role", value);
                 }
             }
         }
