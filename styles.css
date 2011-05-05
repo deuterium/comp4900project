@@ -253,6 +253,14 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     padding-right:5px;
 }
 
+/* Reporting.aspx */
+
+.commentBoxReporting 
+{
+    height: 100px;
+    width: 500px;
+}
+
 /* Collapsible Forms Panel Styling */
 
 .panel 
