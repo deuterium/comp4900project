@@ -3,45 +3,80 @@
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="head"></asp:Content>
 
-<asp:Content ID="Content2" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
+<asp:Content ID="Content2" runat="server" ContentPlaceHolderID="body">
 
 <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server"></asp:ToolkitScriptManager>
 
 <asp:CollapsiblePanelExtender ID="cpeA" runat="server" Collapsed="true"
-CollapseControlID="workA" ExpandControlID="workA" TargetControlID="pnlA">
+CollapseControlID="workA" ExpandControlID="workA" TargetControlID="pnlA"
+ImageControlID="imgExpandCollapseA" TextLabelID="ExpandCollapseA" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeB" runat="server" Collapsed="true"
-CollapseControlID="workB" ExpandControlID="workB" TargetControlID="pnlB">
+CollapseControlID="workB" ExpandControlID="workB" TargetControlID="pnlB"
+ImageControlID="imgExpandCollapseB" TextLabelID="ExpandCollapseB" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeC" runat="server" Collapsed="true"
-CollapseControlID="workC" ExpandControlID="workC" TargetControlID="pnlC">
+CollapseControlID="workC" ExpandControlID="workC" TargetControlID="pnlC"
+ImageControlID="imgExpandCollapseC" TextLabelID="ExpandCollapseC" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeD" runat="server" Collapsed="true"
-CollapseControlID="workD" ExpandControlID="workD" TargetControlID="pnlD">
+CollapseControlID="workD" ExpandControlID="workD" TargetControlID="pnlD"
+ImageControlID="imgExpandCollapseD" TextLabelID="ExpandCollapseD" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeE" runat="server" Collapsed="true"
-CollapseControlID="workE" ExpandControlID="workE" TargetControlID="pnlE">
+CollapseControlID="workE" ExpandControlID="workE" TargetControlID="pnlE"
+ImageControlID="imgExpandCollapseE" TextLabelID="ExpandCollapseE" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeF" runat="server" Collapsed="true"
-CollapseControlID="workF" ExpandControlID="workF" TargetControlID="pnlF">
+CollapseControlID="workF" ExpandControlID="workF" TargetControlID="pnlF"
+ImageControlID="imgExpandCollapseF" TextLabelID="ExpandCollapseF" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeG" runat="server" Collapsed="true"
-CollapseControlID="workG" ExpandControlID="workG" TargetControlID="pnlG">
+CollapseControlID="workG" ExpandControlID="workG" TargetControlID="pnlG"
+ImageControlID="imgExpandCollapseG" TextLabelID="ExpandCollapseG" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeH" runat="server" Collapsed="true"
-CollapseControlID="workH" ExpandControlID="workH" TargetControlID="pnlH">
+CollapseControlID="workH" ExpandControlID="workH" TargetControlID="pnlH"
+ImageControlID="imgExpandCollapseH" TextLabelID="ExpandCollapseH" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeI" runat="server" Collapsed="true"
-CollapseControlID="workI" ExpandControlID="workI" TargetControlID="pnlI">
+CollapseControlID="workI" ExpandControlID="workI" TargetControlID="pnlI"
+ImageControlID="imgExpandCollapseI" TextLabelID="ExpandCollapseI" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeJ" runat="server" Collapsed="true"
-CollapseControlID="workJ" ExpandControlID="workJ" TargetControlID="pnlJ">
+CollapseControlID="workJ" ExpandControlID="workJ" TargetControlID="pnlJ"
+ImageControlID="imgExpandCollapseJ" TextLabelID="ExpandCollapseJ" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeK" runat="server" Collapsed="true"
-CollapseControlID="workK" ExpandControlID="workK" TargetControlID="pnlK">
+CollapseControlID="workK" ExpandControlID="workK" TargetControlID="pnlK"
+ImageControlID="imgExpandCollapseK" TextLabelID="ExpandCollapseK" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeL" runat="server" Collapsed="true"
-CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
+CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL"
+ImageControlID="imgExpandCollapseL" TextLabelID="ExpandCollapseL" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <div>
@@ -58,7 +93,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
         <p><b>Y = </b>No action required <b>N = </b>Corrective action required</p>
     </div>
 
-    <h3 id="workA">Inspection Information</h3>
+    <h3 id="workA"><asp:Image ID="imgExpandCollapseA" runat="server" /> Inspection Information</h3>
     <asp:Panel ID="pnlA" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -125,7 +160,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
     </table>
     </asp:Panel>
 
-    <h3 id="workB">1. General Safety</h3>
+    <h3 id="workB"><asp:Image ID="imgExpandCollapseB" runat="server" /> 1. General Safety</h3>
     <asp:Panel ID="pnlB" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -310,7 +345,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
     </table>
     </asp:Panel>
 
-    <h3 id="workC">2. Work Areas</h3>
+    <h3 id="workC"><asp:Image ID="imgExpandCollapseC" runat="server" /> 2. Work Areas</h3>
     <asp:Panel ID="pnlC" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -441,7 +476,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
     </table>
     </asp:Panel>
 
-    <h3 id="workD">3. Support and Structure</h3>
+    <h3 id="workD"><asp:Image ID="imgExpandCollapseD" runat="server" /> 3. Support and Structure</h3>
     <asp:Panel ID="pnlD" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -536,7 +571,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
     </table>
     </asp:Panel>
 
-    <h3 id="workE">4. Electrical</h3>
+    <h3 id="workE"><asp:Image ID="imgExpandCollapseE" runat="server" /> 4. Electrical</h3>
     <asp:Panel ID="pnlE" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -631,7 +666,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
     </table>
     </asp:Panel>
 
-    <h3 id="workF">5. Ventilation, Illumination, Noise</h3>
+    <h3 id="workF"><asp:Image ID="imgExpandCollapseF" runat="server" /> 5. Ventilation, Illumination, Noise</h3>
     <asp:Panel ID="pnlF" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -708,7 +743,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
     </table>
     </asp:Panel>
 
-    <h3 id="workG">6. Work Practices Section</h3>
+    <h3 id="workG"><asp:Image ID="imgExpandCollapseG" runat="server" /> 6. Work Practices Section</h3>
     <asp:Panel ID="pnlG" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -785,7 +820,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
     </table>
     </asp:Panel>
 
-    <h3 id="workH">7. Personal Protective Equipment</h3>
+    <h3 id="workH"><asp:Image ID="imgExpandCollapseH" runat="server" /> 7. Personal Protective Equipment</h3>
     <asp:Panel ID="pnlH" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -862,7 +897,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
     </table>
     </asp:Panel>
 
-    <h3 id="workI">8. Strain, Sprain, Overexertion</h3>
+    <h3 id="workI"><asp:Image ID="imgExpandCollapseI" runat="server" /> 8. Strain, Sprain, Overexertion</h3>
     <asp:Panel ID="pnlI" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -957,7 +992,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
     </table>
     </asp:Panel>
 
-    <h3 id="workJ">9. WHMIS / Hazardous Materials</h3>
+    <h3 id="workJ"><asp:Image ID="imgExpandCollapseJ" runat="server" /> 9. WHMIS / Hazardous Materials</h3>
     <asp:Panel ID="pnlJ" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -1070,7 +1105,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
     </table>
     </asp:Panel>
 
-    <h3 id="workK">10. Fire Safety and Emergency Response</h3>
+    <h3 id="workK"><asp:Image ID="imgExpandCollapseK" runat="server" /> 10. Fire Safety and Emergency Response</h3>
     <asp:Panel ID="pnlK" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -1183,7 +1218,7 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
     </table>
     </asp:Panel>
 
-    <h3 id="workL">11. Comments</h3>
+    <h3 id="workL"><asp:Image ID="imgExpandCollapseL" runat="server" /> 11. Comments</h3>
     <asp:Panel ID="pnlL" CssClass="panel" runat="server">
         <asp:TextBox TextMode="MultiLine" Wrap="true" Width="795px" Height="200px" ID="tbxCommentOfficeComments" runat="server"></asp:TextBox>
     </asp:Panel>
