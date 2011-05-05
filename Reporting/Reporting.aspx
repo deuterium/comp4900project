@@ -132,7 +132,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
 <asp:Panel ID="pnlB" CssClass="panel" runat="server">
     <asp:CheckBoxList ID="cblNatureOfInjury" runat="server">
         <asp:ListItem Text="No Injury (Near Miss/ Unsafe Condition)" ></asp:ListItem>
-        <asp:ListItem Text="Musculoskeletal Injyry (Strain / Sprain)" ></asp:ListItem>
+        <asp:ListItem Text="Musculoskeletal Injury (Strain / Sprain)" ></asp:ListItem>
         <asp:ListItem Text="Bruise / Confusion" ></asp:ListItem>
         <asp:ListItem Text="Burn (Heat or Cold)" ></asp:ListItem>
         <asp:ListItem Text="Cut / Scratch / Abrasion / Laceration / Puncture (Non BBF)" ></asp:ListItem>
