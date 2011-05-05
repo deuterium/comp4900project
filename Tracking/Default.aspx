@@ -139,12 +139,6 @@ CollapseControlID="hr3ReportInfo" ExpandControlID="hr3ReportInfo" TargetControlI
             </asp:Panel>
         </div>
 
-        
-
-
-        
-        
-
-<asp:ListBox ID="ListBox1" runat="server"></asp:ListBox>
+<asp:ListBox ID="lbx" runat="server"></asp:ListBox>
 
 </asp:Content>
