@@ -1,4 +1,6 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Reporting.aspx.cs" Inherits="Reporting_Reporting" %>
+﻿
+C:\_4900_Project\comp4900project>@git.exe %*
+ï»¿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Reporting.aspx.cs" Inherits="Reporting_Reporting" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
@@ -8,7 +10,8 @@
 
 <asp:Content runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
 
-<asp:ToolkitScriptManager ID="tsmScriptManager" runat="server"></asp:ToolkitScriptManager>
+<asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
+</asp:ToolkitScriptManager>
 
 <asp:CollapsiblePanelExtender ID="cpeA" runat="server" Collapsed="true"
 CollapseControlID="hr3A" ExpandControlID="hr3A" TargetControlID="pnlA"
@@ -60,49 +63,49 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
 
 <div>
 
-    <asp:Button ID="btnCreateReport" Text="Create Report" runat="server" />
-    <asp:Button ID="btnResetForm" Text="Reset Form" runat="server" />
+<asp:Button ID="btnCreateReport" Text="Create Report" runat="server" />
+<asp:Button ID="btnResetForm" Text="Reset Form" runat="server" />
 
 <h3 id="hr3A"><asp:Image ID="imgExpandCollapseA" runat="server" /> A. Incident/Accident Information <asp:Label ID="ExpandCollapseA" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlA" CssClass="panel" runat="server">
-        <div id="divALeftPanel">
-            Date of Incident:
-            <br />
-            Time of Incident:
-            <br />
-            Time Reported:
-            <br />
-            Incident Description:
-            <br />
-            Witness 1:
-            <br /><br />
-            Witness 2:
-            <br /><br />
-            Action following the Incident:
-        </div>
-        <div id="divARightPanel">
-            <asp:TextBox ID="tbxDateOfIncident" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexDateOfIncident" runat="server" TargetControlID="tbxDateOfIncident" Format="yyyy/MM/dd" >
-            </asp:CalendarExtender>
-            <br />
-            <asp:TextBox ID="tbxTimeOfIncident" runat="server"></asp:TextBox>
-            <br />
-            <asp:TextBox ID="tbxTimeReported" runat="server"></asp:TextBox>
-            <br />
-            <asp:TextBox ID="tbxIncidentDescription" runat="server" Height="100px"></asp:TextBox>
-            <br />
-            Name: <asp:TextBox ID="tbxWitness1Name" runat="server"></asp:TextBox>
-            <br />
-            Phone: <asp:TextBox ID="tbxWitness1Phone" runat="server"></asp:TextBox>
-            <br />
-            Name: <asp:TextBox ID="tbxWitness2Name" runat="server"></asp:TextBox>
-            <br />
-            Phone: <asp:TextBox ID="tbxWitness2Phone" runat="server"></asp:TextBox>
-            <br />
-            <asp:DropDownList ID="ddlActionFollowingIncident" runat="server">
-            </asp:DropDownList>
-        </div>
-    </asp:Panel>
+    <div id="divALeftPanel">
+        Date of Incident:
+        <br />
+        Time of Incident:
+        <br />
+        Time Reported:
+        <br />
+        Incident Description:
+        <br />
+        Witness 1:
+        <br /><br />
+        Witness 2:
+        <br /><br />
+        Action following the Incident:
+    </div>
+    <div id="divARightPanel">
+        <asp:TextBox ID="tbxDateOfIncident" runat="server"></asp:TextBox>
+        <asp:CalendarExtender ID="cexDateOfIncident" runat="server" TargetControlID="tbxDateOfIncident" Format="yyyy/MM/dd" >
+        </asp:CalendarExtender>
+        <br />
+        <asp:TextBox ID="tbxTimeOfIncident" runat="server"></asp:TextBox>
+        <br />
+        <asp:TextBox ID="tbxTimeReported" runat="server"></asp:TextBox>
+        <br />
+        <asp:TextBox ID="tbxIncidentDescription" runat="server" Height="100px"></asp:TextBox>
+        <br />
+        Name: <asp:TextBox ID="tbxWitness1Name" runat="server"></asp:TextBox>
+        <br />
+        Phone: <asp:TextBox ID="tbxWitness1Phone" runat="server"></asp:TextBox>
+        <br />
+        Name: <asp:TextBox ID="tbxWitness2Name" runat="server"></asp:TextBox>
+        <br />
+        Phone: <asp:TextBox ID="tbxWitness2Phone" runat="server"></asp:TextBox>
+        <br />
+        <asp:DropDownList ID="ddlActionFollowingIncident" runat="server">
+        </asp:DropDownList>
+    </div>
+</asp:Panel>
 
 <h3 id="hr3B"><asp:Image ID="imgExpandCollapseB" runat="server" /> B. Nature of Injury <asp:Label ID="ExpandCollapseB" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlB" CssClass="panel" runat="server">
@@ -134,7 +137,6 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
 
 <h3 id="hr3C"><asp:Image ID="imgExpandCollapseC" runat="server" /> C. Accident Investigation <asp:Label ID="ExpandCollapseC" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlC" CssClass="panel" runat="server">
-
     <h4>Activity</h4>
     <asp:CheckBoxList ID="cblActivity" runat="server">
         <asp:ListItem Text="No Injury" ></asp:ListItem>
@@ -609,4 +611,10 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
     </div>
 </asp:Panel>
 </div>
-</asp:Content>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+</asp:Content>
+C:\_4900_Project\comp4900project>@set ErrorLevel=%ErrorLevel%
+
+C:\_4900_Project\comp4900project>@rem Restore the original console codepage.
+
+C:\_4900_Project\comp4900project>@chcp %cp_oem% > nul < nul
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
