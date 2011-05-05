@@ -132,7 +132,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 Date of Inspection: 
             </td>
             <td>
-                //Calendar Goes Here//
+                <asp:TextBox ID="tbxLabInspectionDate" runat="server"></asp:TextBox>
+                <asp:CalendarExtender ID="cexLabInspectionDate" runat="server" TargetControlID="tbxLabInspectionDate" Format="yyyy/MM/dd"></asp:CalendarExtender>
             </td>
             <td>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -141,7 +142,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 Date of Follow Up: 
             </td>
             <td>
-                //Calendar Goes Here//
+                <asp:TextBox ID="tbxLabFollowupDate" runat="server"></asp:TextBox>
+                <asp:CalendarExtender ID="cexLabFollowupDate" runat="server" TargetControlID="tbxLabFollowupDate" Format="yyyy/MM/dd"></asp:CalendarExtender>
             </td>
         </tr>
     </table>
