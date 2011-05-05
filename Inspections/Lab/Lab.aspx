@@ -74,12 +74,6 @@ ImageControlID="imgExpandCollapseK" TextLabelID="ExpandCollapseK" CollapsedText=
 ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
-<asp:CollapsiblePanelExtender ID="cpeL" runat="server" Collapsed="true"
-CollapseControlID="labL" ExpandControlID="labL" TargetControlID="pnlL"
-ImageControlID="imgExpandCollapseL" TextLabelID="ExpandCollapseL" CollapsedText="(Show Details)"
-ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
-</asp:CollapsiblePanelExtender>
-
 <div>
 
     <h3 id="labA"><asp:Image ID="imgExpandCollapseA" runat="server" /> A. Department <asp:Label ID="ExpandCollapseA" runat="server" Text=""></asp:Label></h3>
@@ -90,7 +84,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 Department: 
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxDepartment"></asp:TextBox>
+                <asp:TextBox runat="server" ID="tbxLabDepartment"></asp:TextBox>
             </td>
             <td>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -99,7 +93,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 Supervisor: 
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxSupervisor"></asp:TextBox>
+                <asp:TextBox runat="server" ID="tbxLabSupervisor"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -107,7 +101,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 Room: 
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxRoom" />
+                <asp:TextBox runat="server" ID="tbxLabRoom" />
             </td>
             <td>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -116,7 +110,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 Inspectors: 
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxInspectors"></asp:TextBox>
+                <asp:TextBox runat="server" ID="tbxLabInspectors"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -124,7 +118,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 Lab Manager:
             </td>
             <td>
-                <asp:DropDownList runat="server" ID="ddlLabManager"></asp:DropDownList>
+                <asp:DropDownList runat="server" ID="ddlLabLabManager"></asp:DropDownList>
             </td>
         </tr>
         <tr>
@@ -1454,63 +1448,6 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 <asp:TextBox runat="server" ID="tbxCommentPressureTankSup"></asp:TextBox>
-            </td>
-        </tr>
-    </table>
-    </asp:Panel>
-
-    <h3 id="labL"><asp:Image ID="imgExpandCollapseL" runat="server" /> L. Lab Supervisor and Inspector <asp:Label ID="ExpandCollapseL" runat="server" Text=""/></h3>
-    <asp:Panel ID="pnlL" CssClass="panel" runat="server">
-    <table>
-        <tr>
-            <td>
-                Lab Supervisor: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxLabSupervisor"></asp:TextBox>
-            </td>
-            <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
-            </td>
-            <td>
-                Date: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxLSDate"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Inspector(s): 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxInspector1" />
-            </td>
-            <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
-            </td>
-            <td>
-                Date: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxDateInspect1" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Inspector(s):
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxInspector2" />
-            </td>
-            <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
-            </td>
-            <td>
-                Date:
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxDateInspect2" />
             </td>
         </tr>
     </table>

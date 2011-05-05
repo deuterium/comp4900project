@@ -46,6 +46,18 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
 
 <div>
 
+    <div>
+        <br />
+        <p>This form is to be used by departments to conduct monthly workplace safety inspections. The intent is to document the process, identify concerns or issues that require corrective action, delegate responsibility for addressing the issue and following up outstanding issues during subsequent inspections.</p> 
+        <p><b>How often should inspections be conducted:</b> Monthly</p>
+        <p><b>Who should be involved:</b> A manager/supervisor and employee/s</p>
+        <p><b>When:</b> Set a standard day and time of the month so it becomes part of the departmental process</p>
+        <p><b>Actions:</b> Some actions may require outside help (eg: an Ergonomics Advisor assisting with a specific ergonomics issue or Facilities fixing a piece of equipment), so please ensure if you delegate responsibility for a task, that the responsible person is informed or a request is made via the appropriate channel.</p>
+        <p><b>Date Completed: </b> This should be filled out to ensure the follow up loop is completed</p>
+        <p><b>Where should records be kept:</b> Within the department, as it is a departmental responsibility</p>
+        <p><b>Y = </b>No action required <b>N = </b>Corrective action required</p>
+    </div>
+
     <h3 id="workA">Inspection Information</h3>
     <asp:Panel ID="pnlA" CssClass="panel" runat="server">
     <table>
@@ -54,27 +66,41 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
                 Department: 
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxDepartment"></asp:TextBox>
+                <asp:TextBox runat="server" ID="tbxOfficeDepartment"></asp:TextBox>
             </td>
             <td>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
             </td>
             <td>
-                Inspector(s): 
+                Supervisor: 
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxSupervisor"></asp:TextBox>
+                <asp:TextBox runat="server" ID="tbxOfficeSupervisor"></asp:TextBox>
             </td>
         </tr>
         <tr>
             <td>
-                Area(s) Inspected: 
+                Room: 
             </td>
             <td>
-                <asp:TextBox runat="server" ID="tbxRoom" />
+                <asp:TextBox runat="server" ID="tbxOfficeRoom" />
             </td>
             <td>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
+            </td>
+            <td>
+                Inspectors: 
+            </td>
+            <td>
+                <asp:TextBox runat="server" ID="tbxOfficeInspectors"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Lab Manager:
+            </td>
+            <td>
+                <asp:DropDownList runat="server" ID="ddlOfficeLabManager"></asp:DropDownList>
             </td>
         </tr>
         <tr>
@@ -83,7 +109,17 @@ CollapseControlID="workL" ExpandControlID="workL" TargetControlID="pnlL">
             </td>
             <td>
                 <asp:TextBox ID="tbxOfficeInspectionDate" runat="server"></asp:TextBox>
-                <asp:CalendarExtender ID="cexOfficeInspectionDate" runat="server" TargetControlID="tbxOfficeInspectionDate" Format="yyyy/MM/dd" ></asp:CalendarExtender>
+                <asp:CalendarExtender ID="cexOfficeInspectionDate" runat="server" TargetControlID="tbxOfficeInspectionDate" Format="yyyy/MM/dd"></asp:CalendarExtender>
+            </td>
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
+            </td>
+            <td>
+                Date of Follow Up: 
+            </td>
+            <td>
+                <asp:TextBox ID="tbxOfficeFollowupDate" runat="server"></asp:TextBox>
+                <asp:CalendarExtender ID="cexOfficeFollowupDate" runat="server" TargetControlID="tbxOfficeFollowupDate" Format="yyyy/MM/dd"></asp:CalendarExtender>
             </td>
         </tr>
     </table>
