@@ -108,6 +108,13 @@ CollapseControlID="hr3ReportInfo" ExpandControlID="hr3ReportInfo" TargetControlI
             <asp:RegularExpressionValidator ID="revLastName" runat="server" ValidationGroup="vgpHeader"
                 ControlToValidate="tbxLastName" ErrorMessage="Last name can only contain letters."
                 ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
+            
+            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="vgpHeader"
+                ControlToValidate="tbxFirstName" ErrorMessage="First name can only contain letters."
+                ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
+            <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ValidationGroup="vgpHeader"
+                ControlToValidate="tbxLastName" ErrorMessage="Last name can only contain letters."
+                ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
 
             <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpHeader"
                 ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{4}/{1}[0-9]{2}/{1}[0-9]{2}$" 
