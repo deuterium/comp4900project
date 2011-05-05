@@ -6,7 +6,7 @@
    
 </asp:Content>
 
-<asp:Content ID="Content2" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
+<asp:Content ID="Content2" runat="server" ContentPlaceHolderID="body">
 
 <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
 </asp:ToolkitScriptManager>

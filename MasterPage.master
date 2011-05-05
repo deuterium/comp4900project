@@ -30,7 +30,7 @@
 
 		<div id="content" runat="server">
             <div id="textbox">
-                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                <asp:ContentPlaceHolder ID="body" runat="server">
                 </asp:ContentPlaceHolder>
             </div>
 	    </div>

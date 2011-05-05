@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Web.Security;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Linq;
+using System.Web.Security;
 using BCCAModel;
 
 /// <summary>
@@ -18,17 +18,17 @@ using BCCAModel;
 /// </summary>
 public partial class Login : System.Web.UI.Page
 {
+    //Database Entities
     BCCAEntities ctx = new BCCAEntities();
 
     /// <summary>
     /// Login Page Load Method
-    /// TODO:
+    /// Not used on Login page
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void Page_Load(object sender, EventArgs e)
     {
-
         //Following code is an example for checking session for authenticated user.
         //DO NOT uncomment on this page, inifinte load!
         //ASP.global_asax.Session_Authentication();
@@ -45,13 +45,15 @@ public partial class Login : System.Web.UI.Page
     protected bool Check_Credentials(string username, string password)
     {
         string dbPass = string.Empty;
-        //Get password where username, this is for testing purposes
-        //db query goes here, no need for hash
         try
         {
             dbPass = ctx.Users.Where(u => u.userName == username).Select(u => u.password).First();
         }
-        catch (Exception e) { }
+        catch (Exception e) 
+        {
+            //Treats empty result exceptions and invalid database returns as failed logins
+            e.ToString();
+        }
 
         if (HashPassword(password).Equals(dbPass))
         {
