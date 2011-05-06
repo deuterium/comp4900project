@@ -284,6 +284,24 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     width: 100px;
 }
 
+.RecordHeader 
+{
+    padding-top:10px;
+    height: 158px;
+    width: 800px;
+    height:65px;
+    margin:0 auto;
+    clear:both;
+}
+.RecordHeader div
+{
+    float:left;
+    display:block;
+    margin:0 6px;
+}
+
+
+
 /* Collapsible Forms Panel Styling */
 
 .panel 
