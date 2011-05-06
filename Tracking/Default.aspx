@@ -18,89 +18,94 @@ CollapseControlID="hr3ReportInfo" ExpandControlID="hr3ReportInfo" TargetControlI
         <div id="divReportInfo">
             <h3 id="hr3ReportInfo">Header Info:</h3>
             <asp:Panel ID="pnlReportInfo" CssClass="panel" runat="server">
-            <table id="tblReportInfoForm">
-                <tr>
-                    <td>
-                        Id:
-                    </td>
-                    <td>
-                        <asp:TextBox ID="tbxId" runat="server"></asp:TextBox>
-                    </td>
-                    <td>
-                        Position:
-                    </td>
-                    <td>
-                        <asp:DropDownList ID="ddlPositions" runat="server"></asp:DropDownList>
-                    </td>
-                    <td>
-                       Room:
-                    </td>
-                    <td>
-                        <asp:TextBox ID="tbxRoom" runat="server"></asp:TextBox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Last name:
-                    </td>
-                    <td>
-                        <asp:TextBox ID="tbxLastName" runat="server"></asp:TextBox>
-                    </td>
-                    <td>
-                        Employer:
-                    </td>
-                    <td>
-                        <asp:DropDownList ID="ddlEmployers" runat="server"></asp:DropDownList>
-                    </td>
-                    <td>
-                        Supervisor:
-                    </td>
-                    <td>
-                        <asp:TextBox ID="tbxSupervisor" runat="server"></asp:TextBox>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        First name:
-                    </td>
-                    <td>
-                        <asp:TextBox ID="tbxFirstName" runat="server"></asp:TextBox>
-                    </td>
-                    <td>
-                        Department:
-                    </td>
-                    <td>
-                        <asp:DropDownList ID="ddlDepartments" runat="server"></asp:DropDownList>
-                    </td>
-                    <td>
-                        Start date:
-                    </td>
-                    <td>
-                        <asp:TextBox ID="tbxStartDate" runat="server"></asp:TextBox>
-                        <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="yyyy/MM/dd" >
-                        </asp:CalendarExtender>
-                     </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        End date: 
-                    </td>
-                    <td>
-                        <asp:TextBox ID="tbxEndDate" runat="server"></asp:TextBox>
-                        <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="yyyy/MM/dd" >
-                        </asp:CalendarExtender>
-                    </td>
-                </tr>
-                <tr> 
-                    <td>
-                        <asp:Button ID="btnSSearch" ValidationGroup="vgpHeader" runat="server" Text="Search" />
-                    </td>
-                </tr>
-            </table>
+            <div id="divRecordHeaderLeft">
+                  <table>
+                    <tr>
+                        <td class="trainingTableWidth">
+                            ID:</td>
+                        <td>
+                            <asp:TextBox ID="tbxId" runat="server"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="trainingTableWidth">
+                            Last name:</td>
+                        <td>
+                          <asp:TextBox ID="tbxFirstName" runat="server"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="trainingTableWidth">
+                            First name:</td>
+                        <td>
+                            <asp:TextBox ID="tbxLastName" runat="server"></asp:TextBox>
+                        </td>
+                    </tr>
+                  </table>
+                </div>
+                <div id="divRecordHeaderMiddle">
+                    <table>
+                    <tr>
+                        <td class="trainingTableWidth">
+                            Position:</td>
+                        <td>
+                            <asp:DropDownList ID="ddlPositions" runat="server"></asp:DropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="trainingTableWidth">
+                            Employer:</td>
+                        <td>
+                            <asp:DropDownList ID="ddlEmployers" runat="server"></asp:DropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="trainingTableWidth">
+                            Department:</td>
+                        <td>
+                            <asp:DropDownList ID="ddlDepartments" runat="server"></asp:DropDownList>
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+                <div id="divRecordHeaderRight">
+                    <table>
+                    <tr>
+                        <td class="trainingTableWidth">
+                            Room:</td>
+                        <td>
+                            <asp:TextBox ID="tbxRoom" runat="server"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="trainingTableWidth">
+                            Supervisor:</td>
+                        <td>
+                            <asp:TextBox ID="tbxSupervisor" runat="server"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="trainingTableWidth">
+                            Start Date:</td>
+                        <td>
+                            <asp:TextBox ID="tbxStartDate" runat="server"></asp:TextBox>
+                            <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="yyyy/MM/dd" >
+                            </asp:CalendarExtender>
+                        </td>
+                    </tr>
+                            <tr>
+                        <td class="trainingTableWidth">
+                            End Date:</td>
+                        <td>
+                            <asp:TextBox ID="tbxEndDate" runat="server"></asp:TextBox><br />
+                            <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="yyyy/MM/dd" >
+                            </asp:CalendarExtender>
+                        </td>
+                    </tr>
+                    </table>
+                </div>
+
+                <asp:Button ID="btnSSearch" ValidationGroup="vgpHeader" runat="server" Text="Search" />
 
             <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpHeader"
                 ControlToValidate="tbxFirstName" ErrorMessage="First name can only contain letters."
