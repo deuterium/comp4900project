@@ -16,7 +16,7 @@ ImageControlID="imgExpandCollapseReportInfo" TextLabelID="ExpandCollapseA" Colla
 ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
-<asp:CollapsiblePanelExtender ID="cpeCourses" runat="server" Collapsed="false"
+<asp:CollapsiblePanelExtender ID="cpeCourses" runat="server" Collapsed="true"
 CollapseControlID="hr3Courses" ExpandControlID="hr3Courses" TargetControlID="pnlCourses"
 ImageControlID="imgExpandCollapseCourses" TextLabelID="ExpandCollapseCourses" CollapsedImage="../images/expand.jpg" 
 ExpandedImage="../images/collapse.jpg">
