@@ -58,6 +58,7 @@ ExpandedImage="../images/collapse.jpg">
         <div id="divReportInfo">
             <h3 id="hr3ReportInfo"><asp:Image ID="imgExpandCollapseReportInfo" runat="server" /> Report Info <asp:Label ID="ExpandCollapseReportInfo" runat="server" Text=""></asp:Label></h3>
             <asp:Panel ID="pnlReportInfo" CssClass="panel" runat="server">
+            <div class="RecordHeader">
                 <div id="divRecordHeaderLeft">
                   <table>
                     <tr>
@@ -143,6 +144,7 @@ ExpandedImage="../images/collapse.jpg">
                         </td>
                     </tr>
                     </table>
+                </div>
                 </div>
                 <asp:Button ID="btnUpdateEmployee" runat="server" Text="Update Employee" />
                 <asp:Button ID="btnGetCourses" runat="server" Text="Get Courses" />
