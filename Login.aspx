@@ -7,7 +7,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server" />
     <div id="divLogin">
-        <table>
+        <table style="margin-left:auto; margin-right:auto;">
             <tr>
                 <td class="loginTableWidth">
                     Username:
