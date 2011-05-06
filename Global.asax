@@ -1,6 +1,5 @@
 ﻿<%@ Application Language="C#" %>
-
-<script runat="server">
+<script RunAt="server">
     ///Global.asax
     ///BCCA Cancer Research Centre
     ///Safety Training Database and Website
@@ -10,13 +9,13 @@
     ///Kalen Wessel - kalen.wessel@gmail.com
     ///Lindsay Fester - lindsay_f@live.com
     ///Michael Anderson - anderson.michael23@gmail.com
-    
+
     ///Not Used
-    void Application_Start(object sender, EventArgs e) {}
+    void Application_Start(object sender, EventArgs e) { }
     ///Not Used
-    void Application_End(object sender, EventArgs e) {}
+    void Application_End(object sender, EventArgs e) { }
     ///Not Used
-    void Application_Error(object sender, EventArgs e) {}
+    void Application_Error(object sender, EventArgs e) { }
 
     /// <summary>
     /// Creates an "AuthenticatedUser" session value to be used
@@ -24,14 +23,14 @@
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    void Session_Start(object sender, EventArgs e) 
+    void Session_Start(object sender, EventArgs e)
     {
         Session["AuthenticatedUser"] = String.Empty;
         Session["AuthenticationHash"] = String.Empty;
 
     }
     ///Not Used
-    void Session_End(object sender, EventArgs e) 
+    void Session_End(object sender, EventArgs e)
     {
         // Code that runs when a session ends. 
         // Note: The Session_End event is raised only when the sessionstate mode
@@ -46,10 +45,12 @@
     /// TODO: This is possibly unsecure to cookie editing, look into something around this
     /// MAKE SESSION VALUE HASHED word constant
     /// </summary>
-    public static void Session_Authentication() {
+    public static void Session_Authentication()
+    {
         if (!HttpContext.Current.Session["AuthenticationHash"].ToString()
             //add some sort of user indication into the hash
-            .Equals(FormsAuthentication.HashPasswordForStoringInConfigFile("&U74U53R", "MD5"))) 
+            .Equals(FormsAuthentication.HashPasswordForStoringInConfigFile
+                (HttpContext.Current.Session["AuthenticatedUser"].ToString() + "&U74U53R", "MD5")))
         {
             HttpContext.Current.Response.Redirect("~/Login.aspx");
         }

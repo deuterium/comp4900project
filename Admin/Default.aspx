@@ -2,10 +2,8 @@
     CodeFile="Default.aspx.cs" Inherits="Admin_Default" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
-
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server" />
     <asp:CollapsiblePanelExtender ID="cpeUsers" runat="server" CollapseControlID="hr3Users"
@@ -20,10 +18,17 @@
         ExpandControlID="hr3Supervisors" TargetControlID="pnlSupervisors" Collapsed="true" />
     <asp:CollapsiblePanelExtender ID="cpeCourses" runat="server" CollapseControlID="hr3Courses"
         ExpandControlID="hr3Courses" TargetControlID="pnlCourses" Collapsed="true" />
+    <asp:CollapsiblePanelExtender ID="cpeUsersDescription" runat="server" CollapseControlID="hr3Users"
+        ExpandControlID="hr3Users" TargetControlID="pnlUsersDescription" Collapsed="false" />
     <div id="divContent">
         <div id="divUsers">
             <h3 id="hr3Users">
                 Manage System Users</h3>
+            <asp:Panel ID="pnlUsersDescription" runat="server">
+                This section allows management of system user accounts which can access this web
+                application. You can create new users here and edit existing user's credentials
+                and account settings.
+            </asp:Panel>
             <asp:Panel ID="pnlUsers" CssClass="panel" runat="server">
                 Select a user from the System Users to edit them, or fill out the Username and Password
                 fields and click "Create User" to create a new System User.
@@ -89,9 +94,9 @@
                                 </div>
                             </td>
                             <td valign="bottom">
-                                <asp:Button ID="btnDelete" runat="server" Text="Delete User" width="100" visible="false"/>
+                                <asp:Button ID="btnDelete" runat="server" Text="Delete User" Width="100" Visible="false" />
                                 <br />
-                                <asp:Button ID="btnUser" runat="server" Text="Create User" width="100" />
+                                <asp:Button ID="btnUser" runat="server" Text="Create User" Width="100" />
                             </td>
                         </tr>
                     </table>

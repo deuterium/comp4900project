@@ -92,7 +92,8 @@ public partial class Login : System.Web.UI.Page
         {
             lblLoginError.Text = String.Empty;
             Session["AuthenticatedUser"] = tbxLoginUsername.Text;
-            Session["AuthenticationHash"] = FormsAuthentication.HashPasswordForStoringInConfigFile("&U74U53R", "MD5");
+            Session["AuthenticationHash"] = FormsAuthentication.HashPasswordForStoringInConfigFile
+                (tbxLoginUsername.Text + "&U74U53R", "MD5");
 
             Response.Redirect("Default.aspx");
         }
