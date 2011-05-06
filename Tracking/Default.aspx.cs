@@ -2,30 +2,78 @@
 using System.Linq;
 using BCCAModel;
 using System.Collections.Generic;
-
+using System.Drawing;
 
 public partial class Tracking_Default : System.Web.UI.Page
 {
+    BCCAEntities ctx = new BCCAEntities();
+    public static Color FailColour = Color.Red;
+    public static Color SuccessColour = Color.Green;
+
     protected void Page_Load(object sender, EventArgs e)
-    {
-        BCCAEntities ctx = new BCCAEntities();
+    {    
         //List<Employers> employers = new List<Employers>();
         //var qry = ;
 
         List<String> employers = new List<String> { "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", "Other (specify)" };
         ddlEmployers.DataSource = employers;
         ddlEmployers.DataBind();
-
-        
+                
         ddlDepartments.DataSource = ctx.Departments;
-        ddlDepartments.DataValueField = "deptName";
+        ddlDepartments.DataValueField = "deptNo";
+        ddlDepartments.DataTextField = "deptName";
         ddlDepartments.DataBind();
 
+        lblResults.Visible = true;
     }
 
     protected void ddlEmployers_SelectedIndexChanged(object sender, EventArgs e) {
-        //IList<State> states = GetStateList(GetCountryList()[((DropDownList)sender).SelectedIndex]);
-        //ddlStates.DataSource = states;
-        //ddlStates.DataBind();
+        tbxFirstName.Text = ddlEmployers.SelectedValue;
+        tbxFirstName.Text = ddlEmployers.SelectedItem.ToString();
+        tbxFirstName.Text = ddlEmployers.SelectedIndex.ToString();
+        if (ddlEmployers.SelectedValue.Equals("Other (specify)")) {
+            tbxEmployer.Visible = true;
+        } else {
+            tbxEmployer.Visible = false;
+        }
+    }
+
+    private void getEmployeeData() {
+        String first = tbxFirstName.Text;
+        String last = tbxLastName.Text;
+        Employee emp = null;
+
+        var qry = ctx.Employees
+                  .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
+                  .Select(e => e);
+        
+        if (qry.Count() == 1) {
+            emp = qry.FirstOrDefault();
+            
+            tbxId.Text = emp.empNo.ToString();
+            
+            tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("yyyy/MM/dd");
+            if (emp.endDate != null) {
+                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("yyyy/MM/dd");
+            }
+            setResultMsg(null, SuccessColour);
+        } else if (qry.Count() <= 0) {
+            setResultMsg("No employees with that first and last name found.", FailColour);
+        } else {
+            setResultMsg("There was more than one employee with that first and last name.", FailColour);
+        }
+    }
+    protected void btnGetEmployee_Click(object sender, EventArgs e) {
+        getEmployeeData();
+    }
+
+    private void setResultMsg(String msg, Color foreColour) {
+        if (msg == null) {
+            lblResults.Text = String.Empty;
+            lblResults.Visible = false;
+        }
+        lblResults.Visible = true;
+        lblResults.ForeColor = foreColour;
+        lblResults.Text = msg;
     }
 }
