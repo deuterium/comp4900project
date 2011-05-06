@@ -23,6 +23,8 @@ public partial class Admin_Default : System.Web.UI.Page
     /// <param name="e">not used in our code</param>
     protected void Page_Load(object sender, EventArgs e) {}
 
+    #region System User Management
+
     /// <summary>
     /// Postback event selecting the mode of the system user administration
     /// section of the admin page. Two modes:
@@ -36,13 +38,11 @@ public partial class Admin_Default : System.Web.UI.Page
         switch(rblUsers.SelectedValue) {
             case "Create":
                 tdUserSystemUsers.Visible = false;
-                divUserManage.Visible = true;
                 btnDelete.Visible = false;
                 btnUser.Text = "Create User";
                 break;
             case "Edit":
                 tdUserSystemUsers.Visible = true;
-                divUserManage.Visible = true;
                 btnDelete.Visible = true;
                 btnUser.Text = "Submit Changes";
                 break;
@@ -70,4 +70,5 @@ public partial class Admin_Default : System.Web.UI.Page
                 break;
         }
     }
+    #endregion
 }
