@@ -20,13 +20,25 @@
         ExpandControlID="hr3Courses" TargetControlID="pnlCourses" Collapsed="true" />
     <asp:CollapsiblePanelExtender ID="cpeUsersDescription" runat="server" CollapseControlID="hr3Users"
         ExpandControlID="hr3Users" TargetControlID="pnlUsersDescription" Collapsed="false" />
+    <asp:CollapsiblePanelExtender ID="cpeDepartmentsDescription" runat="server" CollapseControlID="hr3Departments"
+        ExpandControlID="hr3Departments" TargetControlID="pnlDepartmentsDescription"
+        Collapsed="false" />
+    <asp:CollapsiblePanelExtender ID="cpeRoomsDescription" runat="server" CollapseControlID="hr3Rooms"
+        ExpandControlID="hr3Rooms" TargetControlID="pnlRoomsDescription" Collapsed="false" />
+    <asp:CollapsiblePanelExtender ID="cpePositionsDescription" runat="server" CollapseControlID="hr3Positions"
+        ExpandControlID="hr3Positions" TargetControlID="pnlPositionsDescription" Collapsed="false" />
+    <asp:CollapsiblePanelExtender ID="cpeSupervisorsDescription" runat="server" CollapseControlID="hr3Supervisors"
+        ExpandControlID="hr3Supervisors" TargetControlID="pnlSupervisorsDescription"
+        Collapsed="false" />
+    <asp:CollapsiblePanelExtender ID="cpeCoursesDescription" runat="server" CollapseControlID="hr3Courses"
+        ExpandControlID="hr3Courses" TargetControlID="pnlCoursesDescription" Collapsed="false" />
     <div id="divContent">
         <div id="divUsers">
             <h3 id="hr3Users">
                 Manage System Users</h3>
             <asp:Panel ID="pnlUsersDescription" runat="server">
                 This section allows management of system user accounts which can access this web
-                application. You can create new users here and edit existing user's credentials
+                application. In this section you can create new users and edit existing user's credentials
                 and account settings.
             </asp:Panel>
             <asp:Panel ID="pnlUsers" CssClass="panel" runat="server">
@@ -106,30 +118,70 @@
         <div id="divDepartments">
             <h3 id="hr3Departments">
                 Manage Departments</h3>
+            <asp:Panel ID="pnlDepartmentsDescription" runat="server">
+                This section allows for the addition of Departments that will show up in the drop
+                down menus on the forms of this web application. The forms allow for custom departments,
+                but this is were you create, edit or delete the standard ones.
+            </asp:Panel>
             <asp:Panel ID="pnlDepartments" CssClass="panel" runat="server">
+                <table>
+                    <tr>
+                        <td>
+                            Departments in the system:
+                            <br />
+                            <asp:ListBox ID="lbDepartments" runat="server" Width="180" Height="120"></asp:ListBox>
+                        </td>
+                        <td>
+                            <asp:Button ID="btnDepartmentsNew" runat="server" Text="< Add Department" Width="140" />
+                            <br />
+                            <asp:Button ID="btnDepartmentsDelete" runat="server" Text="> Delete Department" Width="140" />
+                        </td>
+                    </tr>
+                </table>
             </asp:Panel>
         </div>
         <div id="divRooms">
             <h3 id="hr3Rooms">
                 Manage Rooms</h3>
+            <asp:Panel ID="pnlRoomsDescription" runat="server">
+                This section allows for the addition of Rooms that will show up in the drop down
+                menus on the forms of this web application. The forms allow for custom rooms, but
+                this is were you create, edit or delete the standard ones.
+            </asp:Panel>
             <asp:Panel ID="pnlRooms" CssClass="panel" runat="server">
             </asp:Panel>
         </div>
         <div id="divPositions">
             <h3 id="hr3Positions">
                 Manage Positions</h3>
+            <asp:Panel ID="pnlPositionsDescription" runat="server">
+                This section allows for the addition of positions that will show up in the drop
+                down menus on the forms when creating a new employee incident report or satefy training
+                profile. The forms allow for custom positions, but this is were you create, edit
+                or delete the standard ones.
+            </asp:Panel>
             <asp:Panel ID="pnlPositions" CssClass="panel" runat="server">
             </asp:Panel>
         </div>
         <div id="divSupervisors">
             <h3 id="hr3Supervisors">
                 Manage Supervisors</h3>
+            <asp:Panel ID="pnlSupervisorsDescription" runat="server">
+                This section allows for the addition of supervisors that will show up in the drop
+                down menus on the forms when creating a new employee incident report or satefy training
+                profile. The forms allow for custom supervisors, but this is were you create, edit
+                or delete the standard ones.
+            </asp:Panel>
             <asp:Panel ID="pnlSupervisors" CssClass="panel" runat="server">
             </asp:Panel>
         </div>
         <div id="divCourses">
             <h3 id="hr3Courses">
                 Manage Courses</h3>
+            <asp:Panel ID="pnlCoursesDescription" runat="server">
+                This section allows for the addition of courses that will show up in the Safety and Training form
+                of this web application.
+            </asp:Panel>
             <asp:Panel ID="pnlCourses" CssClass="panel" runat="server">
             </asp:Panel>
         </div>
