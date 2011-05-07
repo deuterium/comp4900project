@@ -1,4 +1,5 @@
 ﻿using System;
+using BCCAModel;
 
 /// <summary>
 ///Admin/Default.aspx.cs
@@ -14,14 +15,14 @@
 public partial class Admin_Default : System.Web.UI.Page
 {
     //Database Entities
-    BCCAModel.BCCAEntities ctx = new BCCAModel.BCCAEntities();
+    BCCAEntities ctx = new BCCAEntities();
 
     /// <summary>
     /// Page load method, SO FAR NOT USED
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
-    protected void Page_Load(object sender, EventArgs e) {}
+    protected void Page_Load(object sender, EventArgs e) { }
 
     #region System User Management
 
@@ -35,20 +36,21 @@ public partial class Admin_Default : System.Web.UI.Page
     /// <param name="e">not used in our code</param>
     protected void rblUsers_SelectedIndexChanged(object sender, EventArgs e)
     {
-        switch(rblUsers.SelectedValue) {
+        switch (rblUsers.SelectedValue)
+        {
             case "Create":
                 tdUserSystemUsers.Visible = false;
-                btnDelete.Visible = false;
-                btnUser.Text = "Create User";
+                btnUserDelete.Visible = false;
+                btnUserNew.Text = "Create User";
                 break;
             case "Edit":
                 tdUserSystemUsers.Visible = true;
-                btnDelete.Visible = true;
-                btnUser.Text = "Submit Changes";
+                btnUserDelete.Visible = true;
+                btnUserNew.Text = "Submit Changes";
                 break;
         }
     }
-    
+
     /// <summary>
     /// Postback event for selecting information for a user's role in the
     /// system user administration section of the admin page. Two Roles:
@@ -70,5 +72,58 @@ public partial class Admin_Default : System.Web.UI.Page
                 break;
         }
     }
+
+    /// <summary>
+    /// TODO
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
+    protected void btnUserNew_Click(object sender, EventArgs e)
+    {
+        BCCAModel.User u = new BCCAModel.User() 
+        { 
+            userName = tbUsername.Text,
+            password = tbPassword.Text,
+            roleNo = Convert.ToInt32(rblUserRole.SelectedValue),
+            deptNo = (!(Convert.ToInt32(ddlDepartments.SelectedValue) == -1) ? Convert.ToInt32(ddlDepartments.SelectedValue) : -1)
+        };
+    }
     #endregion
+
+    #region Dropdown Menu Management
+    protected void rblDropDownEdit_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string mode = rblDropDownEdit.SelectedValue;
+
+        //switch (rblDropDownEdit.SelectedValue)
+        //{
+        //    case "Departments":
+
+        //        break;
+        //    case "Rooms":
+
+        //        break;
+
+        //    case "Positions":
+
+        //        break;
+
+        //    case "Supervisors":
+
+        //        break;
+        //}
+
+        //change listbox datasource here
+        lblDropDownsDelete.Text = mode + " in system:";
+        mode = mode.Substring(0, mode.Length - 1);
+        lblDropDownsNew.Text = "Name of " + mode + " to add:";
+        btnDropDownsDelete.Text = "> Delete " + mode;
+        btnDropDownsNew.Text = "< Add " + mode;
+    }
+
+    #endregion
+
+    #region Course Management
+    #endregion
+    
 }

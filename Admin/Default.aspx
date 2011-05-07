@@ -18,6 +18,9 @@
         ExpandControlID="hr3DropDowns" TargetControlID="pnlDropDownsDescription" Collapsed="false" />
     <asp:CollapsiblePanelExtender ID="cpeCoursesDescription" runat="server" CollapseControlID="hr3Courses"
         ExpandControlID="hr3Courses" TargetControlID="pnlCoursesDescription" Collapsed="false" />
+    <asp:EntityDataSource ID="edsRoles" runat="server" ConnectionString="name=BCCAEntities"
+        DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="Roles">
+    </asp:EntityDataSource>
     <div id="divContent">
         <div id="divUsers">
             <h3 id="hr3Users">
@@ -39,71 +42,72 @@
                             <asp:RadioButtonList ID="rblUsers" runat="server" OnSelectedIndexChanged="rblUsers_SelectedIndexChanged"
                                 AutoPostBack="true" RepeatDirection="Horizontal">
                                 <asp:ListItem Text="Create" Value="Create" Selected="true" />
-                                <asp:ListItem Text="Edit" Value="Edit"  />
+                                <asp:ListItem Text="Edit" Value="Edit" />
                             </asp:RadioButtonList>
                         </td>
                     </tr>
                 </table>
-                    <table cellspacing="5">
-                        <tr>
-                            <td id="tdUserSystemUsers" valign="top" runat="server" visible="false">
-                                System Users:
+                <table cellspacing="5">
+                    <tr>
+                        <td id="tdUserSystemUsers" valign="top" runat="server" visible="false">
+                            System Users:
+                            <br />
+                            <asp:ListBox ID="lbxUsers" runat="server" Height="100" Width="100">
+                                <asp:ListItem Text="chris" Value="chris" Enabled="true" />
+                                <asp:ListItem Text="mike" Value="mike" />
+                                <asp:ListItem Text="kalen" Value="kalen" />
+                            </asp:ListBox>
+                        </td>
+                        <td valign="top">
+                            <table>
+                                <tr>
+                                    <td>
+                                        Username:
+                                    </td>
+                                    <td>
+                                        <asp:TextBox ID="tbUsername" runat="server" ValidationGroup="vgrUsers"></asp:TextBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Password:
+                                    </td>
+                                    <td>
+                                        <asp:TextBox ID="tbPassword" TextMode="Password" runat="server" ValidationGroup="vgrUsers"></asp:TextBox>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td valign="top">
+                            User Role:
+                            <asp:RadioButtonList ID="rblUserRole" runat="server" AutoPostBack="True" 
+                                OnSelectedIndexChanged="rblUserRole_SelectedIndexChanged" 
+                                DataSourceID="edsRoles" DataTextField="role1" DataValueField="roleNo">
+                            </asp:RadioButtonList>
+                        </td>
+                        <td id="tdUserCreateLabDiv" valign="top" runat="server" visible="false">
+                            <div id="divUserCreateLabManagerOption" runat="server">
+                                Lab to Manage:
                                 <br />
-                                <asp:ListBox ID="lbxUsers" runat="server" Height="100" Width="100">
-                                    <asp:ListItem Text="chris" Value="chris" Enabled="true" />
-                                    <asp:ListItem Text="mike" Value="mike" />
-                                    <asp:ListItem Text="kalen" Value="kalen" />
-                                </asp:ListBox>
-                            </td>
-                            <td valign="top">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            Username:
-                                        </td>
-                                        <td>
-                                            <asp:TextBox ID="tbUsername" runat="server" ValidationGroup="vgrUsers"></asp:TextBox>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Password:
-                                        </td>
-                                        <td>
-                                            <asp:TextBox ID="tbPassword" TextMode="Password" runat="server" ValidationGroup="vgrUsers"></asp:TextBox>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                            <td valign="top">
-                                User Role:
-                                <asp:RadioButtonList ID="rblUserRole" runat="server" AutoPostBack="True" OnSelectedIndexChanged="rblUserRole_SelectedIndexChanged">
-                                    <asp:ListItem Text="Safety Officer" Value="rwAll" />
-                                    <asp:ListItem Text="Lab Manager" Value="rInspections" />
-                                </asp:RadioButtonList>
-                            </td>
-                            <td id="tdUserCreateLabDiv" valign="top" runat="server" visible="false">
-                                <div id="divUserCreateLabManagerOption" runat="server">
-                                    Lab to Manage:
-                                    <br />
-                                    <asp:DropDownList ID="ddlDepartments" runat="server" Width="100px">
-                                    </asp:DropDownList>
-                                </div>
-                            </td>
-                            <td valign="bottom">
-                                <asp:Button ID="btnDelete" runat="server" Text="Delete User" Width="100" Visible="false" />
-                                <br />
-                                <asp:Button ID="btnUser" runat="server" Text="Create User" Width="100" />
-                            </td>
-                        </tr>
-                    </table>
+                                <asp:DropDownList ID="ddlDepartments" runat="server" Width="100px">
+                                </asp:DropDownList>
+                            </div>
+                        </td>
+                        <td valign="bottom">
+                            <asp:Button ID="btnUserDelete" runat="server" Text="Delete User" Width="100" Visible="false" />
+                            <br />
+                            <asp:Button ID="btnUserNew" runat="server" Text="Create User" Width="100" OnClick="btnUserNew_Click" />
+                        </td>
+                    </tr>
+                </table>
             </asp:Panel>
         </div>
         <div id="divDropDowns">
             <h3 id="hr3DropDowns">
                 Manage System Dropdown Menus</h3>
             <asp:Panel ID="pnlDropDownsDescription" runat="server">
-                CHANGE ME>>DESCRIPTION
+                This section allows for the addition and removal of Departments, Rooms, Positions,
+                and Supervisors in the default dropdown menus of this web application.
             </asp:Panel>
             <asp:Panel ID="pnlDropDowns" CssClass="panel" runat="server">
                 <table>
@@ -112,7 +116,8 @@
                             Item to Edit:
                         </td>
                         <td>
-                            <asp:RadioButtonList ID="rblDropDownEdit" runat="server" RepeatDirection="Horizontal">
+                            <asp:RadioButtonList ID="rblDropDownEdit" runat="server" RepeatDirection="Horizontal"
+                                AutoPostBack="True" OnSelectedIndexChanged="rblDropDownEdit_SelectedIndexChanged">
                                 <asp:ListItem Text="Departments" Value="Departments" Selected="true" />
                                 <asp:ListItem Text="Rooms" Value="Rooms" />
                                 <asp:ListItem Text="Positions" Value="Positions" />
