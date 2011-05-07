@@ -19,8 +19,10 @@
     <asp:CollapsiblePanelExtender ID="cpeCoursesDescription" runat="server" CollapseControlID="hr3Courses"
         ExpandControlID="hr3Courses" TargetControlID="pnlCoursesDescription" Collapsed="false" />
     <asp:EntityDataSource ID="edsRoles" runat="server" ConnectionString="name=BCCAEntities"
-        DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="Roles">
-    </asp:EntityDataSource>
+        DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="Roles" />
+    <asp:EntityDataSource ID="edsDepartments" runat="server" 
+        ConnectionString="name=BCCAEntities" DefaultContainerName="BCCAEntities" 
+        EnableFlattening="False" EntitySetName="Departments" />
     <div id="divContent">
         <div id="divUsers">
             <h3 id="hr3Users">
@@ -73,15 +75,14 @@
                                         Password:
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="tbPassword" TextMode="Password" runat="server" ValidationGroup="vgrUsers"></asp:TextBox>
+                                        <asp:TextBox ID="tbPassword" runat="server" ValidationGroup="vgrUsers"></asp:TextBox>
                                     </td>
                                 </tr>
                             </table>
                         </td>
                         <td valign="top">
                             User Role:
-                            <asp:RadioButtonList ID="rblUserRole" runat="server" AutoPostBack="True" 
-                                OnSelectedIndexChanged="rblUserRole_SelectedIndexChanged" 
+                            <asp:RadioButtonList ID="rblUserRole" runat="server" AutoPostBack="True" OnSelectedIndexChanged="rblUserRole_SelectedIndexChanged"
                                 DataSourceID="edsRoles" DataTextField="role1" DataValueField="roleNo">
                             </asp:RadioButtonList>
                         </td>
@@ -89,7 +90,8 @@
                             <div id="divUserCreateLabManagerOption" runat="server">
                                 Lab to Manage:
                                 <br />
-                                <asp:DropDownList ID="ddlDepartments" runat="server" Width="100px">
+                                <asp:DropDownList ID="ddlDepartments" runat="server" Width="100px" 
+                                    DataSourceID="edsDepartments" DataTextField="deptName" DataValueField="deptNo">
                                 </asp:DropDownList>
                             </div>
                         </td>

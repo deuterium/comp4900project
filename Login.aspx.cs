@@ -54,8 +54,7 @@ public partial class Login : System.Web.UI.Page
             //Treats empty result exceptions and invalid database returns as failed logins
             e.ToString();
         }
-
-        if (HashPassword(password).Equals(dbPass))
+        if (ASP.global_asax.Hash_Password(password).Equals(dbPass))
         {
             return true;
         }
@@ -65,18 +64,7 @@ public partial class Login : System.Web.UI.Page
         }
     }
 
-    /// <summary>
-    /// Hashes the provided password with the SHA256 hash that is common
-    /// to .NET framework systems rather than just ASP.NET (FormsAuthentication)
-    /// </summary>
-    /// <param name="pwd">Password to hash</param>
-    /// <returns>Password hashed with SHA1</returns>
-    protected String HashPassword(string pwd)
-    {
-        byte[] bytes = Encoding.Unicode.GetBytes(pwd);
-        byte[] inArray = HashAlgorithm.Create("SHA256").ComputeHash(bytes);
-        return Convert.ToBase64String(inArray);
-    }
+    
 
     /// <summary>
     /// Authenticates User Credentials to database

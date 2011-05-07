@@ -1,5 +1,7 @@
 ﻿using System;
 using BCCAModel;
+using System.Text;
+using System.Security.Cryptography;
 
 /// <summary>
 ///Admin/Default.aspx.cs
@@ -62,12 +64,15 @@ public partial class Admin_Default : System.Web.UI.Page
     /// <param name="e">not used in our code</param>
     protected void rblUserRole_SelectedIndexChanged(object sender, EventArgs e)
     {
-        switch (rblUserRole.SelectedValue)
+        switch (rblUserRole.SelectedItem.Text)
         {
-            case "rwAll":
+            case "Administrator":
                 tdUserCreateLabDiv.Visible = false;
                 break;
-            case "rInspections":
+            case "Safety Officer":
+                tdUserCreateLabDiv.Visible = false;
+                break;
+            case "Lab Manager":
                 tdUserCreateLabDiv.Visible = true;
                 break;
         }
@@ -80,13 +85,15 @@ public partial class Admin_Default : System.Web.UI.Page
     /// <param name="e">not used in our code</param>
     protected void btnUserNew_Click(object sender, EventArgs e)
     {
-        BCCAModel.User u = new BCCAModel.User() 
-        { 
+        BCCAModel.User u = new BCCAModel.User()
+        {
             userName = tbUsername.Text,
-            password = tbPassword.Text,
+            password = ASP.global_asax.Hash_Password(tbPassword.Text),
             roleNo = Convert.ToInt32(rblUserRole.SelectedValue),
-            deptNo = (!(Convert.ToInt32(ddlDepartments.SelectedValue) == -1) ? Convert.ToInt32(ddlDepartments.SelectedValue) : -1)
+            deptNo = (!(ddlDepartments.SelectedValue == "") ? Convert.ToInt32(ddlDepartments.SelectedValue) : (int?)null)
         };
+        ctx.AddToUsers(u);
+        ctx.SaveChanges();
     }
     #endregion
 
@@ -125,5 +132,5 @@ public partial class Admin_Default : System.Web.UI.Page
 
     #region Course Management
     #endregion
-    
+
 }
