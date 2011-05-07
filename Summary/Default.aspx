@@ -72,11 +72,13 @@ Summary Page:
                 Lab Manager:
             </td>
             <td>
-                <asp:DropDownList runat="server" ID="ddlLabLabManager"></asp:DropDownList>
+                <asp:DropDownList runat="server" ID="ddlLabLabManager">
+                <asp:ListItem Text="Select Lab Manager" Value="none" />
+                </asp:DropDownList>
                 <asp:RequiredFieldValidator  
                  ID="rfvLabManger" runat="server" ErrorMessage="Please select a Lab Manger."
                  ControlToValidate="ddlLabLabManager" validationGroup="vgrInspectionLookUp"
-                 InitialValue="Select A Lab Manger">  
+                 InitialValue="none">  
         </asp:RequiredFieldValidator>
             </td>
         </tr>
