@@ -1,7 +1,8 @@
 ﻿using System;
-using BCCAModel;
-using System.Text;
+using System.Linq;
 using System.Security.Cryptography;
+using System.Text;
+using BCCAModel;
 
 /// <summary>
 ///Admin/Default.aspx.cs
@@ -100,6 +101,25 @@ public partial class Admin_Default : System.Web.UI.Page
             ctx.SaveChanges();
         }
     }
+
+    /// <summary>
+    /// Custom validator used to check if a username is duplicate in our system. Database allows
+    /// for duplicate usernames since the primary key is on userId rather than username. This function 
+    /// only allows validation to pass if username does not exist in database.
+    /// </summary>
+    /// <param name="source">not used in our code</param>
+    /// <param name="args">Argument to set valid or not</param>
+    protected void cvlUserNew_ServerValidate(object source, System.Web.UI.WebControls.ServerValidateEventArgs args)
+    {
+        if (ctx.Users.Where(u => u.userName == tbUsername.Text).Count() > 0)
+        {
+            args.IsValid = false;
+        }
+        else
+        {
+            args.IsValid = true;
+        }
+    }
     #endregion
 
     #region Dropdown Menu Management
@@ -138,8 +158,5 @@ public partial class Admin_Default : System.Web.UI.Page
     #region Course Management
     #endregion
 
-    protected void cvlUserNew_ServerValidate(object source, System.Web.UI.WebControls.ServerValidateEventArgs args)
-    {
-        args.IsValid = false;
-    }
+    
 }
