@@ -22,23 +22,25 @@ CollapseControlID="hr3ReportInfo" ExpandControlID="hr3ReportInfo" TargetControlI
                   <table>
                     <tr>
                         <td class="trainingTableWidth">
-                            ID:</td>
+                            ID:
+                        </td>
                         <td>
                             <asp:TextBox ID="tbxId" runat="server"></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
                         <td class="trainingTableWidth">
-                            Last name:</td>
+                            Last name:
+                        </td>
                         <td>
-                          <asp:TextBox ID="tbxFirstName" runat="server"></asp:TextBox>
+                          <asp:TextBox ID="tbxLastName" runat="server"></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
                         <td class="trainingTableWidth">
                             First name:</td>
                         <td>
-                            <asp:TextBox ID="tbxLastName" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="tbxFirstName" runat="server" ></asp:TextBox>
                         </td>
                     </tr>
                   </table>
@@ -56,12 +58,26 @@ CollapseControlID="hr3ReportInfo" ExpandControlID="hr3ReportInfo" TargetControlI
                         <td class="trainingTableWidth">
                             Employer:</td>
                         <td>
-                            <asp:DropDownList ID="ddlEmployers" runat="server"></asp:DropDownList>
+                            <asp:DropDownList ID="ddlEmployers" runat="server" OnSelectedIndexChanged="ddlEmployers_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <asp:UpdatePanel ID="uplEmployer" runat="server">
+                                <ContentTemplate>
+                                    <asp:TextBox ID="tbxEmployer" runat="server" Visible="false"></asp:TextBox>
+                                </ContentTemplate>
+                                <Triggers>
+                                    <asp:AsyncPostBackTrigger ControlID="ddlEmployers" EventName="SelectedIndexChanged" />
+                                </Triggers>
+                            </asp:UpdatePanel>
                         </td>
                     </tr>
                     <tr>
                         <td class="trainingTableWidth">
-                            Department:</td>
+                            Department:
+                        </td>
                         <td>
                             <asp:DropDownList ID="ddlDepartments" runat="server"></asp:DropDownList>
                         </td>
@@ -104,8 +120,12 @@ CollapseControlID="hr3ReportInfo" ExpandControlID="hr3ReportInfo" TargetControlI
                     </tr>
                     </table>
                 </div>
-
-                <asp:Button ID="btnSSearch" ValidationGroup="vgpHeader" runat="server" Text="Search" />
+                <asp:Button ID="btnGetEmployee" ValidationGroup="vgpHeader" runat="server" 
+                    Text="Get Employee" onclick="btnGetEmployee_Click" />
+                <asp:Button ID="btnSearch" ValidationGroup="vgpHeader" runat="server" Text="Search" />
+            <p>
+                <asp:Label ID="lblResults" runat="server" Text="" Visible="false" ></asp:Label>
+            </p>
 
             <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpHeader"
                 ControlToValidate="tbxFirstName" ErrorMessage="First name can only contain letters."
@@ -114,26 +134,27 @@ CollapseControlID="hr3ReportInfo" ExpandControlID="hr3ReportInfo" TargetControlI
                 ControlToValidate="tbxLastName" ErrorMessage="Last name can only contain letters."
                 ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
             
-            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxFirstName" ErrorMessage="First name can only contain letters."
-                ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
-            <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxLastName" ErrorMessage="Last name can only contain letters."
-                ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
+            <asp:RegularExpressionValidator ID="revRoom" runat="server" ValidationGroup="vgpHeader"
+                ControlToValidate="tbxRoom" ValidationExpression="^[0-9\-, ]$" 
+                ErrorMessage="Room can only contain digits, dashes, commas, and spaces."></asp:RegularExpressionValidator>
+
+            <asp:RegularExpressionValidator ID="revSupervisor" runat="server" ValidationGroup="vgpHeader"
+                ControlToValidate="tbxSupervisor" ErrorMessage="Supervisor must have a first and last name separated by a space."
+                ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
 
             <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpHeader"
                 ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{4}/{1}[0-9]{2}/{1}[0-9]{2}$" 
                 ErrorMessage="Start date must be in format 'YYYY/MM/DD'"></asp:RegularExpressionValidator>
             <asp:RangeValidator ID="rgvStartDate" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 2000/01/01 and 2500/01/01."
-                MaximumValue="2500/01/01" MinimumValue="2000/01/01"></asp:RangeValidator>
+                ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 1900/01/01 and 2500/01/01."
+                MaximumValue="2500/01/01" MinimumValue="1900/01/01"></asp:RangeValidator>
 
             <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpHeader"
                 ControlToValidate="tbxEndDate" ValidationExpression="^[0-9]{4}/{1}[0-9]{2}/{1}[0-9]{2}$" 
                 ErrorMessage="End date must be in format 'YYYY/MM/DD'"></asp:RegularExpressionValidator>
             <asp:RangeValidator ID="rgvEndDate" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxEndDate" ErrorMessage="End date must be between 2000/01/01 and 2500/01/01."
-                MaximumValue="2500/01/01" MinimumValue="2000/01/01"></asp:RangeValidator>
+                ControlToValidate="tbxEndDate" ErrorMessage="End date must be between 1900/01/01 and 2500/01/01."
+                MaximumValue="2500/01/01" MinimumValue="1900/01/01"></asp:RangeValidator>
             <asp:CompareValidator ID="cpvStartEndDates" runat="server" ValidationGroup="vgpHeader"
                 ControlToValidate="tbxEndDate" ControlToCompare="tbxStartDate" Operator="GreaterThan" Type="Date"
                 ErrorMessage="End date must be later than start date." ></asp:CompareValidator>
