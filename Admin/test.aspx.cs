@@ -13,6 +13,6 @@ public partial class Admin_test : System.Web.UI.Page
     }
     protected void Unnamed1_Click(object sender, EventArgs e)
     {
-        //MPE.Focus();
+        MPE.Focus();
     }
 }
