@@ -68,9 +68,11 @@ public partial class Admin_Default : System.Web.UI.Page
         {
             case "Administrator":
                 tdUserCreateLabDiv.Visible = false;
+                ddlDepartments.SelectedValue = "";
                 break;
             case "Safety Officer":
                 tdUserCreateLabDiv.Visible = false;
+                ddlDepartments.SelectedValue = "";
                 break;
             case "Lab Manager":
                 tdUserCreateLabDiv.Visible = true;
@@ -85,15 +87,18 @@ public partial class Admin_Default : System.Web.UI.Page
     /// <param name="e">not used in our code</param>
     protected void btnUserNew_Click(object sender, EventArgs e)
     {
-        BCCAModel.User u = new BCCAModel.User()
+        if (Page.IsValid)
         {
-            userName = tbUsername.Text,
-            password = ASP.global_asax.Hash_Password(tbPassword.Text),
-            roleNo = Convert.ToInt32(rblUserRole.SelectedValue),
-            deptNo = (!(ddlDepartments.SelectedValue == "") ? Convert.ToInt32(ddlDepartments.SelectedValue) : (int?)null)
-        };
-        ctx.AddToUsers(u);
-        ctx.SaveChanges();
+            BCCAModel.User u = new BCCAModel.User()
+            {
+                userName = tbUsername.Text,
+                password = ASP.global_asax.Hash_Password(tbPassword.Text),
+                roleNo = Convert.ToInt32(rblUserRole.SelectedValue),
+                deptNo = (!(ddlDepartments.SelectedValue == "") ? Convert.ToInt32(ddlDepartments.SelectedValue) : (int?)null)
+            };
+            ctx.AddToUsers(u);
+            ctx.SaveChanges();
+        }
     }
     #endregion
 
@@ -133,4 +138,8 @@ public partial class Admin_Default : System.Web.UI.Page
     #region Course Management
     #endregion
 
+    protected void cvlUserNew_ServerValidate(object source, System.Web.UI.WebControls.ServerValidateEventArgs args)
+    {
+        args.IsValid = false;
+    }
 }

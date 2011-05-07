@@ -22,19 +22,19 @@ Safety Training Database and Website
 
 --%>
 
-<asp:CompareValidator runat="server" Text="*" ForeColor="Red" Display="Dynamic">
+<asp:CompareValidator runat="server" Text="*" ForeColor="Red">
 </asp:CompareValidator>
 
-<asp:CustomValidator runat="server" Text="*" ForeColor="Red" Display="Dynamic">
+<asp:CustomValidator runat="server" Text="*" ForeColor="Red">
 </asp:CustomValidator>
 
-<asp:RangeValidator runat="server" Text="*" ForeColor="Red" Display="Dynamic">
+<asp:RangeValidator runat="server" Text="*" ForeColor="Red">
 </asp:RangeValidator>
 
-<asp:RegularExpressionValidator runat="server" Text="*" ForeColor="Red" Display="Dynamic">
+<asp:RegularExpressionValidator runat="server" Text="*" ForeColor="Red">
 </asp:RegularExpressionValidator>
 
-<asp:RequiredFieldValidator runat="server" Text="*" ForeColor="Red" Display="Dynamic">
+<asp:RequiredFieldValidator runat="server" Text="*" ForeColor="Red">
 </asp:RequiredFieldValidator>
 
 <asp:ValidationSummary runat="server" ForeColor="Red" DisplayMode="BulletList" />

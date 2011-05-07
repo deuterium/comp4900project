@@ -20,9 +20,8 @@
         ExpandControlID="hr3Courses" TargetControlID="pnlCoursesDescription" Collapsed="false" />
     <asp:EntityDataSource ID="edsRoles" runat="server" ConnectionString="name=BCCAEntities"
         DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="Roles" />
-    <asp:EntityDataSource ID="edsDepartments" runat="server" 
-        ConnectionString="name=BCCAEntities" DefaultContainerName="BCCAEntities" 
-        EnableFlattening="False" EntitySetName="Departments" />
+    <asp:EntityDataSource ID="edsDepartments" runat="server" ConnectionString="name=BCCAEntities"
+        DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="Departments" />
     <div id="divContent">
         <div id="divUsers">
             <h3 id="hr3Users">
@@ -67,7 +66,9 @@
                                         Username:
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="tbUsername" runat="server" ValidationGroup="vgrUsers"></asp:TextBox>
+                                        <asp:TextBox ID="tbUsername" runat="server" />
+                                        <asp:RequiredFieldValidator ID="rfvUsername" runat="server" ErrorMessage="Username required"
+                                            ValidationGroup="vgrUserNew" ControlToValidate="tbUsername" Display="Dynamic" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -75,13 +76,18 @@
                                         Password:
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="tbPassword" runat="server" ValidationGroup="vgrUsers"></asp:TextBox>
+                                        <asp:TextBox ID="tbPassword" runat="server" />
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Password required"
+                                            ValidationGroup="vgrUserNew" ControlToValidate="tbPassword" Display="Dynamic" />
                                     </td>
                                 </tr>
                             </table>
                         </td>
                         <td valign="top">
                             User Role:
+                            <asp:RequiredFieldValidator ID="rfvUserRole" runat="server" 
+                                ErrorMessage="Role required" ControlToValidate="rblUserRole" 
+                                Display="Dynamic" ValidationGroup="vgrUserNew" />
                             <asp:RadioButtonList ID="rblUserRole" runat="server" AutoPostBack="True" OnSelectedIndexChanged="rblUserRole_SelectedIndexChanged"
                                 DataSourceID="edsRoles" DataTextField="role1" DataValueField="roleNo">
                             </asp:RadioButtonList>
@@ -90,18 +96,28 @@
                             <div id="divUserCreateLabManagerOption" runat="server">
                                 Lab to Manage:
                                 <br />
-                                <asp:DropDownList ID="ddlDepartments" runat="server" Width="100px" 
-                                    DataSourceID="edsDepartments" DataTextField="deptName" DataValueField="deptNo">
+                                <asp:DropDownList ID="ddlDepartments" runat="server" Width="100px" DataSourceID="edsDepartments"
+                                    DataTextField="deptName" DataValueField="deptNo" AppendDataBoundItems="true">
+                                    <asp:ListItem Text="" Value="" />
                                 </asp:DropDownList>
                             </div>
                         </td>
                         <td valign="bottom">
+                            <asp:CustomValidator ID="cvlUserNew" runat="server" ErrorMessage="Username already exists"
+                                ForeColor="Red" OnServerValidate="cvlUserNew_ServerValidate" 
+                                ValidationGroup="vgrUserNew" Display="None"></asp:CustomValidator>
+                            <br />
                             <asp:Button ID="btnUserDelete" runat="server" Text="Delete User" Width="100" Visible="false" />
                             <br />
-                            <asp:Button ID="btnUserNew" runat="server" Text="Create User" Width="100" OnClick="btnUserNew_Click" />
+                            <asp:Button ID="btnUserNew" runat="server" Text="Create User" Width="100" OnClick="btnUserNew_Click"
+                                ValidationGroup="vgrUserNew" />
+                        </td>
+                        <td>
+                            <asp:ValidationSummary ID="vsmUserNew" runat="server" ValidationGroup="vgrUserNew" />
                         </td>
                     </tr>
                 </table>
+                <asp:Label ID="lblUserError" runat="server" Visible="false" ForeColor="Red" />
             </asp:Panel>
         </div>
         <div id="divDropDowns">
@@ -133,7 +149,7 @@
                         <td>
                             <asp:Label ID="lblDropDownsDelete" runat="server" Text="Departments in system:"></asp:Label>
                             <asp:RequiredFieldValidator ID="rfvDropDownsDelete" runat="server" ErrorMessage="Selection of item needed to delete"
-                                ControlToValidate="lbDropDowns" ValidationGroup="vgrDropDownsDelete" />
+                                ControlToValidate="lbDropDowns" ValidationGroup="vgrDropDownsDelete" Display="Dynamic" />
                             <br />
                             <asp:ListBox ID="lbDropDowns" runat="server" Width="180" Height="120" ValidationGroup="vgrDropDownsDelete" />
                         </td>
@@ -147,7 +163,7 @@
                         <td width="140">
                             <asp:Label ID="lblDropDownsNew" runat="server" Text="Name of Department to add:"></asp:Label>
                             <asp:RequiredFieldValidator ID="rfvDropDownsNew" runat="server" ErrorMessage="Name of new item required to create new"
-                                ValidationGroup="vgrDropDownsNew" ControlToValidate="tbxDropDownsNew" />
+                                ValidationGroup="vgrDropDownsNew" ControlToValidate="tbxDropDownsNew" Display="Dynamic" />
                             <br />
                             <asp:TextBox ID="tbxDropDownsNew" runat="server" Width="160" />
                         </td>
