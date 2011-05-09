@@ -24,9 +24,9 @@
         DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="Roles" />
     <asp:EntityDataSource ID="edsDepartments" runat="server" ConnectionString="name=BCCAEntities"
         DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="Departments" />
-    <asp:EntityDataSource ID="edsUsers" runat="server" 
-        ConnectionString="name=BCCAEntities" DefaultContainerName="BCCAEntities" 
-        EnableFlattening="False" EntitySetName="Users">
+    <asp:EntityDataSource ID="edsUsers" runat="server" ConnectionString="name=BCCAEntities"
+        DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="Users"
+        Select="it.[userNo], it.[userName]">
     </asp:EntityDataSource>
     <div id="divContent">
         <div id="divUsers">
@@ -58,10 +58,12 @@
                     <tr>
                         <td id="tdUserSystemUsers" valign="top" runat="server" visible="false">
                             System Users:
+                            <asp:RequiredFieldValidator ID="rfvUserDelete" runat="server" ErrorMessage="Select a user to delete"
+                                ValidationGroup="vgrUserDelete" ControlToValidate="lbxUsers" />
                             <br />
-                            <asp:ListBox ID="lbxUsers" runat="server" Height="100px" Width="100px" 
-                                DataSourceID="edsUsers" DataTextField="userNo" DataValueField="userName">
-                            </asp:ListBox>
+                            <asp:ListBox ID="lbxUsers" runat="server" Height="100px" Width="100px" DataSourceID="edsUsers"
+                                DataTextField="userName" DataValueField="userNo" AutoPostBack="True" 
+                                onselectedindexchanged="lbxUsers_SelectedIndexChanged"></asp:ListBox>
                         </td>
                         <td valign="top">
                             <table>
@@ -71,8 +73,9 @@
                                     </td>
                                     <td>
                                         <asp:TextBox ID="tbUsername" runat="server" />
+                                        <asp:TextBox ID="tbUsernameID" runat="server" CssClass="hidden" />
                                         <asp:RequiredFieldValidator ID="rfvUsername" runat="server" ErrorMessage="Username required"
-                                            ValidationGroup="vgrUserNew" ControlToValidate="tbUsername" Display="Dynamic" />
+                                            ValidationGroup="vgrUserNew" ControlToValidate="tbUsername" Display="Static" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -80,14 +83,14 @@
                                         Password:
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="tbPassword" runat="server" />
+                                        <asp:TextBox ID="tbPassword" runat="server" onclick="this.value ='';" />
                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Password required"
-                                            ValidationGroup="vgrUserNew" ControlToValidate="tbPassword" Display="Dynamic" />
+                                            ValidationGroup="vgrUserNew" ControlToValidate="tbPassword" Display="Static" />
                                     </td>
                                 </tr>
                             </table>
                         </td>
-                        <td valign="top">
+                        <td valign="top" runat="server" id="tdUserCreateRoleDiv">
                             User Role:
                             <asp:RequiredFieldValidator ID="rfvUserRole" runat="server" ErrorMessage="Role required"
                                 ControlToValidate="rblUserRole" Display="Dynamic" ValidationGroup="vgrUserNew" />
@@ -110,13 +113,15 @@
                                 ForeColor="Red" OnServerValidate="cvlUserNew_ServerValidate" ValidationGroup="vgrUserNew"
                                 Display="None"></asp:CustomValidator>
                             <br />
-                            <asp:Button ID="btnUserDelete" runat="server" Text="Delete User" Width="100" Visible="false" />
+                            <asp:Button ID="btnUserDelete" runat="server" Text="Delete User" Width="120" Visible="false" 
+                            ValidationGroup="vgrUserDelete" onclick="btnUserDelete_Click" />
                             <br />
-                            <asp:Button ID="btnUserNew" runat="server" Text="Create User" Width="100" OnClick="btnUserNew_Click"
-                                ValidationGroup="vgrUserNew" />
+                            <asp:Button ID="btnUserNew" runat="server" Text="Create User" Width="120" OnClick="btnUserNew_Click"
+                            ValidationGroup="vgrUserNew" />
                         </td>
                         <td>
                             <asp:ValidationSummary ID="vsmUserNew" runat="server" ValidationGroup="vgrUserNew" />
+                            <asp:ValidationSummary ID="vsmUserDelete" runat="server" ValidationGroup="vgrUserDelete" />
                         </td>
                     </tr>
                 </table>
