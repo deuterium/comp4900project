@@ -28,9 +28,11 @@ public partial class Training_Training : System.Web.UI.Page {
     public static Color SuccessColour = Color.Green;
     // Text value of DropDowns for the other option, selecting this option causes a textbox to appear for custom data entry
     public static String otherOption = "Other (specifiy)";
+    // Text value of DropDowns for the none specified option (null value in db)
+    public static String noOptionSpecified = "Choose an option...";
     // List of pre-defined employers a user can select
     public static List<String> employers = new List<String> {
-        "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
+        noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
     };
 
     /// <summary>
@@ -48,8 +50,10 @@ public partial class Training_Training : System.Web.UI.Page {
             ddlDepartments.DataValueField = "deptNo";
             ddlDepartments.DataTextField = "deptName";
             ddlDepartments.DataBind();
+            ddlDepartments.Items.Insert(0, noOptionSpecified);
 
-            ddlPositions.Items.Insert(ddlPositions.Items.Count, "Lab Manager Sample");
+            ddlPositions.Items.Insert(0, noOptionSpecified);
+            //ddlPositions.Items.Insert(ddlPositions.Items.Count, "Lab Manager Sample");
             ddlPositions.Items.Insert(ddlPositions.Items.Count, otherOption);
 
             populateCourses();
@@ -65,12 +69,7 @@ public partial class Training_Training : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The index changed event.</param>
     protected void ddlEmployers_SelectedIndexChanged(object sender, EventArgs e) {
-        if (ddlEmployers.SelectedValue.Equals(otherOption)) {
-            tbxEmployer.Visible = true;
-        }
-        else {
-            tbxEmployer.Visible = false;
-        }
+        CheckEmployeeOption();
     }
 
     /// <summary>
@@ -80,12 +79,7 @@ public partial class Training_Training : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The index changed event.</param>
     protected void ddlPositions_SelectedIndexChanged(object sender, EventArgs e) {
-        if (ddlPositions.SelectedValue.Equals(otherOption)) {
-            tbxPosition.Visible = true;
-        }
-        else {
-            tbxPosition.Visible = false;
-        }
+        CheckPositionOption();
     }
 
     /// <summary>
@@ -143,34 +137,41 @@ public partial class Training_Training : System.Web.UI.Page {
                   .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
                   .Select(e => e);
 
-        if (qry != null && qry.Count() == 1) {
+        if ((qry != null) && (qry.Count() == 1)) {
             emp = qry.FirstOrDefault();
             
             tbxId.Text = emp.empNo.ToString();
 
-            // need Daisy to fix this
-            //var position = ctx.Positions
-            //                .Where(p => p.posName.Equals(emp.Position.posName))
-            //                .Select(p => p);
 
-            //if (position == null || position.count() == 1) {
-            //    ddlpositions.selectedvalue = emp.position.posname;
-            //} else {
-            //    ddlpositions.selectedvalue = otheroption;
-            //    tbxposition.text = emp.position.posname;
-            //}
+            var position = ctx.Positions
+                           .Where(p => p.posName.Equals(emp.position))
+                           .Select(p => p);
+
+            if ((position != null) && (position.Count() == 1)) {
+                ddlPositions.SelectedValue = emp.position;
+            } else if (emp.position == null) {
+                ddlPositions.SelectedIndex = 0;
+            } else {
+                ddlPositions.SelectedValue = otherOption;
+                tbxPosition.Text = emp.position;
+            }
+            CheckPositionOption();
 
             if (employers.Contains(emp.employer)) {
                 ddlEmployers.SelectedValue = emp.employer;
+            } else if (emp.position == null) {
+                ddlEmployers.SelectedIndex = 0;
             } else {
                 ddlEmployers.SelectedValue = otherOption;
                 tbxEmployer.Text = emp.employer;
             }
+            CheckEmployeeOption();
 
-            //var depts = ctx.Departments
-            //            .Where(d => d.deptNo.
-
-            //tbxRoom.Text = emp.Room.room1.ToString();
+            if (emp.supervisor == null) {
+                tbxSupervisor.Text = String.Empty;
+            } else {
+                tbxSupervisor.Text = emp.supervisor;
+            }
 
             tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("yyyy/MM/dd");
             if (emp.endDate != null) {
@@ -178,7 +179,7 @@ public partial class Training_Training : System.Web.UI.Page {
             }
             setResultMsg(null, SuccessColour);
 
-        } else if (qry != null && qry.Count() <= 0) {
+        } else if ((qry != null) && (qry.Count() <= 0)) {
             setResultMsg("No employees with that first and last name found.", FailColour);
         } else {
             setResultMsg("There was more than one employee with that first and last name.", FailColour);
@@ -210,4 +211,23 @@ public partial class Training_Training : System.Web.UI.Page {
         lblResults.ForeColor = foreColour;
         lblResults.Text = msg;
     }
+
+    private void CheckPositionOption() {
+        if (ddlPositions.SelectedValue.Equals(otherOption)) {
+            tbxPosition.Visible = true;
+        }
+        else {
+            tbxPosition.Visible = false;
+        }
+    }
+
+    private void CheckEmployeeOption() {
+        if (ddlEmployers.SelectedValue.Equals(otherOption)) {
+            tbxEmployer.Visible = true;
+        }
+        else {
+            tbxEmployer.Visible = false;
+        }
+    }
+
 }
