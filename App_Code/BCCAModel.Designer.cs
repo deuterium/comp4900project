@@ -22,7 +22,6 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__LabInspec__deptN__59C55456", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabInspection), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__OfficeIns__deptN__6FB49575", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "OfficeInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.OfficeInspection), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "fk_deptNo", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.User), true)]
-[assembly: EdmRelationshipAttribute("BCCAModel", "FK__Employee__roleNo__4A8310C6", "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Role), "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Employee), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__Employee__roomNo__498EEC8D", "Room", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Room), "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Employee), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__Incident__empNo__04AFB25B", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Employee), "Incident", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Incident), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__TrainingT__empNo__503BEA1C", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Employee), "TrainingTaken", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.TrainingTaken), true)]
@@ -231,6 +230,22 @@ namespace BCCAModel
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
+        public ObjectSet<Position> Positions
+        {
+            get
+            {
+                if ((_Positions == null))
+                {
+                    _Positions = base.CreateObjectSet<Position>("Positions");
+                }
+                return _Positions;
+            }
+        }
+        private ObjectSet<Position> _Positions;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
         public ObjectSet<Role> Roles
         {
             get
@@ -413,6 +428,14 @@ namespace BCCAModel
         public void AddToOfficeInspectionItems(OfficeInspectionItem officeInspectionItem)
         {
             base.AddObject("OfficeInspectionItems", officeInspectionItem);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Positions EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToPositions(Position position)
+        {
+            base.AddObject("Positions", position);
         }
     
         /// <summary>
@@ -665,15 +688,13 @@ namespace BCCAModel
         /// <param name="empNo">Initial value of the empNo property.</param>
         /// <param name="lname">Initial value of the lname property.</param>
         /// <param name="fname">Initial value of the fname property.</param>
-        /// <param name="roleNo">Initial value of the roleNo property.</param>
         /// <param name="startDate">Initial value of the startDate property.</param>
-        public static Employee CreateEmployee(global::System.Int32 empNo, global::System.String lname, global::System.String fname, global::System.Int32 roleNo, global::System.DateTime startDate)
+        public static Employee CreateEmployee(global::System.Int32 empNo, global::System.String lname, global::System.String fname, global::System.DateTime startDate)
         {
             Employee employee = new Employee();
             employee.empNo = empNo;
             employee.lname = lname;
             employee.fname = fname;
-            employee.roleNo = roleNo;
             employee.startDate = startDate;
             return employee;
         }
@@ -833,30 +854,6 @@ namespace BCCAModel
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 roleNo
-        {
-            get
-            {
-                return _roleNo;
-            }
-            set
-            {
-                OnroleNoChanging(value);
-                ReportPropertyChanging("roleNo");
-                _roleNo = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("roleNo");
-                OnroleNoChanged();
-            }
-        }
-        private global::System.Int32 _roleNo;
-        partial void OnroleNoChanging(global::System.Int32 value);
-        partial void OnroleNoChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
         public global::System.DateTime startDate
         {
             get
@@ -929,6 +926,30 @@ namespace BCCAModel
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
+        public global::System.String supervisor
+        {
+            get
+            {
+                return _supervisor;
+            }
+            set
+            {
+                OnsupervisorChanging(value);
+                ReportPropertyChanging("supervisor");
+                _supervisor = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("supervisor");
+                OnsupervisorChanged();
+            }
+        }
+        private global::System.String _supervisor;
+        partial void OnsupervisorChanging(global::System.String value);
+        partial void OnsupervisorChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
         public global::System.String position
         {
             get
@@ -986,44 +1007,6 @@ namespace BCCAModel
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Department>("BCCAModel.FK__Employee__deptNo__489AC854", "Department", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Employee__roleNo__4A8310C6", "Role")]
-        public Role Role
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Role>("BCCAModel.FK__Employee__roleNo__4A8310C6", "Role").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Role>("BCCAModel.FK__Employee__roleNo__4A8310C6", "Role").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Role> RoleReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Role>("BCCAModel.FK__Employee__roleNo__4A8310C6", "Role");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Role>("BCCAModel.FK__Employee__roleNo__4A8310C6", "Role", value);
                 }
             }
         }
@@ -7077,6 +7060,85 @@ namespace BCCAModel
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="Position")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Position : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Position object.
+        /// </summary>
+        /// <param name="posNo">Initial value of the posNo property.</param>
+        public static Position CreatePosition(global::System.Int32 posNo)
+        {
+            Position position = new Position();
+            position.posNo = posNo;
+            return position;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 posNo
+        {
+            get
+            {
+                return _posNo;
+            }
+            set
+            {
+                if (_posNo != value)
+                {
+                    OnposNoChanging(value);
+                    ReportPropertyChanging("posNo");
+                    _posNo = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("posNo");
+                    OnposNoChanged();
+                }
+            }
+        }
+        private global::System.Int32 _posNo;
+        partial void OnposNoChanging(global::System.Int32 value);
+        partial void OnposNoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String posName
+        {
+            get
+            {
+                return _posName;
+            }
+            set
+            {
+                OnposNameChanging(value);
+                ReportPropertyChanging("posName");
+                _posName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("posName");
+                OnposNameChanged();
+            }
+        }
+        private global::System.String _posName;
+        partial void OnposNameChanging(global::System.String value);
+        partial void OnposNameChanged();
+
+        #endregion
+    
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="Role")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -7152,28 +7214,6 @@ namespace BCCAModel
         #endregion
     
         #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Employee__roleNo__4A8310C6", "Employee")]
-        public EntityCollection<Employee> Employees
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Employee>("BCCAModel.FK__Employee__roleNo__4A8310C6", "Employee");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Employee>("BCCAModel.FK__Employee__roleNo__4A8310C6", "Employee", value);
-                }
-            }
-        }
     
         /// <summary>
         /// No Metadata Documentation available.
