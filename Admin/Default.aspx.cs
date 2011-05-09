@@ -65,9 +65,10 @@ public partial class Admin_Default : System.Web.UI.Page
                 btnUserNew.Text = "Create User";
                 break;
             case "Edit":
+                tdUserCreateRoleDiv.Visible = false;
                 tdUserSystemUsers.Visible = true;
                 btnUserDelete.Visible = true;
-                btnUserNew.Text = "Submit Changes";
+                btnUserNew.Text = "Change Password";
                 break;
         }
     }
@@ -143,6 +144,18 @@ public partial class Admin_Default : System.Web.UI.Page
         }
     }
 
+    protected void lbxUsers_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        tbUsername.Text = lbxUsers.SelectedItem.Text;
+        tbUsernameID.Text = lbxUsers.SelectedValue;
+        tbPassword.Text = "Enter new password";
+    }
+
+    protected void btnUserDelete_Click(object sender, EventArgs e)
+    {
+
+    }
+
     /// <summary>
     /// Custom validator used to check if a username is duplicate in our system. Database allows
     /// for duplicate usernames since the primary key is on userId rather than username. This function 
@@ -198,6 +211,8 @@ public partial class Admin_Default : System.Web.UI.Page
 
     #region Course Management
     #endregion
+
+
 
     
 }
