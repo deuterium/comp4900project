@@ -7,15 +7,38 @@ using System.Web.UI.WebControls;
 using System.Drawing;
 using BCCAModel;
 
+/// <summary>
+/// Training/Default.aspx.cs
+/// BCCA Cancer Research Centre
+/// Safety Training Database and Website
+/// Authors: BCIT COMP4900 2011
+/// Chris Wood - chriswood.ca@gmail.com
+/// Daisy Yuen - yuen.daisy@gmail.com
+/// Kalen Wessel - kalen.wessel@gmail.com
+/// Lindsay Fester - lindsay.m.fester@gmail.com
+/// Michael Anderson - anderson.michael23@gmail.com
+/// </summary>
 public partial class Training_Training : System.Web.UI.Page {
+    
+    // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
+    // Text colour for failure messages
     public static Color FailColour = Color.Red;
+    // Text colour for success messages
     public static Color SuccessColour = Color.Green;
+    // Text value of DropDowns for the other option, selecting this option causes a textbox to appear for custom data entry
     public static String otherOption = "Other (specifiy)";
+    // List of pre-defined employers a user can select
     public static List<String> employers = new List<String> {
         "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
     };
 
+    /// <summary>
+    /// Populate the Drop Down Lists (emplyoers, departments, positions).
+    /// Add OtherOption to end of each Drop Down List.
+    /// </summary>
+    /// <param name="sender">The object that requested the page load.</param>
+    /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e) {
         if (!IsPostBack) {
             ddlEmployers.DataSource = employers;
@@ -35,6 +58,12 @@ public partial class Training_Training : System.Web.UI.Page {
         }
     }
 
+    /// <summary>
+    /// If the Employers drop down list is changed to the other option, display the text box for data entry.
+    /// If any other value is selected, hide the textbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The index changed event.</param>
     protected void ddlEmployers_SelectedIndexChanged(object sender, EventArgs e) {
         if (ddlEmployers.SelectedValue.Equals(otherOption)) {
             tbxEmployer.Visible = true;
@@ -44,6 +73,12 @@ public partial class Training_Training : System.Web.UI.Page {
         }
     }
 
+    /// <summary>
+    /// If the Positions drop down list is changed to the other option, display the text box for data entry.
+    /// If any other value is selected, hide the textbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The index changed event.</param>
     protected void ddlPositions_SelectedIndexChanged(object sender, EventArgs e) {
         if (ddlPositions.SelectedValue.Equals(otherOption)) {
             tbxPosition.Visible = true;
@@ -53,6 +88,9 @@ public partial class Training_Training : System.Web.UI.Page {
         }
     }
 
+    /// <summary>
+    /// IGNORE: this was for display purposes only and will be scrapped.
+    /// </summary>
     private void populateCourses() {
         //GdvCourses
         // 0 = not complete, 1 = complete, 2 = expired
@@ -92,27 +130,35 @@ public partial class Training_Training : System.Web.UI.Page {
         gdvCoursesCatalog.DataBind();
     }
 
+    /// <summary>
+    /// Uses the employee's first and last name to get the rest employee's information from the database.
+    /// Populates the Header form with this data.
+    /// </summary>
     private void getEmployeeData() {
         String first = tbxFirstName.Text;
         String last = tbxLastName.Text;
         Employee emp = null;
 
-        var qry = from e in ctx.Employees
-                  join d in ctx.Departments on e.deptNo equals d.deptNo
-                  join r in ctx.Rooms on e.roomNo equals r.roomNo
-                  where e.fname.Equals(first) && e.lname.Equals(last)
-                  select e;
+        var qry = ctx.Employees
+                  .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
+                  .Select(e => e);
 
-        //var qry = ctx.Employees
-        //          .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
-        //          .Select(e => e);
-
-        if (qry.Count() == 1) {
+        if (qry != null && qry.Count() == 1) {
             emp = qry.FirstOrDefault();
             
             tbxId.Text = emp.empNo.ToString();
-            
-            //var positions = from p in 
+
+            // need Daisy to fix this
+            var position = ctx.Positions
+                            .Where(p => p.posName.Equals(emp.Position.posName))
+                            .Select(p => p);
+
+            if (position == null || position.Count() == 1) {
+                ddlPositions.SelectedValue = emp.Position.posName;
+            } else {
+                ddlPositions.SelectedValue = otherOption;
+                tbxPosition.Text = emp.Position.posName;
+            }
 
             if (employers.Contains(emp.employer)) {
                 ddlEmployers.SelectedValue = emp.employer;
@@ -121,24 +167,40 @@ public partial class Training_Training : System.Web.UI.Page {
                 tbxEmployer.Text = emp.employer;
             }
 
-            //tbxRoom.Text = emp.Room.room;
+            //var depts = ctx.Departments
+            //            .Where(d => d.deptNo.
+
+            //tbxRoom.Text = emp.Room.room1.ToString();
 
             tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("yyyy/MM/dd");
             if (emp.endDate != null) {
                 tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("yyyy/MM/dd");
             }
             setResultMsg(null, SuccessColour);
-        } else if (qry.Count() <= 0) {
+
+        } else if (qry != null && qry.Count() <= 0) {
             setResultMsg("No employees with that first and last name found.", FailColour);
         } else {
             setResultMsg("There was more than one employee with that first and last name.", FailColour);
         }
     }
 
+    /// <summary>
+    /// Calls getEmployeeData(), which fetches the employee from the database using the employee's first and last name
+    /// then populates the rest of the form with the employee's information.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The index changed event.</param>
     protected void btnGetEmployee_Click(object sender, EventArgs e) {
         getEmployeeData();
     }
 
+    /// <summary>
+    /// Sets and displays the result message for the header form.
+    /// Using a null msg param will clear and hide the message.
+    /// </summary>
+    /// <param name="msg">The message to display</param>
+    /// <param name="foreColour">The font colour of the message</param>
     private void setResultMsg(String msg, Color foreColour) {
         if (msg == null) {
             lblResults.Text = String.Empty;
