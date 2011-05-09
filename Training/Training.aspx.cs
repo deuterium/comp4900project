@@ -12,10 +12,12 @@ public partial class Training_Training : System.Web.UI.Page {
     public static Color FailColour = Color.Red;
     public static Color SuccessColour = Color.Green;
     public static String otherOption = "Other (specifiy)";
+    public static List<String> employers = new List<String> {
+        "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
+    };
 
     protected void Page_Load(object sender, EventArgs e) {
         if (!IsPostBack) {
-            List<String> employers = new List<String> { "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption };
             ddlEmployers.DataSource = employers;
             ddlEmployers.DataBind();
 
@@ -95,14 +97,31 @@ public partial class Training_Training : System.Web.UI.Page {
         String last = tbxLastName.Text;
         Employee emp = null;
 
-        var qry = ctx.Employees
-                  .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
-                  .Select(e => e);
+        var qry = from e in ctx.Employees
+                  join d in ctx.Departments on e.deptNo equals d.deptNo
+                  join r in ctx.Rooms on e.roomNo equals r.roomNo
+                  where e.fname.Equals(first) && e.lname.Equals(last)
+                  select e;
+
+        //var qry = ctx.Employees
+        //          .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
+        //          .Select(e => e);
 
         if (qry.Count() == 1) {
             emp = qry.FirstOrDefault();
             
             tbxId.Text = emp.empNo.ToString();
+            
+            //var positions = from p in 
+
+            if (employers.Contains(emp.employer)) {
+                ddlEmployers.SelectedValue = emp.employer;
+            } else {
+                ddlEmployers.SelectedValue = otherOption;
+                tbxEmployer.Text = emp.employer;
+            }
+
+            //tbxRoom.Text = emp.Room.room;
 
             tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("yyyy/MM/dd");
             if (emp.endDate != null) {
