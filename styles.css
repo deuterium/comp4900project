@@ -331,3 +331,9 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 {
     display: none;
 }
+
+.popPanel
+{
+    width: 160px;
+    min-height: 80px;
+}

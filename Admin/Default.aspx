@@ -18,10 +18,16 @@
         ExpandControlID="hr3DropDowns" TargetControlID="pnlDropDownsDescription" Collapsed="false" />
     <asp:CollapsiblePanelExtender ID="cpeCoursesDescription" runat="server" CollapseControlID="hr3Courses"
         ExpandControlID="hr3Courses" TargetControlID="pnlCoursesDescription" Collapsed="false" />
+    <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
+        DropShadow="true" BackgroundCssClass="modalBackground" />
     <asp:EntityDataSource ID="edsRoles" runat="server" ConnectionString="name=BCCAEntities"
         DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="Roles" />
     <asp:EntityDataSource ID="edsDepartments" runat="server" ConnectionString="name=BCCAEntities"
         DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="Departments" />
+    <asp:EntityDataSource ID="edsUsers" runat="server" 
+        ConnectionString="name=BCCAEntities" DefaultContainerName="BCCAEntities" 
+        EnableFlattening="False" EntitySetName="Users">
+    </asp:EntityDataSource>
     <div id="divContent">
         <div id="divUsers">
             <h3 id="hr3Users">
@@ -53,10 +59,8 @@
                         <td id="tdUserSystemUsers" valign="top" runat="server" visible="false">
                             System Users:
                             <br />
-                            <asp:ListBox ID="lbxUsers" runat="server" Height="100" Width="100">
-                                <asp:ListItem Text="chris" Value="chris" Enabled="true" />
-                                <asp:ListItem Text="mike" Value="mike" />
-                                <asp:ListItem Text="kalen" Value="kalen" />
+                            <asp:ListBox ID="lbxUsers" runat="server" Height="100px" Width="100px" 
+                                DataSourceID="edsUsers" DataTextField="userNo" DataValueField="userName">
                             </asp:ListBox>
                         </td>
                         <td valign="top">
@@ -85,9 +89,8 @@
                         </td>
                         <td valign="top">
                             User Role:
-                            <asp:RequiredFieldValidator ID="rfvUserRole" runat="server" 
-                                ErrorMessage="Role required" ControlToValidate="rblUserRole" 
-                                Display="Dynamic" ValidationGroup="vgrUserNew" />
+                            <asp:RequiredFieldValidator ID="rfvUserRole" runat="server" ErrorMessage="Role required"
+                                ControlToValidate="rblUserRole" Display="Dynamic" ValidationGroup="vgrUserNew" />
                             <asp:RadioButtonList ID="rblUserRole" runat="server" AutoPostBack="True" OnSelectedIndexChanged="rblUserRole_SelectedIndexChanged"
                                 DataSourceID="edsRoles" DataTextField="role1" DataValueField="roleNo">
                             </asp:RadioButtonList>
@@ -104,8 +107,8 @@
                         </td>
                         <td valign="bottom">
                             <asp:CustomValidator ID="cvlUserNew" runat="server" ErrorMessage="Username already exists"
-                                ForeColor="Red" OnServerValidate="cvlUserNew_ServerValidate" 
-                                ValidationGroup="vgrUserNew" Display="None"></asp:CustomValidator>
+                                ForeColor="Red" OnServerValidate="cvlUserNew_ServerValidate" ValidationGroup="vgrUserNew"
+                                Display="None"></asp:CustomValidator>
                             <br />
                             <asp:Button ID="btnUserDelete" runat="server" Text="Delete User" Width="100" Visible="false" />
                             <br />
@@ -185,5 +188,20 @@
             <asp:Panel ID="pnlCourses" CssClass="panel" runat="server">
             </asp:Panel>
         </div>
+        <asp:Panel ID="pnlPop" BackColor="White" CssClass="popPanel" runat="server">
+            <table width="100%" cellpadding="5">
+                <tr>
+                    <td>
+                        <asp:Label ID="lblPnlPop" runat="server" Text="Test panel"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <asp:Button ID="btnPnlPopClose" runat="server" Text="Close" />
+                    </td>
+                </tr>
+            </table>
+        </asp:Panel>
+        <asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
     </div>
 </asp:Content>
