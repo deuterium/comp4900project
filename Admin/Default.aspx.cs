@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Drawing;
 using BCCAModel;
 
 /// <summary>
@@ -19,13 +20,30 @@ public partial class Admin_Default : System.Web.UI.Page
 {
     //Database Entities
     BCCAEntities ctx = new BCCAEntities();
-    
+
     /// <summary>
-    /// Page load method, SO FAR NOT USED
+    /// 
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
-    protected void Page_Load(object sender, EventArgs e) { }
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        pnlPop.Style.Value = "display:none;";
+    }
+
+    /// <summary>
+    /// Calls the show method of the modal popup AJAX panel.
+    /// Shows a confirmation page overlay with a message.
+    /// </summary>
+    /// <param name="msg">Message displayed on confirmation overlay</param>
+    /// <param name="color">Color for the message to be</param>
+    protected void Popup_Overlay(string msg, Color color)
+    {
+        lblPnlPop.Text = msg;
+        lblPnlPop.ForeColor = color;
+        pnlPop.Style.Value = "display:block;";
+        mpePop.Show();
+    }
 
     #region System User Management
 
@@ -82,23 +100,46 @@ public partial class Admin_Default : System.Web.UI.Page
     }
 
     /// <summary>
-    /// TODO
+    /// Button click method for dealing with the user administration section.
+    /// Behavior changes depending on the selected radio button option
+    /// Create: Button click creates a new users depending on entered details
+    /// Edit: Button click edits selected user depending on details as changed or shown
+    /// Shows a completion overlay on success
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
     protected void btnUserNew_Click(object sender, EventArgs e)
     {
-        if (Page.IsValid)
+        switch (rblUsers.SelectedValue)
         {
-            BCCAModel.User u = new BCCAModel.User()
-            {
-                userName = tbUsername.Text,
-                password = ASP.global_asax.Hash_Password(tbPassword.Text),
-                roleNo = Convert.ToInt32(rblUserRole.SelectedValue),
-                deptNo = (!(ddlDepartments.SelectedValue == "") ? Convert.ToInt32(ddlDepartments.SelectedValue) : (int?)null)
-            };
-            ctx.AddToUsers(u);
-            ctx.SaveChanges();
+            case "Create":
+                if (Page.IsValid)
+                {
+                    BCCAModel.User u = new BCCAModel.User()
+                    {
+                        userName = tbUsername.Text,
+                        password = ASP.global_asax.Hash_Password(tbPassword.Text),
+                        roleNo = Convert.ToInt32(rblUserRole.SelectedValue),
+                        deptNo = (!(ddlDepartments.SelectedValue == "") ? Convert.ToInt32(ddlDepartments.SelectedValue) : (int?)null)
+                    };
+
+                    try
+                    {
+                        ctx.AddToUsers(u);
+                        ctx.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        Popup_Overlay(ex.Message, Color.Red);
+                    }
+                    Popup_Overlay("User succesfully added.", Color.Green);
+                }
+                break;
+            case "Edit":
+
+                break;
+
+
         }
     }
 
