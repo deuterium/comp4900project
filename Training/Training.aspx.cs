@@ -149,16 +149,16 @@ public partial class Training_Training : System.Web.UI.Page {
             tbxId.Text = emp.empNo.ToString();
 
             // need Daisy to fix this
-            var position = ctx.Positions
-                            .Where(p => p.posName.Equals(emp.Position.posName))
-                            .Select(p => p);
+            //var position = ctx.Positions
+            //                .Where(p => p.posName.Equals(emp.Position.posName))
+            //                .Select(p => p);
 
-            if (position == null || position.Count() == 1) {
-                ddlPositions.SelectedValue = emp.Position.posName;
-            } else {
-                ddlPositions.SelectedValue = otherOption;
-                tbxPosition.Text = emp.Position.posName;
-            }
+            //if (position == null || position.count() == 1) {
+            //    ddlpositions.selectedvalue = emp.position.posname;
+            //} else {
+            //    ddlpositions.selectedvalue = otheroption;
+            //    tbxposition.text = emp.position.posname;
+            //}
 
             if (employers.Contains(emp.employer)) {
                 ddlEmployers.SelectedValue = emp.employer;
