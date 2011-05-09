@@ -72,8 +72,8 @@ Summary Page:
                 Lab Manager:
             </td>
             <td>
-                <asp:DropDownList runat="server" ID="ddlLabLabManager">
-                <asp:ListItem Text="Select Lab Manager" Value="none" />
+                <asp:DropDownList Width="155px" runat="server" ID="ddlLabLabManager" AppendDataBoundItems="true">
+                    <asp:ListItem Text="Select Lab Manager" Value="none" />
                 </asp:DropDownList>
                 <asp:RequiredFieldValidator  
                  ID="rfvLabManger" runat="server" ErrorMessage="Please select a Lab Manger."
@@ -111,10 +111,31 @@ Summary Page:
         </tr>
         <tr>
         <td>
-            <asp:Button ID="btnInspectionLookUp" ValidationGroup="vgrInspectionLookUp" runat="server" Text="Search" />
+            <asp:Button ID="btnInspectionLookUp" ValidationGroup="vgrInspectionLookUp" 
+                runat="server" Text="Search" onclick="btnInspectionLookUp_Click" />
         </td>
         </tr>
     </table>
         <asp:ValidationSummary ID="vsuInspectionLookUp" ValidationGroup="vgrInspectionLookUp" runat="server" />
+        <asp:GridView ID="grvLabInspections" runat="server" AutoGenerateColumns="False" 
+            DataKeyNames="labInsNo"> <%--DataSourceID="edsLabInspections">--%>
+            <Columns>
+                <asp:CommandField ShowSelectButton="True" />
+                <asp:BoundField DataField="labInsNo" HeaderText="Lab Inspection #" ReadOnly="True" 
+                    SortExpression="labInsNo" />
+                <asp:BoundField DataField="deptNo" HeaderText="Department #" 
+                    SortExpression="deptNo" />
+                <asp:BoundField DataField="date" HeaderText="Date" SortExpression="date" />
+                <asp:BoundField DataField="followupDate" HeaderText="Followup Date" 
+                    SortExpression="followupDate" />
+                <asp:BoundField DataField="inspector" HeaderText="Inspector" 
+                    SortExpression="inspector" />
+                <asp:BoundField DataField="labMgr" HeaderText="Lab Manager" 
+                    SortExpression="labMgr" />
+                <asp:BoundField DataField="supervisor" HeaderText="Supervisor" 
+                    SortExpression="supervisor" />
+            </Columns>
+        </asp:GridView>
+    
     </asp:Panel>
 </asp:Content>
