@@ -76,6 +76,15 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
 
 <div>
 
+    <asp:Label ID="testLabel" runat="server"></asp:Label>
+
+    <asp:RadioButtonList style=" padding:0px; text-align:center; border-color:Black"  runat="server" ID="rbName" AutoPostBack="true" 
+        RepeatDirection="horizontal" RepeatLayout="table" CellSpacing="0" CellPadding="0">
+        <asp:ListItem Text="" Value="2" />
+        <asp:ListItem Text="" Value="1" />
+        <asp:ListItem Text="" Value="0" />
+    </asp:RadioButtonList>
+
     <h3 id="labA"><asp:Image ID="imgExpandCollapseA" runat="server" /> A. Department <asp:Label ID="ExpandCollapseA" runat="server" Text=""></asp:Label></h3>
     <asp:Panel ID="pnlA" CssClass="panel" runat="server">
     <table>
@@ -164,18 +173,16 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList runat="server" ID="rblFireEvac" />
+            
             <td>
                 <asp:Label Text="Fire evacuation route posted on exits in each section/floor" runat="server" ID="lblFireEvac" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoFireEvacYes" runat="server" GroupName="rblFireEvac" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoFireEvacNo" runat="server" GroupName="rblFireEvac" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:RadioButton ID="rdoFireEvacNA" runat="server" GroupName="rblFireEvac" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFireEvac">
+                    <asp:ListItem ID="rdoFireEvacYes" runat="server" Text="" Value="Yes" />
+                    <asp:ListItem ID="rdoFireEvacNo" runat="server" Text="" Value="No" />
+                    <asp:ListItem ID="rdoFireEvacNA" runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFireEvac"></asp:TextBox>
@@ -1452,6 +1459,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
         </tr>
     </table>
     </asp:Panel>
+
+    <asp:Button ID="btnLabInspectionSubmit" runat="server" Text="Submit" onclick="btnLabInspectionSubmit_Click" />
 
 </div>
 

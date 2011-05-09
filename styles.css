@@ -254,19 +254,17 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     padding-right:5px;
 }
 
-.tblYesNoNA
-{
-    text-align: center;
-    width: 50px;
-    padding-left:5px;
-    padding-right:5px;
-}
-
 .tblComment
 {
     width: 100px;
     padding-left:5px;
     padding-right:5px;
+}
+
+.tblYesNoNA
+{
+    text-align: center;
+    width: 30px;
 }
 
 /* Reporting.aspx */
