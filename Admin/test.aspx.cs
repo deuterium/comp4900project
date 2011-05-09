@@ -9,10 +9,16 @@ public partial class Admin_test : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        pnlPop.Style.Value = "display:none;";
+    }
+    protected void A_Click(object sender, EventArgs e)
+    {
+        pnlPop.Style.Value = "display:block;";
 
     }
-    protected void Unnamed1_Click(object sender, EventArgs e)
+    protected void B_Click(object sender, EventArgs e)
     {
-        MPE.Focus();
+        pnlPop.Style.Value = "display:block;";
+        MPE.Show();
     }
 }

@@ -9,10 +9,13 @@
     </asp:ToolkitScriptManager>
     <asp:Button ID="btnHidden" runat="server" CssClass="hidden" />
     <asp:ModalPopupExtender ID="MPE" runat="server" PopupControlID="pnlPop"
-        TargetControlID="btnHidden" DropShadow="true" BackgroundCssClass="modalBackground" />
+        TargetControlID="A" DropShadow="true" BackgroundCssClass="modalBackground" />
     <asp:Panel ID="pnlPop" runat="server" Width="160" Height="80" BackColor="White">
         test
         <asp:Button ID="btnOK" runat="server" Text="close" />
     </asp:Panel>
-    <asp:Button Text="Button!" runat="server" OnClick="Unnamed1_Click" ID="A" />
+    <asp:Button Text="Button!" runat="server" ID="A" onclick="A_Click" CssClass="hidden" />
+
+    <asp:Button Text="2!" runat="server" ID="B" ValidationGroup="r" 
+        onclick="B_Click" />
 </asp:Content>

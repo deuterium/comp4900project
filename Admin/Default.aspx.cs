@@ -19,7 +19,7 @@ public partial class Admin_Default : System.Web.UI.Page
 {
     //Database Entities
     BCCAEntities ctx = new BCCAEntities();
-
+    
     /// <summary>
     /// Page load method, SO FAR NOT USED
     /// </summary>
