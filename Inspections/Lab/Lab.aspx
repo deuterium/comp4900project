@@ -162,7 +162,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             <td>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
             </td>
-            <td align="center" class="tblComments">
+            <td class="tblComments">
                 <h3>Comments</h3>
             </td>
         </tr>
@@ -173,9 +173,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFireEvac">
-                    <asp:ListItem ID="rdoFireEvacYes" runat="server" Text="" Value="Yes" />
-                    <asp:ListItem ID="rdoFireEvacNo" runat="server" Text="" Value="No" />
-                    <asp:ListItem ID="rdoFireEvacNA" runat="server" Text="" Value="NA" />
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -191,9 +191,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2"  runat="server" ID="rblFireExtinguish">
-                    <asp:ListItem ID="rdoFireExtinguishYes" runat="server" Text="" Value="Yes" />
-                    <asp:ListItem ID="rdoFireExtinguishNo" runat="server" Text="" Value="No" />
-                    <asp:ListItem ID="rdoFireExtinguishNA" runat="server" Text="" Value="NA" />
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -209,9 +209,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBloodandBody">
-                    <asp:ListItem ID="rdoBloodandBodyYes" runat="server" Text="" Value="Yes" />
-                    <asp:ListItem ID="rdoBloodandBodyNo" runat="server" Text="" Value="No" />
-                    <asp:ListItem ID="rdoBloodandBodyNA" runat="server" Text="" Value="NA" />
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -222,15 +222,14 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
         </tr>
         <tr>
-            
             <td>
                 <asp:Label Text="Injury on Duty Flow Chart posted" runat="server" ID="lblInjuryonDuty" />
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblInjuryonDuty">
-                    <asp:ListItem ID="rdoInjuryonDutyYes" runat="server" Text="" Value="Yes" />
-                    <asp:ListItem ID="rdoInjuryonDutyNo" runat="server" Text="" Value="No" />
-                    <asp:ListItem ID="rdoInjuryonDutyNA" runat="server" Text="" Value="NA" />
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -241,18 +240,15 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEmergencyNumber" />
             <td>
                 <asp:Label Text="Emergency numbers posted" runat="server" ID="lblEmergencyNumber" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoEmergencyNumberYes" runat="server" GroupName="rblEmergencyNumber" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoEmergencyNumberNo" runat="server" GroupName="rblEmergencyNumber"  />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoEmergencyNumberNA" runat="server" GroupName="rblEmergencyNumber"  />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEmergencyNumber">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -262,18 +258,15 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblMSDS" />
             <td>
                 <asp:Label Text="MSDS binder/computer station accessible & up to date" runat="server" ID="lblMSDS" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoMSDSYes" runat="server" GroupName="rblMSDS" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoMSDSNo" runat="server" GroupName="rblMSDS" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoMSDSNA" runat="server" GroupName="rblMSDS" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblMSDS">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -283,18 +276,15 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEmergencyShower" />
             <td>
                 <asp:Label Text="Emergency Shower available/accessible" runat="server" ID="lblEmergencyShower" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoEmergencyShowerYes" runat="server" GroupName="rblEmergencyShower" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoEmergencyShowerNo" runat="server" GroupName="rblEmergencyShower" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoEmergencyShowerNA" runat="server" GroupName="rblEmergencyShower" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEmergencyShower">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -304,18 +294,15 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEmergencyShowerTest" />
             <td>
                 <asp:Label Text="Emergency Shower tested monthly (if located in section)" runat="server" ID="lblEmergencyShowerTest" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoEmergencyShowerTestYes" runat="server" GroupName="rblEmergencyShowerTest" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoEmergencyShowerTestNo" runat="server" GroupName="rblEmergencyShowerTest" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoEmergencyShowerTestNA" runat="server" GroupName="rblEmergencyShowerTest" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEmergencyShowerTest">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -325,18 +312,15 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEyewash" />
             <td>
                 <asp:Label Text="Eyewash available/accessible" runat="server" ID="lblEyewash" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoEyewashYes" runat="server" GroupName="rblEyewash" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoEyewashNo" runat="server" GroupName="rblEyewash" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoEyewashNA" runat="server" GroupName="rblEyewash" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEyewash">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -346,18 +330,15 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEyewashTest" />
             <td>
                 <asp:Label Text="Eyewash tested weekly if not sterile/sealed (& if in section)" runat="server" ID="lblEyewashTest" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoEyewashTestYes" runat="server" GroupName="rblEyewashTest" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoEyewashTestNo" runat="server" GroupName="rblEyewashTest" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoEyewashTestNA" runat="server" GroupName="rblEyewashTest" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEyewashTest">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -366,19 +347,16 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEyewashTest"></asp:TextBox>
             </td>
         </tr>
-        <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblChemicalSpill" />
+        <tr> 
             <td>
                 <asp:Label Text="Chemical spill kit accessible/stocked adequately" runat="server" ID="lblChemicalSpill" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoChemicalSpillYes" runat="server" GroupName="rblChemicalSpill" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoChemicalSpillNo" runat="server" GroupName="rblChemicalSpill" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoChemicalSpillNA" runat="server" GroupName="rblChemicalSpill" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblChemicalSpill">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -388,18 +366,15 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBiohazard" />
             <td>
                 <asp:Label Text="Biohazard spill kit accessible/stocked adequately" runat="server" ID="lblBiohazard" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoBiohazardYes" runat="server" GroupName="rblBiohazard" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoBiohazardNo" runat="server" GroupName="rblBiohazard" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoBiohazardNA" runat="server" GroupName="rblBiohazard" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBiohazard">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -427,131 +402,136 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             <td class="tblYesNoNA">
                 <h3>N/A</h3>
             </td>
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
+            </td>
             <td class="tblComments">
                 <h3>Comments</h3>
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblSafety" />
             <td>
                 <asp:Label Text="Safety Glasses/Facial shield available and in good condition" runat="server" ID="lblSafety" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoSafetyYes" runat="server" GroupName="rblSafety" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblSafety">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoSafetyNo" runat="server" GroupName="rblSafety" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoSafetyNA" runat="server" GroupName="rblSafety" />
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSafety"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblLabCoat" />
             <td>
                 <asp:Label Text="Laboratory coat, gowns, gloves available/worn" runat="server" ID="lblLabCoat" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoLabCoatYes" runat="server" GroupName="rblLabCoat" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblLabCoat">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoLabCoatNo" runat="server" GroupName="rblLabCoat" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoLabCoatNA" runat="server" GroupName="rblLabCoat" />
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentLabCoat"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFootwear" />
             <td>
                 <asp:Label Text="Substantial footwear worn (closed toe and heel)" runat="server" ID="lblFootwear" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoFootwearYes" runat="server" GroupName="rblFootwear" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFootwear">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoFootwearNo" runat="server" GroupName="rblFootwear" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoFootwearNA" runat="server" GroupName="rblFootwear" />
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFootwear"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblRespirator" />
+            
             <td>
                 <asp:Label Text="Respirator(s) available/fit tested and documented" runat="server" ID="lblRespirator" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoRespiratorYes" runat="server" GroupName="rblRespirator" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblRespirator">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoRespiratorNo" runat="server" GroupName="rblRespirator" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoRespiratorNA" runat="server" GroupName="rblRespirator" />
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentRespirator"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblVacuum" />
             <td>
                 <asp:Label Text="Appropriate vacuum flask used on vacuum supply" runat="server" ID="lblVacuum" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoVacuumYes" runat="server" GroupName="rblVacuum" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="RadioButtonList1">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoVacuumNo" runat="server" GroupName="rblVacuum" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoVacuumNA" runat="server" GroupName="rblVacuum" />
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentVacuum"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblSplashGuard" />
+            
             <td>
                 <asp:Label Text="Splash guards available where necessary" runat="server" ID="lblSplashGuard" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoSplashGuardYes" runat="server" GroupName="rblSplashGuard" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblSplashGuard">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoSplashGuardNo" runat="server" GroupName="rblSplashGuard" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoSplashGuardNA" runat="server" GroupName="rblSplashGuard" />
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSplashGuard"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblHealthSurv" />
             <td>
                 <asp:Label Text="Appropriate health surveillance/immunization provided" runat="server" ID="lblHealthSurv" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoHealthSurvYes" runat="server" GroupName="rblHealthSurv" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblHealthSurv">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoHealthSurvNo" runat="server" GroupName="rblHealthSurv" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoHealthSurvNA" runat="server" GroupName="rblHealthSurv" />
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentHealthSurv"></asp:TextBox>
@@ -576,131 +556,134 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             <td class="tblYesNoNA">
                 <h3>N/A</h3>
             </td>
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
+            </td>
             <td class="tblComments">
                 <h3>Comments</h3>
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBenchTidy" />
             <td>
                 <asp:Label Text="Bench tops and sink areas tidy" runat="server" ID="lblBenchTidy" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoBenchTidyYes" runat="server" GroupName="rblBenchTidy" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBenchTidy">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoBenchTidyNo" runat="server" GroupName="rblBenchTidy" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoBenchTidyNA" runat="server" GroupName="rblBenchTidy" />
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBenchTidy"></asp:TextBox>
             </td>
         </tr>
-        <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblTripHaz" />
+        <tr>  
             <td>
                 <asp:Label Text="No tripping hazards observed" runat="server" ID="lblTripHaz" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoTripHazYes" runat="server" GroupName="rblTripHaz" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblTripHaz">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoTripHazNo" runat="server" GroupName="rblTripHaz" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoTripHazNA" runat="server" GroupName="rblTripHaz" />
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentTripHaz"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblExits" />
             <td>
                 <asp:Label Text="Laboratory exits clear and doors unlocked" runat="server" ID="lblExits" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoExitsYes" runat="server" GroupName="rblExits" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblExits">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoExitsNo" runat="server" GroupName="rblExits" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoExitsNA" runat="server" GroupName="rblExits" />
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentExits"></asp:TextBox>
             </td>
         </tr>
-        <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFoodDrink" />
+        <tr> 
             <td>
                 <asp:Label Text="No food and drink observed in laboratory area" runat="server" ID="lblFoodDrink" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoFoodDrinkYes" runat="server" GroupName="rblFoodDrink" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFoodDrink">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoFoodDrinkNo" runat="server" GroupName="rblFoodDrink" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoFoodDrinkNA" runat="server" GroupName="rblFoodDrink" />
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFoodDrink"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblGlassTube" />
             <td>
                 <asp:Label Text="Glassware and tubing in good working condition" runat="server" ID="lblGlassTube" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoGlassTubeYes" runat="server" GroupName="rblGlassTube" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblGlassTube">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoGlassTubeNo" runat="server" GroupName="rblGlassTube" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoGlassTubeNA" runat="server" GroupName="rblGlassTube" />
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentGlassTube"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFallHaz" />
             <td>
                 <asp:Label Text="No falling object hazards identifiable" runat="server" ID="lblFallHaz" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoFallHazYes" runat="server" GroupName="rblFallHaz" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFallHaz">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoFallHazNo" runat="server" GroupName="rblFallHaz" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoFallHazNA" runat="server" GroupName="rblFallHaz" />
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFallHaz"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblStool" />
             <td>
                 <asp:Label Text="Step stool available for out-of-reach items" runat="server" ID="lblStool" />
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoStoolYes" runat="server" GroupName="rblStool" />
+            <td class="tblYesNoNA" colspan="3">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblStool">
+                    <asp:ListItem runat="server" Text="" Value="Yes" />
+                    <asp:ListItem runat="server" Text="" Value="No" />
+                    <asp:ListItem runat="server" Text="" Value="NA" />
+                </asp:RadioButtonList>
             </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoStoolNo" runat="server" GroupName="rblStool" />
-            </td>
-            <td class="tblYesNoNA">
-                <asp:ListItem ID="rdoStoolNA" runat="server" GroupName="rblStool" />
+            <td>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentStool"></asp:TextBox>

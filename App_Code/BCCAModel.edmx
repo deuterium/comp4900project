@@ -60,10 +60,6 @@
             <End Role="Department" EntitySet="Department" />
             <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
-          <AssociationSet Name="FK__Employee__posNo__1A9EF37A" Association="BCCAModel.Store.FK__Employee__posNo__1A9EF37A">
-            <End Role="Position" EntitySet="Position" />
-            <End Role="Employee" EntitySet="Employee" />
-          </AssociationSet>
           <AssociationSet Name="FK__Employee__roomNo__498EEC8D" Association="BCCAModel.Store.FK__Employee__roomNo__498EEC8D">
             <End Role="Room" EntitySet="Room" />
             <End Role="Employee" EntitySet="Employee" />
@@ -141,8 +137,8 @@
           <Property Name="startDate" Type="datetime" Nullable="false" />
           <Property Name="endDate" Type="datetime" />
           <Property Name="active" Type="char" MaxLength="1" />
-          <Property Name="posNo" Type="int" />
           <Property Name="supervisor" Type="varchar" MaxLength="50" />
+          <Property Name="position" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="FollowUp">
           <Key>
@@ -510,18 +506,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Employee__posNo__1A9EF37A">
-          <End Role="Position" Type="BCCAModel.Store.Position" Multiplicity="0..1" />
-          <End Role="Employee" Type="BCCAModel.Store.Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Position">
-              <PropertyRef Name="posNo" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="posNo" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Employee__roomNo__498EEC8D">
           <End Role="Room" Type="BCCAModel.Store.Room" Multiplicity="0..1" />
           <End Role="Employee" Type="BCCAModel.Store.Employee" Multiplicity="*" />
@@ -739,10 +723,6 @@
             <End Role="Department" EntitySet="Departments" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
-          <AssociationSet Name="FK__Employee__posNo__1A9EF37A" Association="BCCAModel.FK__Employee__posNo__1A9EF37A">
-            <End Role="Position" EntitySet="Positions" />
-            <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
           <AssociationSet Name="FK__Employee__roomNo__498EEC8D" Association="BCCAModel.FK__Employee__roomNo__498EEC8D">
             <End Role="Room" EntitySet="Rooms" />
             <End Role="Employee" EntitySet="Employees" />
@@ -808,10 +788,9 @@
           <Property Name="startDate" Type="DateTime" Nullable="false" />
           <Property Name="endDate" Type="DateTime" />
           <Property Name="active" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="posNo" Type="Int32" />
           <Property Name="supervisor" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="position" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="Department" Relationship="BCCAModel.FK__Employee__deptNo__489AC854" FromRole="Employee" ToRole="Department" />
-          <NavigationProperty Name="Position" Relationship="BCCAModel.FK__Employee__posNo__1A9EF37A" FromRole="Employee" ToRole="Position" />
           <NavigationProperty Name="Room" Relationship="BCCAModel.FK__Employee__roomNo__498EEC8D" FromRole="Employee" ToRole="Room" />
           <NavigationProperty Name="Incidents" Relationship="BCCAModel.FK__Incident__empNo__04AFB25B" FromRole="Employee" ToRole="Incident" />
           <NavigationProperty Name="TrainingTakens" Relationship="BCCAModel.FK__TrainingT__empNo__503BEA1C" FromRole="Employee" ToRole="TrainingTaken" />
@@ -1091,7 +1070,6 @@
           </Key>
           <Property Name="posNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="posName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="Employees" Relationship="BCCAModel.FK__Employee__posNo__1A9EF37A" FromRole="Position" ToRole="Employee" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -1219,18 +1197,6 @@
             </Principal>
             <Dependent Role="Users">
               <PropertyRef Name="deptNo" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Employee__posNo__1A9EF37A">
-          <End Role="Position" Type="BCCAModel.Position" Multiplicity="0..1" />
-          <End Role="Employee" Type="BCCAModel.Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Position">
-              <PropertyRef Name="posNo" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="posNo" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1366,8 +1332,8 @@
             <ScalarProperty Name="startDate" ColumnName="startDate" />
             <ScalarProperty Name="endDate" ColumnName="endDate" />
             <ScalarProperty Name="active" ColumnName="active" />
-            <ScalarProperty Name="posNo" ColumnName="posNo" />
             <ScalarProperty Name="supervisor" ColumnName="supervisor" />
+            <ScalarProperty Name="position" ColumnName="position" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="FollowUps"><EntityTypeMapping TypeName="BCCAModel.FollowUp"><MappingFragment StoreEntitySet="FollowUp">
             <ScalarProperty Name="followUpNo" ColumnName="followUpNo" />
@@ -1689,7 +1655,7 @@
     <Diagrams>
       <Diagram Name="BCCAModel">
         <EntityTypeShape EntityType="BCCAModel.Department" Width="1.5" PointX="0.75" PointY="32.25" Height="2.172587890624996" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.Employee" Width="1.5" PointX="7.5" PointY="53.375" Height="4.0956022135416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Employee" Width="1.5" PointX="7.5" PointY="53.5" Height="3.903300781249996" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.FollowUp" Width="1.5" PointX="5.25" PointY="70.875" Height="2.1725878906250102" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.Incident" Width="1.5" PointX="9.75" PointY="35.875" Height="39.286764322916667" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.LabInspection" Width="1.5" PointX="3" PointY="70.375" Height="3.1340950520833246" IsExpanded="true" />
@@ -1697,20 +1663,20 @@
         <EntityTypeShape EntityType="BCCAModel.LabInspectionItem" Width="1.5" PointX="3" PointY="67" Height="1.7879850260416674" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.OfficeInspection" Width="1.5" PointX="3" PointY="74.25" Height="2.1725878906250102" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.OfficeInspectionItem" Width="1.5" PointX="0.75" PointY="0.75" Height="1.4033821614583317" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.Position" Width="1.5" PointX="5.25" PointY="54.625" Height="1.595683593749996" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Position" Width="1.5" PointX="2.75" PointY="0.75" Height="1.4033821614583317" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.Role" Width="1.5" PointX="0.75" PointY="29.5" Height="1.5956835937500031" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.Room" Width="1.5" PointX="5.25" PointY="76.875" Height="1.7879850260416674" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.Severity" Width="1.5" PointX="2.75" PointY="0.75" Height="1.4033821614583388" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.sysdiagram" Width="1.5" PointX="0.75" PointY="3.75" Height="1.9802864583333388" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Severity" Width="1.5" PointX="0.75" PointY="3.75" Height="1.4033821614583388" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.sysdiagram" Width="1.5" PointX="2.75" PointY="3.75" Height="1.9802864583333388" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.TrainingCours" Width="1.5" PointX="10.5" PointY="32.625" Height="1.7879850260416674" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.TrainingTaken" Width="1.5" PointX="12.75" PointY="53.125" Height="4.6725065104166674" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.User" Width="1.5" PointX="3" PointY="32.125" Height="2.3648893229166674" IsExpanded="true" />
         <AssociationConnector Association="BCCAModel.FK__Employee__deptNo__489AC854" ManuallyRouted="false">
           <ConnectorPoint PointX="1.5" PointY="34.422587890624996" />
-          <ConnectorPoint PointX="1.5" PointY="53.96875" />
-          <ConnectorPoint PointX="1.8229191666666667" PointY="53.96875" />
-          <ConnectorPoint PointX="1.9895858333333332" PointY="53.96875" />
-          <ConnectorPoint PointX="7.5" PointY="53.96875" />
+          <ConnectorPoint PointX="1.5" PointY="55.451650390625" />
+          <ConnectorPoint PointX="1.8229191666666667" PointY="55.451650390625" />
+          <ConnectorPoint PointX="1.9895858333333332" PointY="55.451650390625" />
+          <ConnectorPoint PointX="7.5" PointY="55.451650390625" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__LabInspec__deptN__59C55456" ManuallyRouted="false">
           <ConnectorPoint PointX="1.9062525" PointY="34.422587890624996" />
@@ -1726,22 +1692,18 @@
           <ConnectorPoint PointX="2.25" PointY="33.3362939453125" />
           <ConnectorPoint PointX="3" PointY="33.3362939453125" />
         </AssociationConnector>
-        <AssociationConnector Association="BCCAModel.FK__Employee__posNo__1A9EF37A" ManuallyRouted="false">
-          <ConnectorPoint PointX="6.75" PointY="55.422841796875" />
-          <ConnectorPoint PointX="7.5" PointY="55.422841796875" />
-        </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__Employee__roomNo__498EEC8D" ManuallyRouted="false">
           <ConnectorPoint PointX="6.75" PointY="77.768992513020834" />
           <ConnectorPoint PointX="8.25" PointY="77.768992513020834" />
-          <ConnectorPoint PointX="8.25" PointY="57.470602213541667" />
+          <ConnectorPoint PointX="8.25" PointY="57.403300781249996" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__Incident__empNo__04AFB25B" ManuallyRouted="false">
-          <ConnectorPoint PointX="9" PointY="55.422801106770834" />
-          <ConnectorPoint PointX="9.75" PointY="55.422801106770834" />
+          <ConnectorPoint PointX="9" PointY="55.451650390625" />
+          <ConnectorPoint PointX="9.75" PointY="55.451650390625" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__TrainingT__empNo__503BEA1C" ManuallyRouted="false">
-          <ConnectorPoint PointX="9" PointY="54.367648553385415" />
-          <ConnectorPoint PointX="9.5" PointY="54.367648553385415" />
+          <ConnectorPoint PointX="9" PointY="54.4445731953125" />
+          <ConnectorPoint PointX="9.5" PointY="54.4445731953125" />
           <ConnectorPoint PointX="9.5" PointY="35.625" />
           <ConnectorPoint PointX="13.010414166666665" PointY="35.625" />
           <ConnectorPoint PointX="13.177080833333333" PointY="35.625" />
