@@ -9,32 +9,43 @@ public partial class Tracking_Default : System.Web.UI.Page
     BCCAEntities ctx = new BCCAEntities();
     public static Color FailColour = Color.Red;
     public static Color SuccessColour = Color.Green;
+    public static String otherOption = "Other (specifiy)";
 
     protected void Page_Load(object sender, EventArgs e)
     {    
         //List<Employers> employers = new List<Employers>();
         //var qry = ;
+        if (!IsPostBack) {
+            List<String> employers = new List<String> { "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption };
+            ddlEmployers.DataSource = employers;
+            ddlEmployers.DataBind();
 
-        List<String> employers = new List<String> { "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", "Other (specify)" };
-        ddlEmployers.DataSource = employers;
-        ddlEmployers.DataBind();
-                
-        ddlDepartments.DataSource = ctx.Departments;
-        ddlDepartments.DataValueField = "deptNo";
-        ddlDepartments.DataTextField = "deptName";
-        ddlDepartments.DataBind();
+            ddlDepartments.DataSource = ctx.Departments;
+            ddlDepartments.DataValueField = "deptNo";
+            ddlDepartments.DataTextField = "deptName";
+            ddlDepartments.DataBind();
 
-        lblResults.Visible = true;
+            ddlPositions.Items.Insert(ddlPositions.Items.Count, "Lab Manager Sample");
+            ddlPositions.Items.Insert(ddlPositions.Items.Count, otherOption);
+
+            lblResults.Visible = true;
+        }
     }
 
     protected void ddlEmployers_SelectedIndexChanged(object sender, EventArgs e) {
-        tbxFirstName.Text = ddlEmployers.SelectedValue;
-        tbxFirstName.Text = ddlEmployers.SelectedItem.ToString();
-        tbxFirstName.Text = ddlEmployers.SelectedIndex.ToString();
-        if (ddlEmployers.SelectedValue.Equals("Other (specify)")) {
+        if (ddlEmployers.SelectedValue.Equals(otherOption)) {
             tbxEmployer.Visible = true;
         } else {
             tbxEmployer.Visible = false;
+        }
+    }
+
+    protected void ddlPositions_SelectedIndexChanged(object sender, EventArgs e) {
+        if (ddlPositions.SelectedValue.Equals(otherOption)) {
+            tbxPosition.Visible = true;
+        }
+        else {
+            tbxPosition.Visible = false;
         }
     }
 

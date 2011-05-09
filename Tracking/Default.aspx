@@ -51,7 +51,20 @@ CollapseControlID="hr3ReportInfo" ExpandControlID="hr3ReportInfo" TargetControlI
                         <td class="trainingTableWidth">
                             Position:</td>
                         <td>
-                            <asp:DropDownList ID="ddlPositions" runat="server"></asp:DropDownList>
+                            <asp:DropDownList ID="ddlPositions" runat="server" OnSelectedIndexChanged="ddlPositions_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <asp:UpdatePanel ID="uplPosition" runat="server">
+                                <ContentTemplate>
+                                    <asp:TextBox ID="tbxPosition" runat="server" Visible="false"></asp:TextBox>
+                                </ContentTemplate>
+                                <Triggers>
+                                    <asp:AsyncPostBackTrigger ControlID="ddlPositions" EventName="SelectedIndexChanged" />
+                                </Triggers>
+                            </asp:UpdatePanel>
                         </td>
                     </tr>
                     <tr>
