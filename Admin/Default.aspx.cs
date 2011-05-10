@@ -31,6 +31,7 @@ public partial class Admin_Default : System.Web.UI.Page
         pnlPop.Style.Value = "display:none;";
     }
 
+    #region Page Popup
     /// <summary>
     /// Calls the show method of the modal popup AJAX panel.
     /// Shows a confirmation page overlay with a message.
@@ -45,8 +46,22 @@ public partial class Admin_Default : System.Web.UI.Page
         mpePop.Show();
     }
 
-    #region System User Management
+    protected void btnPnlPopClose_Click(object sender, EventArgs e)
+    {
+        switch (rblUsers.SelectedValue) 
+        {
+            case "Create":
+                User_Pass_Clear();
+                break;
+            case "Edit":
+                lbxUsers.DataBind();
+                User_Pass_Clear();
+                break;
+        }
+    }
+    #endregion
 
+    #region System User Management
     /// <summary>
     /// Postback event selecting the mode of the system user administration
     /// section of the admin page. Two modes:
@@ -62,12 +77,18 @@ public partial class Admin_Default : System.Web.UI.Page
             case "Create":
                 tdUserSystemUsers.Visible = false;
                 btnUserDelete.Visible = false;
+                tbUsername.Text = String.Empty;
+                tbUsername.ReadOnly = false;
+                tbPassword.Text = String.Empty;
+                cvlUserNew.Enabled = true;
                 btnUserNew.Text = "Create User";
                 break;
             case "Edit":
                 tdUserCreateRoleDiv.Visible = false;
                 tdUserSystemUsers.Visible = true;
                 btnUserDelete.Visible = true;
+                tbUsername.ReadOnly = true;
+                cvlUserNew.Enabled = false;
                 btnUserNew.Text = "Change Password";
                 break;
         }
@@ -137,13 +158,32 @@ public partial class Admin_Default : System.Web.UI.Page
                 }
                 break;
             case "Edit":
-
+                int userNo = Convert.ToInt32(tbUsernameID.Text);
+                BCCAModel.User user = ctx.Users
+                    .Select(us => us)
+                    .Where(us => us.userNo == userNo)
+                    .First();
+                user.password = ASP.global_asax.Hash_Password(tbPassword.Text);
+                try
+                {
+                    ctx.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    Popup_Overlay(ex.Message, Color.Red);
+                }
+                Popup_Overlay("User password changed.", Color.Green);
                 break;
-
-
         }
     }
 
+    /// <summary>
+    /// Loads the selected user's information into the username textbox when a user
+    /// is chosen from the System Users list box. Changes the text of the password box
+    /// to "Enter new password". Also loads the databaase user ID number into a hidden textbox 
+    /// </summary>
+    /// <param name="sender">not used in our system</param>
+    /// <param name="e">not used in our system</param>
     protected void lbxUsers_SelectedIndexChanged(object sender, EventArgs e)
     {
         tbUsername.Text = lbxUsers.SelectedItem.Text;
@@ -151,9 +191,29 @@ public partial class Admin_Default : System.Web.UI.Page
         tbPassword.Text = "Enter new password";
     }
 
+    /// <summary>
+    /// Deletes the user that is currently selected in the listbox from the System using the ID
+    /// in the hidden text box.
+    /// </summary>
+    /// <param name="sender">not used in our system</param>
+    /// <param name="e">not used in our system</param>
     protected void btnUserDelete_Click(object sender, EventArgs e)
     {
-
+        int userNo = Convert.ToInt32(tbUsernameID.Text);
+        BCCAModel.User user = ctx.Users
+                        .Select(us => us)
+                        .Where(us => us.userNo == userNo)
+                        .First();
+        try
+        {
+            ctx.DeleteObject(user);
+            ctx.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            Popup_Overlay(ex.Message, Color.Red);
+        }
+        Popup_Overlay("User deleted.", Color.Green);
     }
 
     /// <summary>
@@ -173,6 +233,13 @@ public partial class Admin_Default : System.Web.UI.Page
         {
             args.IsValid = true;
         }
+    }
+
+    protected void User_Pass_Clear()
+    {
+        tbUsername.Text = String.Empty;
+        tbUsernameID.Text = String.Empty;
+        tbPassword.Text = String.Empty;
     }
     #endregion
 
@@ -212,7 +279,4 @@ public partial class Admin_Default : System.Web.UI.Page
     #region Course Management
     #endregion
 
-
-
-    
 }
