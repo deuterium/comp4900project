@@ -15,7 +15,7 @@ CollapseControlID="hr3ReportInfo" ExpandControlID="hr3ReportInfo" TargetControlI
 </asp:CollapsiblePanelExtender>
 
     <div id="divContent">
-        <div id="divReportInfo">
+       <div id="divReportInfo">
             <h3 id="hr3ReportInfo">Header Info:</h3>
             <asp:Panel ID="pnlReportInfo" CssClass="panel" runat="server">
             <div id="divRecordHeaderLeft">
@@ -133,9 +133,8 @@ CollapseControlID="hr3ReportInfo" ExpandControlID="hr3ReportInfo" TargetControlI
                     </tr>
                     </table>
                 </div>
-                <asp:Button ID="btnGetEmployee" ValidationGroup="vgpHeader" runat="server" 
-                    Text="Get Employee" onclick="btnGetEmployee_Click" />
-                <asp:Button ID="btnSearch" ValidationGroup="vgpHeader" runat="server" Text="Search" />
+                <asp:Button ID="btnSearch" ValidationGroup="vgpHeader" runat="server" 
+                    Text="Search" onclick="btnSearch_Click" />
             <p>
                 <asp:Label ID="lblResults" runat="server" Text="" Visible="false" ></asp:Label>
             </p>
@@ -148,7 +147,7 @@ CollapseControlID="hr3ReportInfo" ExpandControlID="hr3ReportInfo" TargetControlI
                 ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
             
             <asp:RegularExpressionValidator ID="revRoom" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxRoom" ValidationExpression="^[0-9\-, ]$" 
+                ControlToValidate="tbxRoom" ValidationExpression="^[0-9\-, ]+$" 
                 ErrorMessage="Room can only contain digits, dashes, commas, and spaces."></asp:RegularExpressionValidator>
 
             <asp:RegularExpressionValidator ID="revSupervisor" runat="server" ValidationGroup="vgpHeader"
@@ -178,6 +177,12 @@ CollapseControlID="hr3ReportInfo" ExpandControlID="hr3ReportInfo" TargetControlI
             </asp:Panel>
         </div>
 
-<asp:ListBox ID="lbx" runat="server"></asp:ListBox>
+<asp:DropDownList ID="ddlActivity" runat="server" >
+    <asp:ListItem Text="Activity" style="font-weight: bold;"></asp:ListItem>
+    <asp:ListItem Text="No Injury" ></asp:ListItem>
+</asp:DropDownList>
+
+<asp:GridView ID="gdvReports" runat="server">
+</asp:GridView>
 
 </asp:Content>
