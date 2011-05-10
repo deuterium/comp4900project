@@ -62,12 +62,18 @@ public partial class Admin_Default : System.Web.UI.Page
             case "Create":
                 tdUserSystemUsers.Visible = false;
                 btnUserDelete.Visible = false;
+                tbUsername.Text = String.Empty;
+                tbUsername.ReadOnly = false;
+                tbPassword.Text = String.Empty;
+                cvlUserNew.Enabled = true;
                 btnUserNew.Text = "Create User";
                 break;
             case "Edit":
                 tdUserCreateRoleDiv.Visible = false;
                 tdUserSystemUsers.Visible = true;
                 btnUserDelete.Visible = true;
+                tbUsername.ReadOnly = true;
+                cvlUserNew.Enabled = false;
                 btnUserNew.Text = "Change Password";
                 break;
         }
@@ -137,10 +143,22 @@ public partial class Admin_Default : System.Web.UI.Page
                 }
                 break;
             case "Edit":
-
+                    int userNo = Convert.ToInt32(tbUsernameID.Text);
+                    BCCAModel.User user = ctx.Users
+                        .Select(us => us)
+                        .Where(us => us.userNo == userNo)
+                        .First();
+                    user.password = ASP.global_asax.Hash_Password(tbPassword.Text);
+                    try
+                    {
+                        ctx.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        Popup_Overlay(ex.Message, Color.Red);
+                    }
+                    Popup_Overlay("User password changed.", Color.Green);
                 break;
-
-
         }
     }
 
@@ -214,5 +232,5 @@ public partial class Admin_Default : System.Web.UI.Page
 
 
 
-    
+
 }
