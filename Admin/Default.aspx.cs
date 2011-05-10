@@ -80,6 +80,7 @@ public partial class Admin_Default : System.Web.UI.Page
         {
             case "Create":
                 tdUserSystemUsers.Visible = false;
+                tdUserCreateRoleDiv.Visible = true;
                 btnUserDelete.Visible = false;
                 tbUsername.Text = String.Empty;
                 tbUsername.ReadOnly = false;
@@ -89,6 +90,7 @@ public partial class Admin_Default : System.Web.UI.Page
                 break;
             case "Edit":
                 tdUserCreateRoleDiv.Visible = false;
+                tdUserCreateLabDiv.Visible = false;
                 tdUserSystemUsers.Visible = true;
                 btnUserDelete.Visible = true;
                 tbUsername.ReadOnly = true;
@@ -113,14 +115,18 @@ public partial class Admin_Default : System.Web.UI.Page
         {
             case "Administrator":
                 tdUserCreateLabDiv.Visible = false;
+                rfvLabManagerDepartment.Enabled = false;
                 ddlDepartments.SelectedValue = "";
                 break;
             case "Safety Officer":
                 tdUserCreateLabDiv.Visible = false;
+
+                rfvLabManagerDepartment.Enabled = false;
                 ddlDepartments.SelectedValue = "";
                 break;
             case "Lab Manager":
                 tdUserCreateLabDiv.Visible = true;
+                rfvLabManagerDepartment.Enabled = true;
                 break;
         }
     }
@@ -176,7 +182,7 @@ public partial class Admin_Default : System.Web.UI.Page
                 {
                     Popup_Overlay(ex.Message, Color.Red);
                 }
-                Popup_Overlay("User password changed.", Color.Green);
+                Popup_Overlay("User's password changed.", Color.Green);
                 break;
         }
     }
