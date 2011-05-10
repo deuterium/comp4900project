@@ -2,6 +2,12 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <style type="text/css">
+        .style2
+        {
+            width: 206px;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
 <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
@@ -125,7 +131,6 @@ Summary Page:
         <asp:GridView ID="grvLabInspections" runat="server" AutoGenerateColumns="False" 
             DataKeyNames="labInsNo"> <%--DataSourceID="edsLabInspections">--%>
             <Columns>
-                <asp:CommandField ShowSelectButton="True" />
                 <asp:BoundField DataField="labInsNo" HeaderText="Lab Inspection #" ReadOnly="True" 
                     SortExpression="labInsNo" />
                 <asp:BoundField DataField="deptNo" HeaderText="Department #" 
@@ -145,62 +150,28 @@ Summary Page:
 
     <h3 id="courseLookUp"><asp:Image ID="imgExpandCollapseCourseLookUp" runat="server" /> Course Lookup:</h3>
     <asp:Panel ID="pnlB" CssClass="panel" runat="server">
-    <table>
+        <asp:Button ID="btnValidCourses" ValidationGroup="vgrCourseLookUp" 
+            runat="server" Text="List all Valid Courses" 
+            onclick="btnCourseLookUp_Click" Width="210px" />
+
+        <%-- Valid Courses Panel--%>
+        <asp:Panel ID="grvPanelValidCourses" runat="server"></asp:Panel>
+        <table id="tblExpireCourses">
         <tr>
+            <td class="style2">
+                Enter number of months:</td>
             <td>
-                ID: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxID"></asp:TextBox>
-            </td>
-            <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                <asp:TextBox ID="tbxMonthsRange" runat="server"></asp:TextBox>
             </td>
         </tr>
-        <tr>
-            <td>
-                First Name: 
+        <tr> 
+            <td class="style2">
+                <asp:Button ID="btnExpiringCourses" ValidationGroup="vgrExpiringCourseLookUp" 
+                    runat="server" Text="List all Expiring Courses" Width="210px" />
             </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxFirstName" />
-                <asp:RequiredFieldValidator
-                    ID="rfvFirstName" runat="server" ErrorMessage="Please enter a First Name." 
-                    ControlToValidate="tbxFirstName" validationgroup="vgrInspectionLookUp">
-                </asp:RequiredFieldValidator>
-            </td>
-            <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Last Name:
-            </td>
-            <td>
-                <asp:TextBox ID="tbxLastName" runat="server" />
-                <asp:RequiredFieldValidator  
-                 ID="RequiredFieldValidator5" runat="server" ErrorMessage="Please enter a Last Name."
-                 ControlToValidate="tbxLastName" validationGroup="vgrCourseLookUp">  
-        </asp:RequiredFieldValidator>
-            </td>
-        </tr>
-        <tr>
-        <td>
-            <asp:Button ID="Button1" ValidationGroup="vgrCourseLookUp" 
-                runat="server" Text="Search" onclick="btnCourseLookUp_Click" />
-        </td>
         </tr>
     </table>
-        <asp:GridView ID="grvCourses" runat="server" AutoGenerateColumns="False">
-        <Columns>
-                <asp:CommandField ShowSelectButton="True" />
-                <asp:BoundField DataField="lastname" HeaderText="Last Name" ReadOnly="True" 
-                    SortExpression="lname" />
-                <asp:BoundField DataField="firstname" HeaderText="First Name" 
-                    SortExpression="fname" />
-                <asp:BoundField DataField="trainingName" HeaderText="Course Name" 
-                    SortExpression="trainingName" />
-            </Columns>
-        </asp:GridView>
+        <asp:Panel ID="grvPanelExpiringCourses" runat="server"></asp:Panel>
     </asp:Panel>
+
 </asp:Content>
