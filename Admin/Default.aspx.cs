@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Drawing;
+using System.Linq;
 using BCCAModel;
 
 /// <summary>
@@ -22,7 +20,7 @@ public partial class Admin_Default : System.Web.UI.Page
     BCCAEntities ctx = new BCCAEntities();
 
     /// <summary>
-    /// 
+    /// Hides Popup panel on page load.
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
@@ -46,6 +44,12 @@ public partial class Admin_Default : System.Web.UI.Page
         mpePop.Show();
     }
 
+    /// <summary>
+    /// Clears username and password textboxes when the overlay is closed.
+    /// If user is in edit user mode, the listbox is also updated.
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void btnPnlPopClose_Click(object sender, EventArgs e)
     {
         switch (rblUsers.SelectedValue) 
