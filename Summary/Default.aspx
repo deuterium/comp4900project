@@ -2,6 +2,12 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <style type="text/css">
+        .style2
+        {
+            width: 206px;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
 <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
@@ -144,28 +150,28 @@ Summary Page:
 
     <h3 id="courseLookUp"><asp:Image ID="imgExpandCollapseCourseLookUp" runat="server" /> Course Lookup:</h3>
     <asp:Panel ID="pnlB" CssClass="panel" runat="server">
-    <table>
+        <asp:Button ID="btnValidCourses" ValidationGroup="vgrCourseLookUp" 
+            runat="server" Text="List all Valid Courses" 
+            onclick="btnCourseLookUp_Click" Width="210px" />
+
+        <%-- Valid Courses Panel--%>
+        <asp:Panel ID="grvPanelValidCourses" runat="server"></asp:Panel>
+        <table id="tblExpireCourses">
         <tr>
-        <td>
-            <asp:Button ID="Button1" ValidationGroup="vgrCourseLookUp" 
-                runat="server" Text="List all Valid Courses" onclick="btnCourseLookUp_Click" />
-        </td>
+            <td class="style2">
+                Enter number of months:</td>
+            <td>
+                <asp:TextBox ID="tbxMonthsRange" runat="server"></asp:TextBox>
+            </td>
+        </tr>
+        <tr> 
+            <td class="style2">
+                <asp:Button ID="btnExpiringCourses" ValidationGroup="vgrExpiringCourseLookUp" 
+                    runat="server" Text="List all Expiring Courses" Width="210px" />
+            </td>
         </tr>
     </table>
-<%--    <asp:GridView ID="grvFireSafetyCourse" runat="server" caption='<table width="100%" class="gvCaption"><tr><td>Fire Safety</td></tr></table>' AutoGenerateColumns="False">
-        <Columns>
-                <asp:BoundField DataField="lastname" HeaderText="Last Name" ReadOnly="True" 
-                    SortExpression="lastname" />
-                <asp:BoundField DataField="firstname" HeaderText="First Name" 
-                    SortExpression="firstname" />
-                <asp:BoundField DataField="startdate" HeaderText="Start Date" 
-                    SortExpression="startdate" />
-                <asp:BoundField DataField="enddate" HeaderText="End Date"
-                    SortExpression="enddate" />
-            </Columns>
-        </asp:GridView>   --%>
-        
-            <asp:Panel ID="grvPanel" runat="server"></asp:Panel>
+        <asp:Panel ID="grvPanelExpiringCourses" runat="server"></asp:Panel>
+    </asp:Panel>
 
-            </asp:Panel>
 </asp:Content>

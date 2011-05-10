@@ -47,8 +47,6 @@ public partial class Summary_Default : System.Web.UI.Page
 
         for (int i = 0; i < total; i++)
         {
-            TemplateField tf = null;
-
             GridView myGridView = new GridView();
             String temp = courseArray[i];
             myGridView.DataSource = ctx.Employees
@@ -85,9 +83,9 @@ public partial class Summary_Default : System.Web.UI.Page
                                          enddate = temp1.temp0.TT.endDate
                                      }
                                );
-            grvPanel.Controls.Add(myGridView);
+            grvPanelValidCourses.Controls.Add(myGridView);
             
-            myGridView.Caption = "'<table width=\"100%\" class=\"gvCaption\"><tr><td>" + temp + "</td></tr></table>'";
+            myGridView.Caption = "<table width=\"100%\" class=\"gvCaption\"><tr><td>" + temp + "</td></tr></table>";
             myGridView.DataBind();
         }
                
