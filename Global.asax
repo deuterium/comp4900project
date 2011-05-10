@@ -5,10 +5,6 @@
     ///Safety Training Database and Website
     ///Authors: BCIT COMP4900 2011
     ///Chris Wood - chriswood.ca@gmail.com
-    ///Daisy Yuen - yuen.daisy@gmail.com
-    ///Kalen Wessel - kalen.wessel@gmail.com
-    ///Lindsay Fester - lindsay_f@live.com
-    ///Michael Anderson - anderson.michael23@gmail.com
 
     ///Not Used
     void Application_Start(object sender, EventArgs e) { }
