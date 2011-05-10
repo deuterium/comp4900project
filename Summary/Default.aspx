@@ -125,7 +125,6 @@ Summary Page:
         <asp:GridView ID="grvLabInspections" runat="server" AutoGenerateColumns="False" 
             DataKeyNames="labInsNo"> <%--DataSourceID="edsLabInspections">--%>
             <Columns>
-                <asp:CommandField ShowSelectButton="True" />
                 <asp:BoundField DataField="labInsNo" HeaderText="Lab Inspection #" ReadOnly="True" 
                     SortExpression="labInsNo" />
                 <asp:BoundField DataField="deptNo" HeaderText="Department #" 
@@ -147,60 +146,26 @@ Summary Page:
     <asp:Panel ID="pnlB" CssClass="panel" runat="server">
     <table>
         <tr>
-            <td>
-                ID: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxID"></asp:TextBox>
-            </td>
-            <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
-            </td>
-        </tr>
-        <tr>
-            <td>
-                First Name: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxFirstName" />
-                <asp:RequiredFieldValidator
-                    ID="rfvFirstName" runat="server" ErrorMessage="Please enter a First Name." 
-                    ControlToValidate="tbxFirstName" validationgroup="vgrInspectionLookUp">
-                </asp:RequiredFieldValidator>
-            </td>
-            <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Last Name:
-            </td>
-            <td>
-                <asp:TextBox ID="tbxLastName" runat="server" />
-                <asp:RequiredFieldValidator  
-                 ID="RequiredFieldValidator5" runat="server" ErrorMessage="Please enter a Last Name."
-                 ControlToValidate="tbxLastName" validationGroup="vgrCourseLookUp">  
-        </asp:RequiredFieldValidator>
-            </td>
-        </tr>
-        <tr>
         <td>
             <asp:Button ID="Button1" ValidationGroup="vgrCourseLookUp" 
-                runat="server" Text="Search" onclick="btnCourseLookUp_Click" />
+                runat="server" Text="List all Valid Courses" onclick="btnCourseLookUp_Click" />
         </td>
         </tr>
     </table>
-        <asp:GridView ID="grvCourses" runat="server" AutoGenerateColumns="False">
+<%--    <asp:GridView ID="grvFireSafetyCourse" runat="server" caption='<table width="100%" class="gvCaption"><tr><td>Fire Safety</td></tr></table>' AutoGenerateColumns="False">
         <Columns>
-                <asp:CommandField ShowSelectButton="True" />
                 <asp:BoundField DataField="lastname" HeaderText="Last Name" ReadOnly="True" 
-                    SortExpression="lname" />
+                    SortExpression="lastname" />
                 <asp:BoundField DataField="firstname" HeaderText="First Name" 
-                    SortExpression="fname" />
-                <asp:BoundField DataField="trainingName" HeaderText="Course Name" 
-                    SortExpression="trainingName" />
+                    SortExpression="firstname" />
+                <asp:BoundField DataField="startdate" HeaderText="Start Date" 
+                    SortExpression="startdate" />
+                <asp:BoundField DataField="enddate" HeaderText="End Date"
+                    SortExpression="enddate" />
             </Columns>
-        </asp:GridView>
-    </asp:Panel>
+        </asp:GridView>   --%>
+        
+            <asp:Panel ID="grvPanel" runat="server"></asp:Panel>
+
+            </asp:Panel>
 </asp:Content>

@@ -38,3 +38,12 @@ Safety Training Database and Website
 </asp:RequiredFieldValidator>
 
 <asp:ValidationSummary runat="server" ForeColor="Red" DisplayMode="BulletList" />
+
+<asp:GridView CssClass="GridViewStyle" runat="server" >
+    <FooterStyle CssClass="GridViewFooterStyle" />
+    <RowStyle CssClass="GridViewRowStyle" />   
+    <SelectedRowStyle CssClass="GridViewSelectedRowStyle" />
+    <PagerStyle CssClass="GridViewPagerStyle" />
+    <AlternatingRowStyle CssClass="GridViewAlternatingRowStyle" />
+    <HeaderStyle CssClass="GridViewHeaderStyle" />
+</asp:GridView>
