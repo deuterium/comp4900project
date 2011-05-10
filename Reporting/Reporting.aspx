@@ -11,6 +11,12 @@
 <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
 </asp:ToolkitScriptManager>
 
+<asp:CollapsiblePanelExtender ID="cpeReportInfo" runat="server" Collapsed="false"
+CollapseControlID="hr3ReportInfo" ExpandControlID="hr3ReportInfo" TargetControlID="pnlReportInfo"
+ImageControlID="imgExpandCollapseReportInfo" TextLabelID="ExpandCollapseA" CollapsedImage="../images/expand.jpg" 
+ExpandedImage="../images/collapse.jpg">
+</asp:CollapsiblePanelExtender>
+
 <asp:CollapsiblePanelExtender ID="cpeA" runat="server" Collapsed="true"
 CollapseControlID="hr3A" ExpandControlID="hr3A" TargetControlID="pnlA"
 ImageControlID="imgExpandCollapseA" TextLabelID="ExpandCollapseA" CollapsedText="(Show Details)"
@@ -57,12 +63,6 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
 CollapseControlID="hr3H" ExpandControlID="hr3H" TargetControlID="pnlH"
 ImageControlID="imgExpandCollapseH" TextLabelID="ExpandCollapseH" CollapsedText="(Show Details)"
 ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
-</asp:CollapsiblePanelExtender>
-
-<asp:CollapsiblePanelExtender ID="cpeReportInfo" runat="server" Collapsed="true"
-CollapseControlID="hr3ReportInfo" ExpandControlID="hr3ReportInfo" TargetControlID="pnlReportInfo"
-ImageControlID="imgExpandCollapseReportInfo" TextLabelID="ExpandCollapseA" CollapsedImage="../images/expand.jpg" 
-ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <div id="divReportInfo">
@@ -214,275 +214,327 @@ ExpandedImage="../images/collapse.jpg">
                 Action following the Incident:
             </td>
             <td>
-                <asp:DropDownList ID="ddlActionFollowingIncident" runat="server">
-                </asp:DropDownList>
+
+                <table>
+                    <tr>
+                        <td><asp:CheckBox ID="cbx_p1_action_report" Text="Report Only" runat="server" /></td>
+                        <td><asp:CheckBox ID="cbx_p1_action_firstAid" Text="First Aid" runat="server" /></td>
+                        <td><asp:CheckBox ID="cbx_p1_action_medicalGP" Text="Medical Aid (GP / Clinic)" runat="server" /></td>
+                        <td>Date(M/D/Y):</td>
+                        <td><asp:TextBox ID="tbx_p1_action_medicalGP_date" runat="server" ></asp:TextBox></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" ><asp:CheckBox ID="cbx_p1_action_lostTime" Text="Lost time (missed/will miss next scheduled shift due to injury)" runat="server" /></td>
+                        <td><asp:CheckBox ID="cbx_p1_action_medicalER" Text="Medical Aid (ER)" runat="server" /></td>
+                        <td>Date(M/D/Y):</td>
+                        <td><asp:TextBox ID="tbx_p1_action_medicalER_date" runat="server" ></asp:TextBox></td>
+                    </tr>
+                </table>
+
             </td>
         </tr>
     </table>
+
+
+
 </asp:Panel>
 
 <h3 id="hr3B"><asp:Image ID="imgExpandCollapseB" runat="server" /> B. Nature of Injury <asp:Label ID="ExpandCollapseB" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlB" CssClass="panel" runat="server">
-    <asp:CheckBoxList ID="cblNatureOfInjury" runat="server">
-        <asp:ListItem Text="No Injury (Near Miss/ Unsafe Condition)" ></asp:ListItem>
-        <asp:ListItem Text="Musculoskeletal Injyry (Strain / Sprain)" ></asp:ListItem>
-        <asp:ListItem Text="Bruise / Confusion" ></asp:ListItem>
-        <asp:ListItem Text="Burn (Heat or Cold)" ></asp:ListItem>
-        <asp:ListItem Text="Cut / Scratch / Abrasion / Laceration / Puncture (Non BBF)" ></asp:ListItem>
-        <asp:ListItem Text="Puncture Wound (BBF)" ></asp:ListItem>
-        <asp:ListItem Text="Skin Irritation" ></asp:ListItem>
-        <asp:ListItem Text="Skin / Mucous Membrane Exposure (incl. eye)" ></asp:ListItem>
-    </asp:CheckBoxList>
+
+    <h4>Nature of Injury</h4>
+    <table>
+        <tr><td><asp:CheckBox ID="cbx_p1_nature_no" Text="No Injury (Near Miss/ Unsafe Condition)" runat="server" /></td></tr>
+        <tr><td><asp:CheckBox ID="cbx_p1_nature_musculoskeletal" Text="Musculoskeletal Injyry (Strain / Sprain)" runat="server" /></td></tr>
+        <tr><td><asp:CheckBox ID="cbx_p1_nature_bruise" Text="Bruise / Confusion" runat="server" /></td></tr>
+        <tr><td><asp:CheckBox ID="cbx_p1_nature_burn" Text="Burn (Heat or Cold)" runat="server" /></td></tr>
+        <tr><td><asp:CheckBox ID="cbx_p1_nature_cut" Text="Cut / Scratch / Abrasion / Laceration / Puncture (Non BBF)" runat="server" /></td></tr>
+        <tr><td><asp:CheckBox ID="cbx_p1_nature_puncture" Text="Puncture Wound (BBF)" runat="server" /></td></tr>
+        <tr><td><asp:CheckBox ID="cbx_p1_nature_skinIrritation" Text="Skin Irritation" runat="server" /></td></tr>
+        <tr><td><asp:CheckBox ID="cbx_p1_nature_skinMucous" Text="Skin / Mucous Membrane Exposure (incl. eye)" runat="server" /></td></tr>
+        <tr><td><asp:CheckBox ID="cbx_p1_nature_eye" Text="Eye Irritation" runat="server" /></td></tr>
+        <tr><td><asp:CheckBox ID="cbx_p1_nature_allergic" Text="Allergic Response" runat="server" /></td></tr>
+        <tr><td><asp:CheckBox ID="cbx_p1_nature_psychcological" Text="Psychological Trauma / Aggressive Incident" runat="server" /></td></tr>
+        <tr><td><asp:CheckBox ID="cbx_p1_nature_respiratory" Text="Respiratory Irritation" runat="server" /></td></tr>
+    </table>
 </asp:Panel>
 
 <h3 id="hr3C"><asp:Image ID="imgExpandCollapseC" runat="server" /> C. Accident Investigation <asp:Label ID="ExpandCollapseC" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlC" CssClass="panel" runat="server">
 <h4>Activity</h4>
-<asp:CheckBoxList ID="cblActivity" runat="server">
-    <asp:ListItem Text="No Injury" ></asp:ListItem>
-</asp:CheckBoxList>
+    <div id="divCLeftPanel">
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_no" Text="No Injury" runat="server" /></td></tr>
+        </table>
+    
+        <h5>Patient Handling</h5>
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_repositioning" Text="Repositioning" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_transferring" Text="Transferring (incl. to seclusion)" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_assistedWalking" Text="Assisted Walking" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_assistedFloor" Text="Assisted from Floor" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_fall" Text="Preventing a fall" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_holding" Text="Holding / Assisting during procedure (incl. patient restraint)" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_toileting" Text="Toileting" runat="server" /></td></tr>
+        </table>
 
-<h5>Patient Handling</h5>
-<asp:CheckBoxList ID="cblActivityPatientHandling" runat="server">
-    <asp:ListItem Text="Respositioning" ></asp:ListItem>
-    <asp:ListItem Text="Transferring (incl. to seclusion)" ></asp:ListItem>
-    <asp:ListItem Text="Assisted Walking" ></asp:ListItem>
-    <asp:ListItem Text="Assisted from Floor" ></asp:ListItem>
-    <asp:ListItem Text="Preventing a fall" ></asp:ListItem>
-    <asp:ListItem Text="Holding / Assisting during procedure (incl. patient restraint)" ></asp:ListItem>
-    <asp:ListItem Text="Toileting" ></asp:ListItem>
-</asp:CheckBoxList>
-<h5>Patient Handling Details</h5>
-Equipment used at time of Injury:
-<asp:RadioButtonList ID="rblPatientHandlingEquipmentUsed" runat="server">
-    <asp:ListItem Text="Ceiling Lift" ></asp:ListItem>
-    <asp:ListItem Text="Sit-Stand Lift" ></asp:ListItem>
-    <asp:ListItem Text="Floor Lift"></asp:ListItem>
-    <asp:ListItem Text="Manual Lift" ></asp:ListItem>
-    <asp:ListItem Text="Other" ></asp:ListItem>
-</asp:RadioButtonList>
-If other, please specifiy:
-<asp:TextBox ID="tbxPatientHandlingOther" runat="server"></asp:TextBox>
-<p>
-Was adaquate assistance available?
-<asp:RadioButtonList ID="rblPatientHandlingAssistanceAvailable" runat="server" RepeatDirection="Horizontal">
-    <asp:ListItem Text="Yes" ></asp:ListItem>
-    <asp:ListItem Text="No" ></asp:ListItem>
-    <asp:ListItem Text="Unknown" ></asp:ListItem>
-</asp:RadioButtonList>
-</p>
+        <h5>Patient Handling Details</h5>
+        <table>
+            <tr><td>Equipment used at time of Injury:</td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_patient_ceilingLift" Text="Ceiling Lift" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_patient_sitStandLift" Text="Sit-Stand Lift" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_patient_floorLift" Text="Floor Lift" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_patient_manualLift" Text="Manual Lift" runat="server" /></td></tr>
+            <tr><td>
+                <asp:CheckBox ID="cbx_p2_patient_other" Text="Other" runat="server" />
+                <asp:TextBox ID="cbx_p2_patient_otherSpecify" runat="server" ></asp:TextBox>
+            </td></tr>
+            <tr><td>Was adaquate assistance available?</td></tr>
+            <tr><td>
+                <asp:RadioButtonList ID="rbl_p2_patient_adequateAssist" runat="server" RepeatDirection="Horizontal">
+                    <asp:ListItem Text="Yes" Value="1" ></asp:ListItem>
+                    <asp:ListItem Text="No" Value="0" ></asp:ListItem>
+                    <asp:ListItem Text="Unknown" Value="Null" ></asp:ListItem>
+                </asp:RadioButtonList>
+            </td></tr>
+            <tr><td>How many employees involved in activity at time of incident?</td></tr>
+            <tr><td><asp:TextBox ID="tbx_p2_patient_involved" runat="server" ></asp:TextBox></td></tr>
+        </table>
+  
+        <h5>Patient Care</h5>
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_washing" Text="Washing / Bathing" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_dressing" Text="Dressing" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_changing" Text="Changing" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_feeding" Text="Feeding" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_prep" Text="Prep / Dispensing Meds" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_dressingChanges" Text="Dressing Changes" runat="server" /></td></tr>
+            <tr><td>
+                <asp:CheckBox ID="cbx_p2_activity_otherPatientCare" Text="Other Patient Care" runat="server" />
+                <asp:TextBox ID="tbx_p2_activity_otherPatientCare" runat="server"></asp:TextBox>
+            </td></tr>
+        </table>
 
-<h5>Patient Care</h5>
-<asp:CheckBoxList ID="cblPatientCare" runat="server">
-    <asp:ListItem Text="Washing / Bathing" ></asp:ListItem>
-    <asp:ListItem Text="Dressing" ></asp:ListItem>
-    <asp:ListItem Text="Changing" ></asp:ListItem>
-    <asp:ListItem Text="Feeding" ></asp:ListItem>
-    <asp:ListItem Text="Prep / Dispensing Meds" ></asp:ListItem>
-    <asp:ListItem Text="Dressing Changes" ></asp:ListItem>
-</asp:CheckBoxList>
-<asp:CheckBox ID="cbxOtherPatientCare" Text="Other Patient Care" runat="server" />
-<asp:TextBox ID="tbxOtherPatientCare" runat="server"></asp:TextBox>
+        <h5>Sharps Handling</h5>
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_recapping" Text="Re-capping" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_puncture" Text="Veno Puncture / Arterio Puncture" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_sharpsDisposal" Text="Sharps Disposal" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_otherSharps" Text="Other Sharps / Instruments" runat="server" /></td></tr>
+        </table>
+    </div>
 
-<h5>Sharps Handling</h5>
-<asp:CheckBoxList ID="cblSharpsHandling" runat="server">
-    <asp:ListItem Text="Re-capping" ></asp:ListItem>
-    <asp:ListItem Text="Veno Puncture / Arterio Puncture" ></asp:ListItem>
-    <asp:ListItem Text="Sharps Disposal" ></asp:ListItem>
-    <asp:ListItem Text="Other Sharps / Instruments" ></asp:ListItem>
-</asp:CheckBoxList>
+    <div id="divCRightPanel">
+        <h5>Using Material / Equipment</h5>
+        <table>
+            <tr><td>Material / Equipment Description (stretchers, carts, boxes, etc.):</td></tr>
+            <tr><td><asp:TextBox ID="tbx_p2_acitvity_material" runat="server"></asp:TextBox></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_lift" Text="Lift / Lower" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_push" Text="Push / Pull" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_carry" Text="Carry" runat="server" /></td></tr>
+            <tr><td>
+                <asp:CheckBox ID="cbx_p2_activity_otherMat" Text="Other Material Description: " runat="server" />
+                <asp:TextBox ID="tbx_p2_activity_otherMat" runat="server"></asp:TextBox>
+            </td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_driving" Text="Equipment Operation - Driving" runat="server" /></td></tr>
+            <tr><td>
+                <asp:CheckBox ID="cbx_p2_activity_otherEquip" Text="Equipment Operation - Other: " runat="server" />
+                <asp:TextBox ID="tbx_p2_activity_otherEquip" runat="server"></asp:TextBox>
+            </td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_otherEquipDesc" Text="Other Equipment Description: " runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_equipMain" Text="Equipment Maintenance" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_comp" Text="Office Work - Computer" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_nonComp" Text="Office Work - Non Computer" runat="server" /></td></tr>
+        </table>
 
-<h5>Using Material / Equipment</h5>
-<p>
-Material / Equipment Description (stretchers, carts, boxes, etc.):
-<asp:TextBox ID="tbxMaterialEquipDesc" runat="server"></asp:TextBox>
-</p>
-<p>
-<asp:CheckBox ID="cbxLiftLower" Text="Lift / Lower" runat="server" />
-<br /><asp:CheckBox ID="cbxPushPull" Text="Push / Pull" runat="server" />
-<br /><asp:CheckBox ID="cbxCarry" Text="Carry" runat="server" />
-<br /><asp:CheckBox ID="cbxOtherMaterialDesc" Text="Other Material Description: " runat="server" />
-<asp:TextBox ID="tbxOtherMaterialDesc" runat="server"></asp:TextBox>
-<br /><asp:CheckBox ID="cbxEquipOpDriving" Text="Equipment Operation - Driving" runat="server" />
-<br /><asp:CheckBox ID="cbxEquipOpOther" Text="Equipment Operation - Other: " runat="server" />
-<asp:TextBox ID="tbxEquipOpOther" runat="server"></asp:TextBox>
-<br /><asp:CheckBox ID="cbxEquipOther" Text="Other Equipment Description: " runat="server" />
-<asp:TextBox ID="tbxEquipOther" runat="server"></asp:TextBox>
-<br /><asp:CheckBox ID="cbxEquipMaint" Text="Equipment Maintenance" runat="server" />
-<br /><asp:CheckBox ID="cbxOfficeWorkComp" Text="Office Work - Computer" runat="server" />
-<br /><asp:CheckBox ID="cbxOfficeWorkNoComp" Text="Office Work - Non Computer" runat="server" />
-</p>
-
-<h5>Other</h5>
-<asp:CheckBoxList ID="cblUsingMaterialOther" runat="server">
-    <asp:ListItem Text="Walking / Running" ></asp:ListItem>
-    <asp:ListItem Text="Bending" ></asp:ListItem>
-    <asp:ListItem Text="Reading" ></asp:ListItem>
-    <asp:ListItem Text="Spill Cleanup" ></asp:ListItem>
-    <asp:ListItem Text="Cleaning" ></asp:ListItem>
-</asp:CheckBoxList>
-<asp:CheckBox ID="cbxUsingMaterialOther" Text="Other: " runat="server" />
-<asp:TextBox ID="tbxUsingMaterialOther" runat="server"></asp:TextBox>
-
+        <h5>Other</h5>
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_walking" Text="Walking / Running" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_bending" Text="Bending" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_reading" Text="Reading" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_spill" Text="Spill Cleanup" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_activity_cleaning" Text="Cleaning" runat="server" /></td></tr>
+            <tr><td>
+                <asp:CheckBox ID="cbx_p2_activity_other" Text="Other: " runat="server" />
+                <asp:TextBox ID="tbx_p2_activity_other" runat="server"></asp:TextBox>
+            </td></tr>
+        </table>
+    </div>
 </asp:Panel>
 
 <h3 id="hr3D"><asp:Image ID="imgExpandCollapseD" runat="server" /> D. Cause <asp:Label ID="ExpandCollapseD" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlD" CssClass="panel" runat="server">
-<h5>Bite</h5>
-<asp:CheckBoxList ID="cblbite" runat="server">
-    <asp:ListItem Text="Human" ></asp:ListItem>
-    <asp:ListItem Text="Animal / Insect" ></asp:ListItem>
-</asp:CheckBoxList>
+    <div id="divDLeftPanel">
+        <h5>Bite</h5>
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_human" Text="Human" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_animal" Text="Animal / Insect" runat="server"/></td></tr>
+        </table>
 
-<h5>BBF Exposure</h5>
-<asp:CheckBoxList ID="cblBbfExposure" runat="server">
-    <asp:ListItem Text="Needlestick" ></asp:ListItem>
-    <asp:ListItem Text="Other Sharps" ></asp:ListItem>
-    <asp:ListItem Text="Skin/ Mucous Membrane (Splash / Spit)" ></asp:ListItem>
-</asp:CheckBoxList>
+        <h5>BBF Exposure</h5>
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_needle" Text="Needlestick" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_otherSharps" Text="Other Sharps" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_skin" Text="Skin/ Mucous Membrane (Splash / Spit)" runat="server"/></td></tr>
+        </table>
 
-<h5>Ergonomic Factors</h5>
-<asp:CheckBoxList ID="cblErgonomicFactors" runat="server">
-    <asp:ListItem Text="Awkward Posture" ></asp:ListItem>
-    <asp:ListItem Text="Static Posture" ></asp:ListItem>
-    <asp:ListItem Text="Contact Stress" ></asp:ListItem>
-    <asp:ListItem Text="Force" ></asp:ListItem>
-    <asp:ListItem Text="Repetition" ></asp:ListItem>
-</asp:CheckBoxList>
+        <h5>Ergonomic Factors</h5>
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_awkwardPosture" Text="Awkward Posture" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_staticPosture" Text="Static Posture" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_contact" Text="Contact Stress" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_force" Text="Force" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_rep" Text="Repetition" runat="server"/></td></tr>
+        </table>
 
-<h5>Other</h5>
-<asp:CheckBoxList ID="cblOther" runat="server">
-    <asp:ListItem Text="Motor Vehicle Accident" ></asp:ListItem>
-    <asp:ListItem Text="Slip and Fall" ></asp:ListItem>
-    <asp:ListItem Text="Workplace Agression" ></asp:ListItem>
-    <asp:ListItem Text="Cause Undetermined" ></asp:ListItem>
-    <asp:ListItem Text="Traumatic Event" ></asp:ListItem>
-    <asp:ListItem Text="Caught In / Under / Between Equipment" ></asp:ListItem>
-    <asp:ListItem Text="Hit / Struck By / Cut by Equipment" ></asp:ListItem>
-</asp:CheckBoxList>
-<asp:CheckBox ID="cbxDCasesOther" Text="Other:" runat="server" />
-<asp:TextBox ID="tbxDCausesOther" runat="server"></asp:TextBox>
+        <h5>Other</h5>
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_motor" Text="Motor Vehicle Accident" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_slip" Text="Slip and Fall" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_aggression" Text="Workplace Agression" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_undetermined" Text="Cause Undetermined" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_event" Text="Traumatic Event" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_underEquip" Text="Caught In / Under / Between Equipment" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_hit" Text="Hit / Struck By / Cut by Equipment" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_other" Text="Other:" runat="server"/></td></tr>
+            <tr><td><asp:TextBox ID="tbx_p2_cause_other" runat="server"></asp:TextBox></td></tr>
+        </table>
+    </div>
+    
+    <div id="divDAgressionDetailsPanel">
+        <h5>Details for Workplace Agression Incidents</h5>
+        Type of Incident:
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_aggression_verbal" Text="Verbal - threats of violence, verbal assault" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_aggression_biting" Text="Biting / Spitting" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_aggression_hitting" Text="Hitting / Kicking / Beating / Choking" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_aggression_squeezing" Text="Squeezing / Punching / Scratching / Twisting" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_aggression_assault" Text="Sexual assault" runat="server"/></td></tr>
+        </table>
+        Incident Involved:
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_aggression_patient" Text="Patient / Resident" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_aggression_family" Text="Family member of Patient / Resident" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_aggression_public" Text="Other member of Public" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_aggression_worker" Text="Worker" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_aggression_other" Text="Other:" runat="server"/></td></tr>
+            <tr><td><asp:TextBox ID="tbx_p2_cause_aggression_other" runat="server"></asp:TextBox></td></tr>
+        </table>
+    </div>
 
-<h5>Details for Workplace Agression Incidents</h5>
-Type of Incident:
-<asp:CheckBoxList ID="cblAggressionIncidentType" runat="server">
-    <asp:ListItem Text="Verbal - threats of violence, verbal assault" ></asp:ListItem>
-    <asp:ListItem Text="Biting / Spitting" ></asp:ListItem>
-    <asp:ListItem Text="Hitting / Kicking / Beating / Choking" ></asp:ListItem>
-    <asp:ListItem Text="Squeezing / Punching / Scratching / Twisting" ></asp:ListItem>
-    <asp:ListItem Text="Sexual assault" ></asp:ListItem>
-</asp:CheckBoxList>
-Incident Involved:
-<asp:CheckBoxList ID="cblAggressionIncidentInvolved" runat="server">
-    <asp:ListItem Text="Patient / Resident" ></asp:ListItem>
-    <asp:ListItem Text="Family member of Patient / Resident" ></asp:ListItem>
-    <asp:ListItem Text="Other member of Public" ></asp:ListItem>
-    <asp:ListItem Text="Worker" ></asp:ListItem>
-</asp:CheckBoxList>
-<asp:CheckBox ID="cbxDAggressionIncidentOther" Text="Other:" runat="server" />
-<asp:TextBox ID="tbxDAggressionIncidentOther" runat="server"></asp:TextBox>
-
-<h5>Exposure</h5>
-<p>
-Checmical Name: <asp:TextBox ID="tbxExposureChemical" runat="server"></asp:TextBox>
-</p>
-<asp:CheckBoxList ID="cblExposure" runat="server">
-    <asp:ListItem Text="Chemical Inhalation" ></asp:ListItem>
-    <asp:ListItem Text="Chemical Ingestion" ></asp:ListItem>
-    <asp:ListItem Text="Chemical Skin / Eye Contact" ></asp:ListItem>
-    <asp:ListItem Text="Latex" ></asp:ListItem>
-    <asp:ListItem Text="Dust / Particulate" ></asp:ListItem>
-    <asp:ListItem Text="Communicable Diseases" ></asp:ListItem>
-    <asp:ListItem Text="Temperature Extremes" ></asp:ListItem>
-    <asp:ListItem Text="Noise" ></asp:ListItem>
-    <asp:ListItem Text="Radiation" ></asp:ListItem>
-    <asp:ListItem Text="Electricity" ></asp:ListItem>
-    <asp:ListItem Text="Indoor Air Quality" ></asp:ListItem>
-</asp:CheckBoxList>
-
+    <div id="divDRightPanel">
+        <h5>Exposure</h5>
+        <table>
+            <tr><td>Checmical Name: <asp:TextBox ID="tbxExposureChemical" runat="server"></asp:TextBox></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_chemInhalation" Text="Chemical Inhalation" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_chemIngest" Text="Chemical Ingestion" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_chemContact" Text="Chemical Skin / Eye Contact" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_latex" Text="Latex" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_dust" Text="Dust / Particulate" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_disease" Text="Communicable Diseases" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_temp" Text="Temperature Extremes" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_noise" Text="Noise" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_radiation" Text="Radiation" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_elec" Text="Electricity" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_cause_air" Text="Indoor Air Quality" runat="server"/></td></tr>
+        </table>
+    </div>
 </asp:Panel>
 
-<h3 id="hr3E"><asp:Image ID="imgExpandCollapseE" runat="server" /> E. Contributing Factors <asp:Label ID="ExpandCollapseE" runat="server" Text=""></asp:Label></h3>
+<h3 id="hr3E"><asp:Image ID="imgExpandCollapseE" runat="server"/> E. Contributing Factors <asp:Label ID="ExpandCollapseE" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlE" CssClass="panel" runat="server">
-<h5>Equipment / Device</h5>
-<asp:CheckBoxList ID="cblEquipmentDevice" runat="server">
-    <asp:ListItem Text="Malfunctioning" ></asp:ListItem>
-    <asp:ListItem Text="Improper Use" ></asp:ListItem>
-    <asp:ListItem Text="Improper / Inadequate signage" ></asp:ListItem>
-    <asp:ListItem Text="Not Available at Point of Use" ></asp:ListItem>
-    <asp:ListItem Text="Poor Design" ></asp:ListItem>
-</asp:CheckBoxList>
-<asp:CheckBox ID="cbxEEquipOther" Text="Other, specifiy: " runat="server" />
-<asp:TextBox ID="tbxEEquipOther" runat="server"></asp:TextBox>
+    <div id="divELeftPanel" >
+        <h5>Equipment / Device</h5>
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_malfunction" Text="Malfunctioning" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_improperUse" Text="Improper Use" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_signage" Text="Improper / Inadequate signage" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_notAvailable" Text="Not Available at Point of Use" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_poorDesign" Text="Poor Design" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_otherEquip" Text="Other, specify:" runat="server"/></td></tr>
+            <tr><td><asp:TextBox ID="tbx_p2_factors_otherEquip" runat="server"></asp:TextBox></td></tr>
+        </table>
+    
+        <h5>Environment</h5>
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_temp" Text="Temperature" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_workplace" Text="Workplace" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_layout" Text="Layout / Design" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_limitedWorkspace" Text="Limited Workspace" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_slippery" Text="Floor Slippery / Uneven" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_lighting" Text="Lighting Inadequate" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_noise" Text="Exessive Noise" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_vent" Text="Ventilation Inadequate" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_storage" Text="Improper Storage" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_otherEnv" Text="Other, specify: " runat="server"/></td></tr>
+            <tr><td><asp:TextBox ID="tbx_p2_factors_otherEnv" runat="server"></asp:TextBox></td></tr>
+        </table>
+    </div>
 
-<h5>Environment</h5>
-<asp:CheckBoxList ID="cblEnvironment" runat="server">
-    <asp:ListItem Text="Temperature" ></asp:ListItem>
-    <asp:ListItem Text="Workplace" ></asp:ListItem>
-    <asp:ListItem Text="Layout / Design" ></asp:ListItem>
-    <asp:ListItem Text="Limited Workspace" ></asp:ListItem>
-    <asp:ListItem Text="Floor Slippery / Uneven" ></asp:ListItem>
-    <asp:ListItem Text="Lighting Inadequate" ></asp:ListItem>
-    <asp:ListItem Text="Exessive Noise" ></asp:ListItem>
-    <asp:ListItem Text="Ventilation Inadequate" ></asp:ListItem>
-    <asp:ListItem Text="Improper Storage" ></asp:ListItem>
-</asp:CheckBoxList>
-<asp:CheckBox ID="cbxEEnviroOther" Text="Other, specifiy: " runat="server" />
-<asp:TextBox ID="tbxEEnviroOther" runat="server"></asp:TextBox>
+    <div id="divEMiddlePanel">
+        <h5>Work Practice</h5>
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_assessment" Text="Improper Assessment of Client / Load" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_procedure" Text="Did Not Follow Appropriate Procedure" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_equip" Text="Did Not Use Designated / Appropriate Equipment" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_conduct" Text="Conduct" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_extended" Text="Task Performed for extended periods" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_comm" Text="Communication" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_unaccustomed" Text="Unaccustomed" runat="server"/></td></tr>
+            <tr><td>
+                <asp:CheckBox ID="cbx_p2_factors_otherWorkPractice" Text="Other, specify: " runat="server"/>
+                <asp:TextBox ID="tbx_p2_factors_otherWorkPractice" runat="server"></asp:TextBox>
+            </td></tr>
+        </table>
 
-<h5>Work Practice</h5>
-<asp:CheckBoxList ID="cblWorkPractice" runat="server">
-    <asp:ListItem Text="Improper Assessment of Client / Load" ></asp:ListItem>
-    <asp:ListItem Text="Did Not Follow Appropriate Procedure" ></asp:ListItem>
-    <asp:ListItem Text="Did Not Use Designated / Appropriate Equipment" ></asp:ListItem>
-    <asp:ListItem Text="Conduct" ></asp:ListItem>
-    <asp:ListItem Text="Task Performed for extended periods" ></asp:ListItem>
-    <asp:ListItem Text="Communication" ></asp:ListItem>
-    <asp:ListItem Text="Unaccustomed" ></asp:ListItem>
-</asp:CheckBoxList>
-<asp:CheckBox ID="cbxEWorkPracticeOther" Text="Other, specifiy: " runat="server" />
-<asp:TextBox ID="tbxEWorkPracticeOther" runat="server"></asp:TextBox>
+        <h5>Patient Related Factors</h5>
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_directions" Text="Unable to Follow Directions" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_weight" Text="Inconsistent Weight Bearing" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_aggressive" Text="Patient Aggressive" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_resistive" Text="Patient Resistive" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_movement" Text="Made Unexpected Movement" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_confused" Text="Confused / Dementia" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_influence" Text="Under Influence of Drugs / Alcohol" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_lang" Text="Language Barriers" runat="server"/></td></tr>
+            <tr><td>
+                <asp:CheckBox ID="cbx_p2_factors_otherPatient" Text="Other, specify: " runat="server"/>
+                <asp:TextBox ID="tbxEPatientRelatedOther" runat="server"></asp:TextBox>
+            </td></tr>
+        </table>
+    </div>
 
-<h5>Patient Related Factors</h5>
-<asp:CheckBoxList ID="cblPatientRelated" runat="server">
-    <asp:ListItem Text="Unable to Follow Directions" ></asp:ListItem>
-    <asp:ListItem Text="Inconsistent Weight Bearing" ></asp:ListItem>
-    <asp:ListItem Text="Patient Aggressive" ></asp:ListItem>
-    <asp:ListItem Text="Patient Resistive" ></asp:ListItem>
-    <asp:ListItem Text="Made Unexpected Movement" ></asp:ListItem>
-    <asp:ListItem Text="Confused / Dementia" ></asp:ListItem>
-    <asp:ListItem Text="Under Influence of Drugs / Alcohol" ></asp:ListItem>
-    <asp:ListItem Text="Language Barriers" ></asp:ListItem>
-</asp:CheckBoxList>
-<asp:CheckBox ID="cbxEPatientRelatedOther" Text="Other, specifiy: " runat="server" />
-<asp:TextBox ID="tbxEPatientRelatedOther" runat="server"></asp:TextBox>
+    <div id="divERightPanel">
+        <h5>Organizational / Administrative</h5>
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_alone" Text="Working Alone" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_info" Text="Inadequate Information" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_scheduling" Text="Inappropriate Scheduling" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_training" Text="Lack of Training / Education" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_appropriateEquip" Text="Lack of Appropriate Equipment" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_personal" Text="Lack of Personal Protection Equipment" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_safe" Text="Lack of Safe Work Procedures" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_perceived" Text="Perceived Time Constraints" runat="server"/></td></tr>
+            <tr><td>
+                <asp:CheckBox ID="cbx_p2_factors_otherOrganizational" Text="Other, specify: " runat="server"/>
+                <asp:TextBox ID="tbx_p2_factors_otherOrganizational" runat="server"></asp:TextBox>
+            </td></tr>
+        </table>
 
-<h5>Organizational / Administrative</h5>
-<asp:CheckBoxList ID="cblOrganAdmin" runat="server">
-    <asp:ListItem Text="Working Alone" ></asp:ListItem>
-    <asp:ListItem Text="Inadequate Information" ></asp:ListItem>
-    <asp:ListItem Text="Inappropriate Scheduling" ></asp:ListItem>
-    <asp:ListItem Text="Lack of Training / Education" ></asp:ListItem>
-    <asp:ListItem Text="Lack of Appropriate Equipment" ></asp:ListItem>
-    <asp:ListItem Text="Lack of Personal Protection Equipment" ></asp:ListItem>
-    <asp:ListItem Text="Lack of Safe Work Procedures" ></asp:ListItem>
-    <asp:ListItem Text="Perceived Time Constraints" ></asp:ListItem>
-</asp:CheckBoxList>
-<asp:CheckBox ID="cbxEOrganAdminOther" Text="Other, specifiy: " runat="server" />
-<asp:TextBox ID="tbxEOrganAdminOther" runat="server"></asp:TextBox>
-
-<h5>Worker</h5>
-<asp:CheckBoxList ID="cblWorker" runat="server">
-    <asp:ListItem Text="Inexperienced" ></asp:ListItem>
-    <asp:ListItem Text="Communication Difficulties" ></asp:ListItem>
-    <asp:ListItem Text="Fatigued" ></asp:ListItem>
-    <asp:ListItem Text="Distracted" ></asp:ListItem>
-    <asp:ListItem Text="Pre-existing Injury" ></asp:ListItem>
-    <asp:ListItem Text="Sick / Medicated" ></asp:ListItem>
-</asp:CheckBoxList>
-<asp:CheckBox ID="cbxEWorkerOther" Text="Other, specifiy: " runat="server" />
-<asp:TextBox ID="tbxEWorkerOther" runat="server"></asp:TextBox>
-
+        <h5>Worker</h5>
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_inexperienced" Text="Inexperienced" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_communication" Text="Communication Difficulties" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_fatigued" Text="Fatigued" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_distracted" Text="Distracted" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_preexisting" Text="Pre-existing Injury" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p2_factors_sick" Text="Sick / Medicated" runat="server"/></td></tr>
+            <tr><td>
+                <asp:CheckBox ID="cbx_p2_factors_otherWorker" Text="Other, specify: " runat="server"/>
+                <asp:TextBox ID="tbx_p2_factors_otherWorker" runat="server"></asp:TextBox>
+            </td></tr>
+        </table>
+    </div>
 </asp:Panel>
 
 <h3 id="hr3F"><asp:Image ID="imgExpandCollapseF" runat="server" /> F. Corrective Action <asp:Label ID="ExpandCollapseF" runat="server" Text=""></asp:Label></h3>

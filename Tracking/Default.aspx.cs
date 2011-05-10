@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq.Expressions;
 
 public partial class Tracking_Default : System.Web.UI.Page {
+
     #region class variables
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
@@ -17,7 +18,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
     public static String otherOption = "Other (specifiy)";
     // Text value of DropDowns for the none specified option (null value in db)
     public static String noOptionSpecified = String.Empty;
-    // List of pre-defined employers a user can select
+    // List of static, pre-defined employers a user can select
     public static List<String> employers = new List<String> {
         noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
     };

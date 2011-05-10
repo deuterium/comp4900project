@@ -38,3 +38,5 @@ Safety Training Database and Website
 </asp:RequiredFieldValidator>
 
 <asp:ValidationSummary runat="server" ForeColor="Red" DisplayMode="BulletList" />
+
+<asp:DropDownList runat="server" Width="155px" ></asp:DropDownList>
