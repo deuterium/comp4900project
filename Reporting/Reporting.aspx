@@ -135,7 +135,11 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         </tr>
         <tr>
             <td>Date Reported:</td>
-            <td><asp:TextBox ID="tbxDateReported" runat="server"></asp:TextBox></td>
+            <td>
+                <asp:TextBox ID="tbxDateReported" runat="server"></asp:TextBox>
+                <asp:CalendarExtender ID="cexDateReported" runat="server" TargetControlID="tbxDateReported" Format="yyyy/MM/dd" >
+                </asp:CalendarExtender>
+            </td>
         </tr>
         <tr>
             <td>Time Reported:</td>
@@ -215,7 +219,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         <table>
             <tr><td><asp:CheckBox ID="cbx_p1_nature_eye" Text="Eye Irritation" runat="server" /></td></tr>
             <tr><td><asp:CheckBox ID="cbx_p1_nature_allergic" Text="Allergic Response" runat="server" /></td></tr>
-            <tr><td><asp:CheckBox ID="cbx_p1_nature_psychcological" Text="Psychological Trauma / Aggressive Incident" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p1_nature_psychological" Text="Psychological Trauma / Aggressive Incident" runat="server" /></td></tr>
             <tr><td><asp:CheckBox ID="cbx_p1_nature_respiratory" Text="Respiratory Irritation" runat="server" /></td></tr>
         </table>
     </div>
@@ -249,7 +253,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox ID="cbx_p2_patient_manualLift" Text="Manual Lift" runat="server" /></td></tr>
             <tr><td>
                 <asp:CheckBox ID="cbx_p2_patient_other" Text="Other: " runat="server" />
-                <asp:TextBox ID="cbx_p2_patient_otherSpecify" runat="server" ></asp:TextBox>
+                <asp:TextBox ID="tbx_p2_patient_otherSpecify" runat="server" ></asp:TextBox>
             </td></tr>
             <tr><td>Was adaquate assistance available?</td></tr>
             <tr><td>
@@ -366,7 +370,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
     </div>
     
     <div id="divDAgressionDetailsPanel">
-        <h5>Details for Workplace Agression Incidents</h5>
+        <h5>Details for Workplace Aggression Incidents</h5>
         Type of Incident:
         <table>
             <tr><td><asp:CheckBox ID="cbx_p2_cause_aggression_verbal" Text="Verbal - threats of violence, verbal assault" runat="server"/></td></tr>

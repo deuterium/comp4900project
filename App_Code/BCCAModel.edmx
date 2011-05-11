@@ -1653,11 +1653,11 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="BCCAModel">
+      <Diagram Name="BCCAModel" ZoomLevel="93">
         <EntityTypeShape EntityType="BCCAModel.Department" Width="1.5" PointX="0.75" PointY="32.25" Height="2.172587890624996" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.Employee" Width="1.5" PointX="7.5" PointY="53.5" Height="3.903300781249996" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.FollowUp" Width="1.5" PointX="5.25" PointY="70.875" Height="2.1725878906250102" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.Incident" Width="1.5" PointX="9.75" PointY="35.875" Height="39.286764322916667" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Incident" Width="2.875" PointX="9.75" PointY="35.875" Height="39.286764322916667" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.LabInspection" Width="1.5" PointX="3" PointY="70.375" Height="3.1340950520833246" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.LabInspectionDetail" Width="1.5" PointX="5.25" PointY="67.875" Height="2.1725878906250102" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.LabInspectionItem" Width="1.5" PointX="3" PointY="67" Height="1.7879850260416674" IsExpanded="true" />
@@ -1703,11 +1703,11 @@
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__TrainingT__empNo__503BEA1C" ManuallyRouted="false">
           <ConnectorPoint PointX="9" PointY="54.4445731953125" />
-          <ConnectorPoint PointX="9.5" PointY="54.4445731953125" />
-          <ConnectorPoint PointX="9.5" PointY="35.625" />
-          <ConnectorPoint PointX="13.010414166666665" PointY="35.625" />
-          <ConnectorPoint PointX="13.177080833333333" PointY="35.625" />
-          <ConnectorPoint PointX="13.5" PointY="35.625" />
+          <ConnectorPoint PointX="9.6875" PointY="54.4445731953125" />
+          <ConnectorPoint PointX="9.6875" PointY="35.8125" />
+          <ConnectorPoint PointX="13.010414166666665" PointY="35.8125" />
+          <ConnectorPoint PointX="13.177080833333333" PointY="35.8125" />
+          <ConnectorPoint PointX="13.5" PointY="35.8125" />
           <ConnectorPoint PointX="13.5" PointY="53.125" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__FollowUp__labIns__5F7E2DAC" ManuallyRouted="false">
