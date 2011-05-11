@@ -7,7 +7,7 @@ using BCCAModel;
 ///Admin/Default.aspx.cs
 ///BCCA Cancer Research Centre
 ///Safety Training Database and Website
-///Authors: BCIT COMP4900 2011
+///Author: BCIT COMP4900 2011
 ///Chris Wood - chriswood.ca@gmail.com
 /// </summary>
 public partial class Admin_Default : System.Web.UI.Page
@@ -254,23 +254,40 @@ public partial class Admin_Default : System.Web.UI.Page
     {
         string mode = rblDropDownEdit.SelectedValue;
 
-        //switch (rblDropDownEdit.SelectedValue)
-        //{
-        //    case "Departments":
+        switch (rblDropDownEdit.SelectedValue)
+        {
+            case "Departments":
+                lbDropDowns.DataSource = ctx.Departments.Select(d => new 
+                    { 
+                        deptName = d.deptName,
+                        deptNo = d.deptNo
+                    });
+                lbDropDowns.DataTextField = "deptName";
+                lbDropDowns.DataValueField = "deptNo";
+                lbDropDowns.DataBind();
+                break;
+            case "Rooms":
+                lbDropDowns.DataSource = ctx.Rooms.Select(r => new
+                    {
+                        roomName = r.room1,
+                        roomNo = r.roomNo
+                    });
+                lbDropDowns.DataTextField = "roomName";
+                lbDropDowns.DataValueField = "roomNo";
+                lbDropDowns.DataBind();
+                break;
 
-        //        break;
-        //    case "Rooms":
-
-        //        break;
-
-        //    case "Positions":
-
-        //        break;
-
-        //    case "Supervisors":
-
-        //        break;
-        //}
+            case "Positions":
+                lbDropDowns.DataSource = ctx.Positions.Select(p => new 
+                    { 
+                        positionName = p.posName,
+                        positionNo = p.posNo
+                    });
+                lbDropDowns.DataTextField = "positionName";
+                lbDropDowns.DataValueField = "positionNo";
+                lbDropDowns.DataBind();
+                break;
+        }
 
         //change listbox datasource here
         lblDropDownsDelete.Text = mode + " in system:";

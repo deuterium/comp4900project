@@ -3,7 +3,7 @@
     ///Global.asax
     ///BCCA Cancer Research Centre
     ///Safety Training Database and Website
-    ///Authors: BCIT COMP4900 2011
+    ///Author: BCIT COMP4900 2011
     ///Chris Wood - chriswood.ca@gmail.com
 
     ///Not Used
