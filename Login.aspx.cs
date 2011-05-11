@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Web.Security;
 using BCCAModel;
 
@@ -11,10 +9,6 @@ using BCCAModel;
 ///Safety Training Database and Website
 ///Authors: BCIT COMP4900 2011
 ///Chris Wood - chriswood.ca@gmail.com
-///Daisy Yuen - yuen.daisy@gmail.com
-///Kalen Wessel - kalen.wessel@gmail.com
-///Lindsay Fester - lindsay_f@live.com
-///Michael Anderson - anderson.michael23@gmail.com
 /// </summary>
 public partial class Login : System.Web.UI.Page
 {

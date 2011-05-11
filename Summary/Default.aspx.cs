@@ -5,13 +5,12 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using BCCAModel;
+using System.Data;
 
 public partial class Summary_Default : System.Web.UI.Page
 {
-    /* Chris LOVES t3h pen0r TODO */
+
     static BCCAEntities ctx = new BCCAEntities();
-    private string firstName;
-    private string lastName;
     private int department;
     private string labManager;
 
@@ -39,52 +38,57 @@ public partial class Summary_Default : System.Web.UI.Page
 
     protected void btnCourseLookUp_Click(object sender, EventArgs e)
     {
-        firstName = tbxFirstName.Text;
-        lastName = tbxLastName.Text;
-        grvCourses.DataSource = ctx.Employees
-                           .Join(
-                              ctx.TrainingTakens,
-                              emp => emp.empNo,
-                              TT => TT.empNo,
-                              (emp, TT) =>
-                                 new
-                                 {
-                                     emp = emp,
-                                     TT = TT
-                                 }
-                           )
-                           .Join(
-                              ctx.TrainingCourses,
-                              temp0 => temp0.TT.trainingNo,
-                              TC => TC.trainingNo,
-                              (temp0, TC) =>
-                                 new
-                                 {
-                                     temp0 = temp0,
-                                     TC = TC
-                                 }
-                           )
-                           .Where(temp1 => ((temp1.temp0.emp.lname == lastName) && (temp1.temp0.emp.fname == firstName)))
-                           .Select(
-                              temp1 =>
-                                 new
-                                 {
-                                     lastname = temp1.temp0.emp.lname,
-                                     firstname = temp1.temp0.emp.fname,
-                                     trainingName = temp1.TC.trainingName
-                                 }
-                           );
+        var q = from x in ctx.TrainingCourses
+                select x;
+        var total = q.Count();
 
-        grvCourses.DataBind();
-        
-    }
-
-    void grvCourses_SelectedIndexChanged(Object sender, EventArgs e)
-    {
-        // Retrieve the company name from the appropriate cell.
-        String companyName = grvCourses.SelectedRow.Cells[2].Text;
+        List<String> courseArray = ctx.TrainingCourses.Select(c => c.trainingName).ToList();
 
 
+        for (int i = 0; i < total; i++)
+        {
+            GridView myGridView = new GridView();
+            String temp = courseArray[i];
+            myGridView.DataSource = ctx.Employees
+                               .Join(
+                                  ctx.TrainingTakens,
+                                  emp => emp.empNo,
+                                  TT => TT.empNo,
+                                  (emp, TT) =>
+                                     new
+                                     {
+                                         emp = emp,
+                                         TT = TT
+                                     }
+                               )
+                               .Join(
+                                  ctx.TrainingCourses,
+                                  temp0 => temp0.TT.trainingNo,
+                                  TC => TC.trainingNo,
+                                  (temp0, TC) =>
+                                     new
+                                     {
+                                         temp0 = temp0,
+                                         TC = TC
+                                     }
+                               )
+                               .Where(temp1 => (temp1.TC.trainingName == temp))
+                               .Select(
+                                  temp1 =>
+                                     new
+                                     {
+                                         lastname = temp1.temp0.emp.lname,
+                                         firstname = temp1.temp0.emp.fname,
+                                         startdate = temp1.temp0.TT.startDate,
+                                         enddate = temp1.temp0.TT.endDate
+                                     }
+                               );
+            grvPanelValidCourses.Controls.Add(myGridView);
+            
+            myGridView.Caption = "<table width=\"100%\" class=\"gvCaption\"><tr><td>" + temp + "</td></tr></table>";
+            myGridView.DataBind();
+        }
+               
     }
 
 }

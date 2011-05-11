@@ -62,8 +62,8 @@
                                 ValidationGroup="vgrUserDelete" ControlToValidate="lbxUsers" />
                             <br />
                             <asp:ListBox ID="lbxUsers" runat="server" Height="100px" Width="100px" DataSourceID="edsUsers"
-                                DataTextField="userName" DataValueField="userNo" AutoPostBack="True" 
-                                onselectedindexchanged="lbxUsers_SelectedIndexChanged"></asp:ListBox>
+                                DataTextField="userName" DataValueField="userNo" AutoPostBack="True" OnSelectedIndexChanged="lbxUsers_SelectedIndexChanged">
+                            </asp:ListBox>
                         </td>
                         <td valign="top">
                             <table>
@@ -72,10 +72,10 @@
                                         Username:
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="tbUsername" runat="server" />
+                                        <asp:TextBox ID="tbUsername" runat="server" width="110" />
                                         <asp:TextBox ID="tbUsernameID" runat="server" CssClass="hidden" />
                                         <asp:RequiredFieldValidator ID="rfvUsername" runat="server" ErrorMessage="Username required"
-                                            ValidationGroup="vgrUserNew" ControlToValidate="tbUsername" Display="Static" />
+                                            ValidationGroup="vgrUserNew" ControlToValidate="tbUsername" Display="Static">*</asp:RequiredFieldValidator>
                                     </td>
                                 </tr>
                                 <tr>
@@ -83,9 +83,9 @@
                                         Password:
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="tbPassword" runat="server" onclick="this.value ='';" />
+                                        <asp:TextBox ID="tbPassword" runat="server" width="110" onclick="this.value ='';" />
                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Password required"
-                                            ValidationGroup="vgrUserNew" ControlToValidate="tbPassword" Display="Static" />
+                                            ValidationGroup="vgrUserNew" ControlToValidate="tbPassword" Display="Static">*</asp:RequiredFieldValidator>
                                     </td>
                                 </tr>
                             </table>
@@ -98,14 +98,17 @@
                                 DataSourceID="edsRoles" DataTextField="role1" DataValueField="roleNo">
                             </asp:RadioButtonList>
                         </td>
-                        <td id="tdUserCreateLabDiv" valign="top" runat="server" visible="false">
+                        <td id="tdUserCreateLabDiv" width="112" valign="top" runat="server" visible="false">
                             <div id="divUserCreateLabManagerOption" runat="server">
                                 Lab to Manage:
+                                <asp:RequiredFieldValidator ID="rfvLabManagerDepartment" runat="server" ErrorMessage="Department is required"
+                                    ValidationGroup="vgrUserNew" ControlToValidate="ddlDepartments">*</asp:RequiredFieldValidator>
                                 <br />
                                 <asp:DropDownList ID="ddlDepartments" runat="server" Width="100px" DataSourceID="edsDepartments"
                                     DataTextField="deptName" DataValueField="deptNo" AppendDataBoundItems="true">
                                     <asp:ListItem Text="" Value="" />
                                 </asp:DropDownList>
+                                
                             </div>
                         </td>
                         <td valign="bottom">
@@ -113,11 +116,11 @@
                                 ForeColor="Red" OnServerValidate="cvlUserNew_ServerValidate" ValidationGroup="vgrUserNew"
                                 Display="None"></asp:CustomValidator>
                             <br />
-                            <asp:Button ID="btnUserDelete" runat="server" Text="Delete User" Width="120" Visible="false" 
-                            ValidationGroup="vgrUserDelete" onclick="btnUserDelete_Click" />
+                            <asp:Button ID="btnUserDelete" runat="server" Text="Delete User" Width="120" Visible="false"
+                                ValidationGroup="vgrUserDelete" OnClick="btnUserDelete_Click" />
                             <br />
                             <asp:Button ID="btnUserNew" runat="server" Text="Create User" Width="120" OnClick="btnUserNew_Click"
-                            ValidationGroup="vgrUserNew" />
+                                ValidationGroup="vgrUserNew" />
                         </td>
                         <td>
                             <asp:ValidationSummary ID="vsmUserNew" runat="server" ValidationGroup="vgrUserNew" />
@@ -202,7 +205,7 @@
                 </tr>
                 <tr>
                     <td align="right">
-                        <asp:Button ID="btnPnlPopClose" runat="server" Text="Close" />
+                        <asp:Button ID="btnPnlPopClose" runat="server" Text="Close" OnClick="btnPnlPopClose_Click" />
                     </td>
                 </tr>
             </table>

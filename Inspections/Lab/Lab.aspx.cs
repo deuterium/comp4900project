@@ -8,6 +8,7 @@ using BCCAModel;
 
 public partial class Inspections_Lab_Lab : System.Web.UI.Page
 {
+    BCCAEntities ctx = new BCCAEntities();
     protected void Page_Load(object sender, EventArgs e)
     {
         //rdoFireEvacYes.Checked = true;
@@ -20,12 +21,16 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             
         };
 
+
+        ctx.AddToLabInspectionDetails(new LabInspectionDetail()
+            {
+                labItemNo = 1,
+                @checked = this.rblFireEvac.SelectedItem.Value,
+                comments = this.tbxCommentFireEvac.Text,
+            });
+
         LabInspectionDetail detailFireEvac = new LabInspectionDetail()
-        {
-            labItemNo = 1,
-            @checked = this.rblFireEvac.SelectedItem.Value,
-            comments = this.tbxCommentFireEvac.Text,
-        };
+        ;
 
         LabInspectionDetail detailFireExtinguish = new LabInspectionDetail() 
         {
@@ -34,7 +39,6 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             comments = this.tbxCommentFireExtinguish.Text,
         };
 
-        BCCAEntities ctx = new BCCAEntities();
 
         ctx.AddToLabInspections(inc);
         ctx.SaveChanges();
