@@ -11,6 +11,9 @@
 <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
 </asp:ToolkitScriptManager>
 
+    <asp:GridView ID="GridView1" runat="server">
+    </asp:GridView>
+
 <asp:CollapsiblePanelExtender ID="cpeEmployeeInfo" runat="server" Collapsed="false"
 CollapseControlID="hr3EmployeeInfo" ExpandControlID="hr3EmployeeInfo" TargetControlID="pnlEmployeeInfo"
 ImageControlID="imgExpandCollapseReportInfo" TextLabelID="ExpandCollapseA" CollapsedImage="../images/expand.jpg" 
