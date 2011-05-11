@@ -8,8 +8,23 @@ using BCCAModel;
 using System.Data;
 using System.Drawing;
 
-public partial class Reporting_Reporting : System.Web.UI.Page
-{
+/** TO DO:
+ * fix tab indexes
+ * fix time regex (see sample forms)
+ * fix table style (when you select Other from DDL)
+ * make clear all and clear individual form buttons
+ * add regex validator to phone
+ * add regex for name
+ * custom validator for Others in DDL
+ * ask about dates (how the labels on the forms say M/D/Y)
+ * Kalen: panel A, panel B
+ * Kalen: comment boxes are centered (vertically) - see section G
+ * put tbx on same line as Other: option
+ * add regex to last 3 sections
+ * test really long inputs
+ **/
+
+public partial class Reporting_Reporting : System.Web.UI.Page {
     #region class variables
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
@@ -39,6 +54,10 @@ public partial class Reporting_Reporting : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack) {
+
+            gdvEmployees.DataSource = ctx.Employees;
+            gdvEmployees.DataBind();
+
             ddlActionFollowing.DataSource = actionsFollowing;
             ddlActionFollowing.DataBind();
 
@@ -78,31 +97,26 @@ public partial class Reporting_Reporting : System.Web.UI.Page
             emp = qry.FirstOrDefault();
 
             tbxId.Text = emp.empNo.ToString();
-
-
+            
             var position = ctx.Positions
                            .Where(p => p.posName.Equals(emp.position))
-                           .Select(p => p);
+                           .Select(p => p.posName);
 
-            if ((position != null) && (position.Count() == 1)) {
-                ddlPositions.SelectedValue = emp.position;
-            }
-            else if (emp.position == null) {
+            if (emp.position == null) {
                 ddlPositions.SelectedIndex = 0;
-            }
-            else {
+            } else if (position.Count() == 1) {
+                ddlPositions.SelectedValue = emp.position;
+            } else {
                 ddlPositions.SelectedValue = otherOption;
                 tbxPosition.Text = emp.position;
             }
             CheckPositionOption();
 
-            if (employers.Contains(emp.employer)) {
-                ddlEmployers.SelectedValue = emp.employer;
-            }
-            else if (emp.position == null) {
+            if (emp.employer == null) {
                 ddlEmployers.SelectedIndex = 0;
-            }
-            else {
+            } else if (employers.Contains(emp.employer)) {
+                ddlEmployers.SelectedValue = emp.employer;
+            } else {
                 ddlEmployers.SelectedValue = otherOption;
                 tbxEmployer.Text = emp.employer;
             }
@@ -110,22 +124,23 @@ public partial class Reporting_Reporting : System.Web.UI.Page
 
             if (emp.supervisor == null) {
                 tbxSupervisor.Text = String.Empty;
-            }
-            else {
+            } else {
                 tbxSupervisor.Text = emp.supervisor;
             }
 
+            ddlDepartments.SelectedValue = emp.deptNo.ToString();
+
             tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("yyyy/MM/dd");
+            
             if (emp.endDate != null) {
                 tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("yyyy/MM/dd");
             }
+
             setResultMsg(null, SuccessColour);
 
-        }
-        else if ((qry != null) && (qry.Count() <= 0)) {
+        } else if ((qry != null) && (qry.Count() <= 0)) {
             setResultMsg("No employees with that first and last name found.", FailColour);
-        }
-        else {
+        } else {
             setResultMsg("There was more than one employee with that first and last name.", FailColour);
         }
     }
@@ -156,15 +171,19 @@ public partial class Reporting_Reporting : System.Web.UI.Page
         lblResults.Text = msg;
     }
 
-    protected void btnSearch_Click(object sender, EventArgs e) {
-        saveReport();
+    protected void btnCreateReport_Click(object sender, EventArgs e) {
+        createReport();
     }
 
-    private void saveReport() {
+    private void createReport() {
         int empId = Convert.ToInt32(tbxId.Text);
-        //DateTime dateOfIncident = Convert.ToDateTime(tbxDateOfIncident.Text);
-        //DateTime dateReported = Convert.ToDateTime("2011/06/01 09:00:00");
-        
+        if (tbxDateOfIncident.Text.Equals(String.Empty) && tbxTimeOfIncident.Text.Equals(String.Empty)) {
+
+        }
+        DateTime dateOfIncident = Convert.ToDateTime(tbxDateOfIncident.Text + " " + tbxTimeOfIncident.Text);
+        DateTime dateReported = Convert.ToDateTime(tbxDateReported.Text + " " + tbxTimeReported.Text);
+        // time format: 09:00:00
+
         Incident report = new Incident {
             empNo = empId,
             p1_dateOfIncident = null,
@@ -336,7 +355,9 @@ public partial class Reporting_Reporting : System.Web.UI.Page
             p2_factors_otherWorker = convertCheckbox(cbx_p2_factors_otherWorker),
                         
         };
-        
+
+        ctx.AddToIncidents(report);
+        ctx.SaveChanges();
     }
 
     private String convertCheckbox(CheckBox cbx) {
@@ -383,11 +404,11 @@ public partial class Reporting_Reporting : System.Web.UI.Page
     /// </summary>
     private void CheckActionFollowingOption() {
         if (ddlActionFollowing.SelectedValue.StartsWith("Medical Aid")) {
-            tbxMedicalAid.Visible = true;
-            lblMedicalAid.Visible = true;
+            tbxMedicalAidDate.Visible = true;
+            lblMedicalAidDate.Visible = true;
         } else {
-            tbxMedicalAid.Visible = false;
-            lblMedicalAid.Visible = false;
+            tbxMedicalAidDate.Visible = false;
+            lblMedicalAidDate.Visible = false;
         }
     }
 
@@ -407,5 +428,4 @@ public partial class Reporting_Reporting : System.Web.UI.Page
         }
     }
     #endregion DropDownLists
-
 }
