@@ -29,7 +29,6 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (!IsPostBack) {
             ddlEmployers.DataSource = employers;
             ddlEmployers.DataBind();
-            ddlEmployers.Items.Insert(0, noOptionSpecified);
 
             ddlDepartments.DataSource = ctx.Departments;
             ddlDepartments.DataValueField = "deptNo";
@@ -60,7 +59,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         }
 
         if (ddlPositions.SelectedValue != noOptionSpecified) {
-            if (!tbxPosition.Text.Equals(String.Empty)) {
+            if (!ddlPositions.SelectedValue.Equals(otherOption)) {
                 reports = reports.Where(r => r.Employee.position.Equals(tbxPosition.Text));
             } else {
                 reports = reports.Where(r => r.Employee.position.Equals(ddlPositions.SelectedValue));
@@ -68,7 +67,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         }
 
         if (ddlEmployers.SelectedValue != noOptionSpecified) {
-            if (!tbxEmployer.Text.Equals(String.Empty)) {
+            if (!ddlEmployers.SelectedValue.Equals(otherOption)) {
                 reports = reports.Where(r => r.Employee.employer.Equals(tbxEmployer.Text));
             } else {
                 reports = reports.Where(r => r.Employee.employer.Equals(ddlEmployers.SelectedValue));

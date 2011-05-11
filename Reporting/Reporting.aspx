@@ -19,148 +19,110 @@ ExpandedImage="../images/collapse.jpg">
 
 <asp:CollapsiblePanelExtender ID="cpeA" runat="server" Collapsed="true"
 CollapseControlID="hr3A" ExpandControlID="hr3A" TargetControlID="pnlA"
-ImageControlID="imgExpandCollapseA" TextLabelID="ExpandCollapseA" CollapsedText="(Show Details)"
-ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+ImageControlID="imgExpandCollapseA" TextLabelID="ExpandCollapseA" 
+CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeB" runat="server" Collapsed="true"
 CollapseControlID="hr3B" ExpandControlID="hr3B" TargetControlID="pnlB"
-ImageControlID="imgExpandCollapseB" TextLabelID="ExpandCollapseB" CollapsedText="(Show Details)"
-ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+ImageControlID="imgExpandCollapseB" TextLabelID="ExpandCollapseB" 
+CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeC" runat="server" Collapsed="true"
 CollapseControlID="hr3C" ExpandControlID="hr3C" TargetControlID="pnlC"
-ImageControlID="imgExpandCollapseC" TextLabelID="ExpandCollapseC" CollapsedText="(Show Details)"
-ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+ImageControlID="imgExpandCollapseC" TextLabelID="ExpandCollapseC" 
+CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeD" runat="server" Collapsed="true"
 CollapseControlID="hr3D" ExpandControlID="hr3D" TargetControlID="pnlD"
-ImageControlID="imgExpandCollapseD" TextLabelID="ExpandCollapseD" CollapsedText="(Show Details)"
-ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+ImageControlID="imgExpandCollapseD" TextLabelID="ExpandCollapseD" 
+CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeE" runat="server" Collapsed="true"
 CollapseControlID="hr3E" ExpandControlID="hr3E" TargetControlID="pnlE"
-ImageControlID="imgExpandCollapseE" TextLabelID="ExpandCollapseE" CollapsedText="(Show Details)"
-ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+ImageControlID="imgExpandCollapseE" TextLabelID="ExpandCollapseE" 
+CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeF" runat="server" Collapsed="true"
 CollapseControlID="hr3F" ExpandControlID="hr3F" TargetControlID="pnlF"
-ImageControlID="imgExpandCollapseF" TextLabelID="ExpandCollapseF" CollapsedText="(Show Details)"
-ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+ImageControlID="imgExpandCollapseF" TextLabelID="ExpandCollapseF" 
+CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeG" runat="server" Collapsed="true"
 CollapseControlID="hr3G" ExpandControlID="hr3G" TargetControlID="pnlG"
-ImageControlID="imgExpandCollapseG" TextLabelID="ExpandCollapseG" CollapsedText="(Show Details)"
-ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+ImageControlID="imgExpandCollapseG" TextLabelID="ExpandCollapseG" 
+CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeH" runat="server" Collapsed="true"
 CollapseControlID="hr3H" ExpandControlID="hr3H" TargetControlID="pnlH"
-ImageControlID="imgExpandCollapseH" TextLabelID="ExpandCollapseH" CollapsedText="(Show Details)"
-ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+ImageControlID="imgExpandCollapseH" TextLabelID="ExpandCollapseH" 
+CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <div id="divReportInfo">
 
 <h3 id="hr3ReportInfo"><asp:Image ID="imgExpandCollapseReportInfo" runat="server" /> Header Info<asp:Label ID="ExpandCollapseReportInfo" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlReportInfo" CssClass="panel" runat="server">
-<table id="tblReportInfoForm">
-    <tr>
-        <td>
-            Id:
-        </td>
-        <td>
-            <asp:TextBox ID="tbxId" runat="server"></asp:TextBox>
-        </td>
-        <td>
-            Position:
-        </td>
-        <td>
-            <asp:DropDownList ID="ddlPositions" runat="server"></asp:DropDownList>
-        </td>
-        <td>
-            Room:
-        </td>
-        <td>
-            <asp:TextBox ID="tbxRoom" runat="server"></asp:TextBox>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Last name:
-        </td>
-        <td>
-            <asp:TextBox ID="tbxLastName" runat="server"></asp:TextBox>
-        </td>
-        <td>
-            Employer:
-        </td>
-        <td>
-            <asp:DropDownList ID="ddlEmployers" runat="server"></asp:DropDownList>
-        </td>
-        <td>
-            Supervisor:
-        </td>
-        <td>
-            <asp:TextBox ID="tbxSupervisor" runat="server"></asp:TextBox>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            First name:
-        </td>
-        <td>
-            <asp:TextBox ID="tbxFirstName" runat="server"></asp:TextBox>
-        </td>
-        <td>
-            Department:
-        </td>
-        <td>
-            <asp:DropDownList ID="ddlDepartments" runat="server"></asp:DropDownList>
-        </td>
-        <td>
-            Start date:
-        </td>
-        <td>
-            <asp:TextBox ID="tbxStartDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="yyyy/MM/dd" >
-            </asp:CalendarExtender>
+    <table id="tblReportInfoForm">
+        <tr>
+            <td>Id:</td>
+            <td><asp:TextBox ID="tbxId" runat="server"></asp:TextBox></td>
+            <td>Position:</td>
+            <td><asp:DropDownList ID="ddlPositions" runat="server"></asp:DropDownList></td>
+            <td>Room:</td>
+            <td><asp:TextBox ID="tbxRoom" runat="server"></asp:TextBox></td>
+        </tr>
+        <tr>
+            <td>Last name:</td>
+            <td><asp:TextBox ID="tbxLastName" runat="server"></asp:TextBox></td>
+            <td>Employer:</td>
+            <td><asp:DropDownList ID="ddlEmployers" runat="server"></asp:DropDownList></td>
+            <td>Supervisor:</td>
+            <td><asp:TextBox ID="tbxSupervisor" runat="server"></asp:TextBox></td>
+        </tr>
+        <tr>
+            <td>First name:</td>
+            <td><asp:TextBox ID="tbxFirstName" runat="server"></asp:TextBox></td>
+            <td>Department:</td>
+            <td><asp:DropDownList ID="ddlDepartments" runat="server"></asp:DropDownList></td>
+            <td>Start date:</td>
+            <td>
+                <asp:TextBox ID="tbxStartDate" runat="server"></asp:TextBox>
+                <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="yyyy/MM/dd" >
+                </asp:CalendarExtender>
             </td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>
-            End date: 
-        </td>
-        <td>
-            <asp:TextBox ID="tbxEndDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="yyyy/MM/dd" >
-            </asp:CalendarExtender>
-        </td>
-    </tr>
-    <tr> 
-        <td>
-            <asp:Button ID="btnSSearch" ValidationGroup="vgpHeader" runat="server" Text="Search" />
-        </td>
-    </tr>
-</table>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>End date:</td>
+            <td>
+                <asp:TextBox ID="tbxEndDate" runat="server"></asp:TextBox>
+                <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="yyyy/MM/dd" >
+                </asp:CalendarExtender>
+            </td>
+        </tr>
+        <tr> 
+            <td><asp:Button ID="btnSSearch" ValidationGroup="vgpHeader" runat="server" 
+                    Text="Search" onclick="btnSSearch_Click" /></td>
+        </tr>
+    </table>
+
 </asp:Panel>
 
 <h3 id="hr3A"><asp:Image ID="imgExpandCollapseA" runat="server" /> A. Incident/Accident Information <asp:Label ID="ExpandCollapseA" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlA" CssClass="panel" runat="server">
     <table>
         <tr>
-            <td>
-                Date of Incident:
-            </td>
+            <td>Date of Incident:</td>
             <td>
                 <asp:TextBox ID="tbxDateOfIncident" runat="server"></asp:TextBox>
                 <asp:CalendarExtender ID="cexDateOfIncident" runat="server" TargetControlID="tbxDateOfIncident" Format="yyyy/MM/dd" >
@@ -168,74 +130,64 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
             </td>
         </tr>
         <tr>
+            <td>Time of Incident:</td>
+            <td><asp:TextBox ID="tbxTimeOfIncident" runat="server"></asp:TextBox></td>
+        </tr>
+        <tr>
+            <td>Date Reported:</td>
+            <td><asp:TextBox ID="tbxDateReported" runat="server"></asp:TextBox></td>
+        </tr>
+        <tr>
+            <td>Time Reported:</td>
+            <td><asp:TextBox ID="tbxTimeReported" runat="server"></asp:TextBox></td>
+        </tr>
+        <tr>
+            <td>Incident Description:</td>
+            <td><asp:TextBox ID="tbxIncidentDescription" runat="server" Height="100px"></asp:TextBox></td>
+        </tr>
+        <tr>
+            <td>Witness 1:</td>
             <td>
-                Time of Incident:
-            </td>
-            <td>
-              <asp:TextBox ID="tbxTimeOfIncident" runat="server"></asp:TextBox>
+                Name: <asp:TextBox ID="tbxWitnessName1" runat="server"></asp:TextBox>
+                Phone: <asp:TextBox ID="tbxWitnessPhone1" runat="server"></asp:TextBox>
             </td>
         </tr>
         <tr>
+            <td>Witness 2:</td>
             <td>
-                Time Reported:
-            </td>
-            <td>
-                <asp:TextBox ID="tbxTimeReported" runat="server"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Incident Description:
-            </td>
-            <td>
-                <asp:TextBox ID="tbxIncidentDescription" runat="server" Height="100px"></asp:TextBox>
+                Name: <asp:TextBox ID="tbxWitnessName2" runat="server"></asp:TextBox>
+                Phone: <asp:TextBox ID="tbxWitnessPhone2" runat="server"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <td>
-                Witness 1:
-            </td>
-            <td>
-                Name: <asp:TextBox ID="tbxWitness1Name" runat="server"></asp:TextBox>
-                Phone: <asp:TextBox ID="tbxWitness1Phone" runat="server"></asp:TextBox>
-            </td>
+            <td>Action following the Incident:</td>
+            <td><asp:DropDownList ID="ddlActionFollowing" runat="server" OnSelectedIndexChanged="ddlActionFollowing_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList></td>
         </tr>
         <tr>
             <td>
-                Witness 2:
+                <asp:UpdatePanel ID="uplMedicalAidLabel" runat="server">
+                    <ContentTemplate>
+                        <asp:Label ID="lblMedicalAid" Text="Date (M/D/Y): " runat="server" Visible="false"></asp:Label>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="ddlActionFollowing" EventName="SelectedIndexChanged" />
+                    </Triggers>
+                </asp:UpdatePanel>
             </td>
             <td>
-                Name: <asp:TextBox ID="tbxWitness2Name" runat="server"></asp:TextBox>
-                Phone: <asp:TextBox ID="tbxWitness2Phone" runat="server"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Action following the Incident:
-            </td>
-            <td>
-
-                <table>
-                    <tr>
-                        <td><asp:CheckBox ID="cbx_p1_action_report" Text="Report Only" runat="server" /></td>
-                        <td><asp:CheckBox ID="cbx_p1_action_firstAid" Text="First Aid" runat="server" /></td>
-                        <td><asp:CheckBox ID="cbx_p1_action_medicalGP" Text="Medical Aid (GP / Clinic)" runat="server" /></td>
-                        <td>Date(M/D/Y):</td>
-                        <td><asp:TextBox ID="tbx_p1_action_medicalGP_date" runat="server" ></asp:TextBox></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" ><asp:CheckBox ID="cbx_p1_action_lostTime" Text="Lost time (missed/will miss next scheduled shift due to injury)" runat="server" /></td>
-                        <td><asp:CheckBox ID="cbx_p1_action_medicalER" Text="Medical Aid (ER)" runat="server" /></td>
-                        <td>Date(M/D/Y):</td>
-                        <td><asp:TextBox ID="tbx_p1_action_medicalER_date" runat="server" ></asp:TextBox></td>
-                    </tr>
-                </table>
-
+                <asp:UpdatePanel ID="uplMedicalAidTextbox" runat="server">
+                    <ContentTemplate>
+                        <asp:TextBox ID="tbxMedicalAid" runat="server" Visible="false" ></asp:TextBox>
+                        <asp:CalendarExtender ID="cexMedicalAid" runat="server" TargetControlID="tbxMedicalAid" Format="yyyy/MM/dd" >
+                        </asp:CalendarExtender>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="ddlActionFollowing" EventName="SelectedIndexChanged" />
+                    </Triggers>
+                </asp:UpdatePanel>
             </td>
         </tr>
     </table>
-
-
 
 </asp:Panel>
 
@@ -243,20 +195,30 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
 <asp:Panel ID="pnlB" CssClass="panel" runat="server">
 
     <h4>Nature of Injury</h4>
-    <table>
-        <tr><td><asp:CheckBox ID="cbx_p1_nature_no" Text="No Injury (Near Miss/ Unsafe Condition)" runat="server" /></td></tr>
-        <tr><td><asp:CheckBox ID="cbx_p1_nature_musculoskeletal" Text="Musculoskeletal Injyry (Strain / Sprain)" runat="server" /></td></tr>
-        <tr><td><asp:CheckBox ID="cbx_p1_nature_bruise" Text="Bruise / Confusion" runat="server" /></td></tr>
-        <tr><td><asp:CheckBox ID="cbx_p1_nature_burn" Text="Burn (Heat or Cold)" runat="server" /></td></tr>
-        <tr><td><asp:CheckBox ID="cbx_p1_nature_cut" Text="Cut / Scratch / Abrasion / Laceration / Puncture (Non BBF)" runat="server" /></td></tr>
-        <tr><td><asp:CheckBox ID="cbx_p1_nature_puncture" Text="Puncture Wound (BBF)" runat="server" /></td></tr>
-        <tr><td><asp:CheckBox ID="cbx_p1_nature_skinIrritation" Text="Skin Irritation" runat="server" /></td></tr>
-        <tr><td><asp:CheckBox ID="cbx_p1_nature_skinMucous" Text="Skin / Mucous Membrane Exposure (incl. eye)" runat="server" /></td></tr>
-        <tr><td><asp:CheckBox ID="cbx_p1_nature_eye" Text="Eye Irritation" runat="server" /></td></tr>
-        <tr><td><asp:CheckBox ID="cbx_p1_nature_allergic" Text="Allergic Response" runat="server" /></td></tr>
-        <tr><td><asp:CheckBox ID="cbx_p1_nature_psychcological" Text="Psychological Trauma / Aggressive Incident" runat="server" /></td></tr>
-        <tr><td><asp:CheckBox ID="cbx_p1_nature_respiratory" Text="Respiratory Irritation" runat="server" /></td></tr>
-    </table>
+    <div id="divBLeftPanel">
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p1_nature_no" Text="No Injury (Near Miss/ Unsafe Condition)" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p1_nature_musculoskeletal" Text="Musculoskeletal Injyry (Strain / Sprain)" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p1_nature_bruise" Text="Bruise / Confusion" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p1_nature_burn" Text="Burn (Heat or Cold)" runat="server" /></td></tr>
+        </table>
+    </div>
+    <div id="divBMiddlePanel">
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p1_nature_cut" Text="Cut / Scratch / Abrasion / Laceration / Puncture (Non BBF)" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p1_nature_puncture" Text="Puncture Wound (BBF)" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p1_nature_skinIrritation" Text="Skin Irritation" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p1_nature_skinMucous" Text="Skin / Mucous Membrane Exposure (incl. eye)" runat="server" /></td></tr>
+        </table>
+    </div>
+    <div id="divBRightPanel">
+        <table>
+            <tr><td><asp:CheckBox ID="cbx_p1_nature_eye" Text="Eye Irritation" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p1_nature_allergic" Text="Allergic Response" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p1_nature_psychcological" Text="Psychological Trauma / Aggressive Incident" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox ID="cbx_p1_nature_respiratory" Text="Respiratory Irritation" runat="server" /></td></tr>
+        </table>
+    </div>
 </asp:Panel>
 
 <h3 id="hr3C"><asp:Image ID="imgExpandCollapseC" runat="server" /> C. Accident Investigation <asp:Label ID="ExpandCollapseC" runat="server" Text=""></asp:Label></h3>
@@ -286,7 +248,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
             <tr><td><asp:CheckBox ID="cbx_p2_patient_floorLift" Text="Floor Lift" runat="server" /></td></tr>
             <tr><td><asp:CheckBox ID="cbx_p2_patient_manualLift" Text="Manual Lift" runat="server" /></td></tr>
             <tr><td>
-                <asp:CheckBox ID="cbx_p2_patient_other" Text="Other" runat="server" />
+                <asp:CheckBox ID="cbx_p2_patient_other" Text="Other: " runat="server" />
                 <asp:TextBox ID="cbx_p2_patient_otherSpecify" runat="server" ></asp:TextBox>
             </td></tr>
             <tr><td>Was adaquate assistance available?</td></tr>
@@ -310,7 +272,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
             <tr><td><asp:CheckBox ID="cbx_p2_activity_prep" Text="Prep / Dispensing Meds" runat="server" /></td></tr>
             <tr><td><asp:CheckBox ID="cbx_p2_activity_dressingChanges" Text="Dressing Changes" runat="server" /></td></tr>
             <tr><td>
-                <asp:CheckBox ID="cbx_p2_activity_otherPatientCare" Text="Other Patient Care" runat="server" />
+                <asp:CheckBox ID="cbx_p2_activity_otherPatientCare" Text="Other: " runat="server" />
                 <asp:TextBox ID="tbx_p2_activity_otherPatientCare" runat="server"></asp:TextBox>
             </td></tr>
         </table>
@@ -396,8 +358,10 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
             <tr><td><asp:CheckBox ID="cbx_p2_cause_event" Text="Traumatic Event" runat="server"/></td></tr>
             <tr><td><asp:CheckBox ID="cbx_p2_cause_underEquip" Text="Caught In / Under / Between Equipment" runat="server"/></td></tr>
             <tr><td><asp:CheckBox ID="cbx_p2_cause_hit" Text="Hit / Struck By / Cut by Equipment" runat="server"/></td></tr>
-            <tr><td><asp:CheckBox ID="cbx_p2_cause_other" Text="Other:" runat="server"/></td></tr>
-            <tr><td><asp:TextBox ID="tbx_p2_cause_other" runat="server"></asp:TextBox></td></tr>
+            <tr><td>
+                <asp:CheckBox ID="cbx_p2_cause_other" Text="Other: " runat="server"/>
+                <asp:TextBox ID="tbx_p2_cause_other" runat="server"></asp:TextBox>
+            </td></tr>
         </table>
     </div>
     
@@ -417,8 +381,10 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
             <tr><td><asp:CheckBox ID="cbx_p2_cause_aggression_family" Text="Family member of Patient / Resident" runat="server"/></td></tr>
             <tr><td><asp:CheckBox ID="cbx_p2_cause_aggression_public" Text="Other member of Public" runat="server"/></td></tr>
             <tr><td><asp:CheckBox ID="cbx_p2_cause_aggression_worker" Text="Worker" runat="server"/></td></tr>
-            <tr><td><asp:CheckBox ID="cbx_p2_cause_aggression_other" Text="Other:" runat="server"/></td></tr>
-            <tr><td><asp:TextBox ID="tbx_p2_cause_aggression_other" runat="server"></asp:TextBox></td></tr>
+            <tr><td>
+                <asp:CheckBox ID="cbx_p2_cause_aggression_other" Text="Other: " runat="server"/>
+                <asp:TextBox ID="tbx_p2_cause_aggression_other" runat="server"></asp:TextBox>
+            </td></tr>
         </table>
     </div>
 
@@ -451,8 +417,10 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
             <tr><td><asp:CheckBox ID="cbx_p2_factors_signage" Text="Improper / Inadequate signage" runat="server"/></td></tr>
             <tr><td><asp:CheckBox ID="cbx_p2_factors_notAvailable" Text="Not Available at Point of Use" runat="server"/></td></tr>
             <tr><td><asp:CheckBox ID="cbx_p2_factors_poorDesign" Text="Poor Design" runat="server"/></td></tr>
-            <tr><td><asp:CheckBox ID="cbx_p2_factors_otherEquip" Text="Other, specify:" runat="server"/></td></tr>
-            <tr><td><asp:TextBox ID="tbx_p2_factors_otherEquip" runat="server"></asp:TextBox></td></tr>
+            <tr><td>
+                <asp:CheckBox ID="cbx_p2_factors_otherEquip" Text="Other: " runat="server"/>
+                <asp:TextBox ID="tbx_p2_factors_otherEquip" runat="server"></asp:TextBox>
+            </td></tr>
         </table>
     
         <h5>Environment</h5>
@@ -466,8 +434,10 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
             <tr><td><asp:CheckBox ID="cbx_p2_factors_noise" Text="Exessive Noise" runat="server"/></td></tr>
             <tr><td><asp:CheckBox ID="cbx_p2_factors_vent" Text="Ventilation Inadequate" runat="server"/></td></tr>
             <tr><td><asp:CheckBox ID="cbx_p2_factors_storage" Text="Improper Storage" runat="server"/></td></tr>
-            <tr><td><asp:CheckBox ID="cbx_p2_factors_otherEnv" Text="Other, specify: " runat="server"/></td></tr>
-            <tr><td><asp:TextBox ID="tbx_p2_factors_otherEnv" runat="server"></asp:TextBox></td></tr>
+            <tr><td>
+                <asp:CheckBox ID="cbx_p2_factors_otherEnv" Text="Other: " runat="server"/>
+                <asp:TextBox ID="tbx_p2_factors_otherEnv" runat="server"></asp:TextBox>
+            </td></tr>
         </table>
     </div>
 
@@ -482,7 +452,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
             <tr><td><asp:CheckBox ID="cbx_p2_factors_comm" Text="Communication" runat="server"/></td></tr>
             <tr><td><asp:CheckBox ID="cbx_p2_factors_unaccustomed" Text="Unaccustomed" runat="server"/></td></tr>
             <tr><td>
-                <asp:CheckBox ID="cbx_p2_factors_otherWorkPractice" Text="Other, specify: " runat="server"/>
+                <asp:CheckBox ID="cbx_p2_factors_otherWorkPractice" Text="Other: " runat="server"/>
                 <asp:TextBox ID="tbx_p2_factors_otherWorkPractice" runat="server"></asp:TextBox>
             </td></tr>
         </table>
@@ -498,7 +468,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
             <tr><td><asp:CheckBox ID="cbx_p2_factors_influence" Text="Under Influence of Drugs / Alcohol" runat="server"/></td></tr>
             <tr><td><asp:CheckBox ID="cbx_p2_factors_lang" Text="Language Barriers" runat="server"/></td></tr>
             <tr><td>
-                <asp:CheckBox ID="cbx_p2_factors_otherPatient" Text="Other, specify: " runat="server"/>
+                <asp:CheckBox ID="cbx_p2_factors_otherPatient" Text="Other: " runat="server"/>
                 <asp:TextBox ID="tbxEPatientRelatedOther" runat="server"></asp:TextBox>
             </td></tr>
         </table>
@@ -516,7 +486,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
             <tr><td><asp:CheckBox ID="cbx_p2_factors_safe" Text="Lack of Safe Work Procedures" runat="server"/></td></tr>
             <tr><td><asp:CheckBox ID="cbx_p2_factors_perceived" Text="Perceived Time Constraints" runat="server"/></td></tr>
             <tr><td>
-                <asp:CheckBox ID="cbx_p2_factors_otherOrganizational" Text="Other, specify: " runat="server"/>
+                <asp:CheckBox ID="cbx_p2_factors_otherOrganizational" Text="Other: " runat="server"/>
                 <asp:TextBox ID="tbx_p2_factors_otherOrganizational" runat="server"></asp:TextBox>
             </td></tr>
         </table>
@@ -530,7 +500,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
             <tr><td><asp:CheckBox ID="cbx_p2_factors_preexisting" Text="Pre-existing Injury" runat="server"/></td></tr>
             <tr><td><asp:CheckBox ID="cbx_p2_factors_sick" Text="Sick / Medicated" runat="server"/></td></tr>
             <tr><td>
-                <asp:CheckBox ID="cbx_p2_factors_otherWorker" Text="Other, specify: " runat="server"/>
+                <asp:CheckBox ID="cbx_p2_factors_otherWorker" Text="Other: " runat="server"/>
                 <asp:TextBox ID="tbx_p2_factors_otherWorker" runat="server"></asp:TextBox>
             </td></tr>
         </table>
@@ -613,11 +583,10 @@ ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg" ExpandedImag
 
 <h3 id="hr3G"><asp:Image ID="imgExpandCollapseG" runat="server" /> G. Relavant Corrective Actions and Follow Up <asp:Label ID="ExpandCollapseG" runat="server" Text=""></asp:Label></h3>    
 <asp:Panel ID="pnlG" CssClass="panel" runat="server">
-Full descriptions and target completion dates for corrective actions are required.
+<p>Full descriptions and target completion dates for corrective actions are required.</p>
 <table>
     <tr>
         <td>
-            <asp:CheckBox ID="cbxWrittenReq" runat="server" />
             Written Safe Work Procedures Required / Updated:
             <br />
             <asp:TextBox ID="tbxWrittenReq" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
@@ -638,7 +607,6 @@ Full descriptions and target completion dates for corrective actions are require
     </tr>
     <tr>
         <td>
-            <asp:CheckBox ID="cbxEducationReq" runat="server" />
             Education or Training Required / Provided for Specific Task:
             <br />
             <asp:TextBox ID="tbxEducationReq" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
@@ -659,7 +627,7 @@ Full descriptions and target completion dates for corrective actions are require
     </tr>
     <tr>
         <td>
-            <asp:CheckBox ID="cbxEquipmentChange" runat="server" />
+            
             Equipment - Repair / Replace / Purchase
             <br />
             <asp:TextBox ID="tbxEquipmentChange" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
@@ -680,7 +648,6 @@ Full descriptions and target completion dates for corrective actions are require
     </tr>
     <tr>
         <td>
-            <asp:CheckBox ID="cbxEnvironmentChange" runat="server" />
             Environment - Change / Modify Workstation or subsitute / Eliminate Product:
             <br />
             <asp:TextBox ID="tbxEnvironmentChange" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
@@ -701,7 +668,6 @@ Full descriptions and target completion dates for corrective actions are require
     </tr>
     <tr>
         <td>
-            <asp:CheckBox ID="cbxPatientResidentRelated" runat="server" />
             Patient/Resident Related Incidents - Lift / Transfer Re-Accessed or Care Plan / ADL Card Updated:
             <br />
             <asp:TextBox ID="tbxPatientResidentRelated" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
@@ -726,45 +692,12 @@ Full descriptions and target completion dates for corrective actions are require
 <h3 id="hr3H"><asp:Image ID="imgExpandCollapseH" runat="server" /> H. Managers Report <asp:Label ID="ExpandCollapseH" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlH" CssClass="panel" runat="server">
 <table>
-    <tr>
-        <td>
-            Do you know of any previous pain/disability in the area of the worker's present injury? If YES, please explain.
-            <br />
-            <asp:TextBox ID="tbxMgrReportPreviousPain" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
-        </td>
-        <td>
-            <asp:RadioButtonList ID="rblMgrReportPreviousPain" runat="server" RepeatDirection="Horizontal">
-                <asp:ListItem Text="Yes" ></asp:ListItem>
-                <asp:ListItem Text="No" ></asp:ListItem>
-            </asp:RadioButtonList>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Do you have any objections to the claim being accepted? If YES, please explain.
-            <br />
-            <asp:TextBox ID="tbxMgrReportObjections" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
-        </td>
-        <td>
-            <asp:RadioButtonList ID="rblMgrReportObjections" runat="server" RepeatDirection="Horizontal">
-                <asp:ListItem Text="Yes" ></asp:ListItem>
-                <asp:ListItem Text="No" ></asp:ListItem>
-            </asp:RadioButtonList>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Is alternative light duty or modified work available?
-            <br />
-            <asp:TextBox ID="tbxMgrReportAlt" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
-        </td>
-        <td>
-            <asp:RadioButtonList ID="rblMgrReportAlt" runat="server" RepeatDirection="Horizontal">
-                <asp:ListItem Text="Yes" ></asp:ListItem>
-                <asp:ListItem Text="No" ></asp:ListItem>
-            </asp:RadioButtonList>
-        </td>
-    </tr>
+    <tr><td>Do you know of any previous pain/disability in the area of the worker's present injury? If YES, please explain.</td></tr>
+    <tr><td><asp:TextBox ID="tbxMgrReportPreviousPain" runat="server" CssClass="commentBoxReporting"></asp:TextBox></td></tr>
+    <tr><td>Do you have any objections to the claim being accepted? If YES, please explain.</td></tr>
+    <tr><td><asp:TextBox ID="tbxMgrReportObjections" runat="server" CssClass="commentBoxReporting"></asp:TextBox></td></tr>
+    <tr><td>Is alternative light duty or modified work available?</td></tr>
+    <tr><td><asp:TextBox ID="tbxMgrReportAlt" runat="server" CssClass="commentBoxReporting"></asp:TextBox></td></tr>
     <tr>
         <td>
             Does the worker work a fixed shift rotation? If yes, please provide:
@@ -832,15 +765,9 @@ Full descriptions and target completion dates for corrective actions are require
                 </tr>
             </table>
         </td>
-        </td>
-        <td>
-            <asp:RadioButtonList ID="rblMgrReportFixedShift" runat="server" RepeatDirection="Horizontal">
-                <asp:ListItem Text="Yes" ></asp:ListItem>
-                <asp:ListItem Text="No" ></asp:ListItem>
-            </asp:RadioButtonList>
-        </td>
     </tr>
-    </table> 
+    </table>
+
 </asp:Panel>
 </div>
 </asp:Content>
