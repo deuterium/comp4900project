@@ -47,9 +47,9 @@ public partial class Summary_Default : System.Web.UI.Page
 
         for (int i = 0; i < total; i++)
         {
-            GridView myGridView = new GridView();
+            GridView grvCourseLookUp = new GridView();
             String temp = courseArray[i];
-            myGridView.DataSource = ctx.Employees
+            grvCourseLookUp.DataSource = ctx.Employees
                                .Join(
                                   ctx.TrainingTakens,
                                   emp => emp.empNo,
@@ -83,12 +83,61 @@ public partial class Summary_Default : System.Web.UI.Page
                                          enddate = temp1.temp0.TT.endDate
                                      }
                                );
-            grvPanelValidCourses.Controls.Add(myGridView);
-            
-            myGridView.Caption = "<table width=\"100%\" class=\"gvCaption\"><tr><td>" + temp + "</td></tr></table>";
-            myGridView.DataBind();
+            grvPanelValidCourses.Controls.Add(grvCourseLookUp);
+
+            grvCourseLookUp.Caption = "<table width=\"100%\" class=\"gvCaption\"><tr><td>" + temp + "</td></tr></table>";
+            grvCourseLookUp.DataBind();
         }
                
     }
 
+    protected void btnExpiringCourses_Click(object sender, EventArgs e)
+    {
+        int month = Convert.ToInt32(tbxMonthsRange.Text);
+        DateTime currentDate = DateTime.Now.AddMonths(month);
+        //var q = from x in ctx.TrainingCourses
+        //        select x;
+        //var total = q.Count();
+
+        //List<String> courseArray = ctx.TrainingCourses.Select(c => c.trainingName).ToList();
+
+        GridView grvExpiringCourseLookUp = new GridView();
+        grvExpiringCourseLookUp.DataSource = ctx.Employees
+                                        .Join(
+                                            ctx.TrainingTakens,
+                                            emp => emp.empNo,
+                                            TT => TT.empNo,
+                                            (emp, TT) =>
+                                                new
+                                                {
+                                                    emp = emp,
+                                                    TT = TT
+                                                }
+                                        )
+                                        .Join(
+                                            ctx.TrainingCourses,
+                                            temp0 => temp0.TT.trainingNo,
+                                            TC => TC.trainingNo,
+                                            (temp0, TC) =>
+                                                new
+                                                {
+                                                    temp0 = temp0,
+                                                    TC = TC
+                                                }
+                                        )
+                                        .Where(temp1 => ((currentDate) > temp1.temp0.TT.endDate))
+                                        .Select(
+                                            temp1 =>
+                                                new
+                                                {
+                                                    trainingName = temp1.TC.trainingName,
+                                                    lname = temp1.temp0.emp.lname,
+                                                    fname = temp1.temp0.emp.fname,
+                                                    endDate = temp1.temp0.TT.endDate
+                                                }
+                                        );
+        grvPanelExpiringCourses.Controls.Add(grvExpiringCourseLookUp);
+        grvExpiringCourseLookUp.Caption = "<table width=\"100%\" class=\"gvCaption\"><tr><td>Expiring Courses</td></tr></table>";
+        grvExpiringCourseLookUp.DataBind();
+    }
 }

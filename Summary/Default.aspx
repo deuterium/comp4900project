@@ -155,6 +155,7 @@ Summary Page:
             onclick="btnCourseLookUp_Click" Width="210px" />
 
         <%-- Valid Courses Panel--%>
+        <div id="divExpiringCourses">
         <asp:Panel ID="grvPanelValidCourses" runat="server"></asp:Panel>
         <table id="tblExpireCourses">
         <tr>
@@ -162,16 +163,22 @@ Summary Page:
                 Enter number of months:</td>
             <td>
                 <asp:TextBox ID="tbxMonthsRange" runat="server"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="rfvMonths" runat="server" ControlToValidate="tbxMonthsRange" 
+                    ErrorMessage="You must enter a number." ValidationGroup="vgrExpiringCourseLookUp"></asp:RequiredFieldValidator>
+                <asp:RegularExpressionValidator ID="revMonths" runat="server" ControlToValidate="tbxMonthsRange" 
+                    ErrorMessage="Numbers between (1 - 60)" ValidationExpression="^\d+$" ValidationGroup="vgrExpiringCourseLookUp"></asp:RegularExpressionValidator>
             </td>
         </tr>
         <tr> 
             <td class="style2">
                 <asp:Button ID="btnExpiringCourses" ValidationGroup="vgrExpiringCourseLookUp" 
-                    runat="server" Text="List all Expiring Courses" Width="210px" />
+                    runat="server" Text="List all Expiring Courses" Width="210px" 
+                    onclick="btnExpiringCourses_Click" />
             </td>
         </tr>
     </table>
         <asp:Panel ID="grvPanelExpiringCourses" runat="server"></asp:Panel>
+    </div>
     </asp:Panel>
 
 </asp:Content>
