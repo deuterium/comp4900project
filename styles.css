@@ -334,6 +334,50 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 
 /* Reporting.aspx */
 
+#divCLeftPanel 
+{
+    display: inline;
+    float: left;
+    width: 350px;
+}
+
+#divCRightPanel 
+{
+    display: inline;
+    float: left;  
+    width: 350px;
+}
+
+
+#divDLeftPanel 
+{
+    display: inline;
+    float: left;
+    width: 350px;
+}
+
+#divDRightPanel 
+{
+    display: inline;
+    float: left;  
+    width: 350px;
+}
+
+
+#divELeftPanel 
+{
+    display: inline;
+    float: left;
+    width: 350px;
+}
+
+#divERightPanel 
+{
+    display: inline;
+    float: left;  
+    width: 350px;
+}
+
 .commentBoxReporting 
 {
     height: 100px;
@@ -367,6 +411,8 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 
 .panel 
 {
+    display: inline;
+    float: left;
     padding: 10px; 
     width: 800px; 
     margin: 0; 
