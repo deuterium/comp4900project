@@ -663,7 +663,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             Any time loss subsequent to injury:
         </td>
         <td>
-            <asp:RadioButtonList ID="rblTimeLoss" runat="server" RepeatDirection="Horizontal">
+            <asp:RadioButtonList ID="rbl_p2_corrective_time" runat="server" RepeatDirection="Horizontal">
                 <asp:ListItem TabIndex="159" Text="Yes" ></asp:ListItem>
                 <asp:ListItem TabIndex="160" Text="No" ></asp:ListItem>
                 <asp:ListItem TabIndex="161" Text="N/A" ></asp:ListItem>
@@ -671,8 +671,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         </td>
         <td>
             Date (M/DY):
-            <asp:TextBox TabIndex="161" ID="tbxDateTimeLoss" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexDateTimeLoss" runat="server" TargetControlID="tbxDateTimeLoss" Format="MM/dd/YYYY" >
+            <asp:TextBox TabIndex="161" ID="tbx_p2_corrective_timeDate" runat="server"></asp:TextBox>
+            <asp:CalendarExtender ID="cexDateTimeLoss" runat="server" TargetControlID="tbx_p2_corrective_timeDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
         </td>
     </tr>
