@@ -163,6 +163,10 @@ Summary Page:
                 Enter number of months:</td>
             <td>
                 <asp:TextBox ID="tbxMonthsRange" runat="server"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="rfvMonths" runat="server" ControlToValidate="tbxMonthsRange" 
+                    ErrorMessage="You must enter a number." ValidationGroup="vgrExpiringCourseLookUp"></asp:RequiredFieldValidator>
+                <asp:RegularExpressionValidator ID="revMonths" runat="server" ControlToValidate="tbxMonthsRange" 
+                    ErrorMessage="Numbers between (1 - 60)" ValidationExpression="^\d+$" ValidationGroup="vgrExpiringCourseLookUp"></asp:RegularExpressionValidator>
             </td>
         </tr>
         <tr> 
