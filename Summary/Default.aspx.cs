@@ -7,6 +7,13 @@ using System.Web.UI.WebControls;
 using BCCAModel;
 using System.Data;
 
+/// <summary>
+///Summary/Default.aspx.cs
+///BCCA Cancer Research Centre
+///Safety Training Database and Website
+///Author: BCIT COMP4900 2011
+///Kalen Wessel - kalen.wessel@gmail.com
+/// </summary>
 public partial class Summary_Default : System.Web.UI.Page
 {
 
@@ -14,6 +21,11 @@ public partial class Summary_Default : System.Web.UI.Page
     private int department;
     private string labManager;
 
+    /// <summary>
+    /// Populates drop down list for Lab Managers
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -26,6 +38,12 @@ public partial class Summary_Default : System.Web.UI.Page
         }
 
     }
+
+    #region Inspection Look Up
+    /// <summary>
+    /// When clicked it does a lookup for any lab inspections.
+    /// And returns a grid view of the results.
+    /// </summary>
     protected void btnInspectionLookUp_Click(object sender, EventArgs e)
     {
         department = Convert.ToInt32(tbxLabDepartment.Text);
@@ -35,7 +53,13 @@ public partial class Summary_Default : System.Web.UI.Page
                                                                                 && (LI.labMgr == labManager));
         grvLabInspections.DataBind();
     }
+    #endregion
 
+    #region Valid Course Look Up
+    /// <summary>
+    /// When clicked it does a lookup for all valid courses.
+    /// And returns a grid view of the results.
+    /// </summary>
     protected void btnCourseLookUp_Click(object sender, EventArgs e)
     {
         var q = from x in ctx.TrainingCourses
@@ -90,7 +114,15 @@ public partial class Summary_Default : System.Web.UI.Page
         }
                
     }
+    #endregion
 
+
+    #region Inspection Look Up
+    /// <summary>
+    /// When clicked it does a lookup for any expired course.
+    /// coming up with in X amount of months.
+    /// And returns a grid view of the results.
+    /// </summary>
     protected void btnExpiringCourses_Click(object sender, EventArgs e)
     {
         int month = Convert.ToInt32(tbxMonthsRange.Text);
@@ -140,4 +172,5 @@ public partial class Summary_Default : System.Web.UI.Page
         grvExpiringCourseLookUp.Caption = "<table width=\"100%\" class=\"gvCaption\"><tr><td>Expiring Courses</td></tr></table>";
         grvExpiringCourseLookUp.DataBind();
     }
+    #endregion
 }
