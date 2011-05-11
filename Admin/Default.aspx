@@ -150,7 +150,6 @@
                                 <asp:ListItem Text="Departments" Value="Departments" Selected="true" />
                                 <asp:ListItem Text="Rooms" Value="Rooms" />
                                 <asp:ListItem Text="Positions" Value="Positions" />
-                                <asp:ListItem Text="Supervisors" Value="Supervisors" />
                             </asp:RadioButtonList>
                         </td>
                     </tr>
