@@ -11,13 +11,8 @@
 <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
 </asp:ToolkitScriptManager>
 
-
-    <asp:GridView ID="gdvEmployees" runat="server">
-    </asp:GridView>
-
-
-<asp:CollapsiblePanelExtender ID="cpeReportInfo" runat="server" Collapsed="false"
-CollapseControlID="hr3ReportInfo" ExpandControlID="hr3ReportInfo" TargetControlID="pnlReportInfo"
+<asp:CollapsiblePanelExtender ID="cpeEmployeeInfo" runat="server" Collapsed="false"
+CollapseControlID="hr3EmployeeInfo" ExpandControlID="hr3EmployeeInfo" TargetControlID="pnlEmployeeInfo"
 ImageControlID="imgExpandCollapseReportInfo" TextLabelID="ExpandCollapseA" CollapsedImage="../images/expand.jpg" 
 ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
@@ -72,9 +67,9 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 
 <div id="divReportInfo">
 
-<h3 id="hr3ReportInfo"><asp:Image ID="imgExpandCollapseReportInfo" runat="server" /> Header Info<asp:Label ID="ExpandCollapseReportInfo" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlReportInfo" CssClass="panel" runat="server">
-    <table id="tblReportInfoForm">
+<h3 id="hr3EmployeeInfo"><asp:Image ID="imgExpandCollapseReportInfo" runat="server" /> Employee Information<asp:Label ID="ExpandCollapseReportInfo" runat="server" Text=""></asp:Label></h3>
+<asp:Panel ID="pnlEmployeeInfo" CssClass="panel" runat="server">
+    <table id="tblEmployeeInfo">
         <tr>
             <td>Id:</td>
             <td><asp:TextBox ID="tbxId" runat="server" Enabled="false" ></asp:TextBox></td>
@@ -141,7 +136,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     Text="Get Employee" onclick="btnGetEmployee_Click" />
             </td>
             <td>
-                <asp:Button TabIndex="112" ID="btnCreateReport" runat="server" ValidationGroup="vgpHeader"
+                <asp:Button TabIndex="1112" ID="btnCreateReport" runat="server" ValidationGroup="vgpHeader"
                     Text="Create Report" onclick="btnCreateReport_Click" />
             </td>
             

@@ -9,7 +9,6 @@ using System.Data;
 using System.Drawing;
 
 /** TO DO:
- * fix tab indexes
  * fix time regex (see sample forms)
  * fix table style (when you select Other from DDL)
  * make clear all and clear individual form buttons
@@ -22,6 +21,7 @@ using System.Drawing;
  * put tbx on same line as Other: option
  * add regex to last 3 sections
  * test really long inputs
+ * put results msg in update panel triggered by btn click (so it disappears eveyr time you click submit)
  **/
 
 public partial class Reporting_Reporting : System.Web.UI.Page {
@@ -54,10 +54,6 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack) {
-
-            gdvEmployees.DataSource = ctx.Employees;
-            gdvEmployees.DataBind();
-
             ddlActionFollowing.DataSource = actionsFollowing;
             ddlActionFollowing.DataBind();
 
@@ -152,6 +148,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The index changed event.</param>
     protected void btnGetEmployee_Click(object sender, EventArgs e) {
+        setResultMsg(null, SuccessColour);
         getEmployeeData();
     }
 
