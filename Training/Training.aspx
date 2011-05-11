@@ -63,12 +63,12 @@ ExpandedImage="../images/collapse.jpg">
                             ID:
                         </td>
                         <td>
-                            <asp:TextBox ID="tbxId" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="tbxId" runat="server" Enabled="False" Height="22px"></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
                         <td class="trainingTableWidth">
-                            Last name:
+                            Last name*:
                         </td>
                         <td>
                           <asp:TextBox ID="tbxLastName" runat="server"></asp:TextBox>
@@ -76,7 +76,7 @@ ExpandedImage="../images/collapse.jpg">
                     </tr>
                     <tr>
                         <td class="trainingTableWidth">
-                            First name:</td>
+                            First name*:</td>
                         <td>
                             <asp:TextBox ID="tbxFirstName" runat="server" ></asp:TextBox>
                         </td>
@@ -173,10 +173,15 @@ ExpandedImage="../images/collapse.jpg">
                 </div>
                 <asp:Button ID="btnGetEmployee" ValidationGroup="vgpHeader" runat="server" 
                     Text="Get Employee" onclick="btnGetEmployee_Click" />
-                <asp:Button ID="btnUpdateEmployee" runat="server" Text="Update Employee" />
-                <asp:Button ID="btnGetCourses" runat="server" Text="Get Courses" />
+                <asp:Button ID="btnUpdateEmployee0" runat="server" Text="Update Employee" onclick="btnUpdateEmployee_Click" 
+                    />
+                <asp:Button ID="btnCreateEmployee" runat="server" 
+                    onclick="btnCreateEmployee_Click" Text="Create Employee" />
+                <asp:Button ID="btnClear" runat="server" 
+                    Text="Clear" onclick="btnClear_Click" />
             <p>
                 <asp:Label ID="lblResults" runat="server" Text="" Visible="false" ></asp:Label>
+                <asp:Label ID="lblError" runat="server"></asp:Label>
             </p>
 
             <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpHeader"
@@ -187,7 +192,7 @@ ExpandedImage="../images/collapse.jpg">
                 ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
             
             <asp:RegularExpressionValidator ID="revRoom" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxRoom" ValidationExpression="^[0-9\-, ]$" 
+                ControlToValidate="tbxRoom" ValidationExpression="^[0-9\-, ]+$" 
                 ErrorMessage="Room can only contain digits, dashes, commas, and spaces."></asp:RegularExpressionValidator>
 
             <asp:RegularExpressionValidator ID="revSupervisor" runat="server" ValidationGroup="vgpHeader"

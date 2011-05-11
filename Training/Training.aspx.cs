@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Drawing;
 using BCCAModel;
+using System.Text;
 
 /// <summary>
 /// Training/Default.aspx.cs
@@ -33,7 +34,7 @@ public partial class Training_Training : System.Web.UI.Page {
     // List of pre-defined employers a user can select
     public static List<String> employers = new List<String> {
         noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
-    };
+    };  
 
     /// <summary>
     /// Populate the Drop Down Lists (emplyoers, departments, positions).
@@ -46,15 +47,18 @@ public partial class Training_Training : System.Web.UI.Page {
             ddlEmployers.DataSource = employers;
             ddlEmployers.DataBind();
 
+            ddlPositions.DataSource = ctx.Positions;
+            ddlPositions.DataValueField = "posNo";
+            ddlPositions.DataTextField = "posName";
+            ddlPositions.DataBind();
+            ddlPositions.Items.Insert(0, noOptionSpecified);
+            ddlPositions.Items.Insert(ddlPositions.Items.Count, otherOption);
+
             ddlDepartments.DataSource = ctx.Departments;
-            ddlDepartments.DataValueField = "deptNo";
+            ddlDepartments.DataValueField = "deptName";
             ddlDepartments.DataTextField = "deptName";
             ddlDepartments.DataBind();
             ddlDepartments.Items.Insert(0, noOptionSpecified);
-
-            ddlPositions.Items.Insert(0, noOptionSpecified);
-            //ddlPositions.Items.Insert(ddlPositions.Items.Count, "Lab Manager Sample");
-            ddlPositions.Items.Insert(ddlPositions.Items.Count, otherOption);
 
             populateCourses();
 
@@ -173,6 +177,34 @@ public partial class Training_Training : System.Web.UI.Page {
                 tbxSupervisor.Text = emp.supervisor;
             }
 
+            // fills ddlDepartments
+            var dept = ctx.Departments
+                        .Where(d => d.deptNo == emp.deptNo)
+                        .Select(d => d).FirstOrDefault();
+            
+            if (emp.deptNo == null)
+            {
+                ddlDepartments.SelectedIndex = 0;
+            }
+            else
+                ddlDepartments.SelectedValue = dept.deptName.ToString();
+                   
+            var room = ctx.Rooms
+                        .Where(r => r.roomNo == emp.roomNo)
+                        .Select(r => r).FirstOrDefault();
+
+            if (room != null) {
+                if (emp.roomNo == null)
+                {
+                    tbxRoom.Text = String.Empty;
+                }
+                else
+                {
+                    tbxRoom.Text = room.room1.ToString();
+                }
+            }
+            
+
             tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("yyyy/MM/dd");
             if (emp.endDate != null) {
                 tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("yyyy/MM/dd");
@@ -230,4 +262,97 @@ public partial class Training_Training : System.Web.UI.Page {
         }
     }
 
+    protected void btnClear_Click(object sender, EventArgs e)
+    {
+        ResetFormControlValues(this);
+    }
+
+    private void ResetFormControlValues(Control parent)
+    {
+        foreach (Control c in parent.Controls)
+        {
+            if (c.Controls.Count > 0)
+            {
+                ResetFormControlValues(c);
+            }
+            else
+            {
+                switch (c.GetType().ToString())
+                {
+                    case "System.Web.UI.WebControls.TextBox":
+                        ((TextBox)c).Text = "";
+                        break;
+                    case "System.Web.UI.WebControls.CheckBox":
+                        ((CheckBox)c).Checked = false;
+                        break;
+                    case "System.Web.UI.WebControls.RadioButton":
+                        ((RadioButton)c).Checked = false;
+                        break;
+                    case "System.Web.UI.WebControls.DropDownList":
+                        ((DropDownList)c).SelectedIndex = 0;
+                        break;
+                }
+            }
+        }
+    }
+    protected void SqlDataSource1_Inserting(object sender, SqlDataSourceCommandEventArgs e)
+    {
+        
+    }
+
+    protected void btnUpdateEmployee_Click(object sender, EventArgs e)
+    {
+
+        try
+        {
+            
+        }
+        catch (Exception ex)
+        {
+            //lblError.Text = "A database error has occurred.<br /><br />" +
+                //"Message: " + ex.Message;
+        }
+    }
+
+    protected void btnCreateEmployee_Click(object sender, EventArgs e)
+    {
+        if (Page.IsValid)
+        {
+
+            DateTime tmpStartDate = Convert.ToDateTime(tbxStartDate.Text);
+
+            var room = ctx.Rooms
+                        .Where(r => r.room1 == tbxRoom.Text)
+                        .Select(r => r.roomNo).FirstOrDefault();
+
+            var dept = ctx.Departments
+                        .Where(d => d.deptName == ddlDepartments.SelectedValue)
+                        .Select(d => d.deptNo).FirstOrDefault();
+            try
+            {
+                Employee employee = new Employee()
+
+                {
+                    fname = tbxFirstName.Text,
+                    lname = tbxLastName.Text,
+                    employer = (!(ddlEmployers.SelectedIndex == 0) ? ddlEmployers.SelectedValue : null),
+                    deptNo = (!(ddlDepartments.SelectedValue == "") ? Convert.ToInt32(dept) : (int?)null),
+                    roomNo = (!(tbxRoom.Text == "") ? Convert.ToInt32(room): (int?)null),
+                    startDate = tmpStartDate,
+                    endDate = null,//tmpEndDate,
+                    active = "y",
+                    supervisor = (!(tbxSupervisor.Text == "") ? (tbxSupervisor.Text) : null),
+                    position = (!(ddlPositions.SelectedIndex == 0) ? ddlPositions.SelectedValue : null),
+                };
+
+                ctx.AddToEmployees(employee);
+                ctx.SaveChanges();
+                lblError.Text = "Employee added.";
+            }
+            catch (Exception ex)
+            {
+                lblError.Text = ex.Message;
+            }
+        }
+    }
 }
