@@ -6,14 +6,25 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using BCCAModel;
 using System.Data;
+using System.Drawing;
 
 public partial class Reporting_Reporting : System.Web.UI.Page
 {
     #region class variables
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
+    // Text colour for failure messages
+    public static Color FailColour = Color.Red;
+    // Text colour for success messages
+    public static Color SuccessColour = Color.Green;
+    // Text value of DropDowns for the other option, selecting this option causes a textbox to appear for custom data entry
+    public static String otherOption = "Other (specifiy)";
     // Text value of DropDowns for the none specified option (null value in db)
     public static String noOptionSpecified = String.Empty;
+    // List of static, pre-defined employers a user can select
+    public static List<String> employers = new List<String> {
+        noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
+    };
     // List of static, pre-defined actiosn following an incident that a user can select
     public static List<String> actionsFollowing = new List<String> {
         noOptionSpecified,
@@ -30,14 +41,126 @@ public partial class Reporting_Reporting : System.Web.UI.Page
         if (!IsPostBack) {
             ddlActionFollowing.DataSource = actionsFollowing;
             ddlActionFollowing.DataBind();
+
+            ddlEmployers.DataSource = employers;
+            ddlEmployers.DataBind();
+
+            ddlDepartments.DataSource = ctx.Departments;
+            ddlDepartments.DataValueField = "deptNo";
+            ddlDepartments.DataTextField = "deptName";
+            ddlDepartments.DataBind();
+            ddlDepartments.Items.Insert(0, noOptionSpecified);
+
+            ddlPositions.DataSource = ctx.Positions;
+            ddlPositions.DataValueField = "posName";
+            ddlPositions.DataBind();
+            ddlPositions.Items.Insert(ddlPositions.Items.Count, otherOption);
+            ddlPositions.Items.Insert(0, noOptionSpecified);
+
+            lblResults.Visible = true;
         }
     }
 
-    protected void btnSSearch_Click(object sender, EventArgs e) {
-        SaveReport();
+    /// <summary>
+    /// Uses the employee's first and last name to get the rest employee's information from the database.
+    /// Populates the Header form with this data.
+    /// </summary>
+    private void getEmployeeData() {
+        String first = tbxFirstName.Text;
+        String last = tbxLastName.Text;
+        Employee emp = null;
+
+        var qry = ctx.Employees
+                  .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
+                  .Select(e => e);
+
+        if ((qry != null) && (qry.Count() == 1)) {
+            emp = qry.FirstOrDefault();
+
+            tbxId.Text = emp.empNo.ToString();
+
+
+            var position = ctx.Positions
+                           .Where(p => p.posName.Equals(emp.position))
+                           .Select(p => p);
+
+            if ((position != null) && (position.Count() == 1)) {
+                ddlPositions.SelectedValue = emp.position;
+            }
+            else if (emp.position == null) {
+                ddlPositions.SelectedIndex = 0;
+            }
+            else {
+                ddlPositions.SelectedValue = otherOption;
+                tbxPosition.Text = emp.position;
+            }
+            CheckPositionOption();
+
+            if (employers.Contains(emp.employer)) {
+                ddlEmployers.SelectedValue = emp.employer;
+            }
+            else if (emp.position == null) {
+                ddlEmployers.SelectedIndex = 0;
+            }
+            else {
+                ddlEmployers.SelectedValue = otherOption;
+                tbxEmployer.Text = emp.employer;
+            }
+            CheckEmployeeOption();
+
+            if (emp.supervisor == null) {
+                tbxSupervisor.Text = String.Empty;
+            }
+            else {
+                tbxSupervisor.Text = emp.supervisor;
+            }
+
+            tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("yyyy/MM/dd");
+            if (emp.endDate != null) {
+                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("yyyy/MM/dd");
+            }
+            setResultMsg(null, SuccessColour);
+
+        }
+        else if ((qry != null) && (qry.Count() <= 0)) {
+            setResultMsg("No employees with that first and last name found.", FailColour);
+        }
+        else {
+            setResultMsg("There was more than one employee with that first and last name.", FailColour);
+        }
     }
 
-    private void SaveReport() {
+    /// <summary>
+    /// Calls getEmployeeData(), which fetches the employee from the database using the employee's first and last name
+    /// then populates the rest of the form with the employee's information.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The index changed event.</param>
+    protected void btnGetEmployee_Click(object sender, EventArgs e) {
+        getEmployeeData();
+    }
+
+    /// <summary>
+    /// Sets and displays the result message for the header form.
+    /// Using a null msg param will clear and hide the message.
+    /// </summary>
+    /// <param name="msg">The message to display</param>
+    /// <param name="foreColour">The font colour of the message</param>
+    private void setResultMsg(String msg, Color foreColour) {
+        if (msg == null) {
+            lblResults.Text = String.Empty;
+            lblResults.Visible = false;
+        }
+        lblResults.Visible = true;
+        lblResults.ForeColor = foreColour;
+        lblResults.Text = msg;
+    }
+
+    protected void btnSearch_Click(object sender, EventArgs e) {
+        saveReport();
+    }
+
+    private void saveReport() {
         int empId = Convert.ToInt32(tbxId.Text);
         //DateTime dateOfIncident = Convert.ToDateTime(tbxDateOfIncident.Text);
         //DateTime dateReported = Convert.ToDateTime("2011/06/01 09:00:00");
@@ -47,7 +170,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page
             p1_dateOfIncident = null,
             p1_timeReported = null,
             p1_incidentDesc = tbxIncidentDescription.Text,
-                        
+
             p1_witnessName1 = tbxWitnessName1.Text,
             p1_witnessPhone1 = tbxWitnessPhone1.Text,
             p1_witnessName2 = tbxWitnessName2.Text,
@@ -233,6 +356,26 @@ public partial class Reporting_Reporting : System.Web.UI.Page
     protected void ddlActionFollowing_SelectedIndexChanged(object sender, EventArgs e) {
         CheckActionFollowingOption();
     }
+    
+    /// <summary>
+    /// Calls CheckEmployeeOption(), which displays a textbox if the "Other (specify)" option is selected
+    /// and hides the textbox if any other option is selected
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The index changed event.</param>
+    protected void ddlEmployers_SelectedIndexChanged(object sender, EventArgs e) {
+        CheckEmployeeOption();
+    }
+
+    /// <summary>
+    /// Calls CheckPositionOption(), which displays a textbox if the "Other (specify)" option is selected
+    /// and hides the textbox if any other option is selected
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The index changed event.</param>
+    protected void ddlPositions_SelectedIndexChanged(object sender, EventArgs e) {
+        CheckPositionOption();
+    }
 
     /// <summary>
     /// If the Positions drop down list is changed to either of the "Medical Aid" options,
@@ -245,6 +388,22 @@ public partial class Reporting_Reporting : System.Web.UI.Page
         } else {
             tbxMedicalAid.Visible = false;
             lblMedicalAid.Visible = false;
+        }
+    }
+
+    private void CheckPositionOption() {
+        if (ddlPositions.SelectedValue.Equals(otherOption)) {
+            tbxPosition.Visible = true;
+        } else {
+            tbxPosition.Visible = false;
+        }
+    }
+
+    private void CheckEmployeeOption() {
+        if (ddlEmployers.SelectedValue.Equals(otherOption)) {
+            tbxEmployer.Visible = true;
+        } else {
+            tbxEmployer.Visible = false;
         }
     }
     #endregion DropDownLists

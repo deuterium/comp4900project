@@ -72,9 +72,19 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
     <table id="tblReportInfoForm">
         <tr>
             <td>Id:</td>
-            <td><asp:TextBox ID="tbxId" runat="server"></asp:TextBox></td>
+            <td><asp:TextBox ID="tbxId" runat="server" Enabled="false" ></asp:TextBox></td>
             <td>Position:</td>
-            <td><asp:DropDownList ID="ddlPositions" runat="server"></asp:DropDownList></td>
+            <td>
+                <asp:DropDownList ID="ddlPositions" runat="server" OnSelectedIndexChanged="ddlPositions_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
+                <asp:UpdatePanel ID="uplPosition" runat="server">
+                    <ContentTemplate>
+                        <asp:TextBox ID="tbxPosition" runat="server" Visible="false"></asp:TextBox>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="ddlPositions" EventName="SelectedIndexChanged" />
+                    </Triggers>
+                </asp:UpdatePanel>
+            </td>
             <td>Room:</td>
             <td><asp:TextBox ID="tbxRoom" runat="server"></asp:TextBox></td>
         </tr>
@@ -82,7 +92,17 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <td>Last name:</td>
             <td><asp:TextBox ID="tbxLastName" runat="server"></asp:TextBox></td>
             <td>Employer:</td>
-            <td><asp:DropDownList ID="ddlEmployers" runat="server"></asp:DropDownList></td>
+            <td>
+                <asp:DropDownList ID="ddlEmployers" runat="server" OnSelectedIndexChanged="ddlEmployers_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
+                <asp:UpdatePanel ID="uplEmployer" runat="server">
+                    <ContentTemplate>
+                        <asp:TextBox ID="tbxEmployer" runat="server" Visible="false"></asp:TextBox>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="ddlEmployers" EventName="SelectedIndexChanged" />
+                    </Triggers>
+                </asp:UpdatePanel>
+            </td>
             <td>Supervisor:</td>
             <td><asp:TextBox ID="tbxSupervisor" runat="server"></asp:TextBox></td>
         </tr>
@@ -110,11 +130,60 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 </asp:CalendarExtender>
             </td>
         </tr>
-        <tr> 
-            <td><asp:Button ID="btnSSearch" ValidationGroup="vgpHeader" runat="server" 
-                    Text="Search" onclick="btnSSearch_Click" /></td>
+        <tr>
+            <td>
+                <asp:Button ID="btnGetEmployee" ValidationGroup="vgpHeader" runat="server" 
+                    Text="Get Employee" onclick="btnGetEmployee_Click" />
+            </td>
+            <td>
+                <asp:Button ID="btnSearch" ValidationGroup="vgpHeader" runat="server" 
+                    Text="Search" onclick="btnSearch_Click" />
+            </td>
+            
         </tr>
     </table>
+    <p><asp:Label ID="lblResults" runat="server" Text="" Visible="false" ></asp:Label></p>
+
+    <asp:RequiredFieldValidator ID="rfvFirstName" runat="server" ValidationGroup="vgpHeader"
+        ControlToValidate="tbxFirstName" ErrorMessage="Please enter a first name."></asp:RequiredFieldValidator>
+    <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpHeader"
+        ControlToValidate="tbxFirstName" ErrorMessage="First name can only contain letters."
+        ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
+
+    
+    <asp:RequiredFieldValidator ID="rfvLastName" runat="server" ValidationGroup="vgpHeader"
+        ControlToValidate="tbxLastName" ErrorMessage="Please enter a last name."></asp:RequiredFieldValidator>
+    <asp:RegularExpressionValidator ID="revLastName" runat="server" ValidationGroup="vgpHeader"
+        ControlToValidate="tbxLastName" ErrorMessage="Last name can only contain letters."
+        ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
+            
+    <asp:RegularExpressionValidator ID="revRoom" runat="server" ValidationGroup="vgpHeader"
+        ControlToValidate="tbxRoom" ValidationExpression="^[0-9\-, ]+$" 
+        ErrorMessage="Room can only contain digits, dashes, commas, and spaces."></asp:RegularExpressionValidator>
+
+    <asp:RegularExpressionValidator ID="revSupervisor" runat="server" ValidationGroup="vgpHeader"
+        ControlToValidate="tbxSupervisor" ErrorMessage="Supervisor must have a first and last name separated by a space."
+        ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
+
+    <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpHeader"
+        ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{4}/{1}[0-9]{2}/{1}[0-9]{2}$" 
+        ErrorMessage="Start date must be in format 'YYYY/MM/DD'"></asp:RegularExpressionValidator>
+    <asp:RangeValidator ID="rgvStartDate" runat="server" ValidationGroup="vgpHeader"
+        ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 1900/01/01 and 2500/01/01."
+        MaximumValue="2500/01/01" MinimumValue="1900/01/01"></asp:RangeValidator>
+
+    <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpHeader"
+        ControlToValidate="tbxEndDate" ValidationExpression="^[0-9]{4}/{1}[0-9]{2}/{1}[0-9]{2}$" 
+        ErrorMessage="End date must be in format 'YYYY/MM/DD'"></asp:RegularExpressionValidator>
+    <asp:RangeValidator ID="rgvEndDate" runat="server" ValidationGroup="vgpHeader"
+        ControlToValidate="tbxEndDate" ErrorMessage="End date must be between 1900/01/01 and 2500/01/01."
+        MaximumValue="2500/01/01" MinimumValue="1900/01/01"></asp:RangeValidator>
+    <asp:CompareValidator ID="cpvStartEndDates" runat="server" ValidationGroup="vgpHeader"
+        ControlToValidate="tbxEndDate" ControlToCompare="tbxStartDate" Operator="GreaterThan" Type="Date"
+        ErrorMessage="End date must be later than start date." ></asp:CompareValidator>
+
+    <asp:ValidationSummary ID="vsmHeader" runat="server" ValidationGroup="vgpHeader"
+        DisplayMode="BulletList" />
 
 </asp:Panel>
 
