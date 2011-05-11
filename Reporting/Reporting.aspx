@@ -117,7 +117,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <td>Start date:</td>
             <td>
                 <asp:TextBox TabIndex="109" ID="tbxStartDate" runat="server" ></asp:TextBox>
-                <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="yyyy/MM/dd" >
+                <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="MM/dd/YYYY" >
                 </asp:CalendarExtender>
             </td>
         </tr>
@@ -129,7 +129,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <td>End date:</td>
             <td>
                 <asp:TextBox TabIndex="110" ID="tbxEndDate" runat="server"></asp:TextBox>
-                <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="yyyy/MM/dd" >
+                <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="MM/dd/YYYY" >
                 </asp:CalendarExtender>
             </td>
         </tr>
@@ -168,18 +168,18 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
 
     <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpHeader"
-        ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{4}/{1}[0-9]{2}/{1}[0-9]{2}$" 
-        ErrorMessage="Start date must be in format 'YYYY/MM/DD'"></asp:RegularExpressionValidator>
+        ControlToValidate="tbxStartDate" ValidationExpression="^{1}[0-9]{2}/{1}[0-9]{2}/[0-9]{4}$" 
+        ErrorMessage="Start date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
     <asp:RangeValidator ID="rgvStartDate" runat="server" ValidationGroup="vgpHeader"
-        ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 1900/01/01 and 2500/01/01."
-        MaximumValue="2500/01/01" MinimumValue="1900/01/01"></asp:RangeValidator>
+        ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 01/01/1900 and 01/01/2500."
+        MaximumValue="01/01/2500" MinimumValue="01/01/1900"></asp:RangeValidator>
 
     <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpHeader"
-        ControlToValidate="tbxEndDate" ValidationExpression="^[0-9]{4}/{1}[0-9]{2}/{1}[0-9]{2}$" 
-        ErrorMessage="End date must be in format 'YYYY/MM/DD'"></asp:RegularExpressionValidator>
+        ControlToValidate="tbxEndDate" ValidationExpression="^{1}[0-9]{2}/{1}[0-9]{2}/[0-9]{4}$" 
+        ErrorMessage="End date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
     <asp:RangeValidator ID="rgvEndDate" runat="server" ValidationGroup="vgpHeader"
-        ControlToValidate="tbxEndDate" ErrorMessage="End date must be between 1900/01/01 and 2500/01/01."
-        MaximumValue="2500/01/01" MinimumValue="1900/01/01"></asp:RangeValidator>
+        ControlToValidate="tbxEndDate" ErrorMessage="End date must be between 01/01/1900 and 01/01/2500."
+        MaximumValue="01/01/2500" MinimumValue="01/01/1900"></asp:RangeValidator>
     <asp:CompareValidator ID="cpvStartEndDates" runat="server" ValidationGroup="vgpHeader"
         ControlToValidate="tbxEndDate" ControlToCompare="tbxStartDate" Operator="GreaterThan" Type="Date"
         ErrorMessage="End date must be later than start date." ></asp:CompareValidator>
@@ -195,71 +195,63 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         <tr>
             <td>Date of Incident:</td>
             <td>
-                <asp:TextBox TabIndex="112" ID="tbxDateOfIncident" runat="server" ></asp:TextBox>
-                <asp:CalendarExtender ID="cexDateOfIncident" runat="server" TargetControlID="tbxDateOfIncident" Format="yyyy/MM/dd" >
+                <asp:TextBox TabIndex="112" ID="tbx_p1_dateOfIncident" runat="server" ></asp:TextBox>
+                <asp:CalendarExtender ID="cexDateOfIncident" runat="server" TargetControlID="tbx_p1_dateOfIncident" Format="MM/dd/YYYY" >
                 </asp:CalendarExtender>
             </td>
         </tr>
         <tr>
             <td>Time of Incident:</td>
-            <td><asp:TextBox TabIndex="113" ID="tbxTimeOfIncident" runat="server" ></asp:TextBox></td>
+            <td><asp:TextBox TabIndex="113" ID="tbx_p1_timeOfIncident" runat="server" ></asp:TextBox></td>
         </tr>
         <tr>
             <td>Date Reported:</td>
             <td>
-                <asp:TextBox TabIndex="114" ID="tbxDateReported" runat="server" ></asp:TextBox>
-                <asp:CalendarExtender ID="cexDateReported" runat="server" TargetControlID="tbxDateReported" Format="yyyy/MM/dd" >
+                <asp:TextBox TabIndex="114" ID="tbx_p1_dateReported" runat="server" ></asp:TextBox>
+                <asp:CalendarExtender ID="cexDateReported" runat="server" TargetControlID="tbx_p1_dateReported" Format="MM/dd/YYYY" >
                 </asp:CalendarExtender>
             </td>
         </tr>
         <tr>
             <td>Time Reported:</td>
-            <td><asp:TextBox TabIndex="115" ID="tbxTimeReported" runat="server" ></asp:TextBox></td>
+            <td><asp:TextBox TabIndex="115" ID="tbx_p1_timeReported" runat="server" ></asp:TextBox></td>
         </tr>
         <tr>
             <td>Incident Description:</td>
-            <td><asp:TextBox TabIndex="116" ID="tbxIncidentDescription" runat="server" Height="100px"></asp:TextBox></td>
+            <td><asp:TextBox TabIndex="116" ID="tbx_p1_incidentDesc" runat="server" Height="100px"></asp:TextBox></td>
         </tr>
         <tr>
             <td>Witness 1:</td>
             <td>
-                Name: <asp:TextBox TabIndex="117" ID="tbxWitnessName1" runat="server"></asp:TextBox>
-                Phone: <asp:TextBox TabIndex="118" ID="tbxWitnessPhone1" runat="server" ></asp:TextBox>
+                Name: <asp:TextBox TabIndex="117" ID="tbx_p1_witnessName1" runat="server"></asp:TextBox>
+                Phone: <asp:TextBox TabIndex="118" ID="tbx_p1_witnessPhone1" runat="server" ></asp:TextBox>
             </td>
         </tr>
         <tr>
             <td>Witness 2:</td>
             <td>
-                Name: <asp:TextBox TabIndex="119" ID="tbxWitnessName2" runat="server" ></asp:TextBox>
-                Phone: <asp:TextBox  TabIndex="120" ID="tbxWitnessPhone2" runat="server"></asp:TextBox>
+                Name: <asp:TextBox TabIndex="119" ID="tbx_p1_witnessName2" runat="server" ></asp:TextBox>
+                Phone: <asp:TextBox  TabIndex="120" ID="tbx_p1_witnessPhone2" runat="server"></asp:TextBox>
             </td>
         </tr>
         <tr>
             <td>Action following the Incident:</td>
-            <td><asp:DropDownList TabIndex="121" ID="ddlActionFollowing" runat="server" OnSelectedIndexChanged="ddlActionFollowing_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList></td>
-        </tr>
-        <tr>
             <td>
-                <asp:UpdatePanel ID="uplMedicalAidDateLabel" runat="server">
-                    <ContentTemplate>
-                        <asp:Label ID="lblMedicalAidDate" Text="Date (M/D/Y): " runat="server" Visible="false"></asp:Label>
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="ddlActionFollowing" EventName="SelectedIndexChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
-            </td>
-            <td>
-                <asp:UpdatePanel ID="uplMedicalAidDateTextbox" runat="server">
-                    <ContentTemplate>
-                        <asp:TextBox TabIndex="122" ID="tbxMedicalAidDate" runat="server" Visible="false" ></asp:TextBox>
-                        <asp:CalendarExtender ID="cexMedicalAidDate" runat="server" TargetControlID="tbxMedicalAidDate" Format="yyyy/MM/dd" >
-                        </asp:CalendarExtender>
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="ddlActionFollowing" EventName="SelectedIndexChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
+                <table>
+                    <tr>
+	                    <td><asp:CheckBox ID="cbx_p1_action_report" Text="Report Only" runat="server" /></td>
+	                    <td><asp:CheckBox ID="cbx_p1_action_firstAid" Text="First Aid" runat="server" /></td>
+	                    <td><asp:CheckBox ID="cbx_p1_action_medicalGP" Text="Medical Aid (GP / Clinic)" runat="server" /></td>
+	                    <td>Date(M/D/Y):</td>
+	                    <td><asp:TextBox ID="tbx_p1_action_medicalGP_date" runat="server" ></asp:TextBox></td>
+                    </tr>
+                    <tr>
+	                    <td colspan="2" ><asp:CheckBox ID="cbx_p1_action_lostTime" Text="Lost time (missed/will miss next scheduled shift due to injury)" runat="server" /></td>
+	                    <td><asp:CheckBox ID="cbx_p1_action_medicalER" Text="Medical Aid (ER)" runat="server" /></td>
+	                    <td>Date(M/D/Y):</td>
+	                    <td><asp:TextBox ID="tbx_p1_action_medicalER_date" runat="server" ></asp:TextBox></td>
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>
@@ -267,31 +259,31 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
     <asp:Button TabIndex="123" ID="btnCheckPanelA" runat="server" Text="Check" ValidationGroup="vgpPanelA" />
 
     <asp:RequiredFieldValidator ID="rfvDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
-        ControlToValidate="tbxDateOfIncident" ErrorMessage="Date of incident is required."></asp:RequiredFieldValidator>
+        ControlToValidate="tbx_p1_dateOfIncident" ErrorMessage="Date of incident is required."></asp:RequiredFieldValidator>
     <asp:RequiredFieldValidator ID="rfvTimeOfIncident" runat="server" ValidationGroup="vgpPanelA"
-        ControlToValidate="tbxTimeOfIncident" ErrorMessage="Time of incident is required."></asp:RequiredFieldValidator>
+        ControlToValidate="tbx_p1_timeOfIncident" ErrorMessage="Time of incident is required."></asp:RequiredFieldValidator>
     <asp:RegularExpressionValidator ID="revDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
-        ControlToValidate="tbxDateOfIncident" ValidationExpression="^[0-9]{4}/{1}[0-9]{2}/{1}[0-9]{2}$" 
-        ErrorMessage="Date of incident must be in format 'YYYY/MM/DD'"></asp:RegularExpressionValidator>
+        ControlToValidate="tbx_p1_dateOfIncident" ValidationExpression="^{1}[0-9]{2}/{1}[0-9]{2}/[0-9]{4}$" 
+        ErrorMessage="Date of incident must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
     <asp:RegularExpressionValidator ID="revTimeOfIncident" runat="server" ValidationGroup="vgpPanelA"
-        ControlToValidate="tbxTimeOfIncident" ValidationExpression="^((([01]?[0-9]{1}|[2]{1}[0-3]{1}){1}(:[0-5]{1}[0-9]{1}){1})|(([0]?[0-9]{1}|[1]{1}[012]{1}){1}(:[0-5]{1}[0-9]{1})? ?(am|AM|pm|PM){1}))$" 
+        ControlToValidate="tbx_p1_timeOfIncident" ValidationExpression="^((([01]?[0-9]{1}|[2]{1}[0-3]{1}){1}(:[0-5]{1}[0-9]{1}){1})|(([0]?[0-9]{1}|[1]{1}[012]{1}){1}(:[0-5]{1}[0-9]{1})? ?(am|AM|pm|PM){1}))$" 
         ErrorMessage="Time of incident must be in one of the following formats: H pm, H:MM AM, HH:MM"></asp:RegularExpressionValidator>
 
     <asp:RequiredFieldValidator ID="rfvDateReported" runat="server" ValidationGroup="vgpPanelA"
-        ControlToValidate="tbxDateReported" ErrorMessage="Date reported is required."></asp:RequiredFieldValidator>
+        ControlToValidate="tbx_p1_dateReported" ErrorMessage="Date reported is required."></asp:RequiredFieldValidator>
     <asp:RequiredFieldValidator ID="rfvTimeReported" runat="server" ValidationGroup="vgpPanelA"
-        ControlToValidate="tbxTimeReported" ErrorMessage="Time reported is required."></asp:RequiredFieldValidator>
+        ControlToValidate="tbx_p1_timeReported" ErrorMessage="Time reported is required."></asp:RequiredFieldValidator>
     <asp:RegularExpressionValidator ID="revDateReported" runat="server" ValidationGroup="vgpPanelA"
-        ControlToValidate="tbxDateReported" ValidationExpression="^[0-9]{4}/{1}[0-9]{2}/{1}[0-9]{2}$" 
-        ErrorMessage="Date reported must be in format 'YYYY/MM/DD'"></asp:RegularExpressionValidator>
+        ControlToValidate="tbx_p1_dateReported" ValidationExpression="^{1}[0-9]{2}/{1}[0-9]{2}/[0-9]{4}$" 
+        ErrorMessage="Date reported must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
     <asp:RegularExpressionValidator ID="revTimeReported" runat="server" ValidationGroup="vgpPanelA"
-        ControlToValidate="tbxTimeReported" ValidationExpression="^((([01]?[0-9]{1}|[2]{1}[0-3]{1}){1}(:[0-5]{1}[0-9]{1}){1})|(([0]?[0-9]{1}|[1]{1}[012]{1}){1}(:[0-5]{1}[0-9]{1})? ?(am|AM|pm|PM){1}))$" 
+        ControlToValidate="tbx_p1_timeReported" ValidationExpression="^((([01]?[0-9]{1}|[2]{1}[0-3]{1}){1}(:[0-5]{1}[0-9]{1}){1})|(([0]?[0-9]{1}|[1]{1}[012]{1}){1}(:[0-5]{1}[0-9]{1})? ?(am|AM|pm|PM){1}))$" 
         ErrorMessage="Time reported must be in one of the following formats: H pm, H:MM AM, HH:MM"></asp:RegularExpressionValidator>
 
-    <asp:RegularExpressionValidator ID="revMedicalAidDate" runat="server" ValidationGroup="vgpPanelA"
-        ControlToValidate="tbxMedicalAidDate" ValidationExpression="^[0-9]{4}/{1}[0-9]{2}/{1}[0-9]{2}$" 
-        ErrorMessage="Medical Aid date must be in format 'YYYY/MM/DD'"></asp:RegularExpressionValidator>
-    
+    <%--<asp:RegularExpressionValidator ID="revMedicalAidDate" runat="server" ValidationGroup="vgpPanelA"
+        ControlToValidate="tbxMedicalAidDate" ValidationExpression="^{1}[0-9]{2}/{1}[0-9]{2}/[0-9]{4}$" 
+        ErrorMessage="Medical Aid date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
+    --%>
     <asp:ValidationSummary ID="vdsPanelA" runat="server" ValidationGroup="vgpPanelA"
         DisplayMode="BulletList" />
 
@@ -362,7 +354,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <asp:RadioButtonList ID="rbl_p2_patient_adequateAssist" runat="server" RepeatDirection="Horizontal">
                     <asp:ListItem TabIndex="129" Text="Yes" Value="1" ></asp:ListItem>
                     <asp:ListItem TabIndex="130" Text="No" Value="0" ></asp:ListItem>
-                    <asp:ListItem TabIndex="131" Text="Unknown" Value="Null" Selected="True" ></asp:ListItem>
+                    <asp:ListItem TabIndex="131" Text="Unknown" Value="Null" ></asp:ListItem>
                 </asp:RadioButtonList>
             </td></tr>
             <tr><td>How many employees involved in activity at time of incident?</td></tr>
@@ -396,7 +388,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         <h5>Using Material / Equipment</h5>
         <table>
             <tr><td>Material / Equipment Description (stretchers, carts, boxes, etc.):</td></tr>
-            <tr><td><asp:TextBox TabIndex="134" ID="tbx_p2_acitvity_material" runat="server"></asp:TextBox></td></tr>
+            <tr><td><asp:TextBox TabIndex="134" ID="tbx_p2_acitvity_material" runat="server" Width="200px"></asp:TextBox></td></tr>
             <tr><td><asp:CheckBox TabIndex="134" ID="cbx_p2_activity_lift" Text="Lift / Lower" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="134" ID="cbx_p2_activity_push" Text="Push / Pull" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="134" ID="cbx_p2_activity_carry" Text="Carry" runat="server" /></td></tr>
@@ -575,7 +567,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="146" ID="cbx_p2_factors_lang" Text="Language Barriers" runat="server"/></td></tr>
             <tr><td>
                 <asp:CheckBox TabIndex="146" ID="cbx_p2_factors_otherPatient" Text="Other: " runat="server"/>
-                <asp:TextBox TabIndex="146" ID="tbxEPatientRelatedOther" runat="server"></asp:TextBox>
+                <asp:TextBox TabIndex="146" ID="tbx_p2_factors_otherPatient" runat="server"></asp:TextBox>
             </td></tr>
         </table>
     </div>
@@ -621,12 +613,12 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             Person assigned to corrective action:
         </td>
         <td>
-            <asp:TextBox TabIndex="149" ID="tbxPersonAssigned" runat="server"></asp:TextBox>
+            <asp:TextBox TabIndex="149" ID="tbx_p2_corrective_person" runat="server"></asp:TextBox>
         </td>
         <td>
             Date (M/DY):
-            <asp:TextBox TabIndex="150" ID="tbxDatePersonAssigned" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexDatePersonAssigned" runat="server" TargetControlID="tbxDatePersonAssigned" Format="yyyy/MM/dd" >
+            <asp:TextBox TabIndex="150" ID="tbx_p2_corrective_personDate" runat="server"></asp:TextBox>
+            <asp:CalendarExtender ID="cexCorrectivePersonDate" runat="server" TargetControlID="tbx_p2_corrective_personDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
         </td>
     </tr>
@@ -635,16 +627,16 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             Maintenance Requisition Submitted:
         </td>
         <td>
-            <asp:RadioButtonList ID="rblMaintReqSubmitted" runat="server" RepeatDirection="Horizontal">
+            <asp:RadioButtonList ID="rbl_p2_corrective_maintenance" runat="server" RepeatDirection="Horizontal">
                 <asp:ListItem TabIndex="151" Text="Yes" ></asp:ListItem>
                 <asp:ListItem TabIndex="152" Text="No" ></asp:ListItem>
-                <asp:ListItem TabIndex="153" Text="N/A" Selected="True" ></asp:ListItem>
+                <asp:ListItem TabIndex="153" Text="N/A" ></asp:ListItem>
             </asp:RadioButtonList>
         </td>
         <td>
             Date (M/DY):
-            <asp:TextBox TabIndex="154" ID="tbxDateMaintReqSubmitted" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexDateMaintReqSubmitted" runat="server" TargetControlID="tbxDateMaintReqSubmitted" Format="yyyy/MM/dd" >
+            <asp:TextBox TabIndex="154" ID="tbx_p2_corrective_maintenanceDate" runat="server"></asp:TextBox>
+            <asp:CalendarExtender ID="cexMaintenanceDate" runat="server" TargetControlID="tbx_p2_corrective_maintenanceDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
         </td>
     </tr>
@@ -653,16 +645,16 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             Corrective Action Communicated to Staff:
         </td>
         <td>
-            <asp:RadioButtonList ID="rblCommToStaff" runat="server" RepeatDirection="Horizontal">
+            <asp:RadioButtonList ID="rbl_p2_corrective_communicated" runat="server" RepeatDirection="Horizontal">
                 <asp:ListItem TabIndex="155" Text="Yes" ></asp:ListItem>
                 <asp:ListItem TabIndex="156" Text="No" ></asp:ListItem>
-                <asp:ListItem TabIndex="157" Text="N/A" Selected="True" ></asp:ListItem>
+                <asp:ListItem TabIndex="157" Text="N/A" ></asp:ListItem>
             </asp:RadioButtonList>
         </td>
         <td>
             Date (M/DY):
-            <asp:TextBox TabIndex="158" ID="tbxDateCommToStaff" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexDateCommToStaff" runat="server" TargetControlID="tbxDateCommToStaff" Format="yyyy/MM/dd" >
+            <asp:TextBox TabIndex="158" ID="tbx_p2_corrective_communicatedDate" runat="server"></asp:TextBox>
+            <asp:CalendarExtender ID="cexDateCommToStaff" runat="server" TargetControlID="tbx_p2_corrective_communicatedDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
         </td>
     </tr>
@@ -674,13 +666,13 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:RadioButtonList ID="rblTimeLoss" runat="server" RepeatDirection="Horizontal">
                 <asp:ListItem TabIndex="159" Text="Yes" ></asp:ListItem>
                 <asp:ListItem TabIndex="160" Text="No" ></asp:ListItem>
-                <asp:ListItem TabIndex="161" Text="N/A" Selected="True" ></asp:ListItem>
+                <asp:ListItem TabIndex="161" Text="N/A" ></asp:ListItem>
             </asp:RadioButtonList>
         </td>
         <td>
             Date (M/DY):
             <asp:TextBox TabIndex="161" ID="tbxDateTimeLoss" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexDateTimeLoss" runat="server" TargetControlID="tbxDateTimeLoss" Format="yyyy/MM/dd" >
+            <asp:CalendarExtender ID="cexDateTimeLoss" runat="server" TargetControlID="tbxDateTimeLoss" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
         </td>
     </tr>
@@ -701,13 +693,13 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             Target Completion Date (M/DY):
             <br />
             <asp:TextBox TabIndex="163" ID="tbxWrittenTargetDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexWrittenTargetDate" runat="server" TargetControlID="tbxWrittenTargetDate" Format="yyyy/MM/dd" >
+            <asp:CalendarExtender ID="cexWrittenTargetDate" runat="server" TargetControlID="tbxWrittenTargetDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
             <br />
             Date completed (M/DY):
             <br />
             <asp:TextBox TabIndex="164" ID="tbxWrittenCompletedDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexWrittenCompletedDate" runat="server" TargetControlID="tbxWrittenCompletedDate" Format="yyyy/MM/dd" >
+            <asp:CalendarExtender ID="cexWrittenCompletedDate" runat="server" TargetControlID="tbxWrittenCompletedDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
         </td>
     </tr>
@@ -721,13 +713,13 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             Target Completion Date (M/DY):
             <br />
             <asp:TextBox TabIndex="166" ID="tbxEducationTargetDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexEducationTargetDate" runat="server" TargetControlID="tbxEducationTargetDate" Format="yyyy/MM/dd" >
+            <asp:CalendarExtender ID="cexEducationTargetDate" runat="server" TargetControlID="tbxEducationTargetDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
             <br />
             Date completed (M/DY):
             <br />
             <asp:TextBox TabIndex="167" ID="tbxEducationCompletedDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexEducationCompletedDate" runat="server" TargetControlID="tbxEducationCompletedDate" Format="yyyy/MM/dd" >
+            <asp:CalendarExtender ID="cexEducationCompletedDate" runat="server" TargetControlID="tbxEducationCompletedDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
         </td>
     </tr>
@@ -742,13 +734,13 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             Target Completion Date (M/DY):
             <br />
             <asp:TextBox TabIndex="169" ID="tbxEquipmentTargetDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexEquipmentTargetDate" runat="server" TargetControlID="tbxEquipmentTargetDate" Format="yyyy/MM/dd" >
+            <asp:CalendarExtender ID="cexEquipmentTargetDate" runat="server" TargetControlID="tbxEquipmentTargetDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
             <br />
             Date completed (M/DY):
             <br />
             <asp:TextBox TabIndex="170" ID="tbxEquipmentCompletedDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexEquipmentCompletedDate" runat="server" TargetControlID="tbxEquipmentCompletedDate" Format="yyyy/MM/dd" >
+            <asp:CalendarExtender ID="cexEquipmentCompletedDate" runat="server" TargetControlID="tbxEquipmentCompletedDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
         </td>
     </tr>
@@ -762,13 +754,13 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             Target Completion Date (M/DY):
             <br />
             <asp:TextBox TabIndex="172" ID="tbxEnvironmentTargetDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexEnvironmentTargetDate" runat="server" TargetControlID="tbxEnvironmentTargetDate" Format="yyyy/MM/dd" >
+            <asp:CalendarExtender ID="cexEnvironmentTargetDate" runat="server" TargetControlID="tbxEnvironmentTargetDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
             <br />
             Date completed(M/DY):
             <br />
             <asp:TextBox TabIndex="173" ID="tbxEnvironmentCompleteDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexEnvironmentCompleteDate" runat="server" TargetControlID="tbxEnvironmentCompleteDate" Format="yyyy/MM/dd" >
+            <asp:CalendarExtender ID="cexEnvironmentCompleteDate" runat="server" TargetControlID="tbxEnvironmentCompleteDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
         </td>
     </tr>
@@ -782,13 +774,13 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             Target Completion Date (M/DY):
             <br />
             <asp:TextBox TabIndex="175" ID="tbxPatientResidentTargetDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexPatientResidentTargetDate" runat="server" TargetControlID="tbxPatientResidentTargetDate" Format="yyyy/MM/dd" >
+            <asp:CalendarExtender ID="cexPatientResidentTargetDate" runat="server" TargetControlID="tbxPatientResidentTargetDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
             <br />
             Date completed (M/DY):
             <br />
             <asp:TextBox TabIndex="176" ID="tbxPatientResidentCompleteDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexPatientResidentCompleteDate" runat="server" TargetControlID="tbxPatientResidentCompleteDate" Format="yyyy/MM/dd" >
+            <asp:CalendarExtender ID="cexPatientResidentCompleteDate" runat="server" TargetControlID="tbxPatientResidentCompleteDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
         </td>
     </tr>
