@@ -17,11 +17,13 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
     protected void btnLabInspectionSubmit_Click(object sender, EventArgs e)
     {
 
-        Page.Validate("vgpLab");
+        Page.Validate("vgpLabB");
+        Page.Validate("vgpLabC");
         if (Page.IsValid)
         {
-            lblValB.Text = "This is not working";
+            
         }
+
         /*
         LabInspection inc = new LabInspection()
         {

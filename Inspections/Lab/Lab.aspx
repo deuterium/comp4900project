@@ -144,10 +144,10 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <h3 id="labB"><asp:Image ID="imgExpandCollapseB" runat="server" />
+    <h3 id="labB"><asp:Image ID="imgExpandCollapseB" runat="server" /> 
     B. Emergency & Information Material <asp:Label ID="ExpandCollapseB" runat="server" Text="" />
-    <asp:Label ID="lblValB" runat="server" Text="" />
     </h3>
+    <asp:ValidationSummary ID="ValidationSummary1" runat="server" ValidationGroup="vgpLabB" HeaderText="*" DisplayMode="SingleParagraph" />
     <asp:Panel ID="pnlB" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -177,15 +177,15 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFireEvac">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
                 
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblFireEvac" ValidationGroup="vgpLab" runat="server" ID="rfvFireEvac" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblFireEvac" ValidationGroup="vgpLabB" runat="server" ID="rfvFireEvac" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -198,14 +198,14 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2"  runat="server" ID="rblFireExtinguish">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblFireExtinguish" ValidationGroup="vgpLab" runat="server" ID="rfvFireExtinguish" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblFireExtinguish" ValidationGroup="vgpLabB" runat="server" ID="rfvFireExtinguish" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -218,14 +218,14 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBloodandBody">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblBloodandBody" ValidationGroup="vgpLab" runat="server" ID="rfvBloodandBody" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblBloodandBody" ValidationGroup="vgpLabB" runat="server" ID="rfvBloodandBody" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -238,14 +238,14 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblInjuryonDuty">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblInjuryonDuty" ValidationGroup="vgpLab" runat="server" ID="rfvInjuryonDuty" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblInjuryonDuty" ValidationGroup="vgpLabB" runat="server" ID="rfvInjuryonDuty" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -258,14 +258,14 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEmergencyNumber">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblEmergencyNumber" ValidationGroup="vgpLab" runat="server" ID="rfvEmergencyNumber" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblEmergencyNumber" ValidationGroup="vgpLabB" runat="server" ID="rfvEmergencyNumber" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -278,14 +278,14 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblMSDS">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblMSDS" ValidationGroup="vgpLab" runat="server" ID="rfvMSDS" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblMSDS" ValidationGroup="vgpLabB" runat="server" ID="rfvMSDS" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -298,14 +298,14 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEmergencyShower">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblEmergencyShower" ValidationGroup="vgpLab" runat="server" ID="rfvEmergencyShower" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblEmergencyShower" ValidationGroup="vgpLabB" runat="server" ID="rfvEmergencyShower" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -318,14 +318,14 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEmergencyShowerTest">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblEmergencyShowerTest" ValidationGroup="vgpLab" runat="server" ID="rfvEmergencyShowerTest" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblEmergencyShowerTest" ValidationGroup="vgpLabB" runat="server" ID="rfvEmergencyShowerTest" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -338,14 +338,14 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEyewash">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblEyewash" ValidationGroup="vgpLab" runat="server" ID="rfvEyewash" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblEyewash" ValidationGroup="vgpLabB" runat="server" ID="rfvEyewash" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -358,14 +358,14 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEyewashTest">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblEyewashTest" ValidationGroup="vgpLab" runat="server" ID="rfvEyewashTest" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblEyewashTest" ValidationGroup="vgpLabB" runat="server" ID="rfvEyewashTest" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -378,14 +378,14 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblChemicalSpill">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblChemicalSpill" ValidationGroup="vgpLab" runat="server" ID="rfvChemicalSpill" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblChemicalSpill" ValidationGroup="vgpLabB" runat="server" ID="rfvChemicalSpill" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -398,14 +398,14 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBiohazard">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblBiohazard" ValidationGroup="vgpLab" runat="server" ID="rfvBiohazard" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblBiohazard" ValidationGroup="vgpLabB" runat="server" ID="rfvBiohazard" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -415,7 +415,10 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
     
-    <h3 id="labC"><asp:Image ID="imgExpandCollapseC" runat="server" /> C. Personal Protection <asp:Label ID="ExpandCollapseC" runat="server" Text=""></asp:Label></h3>
+    <h3 id="labC"><asp:Image ID="imgExpandCollapseC" runat="server" />
+    C. Personal Protection <asp:Label ID="ExpandCollapseC" runat="server" Text=""></asp:Label>
+    <asp:Label ID="lblValC" runat="server" Text="" ForeColor="Red" />
+    </h3>
     <asp:Panel ID="pnlC" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -444,13 +447,15 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblSafety">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblSafety" ValidationGroup="vgpLabC" runat="server" ID="rfvSafety" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSafety"></asp:TextBox>
@@ -462,13 +467,15 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblLabCoat">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblLabCoat" ValidationGroup="vgpLabC" runat="server" ID="rfvLabCoat" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentLabCoat"></asp:TextBox>
@@ -480,13 +487,15 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFootwear">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblFootwear" ValidationGroup="vgpLabC" runat="server" ID="rfvFootwear" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFootwear"></asp:TextBox>
@@ -499,13 +508,15 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblRespirator">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblRespirator" ValidationGroup="vgpLabC" runat="server" ID="rfvRespirator" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentRespirator"></asp:TextBox>
@@ -516,14 +527,16 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Appropriate vacuum flask used on vacuum supply" runat="server" ID="lblVacuum" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="RadioButtonList1">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblVacuum">
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblVacuum" ValidationGroup="vgpLabC" runat="server" ID="rfvVacuum" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentVacuum"></asp:TextBox>
@@ -536,13 +549,15 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblSplashGuard">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblSplashGuard" ValidationGroup="vgpLabC" runat="server" ID="rfvSplashGuard" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSplashGuard"></asp:TextBox>
@@ -554,13 +569,15 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblHealthSurv">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblHealthSurv" ValidationGroup="vgpLabC" runat="server" ID="rfvHealthSurv" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentHealthSurv"></asp:TextBox>
@@ -598,9 +615,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBenchTidy">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -616,9 +633,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblTripHaz">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -634,9 +651,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblExits">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -652,9 +669,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFoodDrink">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -670,9 +687,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblGlassTube">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -688,9 +705,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFallHaz">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -706,9 +723,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblStool">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -750,9 +767,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblSharpCont">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -768,9 +785,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblYellowCont">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -787,9 +804,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblYellowBagHSS">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -805,9 +822,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblCyto">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -823,9 +840,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBulkLabel">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -841,9 +858,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBulk25L">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -859,9 +876,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblInterim">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -877,9 +894,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEthidium">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -921,9 +938,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblDisenfect">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -939,9 +956,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBioHazSign">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -984,9 +1001,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblSash">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1002,9 +1019,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBioCabCert">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1020,9 +1037,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBioCabClean">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1038,9 +1055,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFumeFunc">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1082,9 +1099,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblVacuumPump">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1100,9 +1117,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFrayedCords">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1118,9 +1135,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblOutlets">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1136,9 +1153,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblPowerBar">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1154,9 +1171,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEmPower">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1198,9 +1215,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFlam">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1216,9 +1233,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblSolventCab">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1234,9 +1251,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblSolventOutside">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1252,9 +1269,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblPropHaz">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1270,9 +1287,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblPropCyto">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1288,9 +1305,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblCytoToDate">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1306,9 +1323,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblReagentSecure">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1324,9 +1341,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblIncompat">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1368,9 +1385,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBiosafety">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1386,9 +1403,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblWorkplaceSafety">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1404,9 +1421,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblWHMIS">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1422,9 +1439,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblTDG">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1466,9 +1483,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblStorageSeis">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1484,9 +1501,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEquipGuards">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
@@ -1502,9 +1519,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblPressureTankSup">
-                    <asp:ListItem runat="server" Text="" Value="Yes" />
-                    <asp:ListItem runat="server" Text="" Value="No" />
-                    <asp:ListItem runat="server" Text="" Value="NA" />
+                    <asp:ListItem Text="" Value="Yes" />
+                    <asp:ListItem Text="" Value="No" />
+                    <asp:ListItem Text="" Value="NA" />
                 </asp:RadioButtonList>
             </td>
             <td>
