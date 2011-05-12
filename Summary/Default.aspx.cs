@@ -46,14 +46,75 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     protected void btnInspectionLookUp_Click(object sender, EventArgs e)
     {
-        department = Convert.ToInt32(tbxLabDepartment.Text);
+        if (!(tbxLabDepartment.Text.Length == 0))
+        {
+            department = Convert.ToInt32(tbxLabDepartment.Text);
+        }
+
         labManager  = Convert.ToString(ddlLabLabManager.SelectedValue);
 
         grvLabInspections.DataSource = ctx.LabInspections.Select(LI => LI).Where(LI => ((LI.deptNo == department))
-                                                                                && (LI.labMgr == labManager));
+                                                                                || (LI.labMgr == labManager));
         grvLabInspections.DataBind();
+
+        grvLabInspectionResults.DataSource = ctx.LabInspections
+                                   .Join(
+                                      ctx.LabInspectionDetails,
+                                      LI => LI.labInsNo,
+                                      LID => LID.labInsNo,
+                                      (LI, LID) =>
+                                         new
+                                         {
+                                             LI = LI,
+                                             LID = LID
+                                         }
+                                   )
+                                   .Join(
+                                      ctx.LabInspectionItems,
+                                      temp0 => temp0.LID.labItemNo,
+                                      LII => (Int32?)(LII.labInsItemNo),
+                                      (temp0, LII) =>
+                                         new
+                                         {
+                                             temp0 = temp0,
+                                             LII = LII
+                                         }
+                                   )
+                                   .Where(temp1 => (temp1.temp0.LI.labInsNo == 5))
+                                   .Select(
+                                      temp1 =>
+                                         new
+                                         {
+                                             labInsItem = temp1.LII.labInsItem,
+                                             checkbox = temp1.temp0.LID.checkbox,
+                                             comments = temp1.temp0.LID.comments
+                                         }
+                                   );
+        
+        grvLabInspectionResults.DataBind();
     }
     #endregion
+
+    protected void grvLabInspectionResults_DataBinding(object sender, GridViewRowEventArgs e)
+    {
+
+
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            for (int i = -1; i < grvLabInspectionResults.Rows.Count; i++)
+            {
+
+                if (e.Row.RowIndex == i)
+                    if (e.Row.Cells[1].Text == "1")
+                        e.Row.Cells[1].Text = "Yes";
+                    if (e.Row.Cells[1].Text == "2")
+                        e.Row.Cells[1].Text = "No";
+                    if (e.Row.Cells[1].Text == "3")
+                        e.Row.Cells[1].Text = "N/A";
+            }
+        }
+
+    }
 
     #region Valid Course Look Up
     /// <summary>
