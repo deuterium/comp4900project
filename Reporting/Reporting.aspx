@@ -198,6 +198,12 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <asp:TextBox TabIndex="112" ID="tbx_p1_dateOfIncident" runat="server" ></asp:TextBox>
                 <asp:CalendarExtender ID="cexDateOfIncident" runat="server" TargetControlID="tbx_p1_dateOfIncident" Format="MM/dd/YYYY" >
                 </asp:CalendarExtender>
+                <asp:RegularExpressionValidator ID="revDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
+                    ControlToValidate="tbx_p1_dateReported" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
+                    ErrorMessage="Date reported must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
+                <asp:RangeValidator ID="rvdDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
+                    ControlToValidate="tbx_p1_dateReported" ErrorMessage="Date reported must be between 01/01/1950 and 01/01/2500."
+                    MaximumValue="01/01/2500" MinimumValue="01/01/1950"></asp:RangeValidator>
             </td>
         </tr>
         <tr>
@@ -210,11 +216,11 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <asp:TextBox TabIndex="114" ID="tbx_p1_dateReported" runat="server" ></asp:TextBox>
                 <asp:CalendarExtender ID="cexDateReported" runat="server" TargetControlID="tbx_p1_dateReported" Format="MM/dd/YYYY" >
                 </asp:CalendarExtender>
-                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ValidationGroup="vgpHeader"
-                    ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
-                    ErrorMessage="Start date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
-                <asp:RangeValidator ID="RangeValidator1" runat="server" ValidationGroup="vgpHeader"
-                    ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 01/01/1950 and 01/01/2500."
+                <asp:RegularExpressionValidator ID="revDateReported" runat="server" ValidationGroup="vgpPanelA"
+                    ControlToValidate="tbx_p1_dateReported" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
+                    ErrorMessage="Date reported must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
+                <asp:RangeValidator ID="rvdDateReported" runat="server" ValidationGroup="vgpPanelA"
+                    ControlToValidate="tbx_p1_dateReported" ErrorMessage="Date reported must be between 01/01/1950 and 01/01/2500."
                     MaximumValue="01/01/2500" MinimumValue="01/01/1950"></asp:RangeValidator>
             </td>
         </tr>
@@ -253,6 +259,12 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                             <asp:TextBox ID="tbx_p1_action_medicalGP_date" runat="server" ></asp:TextBox>
                             <asp:CalendarExtender ID="cexMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date" Format="MM/dd/YYYY" >
                             </asp:CalendarExtender>
+                            <asp:RegularExpressionValidator ID="revMedicalGpDate" runat="server" ValidationGroup="vgpPanelA"
+                                ControlToValidate="tbx_p1_action_medicalGP_date" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
+                                ErrorMessage="Medical Aid (GP / Clinic) date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
+                            <asp:RangeValidator ID="rvdMedicalGpDate" runat="server" ValidationGroup="vgpPanelA"
+                                ControlToValidate="tbx_p1_action_medicalGP_date" ErrorMessage="Medical Aid (GP / Clinic) date must be between 01/01/1950 and 01/01/2500."
+                                MaximumValue="01/01/2500" MinimumValue="01/01/1950"></asp:RangeValidator>
                         </td>
                     </tr>
                     <tr>
@@ -263,6 +275,12 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                             <asp:TextBox ID="tbx_p1_action_medicalER_date" runat="server" ></asp:TextBox>
                             <asp:CalendarExtender ID="cexMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date" Format="MM/dd/YYYY" >
                             </asp:CalendarExtender>
+                            <asp:RegularExpressionValidator ID="revMedicalErDate" runat="server" ValidationGroup="vgpPanelA"
+                                ControlToValidate="tbx_p1_action_medicalER_date" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
+                                ErrorMessage="Medical Aid (ER) date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
+                            <asp:RangeValidator ID="rvdMedicalErDate" runat="server" ValidationGroup="vgpPanelA"
+                                ControlToValidate="tbx_p1_action_medicalER_date" ErrorMessage="Medical Aid (ER) date must be between 01/01/1950 and 01/01/2500."
+                                MaximumValue="01/01/2500" MinimumValue="01/01/1950"></asp:RangeValidator>
                         </td>
                     </tr>
                 </table>
@@ -276,9 +294,6 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         ControlToValidate="tbx_p1_dateOfIncident" ErrorMessage="Date of incident is required."></asp:RequiredFieldValidator>
     <asp:RequiredFieldValidator ID="rfvTimeOfIncident" runat="server" ValidationGroup="vgpPanelA"
         ControlToValidate="tbx_p1_timeOfIncident" ErrorMessage="Time of incident is required."></asp:RequiredFieldValidator>
-    <asp:RegularExpressionValidator ID="revDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
-        ControlToValidate="tbx_p1_dateOfIncident" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
-        ErrorMessage="Date of incident must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
     <asp:RegularExpressionValidator ID="revTimeOfIncident" runat="server" ValidationGroup="vgpPanelA"
         ControlToValidate="tbx_p1_timeOfIncident" ValidationExpression="^((([01]?[0-9]{1}|[2]{1}[0-3]{1}){1}(:[0-5]{1}[0-9]{1}){1})|(([0]?[0-9]{1}|[1]{1}[012]{1}){1}(:[0-5]{1}[0-9]{1})? ?(am|AM|pm|PM){1}))$" 
         ErrorMessage="Time of incident must be in one of the following formats: H pm, H:MM AM, HH:MM"></asp:RegularExpressionValidator>
@@ -287,9 +302,6 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         ControlToValidate="tbx_p1_dateReported" ErrorMessage="Date reported is required."></asp:RequiredFieldValidator>
     <asp:RequiredFieldValidator ID="rfvTimeReported" runat="server" ValidationGroup="vgpPanelA"
         ControlToValidate="tbx_p1_timeReported" ErrorMessage="Time reported is required."></asp:RequiredFieldValidator>
-    <asp:RegularExpressionValidator ID="revDateReported" runat="server" ValidationGroup="vgpPanelA"
-        ControlToValidate="tbx_p1_dateReported" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
-        ErrorMessage="Date reported must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
     <asp:RegularExpressionValidator ID="revTimeReported" runat="server" ValidationGroup="vgpPanelA"
         ControlToValidate="tbx_p1_timeReported" ValidationExpression="^((([01]?[0-9]{1}|[2]{1}[0-3]{1}){1}(:[0-5]{1}[0-9]{1}){1})|(([0]?[0-9]{1}|[1]{1}[012]{1}){1}(:[0-5]{1}[0-9]{1})? ?(am|AM|pm|PM){1}))$" 
         ErrorMessage="Time reported must be in one of the following formats: H pm, H:MM AM, HH:MM"></asp:RegularExpressionValidator>
@@ -665,11 +677,11 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="154" ID="tbx_p2_corrective_maintenanceDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexMaintenanceDate" runat="server" TargetControlID="tbx_p2_corrective_maintenanceDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
-            <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
-                ErrorMessage="Start date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
-            <asp:RangeValidator ID="RangeValidator2" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 01/01/1950 and 01/01/2500."
+            <asp:RegularExpressionValidator ID="revMaintenanceDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_maintenanceDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
+                ErrorMessage="Maintenance date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
+            <asp:RangeValidator ID="rvdMaintenanceDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_maintenanceDate" ErrorMessage="Maintenance date must be between 01/01/1950 and 01/01/2500."
                 MaximumValue="01/01/2500" MinimumValue="01/01/1950"></asp:RangeValidator>
         </td>
     </tr>
@@ -687,13 +699,13 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         <td>
             Date (M/DY):
             <asp:TextBox TabIndex="158" ID="tbx_p2_corrective_communicatedDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexDateCommToStaff" runat="server" TargetControlID="tbx_p2_corrective_communicatedDate" Format="MM/dd/YYYY" >
+            <asp:CalendarExtender ID="cexCommToStaffDate" runat="server" TargetControlID="tbx_p2_corrective_communicatedDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
-            <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
-                ErrorMessage="Start date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
-            <asp:RangeValidator ID="RangeValidator3" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 01/01/1950 and 01/01/2500."
+            <asp:RegularExpressionValidator ID="revCommToStaffDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_communicatedDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
+                ErrorMessage="Communicated to staff date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
+            <asp:RangeValidator ID="rvdCommToStaffDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_communicatedDate" ErrorMessage="Communicated to staff date must be between 01/01/1950 and 01/01/2500."
                 MaximumValue="01/01/2500" MinimumValue="01/01/1950"></asp:RangeValidator>
         </td>
     </tr>
@@ -711,13 +723,13 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         <td>
             Date (M/DY):
             <asp:TextBox TabIndex="161" ID="tbx_p2_corrective_timeDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexDateTimeLoss" runat="server" TargetControlID="tbx_p2_corrective_timeDate" Format="MM/dd/YYYY" >
+            <asp:CalendarExtender ID="cexTimeLossDate" runat="server" TargetControlID="tbx_p2_corrective_timeDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
-            <asp:RegularExpressionValidator ID="RegularExpressionValidator5" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
-                ErrorMessage="Start date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
-            <asp:RangeValidator ID="RangeValidator4" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 01/01/1950 and 01/01/2500."
+            <asp:RegularExpressionValidator ID="revTimeLossDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_timeDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
+                ErrorMessage="Time loss date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
+            <asp:RangeValidator ID="rvdTimeLossDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_timeDate" ErrorMessage="Time loss date must be between 01/01/1950 and 01/01/2500."
                 MaximumValue="01/01/2500" MinimumValue="01/01/1950"></asp:RangeValidator>
         </td>
     </tr>
@@ -740,11 +752,11 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="163" ID="tbx_p2_corrective_writtenTargetDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexWrittenTargetDate" runat="server" TargetControlID="tbx_p2_corrective_writtenTargetDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
-            <asp:RegularExpressionValidator ID="RegularExpressionValidator7" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
-                ErrorMessage="Start date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
-            <asp:RangeValidator ID="RangeValidator6" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 01/01/1950 and 01/01/2500."
+            <asp:RegularExpressionValidator ID="revWrittenTargetDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_writtenTargetDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
+                ErrorMessage="Written target date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
+            <asp:RangeValidator ID="rvdWrittenTargetDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_writtenTargetDate" ErrorMessage="Written target date must be between 01/01/1950 and 01/01/2500."
                 MaximumValue="01/01/2500" MinimumValue="01/01/1950"></asp:RangeValidator>
             <br />
             Date completed (M/DY):
@@ -752,11 +764,11 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="164" ID="tbx_p2_corrective_writtenCompletedDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexWrittenCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_writtenCompletedDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
-            <asp:RegularExpressionValidator ID="RegularExpressionValidator6" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
-                ErrorMessage="Start date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
-            <asp:RangeValidator ID="RangeValidator5" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 01/01/1950 and 01/01/2500."
+            <asp:RegularExpressionValidator ID="revWrittenCompletedDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_writtenCompletedDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
+                ErrorMessage="Written date completed must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
+            <asp:RangeValidator ID="rvdWrittenCompletedDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_writtenCompletedDate" ErrorMessage="Written date completed must be between 01/01/1950 and 01/01/2500."
                 MaximumValue="01/01/2500" MinimumValue="01/01/1950"></asp:RangeValidator>
         </td>
     </tr>
@@ -772,11 +784,11 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="166" ID="tbx_p2_corrective_educationTargetDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexEducationTargetDate" runat="server" TargetControlID="tbx_p2_corrective_educationTargetDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
-            <asp:RegularExpressionValidator ID="RegularExpressionValidator8" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
-                ErrorMessage="Start date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
-            <asp:RangeValidator ID="RangeValidator7" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 01/01/1950 and 01/01/2500."
+            <asp:RegularExpressionValidator ID="revEducationTargetDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_educationTargetDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
+                ErrorMessage="Education target date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
+            <asp:RangeValidator ID="rvdEducationTargetDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_educationTargetDate" ErrorMessage="Education target date must be between 01/01/1950 and 01/01/2500."
                 MaximumValue="01/01/2500" MinimumValue="01/01/1950"></asp:RangeValidator>
             <br />
             Date completed (M/DY):
@@ -784,11 +796,11 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="167" ID="tbx_p2_corrective_educationCompletedDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexEducationCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_educationCompletedDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
-            <asp:RegularExpressionValidator ID="RegularExpressionValidator9" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
-                ErrorMessage="Start date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
-            <asp:RangeValidator ID="RangeValidator8" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 01/01/1950 and 01/01/2500."
+            <asp:RegularExpressionValidator ID="revEducationCompletedDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_educationCompletedDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
+                ErrorMessage="Education date completed must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
+            <asp:RangeValidator ID="rvdEducationCompletedDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_educationCompletedDate" ErrorMessage="Education date completed must be between 01/01/1950 and 01/01/2500."
                 MaximumValue="01/01/2500" MinimumValue="01/01/1950"></asp:RangeValidator>
         </td>
     </tr>
@@ -805,11 +817,11 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="169" ID="tbx_p2_corrective_equipmentTargetDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexEquipmentTargetDate" runat="server" TargetControlID="tbx_p2_corrective_equipmentTargetDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
-            <asp:RegularExpressionValidator ID="RegularExpressionValidator10" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
-                ErrorMessage="Start date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
-            <asp:RangeValidator ID="RangeValidator9" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 01/01/1950 and 01/01/2500."
+            <asp:RegularExpressionValidator ID="revEquipmentTargetDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_equipmentTargetDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
+                ErrorMessage="Equipment target date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
+            <asp:RangeValidator ID="rvdEquipmentTargetDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_equipmentTargetDate" ErrorMessage="Equipment target date must be between 01/01/1950 and 01/01/2500."
                 MaximumValue="01/01/2500" MinimumValue="01/01/1950"></asp:RangeValidator>
             <br />
             Date completed (M/DY):
@@ -817,11 +829,11 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="170" ID="tbx_p2_corrective_equipmentCompletedDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexEquipmentCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_equipmentCompletedDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
-            <asp:RegularExpressionValidator ID="RegularExpressionValidator11" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
-                ErrorMessage="Start date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
-            <asp:RangeValidator ID="RangeValidator10" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 01/01/1950 and 01/01/2500."
+            <asp:RegularExpressionValidator ID="revEquipmentCompletedDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_equipmentCompletedDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}"
+                ErrorMessage="Eqipment date completed must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
+            <asp:RangeValidator ID="rvdEquipmentCompletedDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_equipmentCompletedDate" ErrorMessage="Eqipment date completed must be between 01/01/1950 and 01/01/2500."
                 MaximumValue="01/01/2500" MinimumValue="01/01/1950"></asp:RangeValidator>
         </td>
     </tr>
@@ -837,23 +849,23 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="172" ID="tbx_p2_corrective_environmentTargetDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexEnvironmentTargetDate" runat="server" TargetControlID="tbx_p2_corrective_environmentTargetDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
-            <asp:RegularExpressionValidator ID="RegularExpressionValidator12" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}" 
-                ErrorMessage="Start date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
-            <asp:RangeValidator ID="RangeValidator11" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 01/01/1950 and 01/01/2500."
+            <asp:RegularExpressionValidator ID="rexEnvironmentTargetDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_environmentTargetDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}" 
+                ErrorMessage="Environment target date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
+            <asp:RangeValidator ID="rvdEnvironmentTargetDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_environmentTargetDate" ErrorMessage="Environment target date must be between 01/01/1950 and 01/01/2500."
                 MaximumValue="01/01/2500" MinimumValue="01/01/1950"></asp:RangeValidator>
             <br />
             Date completed:
             <br />
-            <asp:TextBox TabIndex="173" ID="tbx_p2_corrective_environmentCompleteDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexEnvironmentCompleteDate" runat="server" TargetControlID="tbx_p2_corrective_environmentCompleteDate" Format="MM/dd/YYYY" >
+            <asp:TextBox TabIndex="173" ID="tbx_p2_corrective_environmentCompletedDate" runat="server"></asp:TextBox>
+            <asp:CalendarExtender ID="cexEnvironmentCompleteDate" runat="server" TargetControlID="tbx_p2_corrective_environmentCompletedDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
-            <asp:RegularExpressionValidator ID="revEnvironmentCompleteDate" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbx_p2_corrective_environmentCompleteDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}" 
+            <asp:RegularExpressionValidator ID="revEnvironmentCompletedDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_environmentCompletedDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}" 
                 ErrorMessage="Environment date completed must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
-            <asp:RangeValidator ID="rvdEnvironmentCompleteDate" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ErrorMessage="Environment date completed must be between 01/01/1950 and 01/01/2500."
+            <asp:RangeValidator ID="rvdEnvironmentCompletedDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_environmentCompletedDate" ErrorMessage="Environment date completed must be between 01/01/1950 and 01/01/2500."
                 MaximumValue="01/01/2500" MinimumValue="01/01/1950"></asp:RangeValidator>
         </td>
     </tr>
@@ -879,13 +891,13 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             Date completed:
             <br />
             <asp:TextBox TabIndex="176" ID="tbx_p2_corrective_patientCompletedDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexPatientCompleteDate" runat="server" TargetControlID="tbx_p2_corrective_patientCompletedDate" Format="MM/dd/YYYY" >
+            <asp:CalendarExtender ID="cexPatientCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_patientCompletedDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
-            <asp:RegularExpressionValidator ID="revPatientCompleteDate" runat="server" ValidationGroup=""
+            <asp:RegularExpressionValidator ID="revPatientCompletedDate" runat="server" ValidationGroup=""
                 ControlToValidate="tbx_p2_corrective_patientCompletedDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/[0-9]{4}$" 
                 ErrorMessage="Patient/Resident date completed must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
-            <asp:RangeValidator ID="rvdPatientCompleteDate" runat="server" ValidationGroup=""
-                ControlToValidate="tbxStartDate" ErrorMessage="Patient/Resident date completed must be between 01/01/1950 and 01/01/2500."
+            <asp:RangeValidator ID="rvdPatientCompletedDate" runat="server" ValidationGroup=""
+                ControlToValidate="tbx_p2_corrective_patientCompletedDate" ErrorMessage="Patient/Resident date completed must be between 01/01/1950 and 01/01/2500."
                 MaximumValue="01/01/2500" MinimumValue="01/01/1950"></asp:RangeValidator>
         </td>
     </tr>

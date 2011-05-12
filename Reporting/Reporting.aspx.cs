@@ -70,8 +70,8 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
     {
         // Only do the initial set up the first time the page loads (and not on post-backs).
         if (!IsPostBack) {
-            GridView1.DataSource = ctx.Incidents;
-            GridView1.DataBind();
+            //GridView1.DataSource = ctx.Incidents;
+            //GridView1.DataBind();
 
             ddlEmployers.DataSource = employers;
             ddlEmployers.DataBind();
