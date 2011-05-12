@@ -28,7 +28,7 @@ public partial class Training_Training : System.Web.UI.Page {
     // Text colour for success messages
     public static Color SuccessColour = Color.Green;
     // Text value of DropDowns for the other option, selecting this option causes a textbox to appear for custom data entry
-    public static String otherOption = "Other (specifiy)";
+    public static String otherOption = "Other (specify)";
     // Text value of DropDowns for the none specified option (null value in db)
     public static String noOptionSpecified = "Choose an option...";
     // List of pre-defined employers a user can select
@@ -60,8 +60,6 @@ public partial class Training_Training : System.Web.UI.Page {
             ddlDepartments.DataBind();
             ddlDepartments.Items.Insert(0, noOptionSpecified);
 
-            populateCourses();
-
             lblResults.Visible = true;
         }
     }
@@ -87,45 +85,112 @@ public partial class Training_Training : System.Web.UI.Page {
     }
 
     /// <summary>
-    /// IGNORE: this was for display purposes only and will be scrapped.
+    /// When the Get Employee button is clicke, this function is called to 
+    /// populate all valid courses taken
     /// </summary>
-    private void populateCourses() {
-        //GdvCourses
-        // 0 = not complete, 1 = complete, 2 = expired
-        List<Object> expiredCourses = new List<Object> {
-            new { name = "General Orientation", dateCompleted = DateTime.Now.ToString("yyyy/MM/dd"), dateExpired = DateTime.Now.AddMonths(3).ToString("yyyy/MM/dd"), select = "Selct", edit = "Edit", required = "[X]", status = "Expired" },
-            new { name = "Safety Orientation", dateCompleted = DateTime.Now.ToString("yyyy/MM/dd"), dateExpired = DateTime.Now.AddMonths(3).ToString("yyyy/MM/dd"), select = "Select", edit = "Edit", required = "[X]", status = "Expired" },
-            new { name = "Training Course 1", dateCompleted = DateTime.Now.ToString("yyyy/MM/dd"), dateExpired = DateTime.Now.AddMonths(3).ToString("yyyy/MM/dd"), select = "Select", edit = "Edit", required = "[ ]", status = "Expired" }
-        };
+    private void populateValidCourses() {
+        var q = from x in ctx.TrainingCourses
+                select x;
+        var total = q.Count();
+        int empNo = Convert.ToInt32(tbxId.Text);
 
-        List<Object> completedCourses = new List<Object> {
-            new { name = "General Orientation", dateCompleted = DateTime.Now.ToString("yyyy/MM/dd"), dateExpired = DateTime.Now.AddMonths(3).ToString("yyyy/MM/dd"), select = "Select", edit = "Edit", required = "[X]", status = "Completed" },
-            new { name = "Safety Orientation", dateCompleted = DateTime.Now.ToString("yyyy/MM/dd"), dateExpired = DateTime.Now.AddMonths(3).ToString("yyyy/MM/dd"), select = "Select", edit = "Edit", required = "[X]", status = "Completed" },
-            new { name = "Training Course 1", dateCompleted = DateTime.Now.ToString("yyyy/MM/dd"), dateExpired = DateTime.Now.AddMonths(3).ToString("yyyy/MM/dd"), select = "Select", edit = "Edit", required = "[ ]", status = "Completed" }
-        };
+        List<String> courseArray = ctx.TrainingCourses.Select(c => c.trainingName).ToList();
 
-        List<Object> notCompletedCourses = new List<Object> {
-            new { name = "General Orientation", dateCompleted = DateTime.Now.ToString("yyyy/MM/dd"), dateExpired = DateTime.Now.AddMonths(3).ToString("yyyy/MM/dd"), select = "Select", edit = "Edit", required = "[X]", status = "Not Completed" },
-            new { name = "Safety Orientation", dateCompleted = DateTime.Now.ToString("yyyy/MM/dd"), dateExpired = DateTime.Now.AddMonths(3).ToString("yyyy/MM/dd"), select = "Select", edit = "Edit", required = "[X]", status = "Not Completed" },
-        };
 
-        List<Object> courseCatalog = new List<Object> {
-            new { name = "General Orientation", dateCompleted = DateTime.Now.ToString("yyyy/MM/dd"), dateExpired = DateTime.Now.AddMonths(3).ToString("yyyy/MM/dd"), select = "Select", edit = "Edit", required = "[ ]", status = "N/A" },
-            new { name = "Safety Orientation", dateCompleted = DateTime.Now.ToString("yyyy/MM/dd"), dateExpired = DateTime.Now.AddMonths(3).ToString("yyyy/MM/dd"), select = "Select", edit = "Edit", required = "[ ]", status = "N/A" },
-            new { name = "Training Course 1", dateCompleted = DateTime.Now.ToString("yyyy/MM/dd"), dateExpired = DateTime.Now.AddMonths(3).ToString("yyyy/MM/dd"), select = "Select", edit = "Edit", required = "[ ]", status = "N/A" }
-        };
+        for (int i = 0; i < total; i++)
+        {
+            GridView grvCourseLookUp = new GridView();
+            String temp = courseArray[i];
+            grvCourseLookUp.DataSource = ctx.Employees.Where(e => e.empNo == empNo)
+                               .Join(
+                                  ctx.TrainingTakens,
+                                  emp => emp.empNo,
+                                  TT => TT.empNo,
+                                  (emp, TT) =>
+                                     new
+                                     {
+                                         emp = emp,
+                                         TT = TT
+                                     }
+                               )
+                               .Join(
+                                  ctx.TrainingCourses,
+                                  temp0 => temp0.TT.trainingNo,
+                                  TC => TC.trainingNo,
+                                  (temp0, TC) =>
+                                     new
+                                     {
+                                         temp0 = temp0,
+                                         TC = TC
+                                     }
+                               )
+                               .Where(temp1 => (temp1.TC.trainingName == temp))
+                               .Select(
+                                  temp1 =>
+                                     new
+                                     {
+                                         lastname = temp1.temp0.emp.lname,
+                                         firstname = temp1.temp0.emp.fname,
+                                         startdate = temp1.temp0.TT.startDate,
+                                         enddate = temp1.temp0.TT.endDate
+                                     }
+                               );
+            pnlCoursesCompleted.Controls.Add(grvCourseLookUp);
 
-        gdvCoursesCompleted.DataSource = completedCourses;
-        gdvCoursesCompleted.DataBind();
+            grvCourseLookUp.Caption = "<table width=\"100%\" class=\"gvCaption\"><tr><td>" + temp + "</td></tr></table>";
+            grvCourseLookUp.DataBind();
+        }
+    }
 
-        gdvCoursesExpired.DataSource = expiredCourses;
-        gdvCoursesExpired.DataBind();
+    private void populateExpiredCourses()
+    {
+        //int month = Convert.ToInt32(tbxMonthsRange.Text);
+        DateTime currentDate = DateTime.Now;
+        int empNo = Convert.ToInt32(tbxId.Text);
+        //var q = from x in ctx.TrainingCourses
+        //        select x;
+        //var total = q.Count();
 
-        gdvCoursesNotCompleted.DataSource = notCompletedCourses;
-        gdvCoursesNotCompleted.DataBind();
+        //List<String> courseArray = ctx.TrainingCourses.Select(c => c.trainingName).ToList();
 
-        gdvCoursesCatalog.DataSource = courseCatalog;
-        gdvCoursesCatalog.DataBind();
+        GridView grvExpiringCourseLookUp = new GridView();
+        grvExpiringCourseLookUp.DataSource = ctx.Employees.Where(e => e.empNo == empNo)
+                                        .Join(
+                                            ctx.TrainingTakens,
+                                            emp => emp.empNo,
+                                            TT => TT.empNo,
+                                            (emp, TT) =>
+                                                new
+                                                {
+                                                    emp = emp,
+                                                    TT = TT
+                                                }
+                                        )
+                                        .Join(
+                                            ctx.TrainingCourses,
+                                            temp0 => temp0.TT.trainingNo,
+                                            TC => TC.trainingNo,
+                                            (temp0, TC) =>
+                                                new
+                                                {
+                                                    temp0 = temp0,
+                                                    TC = TC
+                                                }
+                                        )
+                                        .Where(temp1 => ((currentDate) > temp1.temp0.TT.endDate))
+                                        .Select(
+                                            temp1 =>
+                                                new
+                                                {
+                                                    trainingName = temp1.TC.trainingName,
+                                                    lname = temp1.temp0.emp.lname,
+                                                    fname = temp1.temp0.emp.fname,
+                                                    endDate = temp1.temp0.TT.endDate
+                                                }
+                                        );
+        pnlCoursesExpired.Controls.Add(grvExpiringCourseLookUp);
+        grvExpiringCourseLookUp.Caption = "<table width=\"100%\" class=\"gvCaption\"><tr><td>Expiring Courses</td></tr></table>";
+        grvExpiringCourseLookUp.DataBind();
     }
 
     /// <summary>
@@ -215,6 +280,9 @@ public partial class Training_Training : System.Web.UI.Page {
         } else {
             setResultMsg("There was more than one employee with that first and last name.", FailColour);
         }
+
+        populateValidCourses();
+        populateExpiredCourses();
     }
 
     /// <summary>
@@ -322,7 +390,15 @@ public partial class Training_Training : System.Web.UI.Page {
         emp.endDate = (!(tbxEndDate.Text == "") ? Convert.ToDateTime(tbxEndDate.Text): (DateTime?)null);
         emp.active = "y";
         emp.supervisor = (!(tbxSupervisor.Text == "") ? (tbxSupervisor.Text) : null);
-        emp.position = (!(ddlPositions.SelectedIndex == 0) ? ddlPositions.SelectedValue : null);
+
+        if (ddlPositions.SelectedValue == "Other (specify)")
+        {
+            emp.position = tbxPosition.Text;
+        }
+        else
+        {
+            emp.position = (!(ddlPositions.SelectedIndex == 0) ? ddlPositions.SelectedValue : null);
+        }
 
         try
         {
@@ -354,6 +430,14 @@ public partial class Training_Training : System.Web.UI.Page {
             var dept = ctx.Departments
                         .Where(d => d.deptName == ddlDepartments.SelectedValue)
                         .Select(d => d.deptNo).FirstOrDefault();
+
+            String pos;
+            if (ddlPositions.SelectedValue == "Other (specify)") {
+                pos = tbxPosition.Text;
+            } else {
+                pos = (!(ddlPositions.SelectedIndex == 0 && ddlPositions.SelectedValue == "Other (specify)") ? ddlPositions.SelectedValue : null);
+            }
+
             try
             {
                 Employee employee = new Employee()
@@ -368,7 +452,7 @@ public partial class Training_Training : System.Web.UI.Page {
                     endDate = (!(tbxEndDate.Text == "") ? tmpEndDate : (DateTime?)null),
                     active = "y",
                     supervisor = (!(tbxSupervisor.Text == "") ? (tbxSupervisor.Text) : null),
-                    position = (!(ddlPositions.SelectedIndex == 0) ? ddlPositions.SelectedValue : null),
+                    position = pos,
                 };
 
                 ctx.AddToEmployees(employee);

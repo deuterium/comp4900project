@@ -227,13 +227,9 @@ ExpandedImage="../images/collapse.jpg">
             <asp:Panel ID="pnlCourses" CssClass="panel" runat="server">
                 <h4 id="hr4CoursesCompleted"><asp:Image ID="imgExpandCollapseCoursesCompleted" runat="server" /> Completed: <asp:Label ID="ExpandCollapseCoursesCompleted" runat="server" Text=""></asp:Label></h4>
                 <asp:Panel ID="pnlCoursesCompleted" CssClass="panel" runat="server">
-                    <asp:GridView ID="gdvCoursesCompleted" runat="server" ForeColor="Green">
-                    </asp:GridView>
                 </asp:Panel>
                 <h4 id="hr4CoursesExpired"><asp:Image ID="imgExpandCollapseCoursesExpired" runat="server" /> Expired: <asp:Label ID="ExpandCollapseCoursesExpired" runat="server" Text=""></asp:Label></h4>
                 <asp:Panel ID="pnlCoursesExpired" CssClass="panel" runat="server">
-                    <asp:GridView ID="gdvCoursesExpired" runat="server" ForeColor="#F87217">
-                    </asp:GridView>
                 </asp:Panel>
                 <h4 id="hr4CoursesNotCompleted"><asp:Image ID="imgExpandCollapseCoursesNotCompleted" runat="server" /> Not Completed: <asp:Label ID="ExpandCollapseCoursesNoteCompleted" runat="server" Text=""></asp:Label></h4>
                 <asp:Panel ID="pnlCoursesNotCompleted" CssClass="panel" runat="server">
