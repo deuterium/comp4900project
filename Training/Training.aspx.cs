@@ -143,7 +143,9 @@ public partial class Training_Training : System.Web.UI.Page {
 
         if ((qry != null) && (qry.Count() == 1)) {
             emp = qry.FirstOrDefault();
-            
+        }
+
+        if (emp != null) {
             tbxId.Text = emp.empNo.ToString();
 
 
@@ -191,7 +193,7 @@ public partial class Training_Training : System.Web.UI.Page {
                    
 
             if (tbxRoom != null) {
-                if (emp.roomNo == null)
+                if (emp.room == null)
                 {
                     tbxRoom.Text = String.Empty;
                 }
@@ -266,7 +268,7 @@ public partial class Training_Training : System.Web.UI.Page {
     }
 
     /// <summary>
-    /// 
+    /// resets all controls on the form.
     /// </summary>
     /// <param name="parent"></param>
     private void ResetFormControlValues(Control parent)
@@ -297,35 +299,57 @@ public partial class Training_Training : System.Web.UI.Page {
             }
         }
     }
-    protected void SqlDataSource1_Inserting(object sender, SqlDataSourceCommandEventArgs e)
-    {
-        
-    }
+
 
     protected void btnUpdateEmployee_Click(object sender, EventArgs e)
     {
+        int empNo = Convert.ToInt32(tbxId.Text);
+        BCCAModel.Employee emp = ctx.Employees
+                    .Select(employee => employee)
+                    .Where(employee => employee.empNo == empNo)
+                    .First();
+
+        var dept = ctx.Departments
+                        .Where(d => d.deptName == ddlDepartments.SelectedValue)
+                        .Select(d => d.deptNo).FirstOrDefault();
+
+        emp.lname = tbxLastName.Text;
+        emp.fname = tbxFirstName.Text;
+        emp.employer = (!(ddlEmployers.SelectedIndex == 0) ? ddlEmployers.SelectedValue : null);
+        emp.deptNo = (!(ddlDepartments.SelectedValue == "") ? Convert.ToInt32(dept) : (int?)null);
+        emp.room = (!(tbxRoom.Text == "") ? (tbxRoom.Text) : null);
+        emp.startDate = Convert.ToDateTime(tbxStartDate.Text);
+        emp.endDate = (!(tbxEndDate.Text == "") ? Convert.ToDateTime(tbxEndDate.Text): (DateTime?)null);
+        emp.active = "y";
+        emp.supervisor = (!(tbxSupervisor.Text == "") ? (tbxSupervisor.Text) : null);
+        emp.position = (!(ddlPositions.SelectedIndex == 0) ? ddlPositions.SelectedValue : null);
 
         try
         {
-            
+            ctx.DetectChanges();
+            ctx.SaveChanges();
+            lblError.Text = "Employee updated";
         }
         catch (Exception ex)
         {
-            //lblError.Text = "A database error has occurred.<br /><br />" +
-                //"Message: " + ex.Message;
+            lblError.Text = "A database error has occurred.<br /><br />" +
+                "Message: " + ex.Message;
         }
     }
 
+    /// <summary>
+    /// Creates a new Employee object with the specified values 
+    /// from user-entered data and inserts it into the database.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnCreateEmployee_Click(object sender, EventArgs e)
     {
         if (Page.IsValid)
         {
 
             DateTime tmpStartDate = Convert.ToDateTime(tbxStartDate.Text);
-            if (tbxEndDate != null)
-            {
-                DateTime tmpEndDate = Convert.ToDateTime(tbxEndDate.Text);
-            }
+            DateTime tmpEndDate = Convert.ToDateTime(tbxEndDate.Text);
 
             var dept = ctx.Departments
                         .Where(d => d.deptName == ddlDepartments.SelectedValue)
@@ -341,7 +365,7 @@ public partial class Training_Training : System.Web.UI.Page {
                     deptNo = (!(ddlDepartments.SelectedValue == "") ? Convert.ToInt32(dept) : (int?)null),
                     room = (!(tbxRoom.Text == "") ? (tbxRoom.Text) : null),
                     startDate = tmpStartDate,
-                    endDate = null,//tmpEndDate,
+                    endDate = (!(tbxEndDate.Text == "") ? tmpEndDate : (DateTime?)null),
                     active = "y",
                     supervisor = (!(tbxSupervisor.Text == "") ? (tbxSupervisor.Text) : null),
                     position = (!(ddlPositions.SelectedIndex == 0) ? ddlPositions.SelectedValue : null),
@@ -353,6 +377,7 @@ public partial class Training_Training : System.Web.UI.Page {
             }
             catch (Exception ex)
             {
+                
                 lblError.Text = ex.Message;
             }
         }

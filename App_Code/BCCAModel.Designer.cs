@@ -829,30 +829,6 @@ namespace BCCAModel
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Int32> roomNo
-        {
-            get
-            {
-                return _roomNo;
-            }
-            set
-            {
-                OnroomNoChanging(value);
-                ReportPropertyChanging("roomNo");
-                _roomNo = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("roomNo");
-                OnroomNoChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _roomNo;
-        partial void OnroomNoChanging(Nullable<global::System.Int32> value);
-        partial void OnroomNoChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.DateTime startDate
