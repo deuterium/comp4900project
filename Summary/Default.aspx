@@ -47,11 +47,11 @@ Summary Page:
                 <asp:DropDownList Width="155px" runat="server" ID="ddlLabLabManager" AppendDataBoundItems="true">
                     <asp:ListItem Text="Select Lab Manager" Value="none" />
                 </asp:DropDownList>
-                <asp:RequiredFieldValidator  
+                <%--<asp:RequiredFieldValidator  
                  ID="rfvLabManger" runat="server" ErrorMessage="Please select a Lab Manger."
                  ControlToValidate="ddlLabLabManager" validationGroup="vgrInspectionLookUp"
                  InitialValue="none">  
-        </asp:RequiredFieldValidator>
+        </asp:RequiredFieldValidator>--%>
             </td>
         </tr>
         <tr>
@@ -74,12 +74,12 @@ Summary Page:
         </tr>
     </table>
         <asp:ValidationSummary ID="vsuInspectionLookUp" ValidationGroup="vgrInspectionLookUp" runat="server" />
-        <asp:GridView ID="grvLabInspections" runat="server" AutoGenerateColumns="False"
+        <asp:GridView ID="grvLabInspections" Width="800px" runat="server" AutoGenerateColumns="False"
             autogenerateselectbutton="True" DataKeyNames="labInsNo" onselectedindexchanged="grvLabInspections_SelectedIndexChanged">
             <Columns>
-                <asp:BoundField DataField="labInsNo" HeaderText="Lab Inspection #" ReadOnly="True" 
+                <asp:BoundField DataField="labInsNo" HeaderText="Lab Inspection" ReadOnly="True" 
                     SortExpression="labInsNo" />
-                <asp:BoundField DataField="deptNo" HeaderText="Department #" 
+                <asp:BoundField DataField="deptNo" HeaderText="Department" 
                     SortExpression="deptNo" />
                 <asp:BoundField DataField="date" HeaderText="Date" SortExpression="date" />
                 <asp:BoundField DataField="followupDate" HeaderText="Followup Date" 

@@ -51,7 +51,7 @@ public partial class Summary_Default : System.Web.UI.Page
             department = Convert.ToInt32(tbxLabDepartment.Text);
         }
 
-        labManager  = Convert.ToString(ddlLabLabManager.SelectedValue);
+        labManager = Convert.ToString(ddlLabLabManager.SelectedValue);
 
         grvLabInspections.DataSource = ctx.LabInspections.Select(LI => LI).Where(LI => ((LI.deptNo == department))
                                                                                 || (LI.labMgr == labManager));
@@ -116,13 +116,15 @@ public partial class Summary_Default : System.Web.UI.Page
             for (int i = -1; i < grvLabInspectionResults.Rows.Count; i++)
             {
 
-                if (e.Row.RowIndex == i)
                     if (e.Row.Cells[1].Text == "1")
                         e.Row.Cells[1].Text = "Yes";
+
                     if (e.Row.Cells[1].Text == "2")
                         e.Row.Cells[1].Text = "No";
+
                     if (e.Row.Cells[1].Text == "3")
                         e.Row.Cells[1].Text = "N/A";
+
             }
         }
 
