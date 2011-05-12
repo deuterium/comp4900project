@@ -77,7 +77,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
     <table id="tblEmployeeInfo">
         <tr>
             <td>Id:</td>
-            <td><asp:TextBox ID="tbxId" runat="server" Enabled="false" ></asp:TextBox></td>
+            <td><asp:TextBox ID="tbxId" runat="server" Enabled="false" BackColor="#E6E6E6" ></asp:TextBox></td>
             <td>Position:</td>
             <td>
                 <asp:DropDownList TabIndex="102" ID="ddlPositions" runat="server" OnSelectedIndexChanged="ddlPositions_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
@@ -169,7 +169,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     Text="Get Employee" onclick="btnGetEmployee_Click" />
             </td>
             <td>
-                <asp:Button TabIndex="1112" ID="btnCreateReport" runat="server" ValidationGroup="vgpEmpInfo"
+                <asp:Button TabIndex="1112" ID="btnCreateReport" runat="server" 
                     Text="Create Report" onclick="btnCreateReport_Click" />
             </td>
             
@@ -304,7 +304,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         ControlToValidate="tbxMedicalAidDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
         ErrorMessage="Medical Aid date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
     --%>
-    <asp:ValidationSummary ID="vdsPanelA" runat="server" ValidationGroup="vgpPanelA"
+    <asp:ValidationSummary ID="vsyPanelA" runat="server" ValidationGroup="vgpPanelA"
         DisplayMode="BulletList" />
 
 </asp:Panel>
@@ -378,7 +378,12 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 </asp:RadioButtonList>
             </td></tr>
             <tr><td>How many employees involved in activity at time of incident?</td></tr>
-            <tr><td><asp:TextBox TabIndex="132" ID="tbx_p2_patient_involved" runat="server" ></asp:TextBox></td></tr>
+            <tr><td>
+                <asp:TextBox TabIndex="132" ID="tbx_p1_numEmployeesInvolved" runat="server" ></asp:TextBox>
+                <asp:CompareValidator ID="cpvEmployeesInvolved" runat="server" ValidationGroup="vgpCInvestigation"
+                    ControlToValidate="tbx_p1_numEmployeesInvolved" Type="Integer" Operator="DataTypeCheck"
+                    ErrorMessage="The number of employees involved must be a whole number." ></asp:CompareValidator>
+            </td></tr>
         </table>
   
         <h5>Patient Care</h5>
@@ -439,6 +444,9 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <asp:TextBox TabIndex="135" ID="tbx_p2_activity_other" runat="server"></asp:TextBox>
             </td></tr>
         </table>
+        
+        <asp:ValidationSummary ID="vsyCInvestigation" runat="server" ValidationGroup="vgpCInvestigation" DisplayMode="BulletList" />
+
     </div>
 </asp:Panel>
 
@@ -462,7 +470,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         <table>
             <tr><td><asp:CheckBox TabIndex="138" ID="cbx_p2_cause_awkwardPosture" Text="Awkward Posture" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="138" ID="cbx_p2_cause_staticPosture" Text="Static Posture" runat="server"/></td></tr>
-            <tr><td><asp:CheckBox TabIndex="138" ID="cbx_p2_cause_contact" Text="Contact Stress" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox TabIndex="138" ID="cbx_p2_cause_contactStress" Text="Contact Stress" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="138" ID="cbx_p2_cause_force" Text="Force" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="138" ID="cbx_p2_cause_rep" Text="Repetition" runat="server"/></td></tr>
         </table>
@@ -509,7 +517,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
     <div id="divDRightPanel">
         <h5>Exposure</h5>
         <table>
-            <tr><td>Checmical Name: <asp:TextBox ID="tbxExposureChemical" runat="server"></asp:TextBox></td></tr>
+            <tr><td>Checmical Name: <asp:TextBox ID="tbx_p2_cause_exposure_chemName" runat="server"></asp:TextBox></td></tr>
             <tr><td><asp:CheckBox TabIndex="142" ID="cbx_p2_cause_chemInhalation" Text="Chemical Inhalation" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="142" ID="cbx_p2_cause_chemIngest" Text="Chemical Ingestion" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="142" ID="cbx_p2_cause_chemContact" Text="Chemical Skin / Eye Contact" runat="server"/></td></tr>
@@ -580,7 +588,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="146" ID="cbx_p2_factors_directions" Text="Unable to Follow Directions" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="146" ID="cbx_p2_factors_weight" Text="Inconsistent Weight Bearing" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="146" ID="cbx_p2_factors_aggressive" Text="Patient Aggressive" runat="server"/></td></tr>
-            <tr><td><asp:CheckBox TabIndex="146" ID="cbx_p2_factors_resistive" Text="Patient Resistive" runat="server"/></td></tr>
+            <tr><td><asp:CheckBox TabIndex="146" ID="cbx_p2_factors_patientResistive" Text="Patient Resistive" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="146" ID="cbx_p2_factors_movement" Text="Made Unexpected Movement" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="146" ID="cbx_p2_factors_confused" Text="Confused / Dementia" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="146" ID="cbx_p2_factors_influence" Text="Under Influence of Drugs / Alcohol" runat="server"/></td></tr>
@@ -850,9 +858,10 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         </td>
     </tr>
 
-    <asp:ValidationSummary ID="vsyGRelative" runat="server" ValidationGroup="vgpGRelevant" DisplayMode="BulletList" />
-
 </table>
+
+<asp:ValidationSummary ID="vsyGRelative" runat="server" ValidationGroup="vgpGRelevant" DisplayMode="BulletList" />
+
 </asp:Panel>
 
 <h3 id="hr3H"><asp:Image ID="imgExpandCollapseH" runat="server" /> H. Managers Report <asp:Label ID="ExpandCollapseH" runat="server" Text=""></asp:Label></h3>
@@ -933,6 +942,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         </td>
     </tr>
     </table>
+
+    <asp:ValidationSummary ID="vsyHManagers" runat="server" ValidationGroup="vgpHManagers" DisplayMode="BulletList" />
 
 </asp:Panel>
 </div>
