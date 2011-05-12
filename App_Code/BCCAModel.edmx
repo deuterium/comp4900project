@@ -42,7 +42,7 @@
       [TrainingTaken].[trainingNo] AS [trainingNo], 
       [TrainingTaken].[startDate] AS [startDate], 
       [TrainingTaken].[endDate] AS [endDate], 
-      [TrainingTaken].[active] AS [active], 
+      [TrainingTaken].[completed] AS [completed], 
       [TrainingTaken].[evaluation] AS [evaluation], 
       [TrainingTaken].[biosafety_BSCSeminar] AS [biosafety_BSCSeminar], 
       [TrainingTaken].[SOPsigned] AS [SOPsigned], 
@@ -467,13 +467,12 @@
           <Key>
             <PropertyRef Name="empNo" />
             <PropertyRef Name="trainingNo" />
-            <PropertyRef Name="active" />
           </Key>
           <Property Name="empNo" Type="int" Nullable="false" />
           <Property Name="trainingNo" Type="int" Nullable="false" />
           <Property Name="startDate" Type="datetime" />
           <Property Name="endDate" Type="datetime" />
-          <Property Name="active" Type="decimal" Nullable="false" Precision="1" />
+          <Property Name="completed" Type="int" />
           <Property Name="evaluation" Type="char" MaxLength="1" />
           <Property Name="biosafety_BSCSeminar" Type="datetime" />
           <Property Name="SOPsigned" Type="char" MaxLength="1" />
@@ -1126,13 +1125,12 @@
           <Key>
             <PropertyRef Name="empNo" />
             <PropertyRef Name="trainingNo" />
-            <PropertyRef Name="active" />
           </Key>
           <Property Name="empNo" Type="Int32" Nullable="false" />
           <Property Name="trainingNo" Type="Int32" Nullable="false" />
           <Property Name="startDate" Type="DateTime" />
           <Property Name="endDate" Type="DateTime" />
-          <Property Name="active" Type="Decimal" Nullable="false" Precision="1" Scale="0" />
+          <Property Name="completed" Type="Int32" />
           <Property Name="evaluation" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="biosafety_BSCSeminar" Type="DateTime" />
           <Property Name="SOPsigned" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -1640,7 +1638,7 @@
             <ScalarProperty Name="trainingNo" ColumnName="trainingNo" />
             <ScalarProperty Name="startDate" ColumnName="startDate" />
             <ScalarProperty Name="endDate" ColumnName="endDate" />
-            <ScalarProperty Name="active" ColumnName="active" />
+            <ScalarProperty Name="completed" ColumnName="completed" />
             <ScalarProperty Name="evaluation" ColumnName="evaluation" />
             <ScalarProperty Name="biosafety_BSCSeminar" ColumnName="biosafety_BSCSeminar" />
             <ScalarProperty Name="SOPsigned" ColumnName="SOPsigned" />

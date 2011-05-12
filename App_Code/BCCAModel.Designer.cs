@@ -8009,13 +8009,11 @@ namespace BCCAModel
         /// </summary>
         /// <param name="empNo">Initial value of the empNo property.</param>
         /// <param name="trainingNo">Initial value of the trainingNo property.</param>
-        /// <param name="active">Initial value of the active property.</param>
-        public static TrainingTaken CreateTrainingTaken(global::System.Int32 empNo, global::System.Int32 trainingNo, global::System.Decimal active)
+        public static TrainingTaken CreateTrainingTaken(global::System.Int32 empNo, global::System.Int32 trainingNo)
         {
             TrainingTaken trainingTaken = new TrainingTaken();
             trainingTaken.empNo = empNo;
             trainingTaken.trainingNo = trainingNo;
-            trainingTaken.active = active;
             return trainingTaken;
         }
 
@@ -8127,29 +8125,26 @@ namespace BCCAModel
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.Decimal active
+        public Nullable<global::System.Int32> completed
         {
             get
             {
-                return _active;
+                return _completed;
             }
             set
             {
-                if (_active != value)
-                {
-                    OnactiveChanging(value);
-                    ReportPropertyChanging("active");
-                    _active = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("active");
-                    OnactiveChanged();
-                }
+                OncompletedChanging(value);
+                ReportPropertyChanging("completed");
+                _completed = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("completed");
+                OncompletedChanged();
             }
         }
-        private global::System.Decimal _active;
-        partial void OnactiveChanging(global::System.Decimal value);
-        partial void OnactiveChanged();
+        private Nullable<global::System.Int32> _completed;
+        partial void OncompletedChanging(Nullable<global::System.Int32> value);
+        partial void OncompletedChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
