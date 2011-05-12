@@ -255,6 +255,10 @@ public partial class Admin_Default : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// Clears the values of the textboxes of any previous User informaiton 
+    /// that is not needed in the tbs after creating or deleting an User.
+    /// </summary>
     protected void User_Pass_Clear()
     {
         tbUsername.Text = String.Empty;
@@ -266,7 +270,8 @@ public partial class Admin_Default : System.Web.UI.Page
     #region Dropdown Menu Management
 
     /// <summary>
-    /// TODO---------------------------------------------------------------------------------------------------------------------------
+    /// By default the selection of the radio button list for editing of Drop downs is set to Departments
+    /// This method allows on the first page load for the departments to be populated into the listbox.
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
@@ -279,7 +284,9 @@ public partial class Admin_Default : System.Web.UI.Page
     }
 
     /// <summary>
-    /// TODO---------------------------------------------------------------------------------------------------------------------------
+    /// Populates the listbox for the selected value from the radio button list
+    /// of drop down menu types. Selection also changes to text on a few labels
+    /// and the create and delete buttons for this portion of the Admin page.
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
@@ -299,7 +306,7 @@ public partial class Admin_Default : System.Web.UI.Page
                 throw new System.SystemException("Default case of switch should never be reached");
         }
 
-        //change listbox datasource here
+        //change button text to selected mode
         lblDropDownsDelete.Text = mode + " in system:";
         mode = mode.Substring(0, mode.Length - 1);
         lblDropDownsNew.Text = "Name of " + mode + " to add:";
@@ -340,10 +347,12 @@ public partial class Admin_Default : System.Web.UI.Page
     }
 
     /// <summary>
-    /// TODO---------------------------------------------------------------------------------------------------------------------------
+    /// Used for the creation of Drop down menu items. What is created is dependant on what
+    /// mode the drop down menu radio button list is in. Once the object is created it is 
+    /// submitted to the database. A popup overlay is displayed on success and on error.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void btnDropDownsNew_Click(object sender, EventArgs e)
     {
         switch (rblDropDownEdit.SelectedValue)
@@ -389,10 +398,13 @@ public partial class Admin_Default : System.Web.UI.Page
     }
 
     /// <summary>
-    /// TODO---------------------------------------------------------------------------------------------------------------------------
+    /// Used for the deletion of Drop down menu items as per the selected value in the listbox.
+    /// What is deletd is dependant on what mode the drop down menu radio button list is in. 
+    /// Once the object is created it is submitted to the database. 
+    /// A popup overlay is displayed on success and on error.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void btnDropDownsDelete_Click(object sender, EventArgs e)
     {
         switch (rblDropDownEdit.SelectedValue)
@@ -434,6 +446,8 @@ public partial class Admin_Default : System.Web.UI.Page
     #endregion
 
     #region Course Management
+
+
     #endregion
 
 
