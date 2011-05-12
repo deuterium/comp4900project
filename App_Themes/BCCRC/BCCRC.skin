@@ -37,7 +37,7 @@ Safety Training Database and Website
 <asp:RequiredFieldValidator runat="server" Text="*" ForeColor="Red">
 </asp:RequiredFieldValidator>
 
-<asp:ValidationSummary runat="server" ForeColor="Red" DisplayMode="BulletList" />
+<asp:ValidationSummary runat="server" ForeColor="Red" />
 
 <asp:GridView CssClass="GridViewStyle" runat="server" >
     <FooterStyle CssClass="GridViewFooterStyle" />
