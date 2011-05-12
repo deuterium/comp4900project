@@ -76,7 +76,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
 
 <div>
 
-    <h3 id="labA"><asp:Image ID="imgExpandCollapseA" runat="server" /> A. Department <asp:Label ID="ExpandCollapseA" runat="server" Text=""></asp:Label></h3>
+    <h3 id="labA"><asp:Image ID="imgExpandCollapseA" runat="server" />
+    A. Department <asp:Label ID="ExpandCollapseA" runat="server" Text=""></asp:Label></h3>
     <asp:Panel ID="pnlA" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -143,7 +144,10 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <h3 id="labB"><asp:Image ID="imgExpandCollapseB" runat="server" /> B. Emergency & Information Material <asp:Label ID="ExpandCollapseB" runat="server" Text=""></asp:Label></h3>
+    <h3 id="labB"><asp:Image ID="imgExpandCollapseB" runat="server" />
+    B. Emergency & Information Material <asp:Label ID="ExpandCollapseB" runat="server" Text="" />
+    <asp:Label ID="lblValB" runat="server" Text="" />
+    </h3>
     <asp:Panel ID="pnlB" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -180,7 +184,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 
             </td>
             <td>
-                &nbsp&nbsp<asp:RequiredFieldValidator ControlToValidate="rblFireEvac" runat="server" ID="rfvFireEvac" Text="*"></asp:RequiredFieldValidator>&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblFireEvac" ValidationGroup="vgpLab" runat="server" ID="rfvFireEvac" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFireEvac"></asp:TextBox>
@@ -198,7 +204,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblFireExtinguish" ValidationGroup="vgpLab" runat="server" ID="rfvFireExtinguish" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFireExtinguish"></asp:TextBox>
@@ -216,7 +224,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblBloodandBody" ValidationGroup="vgpLab" runat="server" ID="rfvBloodandBody" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBloodandBody"></asp:TextBox>
@@ -234,7 +244,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblInjuryonDuty" ValidationGroup="vgpLab" runat="server" ID="rfvInjuryonDuty" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentInjuryonDuty"></asp:TextBox>
@@ -252,7 +264,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblEmergencyNumber" ValidationGroup="vgpLab" runat="server" ID="rfvEmergencyNumber" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEmergencyNumber"></asp:TextBox>
@@ -270,7 +284,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblMSDS" ValidationGroup="vgpLab" runat="server" ID="rfvMSDS" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentMSDS"></asp:TextBox>
@@ -288,7 +304,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblEmergencyShower" ValidationGroup="vgpLab" runat="server" ID="rfvEmergencyShower" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEmergencyShower"></asp:TextBox>
@@ -306,7 +324,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblEmergencyShowerTest" ValidationGroup="vgpLab" runat="server" ID="rfvEmergencyShowerTest" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEmergencyShowerTest"></asp:TextBox>
@@ -324,7 +344,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblEyewash" ValidationGroup="vgpLab" runat="server" ID="rfvEyewash" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEyewash"></asp:TextBox>
@@ -342,7 +364,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblEyewashTest" ValidationGroup="vgpLab" runat="server" ID="rfvEyewashTest" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEyewashTest"></asp:TextBox>
@@ -360,7 +384,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblChemicalSpill" ValidationGroup="vgpLab" runat="server" ID="rfvChemicalSpill" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentChemicalSpill"></asp:TextBox>
@@ -378,7 +404,9 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 </asp:RadioButtonList>
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp
+                <asp:RequiredFieldValidator ControlToValidate="rblBiohazard" ValidationGroup="vgpLab" runat="server" ID="rfvBiohazard" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                &nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBiohazard"></asp:TextBox>
@@ -1489,7 +1517,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <asp:Button ID="btnLabInspectionSubmit" runat="server" Text="Submit" onclick="btnLabInspectionSubmit_Click" ValidationGroup="rfvFireEvac" />
+    <asp:Button ID="btnLabInspectionSubmit" runat="server" Text="Submit" onclick="btnLabInspectionSubmit_Click" />
 
 </div>
 
