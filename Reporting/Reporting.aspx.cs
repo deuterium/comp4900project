@@ -270,7 +270,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p1_action_medicalER = convertCheckbox(cbx_p1_action_medicalER),
             #endregion A_IncidentInfo
 
-            #region B_NatureOfInjury           
+            #region B_NatureOfInjury
             p1_nature_no = convertCheckbox(cbx_p1_nature_no),
             p1_nature_musculoskeletal = convertCheckbox(cbx_p1_nature_musculoskeletal),
             p1_nature_bruise = convertCheckbox(cbx_p1_nature_bruise),
@@ -462,156 +462,156 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             */
         };
 
-        #region A_IncidentInfo_Dates
-        if (!tbx_p1_action_medicalER_date.Text.Equals(String.Empty)) {
-            DateTime dateMedicalER = Convert.ToDateTime(tbx_p1_action_medicalER_date.Text);
-            report.p1_action_medicalER_date = dateMedicalER;
-        }
+        //#region A_IncidentInfo_Dates
+        //if (!tbx_p1_action_medicalER_date.Text.Equals(String.Empty)) {
+        //    DateTime dateMedicalER = Convert.ToDateTime(tbx_p1_action_medicalER_date.Text);
+        //    report.p1_action_medicalER_date = dateMedicalER;
+        //}
 
-        if (!tbx_p1_action_medicalGP_date.Text.Equals(String.Empty)) {
-            DateTime dateMedicalGP = Convert.ToDateTime(tbx_p1_action_medicalGP_date.Text);
-            report.p1_action_medicalGP_date = dateMedicalGP;
-        }
-        #endregion A_IncidentInfo_Dates
+        //if (!tbx_p1_action_medicalGP_date.Text.Equals(String.Empty)) {
+        //    DateTime dateMedicalGP = Convert.ToDateTime(tbx_p1_action_medicalGP_date.Text);
+        //    report.p1_action_medicalGP_date = dateMedicalGP;
+        //}
+        //#endregion A_IncidentInfo_Dates
 
-        #region C_AccidentInvestigation_PatientHandling
-        if (!tbx_p1_numEmployeesInvolved.Text.Equals(String.Empty)) {
-            try {
-                report.p1_numEmployeesInvolved = Convert.ToInt32(tbx_p1_numEmployeesInvolved.Text);
-            }
-            catch (FormatException) {
-                setResultMsg("The number of employees involved (in Patient Handling of Section C) must be a number.", FailColour);
-                return null;
-            }
-        }
-        #endregion C_AccidentInvestigation_PatientHandling
+        //#region C_AccidentInvestigation_PatientHandling
+        //if (!tbx_p1_numEmployeesInvolved.Text.Equals(String.Empty)) {
+        //    try {
+        //        report.p1_numEmployeesInvolved = Convert.ToInt32(tbx_p1_numEmployeesInvolved.Text);
+        //    }
+        //    catch (FormatException) {
+        //        setResultMsg("The number of employees involved (in Patient Handling of Section C) must be a number.", FailColour);
+        //        return null;
+        //    }
+        //}
+        //#endregion C_AccidentInvestigation_PatientHandling
 
-        #region F_CorrectiveAction_Dates
-        if (!tbx_p2_corrective_personDate.Text.Equals(String.Empty)) {
-            DateTime dateCorrectivePerson = Convert.ToDateTime(tbx_p2_corrective_personDate.Text);
-            report.p2_corrective_personDate = dateCorrectivePerson;
-        }
+        //#region F_CorrectiveAction_Dates
+        //if (!tbx_p2_corrective_personDate.Text.Equals(String.Empty)) {
+        //    DateTime dateCorrectivePerson = Convert.ToDateTime(tbx_p2_corrective_personDate.Text);
+        //    report.p2_corrective_personDate = dateCorrectivePerson;
+        //}
 
-        if (!tbx_p2_corrective_maintenanceDate.Text.Equals(String.Empty)) {
-            DateTime dateMaintenance = Convert.ToDateTime(tbx_p2_corrective_maintenanceDate.Text);
-            report.p2_corrective_maintenanceDate = dateMaintenance;
-        }
+        //if (!tbx_p2_corrective_maintenanceDate.Text.Equals(String.Empty)) {
+        //    DateTime dateMaintenance = Convert.ToDateTime(tbx_p2_corrective_maintenanceDate.Text);
+        //    report.p2_corrective_maintenanceDate = dateMaintenance;
+        //}
         
-        if (!tbx_p2_corrective_communicatedDate.Text.Equals(String.Empty)) {
-            DateTime dateCommunicated = Convert.ToDateTime(tbx_p2_corrective_communicatedDate.Text);
-            report.p2_corrective_communicatedDate = dateCommunicated;
-        }
+        //if (!tbx_p2_corrective_communicatedDate.Text.Equals(String.Empty)) {
+        //    DateTime dateCommunicated = Convert.ToDateTime(tbx_p2_corrective_communicatedDate.Text);
+        //    report.p2_corrective_communicatedDate = dateCommunicated;
+        //}
         
-        if (!tbx_p2_corrective_timeDate.Text.Equals(String.Empty)) {
-            DateTime dateTimeLoss = Convert.ToDateTime(tbx_p2_corrective_timeDate.Text);
-            report.p2_corrective_timeDate = dateTimeLoss;
-        }
-        #endregion F_CorrectiveAction_Dates
+        //if (!tbx_p2_corrective_timeDate.Text.Equals(String.Empty)) {
+        //    DateTime dateTimeLoss = Convert.ToDateTime(tbx_p2_corrective_timeDate.Text);
+        //    report.p2_corrective_timeDate = dateTimeLoss;
+        //}
+        //#endregion F_CorrectiveAction_Dates
 
-        #region G_FollowUp_Dates
-        if (!tbx_p2_corrective_writtenTargetDate.Text.Equals(String.Empty)) {
-            DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenTargetDate.Text);
-            report.p2_corrective_writtenTargetDate = writtenDate;
-        }
+        //#region G_FollowUp_Dates
+        //if (!tbx_p2_corrective_writtenTargetDate.Text.Equals(String.Empty)) {
+        //    DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenTargetDate.Text);
+        //    report.p2_corrective_writtenTargetDate = writtenDate;
+        //}
 
-        if (!tbx_p2_corrective_educationTargetDate.Text.Equals(String.Empty)) {
-            DateTime educationDate = Convert.ToDateTime(tbx_p2_corrective_educationTargetDate.Text);
-            report.p2_corrective_educationTargetDate = educationDate;
-        }
+        //if (!tbx_p2_corrective_educationTargetDate.Text.Equals(String.Empty)) {
+        //    DateTime educationDate = Convert.ToDateTime(tbx_p2_corrective_educationTargetDate.Text);
+        //    report.p2_corrective_educationTargetDate = educationDate;
+        //}
 
-        if (!tbx_p2_corrective_equipmentTargetDate.Text.Equals(String.Empty)) {
-            DateTime equipmentDate = Convert.ToDateTime(tbx_p2_corrective_equipmentTargetDate.Text);
-            report.p2_corrective_equipmentTargetDate = equipmentDate;
-        }
+        //if (!tbx_p2_corrective_equipmentTargetDate.Text.Equals(String.Empty)) {
+        //    DateTime equipmentDate = Convert.ToDateTime(tbx_p2_corrective_equipmentTargetDate.Text);
+        //    report.p2_corrective_equipmentTargetDate = equipmentDate;
+        //}
 
-        if (!tbx_p2_corrective_environmentTargetDate.Text.Equals(String.Empty)) {
-            DateTime environmentDate = Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text);
-            report.p2_corrective_environmentTargetDate = environmentDate;
-        }
+        //if (!tbx_p2_corrective_environmentTargetDate.Text.Equals(String.Empty)) {
+        //    DateTime environmentDate = Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text);
+        //    report.p2_corrective_environmentTargetDate = environmentDate;
+        //}
 
-        if (!tbx_p2_corrective_patientTargetDate.Text.Equals(String.Empty)) {
-            DateTime patientDate = Convert.ToDateTime(tbx_p2_corrective_patientTargetDate.Text);
-            report.p2_corrective_patientTargetDate = patientDate;
-        }
-        #endregion G_FollowUp_Dates
+        //if (!tbx_p2_corrective_patientTargetDate.Text.Equals(String.Empty)) {
+        //    DateTime patientDate = Convert.ToDateTime(tbx_p2_corrective_patientTargetDate.Text);
+        //    report.p2_corrective_patientTargetDate = patientDate;
+        //}
+        //#endregion G_FollowUp_Dates
 
-        #region H_FixedShiftRotation
+        //#region H_FixedShiftRotation
 
-        #region H_FixedShiftRotation_Week1
-        if (!tbx_p2_manager_week1_sun.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sun.Text);
-            report.p2_manager_week1_sun = d;
-        }
+        //#region H_FixedShiftRotation_Week1
+        //if (!tbx_p2_manager_week1_sun.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sun.Text);
+        //    report.p2_manager_week1_sun = d;
+        //}
 
-        if (!tbx_p2_manager_week1_mon.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_mon.Text);
-            report.p2_manager_week1_mon = d;
-        }
+        //if (!tbx_p2_manager_week1_mon.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_mon.Text);
+        //    report.p2_manager_week1_mon = d;
+        //}
         
-        if (!tbx_p2_manager_week1_tue.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_tue.Text);
-            report.p2_manager_week1_wed = d;
-        }
+        //if (!tbx_p2_manager_week1_tue.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_tue.Text);
+        //    report.p2_manager_week1_wed = d;
+        //}
 
-        if (!tbx_p2_manager_week1_wed.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_wed.Text);
-            report.p2_manager_week1_sun = d;
-        }
+        //if (!tbx_p2_manager_week1_wed.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_wed.Text);
+        //    report.p2_manager_week1_sun = d;
+        //}
 
-        if (!tbx_p2_manager_week1_thu.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_thu.Text);
-            report.p2_manager_week1_thu = d;
-        }
+        //if (!tbx_p2_manager_week1_thu.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_thu.Text);
+        //    report.p2_manager_week1_thu = d;
+        //}
 
-        if (!tbx_p2_manager_week1_fri.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_fri.Text);
-            report.p2_manager_week1_fri = d;
-        }
+        //if (!tbx_p2_manager_week1_fri.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_fri.Text);
+        //    report.p2_manager_week1_fri = d;
+        //}
         
-        if (!tbx_p2_manager_week1_sat.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sat.Text);
-            report.p2_manager_week1_sat = d;
-        }
-        #endregion H_FixedShiftRotation_Week1
+        //if (!tbx_p2_manager_week1_sat.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sat.Text);
+        //    report.p2_manager_week1_sat = d;
+        //}
+        //#endregion H_FixedShiftRotation_Week1
 
-        #region H_FixedShiftRotation_Week2
-        if (!tbx_p2_manager_week2_sun.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_sun.Text);
-            report.p2_manager_week2_sun = d;
-        }
+        //#region H_FixedShiftRotation_Week2
+        //if (!tbx_p2_manager_week2_sun.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_sun.Text);
+        //    report.p2_manager_week2_sun = d;
+        //}
 
-        if (!tbx_p2_manager_week2_mon.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_mon.Text);
-            report.p2_manager_week2_mon = d;
-        }
+        //if (!tbx_p2_manager_week2_mon.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_mon.Text);
+        //    report.p2_manager_week2_mon = d;
+        //}
 
-        if (!tbx_p2_manager_week2_tue.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_tue.Text);
-            report.p2_manager_week2_wed = d;
-        }
+        //if (!tbx_p2_manager_week2_tue.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_tue.Text);
+        //    report.p2_manager_week2_wed = d;
+        //}
 
-        if (!tbx_p2_manager_week2_wed.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_wed.Text);
-            report.p2_manager_week2_sun = d;
-        }
+        //if (!tbx_p2_manager_week2_wed.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_wed.Text);
+        //    report.p2_manager_week2_sun = d;
+        //}
 
-        if (!tbx_p2_manager_week2_thu.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_thu.Text);
-            report.p2_manager_week2_thu = d;
-        }
+        //if (!tbx_p2_manager_week2_thu.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_thu.Text);
+        //    report.p2_manager_week2_thu = d;
+        //}
 
-        if (!tbx_p2_manager_week2_fri.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_fri.Text);
-            report.p2_manager_week2_fri = d;
-        }
+        //if (!tbx_p2_manager_week2_fri.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_fri.Text);
+        //    report.p2_manager_week2_fri = d;
+        //}
 
-        if (!tbx_p2_manager_week2_sat.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_sat.Text);
-            report.p2_manager_week2_sat = d;
-        }
-        #endregion H_FixedShiftRotation_Week2
+        //if (!tbx_p2_manager_week2_sat.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_sat.Text);
+        //    report.p2_manager_week2_sat = d;
+        //}
+        //#endregion H_FixedShiftRotation_Week2
 
-        #endregion H_FixedShiftRotation
+        //#endregion H_FixedShiftRotation
 
         try {
             ctx.AddToIncidents(report);
