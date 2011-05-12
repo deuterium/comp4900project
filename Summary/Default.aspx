@@ -75,7 +75,7 @@ Summary Page:
     </table>
         <asp:ValidationSummary ID="vsuInspectionLookUp" ValidationGroup="vgrInspectionLookUp" runat="server" />
         <asp:GridView ID="grvLabInspections" runat="server" AutoGenerateColumns="False"
-            autogenerateselectbutton="True" DataKeyNames="labInsNo"> <%--DataSourceID="edsLabInspections">--%>
+            autogenerateselectbutton="True" DataKeyNames="labInsNo" onselectedindexchanged="grvLabInspections_SelectedIndexChanged">
             <Columns>
                 <asp:BoundField DataField="labInsNo" HeaderText="Lab Inspection #" ReadOnly="True" 
                     SortExpression="labInsNo" />

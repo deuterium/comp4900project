@@ -57,43 +57,55 @@ public partial class Summary_Default : System.Web.UI.Page
                                                                                 || (LI.labMgr == labManager));
         grvLabInspections.DataBind();
 
-        grvLabInspectionResults.DataSource = ctx.LabInspections
-                                   .Join(
-                                      ctx.LabInspectionDetails,
-                                      LI => LI.labInsNo,
-                                      LID => LID.labInsNo,
-                                      (LI, LID) =>
-                                         new
-                                         {
-                                             LI = LI,
-                                             LID = LID
-                                         }
-                                   )
-                                   .Join(
-                                      ctx.LabInspectionItems,
-                                      temp0 => temp0.LID.labItemNo,
-                                      LII => (Int32?)(LII.labInsItemNo),
-                                      (temp0, LII) =>
-                                         new
-                                         {
-                                             temp0 = temp0,
-                                             LII = LII
-                                         }
-                                   )
-                                   .Where(temp1 => (temp1.temp0.LI.labInsNo == 5))
-                                   .Select(
-                                      temp1 =>
-                                         new
-                                         {
-                                             labInsItem = temp1.LII.labInsItem,
-                                             checkbox = temp1.temp0.LID.checkbox,
-                                             comments = temp1.temp0.LID.comments
-                                         }
-                                   );
-        
-        grvLabInspectionResults.DataBind();
     }
     #endregion
+
+    protected void grvLabInspections_SelectedIndexChanged(Object sender, EventArgs e)
+    {
+
+        // Get the currently selected row using the SelectedRow property.
+        GridViewRow row = grvLabInspections.SelectedRow;
+        row.Cells[1].Text.ToString();
+        int selectedLabInsNo = Convert.ToInt32(row.Cells[1].Text);
+
+        grvLabInspectionResults.DataSource = ctx.LabInspections
+                                  .Join(
+                                     ctx.LabInspectionDetails,
+                                     LI => LI.labInsNo,
+                                     LID => LID.labInsNo,
+                                     (LI, LID) =>
+                                        new
+                                        {
+                                            LI = LI,
+                                            LID = LID
+                                        }
+                                  )
+                                  .Join(
+                                     ctx.LabInspectionItems,
+                                     temp0 => temp0.LID.labItemNo,
+                                     LII => (Int32?)(LII.labInsItemNo),
+                                     (temp0, LII) =>
+                                        new
+                                        {
+                                            temp0 = temp0,
+                                            LII = LII
+                                        }
+                                  )
+                                  .Where(temp1 => (temp1.temp0.LI.labInsNo == selectedLabInsNo))
+                                  .Select(
+                                     temp1 =>
+                                        new
+                                        {
+                                            labInsItem = temp1.LII.labInsItem,
+                                            checkbox = temp1.temp0.LID.checkbox,
+                                            comments = temp1.temp0.LID.comments
+                                        }
+                                  );
+
+        grvLabInspectionResults.DataBind();
+
+    }
+
 
     protected void grvLabInspectionResults_DataBinding(object sender, GridViewRowEventArgs e)
     {
