@@ -9,7 +9,7 @@ using System.Data;
 using System.Drawing;
 
 /** TO DO:
- * fix time regex (see sample forms) --> make a up/down arrow clock
+ * fix time regex (see sample forms) --> make a up/down arrow clock (NumericUpDown)
  * fix table style (when you select Other from DDL)
  * make clear all and clear individual form buttons
  * add regex validator to phone
@@ -24,8 +24,15 @@ using System.Drawing;
  * put results msg in update panel triggered by btn click (so it disappears eveyr time you click submit)
  **/
 
+/// <summary>
+/// Class:   Reporting/Reporting.aspx.cs Code-Behind
+/// Project: BCIT COMP4900 2011
+///          BCCA Cancer Research Centre
+///          Safety Training Database and Website
+/// Authors: Lindsay Fester - lindsay.m.fester@gmail.com
+/// </summary>
 public partial class Reporting_Reporting : System.Web.UI.Page {
-    #region class variables
+    #region Class Variables
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
     // Text colour for failure messages
@@ -51,14 +58,20 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
     };
     #endregion class variables
 
+    #region Page Display
+
+    /// <summary>
+    /// Sets up the dynamic elements when the page loads for the first time.
+    /// Populates the Employer, Position, and Department drop down lists.
+    /// </summary>
+    /// <param name="sender">The object that requested the page load.</param>
+    /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e)
     {
+        // Only do the initial set up the first time the page loads (and not on post-backs).
         if (!IsPostBack) {
             GridView1.DataSource = ctx.Incidents;
             GridView1.DataBind();
-            
-            //ddlActionFollowing.DataSource = actionsFollowing;
-            //ddlActionFollowing.DataBind();
 
             ddlEmployers.DataSource = employers;
             ddlEmployers.DataBind();
@@ -67,6 +80,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             ddlDepartments.DataValueField = "deptNo";
             ddlDepartments.DataTextField = "deptName";
             ddlDepartments.DataBind();
+            ddlDepartments.Items.Insert(ddlDepartments.Items.Count, otherOption);
             ddlDepartments.Items.Insert(0, noOptionSpecified);
 
             ddlPositions.DataSource = ctx.Positions;
@@ -143,7 +157,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             setResultMsg("There was more than one employee with that first and last name.", FailColour);
         }
     }
-
+    
     /// <summary>
     /// Calls getEmployeeData(), which fetches the employee from the database using the employee's first and last name
     /// then populates the rest of the form with the employee's information.
@@ -154,41 +168,81 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
         setResultMsg(null, SuccessColour);
         getEmployeeData();
     }
-
+    
+    #region DropDownLists Textbox Toggle
     /// <summary>
-    /// Sets and displays the result message for the header form.
-    /// Using a null msg param will clear and hide the message.
+    /// Calls CheckEmployeeOption(), which displays a textbox if the "Other (specify)" option is selected
+    /// and hides the textbox if any other option is selected
     /// </summary>
-    /// <param name="msg">The message to display</param>
-    /// <param name="foreColour">The font colour of the message</param>
-    private void setResultMsg(String msg, Color foreColour) {
-        if (msg == null) {
-            lblResults.Text = String.Empty;
-            lblResults.Visible = false;
-        }
-        lblResults.Visible = true;
-        lblResults.ForeColor = foreColour;
-        lblResults.Text = msg;
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The index changed event.</param>
+    protected void ddlEmployers_SelectedIndexChanged(object sender, EventArgs e) {
+        CheckEmployeeOption();
     }
 
+    /// <summary>
+    /// Calls CheckPositionOption(), which displays a textbox if the "Other (specify)" option is selected
+    /// and hides the textbox if any other option is selected
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The index changed event.</param>
+    protected void ddlPositions_SelectedIndexChanged(object sender, EventArgs e) {
+        CheckPositionOption();
+    }
+
+    /// <summary>
+    /// Displays a textbox if the "Other (specify)" option of the positions drop down list is selected.
+    /// Hides the textbox if any other option is selected
+    /// </summary>
+    private void CheckPositionOption() {
+        if (ddlPositions.SelectedValue.Equals(otherOption)) {
+            tbxPosition.Visible = true;
+        }
+        else {
+            tbxPosition.Visible = false;
+        }
+    }
+
+    /// <summary>
+    /// Displays a textbox if the "Other (specify)" option of the employee drop down list is selected.
+    /// Hides the textbox if any other option is selected
+    /// </summary>
+    private void CheckEmployeeOption() {
+        if (ddlEmployers.SelectedValue.Equals(otherOption)) {
+            tbxEmployer.Visible = true;
+        }
+        else {
+            tbxEmployer.Visible = false;
+        }
+    }
+    #endregion DropDownLists
+
+    #endregion Page Display
+        
+    #region Create New Incident Report
+
+    /// <summary>
+    /// Calls the create report method, which creates and saves an Incident report in the database.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The button click event.</param>
     protected void btnCreateReport_Click(object sender, EventArgs e) {
         createReport();
     }
 
-    private void createReport() {
+    /// <summary>
+    /// Creates a new Incident report object (using the form fields) and saves it in the database.
+    /// Returns the new Incident report on success, null on failure.
+    /// </summary>
+    /// <returns>the newly created Incident report</returns>
+    private Incident createReport() {
         int empId = Convert.ToInt32(tbxId.Text);
         DateTime dateOfIncident = Convert.ToDateTime(tbx_p1_dateOfIncident.Text + " " + tbx_p1_timeOfIncident.Text);
         DateTime dateReported = Convert.ToDateTime(tbx_p1_dateReported.Text + " " + tbx_p1_timeReported.Text);
-        DateTime dateMedicalGP = Convert.ToDateTime(tbx_p1_action_medicalGP_date.Text);
-        DateTime dateMedicalER = Convert.ToDateTime(tbx_p1_action_medicalER_date.Text);
-        DateTime dateCorrectivePerson = Convert.ToDateTime(tbx_p2_corrective_personDate.Text);
-        DateTime dateMaintenance = Convert.ToDateTime(tbx_p2_corrective_maintenanceDate.Text);
-        DateTime dateCommunicated = Convert.ToDateTime(tbx_p2_corrective_communicatedDate.Text);
-        DateTime dateTimeLoss = Convert.ToDateTime(tbx_p2_corrective_timeDate.Text);
-        
-        String test = rbl_p2_patient_adequateAssist.SelectedValue;
-        
+       
         Incident report = new Incident {
+            
+            #region A_IncidentInfo
             empNo = empId,
             p1_dateOfIncident = dateOfIncident,
             p1_timeReported = dateReported,
@@ -197,14 +251,13 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p1_witnessPhone1 = tbx_p1_witnessPhone1.Text,
             p1_witnessName2 = tbx_p1_witnessName2.Text,
             p1_witnessPhone2 = tbx_p1_witnessPhone2.Text,
-
             p1_action_firstAid = convertCheckbox(cbx_p1_action_firstAid),
             p1_action_medicalGP = convertCheckbox(cbx_p1_action_medicalGP),
-            p1_action_medicalGP_date = dateMedicalGP,
             p1_action_lostTime = convertCheckbox(cbx_p1_action_lostTime),
             p1_action_medicalER = convertCheckbox(cbx_p1_action_medicalER),
-            p1_action_medicalER_date = dateMedicalER,
+            #endregion A_IncidentInfo
 
+            #region B_NatureOfInjury           
             p1_nature_no = convertCheckbox(cbx_p1_nature_no),
             p1_nature_musculoskeletal = convertCheckbox(cbx_p1_nature_musculoskeletal),
             p1_nature_bruise = convertCheckbox(cbx_p1_nature_bruise),
@@ -217,7 +270,9 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p1_nature_allergic = convertCheckbox(cbx_p1_nature_allergic),
             p1_nature_psychological = convertCheckbox(cbx_p1_nature_psychological),
             p1_nature_respiratory = convertCheckbox(cbx_p1_nature_respiratory),
+            #endregion B_NatureOfInjury
 
+            #region C_AccidentInvestigation
             p2_activity_no = convertCheckbox(cbx_p2_activity_no),
             p2_activity_repositioning = convertCheckbox(cbx_p2_activity_repositioning),
             p2_activity_transferring = convertCheckbox(cbx_p2_activity_transferring),
@@ -226,7 +281,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p2_activity_fall = convertCheckbox(cbx_p2_activity_fall),
             p2_activity_holding = convertCheckbox(cbx_p2_activity_holding),
             p2_activity_toileting = convertCheckbox(cbx_p2_activity_toileting),
-
+            
             p2_patient_celingLift = convertCheckbox(cbx_p2_patient_ceilingLift),
             p2_patient_sitStandLift = convertCheckbox(cbx_p2_patient_sitStandLift),
             p2_patient_floorLift = convertCheckbox(cbx_p2_patient_floorLift),
@@ -266,7 +321,9 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p2_activity_spill = convertCheckbox(cbx_p2_activity_spill),
             p2_activity_cleaning = convertCheckbox(cbx_p2_activity_cleaning),
             p2_activity_other = tbx_p2_activity_other.Text,
-            
+            #endregion C_AccidentInvestigation
+
+            #region D_Cause
             p2_cause_human = convertCheckbox(cbx_p2_cause_human),
             p2_cause_animal = convertCheckbox(cbx_p2_cause_animal),
 
@@ -312,7 +369,9 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p2_cause_radiation = convertCheckbox(cbx_p2_cause_radiation),
             p2_cause_elec = convertCheckbox(cbx_p2_cause_elec),
             p2_cause_air = convertCheckbox(cbx_p2_cause_air),
+            #endregion D_Cause
 
+            #region E_ContributingFactors
             p2_factors_malfunction = convertCheckbox(cbx_p2_factors_malfunction),
             p2_factors_improperUse = convertCheckbox(cbx_p2_factors_improperUse),
             p2_factors_signage = convertCheckbox(cbx_p2_factors_signage),
@@ -367,27 +426,187 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p2_factors_preexisting = convertCheckbox(cbx_p2_factors_preexisting),
             p2_factors_sick = convertCheckbox(cbx_p2_factors_sick),
             p2_factors_otherWorker = tbx_p2_factors_otherWorker.Text,
+            #endregion E_ContributingFactors
 
-            // ENDED HERE! FIX: may be null b/c not required!!!
+            #region F_CorrectiveAction
             p2_corrective_person = tbx_p2_corrective_person.Text,
-            p2_corrective_personDate = dateCorrectivePerson,
             p2_corrective_maintenance = convertRadioButtonList(rbl_p2_corrective_maintenance),
-            p2_corrective_maintenanceDate = dateMaintenance,
             p2_corrective_communicated = convertRadioButtonList(rbl_p2_corrective_communicated),
-            p2_corrective_communicatedDate = dateCommunicated,
             p2_corrective_time = convertRadioButtonList(rbl_p2_corrective_time),
-            p2_corrective_timeDate = dateTimeLoss,
+            #endregion F_CorrectiveAction
+
+            #region G_FollowUp
+            p2_corrective_written = tbx_p2_corrective_written.Text,
+            p2_corrective_education = tbx_p2_corrective_education.Text,
+            p2_corrective_equipment = tbx_p2_corrective_equipment.Text,
+            p2_corrective_environment = tbx_p2_corrective_environment.Text,
+            p2_corrective_patient = tbx_p2_corrective_patient.Text,
+            #endregion G_FollowUp
+
+            #region G_ManagersReport
+            p2_manager_previous = tbx_p2_manager_previous.Text,
+            p2_manager_objections = tbx_p2_manager_objections.Text,
+            p2_manager_alternative = tbx_p2_manager_alternative.Text,
+            #endregion G_ManagersReport
+
         };
+
+        #region A_IncidentInfo_Dates
+        if (!tbx_p1_action_medicalER_date.Text.Equals(String.Empty)) {
+            DateTime dateMedicalER = Convert.ToDateTime(tbx_p1_action_medicalER_date.Text);
+            report.p1_action_medicalER_date = dateMedicalER;
+        }
+
+        if (!tbx_p1_action_medicalGP_date.Text.Equals(String.Empty)) {
+            DateTime dateMedicalGP = Convert.ToDateTime(tbx_p1_action_medicalGP_date.Text);
+            report.p1_action_medicalGP_date = dateMedicalGP;
+        }
+        #endregion A_IncidentInfo_Dates
+
+        #region F_CorrectiveAction_Dates
+        if (!tbx_p2_corrective_personDate.Text.Equals(String.Empty)) {
+            DateTime dateCorrectivePerson = Convert.ToDateTime(tbx_p2_corrective_personDate.Text);
+            report.p2_corrective_personDate = dateCorrectivePerson;
+        }
+
+        if (!tbx_p2_corrective_maintenanceDate.Text.Equals(String.Empty)) {
+            DateTime dateMaintenance = Convert.ToDateTime(tbx_p2_corrective_maintenanceDate.Text);
+            report.p2_corrective_maintenanceDate = dateMaintenance;
+        }
+        
+        if (!tbx_p2_corrective_communicatedDate.Text.Equals(String.Empty)) {
+            DateTime dateCommunicated = Convert.ToDateTime(tbx_p2_corrective_communicatedDate.Text);
+            report.p2_corrective_communicatedDate = dateCommunicated;
+        }
+        
+        if (!tbx_p2_corrective_timeDate.Text.Equals(String.Empty)) {
+            DateTime dateTimeLoss = Convert.ToDateTime(tbx_p2_corrective_timeDate.Text);
+            report.p2_corrective_timeDate = dateTimeLoss;
+        }
+        #endregion F_CorrectiveAction_Dates
+
+        #region G_FollowUp_Dates
+        if (!tbx_p2_corrective_writtenTargetDate.Text.Equals(String.Empty)) {
+            DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenTargetDate.Text);
+            report.p2_corrective_writtentTargetDate = writtenDate;
+        }
+
+        if (!tbx_p2_corrective_educationTargetDate.Text.Equals(String.Empty)) {
+            DateTime educationDate = Convert.ToDateTime(tbx_p2_corrective_educationTargetDate.Text);
+            report.p2_corrective_educationTargetDate = educationDate;
+        }
+
+        if (!tbx_p2_corrective_equipmentTargetDate.Text.Equals(String.Empty)) {
+            DateTime equipmentDate = Convert.ToDateTime(tbx_p2_corrective_equipmentTargetDate.Text);
+            report.p2_corrective_equipmentTargetDate = equipmentDate;
+        }
+
+        if (!tbx_p2_corrective_environmentTargetDate.Text.Equals(String.Empty)) {
+            DateTime environmentDate = Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text);
+            report.p2_corrective_environmentTargetDate = environmentDate;
+        }
+
+        if (!tbx_p2_corrective_patientTargetDate.Text.Equals(String.Empty)) {
+            DateTime patientDate = Convert.ToDateTime(tbx_p2_corrective_patientTargetDate.Text);
+            report.p2_corrective_patientTargetDate = patientDate;
+        }
+        #endregion G_FollowUp_Dates
+
+        #region H_FixedShiftRotation
+
+        #region H_FixedShiftRotation_Week1
+        if (!tbx_p2_manager_week1_sun.Text.Equals(String.Empty)) {
+            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sun.Text);
+            report.p2_manager_week1_sun = d;
+        }
+
+        if (!tbx_p2_manager_week1_mon.Text.Equals(String.Empty)) {
+            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_mon.Text);
+            report.p2_manager_week1_mon = d;
+        }
+        
+        if (!tbx_p2_manager_week1_tue.Text.Equals(String.Empty)) {
+            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_tue.Text);
+            report.p2_manager_week1_wed = d;
+        }
+
+        if (!tbx_p2_manager_week1_wed.Text.Equals(String.Empty)) {
+            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_wed.Text);
+            report.p2_manager_week1_sun = d;
+        }
+
+        if (!tbx_p2_manager_week1_thu.Text.Equals(String.Empty)) {
+            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_thu.Text);
+            report.p2_manager_week1_thu = d;
+        }
+
+        if (!tbx_p2_manager_week1_fri.Text.Equals(String.Empty)) {
+            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_fri.Text);
+            report.p2_manager_week1_fri = d;
+        }
+        
+        if (!tbx_p2_manager_week1_sat.Text.Equals(String.Empty)) {
+            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sat.Text);
+            report.p2_manager_week1_sat = d;
+        }
+        #endregion H_FixedShiftRotation_Week1
+
+        #region H_FixedShiftRotation_Week2
+        if (!tbx_p2_manager_week2_sun.Text.Equals(String.Empty)) {
+            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_sun.Text);
+            report.p2_manager_week2_sun = d;
+        }
+
+        if (!tbx_p2_manager_week2_mon.Text.Equals(String.Empty)) {
+            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_mon.Text);
+            report.p2_manager_week2_mon = d;
+        }
+
+        if (!tbx_p2_manager_week2_tue.Text.Equals(String.Empty)) {
+            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_tue.Text);
+            report.p2_manager_week2_wed = d;
+        }
+
+        if (!tbx_p2_manager_week2_wed.Text.Equals(String.Empty)) {
+            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_wed.Text);
+            report.p2_manager_week2_sun = d;
+        }
+
+        if (!tbx_p2_manager_week2_thu.Text.Equals(String.Empty)) {
+            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_thu.Text);
+            report.p2_manager_week2_thu = d;
+        }
+
+        if (!tbx_p2_manager_week2_fri.Text.Equals(String.Empty)) {
+            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_fri.Text);
+            report.p2_manager_week2_fri = d;
+        }
+
+        if (!tbx_p2_manager_week2_sat.Text.Equals(String.Empty)) {
+            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_sat.Text);
+            report.p2_manager_week2_sat = d;
+        }
+        #endregion H_FixedShiftRotation_Week2
+
+        #endregion H_FixedShiftRotation
 
         try {
             ctx.AddToIncidents(report);
             ctx.SaveChanges();
+            return report;
         } catch (Exception ex) {
             setResultMsg(ex.StackTrace, FailColour);
+            return null;
         }
-        
     }
-
+    
+    /// <summary>
+    /// Converts a radio button list into a String value the database can accept.
+    /// If no value is selected or the value is unknown or N/A, returns null.
+    /// Otherwise, returns the value as a String ("1" for yes, "0" for no).
+    /// </summary>
+    /// <param name="cbx">The CheckBox to convert.</param>
+    /// <returns>String: 1 for yes/checked. Null: for no/unchecked.</returns>
     private String convertCheckbox(CheckBox cbx) {
         if (!cbx.Checked) {
             return null;
@@ -395,6 +614,13 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
         return "1";
     }
 
+    /// <summary>
+    /// Converts a radio button list into a String value the database can accept.
+    /// If no value is selected or the value is unknown or N/A, returns null.
+    /// Otherwise, returns the value as a String ("1" for yes, "0" for no).
+    /// </summary>
+    /// <param name="rbl">The radio button list to convert.</param>
+    /// <returns>String: 1 for yes, 0 for no. Null: for N/A or Unknown or no selection made.</returns>
     private String convertRadioButtonList(RadioButtonList rbl) {
         if ((rbl.SelectedValue == null) || rbl.SelectedValue.Equals("Null")) {
             return null;
@@ -403,41 +629,21 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
         }
     }
 
-    #region DropDownLists
-    /// <summary>
-    /// Calls CheckEmployeeOption(), which displays a textbox if the "Other (specify)" option is selected
-    /// and hides the textbox if any other option is selected
-    /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void ddlEmployers_SelectedIndexChanged(object sender, EventArgs e) {
-        CheckEmployeeOption();
-    }
+    #endregion Create New Incident Report
 
     /// <summary>
-    /// Calls CheckPositionOption(), which displays a textbox if the "Other (specify)" option is selected
-    /// and hides the textbox if any other option is selected
+    /// Sets and displays the result message for the header form.
+    /// Using a null msg param will clear and hide the message.
     /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void ddlPositions_SelectedIndexChanged(object sender, EventArgs e) {
-        CheckPositionOption();
-    }
-
-    private void CheckPositionOption() {
-        if (ddlPositions.SelectedValue.Equals(otherOption)) {
-            tbxPosition.Visible = true;
-        } else {
-            tbxPosition.Visible = false;
+    /// <param name="msg">The message to display</param>
+    /// <param name="foreColour">The font colour of the message</param>
+    private void setResultMsg(String msg, Color foreColour) {
+        if (msg == null) {
+            lblResults.Text = String.Empty;
+            lblResults.Visible = false;
         }
+        lblResults.Visible = true;
+        lblResults.ForeColor = foreColour;
+        lblResults.Text = msg;
     }
-
-    private void CheckEmployeeOption() {
-        if (ddlEmployers.SelectedValue.Equals(otherOption)) {
-            tbxEmployer.Visible = true;
-        } else {
-            tbxEmployer.Visible = false;
-        }
-    }
-    #endregion DropDownLists
 }

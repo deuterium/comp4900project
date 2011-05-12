@@ -280,6 +280,20 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         ControlToValidate="tbx_p1_timeReported" ValidationExpression="^((([01]?[0-9]{1}|[2]{1}[0-3]{1}){1}(:[0-5]{1}[0-9]{1}){1})|(([0]?[0-9]{1}|[1]{1}[012]{1}){1}(:[0-5]{1}[0-9]{1})? ?(am|AM|pm|PM){1}))$" 
         ErrorMessage="Time reported must be in one of the following formats: H pm, H:MM AM, HH:MM"></asp:RegularExpressionValidator>
 
+        
+    <asp:RegularExpressionValidator ID="revWitnessName1" runat="server" ValidationGroup="vgpPanelA"
+        ControlToValidate="tbx_p1_witnessName1" ErrorMessage="Witness 1 must have a first and last name separated by a space."
+        ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
+    <asp:RegularExpressionValidator ID="revWitnessPhone1" runat="server" ValidationGroup="vgpPanelA"
+        ControlToValidate="tbx_p1_witnessPhone1" ValidationExpression="^\({1}[0-9]{3}\){1}[0-9]{3}-{1}[0-9]{4}" 
+        ErrorMessage="Phone number for witness 1 must be in format '(###)###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
+     <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="vgpHeader"
+        ControlToValidate="tbx_p1_witnessName1" ErrorMessage="Witness 1 must have a first and last name separated by a space."
+        ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
+    <asp:RegularExpressionValidator ID="revWitnessPhone2" runat="server" ValidationGroup="vgpPanelA"
+        ControlToValidate="tbx_p1_witnessPhone2" ValidationExpression="^\({1}[0-9]{3}\){1}[0-9]{3}-{1}[0-9]{4}" 
+        ErrorMessage="Phone number for witness 2 must be in format '(###)###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
+
     <%--<asp:RegularExpressionValidator ID="revMedicalAidDate" runat="server" ValidationGroup="vgpPanelA"
         ControlToValidate="tbxMedicalAidDate" ValidationExpression="^{1}[0-9]{2}/{1}[0-9]{2}/[0-9]{4}$" 
         ErrorMessage="Medical Aid date must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
@@ -687,19 +701,19 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         <td>
             Written Safe Work Procedures Required / Updated:
             <br />
-            <asp:TextBox TabIndex="162" ID="tbxWrittenReq" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
+            <asp:TextBox TabIndex="162" ID="tbx_p2_corrective_written" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
         </td>
         <td>
             Target Completion Date (M/DY):
             <br />
-            <asp:TextBox TabIndex="163" ID="tbxWrittenTargetDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexWrittenTargetDate" runat="server" TargetControlID="tbxWrittenTargetDate" Format="MM/dd/YYYY" >
+            <asp:TextBox TabIndex="163" ID="tbx_p2_corrective_writtenTargetDate" runat="server"></asp:TextBox>
+            <asp:CalendarExtender ID="cexWrittenTargetDate" runat="server" TargetControlID="tbx_p2_corrective_writtenTargetDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
             <br />
             Date completed (M/DY):
             <br />
-            <asp:TextBox TabIndex="164" ID="tbxWrittenCompletedDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexWrittenCompletedDate" runat="server" TargetControlID="tbxWrittenCompletedDate" Format="MM/dd/YYYY" >
+            <asp:TextBox TabIndex="164" ID="tbx_p2_corrective_writtenCompletedDate" runat="server"></asp:TextBox>
+            <asp:CalendarExtender ID="cexWrittenCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_writtenCompletedDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
         </td>
     </tr>
@@ -707,19 +721,19 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         <td>
             Education or Training Required / Provided for Specific Task:
             <br />
-            <asp:TextBox TabIndex="165" ID="tbxEducationReq" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
+            <asp:TextBox TabIndex="165" ID="tbx_p2_corrective_education" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
         </td>
         <td>
             Target Completion Date (M/DY):
             <br />
-            <asp:TextBox TabIndex="166" ID="tbxEducationTargetDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexEducationTargetDate" runat="server" TargetControlID="tbxEducationTargetDate" Format="MM/dd/YYYY" >
+            <asp:TextBox TabIndex="166" ID="tbx_p2_corrective_educationTargetDate" runat="server"></asp:TextBox>
+            <asp:CalendarExtender ID="cexEducationTargetDate" runat="server" TargetControlID="tbx_p2_corrective_educationTargetDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
             <br />
             Date completed (M/DY):
             <br />
-            <asp:TextBox TabIndex="167" ID="tbxEducationCompletedDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexEducationCompletedDate" runat="server" TargetControlID="tbxEducationCompletedDate" Format="MM/dd/YYYY" >
+            <asp:TextBox TabIndex="167" ID="tbx_p2_corrective_educationCompletedDate" runat="server"></asp:TextBox>
+            <asp:CalendarExtender ID="cexEducationCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_educationCompletedDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
         </td>
     </tr>
@@ -728,19 +742,19 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             
             Equipment - Repair / Replace / Purchase
             <br />
-            <asp:TextBox TabIndex="168" ID="tbxEquipmentChange" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
+            <asp:TextBox TabIndex="168" ID="tbx_p2_corrective_equipment" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
         </td>
         <td>
             Target Completion Date (M/DY):
             <br />
-            <asp:TextBox TabIndex="169" ID="tbxEquipmentTargetDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexEquipmentTargetDate" runat="server" TargetControlID="tbxEquipmentTargetDate" Format="MM/dd/YYYY" >
+            <asp:TextBox TabIndex="169" ID="tbx_p2_corrective_equipmentTargetDate" runat="server"></asp:TextBox>
+            <asp:CalendarExtender ID="cexEquipmentTargetDate" runat="server" TargetControlID="tbx_p2_corrective_equipmentTargetDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
             <br />
             Date completed (M/DY):
             <br />
-            <asp:TextBox TabIndex="170" ID="tbxEquipmentCompletedDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexEquipmentCompletedDate" runat="server" TargetControlID="tbxEquipmentCompletedDate" Format="MM/dd/YYYY" >
+            <asp:TextBox TabIndex="170" ID="tbx_p2_corrective_equipmentCompletedDate" runat="server"></asp:TextBox>
+            <asp:CalendarExtender ID="cexEquipmentCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_equipmentCompletedDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
         </td>
     </tr>
@@ -748,19 +762,19 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         <td>
             Environment - Change / Modify Workstation or subsitute / Eliminate Product:
             <br />
-            <asp:TextBox TabIndex="171" ID="tbxEnvironmentChange" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
+            <asp:TextBox TabIndex="171" ID="tbx_p2_corrective_environment" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
         </td>
         <td>
             Target Completion Date (M/DY):
             <br />
-            <asp:TextBox TabIndex="172" ID="tbxEnvironmentTargetDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexEnvironmentTargetDate" runat="server" TargetControlID="tbxEnvironmentTargetDate" Format="MM/dd/YYYY" >
+            <asp:TextBox TabIndex="172" ID="tbx_p2_corrective_environmentTargetDate" runat="server"></asp:TextBox>
+            <asp:CalendarExtender ID="cexEnvironmentTargetDate" runat="server" TargetControlID="tbx_p2_corrective_environmentTargetDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
             <br />
             Date completed(M/DY):
             <br />
-            <asp:TextBox TabIndex="173" ID="tbxEnvironmentCompleteDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexEnvironmentCompleteDate" runat="server" TargetControlID="tbxEnvironmentCompleteDate" Format="MM/dd/YYYY" >
+            <asp:TextBox TabIndex="173" ID="tbx_p2_corrective_environmentCompleteDate" runat="server"></asp:TextBox>
+            <asp:CalendarExtender ID="cexEnvironmentCompleteDate" runat="server" TargetControlID="tbx_p2_corrective_environmentCompleteDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
         </td>
     </tr>
@@ -768,19 +782,19 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         <td>
             Patient/Resident Related Incidents - Lift / Transfer Re-Accessed or Care Plan / ADL Card Updated:
             <br />
-            <asp:TextBox TabIndex="174" ID="tbxPatientResidentRelated" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
+            <asp:TextBox TabIndex="174" ID="tbx_p2_corrective_patient" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
         </td>
         <td>
             Target Completion Date (M/DY):
             <br />
-            <asp:TextBox TabIndex="175" ID="tbxPatientResidentTargetDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexPatientResidentTargetDate" runat="server" TargetControlID="tbxPatientResidentTargetDate" Format="MM/dd/YYYY" >
+            <asp:TextBox TabIndex="175" ID="tbx_p2_corrective_patientTargetDate" runat="server"></asp:TextBox>
+            <asp:CalendarExtender ID="cexPatientResidentTargetDate" runat="server" TargetControlID="tbx_p2_corrective_patientTargetDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
             <br />
             Date completed (M/DY):
             <br />
-            <asp:TextBox TabIndex="176" ID="tbxPatientResidentCompleteDate" runat="server"></asp:TextBox>
-            <asp:CalendarExtender ID="cexPatientResidentCompleteDate" runat="server" TargetControlID="tbxPatientResidentCompleteDate" Format="MM/dd/YYYY" >
+            <asp:TextBox TabIndex="176" ID="tbx_p2_corrective_patientCompletedDate" runat="server"></asp:TextBox>
+            <asp:CalendarExtender ID="cexPatientResidentCompleteDate" runat="server" TargetControlID="tbx_p2_corrective_patientCompletedDate" Format="MM/dd/YYYY" >
             </asp:CalendarExtender>
         </td>
     </tr>
@@ -791,11 +805,11 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 <asp:Panel ID="pnlH" CssClass="panel" runat="server">
 <table>
     <tr><td>Do you know of any previous pain/disability in the area of the worker's present injury? If YES, please explain.</td></tr>
-    <tr><td><asp:TextBox TabIndex="177" ID="tbxMgrReportPreviousPain" runat="server" CssClass="commentBoxReporting"></asp:TextBox></td></tr>
+    <tr><td><asp:TextBox TabIndex="177" ID="tbx_p2_manager_previous" runat="server" CssClass="commentBoxReporting"></asp:TextBox></td></tr>
     <tr><td>Do you have any objections to the claim being accepted? If YES, please explain.</td></tr>
-    <tr><td><asp:TextBox TabIndex="178" ID="tbxMgrReportObjections" runat="server" CssClass="commentBoxReporting"></asp:TextBox></td></tr>
+    <tr><td><asp:TextBox TabIndex="178" ID="tbx_p2_manager_objections" runat="server" CssClass="commentBoxReporting"></asp:TextBox></td></tr>
     <tr><td>Is alternative light duty or modified work available?</td></tr>
-    <tr><td><asp:TextBox TabIndex="179" ID="tbxMgrReportAlt" runat="server" CssClass="commentBoxReporting"></asp:TextBox></td></tr>
+    <tr><td><asp:TextBox TabIndex="179" ID="tbx_p2_manager_alternative" runat="server" CssClass="commentBoxReporting"></asp:TextBox></td></tr>
     <tr>
         <td>
             Does the worker work a fixed shift rotation? If yes, please provide:
@@ -816,49 +830,49 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <tr>
                     <td>Week1</td>
                     <td>
-                        <asp:TextBox ID="tbxW1Sun" runat="server" Width="20px" />
+                        <asp:TextBox ID="tbx_p2_manager_week1_sun" runat="server" Width="20px" />
                     </td>
                     <td>
-                        <asp:TextBox ID="tbxW1Mon" runat="server" Width="20px" />
+                        <asp:TextBox ID="tbx_p2_manager_week1_mon" runat="server" Width="20px" />
                     </td>
                     <td>
-                        <asp:TextBox ID="tbxW1Tue" runat="server" Width="20px" />
+                        <asp:TextBox ID="tbx_p2_manager_week1_tue" runat="server" Width="20px" />
                     </td>
                     <td>
-                        <asp:TextBox ID="tbxW1Wed" runat="server" Width="20px" />
+                        <asp:TextBox ID="tbx_p2_manager_week1_wed" runat="server" Width="20px" />
                     </td>
                     <td>
-                        <asp:TextBox ID="tbxW1Thu" runat="server" Width="20px" />
+                        <asp:TextBox ID="tbx_p2_manager_week1_thu" runat="server" Width="20px" />
                     </td>
                     <td>
-                        <asp:TextBox ID="tbxW1Fri" runat="server" Width="20px" />
+                        <asp:TextBox ID="tbx_p2_manager_week1_fri" runat="server" Width="20px" />
                     </td>
                     <td>
-                        <asp:TextBox ID="tbxW1Sat" runat="server" Width="20px" />
+                        <asp:TextBox ID="tbx_p2_manager_week1_sat" runat="server" Width="20px" />
                     </td>
                 </tr>
                 <tr>
                     <td>Week2</td>
                     <td>
-                        <asp:TextBox ID="tbxW2Sun" runat="server" Width="20px" />
+                        <asp:TextBox ID="tbx_p2_manager_week2_sun" runat="server" Width="20px" />
                     </td>
                     <td>
-                        <asp:TextBox ID="tbxW2Mon" runat="server" Width="20px" />
+                        <asp:TextBox ID="tbx_p2_manager_week2_mon" runat="server" Width="20px" />
                     </td>
                     <td>
-                        <asp:TextBox ID="tbxW2Tue" runat="server" Width="20px" />
+                        <asp:TextBox ID="tbx_p2_manager_week2_tue" runat="server" Width="20px" />
                     </td>
                     <td>
-                        <asp:TextBox ID="tbxW2Wed" runat="server" Width="20px" />
+                        <asp:TextBox ID="tbx_p2_manager_week2_wed" runat="server" Width="20px" />
                     </td>
                     <td>
-                        <asp:TextBox ID="tbxW2Thu" runat="server" Width="20px" />
+                        <asp:TextBox ID="tbx_p2_manager_week2_thu" runat="server" Width="20px" />
                     </td>
                     <td>
-                        <asp:TextBox ID="tbxW2Fri" runat="server" Width="20px" />
+                        <asp:TextBox ID="tbx_p2_manager_week2_fri" runat="server" Width="20px" />
                     </td>
                     <td>
-                        <asp:TextBox ID="tbxW2Sat" runat="server" Width="20px" />
+                        <asp:TextBox ID="tbx_p2_manager_week2_sat" runat="server" Width="20px" />
                     </td>
                 </tr>
             </table>
