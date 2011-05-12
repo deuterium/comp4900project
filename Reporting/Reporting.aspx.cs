@@ -253,7 +253,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             #region A_IncidentInfo
             empNo = empId,
             p1_dateOfIncident = dateOfIncident,
-            p1_timeReported = dateReported,
+            p1_dateReported = dateReported,
             p1_incidentDesc = tbx_p1_incidentDesc.Text,
             p1_witnessName1 = tbx_p1_witnessName1.Text,
             p1_witnessPhone1 = tbx_p1_witnessPhone1.Text,
@@ -290,7 +290,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p2_activity_holding = convertCheckbox(cbx_p2_activity_holding),
             p2_activity_toileting = convertCheckbox(cbx_p2_activity_toileting),
             
-            p2_patient_celingLift = convertCheckbox(cbx_p2_patient_ceilingLift),
+            p2_patient_ceilingLift = convertCheckbox(cbx_p2_patient_ceilingLift),
             p2_patient_sitStandLift = convertCheckbox(cbx_p2_patient_sitStandLift),
             p2_patient_floorLift = convertCheckbox(cbx_p2_patient_floorLift),
             p2_patient_manualLift = convertCheckbox(cbx_p2_patient_manualLift),
@@ -348,7 +348,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p2_cause_motor = convertCheckbox(cbx_p2_cause_motor),
             p2_cause_slip = convertCheckbox(cbx_p2_cause_slip),
             p2_cause_aggression = convertCheckbox(cbx_p2_cause_aggression),
-            p2_cause_undeterminded = convertCheckbox(cbx_p2_cause_undetermined),    // spelled wrong
+            p2_cause_undetermined = convertCheckbox(cbx_p2_cause_undetermined),    // spelled wrong
             p2_cause_event = convertCheckbox(cbx_p2_cause_event),
             p2_cause_underEquip = convertCheckbox(cbx_p2_cause_underEquip),
             p2_cause_hit = convertCheckbox(cbx_p2_cause_hit),
@@ -496,7 +496,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
         #region G_FollowUp_Dates
         if (!tbx_p2_corrective_writtenTargetDate.Text.Equals(String.Empty)) {
             DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenTargetDate.Text);
-            report.p2_corrective_writtentTargetDate = writtenDate;
+            report.p2_corrective_writtenTargetDate = writtenDate;
         }
 
         if (!tbx_p2_corrective_educationTargetDate.Text.Equals(String.Empty)) {

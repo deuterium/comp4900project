@@ -189,18 +189,15 @@ public partial class Training_Training : System.Web.UI.Page {
             else
                 ddlDepartments.SelectedValue = dept.deptName.ToString();
                    
-            var room = ctx.Rooms
-                        .Where(r => r.roomNo == emp.roomNo)
-                        .Select(r => r).FirstOrDefault();
 
-            if (room != null) {
+            if (tbxRoom != null) {
                 if (emp.roomNo == null)
                 {
                     tbxRoom.Text = String.Empty;
                 }
                 else
                 {
-                    tbxRoom.Text = room.room1.ToString();
+                    tbxRoom.Text = emp.room.ToString();
                 }
             }
             
@@ -244,6 +241,7 @@ public partial class Training_Training : System.Web.UI.Page {
         lblResults.Text = msg;
     }
 
+    
     private void CheckPositionOption() {
         if (ddlPositions.SelectedValue.Equals(otherOption)) {
             tbxPosition.Visible = true;
@@ -267,6 +265,10 @@ public partial class Training_Training : System.Web.UI.Page {
         ResetFormControlValues(this);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="parent"></param>
     private void ResetFormControlValues(Control parent)
     {
         foreach (Control c in parent.Controls)
@@ -320,10 +322,10 @@ public partial class Training_Training : System.Web.UI.Page {
         {
 
             DateTime tmpStartDate = Convert.ToDateTime(tbxStartDate.Text);
-
-            var room = ctx.Rooms
-                        .Where(r => r.room1 == tbxRoom.Text)
-                        .Select(r => r.roomNo).FirstOrDefault();
+            if (tbxEndDate != null)
+            {
+                DateTime tmpEndDate = Convert.ToDateTime(tbxEndDate.Text);
+            }
 
             var dept = ctx.Departments
                         .Where(d => d.deptName == ddlDepartments.SelectedValue)
@@ -337,7 +339,7 @@ public partial class Training_Training : System.Web.UI.Page {
                     lname = tbxLastName.Text,
                     employer = (!(ddlEmployers.SelectedIndex == 0) ? ddlEmployers.SelectedValue : null),
                     deptNo = (!(ddlDepartments.SelectedValue == "") ? Convert.ToInt32(dept) : (int?)null),
-                    roomNo = (!(tbxRoom.Text == "") ? Convert.ToInt32(room): (int?)null),
+                    room = (!(tbxRoom.Text == "") ? (tbxRoom.Text) : null),
                     startDate = tmpStartDate,
                     endDate = null,//tmpEndDate,
                     active = "y",
