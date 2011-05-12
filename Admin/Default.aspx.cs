@@ -48,15 +48,16 @@ public partial class Admin_Default : System.Web.UI.Page
     /// <param name="e">not used in our code</param>
     protected void btnPnlPopClose_Click(object sender, EventArgs e)
     {
-        switch (rblUsers.SelectedValue) 
+        switch (rblUsers.SelectedValue)
         {
             case "Create":
                 User_Pass_Clear();
                 break;
             case "Edit":
-                lbxUsers.DataBind();
                 User_Pass_Clear();
                 break;
+            default:
+                throw new System.SystemException("Default case of switch should never be reached");
         }
     }
     #endregion
@@ -82,6 +83,8 @@ public partial class Admin_Default : System.Web.UI.Page
                 tbUsername.ReadOnly = false;
                 tbPassword.Text = String.Empty;
                 cvlUserNew.Enabled = true;
+                rblUserRole.ClearSelection();
+                tbwPassword.Enabled = false;
                 btnUserNew.Text = "Create User";
                 break;
             case "Edit":
@@ -93,6 +96,8 @@ public partial class Admin_Default : System.Web.UI.Page
                 cvlUserNew.Enabled = false;
                 btnUserNew.Text = "Change Password";
                 break;
+            default:
+                throw new System.SystemException("Default case of switch should never be reached");
         }
     }
 
@@ -124,6 +129,8 @@ public partial class Admin_Default : System.Web.UI.Page
                 tdUserCreateLabDiv.Visible = true;
                 rfvLabManagerDepartment.Enabled = true;
                 break;
+            default:
+                throw new System.SystemException("Default case of switch should never be reached");
         }
     }
 
@@ -159,8 +166,10 @@ public partial class Admin_Default : System.Web.UI.Page
                     catch (Exception ex)
                     {
                         Popup_Overlay(ex.Message, Color.Red);
+                        return;
                     }
                     Popup_Overlay("User succesfully added.", Color.Green);
+                    lbxUsers.DataBind();
                 }
                 break;
             case "Edit":
@@ -177,9 +186,12 @@ public partial class Admin_Default : System.Web.UI.Page
                 catch (Exception ex)
                 {
                     Popup_Overlay(ex.Message, Color.Red);
+                    return;
                 }
                 Popup_Overlay("User's password changed.", Color.Green);
                 break;
+            default:
+                throw new System.SystemException("Default case of switch should never be reached");
         }
     }
 
@@ -194,7 +206,7 @@ public partial class Admin_Default : System.Web.UI.Page
     {
         tbUsername.Text = lbxUsers.SelectedItem.Text;
         tbUsernameID.Text = lbxUsers.SelectedValue;
-        tbPassword.Text = "Enter new password";
+        tbwPassword.Enabled = true;
     }
 
     /// <summary>
@@ -218,8 +230,10 @@ public partial class Admin_Default : System.Web.UI.Page
         catch (Exception ex)
         {
             Popup_Overlay(ex.Message, Color.Red);
+            return;
         }
-        Popup_Overlay("User deleted.", Color.Green);
+        Popup_Overlay("User successfully deleted.", Color.Green);
+        lbxUsers.DataBind();
     }
 
     /// <summary>
@@ -250,43 +264,39 @@ public partial class Admin_Default : System.Web.UI.Page
     #endregion
 
     #region Dropdown Menu Management
+
+    /// <summary>
+    /// TODO---------------------------------------------------------------------------------------------------------------------------
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
+    protected void lbDropDowns_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            Load_Departments();
+        }
+    }
+
+    /// <summary>
+    /// TODO---------------------------------------------------------------------------------------------------------------------------
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void rblDropDownEdit_SelectedIndexChanged(object sender, EventArgs e)
     {
+        //Value from selected radio button item for drop down menu editing
         string mode = rblDropDownEdit.SelectedValue;
-
-        switch (rblDropDownEdit.SelectedValue)
+        switch (mode)
         {
             case "Departments":
-                lbDropDowns.DataSource = ctx.Departments.Select(d => new 
-                    { 
-                        deptName = d.deptName,
-                        deptNo = d.deptNo
-                    });
-                lbDropDowns.DataTextField = "deptName";
-                lbDropDowns.DataValueField = "deptNo";
-                lbDropDowns.DataBind();
+                Load_Departments();
                 break;
-            case "Rooms":
-                lbDropDowns.DataSource = ctx.Rooms.Select(r => new
-                    {
-                        roomName = r.room1,
-                        roomNo = r.roomNo
-                    });
-                lbDropDowns.DataTextField = "roomName";
-                lbDropDowns.DataValueField = "roomNo";
-                lbDropDowns.DataBind();
-                break;
-
             case "Positions":
-                lbDropDowns.DataSource = ctx.Positions.Select(p => new 
-                    { 
-                        positionName = p.posName,
-                        positionNo = p.posNo
-                    });
-                lbDropDowns.DataTextField = "positionName";
-                lbDropDowns.DataValueField = "positionNo";
-                lbDropDowns.DataBind();
+                Load_Positions();
                 break;
+            default:
+                throw new System.SystemException("Default case of switch should never be reached");
         }
 
         //change listbox datasource here
@@ -297,9 +307,134 @@ public partial class Admin_Default : System.Web.UI.Page
         btnDropDownsNew.Text = "< Add " + mode;
     }
 
+    /// <summary>
+    /// Loads all the departments from the table in the database and binds
+    /// the information to the Dropdown items Listbox.
+    /// </summary>
+    protected void Load_Departments()
+    {
+        lbDropDowns.DataSource = ctx.Departments.Select(d => new
+        {
+            deptName = d.deptName,
+            deptNo = d.deptNo
+        });
+        lbDropDowns.DataTextField = "deptName";
+        lbDropDowns.DataValueField = "deptNo";
+        lbDropDowns.DataBind();
+    }
+
+    /// <summary>
+    /// Loads all the positions from the table in the database and binds
+    /// the information to the Dropdown items Listbox.
+    /// </summary>
+    protected void Load_Positions()
+    {
+        lbDropDowns.DataSource = ctx.Positions.Select(p => new
+        {
+            positionName = p.posName,
+            positionNo = p.posNo
+        });
+        lbDropDowns.DataTextField = "positionName";
+        lbDropDowns.DataValueField = "positionNo";
+        lbDropDowns.DataBind();
+    }
+
+    /// <summary>
+    /// TODO---------------------------------------------------------------------------------------------------------------------------
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnDropDownsNew_Click(object sender, EventArgs e)
+    {
+        switch (rblDropDownEdit.SelectedValue)
+        {
+            case "Departments":
+                try
+                {
+                    ctx.AddToDepartments(new Department()
+                    {
+                        deptName = tbxDropDownsNew.Text
+                    });
+                    ctx.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    Popup_Overlay(ex.Message, Color.Red);
+                    return;
+                }
+                Popup_Overlay("Department successfully added.", Color.Green);
+                Load_Departments();
+                tbxDropDownsNew.Text = String.Empty;
+                break;
+            case "Positions":
+                try
+                {
+                    ctx.AddToPositions(new Position()
+                    {
+                        posName = tbxDropDownsNew.Text
+                    });
+                    ctx.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    Popup_Overlay(ex.Message, Color.Red);
+                    return;
+                }
+                Popup_Overlay("Position successfully added.", Color.Green);
+                Load_Positions();
+                break;
+            default:
+                throw new System.SystemException("Default case of switch should never be reached");
+        }
+    }
+
+    /// <summary>
+    /// TODO---------------------------------------------------------------------------------------------------------------------------
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnDropDownsDelete_Click(object sender, EventArgs e)
+    {
+        switch (rblDropDownEdit.SelectedValue)
+        {
+            case "Departments":
+                try
+                {
+                    int deptNo = Convert.ToInt32(lbDropDowns.SelectedValue);
+                    ctx.DeleteObject(ctx.Departments.Select(d => d).Where(d => d.deptNo == deptNo).First());
+                    ctx.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    Popup_Overlay(ex.Message, Color.Red);
+                    return;
+                }
+                Popup_Overlay("Department successfully removed.", Color.Green);
+                Load_Departments();
+                break;
+            case "Positions":
+                try
+                {
+                    int deptNo = Convert.ToInt32(lbDropDowns.SelectedValue);
+                    ctx.DeleteObject(ctx.Positions.Select(p => p).Where(p => p.posNo == deptNo).First());
+                    ctx.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    Popup_Overlay(ex.Message, Color.Red);
+                    return;
+                }
+                Popup_Overlay("Position successfully removed.", Color.Green);
+                Load_Positions();
+                break;
+            default:
+                throw new System.SystemException("Default case of switch should never be reached");
+        }
+    }
     #endregion
 
     #region Course Management
     #endregion
+
 
 }
