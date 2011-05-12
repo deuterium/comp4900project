@@ -83,7 +83,9 @@
                                         Password:
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="tbPassword" runat="server" width="110" onclick="this.value ='';" />
+                                        <asp:TextBox ID="tbPassword" runat="server" width="110" />
+                                        <asp:TextBoxWatermarkExtender enabled="false" ID="tbwPassword" runat="server" TargetControlID="tbPassword" WatermarkText="New Password">
+                                        </asp:TextBoxWatermarkExtender>
                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Password required"
                                             ValidationGroup="vgrUserNew" ControlToValidate="tbPassword" Display="Static">*</asp:RequiredFieldValidator>
                                     </td>
@@ -118,6 +120,8 @@
                             <br />
                             <asp:Button ID="btnUserDelete" runat="server" Text="Delete User" Width="120" Visible="false"
                                 ValidationGroup="vgrUserDelete" OnClick="btnUserDelete_Click" />
+                            <asp:ConfirmButtonExtender ID="cbeUserDelete" runat="server" TargetControlID="btnUserDelete" ConfirmText="Are you sure you want to delete this user?">
+                            </asp:ConfirmButtonExtender>
                             <br />
                             <asp:Button ID="btnUserNew" runat="server" Text="Create User" Width="120" OnClick="btnUserNew_Click"
                                 ValidationGroup="vgrUserNew" />
@@ -148,7 +152,6 @@
                             <asp:RadioButtonList ID="rblDropDownEdit" runat="server" RepeatDirection="Horizontal"
                                 AutoPostBack="True" OnSelectedIndexChanged="rblDropDownEdit_SelectedIndexChanged">
                                 <asp:ListItem Text="Departments" Value="Departments" Selected="true" />
-                                <asp:ListItem Text="Rooms" Value="Rooms" />
                                 <asp:ListItem Text="Positions" Value="Positions" />
                             </asp:RadioButtonList>
                         </td>
@@ -161,14 +164,15 @@
                             <asp:RequiredFieldValidator ID="rfvDropDownsDelete" runat="server" ErrorMessage="Selection of item needed to delete"
                                 ControlToValidate="lbDropDowns" ValidationGroup="vgrDropDownsDelete" Display="Dynamic" />
                             <br />
-                            <asp:ListBox ID="lbDropDowns" runat="server" Width="180" Height="120" ValidationGroup="vgrDropDownsDelete" />
+                            <asp:ListBox ID="lbDropDowns" runat="server" Width="180" Height="120" 
+                                ValidationGroup="vgrDropDownsDelete" onload="lbDropDowns_Load"  />
                         </td>
                         <td>
                             <asp:Button ID="btnDropDownsNew" runat="server" Text="< Add Department" Width="140"
-                                ValidationGroup="vgrDropDownsNew" />
+                                ValidationGroup="vgrDropDownsNew" onclick="btnDropDownsNew_Click" />
                             <br />
                             <asp:Button ID="btnDropDownsDelete" runat="server" Text="> Delete Department" Width="140"
-                                ValidationGroup="vgrDropDownsDelete" />
+                                ValidationGroup="vgrDropDownsDelete" onclick="btnDropDownsDelete_Click" />
                         </td>
                         <td width="140">
                             <asp:Label ID="lblDropDownsNew" runat="server" Text="Name of Department to add:"></asp:Label>
