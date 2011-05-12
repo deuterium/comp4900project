@@ -832,7 +832,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="171" ID="tbx_p2_corrective_environment" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
         </td>
         <td>
-            Target Completion Date (M/DY):
+            Target Completion Date:
             <br />
             <asp:TextBox TabIndex="172" ID="tbx_p2_corrective_environmentTargetDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexEnvironmentTargetDate" runat="server" TargetControlID="tbx_p2_corrective_environmentTargetDate" Format="MM/dd/YYYY" >
@@ -844,7 +844,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 01/01/1950 and 01/01/2500."
                 MaximumValue="01/01/2500" MinimumValue="01/01/1950"></asp:RangeValidator>
             <br />
-            Date completed(M/DY):
+            Date completed:
             <br />
             <asp:TextBox TabIndex="173" ID="tbx_p2_corrective_environmentCompleteDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexEnvironmentCompleteDate" runat="server" TargetControlID="tbx_p2_corrective_environmentCompleteDate" Format="MM/dd/YYYY" >
@@ -852,7 +852,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:RegularExpressionValidator ID="revEnvironmentCompleteDate" runat="server" ValidationGroup="vgpHeader"
                 ControlToValidate="tbx_p2_corrective_environmentCompleteDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/{1}[0-9]{4}" 
                 ErrorMessage="Environment date completed must be in format 'MM/dd/YYYY'"></asp:RegularExpressionValidator>
-            <asp:RangeValidator ID="rgvEnvironmentCompleteDate" runat="server" ValidationGroup="vgpHeader"
+            <asp:RangeValidator ID="rvdEnvironmentCompleteDate" runat="server" ValidationGroup="vgpHeader"
                 ControlToValidate="tbxStartDate" ErrorMessage="Environment date completed must be between 01/01/1950 and 01/01/2500."
                 MaximumValue="01/01/2500" MinimumValue="01/01/1950"></asp:RangeValidator>
         </td>
