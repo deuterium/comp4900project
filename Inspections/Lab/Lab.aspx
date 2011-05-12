@@ -177,9 +177,10 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                     <asp:ListItem runat="server" Text="" Value="No" />
                     <asp:ListItem runat="server" Text="" Value="NA" />
                 </asp:RadioButtonList>
+                
             </td>
             <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp<asp:RequiredFieldValidator ControlToValidate="rblFireEvac" runat="server" ID="rfvFireEvac" Text="*"></asp:RequiredFieldValidator>&nbsp&nbsp
             </td>
             <td>
                 <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFireEvac"></asp:TextBox>
@@ -1488,7 +1489,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <asp:Button ID="btnLabInspectionSubmit" runat="server" Text="Submit" onclick="btnLabInspectionSubmit_Click" />
+    <asp:Button ID="btnLabInspectionSubmit" runat="server" Text="Submit" onclick="btnLabInspectionSubmit_Click" ValidationGroup="rfvFireEvac" />
 
 </div>
 
