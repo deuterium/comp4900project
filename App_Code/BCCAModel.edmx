@@ -16,7 +16,7 @@
       [LabInspectionDetails].[labInsNo] AS [labInsNo], 
       [LabInspectionDetails].[labItemNo] AS [labItemNo], 
       [LabInspectionDetails].[comments] AS [comments], 
-      [LabInspectionDetails].[checked] AS [checked]
+      [LabInspectionDetails].[checkbox] AS [checkbox]
       FROM [dbo].[LabInspectionDetails] AS [LabInspectionDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="LabInspectionItem" EntityType="BCCAModel.Store.LabInspectionItem" store:Type="Tables" Schema="dbo" />
@@ -27,7 +27,7 @@
       [OfficeInspectionDetails].[officeInsItemNo] AS [officeInsItemNo], 
       [OfficeInspectionDetails].[severityNo] AS [severityNo], 
       [OfficeInspectionDetails].[comments] AS [comments], 
-      [OfficeInspectionDetails].[checked] AS [checked]
+      [OfficeInspectionDetails].[checkbox] AS [checkbox]
       FROM [dbo].[OfficeInspectionDetails] AS [OfficeInspectionDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="OfficeInspectionItems" EntityType="BCCAModel.Store.OfficeInspectionItems" store:Type="Tables" Schema="dbo" />
@@ -378,12 +378,12 @@
         <EntityType Name="LabInspectionDetails">
           <Key>
             <PropertyRef Name="labInsNo" />
-            <PropertyRef Name="checked" />
+            <PropertyRef Name="checkbox" />
           </Key>
           <Property Name="labInsNo" Type="int" Nullable="false" />
           <Property Name="labItemNo" Type="int" />
           <Property Name="comments" Type="varchar(max)" />
-          <Property Name="checked" Type="int" Nullable="false" />
+          <Property Name="checkbox" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="LabInspectionItem">
           <Key>
@@ -407,13 +407,13 @@
       -->
         <EntityType Name="OfficeInspectionDetails">
           <Key>
-            <PropertyRef Name="checked" />
+            <PropertyRef Name="checkbox" />
           </Key>
           <Property Name="officeInsNo" Type="int" />
           <Property Name="officeInsItemNo" Type="int" />
           <Property Name="severityNo" Type="int" />
           <Property Name="comments" Type="varchar(max)" />
-          <Property Name="checked" Type="int" Nullable="false" />
+          <Property Name="checkbox" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="OfficeInspectionItems">
           <Key>
@@ -1031,12 +1031,12 @@
         <EntityType Name="LabInspectionDetail">
           <Key>
             <PropertyRef Name="labInsNo" />
-            <PropertyRef Name="checked" />
+            <PropertyRef Name="checkbox" />
           </Key>
           <Property Name="labInsNo" Type="Int32" Nullable="false" />
           <Property Name="labItemNo" Type="Int32" />
           <Property Name="comments" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-          <Property Name="checked" Type="Int32" Nullable="false" />
+          <Property Name="checkbox" Type="Int32" Nullable="false" />
           <NavigationProperty Name="LabInspection" Relationship="BCCAModel.FK__LabInspec__labIn__625A9A57" FromRole="LabInspectionDetails" ToRole="LabInspection" />
           <NavigationProperty Name="LabInspectionItem" Relationship="BCCAModel.FK__LabInspec__labIt__634EBE90" FromRole="LabInspectionDetails" ToRole="LabInspectionItem" />
         </EntityType>
@@ -1063,13 +1063,13 @@
         </EntityType>
         <EntityType Name="OfficeInspectionDetail">
           <Key>
-            <PropertyRef Name="checked" />
+            <PropertyRef Name="checkbox" />
           </Key>
           <Property Name="officeInsNo" Type="Int32" />
           <Property Name="officeInsItemNo" Type="Int32" />
           <Property Name="severityNo" Type="Int32" />
           <Property Name="comments" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-          <Property Name="checked" Type="Int32" Nullable="false" />
+          <Property Name="checkbox" Type="Int32" Nullable="false" />
           <NavigationProperty Name="OfficeInspection" Relationship="BCCAModel.FK__OfficeIns__offic__7E02B4CC" FromRole="OfficeInspectionDetails" ToRole="OfficeInspection" />
           <NavigationProperty Name="OfficeInspectionItem" Relationship="BCCAModel.FK__OfficeIns__offic__7EF6D905" FromRole="OfficeInspectionDetails" ToRole="OfficeInspectionItems" />
           <NavigationProperty Name="Severity" Relationship="BCCAModel.FK__OfficeIns__sever__7FEAFD3E" FromRole="OfficeInspectionDetails" ToRole="Severity" />
@@ -1590,7 +1590,7 @@
             <ScalarProperty Name="labInsNo" ColumnName="labInsNo" />
             <ScalarProperty Name="labItemNo" ColumnName="labItemNo" />
             <ScalarProperty Name="comments" ColumnName="comments" />
-            <ScalarProperty Name="checked" ColumnName="checked" />
+            <ScalarProperty Name="checkbox" ColumnName="checkbox" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="LabInspectionItems"><EntityTypeMapping TypeName="BCCAModel.LabInspectionItem"><MappingFragment StoreEntitySet="LabInspectionItem">
             <ScalarProperty Name="labInsItemNo" ColumnName="labInsItemNo" />
@@ -1608,7 +1608,7 @@
             <ScalarProperty Name="officeInsItemNo" ColumnName="officeInsItemNo" />
             <ScalarProperty Name="severityNo" ColumnName="severityNo" />
             <ScalarProperty Name="comments" ColumnName="comments" />
-            <ScalarProperty Name="checked" ColumnName="checked" />
+            <ScalarProperty Name="checkbox" ColumnName="checkbox" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="OfficeInspectionItems"><EntityTypeMapping TypeName="BCCAModel.OfficeInspectionItem"><MappingFragment StoreEntitySet="OfficeInspectionItems">
             <ScalarProperty Name="officeInsItemNo" ColumnName="officeInsItemNo" />

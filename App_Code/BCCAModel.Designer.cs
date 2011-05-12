@@ -6537,12 +6537,12 @@ namespace BCCAModel
         /// Create a new LabInspectionDetail object.
         /// </summary>
         /// <param name="labInsNo">Initial value of the labInsNo property.</param>
-        /// <param name="checked">Initial value of the checked property.</param>
-        public static LabInspectionDetail CreateLabInspectionDetail(global::System.Int32 labInsNo, global::System.Int32 @checked)
+        /// <param name="checkbox">Initial value of the checkbox property.</param>
+        public static LabInspectionDetail CreateLabInspectionDetail(global::System.Int32 labInsNo, global::System.Int32 checkbox)
         {
             LabInspectionDetail labInspectionDetail = new LabInspectionDetail();
             labInspectionDetail.labInsNo = labInsNo;
-            labInspectionDetail.@checked = @checked;
+            labInspectionDetail.checkbox = checkbox;
             return labInspectionDetail;
         }
 
@@ -6629,27 +6629,27 @@ namespace BCCAModel
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 @checked
+        public global::System.Int32 checkbox
         {
             get
             {
-                return _checked;
+                return _checkbox;
             }
             set
             {
-                if (_checked != value)
+                if (_checkbox != value)
                 {
-                    OncheckedChanging(value);
-                    ReportPropertyChanging("checked");
-                    _checked = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("checked");
-                    OncheckedChanged();
+                    OncheckboxChanging(value);
+                    ReportPropertyChanging("checkbox");
+                    _checkbox = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("checkbox");
+                    OncheckboxChanged();
                 }
             }
         }
-        private global::System.Int32 _checked;
-        partial void OncheckedChanging(global::System.Int32 value);
-        partial void OncheckedChanged();
+        private global::System.Int32 _checkbox;
+        partial void OncheckboxChanging(global::System.Int32 value);
+        partial void OncheckboxChanged();
 
         #endregion
     
@@ -7087,11 +7087,11 @@ namespace BCCAModel
         /// <summary>
         /// Create a new OfficeInspectionDetail object.
         /// </summary>
-        /// <param name="checked">Initial value of the checked property.</param>
-        public static OfficeInspectionDetail CreateOfficeInspectionDetail(global::System.Int32 @checked)
+        /// <param name="checkbox">Initial value of the checkbox property.</param>
+        public static OfficeInspectionDetail CreateOfficeInspectionDetail(global::System.Int32 checkbox)
         {
             OfficeInspectionDetail officeInspectionDetail = new OfficeInspectionDetail();
-            officeInspectionDetail.@checked = @checked;
+            officeInspectionDetail.checkbox = checkbox;
             return officeInspectionDetail;
         }
 
@@ -7199,27 +7199,27 @@ namespace BCCAModel
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 @checked
+        public global::System.Int32 checkbox
         {
             get
             {
-                return _checked;
+                return _checkbox;
             }
             set
             {
-                if (_checked != value)
+                if (_checkbox != value)
                 {
-                    OncheckedChanging(value);
-                    ReportPropertyChanging("checked");
-                    _checked = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("checked");
-                    OncheckedChanged();
+                    OncheckboxChanging(value);
+                    ReportPropertyChanging("checkbox");
+                    _checkbox = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("checkbox");
+                    OncheckboxChanged();
                 }
             }
         }
-        private global::System.Int32 _checked;
-        partial void OncheckedChanging(global::System.Int32 value);
-        partial void OncheckedChanged();
+        private global::System.Int32 _checkbox;
+        partial void OncheckboxChanging(global::System.Int32 value);
+        partial void OncheckboxChanged();
 
         #endregion
     
