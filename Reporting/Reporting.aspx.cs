@@ -22,6 +22,7 @@ using System.Drawing;
  * add regex to last 3 sections
  * test really long inputs
  * put results msg in update panel triggered by btn click (so it disappears eveyr time you click submit)
+ * re-order controls so they appear in the order you click them?
  **/
 
 /// <summary>
@@ -72,7 +73,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
         if (!IsPostBack) {
             //GridView1.DataSource = ctx.Incidents;
             //GridView1.DataBind();
-
+            
             ddlEmployers.DataSource = employers;
             ddlEmployers.DataBind();
 
@@ -110,6 +111,8 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             emp = qry.FirstOrDefault();
 
             tbxId.Text = emp.empNo.ToString();
+            tbxFirstName.Text = emp.fname.ToString();
+            tbxLastName.Text = emp.lname.ToString();
             
             var position = ctx.Positions
                            .Where(p => p.posName.Equals(emp.position))
@@ -143,10 +146,12 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
 
             ddlDepartments.SelectedValue = emp.deptNo.ToString();
 
-            tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("yyyy/MM/dd");
+            tbxRoom.Text = emp.room;
+
+            tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy");
             
             if (emp.endDate != null) {
-                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("yyyy/MM/dd");
+                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy");
             }
 
             setResultMsg(null, SuccessColour);
@@ -227,13 +232,13 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The button click event.</param>
     protected void btnCreateReport_Click(object sender, EventArgs e) {
-        //Page.Validate("vgpEmpInfo");
-        //Page.Validate("vgpPanelA");
-        //Page.AutoPostBackControl.Post
+        Page.Validate("vgpEmpInfo");
+        Page.Validate("vgpPanelA");
+        Page.Validate("vgpFCorrective");
+        Page.Validate("vgpGRelevant");
+        Page.Validate("vgpHManagers");
         
-
         if (Page.IsValid) {
-            revCommToStaffDate.Validate();
             createReport();
         }
     }
@@ -247,7 +252,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
         int empId = Convert.ToInt32(tbxId.Text);
         DateTime dateOfIncident = Convert.ToDateTime(tbx_p1_dateOfIncident.Text + " " + tbx_p1_timeOfIncident.Text);
         DateTime dateReported = Convert.ToDateTime(tbx_p1_dateReported.Text + " " + tbx_p1_timeReported.Text);
-       
+
         Incident report = new Incident {
             
             #region A_IncidentInfo
@@ -269,7 +274,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p1_nature_no = convertCheckbox(cbx_p1_nature_no),
             p1_nature_musculoskeletal = convertCheckbox(cbx_p1_nature_musculoskeletal),
             p1_nature_bruise = convertCheckbox(cbx_p1_nature_bruise),
-            //p1_nature_burn = convertCheckbox(cbx_p1_nature_burn),
+            p1_nature_burn = convertCheckbox(cbx_p1_nature_burn),
             p1_nature_cut = convertCheckbox(cbx_p1_nature_cut),
             p1_nature_puncture = convertCheckbox(cbx_p1_nature_puncture),
             p1_nature_skinIrritation = convertCheckbox(cbx_p1_nature_skinIrritation),
@@ -279,7 +284,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p1_nature_psychological = convertCheckbox(cbx_p1_nature_psychological),
             p1_nature_respiratory = convertCheckbox(cbx_p1_nature_respiratory),
             #endregion B_NatureOfInjury
-
+            /*
             #region C_AccidentInvestigation
             p2_activity_no = convertCheckbox(cbx_p2_activity_no),
             p2_activity_repositioning = convertCheckbox(cbx_p2_activity_repositioning),
@@ -296,8 +301,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p2_patient_manualLift = convertCheckbox(cbx_p2_patient_manualLift),
             p2_patient_otherSpecify = tbx_p2_patient_otherSpecify.Text,
             p2_patient_adequateAssist = convertRadioButtonList(rbl_p2_patient_adequateAssist),
-            //p2_patient_involved = tbx_p2_patient_involved.Text,
-
+            
             p2_activity_washing = convertCheckbox(cbx_p2_activity_washing),
             p2_activity_dressing = convertCheckbox(cbx_p2_activity_dressing),
             p2_activity_changing = convertCheckbox(cbx_p2_activity_changing),
@@ -341,14 +345,14 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
 
             p2_cause_awkwardPosture = convertCheckbox(cbx_p2_cause_awkwardPosture),
             p2_cause_staticPosture = convertCheckbox(cbx_p2_cause_staticPosture),
-            //p2_cause_contact = convertCheckbox(cbx_),
+            p2_cause_contactStress = convertCheckbox(cbx_p2_cause_contactStress),
             p2_cause_force = convertCheckbox(cbx_p2_cause_force),
             p2_cause_rep = convertCheckbox(cbx_p2_cause_rep),
 
             p2_cause_motor = convertCheckbox(cbx_p2_cause_motor),
             p2_cause_slip = convertCheckbox(cbx_p2_cause_slip),
             p2_cause_aggression = convertCheckbox(cbx_p2_cause_aggression),
-            p2_cause_undetermined = convertCheckbox(cbx_p2_cause_undetermined),    // spelled wrong
+            p2_cause_undetermined = convertCheckbox(cbx_p2_cause_undetermined),
             p2_cause_event = convertCheckbox(cbx_p2_cause_event),
             p2_cause_underEquip = convertCheckbox(cbx_p2_cause_underEquip),
             p2_cause_hit = convertCheckbox(cbx_p2_cause_hit),
@@ -364,8 +368,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p2_aggression_public = convertCheckbox(cbx_p2_cause_aggression_public),
             p2_aggression_worker = convertCheckbox(cbx_p2_cause_aggression_worker),
             p2_aggression_other = tbx_p2_cause_aggression_other.Text,
-
-            //p2_cause_chemName = convertCheckbox(p2_cause_chemName),
+            p2_cause_exposure_chemName = tbx_p2_cause_exposure_chemName.Text,
             p2_cause_chemInhalation = convertCheckbox(cbx_p2_cause_chemInhalation),
             p2_cause_chemIngest = convertCheckbox(cbx_p2_cause_chemIngest),
             p2_cause_chemContact = convertCheckbox(cbx_p2_cause_chemContact),
@@ -410,7 +413,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p2_factors_directions = convertCheckbox(cbx_p2_factors_directions),
             p2_factors_weight = convertCheckbox(cbx_p2_factors_weight),
             p2_factors_aggressive = convertCheckbox(cbx_p2_factors_aggressive),
-            //p2_factors_resistive = convertCheckbox(cbx_p2_factors_resistive),
+            p2_factors_patientResistive = convertCheckbox(cbx_p2_factors_patientResistive),
             p2_factors_movement = convertCheckbox(cbx_p2_factors_movement),
             p2_factors_confused = convertCheckbox(cbx_p2_factors_confused),
             p2_factors_influence = convertCheckbox(cbx_p2_factors_influence),
@@ -456,7 +459,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p2_manager_objections = tbx_p2_manager_objections.Text,
             p2_manager_alternative = tbx_p2_manager_alternative.Text,
             #endregion G_ManagersReport
-
+            */
         };
 
         #region A_IncidentInfo_Dates
@@ -470,6 +473,18 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             report.p1_action_medicalGP_date = dateMedicalGP;
         }
         #endregion A_IncidentInfo_Dates
+
+        #region C_AccidentInvestigation_PatientHandling
+        if (!tbx_p1_numEmployeesInvolved.Text.Equals(String.Empty)) {
+            try {
+                report.p1_numEmployeesInvolved = Convert.ToInt32(tbx_p1_numEmployeesInvolved.Text);
+            }
+            catch (FormatException) {
+                setResultMsg("The number of employees involved (in Patient Handling of Section C) must be a number.", FailColour);
+                return null;
+            }
+        }
+        #endregion C_AccidentInvestigation_PatientHandling
 
         #region F_CorrectiveAction_Dates
         if (!tbx_p2_corrective_personDate.Text.Equals(String.Empty)) {
