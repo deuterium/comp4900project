@@ -70,8 +70,8 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
     {
         // Only do the initial set up the first time the page loads (and not on post-backs).
         if (!IsPostBack) {
-            GridView1.DataSource = ctx.Incidents;
-            GridView1.DataBind();
+            //GridView1.DataSource = ctx.Incidents;
+            //GridView1.DataBind();
 
             ddlEmployers.DataSource = employers;
             ddlEmployers.DataBind();
@@ -227,9 +227,17 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The button click event.</param>
     protected void btnCreateReport_Click(object sender, EventArgs e) {
-        createReport();
-    }
+        //Page.Validate("vgpEmpInfo");
+        //Page.Validate("vgpPanelA");
+        //Page.AutoPostBackControl.Post
+        
 
+        if (Page.IsValid) {
+            revCommToStaffDate.Validate();
+            createReport();
+        }
+    }
+    
     /// <summary>
     /// Creates a new Incident report object (using the form fields) and saves it in the database.
     /// Returns the new Incident report on success, null on failure.
@@ -606,10 +614,10 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
     /// Otherwise, returns the value as a String ("1" for yes, "0" for no).
     /// </summary>
     /// <param name="cbx">The CheckBox to convert.</param>
-    /// <returns>String: 1 for yes/checked. Null: for no/unchecked.</returns>
+    /// <returns>String: 1 for yes/checked, 0 for no/unchecked.</returns>
     private String convertCheckbox(CheckBox cbx) {
         if (!cbx.Checked) {
-            return null;
+            return "0";
         }
         return "1";
     }
@@ -620,7 +628,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
     /// Otherwise, returns the value as a String ("1" for yes, "0" for no).
     /// </summary>
     /// <param name="rbl">The radio button list to convert.</param>
-    /// <returns>String: 1 for yes, 0 for no. Null: for N/A or Unknown or no selection made.</returns>
+    /// <returns>String: 2 for N/A or Unknown or no selection made, 1 for yes, 0 for no.</returns>
     private String convertRadioButtonList(RadioButtonList rbl) {
         if ((rbl.SelectedValue == null) || rbl.SelectedValue.Equals("Null")) {
             return null;
