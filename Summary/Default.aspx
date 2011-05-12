@@ -3,9 +3,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <style type="text/css">
-        .style2
+        .style3
         {
-            width: 206px;
+            width: 161px;
         }
     </style>
 </asp:Content>
@@ -34,48 +34,9 @@ Summary Page:
             </td>
             <td>
                 <asp:TextBox runat="server" ID="tbxLabDepartment"></asp:TextBox>
-                <asp:RequiredFieldValidator
-                    ID="rfvLabDepartment" runat="server" ErrorMessage="Please enter a Lab Department." 
-                    ControlToValidate="tbxLabDepartment" validationgroup="vgrInspectionLookUp">
-                </asp:RequiredFieldValidator>
             </td>
             <td>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
-            </td>
-            <td>
-                Supervisor: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxLabSupervisor"></asp:TextBox>
-                <asp:RequiredFieldValidator
-                    ID="rfvLabSupervisor" runat="server" ErrorMessage="Please enter a Lab Supervisor." 
-                    ControlToValidate="tbxLabSupervisor" validationgroup="vgrInspectionLookUp">
-                </asp:RequiredFieldValidator>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Room: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxLabRoom" />
-                <asp:RequiredFieldValidator
-                    ID="rfvLabRoom" runat="server" ErrorMessage="Please enter a Lab Room." 
-                    ControlToValidate="tbxLabRoom" validationgroup="vgrInspectionLookUp">
-                </asp:RequiredFieldValidator>
-            </td>
-            <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
-            </td>
-            <td>
-                Inspectors: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxLabInspectors"></asp:TextBox>
-                <asp:RequiredFieldValidator
-                    ID="rfvLabInspectors" runat="server" ErrorMessage="Please enter Lab Inspector." 
-                    ControlToValidate="tbxLabInspectors" validationgroup="vgrInspectionLookUp">
-                </asp:RequiredFieldValidator>
             </td>
         </tr>
         <tr>
@@ -100,24 +61,9 @@ Summary Page:
             <td>
                 <asp:TextBox ID="tbxLabInspectionDate" runat="server"></asp:TextBox>
                 <asp:CalendarExtender ID="cexLabInspectionDate" runat="server" TargetControlID="tbxLabInspectionDate" Format="yyyy/MM/dd"></asp:CalendarExtender>
-                <asp:RequiredFieldValidator
-                    ID="rfvLabInspectionDate" runat="server" ErrorMessage="Please select a Lab Inspection Date." 
-                    ControlToValidate="tbxLabInspectionDate" validationgroup="vgrInspectionLookUp">
-                </asp:RequiredFieldValidator>
             </td>
             <td>
                 &nbsp&nbsp&nbsp&nbsp&nbsp
-            </td>
-            <td>
-                Date of Follow Up: 
-            </td>
-            <td>
-                <asp:TextBox ID="tbxLabFollowupDate" runat="server"></asp:TextBox>
-                <asp:CalendarExtender ID="cexLabFollowupDate" runat="server" TargetControlID="tbxLabFollowupDate" Format="yyyy/MM/dd"></asp:CalendarExtender>
-                <asp:RequiredFieldValidator
-                    ID="rfvLabFollowUpDate" runat="server" ErrorMessage="Please select a Lab Follow Up Date." 
-                    ControlToValidate="tbxLabFollowupDate" validationgroup="vgrInspectionLookUp">
-                </asp:RequiredFieldValidator>
             </td>
         </tr>
         <tr>
@@ -128,8 +74,8 @@ Summary Page:
         </tr>
     </table>
         <asp:ValidationSummary ID="vsuInspectionLookUp" ValidationGroup="vgrInspectionLookUp" runat="server" />
-        <asp:GridView ID="grvLabInspections" runat="server" AutoGenerateColumns="False" 
-            DataKeyNames="labInsNo"> <%--DataSourceID="edsLabInspections">--%>
+        <asp:GridView ID="grvLabInspections" runat="server" AutoGenerateColumns="False"
+            autogenerateselectbutton="True" DataKeyNames="labInsNo"> <%--DataSourceID="edsLabInspections">--%>
             <Columns>
                 <asp:BoundField DataField="labInsNo" HeaderText="Lab Inspection #" ReadOnly="True" 
                     SortExpression="labInsNo" />
@@ -145,7 +91,22 @@ Summary Page:
                 <asp:BoundField DataField="supervisor" HeaderText="Supervisor" 
                     SortExpression="supervisor" />
             </Columns>
-        </asp:GridView>   
+        </asp:GridView> 
+        <asp:GridView ID="grvLabInspectionResults" runat="server" AutoGenerateColumns="false"
+        DataKeyNames="labInsItem" OnRowDataBound="grvLabInspectionResults_DataBinding">
+        <Columns>
+                <asp:BoundField DataField="labInsItem" HeaderText="Item" ReadOnly="True" 
+                    SortExpression="labInsItem" />
+
+                <asp:BoundField DataField="checkbox" HeaderText="Checked (yes/no)" 
+                    SortExpression="checkbox" />
+
+                <asp:BoundField DataField="comments" HeaderText="Comment" 
+                    SortExpression="comments" />
+
+            </Columns>
+
+        </asp:GridView> 
     </asp:Panel>
 
     <h3 id="courseLookUp"><asp:Image ID="imgExpandCollapseCourseLookUp" runat="server" /> Course Lookup:</h3>
@@ -159,21 +120,17 @@ Summary Page:
         <asp:Panel ID="grvPanelValidCourses" runat="server"></asp:Panel>
         <table id="tblExpireCourses">
         <tr>
-            <td class="style2">
+            <td class="style3">
                 Enter number of months:</td>
             <td>
-                <asp:TextBox ID="tbxMonthsRange" runat="server"></asp:TextBox>
+                <asp:TextBox ID="tbxMonthsRange" runat="server" Width="33px"></asp:TextBox>
+                <asp:Button ID="btnExpiringCourses" runat="server" 
+                    onclick="btnExpiringCourses_Click" Text="List all Expiring Courses" 
+                    ValidationGroup="vgrExpiringCourseLookUp" Width="210px" />
                 <asp:RequiredFieldValidator ID="rfvMonths" runat="server" ControlToValidate="tbxMonthsRange" 
                     ErrorMessage="You must enter a number." ValidationGroup="vgrExpiringCourseLookUp"></asp:RequiredFieldValidator>
                 <asp:RegularExpressionValidator ID="revMonths" runat="server" ControlToValidate="tbxMonthsRange" 
                     ErrorMessage="Numbers between (1 - 60)" ValidationExpression="^\d+$" ValidationGroup="vgrExpiringCourseLookUp"></asp:RegularExpressionValidator>
-            </td>
-        </tr>
-        <tr> 
-            <td class="style2">
-                <asp:Button ID="btnExpiringCourses" ValidationGroup="vgrExpiringCourseLookUp" 
-                    runat="server" Text="List all Expiring Courses" Width="210px" 
-                    onclick="btnExpiringCourses_Click" />
             </td>
         </tr>
     </table>
