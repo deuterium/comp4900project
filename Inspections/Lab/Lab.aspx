@@ -69,7 +69,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
 </asp:CollapsiblePanelExtender>
 
 <div>
-
+    <div id="labHeader" class="headerPanel">
     <table>
         <tr>
             <td>
@@ -133,7 +133,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
         </tr>
     </table>
-
+    </div>
+    <div style="padding:10px; position:absolute"></div>
     <h3 id="labB"><asp:Image ID="imgExpandCollapseB" runat="server" /> 
     B. Emergency & Information Material <asp:Label ID="ExpandCollapseB" runat="server" Text="" />
     </h3>
@@ -404,7 +405,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
         </tr>
     </table>
     </asp:Panel>
-    
+
     <h3 id="labC"><asp:Image ID="imgExpandCollapseC" runat="server" />
     C. Personal Protection <asp:Label ID="ExpandCollapseC" runat="server" Text=""></asp:Label>
     <asp:Label ID="lblValC" runat="server" Text="" ForeColor="Red" />
