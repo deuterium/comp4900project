@@ -163,9 +163,9 @@
           <Property Name="p1_dateReported" Type="smalldatetime" />
           <Property Name="p1_incidentDesc" Type="varchar(max)" />
           <Property Name="p1_witnessName1" Type="varchar" MaxLength="20" />
-          <Property Name="p1_witnessPhone1" Type="varchar" MaxLength="10" />
+          <Property Name="p1_witnessPhone1" Type="varchar" MaxLength="12" />
           <Property Name="p1_witnessName2" Type="varchar" MaxLength="20" />
-          <Property Name="p1_witnessPhone2" Type="varchar" MaxLength="10" />
+          <Property Name="p1_witnessPhone2" Type="varchar" MaxLength="12" />
           <Property Name="p1_nature_no" Type="char" MaxLength="1" />
           <Property Name="p1_nature_musculoskeletal" Type="char" MaxLength="1" />
           <Property Name="p1_nature_bruise" Type="char" MaxLength="1" />
@@ -858,9 +858,9 @@
           <Property Name="p1_dateReported" Type="DateTime" />
           <Property Name="p1_incidentDesc" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p1_witnessName1" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="p1_witnessPhone1" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="p1_witnessPhone1" Type="String" MaxLength="12" Unicode="false" FixedLength="false" />
           <Property Name="p1_witnessName2" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="p1_witnessPhone2" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="p1_witnessPhone2" Type="String" MaxLength="12" Unicode="false" FixedLength="false" />
           <Property Name="p1_nature_no" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p1_nature_musculoskeletal" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p1_nature_bruise" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
