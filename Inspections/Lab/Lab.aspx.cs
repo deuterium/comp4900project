@@ -8,7 +8,8 @@ using BCCAModel;
 
 public partial class Inspections_Lab_Lab : System.Web.UI.Page
 {
-    BCCAEntities ctx = new BCCAEntities();
+    //BCCAEntities ctx = new BCCAEntities();
+
     protected void Page_Load(object sender, EventArgs e)
     {
         //rdoFireEvacYes.Checked = true;
