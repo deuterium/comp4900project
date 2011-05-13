@@ -93,69 +93,71 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
         <p><b>Y = </b>No action required <b>N = </b>Corrective action required</p>
     </asp:Panel>
 
-    <table>
-        <tr>
-            <td>
-                Department: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxOfficeDepartment"></asp:TextBox>
-            </td>
-            <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
-            </td>
-            <td>
-                Supervisor: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxOfficeSupervisor"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Room: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxOfficeRoom" />
-            </td>
-            <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
-            </td>
-            <td>
-                Inspectors: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxOfficeInspectors"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Lab Manager:
-            </td>
-            <td>
-                <asp:DropDownList runat="server" ID="ddlOfficeLabManager"></asp:DropDownList>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Date of Inspection: 
-            </td>
-            <td>
-                <asp:TextBox ID="tbxOfficeInspectionDate" runat="server"></asp:TextBox>
-                <asp:CalendarExtender ID="cexOfficeInspectionDate" runat="server" TargetControlID="tbxOfficeInspectionDate" Format="yyyy/MM/dd"></asp:CalendarExtender>
-            </td>
-            <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
-            </td>
-            <td>
-                Date of Follow Up: 
-            </td>
-            <td>
-                <asp:TextBox ID="tbxOfficeFollowupDate" runat="server"></asp:TextBox>
-                <asp:CalendarExtender ID="cexOfficeFollowupDate" runat="server" TargetControlID="tbxOfficeFollowupDate" Format="yyyy/MM/dd"></asp:CalendarExtender>
-            </td>
-        </tr>
-    </table>
+    <div id="officeHeader" class="headerPanel">
+        <table>
+            <tr>
+                <td>
+                    Department: 
+                </td>
+                <td>
+                    <asp:TextBox runat="server" ID="tbxOfficeDepartment"></asp:TextBox>
+                </td>
+                <td>
+                    &nbsp&nbsp&nbsp&nbsp&nbsp
+                </td>
+                <td>
+                    Supervisor: 
+                </td>
+                <td>
+                    <asp:TextBox runat="server" ID="tbxOfficeSupervisor"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Room: 
+                </td>
+                <td>
+                    <asp:TextBox runat="server" ID="tbxOfficeRoom" />
+                </td>
+                <td>
+                    &nbsp&nbsp&nbsp&nbsp&nbsp
+                </td>
+                <td>
+                    Inspectors: 
+                </td>
+                <td>
+                    <asp:TextBox runat="server" ID="tbxOfficeInspectors"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Lab Manager:
+                </td>
+                <td>
+                    <asp:DropDownList runat="server" ID="ddlOfficeLabManager"></asp:DropDownList>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Date of Inspection: 
+                </td>
+                <td>
+                    <asp:TextBox ID="tbxOfficeInspectionDate" runat="server"></asp:TextBox>
+                    <asp:CalendarExtender ID="cexOfficeInspectionDate" runat="server" TargetControlID="tbxOfficeInspectionDate" Format="yyyy/MM/dd"></asp:CalendarExtender>
+                </td>
+                <td>
+                    &nbsp&nbsp&nbsp&nbsp&nbsp
+                </td>
+                <td>
+                    Date of Follow Up: 
+                </td>
+                <td>
+                    <asp:TextBox ID="tbxOfficeFollowupDate" runat="server"></asp:TextBox>
+                    <asp:CalendarExtender ID="cexOfficeFollowupDate" runat="server" TargetControlID="tbxOfficeFollowupDate" Format="yyyy/MM/dd"></asp:CalendarExtender>
+                </td>
+            </tr>
+        </table>
+    </div>
 
     <h3 id="workB"><asp:Image ID="imgExpandCollapseB" runat="server" /> 1. General Safety</h3>
     <asp:Panel ID="pnlB" CssClass="panel" runat="server">
