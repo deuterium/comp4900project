@@ -8,12 +8,6 @@
 
 <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server"></asp:ToolkitScriptManager>
 
-<asp:CollapsiblePanelExtender ID="cpeA" runat="server" Collapsed="true"
-CollapseControlID="labA" ExpandControlID="labA" TargetControlID="pnlA"
-ImageControlID="imgExpandCollapseA" TextLabelID="ExpandCollapseA" CollapsedText="(Show Details)"
-ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
-</asp:CollapsiblePanelExtender>
-
 <asp:CollapsiblePanelExtender ID="cpeB" runat="server" Collapsed="true"
 CollapseControlID="labB" ExpandControlID="labB" TargetControlID="pnlB"
 ImageControlID="imgExpandCollapseB" TextLabelID="ExpandCollapseB" CollapsedText="(Show Details)"
@@ -76,9 +70,6 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
 
 <div>
 
-    <h3 id="labA"><asp:Image ID="imgExpandCollapseA" runat="server" />
-    A. Department <asp:Label ID="ExpandCollapseA" runat="server" Text=""></asp:Label></h3>
-    <asp:Panel ID="pnlA" CssClass="panel" runat="server">
     <table>
         <tr>
             <td>
@@ -142,7 +133,6 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
         </tr>
     </table>
-    </asp:Panel>
 
     <h3 id="labB"><asp:Image ID="imgExpandCollapseB" runat="server" /> 
     B. Emergency & Information Material <asp:Label ID="ExpandCollapseB" runat="server" Text="" />

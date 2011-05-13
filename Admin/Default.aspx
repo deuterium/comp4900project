@@ -18,8 +18,6 @@
         ExpandControlID="hr3DropDowns" TargetControlID="pnlDropDownsDescription" Collapsed="false" />
     <asp:CollapsiblePanelExtender ID="cpeCoursesDescription" runat="server" CollapseControlID="hr3Courses"
         ExpandControlID="hr3Courses" TargetControlID="pnlCoursesDescription" Collapsed="false" />
-    <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
-        DropShadow="true" BackgroundCssClass="modalBackground" />
     <asp:EntityDataSource ID="edsRoles" runat="server" ConnectionString="name=BCCAEntities"
         DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="Roles" />
     <asp:EntityDataSource ID="edsDepartments" runat="server" ConnectionString="name=BCCAEntities"
@@ -72,7 +70,7 @@
                                         Username:
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="tbUsername" runat="server" width="110" />
+                                        <asp:TextBox ID="tbUsername" runat="server" Width="110" />
                                         <asp:TextBox ID="tbUsernameID" runat="server" CssClass="hidden" />
                                         <asp:RequiredFieldValidator ID="rfvUsername" runat="server" ErrorMessage="Username required"
                                             ValidationGroup="vgrUserNew" ControlToValidate="tbUsername" Display="Static">*</asp:RequiredFieldValidator>
@@ -83,8 +81,9 @@
                                         Password:
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="tbPassword" runat="server" width="110" />
-                                        <asp:TextBoxWatermarkExtender enabled="false" ID="tbwPassword" runat="server" TargetControlID="tbPassword" WatermarkText="New Password">
+                                        <asp:TextBox ID="tbPassword" runat="server" Width="110" />
+                                        <asp:TextBoxWatermarkExtender Enabled="false" ID="tbwPassword" runat="server" TargetControlID="tbPassword"
+                                            WatermarkText="New Password">
                                         </asp:TextBoxWatermarkExtender>
                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Password required"
                                             ValidationGroup="vgrUserNew" ControlToValidate="tbPassword" Display="Static">*</asp:RequiredFieldValidator>
@@ -110,7 +109,6 @@
                                     DataTextField="deptName" DataValueField="deptNo" AppendDataBoundItems="true">
                                     <asp:ListItem Text="" Value="" />
                                 </asp:DropDownList>
-                                
                             </div>
                         </td>
                         <td valign="bottom">
@@ -120,8 +118,8 @@
                             <br />
                             <asp:Button ID="btnUserDelete" runat="server" Text="Delete User" Width="120" Visible="false"
                                 ValidationGroup="vgrUserDelete" OnClick="btnUserDelete_Click" />
-                            <asp:ConfirmButtonExtender ID="cbeUserDelete" runat="server" TargetControlID="btnUserDelete" ConfirmText="Are you sure you want to delete this user?">
-                            </asp:ConfirmButtonExtender>
+                            <asp:ConfirmButtonExtender ID="cbeUserDelete" runat="server" TargetControlID="btnUserDelete"
+                                ConfirmText="Are you sure you want to delete this user?" ConfirmOnFormSubmit="false" />
                             <br />
                             <asp:Button ID="btnUserNew" runat="server" Text="Create User" Width="120" OnClick="btnUserNew_Click"
                                 ValidationGroup="vgrUserNew" />
@@ -164,15 +162,17 @@
                             <asp:RequiredFieldValidator ID="rfvDropDownsDelete" runat="server" ErrorMessage="Selection of item needed to delete"
                                 ControlToValidate="lbDropDowns" ValidationGroup="vgrDropDownsDelete" Display="Dynamic" />
                             <br />
-                            <asp:ListBox ID="lbDropDowns" runat="server" Width="180" Height="120" 
-                                ValidationGroup="vgrDropDownsDelete" onload="lbDropDowns_Load"  />
+                            <asp:ListBox ID="lbDropDowns" runat="server" Width="180" Height="120" ValidationGroup="vgrDropDownsDelete"
+                                OnLoad="lbDropDowns_Load" />
                         </td>
                         <td>
                             <asp:Button ID="btnDropDownsNew" runat="server" Text="< Add Department" Width="140"
-                                ValidationGroup="vgrDropDownsNew" onclick="btnDropDownsNew_Click" />
+                                ValidationGroup="vgrDropDownsNew" OnClick="btnDropDownsNew_Click" />
                             <br />
                             <asp:Button ID="btnDropDownsDelete" runat="server" Text="> Delete Department" Width="140"
-                                ValidationGroup="vgrDropDownsDelete" onclick="btnDropDownsDelete_Click" />
+                                ValidationGroup="vgrDropDownsDelete" OnClick="btnDropDownsDelete_Click" />
+                            <asp:ConfirmButtonExtender ID="cbeDropDownsDelete" runat="server" TargetControlID="btnDropDownsDelete"
+                                ConfirmText="Are you sure you want to delete this item?" ConfirmOnFormSubmit="false" />
                         </td>
                         <td width="140">
                             <asp:Label ID="lblDropDownsNew" runat="server" Text="Name of Department to add:"></asp:Label>
@@ -203,7 +203,7 @@
             <table width="100%" cellpadding="5">
                 <tr>
                     <td>
-                        <asp:Label ID="lblPnlPop" runat="server" Text="Test panel"></asp:Label>
+                        <asp:Label ID="lblPnlPop" runat="server"></asp:Label>
                     </td>
                 </tr>
                 <tr>
@@ -214,5 +214,7 @@
             </table>
         </asp:Panel>
         <asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
+        <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
+            DropShadow="true" BackgroundCssClass="modalBackground" />
     </div>
 </asp:Content>
