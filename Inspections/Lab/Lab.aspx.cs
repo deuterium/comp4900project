@@ -8,12 +8,17 @@ using BCCAModel;
 
 public partial class Inspections_Lab_Lab : System.Web.UI.Page
 {
-    //BCCAEntities ctx = new BCCAEntities();
+    BCCAEntities ctx = new BCCAEntities();
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        //rdoFireEvacYes.Checked = true;
-        //testLabel.Text = rblFireEvac.SelectedItem.ToString();
+        if (!IsPostBack)
+        {
+            ddlLabLabManager.DataSource = ctx.LabInspections.Select(l => new { text = l.labMgr, value = l.labMgr });
+            ddlLabLabManager.DataValueField = "value";
+            ddlLabLabManager.DataTextField = "text";
+            ddlLabLabManager.DataBind();
+        }
     }
 
     /// <summary>

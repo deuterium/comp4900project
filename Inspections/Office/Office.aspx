@@ -81,8 +81,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
 
 <div>
 
-    <div>
-        <br />
+    <h3 id="workA"><asp:Image ID="imgExpandCollapseA" runat="server" />Inspection Information</h3>
+    <asp:Panel ID="pnlA" CssClass="panel" runat="server">
         <p>This form is to be used by departments to conduct monthly workplace safety inspections. The intent is to document the process, identify concerns or issues that require corrective action, delegate responsibility for addressing the issue and following up outstanding issues during subsequent inspections.</p> 
         <p><b>How often should inspections be conducted:</b> Monthly</p>
         <p><b>Who should be involved:</b> A manager/supervisor and employee/s</p>
@@ -91,10 +91,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
         <p><b>Date Completed: </b> This should be filled out to ensure the follow up loop is completed</p>
         <p><b>Where should records be kept:</b> Within the department, as it is a departmental responsibility</p>
         <p><b>Y = </b>No action required <b>N = </b>Corrective action required</p>
-    </div>
+    </asp:Panel>
 
-    <h3 id="workA"><asp:Image ID="imgExpandCollapseA" runat="server" /> Inspection Information</h3>
-    <asp:Panel ID="pnlA" CssClass="panel" runat="server">
     <table>
         <tr>
             <td>
@@ -158,7 +156,6 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
         </tr>
     </table>
-    </asp:Panel>
 
     <h3 id="workB"><asp:Image ID="imgExpandCollapseB" runat="server" /> 1. General Safety</h3>
     <asp:Panel ID="pnlB" CssClass="panel" runat="server">

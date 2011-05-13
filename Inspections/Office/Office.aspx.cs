@@ -8,9 +8,17 @@ using BCCAModel;
 
 public partial class Inspections_Office_Office : System.Web.UI.Page
 {
+    BCCAEntities ctx = new BCCAEntities();
+
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (!IsPostBack)
+        {
+            ddlOfficeLabManager.DataSource = ctx.LabInspections.Select(l => new { text = l.labMgr, value = l.labMgr });
+            ddlOfficeLabManager.DataValueField = "value";
+            ddlOfficeLabManager.DataTextField = "text";
+            ddlOfficeLabManager.DataBind();
+        }
     }
 
     /// <summary>
