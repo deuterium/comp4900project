@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Reporting.aspx.cs" Inherits="Reporting_Reporting" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Reporting_Default" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
@@ -193,7 +193,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <asp:RequiredFieldValidator ID="rfvDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
                     ControlToValidate="tbx_p1_dateOfIncident" ErrorMessage="Date of incident is required."></asp:RequiredFieldValidator>
                 <asp:RegularExpressionValidator ID="revDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
-                    ControlToValidate="tbx_p1_dateReported" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                    ControlToValidate="tbx_p1_dateOfIncident" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                     ErrorMessage="Date reported must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
             </td>
         </tr>
@@ -219,6 +219,10 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <asp:RegularExpressionValidator ID="revDateReported" runat="server" ValidationGroup="vgpPanelA"
                     ControlToValidate="tbx_p1_dateReported" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                     ErrorMessage="Date reported must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                <asp:CompareValidator ID="cpvDateReported" runat="server" ValidationGroup="vgpPanelA"
+                    ControlToValidate="tbx_p1_dateReported" ControlToCompare="tbx_p1_dateOfIncident"
+                    Type="Date" Operator="GreaterThanEqual"
+                    ErrorMessage="Date reported must be the on or later than the date of the incident."></asp:CompareValidator>
             </td>
         </tr>
         <tr>
@@ -245,21 +249,21 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
                 Phone: <asp:TextBox TabIndex="118" ID="tbx_p1_witnessPhone1" runat="server" ></asp:TextBox>
                 <asp:RegularExpressionValidator ID="revWitnessPhone1" runat="server" ValidationGroup="vgpPanelA"
-                    ControlToValidate="tbx_p1_witnessPhone1" ValidationExpression="^\({1}[0-9]{3}\){1}[0-9]{3}-{1}[0-9]{4}$" 
-                    ErrorMessage="Phone number for witness 1 must be in format '(###)###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
+                    ControlToValidate="tbx_p1_witnessPhone1" ValidationExpression="^[0-9]{3}-{1}[0-9]{3}-{1}[0-9]{4}$"
+                    ErrorMessage="Phone number for witness 1 must be in format '###-###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
             </td>
         </tr>
         <tr>
             <td>Witness 2:</td>
             <td>
                 Name: <asp:TextBox TabIndex="119" ID="tbx_p1_witnessName2" runat="server" ></asp:TextBox>
-                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="vgpEmpInfo"
-                    ControlToValidate="tbx_p1_witnessName1" ErrorMessage="Witness 1 must have a first and last name separated by a space."
+                <asp:RegularExpressionValidator ID="rexWitnessName2" runat="server" ValidationGroup="vgpEmpInfo"
+                    ControlToValidate="tbx_p1_witnessName2" ErrorMessage="Witness 2 must have a first and last name separated by a space."
                     ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
                 Phone: <asp:TextBox  TabIndex="120" ID="tbx_p1_witnessPhone2" runat="server"></asp:TextBox>
                 <asp:RegularExpressionValidator ID="revWitnessPhone2" runat="server" ValidationGroup="vgpPanelA"
-                    ControlToValidate="tbx_p1_witnessPhone2" ValidationExpression="^\({1}[0-9]{3}\){1}[0-9]{3}-{1}[0-9]{4}$" 
-                    ErrorMessage="Phone number for witness 2 must be in format '(###)###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
+                    ControlToValidate="tbx_p1_witnessPhone2" ValidationExpression="^[0-9]{3}-{1}[0-9]{3}-{1}[0-9]{4}$" 
+                    ErrorMessage="Phone number for witness 2 must be in format '###-###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
             </td>
         </tr>
         <tr>
@@ -373,8 +377,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td>
                 <asp:RadioButtonList ID="rbl_p2_patient_adequateAssist" runat="server" RepeatDirection="Horizontal">
                     <asp:ListItem TabIndex="129" Text="Yes" Value="1" ></asp:ListItem>
-                    <asp:ListItem TabIndex="130" Text="No" Value="0" ></asp:ListItem>
-                    <asp:ListItem TabIndex="131" Text="Unknown" Value="Null" ></asp:ListItem>
+                    <asp:ListItem TabIndex="130" Text="No" Value="2" ></asp:ListItem>
+                    <asp:ListItem TabIndex="131" Text="Unknown" Value="3" ></asp:ListItem>
                 </asp:RadioButtonList>
             </td></tr>
             <tr><td>How many employees involved in activity at time of incident?</td></tr>
@@ -642,9 +646,12 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         </td>
         <td>
             <asp:TextBox TabIndex="149" ID="tbx_p2_corrective_person" runat="server"></asp:TextBox>
+            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="vgpEmpInfo"
+                ControlToValidate="tbx_p2_corrective_person" ErrorMessage="Person assigned must have a first and last name separated by a space."
+                ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
         </td>
         <td>
-            Date (M/DY):
+            Date:
             <asp:TextBox TabIndex="150" ID="tbx_p2_corrective_personDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexCorrectivePersonDate" runat="server" TargetControlID="tbx_p2_corrective_personDate" Format="M/d/yyyy" >
             </asp:CalendarExtender>
@@ -659,13 +666,13 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         </td>
         <td>
             <asp:RadioButtonList ID="rbl_p2_corrective_maintenance" runat="server" RepeatDirection="Horizontal">
-                <asp:ListItem TabIndex="151" Text="Yes" ></asp:ListItem>
-                <asp:ListItem TabIndex="152" Text="No" ></asp:ListItem>
-                <asp:ListItem TabIndex="153" Text="N/A" ></asp:ListItem>
+                <asp:ListItem TabIndex="151" Text="Yes" Value="1" ></asp:ListItem>
+                <asp:ListItem TabIndex="152" Text="No" Value="2" ></asp:ListItem>
+                <asp:ListItem TabIndex="153" Text="N/A" Value="3" ></asp:ListItem>
             </asp:RadioButtonList>
         </td>
         <td>
-            Date (M/DY):
+            Date:
             <asp:TextBox TabIndex="154" ID="tbx_p2_corrective_maintenanceDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexMaintenanceDate" runat="server" TargetControlID="tbx_p2_corrective_maintenanceDate" Format="M/d/yyyy" >
             </asp:CalendarExtender>
@@ -680,13 +687,13 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         </td>
         <td>
             <asp:RadioButtonList ID="rbl_p2_corrective_communicated" runat="server" RepeatDirection="Horizontal">
-                <asp:ListItem TabIndex="155" Text="Yes" ></asp:ListItem>
-                <asp:ListItem TabIndex="156" Text="No" ></asp:ListItem>
-                <asp:ListItem TabIndex="157" Text="N/A" ></asp:ListItem>
+                <asp:ListItem TabIndex="155" Text="Yes" Value="1" ></asp:ListItem>
+                <asp:ListItem TabIndex="156" Text="No" Value="2" ></asp:ListItem>
+                <asp:ListItem TabIndex="157" Text="N/A" Value="3" ></asp:ListItem>
             </asp:RadioButtonList>
         </td>
         <td>
-            Date (M/DY):
+            Date:
             <asp:TextBox TabIndex="158" ID="tbx_p2_corrective_communicatedDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexCommToStaffDate" runat="server" TargetControlID="tbx_p2_corrective_communicatedDate" Format="M/d/yyyy" >
             </asp:CalendarExtender>
@@ -701,13 +708,13 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         </td>
         <td>
             <asp:RadioButtonList ID="rbl_p2_corrective_time" runat="server" RepeatDirection="Horizontal">
-                <asp:ListItem TabIndex="159" Text="Yes" ></asp:ListItem>
-                <asp:ListItem TabIndex="160" Text="No" ></asp:ListItem>
-                <asp:ListItem TabIndex="161" Text="N/A" ></asp:ListItem>
+                <asp:ListItem TabIndex="159" Text="Yes" Value="1" ></asp:ListItem>
+                <asp:ListItem TabIndex="160" Text="No" Value="2" ></asp:ListItem>
+                <asp:ListItem TabIndex="161" Text="N/A" Value="3" ></asp:ListItem>
             </asp:RadioButtonList>
         </td>
         <td>
-            Date (M/DY):
+            Date:
             <asp:TextBox TabIndex="161" ID="tbx_p2_corrective_timeDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexTimeLossDate" runat="server" TargetControlID="tbx_p2_corrective_timeDate" Format="M/d/yyyy" >
             </asp:CalendarExtender>
@@ -733,7 +740,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="162" ID="tbx_p2_corrective_written" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
         </td>
         <td>
-            Target Completion Date (M/DY):
+            Target Completion Date:
             <br />
             <asp:TextBox TabIndex="163" ID="tbx_p2_corrective_writtenTargetDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexWrittenTargetDate" runat="server" TargetControlID="tbx_p2_corrective_writtenTargetDate" Format="M/d/yyyy" >
@@ -742,7 +749,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 ControlToValidate="tbx_p2_corrective_writtenTargetDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Written target date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
             <br />
-            Date completed (M/DY):
+            Date completed:
             <br />
             <asp:TextBox TabIndex="164" ID="tbx_p2_corrective_writtenCompletedDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexWrittenCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_writtenCompletedDate" Format="M/d/yyyy" >
@@ -759,7 +766,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="165" ID="tbx_p2_corrective_education" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
         </td>
         <td>
-            Target Completion Date (M/DY):
+            Target Completion Date:
             <br />
             <asp:TextBox TabIndex="166" ID="tbx_p2_corrective_educationTargetDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexEducationTargetDate" runat="server" TargetControlID="tbx_p2_corrective_educationTargetDate" Format="M/d/yyyy" >
@@ -768,7 +775,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 ControlToValidate="tbx_p2_corrective_educationTargetDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Education target date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
             <br />
-            Date completed (M/DY):
+            Date completed:
             <br />
             <asp:TextBox TabIndex="167" ID="tbx_p2_corrective_educationCompletedDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexEducationCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_educationCompletedDate" Format="M/d/yyyy" >
@@ -786,7 +793,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="168" ID="tbx_p2_corrective_equipment" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
         </td>
         <td>
-            Target Completion Date (M/DY):
+            Target Completion Date:
             <br />
             <asp:TextBox TabIndex="169" ID="tbx_p2_corrective_equipmentTargetDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexEquipmentTargetDate" runat="server" TargetControlID="tbx_p2_corrective_equipmentTargetDate" Format="M/d/yyyy" >
@@ -795,7 +802,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 ControlToValidate="tbx_p2_corrective_equipmentTargetDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Equipment target date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
             <br />
-            Date completed (M/DY):
+            Date completed:
             <br />
             <asp:TextBox TabIndex="170" ID="tbx_p2_corrective_equipmentCompletedDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexEquipmentCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_equipmentCompletedDate" Format="M/d/yyyy" >
@@ -831,6 +838,9 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 ErrorMessage="Environment date completed must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
         </td>
     </tr>
+
+
+
     <tr>
         <td>
             Patient/Resident Related Incidents - Lift / Transfer Re-Accessed or Care Plan / ADL Card Updated:
@@ -853,7 +863,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:CalendarExtender ID="cexPatientCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_patientCompletedDate" Format="M/d/yyyy" >
             </asp:CalendarExtender>
             <asp:RegularExpressionValidator ID="revPatientCompletedDate" runat="server" ValidationGroup="vgpGRelevant"
-                ControlToValidate="tbx_p2_corrective_patientCompletedDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/[0-9]{4}$" 
+                ControlToValidate="tbx_p2_corrective_patientCompletedDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Patient/Resident date completed must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
         </td>
     </tr>
