@@ -1345,6 +1345,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
         <asp:TextBox TextMode="MultiLine" Wrap="true" Width="795px" Height="200px" ID="tbxCommentOfficeComments" runat="server"></asp:TextBox>
     </asp:Panel>
 
+    <asp:Button ID="btnOfficeInspectionSubmit" runat="server" Text="Submit" onclick="btnOfficeInspectionSubmit_Click" />
+
 </div>
 
 </asp:Content>
