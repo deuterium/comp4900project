@@ -23,6 +23,7 @@ using System.Drawing;
  * test really long inputs
  * put results msg in update panel triggered by btn click (so it disappears eveyr time you click submit)
  * re-order controls so they appear in the order you click them?
+ * add schedule (last part of follow-up)
  **/
 
 /// <summary>
@@ -32,7 +33,7 @@ using System.Drawing;
 ///          Safety Training Database and Website
 /// Authors: Lindsay Fester - lindsay.m.fester@gmail.com
 /// </summary>
-public partial class Reporting_Reporting : System.Web.UI.Page {
+public partial class Reporting_Default : System.Web.UI.Page {
     #region Class Variables
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
@@ -255,6 +256,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
 
         Incident report = new Incident {
 
+            #region A_IncidentInfo
             empNo = empId,
             p1_dateOfIncident = dateOfIncident,
             p1_dateReported = dateReported,
@@ -267,6 +269,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p1_action_medicalGP = convertCheckbox(cbx_p1_action_medicalGP),
             p1_action_lostTime = convertCheckbox(cbx_p1_action_lostTime),
             p1_action_medicalER = convertCheckbox(cbx_p1_action_medicalER),
+            #endregion A_IncidentInfo
 
             #region B_NatureOfInjury
             p1_nature_no = convertCheckbox(cbx_p1_nature_no),
@@ -452,11 +455,11 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p2_corrective_patient = convertTextBox(tbx_p2_corrective_patient),
             #endregion G_FollowUp
 
-            #region G_ManagersReport
-            p2_manager_previous = convertTextBox(tbx_p2_manager_previous),
-            p2_manager_objections = convertTextBox(tbx_p2_manager_objections),
-            p2_manager_alternative = convertTextBox(tbx_p2_manager_alternative),
-            #endregion G_ManagersReport
+            //#region G_ManagersReport
+            //p2_manager_previous = convertTextBox(tbx_p2_manager_previous),
+            //p2_manager_objections = convertTextBox(tbx_p2_manager_objections),
+            //p2_manager_alternative = convertTextBox(tbx_p2_manager_alternative),
+            //#endregion G_ManagersReport
 
         };
 
@@ -505,32 +508,68 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             report.p2_corrective_timeDate = dateTimeLoss;
         }
         #endregion F_CorrectiveAction_Dates
-
+        
         #region G_FollowUp_Dates
-        if (!tbx_p2_corrective_writtenTargetDate.Text.Equals(String.Empty)) {
-            DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenTargetDate.Text);
-            report.p2_corrective_writtenTargetDate = writtenDate;
-        }
 
-        if (!tbx_p2_corrective_educationTargetDate.Text.Equals(String.Empty)) {
-            DateTime educationDate = Convert.ToDateTime(tbx_p2_corrective_educationTargetDate.Text);
-            report.p2_corrective_educationTargetDate = educationDate;
-        }
+            #region G_FollowUp_Dates_Target
 
-        if (!tbx_p2_corrective_equipmentTargetDate.Text.Equals(String.Empty)) {
-            DateTime equipmentDate = Convert.ToDateTime(tbx_p2_corrective_equipmentTargetDate.Text);
-            report.p2_corrective_equipmentTargetDate = equipmentDate;
-        }
+            if (!tbx_p2_corrective_writtenTargetDate.Text.Equals(String.Empty)) {
+                DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenTargetDate.Text);
+                report.p2_corrective_writtenTargetDate = writtenDate;
+            }
 
-        if (!tbx_p2_corrective_environmentTargetDate.Text.Equals(String.Empty)) {
-            DateTime environmentDate = Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text);
-            report.p2_corrective_environmentTargetDate = environmentDate;
-        }
+            if (!tbx_p2_corrective_educationTargetDate.Text.Equals(String.Empty)) {
+                DateTime educationDate = Convert.ToDateTime(tbx_p2_corrective_educationTargetDate.Text);
+                report.p2_corrective_educationTargetDate = educationDate;
+            }
 
-        if (!tbx_p2_corrective_patientTargetDate.Text.Equals(String.Empty)) {
-            DateTime patientDate = Convert.ToDateTime(tbx_p2_corrective_patientTargetDate.Text);
-            report.p2_corrective_patientTargetDate = patientDate;
-        }
+            if (!tbx_p2_corrective_equipmentTargetDate.Text.Equals(String.Empty)) {
+                DateTime equipmentDate = Convert.ToDateTime(tbx_p2_corrective_equipmentTargetDate.Text);
+                report.p2_corrective_equipmentTargetDate = equipmentDate;
+            }
+
+            if (!tbx_p2_corrective_environmentTargetDate.Text.Equals(String.Empty)) {
+                DateTime environmentDate = Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text);
+                report.p2_corrective_environmentTargetDate = environmentDate;
+            }
+
+            if (!tbx_p2_corrective_patientTargetDate.Text.Equals(String.Empty)) {
+                DateTime patientDate = Convert.ToDateTime(tbx_p2_corrective_patientTargetDate.Text);
+                report.p2_corrective_patientTargetDate = patientDate;
+            }
+
+            #endregion G_FollowUp_Dates_Target
+
+            #region G_FollowUp_Dates_Completed
+
+            if (!tbx_p2_corrective_writtenCompletedDate.Text.Equals(String.Empty)) {
+                DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenCompletedDate.Text);
+                // spelled wrong
+                report.p2_corrective_writtentCompletedDate = writtenDate;
+            }
+
+            if (!tbx_p2_corrective_educationCompletedDate.Text.Equals(String.Empty)) {
+                DateTime educationDate = Convert.ToDateTime(tbx_p2_corrective_educationCompletedDate.Text);
+                report.p2_corrective_educationCompletedDate = educationDate;
+            }
+
+            if (!tbx_p2_corrective_equipmentCompletedDate.Text.Equals(String.Empty)) {
+                DateTime equipmentDate = Convert.ToDateTime(tbx_p2_corrective_equipmentCompletedDate.Text);
+                report.p2_corrective_equipmentCompletedDate = equipmentDate;
+            }
+
+            if (!tbx_p2_corrective_environmentCompletedDate.Text.Equals(String.Empty)) {
+                DateTime environmentDate = Convert.ToDateTime(tbx_p2_corrective_environmentCompletedDate.Text);
+                report.p2_corrective_environmentCompletedDate = environmentDate;
+            }
+
+            if (!tbx_p2_corrective_patientCompletedDate.Text.Equals(String.Empty)) {
+                DateTime patientDate = Convert.ToDateTime(tbx_p2_corrective_patientCompletedDate.Text);
+                report.p2_corrective_patientCompletedDate = patientDate;
+            }
+
+            #endregion G_FollowUp_Dates_Completed
+
         #endregion G_FollowUp_Dates
 
         #region H_FixedShiftRotation
@@ -643,7 +682,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
     /// <param name="rbl">The radio button list to convert.</param>
     /// <returns>Returns a string: 1 for yes, 2 for no, 3 for N/A or Unknown, null for no value selected.</returns>
     private String convertRadioButtonList(RadioButtonList rbl) {
-        if ((rbl.SelectedValue == null)) {
+        if ((rbl == null) || rbl.SelectedValue.Equals(String.Empty)) {
             return null;
         } else {
             return rbl.SelectedValue.ToString();
