@@ -69,70 +69,71 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
 </asp:CollapsiblePanelExtender>
 
 <div>
-
-    <table>
-        <tr>
-            <td>
-                Department: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxLabDepartment"></asp:TextBox>
-            </td>
-            <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
-            </td>
-            <td>
-                Supervisor: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxLabSupervisor"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Room: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxLabRoom" />
-            </td>
-            <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
-            </td>
-            <td>
-                Inspectors: 
-            </td>
-            <td>
-                <asp:TextBox runat="server" ID="tbxLabInspectors"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Lab Manager:
-            </td>
-            <td>
-                <asp:DropDownList runat="server" ID="ddlLabLabManager"></asp:DropDownList>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Date of Inspection: 
-            </td>
-            <td>
-                <asp:TextBox ID="tbxLabInspectionDate" runat="server"></asp:TextBox>
-                <asp:CalendarExtender ID="cexLabInspectionDate" runat="server" TargetControlID="tbxLabInspectionDate" Format="yyyy/MM/dd"></asp:CalendarExtender>
-            </td>
-            <td>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
-            </td>
-            <td>
-                Date of Follow Up: 
-            </td>
-            <td>
-                <asp:TextBox ID="tbxLabFollowupDate" runat="server"></asp:TextBox>
-                <asp:CalendarExtender ID="cexLabFollowupDate" runat="server" TargetControlID="tbxLabFollowupDate" Format="yyyy/MM/dd"></asp:CalendarExtender>
-            </td>
-        </tr>
-    </table>
+    <div id="labHeader" class="headerPanel">
+        <table>
+            <tr>
+                <td>
+                    Department: 
+                </td>
+                <td>
+                    <asp:TextBox runat="server" ID="tbxLabDepartment"></asp:TextBox>
+                </td>
+                <td>
+                    &nbsp&nbsp&nbsp&nbsp&nbsp
+                </td>
+                <td>
+                    Supervisor: 
+                </td>
+                <td>
+                    <asp:TextBox runat="server" ID="tbxLabSupervisor"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Room: 
+                </td>
+                <td>
+                    <asp:TextBox runat="server" ID="tbxLabRoom" />
+                </td>
+                <td>
+                    &nbsp&nbsp&nbsp&nbsp&nbsp
+                </td>
+                <td>
+                    Inspectors: 
+                </td>
+                <td>
+                    <asp:TextBox runat="server" ID="tbxLabInspectors"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Lab Manager:
+                </td>
+                <td>
+                    <asp:DropDownList runat="server" ID="ddlLabLabManager"></asp:DropDownList>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Date of Inspection: 
+                </td>
+                <td>
+                    <asp:TextBox ID="tbxLabInspectionDate" runat="server"></asp:TextBox>
+                    <asp:CalendarExtender ID="cexLabInspectionDate" runat="server" TargetControlID="tbxLabInspectionDate" Format="yyyy/MM/dd"></asp:CalendarExtender>
+                </td>
+                <td>
+                    &nbsp&nbsp&nbsp&nbsp&nbsp
+                </td>
+                <td>
+                    Date of Follow Up: 
+                </td>
+                <td>
+                    <asp:TextBox ID="tbxLabFollowupDate" runat="server"></asp:TextBox>
+                    <asp:CalendarExtender ID="cexLabFollowupDate" runat="server" TargetControlID="tbxLabFollowupDate" Format="yyyy/MM/dd"></asp:CalendarExtender>
+                </td>
+            </tr>
+        </table>
+    </div>
 
     <h3 id="labB"><asp:Image ID="imgExpandCollapseB" runat="server" /> 
     B. Emergency & Information Material <asp:Label ID="ExpandCollapseB" runat="server" Text="" />
@@ -404,7 +405,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
         </tr>
     </table>
     </asp:Panel>
-    
+
     <h3 id="labC"><asp:Image ID="imgExpandCollapseC" runat="server" />
     C. Personal Protection <asp:Label ID="ExpandCollapseC" runat="server" Text=""></asp:Label>
     <asp:Label ID="lblValC" runat="server" Text="" ForeColor="Red" />
@@ -1357,7 +1358,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
         </tr>
         <tr>
             <td>
-                <asp:Label Text="Cytotoxic materials exposure records and inventory sheets completed and up to date." runat="server" ID="lblCytoToDate" />
+                <asp:Label Text="Cytotoxic materials exposure records and inventory sheets completed and up to date" runat="server" ID="lblCytoToDate" />
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblCytoToDate">
@@ -1611,6 +1612,26 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </asp:Panel>
 
     <asp:Button ID="btnLabInspectionSubmit" runat="server" Text="Submit" onclick="btnLabInspectionSubmit_Click" />
+
+    <asp:Panel ID="pnlPop" BackColor="White" CssClass="popPanel" runat="server">
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td>
+                    <asp:Label ID="lblPnlPop" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    <asp:Button ID="btnPnlPopClose" runat="server" Text="Close" />
+                </td>
+            </tr>
+        </table>
+    </asp:Panel>
+
+    <asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
+
+    <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
+        DropShadow="true" BackgroundCssClass="modalBackground" />
 
 </div>
 

@@ -62,4 +62,33 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
 
         }
     }
+
+    /// <summary>
+    /// This function takes in the value returned from the RadioButtonList control and converts
+    /// it to a value that is standard in our database by using a switch that determines the
+    /// returned string's value.
+    /// </summary>
+    /// <param name="selection">The string value of the RadioButtonList SelectedItem Value</param>
+    /// <returns>The int value that is standard in our database</returns>
+    protected int radiobuttonConvert(string selection)
+    {
+        int value = 0;
+
+        switch (selection)
+        {
+            case "Yes":
+                value = 1;
+                break;
+            case "No":
+                value = 2;
+                break;
+            case "NA":
+                value = 3;
+                break;
+            default:
+                throw new System.SystemException("Default case of switch should never be reached");
+        }
+
+        return value;
+    }
 }
