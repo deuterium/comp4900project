@@ -19,6 +19,8 @@ using System.Runtime.Serialization;
 #region EDM Relationship Metadata
 
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__Employee__deptNo__489AC854", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Employee), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__Incident__deptNo__2EA5EC27", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "Incident", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Incident), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__Incident__submit__2F9A1060", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "Incident", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Incident), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__LabInspec__deptN__59C55456", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabInspection), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__OfficeIns__deptN__6FB49575", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "OfficeInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.OfficeInspection), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "fk_deptNo", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.User), true)]
@@ -729,6 +731,50 @@ namespace BCCAModel
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Employee>("BCCAModel.FK__Employee__deptNo__489AC854", "Employee", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Incident__deptNo__2EA5EC27", "Incident")]
+        public EntityCollection<Incident> Incidents
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Incident>("BCCAModel.FK__Incident__deptNo__2EA5EC27", "Incident");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Incident>("BCCAModel.FK__Incident__deptNo__2EA5EC27", "Incident", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Incident__submit__2F9A1060", "Incident")]
+        public EntityCollection<Incident> Incidents1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Incident>("BCCAModel.FK__Incident__submit__2F9A1060", "Incident");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Incident>("BCCAModel.FK__Incident__submit__2F9A1060", "Incident", value);
                 }
             }
         }
@@ -6298,10 +6344,158 @@ namespace BCCAModel
         private global::System.String _followUpStatus;
         partial void OnfollowUpStatusChanging(global::System.String value);
         partial void OnfollowUpStatusChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String reportSubmitter
+        {
+            get
+            {
+                return _reportSubmitter;
+            }
+            set
+            {
+                OnreportSubmitterChanging(value);
+                ReportPropertyChanging("reportSubmitter");
+                _reportSubmitter = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("reportSubmitter");
+                OnreportSubmitterChanged();
+            }
+        }
+        private global::System.String _reportSubmitter;
+        partial void OnreportSubmitterChanging(global::System.String value);
+        partial void OnreportSubmitterChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> deptNo
+        {
+            get
+            {
+                return _deptNo;
+            }
+            set
+            {
+                OndeptNoChanging(value);
+                ReportPropertyChanging("deptNo");
+                _deptNo = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("deptNo");
+                OndeptNoChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _deptNo;
+        partial void OndeptNoChanging(Nullable<global::System.Int32> value);
+        partial void OndeptNoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> submitterDeptNo
+        {
+            get
+            {
+                return _submitterDeptNo;
+            }
+            set
+            {
+                OnsubmitterDeptNoChanging(value);
+                ReportPropertyChanging("submitterDeptNo");
+                _submitterDeptNo = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("submitterDeptNo");
+                OnsubmitterDeptNoChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _submitterDeptNo;
+        partial void OnsubmitterDeptNoChanging(Nullable<global::System.Int32> value);
+        partial void OnsubmitterDeptNoChanged();
 
         #endregion
     
         #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Incident__deptNo__2EA5EC27", "Department")]
+        public Department Department
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__Incident__deptNo__2EA5EC27", "Department").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__Incident__deptNo__2EA5EC27", "Department").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Department> DepartmentReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__Incident__deptNo__2EA5EC27", "Department");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Department>("BCCAModel.FK__Incident__deptNo__2EA5EC27", "Department", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Incident__submit__2F9A1060", "Department")]
+        public Department Department1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__Incident__submit__2F9A1060", "Department").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__Incident__submit__2F9A1060", "Department").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Department> Department1Reference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__Incident__submit__2F9A1060", "Department");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Department>("BCCAModel.FK__Incident__submit__2F9A1060", "Department", value);
+                }
+            }
+        }
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -6590,6 +6784,30 @@ namespace BCCAModel
         private global::System.String _followUpStatus;
         partial void OnfollowUpStatusChanging(global::System.String value);
         partial void OnfollowUpStatusChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String reportSubmitter
+        {
+            get
+            {
+                return _reportSubmitter;
+            }
+            set
+            {
+                OnreportSubmitterChanging(value);
+                ReportPropertyChanging("reportSubmitter");
+                _reportSubmitter = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("reportSubmitter");
+                OnreportSubmitterChanged();
+            }
+        }
+        private global::System.String _reportSubmitter;
+        partial void OnreportSubmitterChanging(global::System.String value);
+        partial void OnreportSubmitterChanged();
 
         #endregion
     
@@ -7189,6 +7407,30 @@ namespace BCCAModel
         private global::System.String _followUpStatus;
         partial void OnfollowUpStatusChanging(global::System.String value);
         partial void OnfollowUpStatusChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String reportSubmitter
+        {
+            get
+            {
+                return _reportSubmitter;
+            }
+            set
+            {
+                OnreportSubmitterChanging(value);
+                ReportPropertyChanging("reportSubmitter");
+                _reportSubmitter = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("reportSubmitter");
+                OnreportSubmitterChanged();
+            }
+        }
+        private global::System.String _reportSubmitter;
+        partial void OnreportSubmitterChanging(global::System.String value);
+        partial void OnreportSubmitterChanged();
 
         #endregion
     
@@ -8564,78 +8806,6 @@ namespace BCCAModel
         private global::System.String _certificateNum;
         partial void OncertificateNumChanging(global::System.String value);
         partial void OncertificateNumChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String radiation_dosimeterSubmitted
-        {
-            get
-            {
-                return _radiation_dosimeterSubmitted;
-            }
-            set
-            {
-                Onradiation_dosimeterSubmittedChanging(value);
-                ReportPropertyChanging("radiation_dosimeterSubmitted");
-                _radiation_dosimeterSubmitted = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("radiation_dosimeterSubmitted");
-                Onradiation_dosimeterSubmittedChanged();
-            }
-        }
-        private global::System.String _radiation_dosimeterSubmitted;
-        partial void Onradiation_dosimeterSubmittedChanging(global::System.String value);
-        partial void Onradiation_dosimeterSubmittedChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String radiation_dosimeterIssued
-        {
-            get
-            {
-                return _radiation_dosimeterIssued;
-            }
-            set
-            {
-                Onradiation_dosimeterIssuedChanging(value);
-                ReportPropertyChanging("radiation_dosimeterIssued");
-                _radiation_dosimeterIssued = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("radiation_dosimeterIssued");
-                Onradiation_dosimeterIssuedChanged();
-            }
-        }
-        private global::System.String _radiation_dosimeterIssued;
-        partial void Onradiation_dosimeterIssuedChanging(global::System.String value);
-        partial void Onradiation_dosimeterIssuedChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String radiation_ringIssued
-        {
-            get
-            {
-                return _radiation_ringIssued;
-            }
-            set
-            {
-                Onradiation_ringIssuedChanging(value);
-                ReportPropertyChanging("radiation_ringIssued");
-                _radiation_ringIssued = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("radiation_ringIssued");
-                Onradiation_ringIssuedChanged();
-            }
-        }
-        private global::System.String _radiation_ringIssued;
-        partial void Onradiation_ringIssuedChanging(global::System.String value);
-        partial void Onradiation_ringIssuedChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
