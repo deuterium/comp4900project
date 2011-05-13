@@ -6,6 +6,13 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using BCCAModel;
 
+/// <summary>
+///Office.aspx.cs
+///BCCA Cancer Research Centre
+///Safety Training Database and Website
+///Author: BCIT COMP4900 2011
+///Mike Anderson - anderson.michael23@gmail.com
+/// </summary>
 public partial class Inspections_Office_Office : System.Web.UI.Page
 {
     BCCAEntities ctx = new BCCAEntities();
@@ -14,8 +21,8 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
     /// Code that is executed when the page is originally loaded. In this case, the code will populate
     /// the dropdown menu Lab Manager with information from the database.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -32,8 +39,8 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
     /// The function validates the page ensuring the form is correctly completed. It then creates the 
     /// entity objects and submits the data to the database.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void btnOfficeInspectionSubmit_Click(object sender, EventArgs e)
     {
 
