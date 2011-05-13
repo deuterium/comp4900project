@@ -447,6 +447,12 @@ public partial class Admin_Default : System.Web.UI.Page
 
     #region Course Management
 
+    /// <summary>
+    /// Me gusta
+    /// </summary>
+    protected void ಠ_ಠ() { 
+    
+    }
 
     #endregion
 
