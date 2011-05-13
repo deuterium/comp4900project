@@ -17,14 +17,30 @@ public partial class Followup_Default : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        Populate_Incidents();
     }
 
     #region Incident/Accident Followup
 
+
+    /// <summary>
+    /// TODO: Check who is logged in and populate that based on their role/department
+    /// </summary>
     protected void Populate_Incidents()
-    { 
-        //gvwFollowupIncidents.DataSource = ctx.Incidents.Where(
+    {
+        //var q = ctx.Incidents
+        //    .Where(inc => (inc.followUpStatus == "0") || (inc.followUpStatus == "1")
+        //        //hardcoded "person logged in department"
+        //    && (inc.deptNo == "3"))
+        //    .Select(inc => new 
+        //    { 
+        //        incNo = inc.incidentNo,
+        //        incDate = inc.p1_dateOfIncident,
+        //        incEmpName = (inc.Employee.fname + " ") + inc.Employee.lname
+        //    });
+        //q.Count();
+        //gvwFollowupIncidents.DataSource = q;
+        //gvwFollowupIncidents.DataBind();
     }
     #endregion
 

@@ -76,6 +76,25 @@ public partial class Login : System.Web.UI.Page
             Session["AuthenticatedUser"] = tbxLoginUsername.Text;
             Session["AuthenticationHash"] = FormsAuthentication.HashPasswordForStoringInConfigFile
                 (tbxLoginUsername.Text + "&U74U53R", "MD5");
+            try
+            {
+                Session["RoleNo"] = ctx.Users.Where(u => u.userName == "tbxLoginUsername.Text").Select(r => r.roleNo).First();
+            }
+            catch (Exception ex)
+            { 
+            
+            }
+
+
+            try
+            {
+                Session["DepartNo"] = ctx.Users.Where(u => u.userName == "tbxLoginUsername.Text").Select(r => r.deptNo).First();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            
 
             Response.Redirect("Default.aspx");
         }
