@@ -1358,7 +1358,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
         </tr>
         <tr>
             <td>
-                <asp:Label Text="Cytotoxic materials exposure records and inventory sheets completed and up to date." runat="server" ID="lblCytoToDate" />
+                <asp:Label Text="Cytotoxic materials exposure records and inventory sheets completed and up to date" runat="server" ID="lblCytoToDate" />
             </td>
             <td class="tblYesNoNA" colspan="3">
                 <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblCytoToDate">
@@ -1612,6 +1612,26 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </asp:Panel>
 
     <asp:Button ID="btnLabInspectionSubmit" runat="server" Text="Submit" onclick="btnLabInspectionSubmit_Click" />
+
+    <asp:Panel ID="pnlPop" BackColor="White" CssClass="popPanel" runat="server">
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td>
+                    <asp:Label ID="lblPnlPop" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    <asp:Button ID="btnPnlPopClose" runat="server" Text="Close" />
+                </td>
+            </tr>
+        </table>
+    </asp:Panel>
+
+    <asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
+
+    <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
+        DropShadow="true" BackgroundCssClass="modalBackground" />
 
 </div>
 
