@@ -193,7 +193,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <asp:RequiredFieldValidator ID="rfvDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
                     ControlToValidate="tbx_p1_dateOfIncident" ErrorMessage="Date of incident is required."></asp:RequiredFieldValidator>
                 <asp:RegularExpressionValidator ID="revDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
-                    ControlToValidate="tbx_p1_dateReported" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                    ControlToValidate="tbx_p1_dateOfIncident" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                     ErrorMessage="Date reported must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
             </td>
         </tr>
@@ -245,21 +245,21 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
                 Phone: <asp:TextBox TabIndex="118" ID="tbx_p1_witnessPhone1" runat="server" ></asp:TextBox>
                 <asp:RegularExpressionValidator ID="revWitnessPhone1" runat="server" ValidationGroup="vgpPanelA"
-                    ControlToValidate="tbx_p1_witnessPhone1" ValidationExpression="^\({1}[0-9]{3}\){1}[0-9]{3}-{1}[0-9]{4}$" 
-                    ErrorMessage="Phone number for witness 1 must be in format '(###)###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
+                    ControlToValidate="tbx_p1_witnessPhone1" ValidationExpression="^[0-9]{3}-{1}[0-9]{3}-{1}[0-9]{4}$"
+                    ErrorMessage="Phone number for witness 1 must be in format '###-###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
             </td>
         </tr>
         <tr>
             <td>Witness 2:</td>
             <td>
                 Name: <asp:TextBox TabIndex="119" ID="tbx_p1_witnessName2" runat="server" ></asp:TextBox>
-                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="vgpEmpInfo"
-                    ControlToValidate="tbx_p1_witnessName1" ErrorMessage="Witness 1 must have a first and last name separated by a space."
+                <asp:RegularExpressionValidator ID="rexWitnessName2" runat="server" ValidationGroup="vgpEmpInfo"
+                    ControlToValidate="tbx_p1_witnessName2" ErrorMessage="Witness 2 must have a first and last name separated by a space."
                     ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
                 Phone: <asp:TextBox  TabIndex="120" ID="tbx_p1_witnessPhone2" runat="server"></asp:TextBox>
                 <asp:RegularExpressionValidator ID="revWitnessPhone2" runat="server" ValidationGroup="vgpPanelA"
-                    ControlToValidate="tbx_p1_witnessPhone2" ValidationExpression="^\({1}[0-9]{3}\){1}[0-9]{3}-{1}[0-9]{4}$" 
-                    ErrorMessage="Phone number for witness 2 must be in format '(###)###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
+                    ControlToValidate="tbx_p1_witnessPhone2" ValidationExpression="^[0-9]{3}-{1}[0-9]{3}-{1}[0-9]{4}$" 
+                    ErrorMessage="Phone number for witness 2 must be in format '###-###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
             </td>
         </tr>
         <tr>

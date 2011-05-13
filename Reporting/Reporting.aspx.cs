@@ -254,8 +254,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
         DateTime dateReported = Convert.ToDateTime(tbx_p1_dateReported.Text + " " + tbx_p1_timeReported.Text);
 
         Incident report = new Incident {
-            
-            #region A_IncidentInfo
+
             empNo = empId,
             p1_dateOfIncident = dateOfIncident,
             p1_dateReported = dateReported,
@@ -268,7 +267,6 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p1_action_medicalGP = convertCheckbox(cbx_p1_action_medicalGP),
             p1_action_lostTime = convertCheckbox(cbx_p1_action_lostTime),
             p1_action_medicalER = convertCheckbox(cbx_p1_action_medicalER),
-            #endregion A_IncidentInfo
 
             #region B_NatureOfInjury
             p1_nature_no = convertCheckbox(cbx_p1_nature_no),
@@ -284,7 +282,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p1_nature_psychological = convertCheckbox(cbx_p1_nature_psychological),
             p1_nature_respiratory = convertCheckbox(cbx_p1_nature_respiratory),
             #endregion B_NatureOfInjury
-            /*
+            
             #region C_AccidentInvestigation
             p2_activity_no = convertCheckbox(cbx_p2_activity_no),
             p2_activity_repositioning = convertCheckbox(cbx_p2_activity_repositioning),
@@ -459,7 +457,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p2_manager_objections = tbx_p2_manager_objections.Text,
             p2_manager_alternative = tbx_p2_manager_alternative.Text,
             #endregion G_ManagersReport
-            */
+
         };
 
         //#region A_IncidentInfo_Dates
