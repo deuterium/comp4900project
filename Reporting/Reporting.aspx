@@ -219,6 +219,10 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <asp:RegularExpressionValidator ID="revDateReported" runat="server" ValidationGroup="vgpPanelA"
                     ControlToValidate="tbx_p1_dateReported" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                     ErrorMessage="Date reported must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                <asp:CompareValidator ID="cpvDateReported" runat="server" ValidationGroup="vgpPanelA"
+                    ControlToValidate="tbx_p1_dateReported" ControlToCompare="tbx_p1_dateOfIncident"
+                    Type="Date" Operator="GreaterThanEqual"
+                    ErrorMessage="Date reported must be the on or later than the date of the incident."></asp:CompareValidator>
             </td>
         </tr>
         <tr>
@@ -373,8 +377,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td>
                 <asp:RadioButtonList ID="rbl_p2_patient_adequateAssist" runat="server" RepeatDirection="Horizontal">
                     <asp:ListItem TabIndex="129" Text="Yes" Value="1" ></asp:ListItem>
-                    <asp:ListItem TabIndex="130" Text="No" Value="0" ></asp:ListItem>
-                    <asp:ListItem TabIndex="131" Text="Unknown" Value="Null" ></asp:ListItem>
+                    <asp:ListItem TabIndex="130" Text="No" Value="2" ></asp:ListItem>
+                    <asp:ListItem TabIndex="131" Text="Unknown" Value="3" ></asp:ListItem>
                 </asp:RadioButtonList>
             </td></tr>
             <tr><td>How many employees involved in activity at time of incident?</td></tr>
@@ -659,9 +663,9 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         </td>
         <td>
             <asp:RadioButtonList ID="rbl_p2_corrective_maintenance" runat="server" RepeatDirection="Horizontal">
-                <asp:ListItem TabIndex="151" Text="Yes" ></asp:ListItem>
-                <asp:ListItem TabIndex="152" Text="No" ></asp:ListItem>
-                <asp:ListItem TabIndex="153" Text="N/A" ></asp:ListItem>
+                <asp:ListItem TabIndex="151" Text="Yes" Value="1" ></asp:ListItem>
+                <asp:ListItem TabIndex="152" Text="No" Value="2" ></asp:ListItem>
+                <asp:ListItem TabIndex="153" Text="N/A" Value="3" ></asp:ListItem>
             </asp:RadioButtonList>
         </td>
         <td>
@@ -680,9 +684,9 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         </td>
         <td>
             <asp:RadioButtonList ID="rbl_p2_corrective_communicated" runat="server" RepeatDirection="Horizontal">
-                <asp:ListItem TabIndex="155" Text="Yes" ></asp:ListItem>
-                <asp:ListItem TabIndex="156" Text="No" ></asp:ListItem>
-                <asp:ListItem TabIndex="157" Text="N/A" ></asp:ListItem>
+                <asp:ListItem TabIndex="155" Text="Yes" Value="1" ></asp:ListItem>
+                <asp:ListItem TabIndex="156" Text="No" Value="2" ></asp:ListItem>
+                <asp:ListItem TabIndex="157" Text="N/A" Value="3" ></asp:ListItem>
             </asp:RadioButtonList>
         </td>
         <td>
@@ -701,9 +705,9 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         </td>
         <td>
             <asp:RadioButtonList ID="rbl_p2_corrective_time" runat="server" RepeatDirection="Horizontal">
-                <asp:ListItem TabIndex="159" Text="Yes" ></asp:ListItem>
-                <asp:ListItem TabIndex="160" Text="No" ></asp:ListItem>
-                <asp:ListItem TabIndex="161" Text="N/A" ></asp:ListItem>
+                <asp:ListItem TabIndex="159" Text="Yes" Value="1" ></asp:ListItem>
+                <asp:ListItem TabIndex="160" Text="No" Value="2" ></asp:ListItem>
+                <asp:ListItem TabIndex="161" Text="N/A" Value="3" ></asp:ListItem>
             </asp:RadioButtonList>
         </td>
         <td>
@@ -831,6 +835,9 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 ErrorMessage="Environment date completed must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
         </td>
     </tr>
+
+
+
     <tr>
         <td>
             Patient/Resident Related Incidents - Lift / Transfer Re-Accessed or Care Plan / ADL Card Updated:
@@ -853,7 +860,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:CalendarExtender ID="cexPatientCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_patientCompletedDate" Format="M/d/yyyy" >
             </asp:CalendarExtender>
             <asp:RegularExpressionValidator ID="revPatientCompletedDate" runat="server" ValidationGroup="vgpGRelevant"
-                ControlToValidate="tbx_p2_corrective_patientCompletedDate" ValidationExpression="^[0-9]{2}/{1}[0-9]{2}/[0-9]{4}$" 
+                ControlToValidate="tbx_p2_corrective_patientCompletedDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Patient/Resident date completed must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
         </td>
     </tr>
