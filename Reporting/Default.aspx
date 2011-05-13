@@ -646,9 +646,12 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         </td>
         <td>
             <asp:TextBox TabIndex="149" ID="tbx_p2_corrective_person" runat="server"></asp:TextBox>
+            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="vgpEmpInfo"
+                ControlToValidate="tbx_p2_corrective_person" ErrorMessage="Person assigned must have a first and last name separated by a space."
+                ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
         </td>
         <td>
-            Date (M/DY):
+            Date:
             <asp:TextBox TabIndex="150" ID="tbx_p2_corrective_personDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexCorrectivePersonDate" runat="server" TargetControlID="tbx_p2_corrective_personDate" Format="M/d/yyyy" >
             </asp:CalendarExtender>
@@ -669,7 +672,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </asp:RadioButtonList>
         </td>
         <td>
-            Date (M/DY):
+            Date:
             <asp:TextBox TabIndex="154" ID="tbx_p2_corrective_maintenanceDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexMaintenanceDate" runat="server" TargetControlID="tbx_p2_corrective_maintenanceDate" Format="M/d/yyyy" >
             </asp:CalendarExtender>
@@ -690,7 +693,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </asp:RadioButtonList>
         </td>
         <td>
-            Date (M/DY):
+            Date:
             <asp:TextBox TabIndex="158" ID="tbx_p2_corrective_communicatedDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexCommToStaffDate" runat="server" TargetControlID="tbx_p2_corrective_communicatedDate" Format="M/d/yyyy" >
             </asp:CalendarExtender>
@@ -711,7 +714,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </asp:RadioButtonList>
         </td>
         <td>
-            Date (M/DY):
+            Date:
             <asp:TextBox TabIndex="161" ID="tbx_p2_corrective_timeDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexTimeLossDate" runat="server" TargetControlID="tbx_p2_corrective_timeDate" Format="M/d/yyyy" >
             </asp:CalendarExtender>
@@ -737,7 +740,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="162" ID="tbx_p2_corrective_written" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
         </td>
         <td>
-            Target Completion Date (M/DY):
+            Target Completion Date:
             <br />
             <asp:TextBox TabIndex="163" ID="tbx_p2_corrective_writtenTargetDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexWrittenTargetDate" runat="server" TargetControlID="tbx_p2_corrective_writtenTargetDate" Format="M/d/yyyy" >
@@ -746,7 +749,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 ControlToValidate="tbx_p2_corrective_writtenTargetDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Written target date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
             <br />
-            Date completed (M/DY):
+            Date completed:
             <br />
             <asp:TextBox TabIndex="164" ID="tbx_p2_corrective_writtenCompletedDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexWrittenCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_writtenCompletedDate" Format="M/d/yyyy" >
@@ -763,7 +766,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="165" ID="tbx_p2_corrective_education" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
         </td>
         <td>
-            Target Completion Date (M/DY):
+            Target Completion Date:
             <br />
             <asp:TextBox TabIndex="166" ID="tbx_p2_corrective_educationTargetDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexEducationTargetDate" runat="server" TargetControlID="tbx_p2_corrective_educationTargetDate" Format="M/d/yyyy" >
@@ -772,7 +775,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 ControlToValidate="tbx_p2_corrective_educationTargetDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Education target date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
             <br />
-            Date completed (M/DY):
+            Date completed:
             <br />
             <asp:TextBox TabIndex="167" ID="tbx_p2_corrective_educationCompletedDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexEducationCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_educationCompletedDate" Format="M/d/yyyy" >
@@ -790,7 +793,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="168" ID="tbx_p2_corrective_equipment" runat="server" CssClass="commentBoxReporting"></asp:TextBox>
         </td>
         <td>
-            Target Completion Date (M/DY):
+            Target Completion Date:
             <br />
             <asp:TextBox TabIndex="169" ID="tbx_p2_corrective_equipmentTargetDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexEquipmentTargetDate" runat="server" TargetControlID="tbx_p2_corrective_equipmentTargetDate" Format="M/d/yyyy" >
@@ -799,7 +802,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 ControlToValidate="tbx_p2_corrective_equipmentTargetDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Equipment target date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
             <br />
-            Date completed (M/DY):
+            Date completed:
             <br />
             <asp:TextBox TabIndex="170" ID="tbx_p2_corrective_equipmentCompletedDate" runat="server"></asp:TextBox>
             <asp:CalendarExtender ID="cexEquipmentCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_equipmentCompletedDate" Format="M/d/yyyy" >

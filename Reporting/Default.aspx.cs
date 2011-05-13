@@ -18,12 +18,12 @@ using System.Drawing;
  * ask about dates (how the labels on the forms say M/D/Y)
  * Kalen: panel A, panel B
  * Kalen: comment boxes are centered (vertically) - see section G
- * put tbx on same line as Other: option
  * add regex to last 3 sections
  * test really long inputs
  * put results msg in update panel triggered by btn click (so it disappears eveyr time you click submit)
  * re-order controls so they appear in the order you click them?
  * add schedule (last part of follow-up)
+ * Add create user
  **/
 
 /// <summary>
