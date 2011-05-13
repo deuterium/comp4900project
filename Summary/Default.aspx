@@ -10,7 +10,7 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
-<asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
+    <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
 </asp:ToolkitScriptManager>
 
 <asp:CollapsiblePanelExtender ID="cpeA" runat="server" Collapsed="false"

@@ -33,6 +33,7 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__OfficeIns__sever__7FEAFD3E", "Severity", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Severity), "OfficeInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.OfficeInspectionDetail), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__Users__roleNo__7849DB76", "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Role), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.User), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__TrainingT__train__51300E55", "TrainingCourses", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.TrainingCours), "TrainingTaken", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.TrainingTaken), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "TrainingCourseTakenDetail", "CourseDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.CourseDetail), "TrainingTaken", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.TrainingTaken))]
 
 #endregion
 
@@ -83,6 +84,22 @@ namespace BCCAModel
         #endregion
     
         #region ObjectSet Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<CourseDetail> CourseDetails
+        {
+            get
+            {
+                if ((_CourseDetails == null))
+                {
+                    _CourseDetails = base.CreateObjectSet<CourseDetail>("CourseDetails");
+                }
+                return _CourseDetails;
+            }
+        }
+        private ObjectSet<CourseDetail> _CourseDetails;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -360,6 +377,14 @@ namespace BCCAModel
         #region AddTo Methods
     
         /// <summary>
+        /// Deprecated Method for adding a new object to the CourseDetails EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToCourseDetails(CourseDetail courseDetail)
+        {
+            base.AddObject("CourseDetails", courseDetail);
+        }
+    
+        /// <summary>
         /// Deprecated Method for adding a new object to the Departments EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToDepartments(Department department)
@@ -502,6 +527,110 @@ namespace BCCAModel
     #endregion
     
     #region Entities
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="CourseDetail")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class CourseDetail : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new CourseDetail object.
+        /// </summary>
+        /// <param name="courseDetailNo">Initial value of the courseDetailNo property.</param>
+        public static CourseDetail CreateCourseDetail(global::System.Int32 courseDetailNo)
+        {
+            CourseDetail courseDetail = new CourseDetail();
+            courseDetail.courseDetailNo = courseDetailNo;
+            return courseDetail;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 courseDetailNo
+        {
+            get
+            {
+                return _courseDetailNo;
+            }
+            set
+            {
+                if (_courseDetailNo != value)
+                {
+                    OncourseDetailNoChanging(value);
+                    ReportPropertyChanging("courseDetailNo");
+                    _courseDetailNo = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("courseDetailNo");
+                    OncourseDetailNoChanged();
+                }
+            }
+        }
+        private global::System.Int32 _courseDetailNo;
+        partial void OncourseDetailNoChanging(global::System.Int32 value);
+        partial void OncourseDetailNoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String courseDetail1
+        {
+            get
+            {
+                return _courseDetail1;
+            }
+            set
+            {
+                OncourseDetail1Changing(value);
+                ReportPropertyChanging("courseDetail1");
+                _courseDetail1 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("courseDetail1");
+                OncourseDetail1Changed();
+            }
+        }
+        private global::System.String _courseDetail1;
+        partial void OncourseDetail1Changing(global::System.String value);
+        partial void OncourseDetail1Changed();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "TrainingCourseTakenDetail", "TrainingTaken")]
+        public EntityCollection<TrainingTaken> TrainingTakens
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TrainingTaken>("BCCAModel.TrainingCourseTakenDetail", "TrainingTaken");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TrainingTaken>("BCCAModel.TrainingCourseTakenDetail", "TrainingTaken", value);
+                }
+            }
+        }
+
+        #endregion
+    }
     
     /// <summary>
     /// No Metadata Documentation available.
@@ -8009,11 +8138,13 @@ namespace BCCAModel
         /// </summary>
         /// <param name="empNo">Initial value of the empNo property.</param>
         /// <param name="trainingNo">Initial value of the trainingNo property.</param>
-        public static TrainingTaken CreateTrainingTaken(global::System.Int32 empNo, global::System.Int32 trainingNo)
+        /// <param name="trainingTakenNo">Initial value of the trainingTakenNo property.</param>
+        public static TrainingTaken CreateTrainingTaken(global::System.Int32 empNo, global::System.Int32 trainingNo, global::System.Int32 trainingTakenNo)
         {
             TrainingTaken trainingTaken = new TrainingTaken();
             trainingTaken.empNo = empNo;
             trainingTaken.trainingNo = trainingNo;
+            trainingTaken.trainingTakenNo = trainingTakenNo;
             return trainingTaken;
         }
 
@@ -8023,7 +8154,7 @@ namespace BCCAModel
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Int32 empNo
         {
@@ -8033,14 +8164,11 @@ namespace BCCAModel
             }
             set
             {
-                if (_empNo != value)
-                {
-                    OnempNoChanging(value);
-                    ReportPropertyChanging("empNo");
-                    _empNo = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("empNo");
-                    OnempNoChanged();
-                }
+                OnempNoChanging(value);
+                ReportPropertyChanging("empNo");
+                _empNo = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("empNo");
+                OnempNoChanged();
             }
         }
         private global::System.Int32 _empNo;
@@ -8050,7 +8178,7 @@ namespace BCCAModel
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Int32 trainingNo
         {
@@ -8060,14 +8188,11 @@ namespace BCCAModel
             }
             set
             {
-                if (_trainingNo != value)
-                {
-                    OntrainingNoChanging(value);
-                    ReportPropertyChanging("trainingNo");
-                    _trainingNo = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("trainingNo");
-                    OntrainingNoChanged();
-                }
+                OntrainingNoChanging(value);
+                ReportPropertyChanging("trainingNo");
+                _trainingNo = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("trainingNo");
+                OntrainingNoChanged();
             }
         }
         private global::System.Int32 _trainingNo;
@@ -8433,6 +8558,33 @@ namespace BCCAModel
         private global::System.String _radiation_ringIssued;
         partial void Onradiation_ringIssuedChanging(global::System.String value);
         partial void Onradiation_ringIssuedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 trainingTakenNo
+        {
+            get
+            {
+                return _trainingTakenNo;
+            }
+            set
+            {
+                if (_trainingTakenNo != value)
+                {
+                    OntrainingTakenNoChanging(value);
+                    ReportPropertyChanging("trainingTakenNo");
+                    _trainingTakenNo = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("trainingTakenNo");
+                    OntrainingTakenNoChanged();
+                }
+            }
+        }
+        private global::System.Int32 _trainingTakenNo;
+        partial void OntrainingTakenNoChanging(global::System.Int32 value);
+        partial void OntrainingTakenNoChanged();
 
         #endregion
     
@@ -8510,6 +8662,28 @@ namespace BCCAModel
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TrainingCours>("BCCAModel.FK__TrainingT__train__51300E55", "TrainingCourses", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "TrainingCourseTakenDetail", "CourseDetails")]
+        public EntityCollection<CourseDetail> CourseDetails
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<CourseDetail>("BCCAModel.TrainingCourseTakenDetail", "CourseDetails");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<CourseDetail>("BCCAModel.TrainingCourseTakenDetail", "CourseDetails", value);
                 }
             }
         }
