@@ -1411,11 +1411,13 @@ namespace BCCAModel
         /// </summary>
         /// <param name="incidentNo">Initial value of the incidentNo property.</param>
         /// <param name="empNo">Initial value of the empNo property.</param>
-        public static Incident CreateIncident(global::System.Int32 incidentNo, global::System.Int32 empNo)
+        /// <param name="followUpStatus">Initial value of the followUpStatus property.</param>
+        public static Incident CreateIncident(global::System.Int32 incidentNo, global::System.Int32 empNo, global::System.String followUpStatus)
         {
             Incident incident = new Incident();
             incident.incidentNo = incidentNo;
             incident.empNo = empNo;
+            incident.followUpStatus = followUpStatus;
             return incident;
         }
 
@@ -6272,6 +6274,30 @@ namespace BCCAModel
         private global::System.String _p2_cause_exposure_chemName;
         partial void Onp2_cause_exposure_chemNameChanging(global::System.String value);
         partial void Onp2_cause_exposure_chemNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String followUpStatus
+        {
+            get
+            {
+                return _followUpStatus;
+            }
+            set
+            {
+                OnfollowUpStatusChanging(value);
+                ReportPropertyChanging("followUpStatus");
+                _followUpStatus = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("followUpStatus");
+                OnfollowUpStatusChanged();
+            }
+        }
+        private global::System.String _followUpStatus;
+        partial void OnfollowUpStatusChanging(global::System.String value);
+        partial void OnfollowUpStatusChanged();
 
         #endregion
     
@@ -6333,11 +6359,13 @@ namespace BCCAModel
         /// </summary>
         /// <param name="labInsNo">Initial value of the labInsNo property.</param>
         /// <param name="date">Initial value of the date property.</param>
-        public static LabInspection CreateLabInspection(global::System.Int32 labInsNo, global::System.DateTime date)
+        /// <param name="followUpStatus">Initial value of the followUpStatus property.</param>
+        public static LabInspection CreateLabInspection(global::System.Int32 labInsNo, global::System.DateTime date, global::System.String followUpStatus)
         {
             LabInspection labInspection = new LabInspection();
             labInspection.labInsNo = labInsNo;
             labInspection.date = date;
+            labInspection.followUpStatus = followUpStatus;
             return labInspection;
         }
 
@@ -6538,6 +6566,30 @@ namespace BCCAModel
         private global::System.String _room;
         partial void OnroomChanging(global::System.String value);
         partial void OnroomChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String followUpStatus
+        {
+            get
+            {
+                return _followUpStatus;
+            }
+            set
+            {
+                OnfollowUpStatusChanging(value);
+                ReportPropertyChanging("followUpStatus");
+                _followUpStatus = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("followUpStatus");
+                OnfollowUpStatusChanged();
+            }
+        }
+        private global::System.String _followUpStatus;
+        partial void OnfollowUpStatusChanging(global::System.String value);
+        partial void OnfollowUpStatusChanged();
 
         #endregion
     
@@ -6979,10 +7031,12 @@ namespace BCCAModel
         /// Create a new OfficeInspection object.
         /// </summary>
         /// <param name="officeInsNo">Initial value of the officeInsNo property.</param>
-        public static OfficeInspection CreateOfficeInspection(global::System.Int32 officeInsNo)
+        /// <param name="followUpStatus">Initial value of the followUpStatus property.</param>
+        public static OfficeInspection CreateOfficeInspection(global::System.Int32 officeInsNo, global::System.String followUpStatus)
         {
             OfficeInspection officeInspection = new OfficeInspection();
             officeInspection.officeInsNo = officeInsNo;
+            officeInspection.followUpStatus = followUpStatus;
             return officeInspection;
         }
 
@@ -7111,6 +7165,30 @@ namespace BCCAModel
         private Nullable<global::System.Int32> _deptNo;
         partial void OndeptNoChanging(Nullable<global::System.Int32> value);
         partial void OndeptNoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String followUpStatus
+        {
+            get
+            {
+                return _followUpStatus;
+            }
+            set
+            {
+                OnfollowUpStatusChanging(value);
+                ReportPropertyChanging("followUpStatus");
+                _followUpStatus = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("followUpStatus");
+                OnfollowUpStatusChanged();
+            }
+        }
+        private global::System.String _followUpStatus;
+        partial void OnfollowUpStatusChanging(global::System.String value);
+        partial void OnfollowUpStatusChanged();
 
         #endregion
     
