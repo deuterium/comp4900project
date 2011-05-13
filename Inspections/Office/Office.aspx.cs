@@ -10,6 +10,12 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
 {
     BCCAEntities ctx = new BCCAEntities();
 
+    /// <summary>
+    /// Code that is executed when the page is originally loaded. In this case, the code will populate
+    /// the dropdown menu Lab Manager with information from the database.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
