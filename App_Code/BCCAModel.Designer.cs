@@ -22,16 +22,18 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__LabInspec__deptN__59C55456", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabInspection), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__OfficeIns__deptN__6FB49575", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "OfficeInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.OfficeInspection), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "fk_deptNo", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.User), true)]
-[assembly: EdmRelationshipAttribute("BCCAModel", "FK__Employee__roomNo__498EEC8D", "Room", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Room), "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Employee), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__Incident__empNo__04AFB25B", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Employee), "Incident", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Incident), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__TrainingT__empNo__503BEA1C", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Employee), "TrainingTaken", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.TrainingTaken), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__FollowUp__labIns__5F7E2DAC", "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.LabInspection), "FollowUp", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.FollowUp), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__FollowUp__labIns__607251E5", "LabInspectionItem", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.LabInspectionItem), "FollowUp", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.FollowUp), true)]
-[assembly: EdmRelationshipAttribute("BCCAModel", "FK__LabInspec__labIn__625A9A57", "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.LabInspection), "LabInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.LabInspectionDetail), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__LabInspec__labIn__625A9A57", "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.LabInspection), "LabInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabInspectionDetail), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__LabInspec__labIt__634EBE90", "LabInspectionItem", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.LabInspectionItem), "LabInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabInspectionDetail), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__OfficeIns__offic__7E02B4CC", "OfficeInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.OfficeInspection), "OfficeInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.OfficeInspectionDetail), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__OfficeIns__offic__7EF6D905", "OfficeInspectionItems", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.OfficeInspectionItem), "OfficeInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.OfficeInspectionDetail), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__OfficeIns__sever__7FEAFD3E", "Severity", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Severity), "OfficeInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.OfficeInspectionDetail), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__Users__roleNo__7849DB76", "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Role), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.User), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__TrainingT__train__51300E55", "TrainingCourses", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.TrainingCours), "TrainingTaken", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.TrainingTaken), true)]
-[assembly: EdmRelationshipAttribute("BCCAModel", "LabInspectionRoomDetails", "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabInspection), "Room", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Room))]
+[assembly: EdmRelationshipAttribute("BCCAModel", "TrainingCourseTakenDetail", "CourseDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.CourseDetail), "TrainingTaken", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.TrainingTaken))]
 
 #endregion
 
@@ -82,6 +84,22 @@ namespace BCCAModel
         #endregion
     
         #region ObjectSet Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<CourseDetail> CourseDetails
+        {
+            get
+            {
+                if ((_CourseDetails == null))
+                {
+                    _CourseDetails = base.CreateObjectSet<CourseDetail>("CourseDetails");
+                }
+                return _CourseDetails;
+            }
+        }
+        private ObjectSet<CourseDetail> _CourseDetails;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -214,6 +232,22 @@ namespace BCCAModel
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
+        public ObjectSet<OfficeInspectionDetail> OfficeInspectionDetails
+        {
+            get
+            {
+                if ((_OfficeInspectionDetails == null))
+                {
+                    _OfficeInspectionDetails = base.CreateObjectSet<OfficeInspectionDetail>("OfficeInspectionDetails");
+                }
+                return _OfficeInspectionDetails;
+            }
+        }
+        private ObjectSet<OfficeInspectionDetail> _OfficeInspectionDetails;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
         public ObjectSet<OfficeInspectionItem> OfficeInspectionItems
         {
             get
@@ -258,22 +292,6 @@ namespace BCCAModel
             }
         }
         private ObjectSet<Role> _Roles;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<Room> Rooms
-        {
-            get
-            {
-                if ((_Rooms == null))
-                {
-                    _Rooms = base.CreateObjectSet<Room>("Rooms");
-                }
-                return _Rooms;
-            }
-        }
-        private ObjectSet<Room> _Rooms;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -359,6 +377,14 @@ namespace BCCAModel
         #region AddTo Methods
     
         /// <summary>
+        /// Deprecated Method for adding a new object to the CourseDetails EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToCourseDetails(CourseDetail courseDetail)
+        {
+            base.AddObject("CourseDetails", courseDetail);
+        }
+    
+        /// <summary>
         /// Deprecated Method for adding a new object to the Departments EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToDepartments(Department department)
@@ -423,6 +449,14 @@ namespace BCCAModel
         }
     
         /// <summary>
+        /// Deprecated Method for adding a new object to the OfficeInspectionDetails EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToOfficeInspectionDetails(OfficeInspectionDetail officeInspectionDetail)
+        {
+            base.AddObject("OfficeInspectionDetails", officeInspectionDetail);
+        }
+    
+        /// <summary>
         /// Deprecated Method for adding a new object to the OfficeInspectionItems EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToOfficeInspectionItems(OfficeInspectionItem officeInspectionItem)
@@ -444,14 +478,6 @@ namespace BCCAModel
         public void AddToRoles(Role role)
         {
             base.AddObject("Roles", role);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the Rooms EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToRooms(Room room)
-        {
-            base.AddObject("Rooms", room);
         }
     
         /// <summary>
@@ -501,6 +527,110 @@ namespace BCCAModel
     #endregion
     
     #region Entities
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="CourseDetail")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class CourseDetail : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new CourseDetail object.
+        /// </summary>
+        /// <param name="courseDetailNo">Initial value of the courseDetailNo property.</param>
+        public static CourseDetail CreateCourseDetail(global::System.Int32 courseDetailNo)
+        {
+            CourseDetail courseDetail = new CourseDetail();
+            courseDetail.courseDetailNo = courseDetailNo;
+            return courseDetail;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 courseDetailNo
+        {
+            get
+            {
+                return _courseDetailNo;
+            }
+            set
+            {
+                if (_courseDetailNo != value)
+                {
+                    OncourseDetailNoChanging(value);
+                    ReportPropertyChanging("courseDetailNo");
+                    _courseDetailNo = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("courseDetailNo");
+                    OncourseDetailNoChanged();
+                }
+            }
+        }
+        private global::System.Int32 _courseDetailNo;
+        partial void OncourseDetailNoChanging(global::System.Int32 value);
+        partial void OncourseDetailNoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String courseDetail1
+        {
+            get
+            {
+                return _courseDetail1;
+            }
+            set
+            {
+                OncourseDetail1Changing(value);
+                ReportPropertyChanging("courseDetail1");
+                _courseDetail1 = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("courseDetail1");
+                OncourseDetail1Changed();
+            }
+        }
+        private global::System.String _courseDetail1;
+        partial void OncourseDetail1Changing(global::System.String value);
+        partial void OncourseDetail1Changed();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "TrainingCourseTakenDetail", "TrainingTaken")]
+        public EntityCollection<TrainingTaken> TrainingTakens
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TrainingTaken>("BCCAModel.TrainingCourseTakenDetail", "TrainingTaken");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TrainingTaken>("BCCAModel.TrainingCourseTakenDetail", "TrainingTaken", value);
+                }
+            }
+        }
+
+        #endregion
+    }
     
     /// <summary>
     /// No Metadata Documentation available.
@@ -828,30 +958,6 @@ namespace BCCAModel
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Int32> roomNo
-        {
-            get
-            {
-                return _roomNo;
-            }
-            set
-            {
-                OnroomNoChanging(value);
-                ReportPropertyChanging("roomNo");
-                _roomNo = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("roomNo");
-                OnroomNoChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _roomNo;
-        partial void OnroomNoChanging(Nullable<global::System.Int32> value);
-        partial void OnroomNoChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.DateTime startDate
@@ -968,6 +1074,30 @@ namespace BCCAModel
         private global::System.String _position;
         partial void OnpositionChanging(global::System.String value);
         partial void OnpositionChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String room
+        {
+            get
+            {
+                return _room;
+            }
+            set
+            {
+                OnroomChanging(value);
+                ReportPropertyChanging("room");
+                _room = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("room");
+                OnroomChanged();
+            }
+        }
+        private global::System.String _room;
+        partial void OnroomChanging(global::System.String value);
+        partial void OnroomChanged();
 
         #endregion
     
@@ -1007,44 +1137,6 @@ namespace BCCAModel
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Department>("BCCAModel.FK__Employee__deptNo__489AC854", "Department", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Employee__roomNo__498EEC8D", "Room")]
-        public Room Room
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("BCCAModel.FK__Employee__roomNo__498EEC8D", "Room").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("BCCAModel.FK__Employee__roomNo__498EEC8D", "Room").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Room> RoomReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Room>("BCCAModel.FK__Employee__roomNo__498EEC8D", "Room");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Room>("BCCAModel.FK__Employee__roomNo__498EEC8D", "Room", value);
                 }
             }
         }
@@ -1410,24 +1502,24 @@ namespace BCCAModel
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> p1_timeReported
+        public Nullable<global::System.DateTime> p1_dateReported
         {
             get
             {
-                return _p1_timeReported;
+                return _p1_dateReported;
             }
             set
             {
-                Onp1_timeReportedChanging(value);
-                ReportPropertyChanging("p1_timeReported");
-                _p1_timeReported = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("p1_timeReported");
-                Onp1_timeReportedChanged();
+                Onp1_dateReportedChanging(value);
+                ReportPropertyChanging("p1_dateReported");
+                _p1_dateReported = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("p1_dateReported");
+                Onp1_dateReportedChanged();
             }
         }
-        private Nullable<global::System.DateTime> _p1_timeReported;
-        partial void Onp1_timeReportedChanging(Nullable<global::System.DateTime> value);
-        partial void Onp1_timeReportedChanged();
+        private Nullable<global::System.DateTime> _p1_dateReported;
+        partial void Onp1_dateReportedChanging(Nullable<global::System.DateTime> value);
+        partial void Onp1_dateReportedChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -2010,24 +2102,24 @@ namespace BCCAModel
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String p2_patient_celingLift
+        public global::System.String p2_patient_ceilingLift
         {
             get
             {
-                return _p2_patient_celingLift;
+                return _p2_patient_ceilingLift;
             }
             set
             {
-                Onp2_patient_celingLiftChanging(value);
-                ReportPropertyChanging("p2_patient_celingLift");
-                _p2_patient_celingLift = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("p2_patient_celingLift");
-                Onp2_patient_celingLiftChanged();
+                Onp2_patient_ceilingLiftChanging(value);
+                ReportPropertyChanging("p2_patient_ceilingLift");
+                _p2_patient_ceilingLift = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("p2_patient_ceilingLift");
+                Onp2_patient_ceilingLiftChanged();
             }
         }
-        private global::System.String _p2_patient_celingLift;
-        partial void Onp2_patient_celingLiftChanging(global::System.String value);
-        partial void Onp2_patient_celingLiftChanged();
+        private global::System.String _p2_patient_ceilingLift;
+        partial void Onp2_patient_ceilingLiftChanging(global::System.String value);
+        partial void Onp2_patient_ceilingLiftChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -2100,30 +2192,6 @@ namespace BCCAModel
         private global::System.String _p2_patient_manualLift;
         partial void Onp2_patient_manualLiftChanging(global::System.String value);
         partial void Onp2_patient_manualLiftChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String p2_patient_other
-        {
-            get
-            {
-                return _p2_patient_other;
-            }
-            set
-            {
-                Onp2_patient_otherChanging(value);
-                ReportPropertyChanging("p2_patient_other");
-                _p2_patient_other = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("p2_patient_other");
-                Onp2_patient_otherChanged();
-            }
-        }
-        private global::System.String _p2_patient_other;
-        partial void Onp2_patient_otherChanging(global::System.String value);
-        partial void Onp2_patient_otherChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -3138,24 +3206,24 @@ namespace BCCAModel
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String p2_cause_undeterminded
+        public global::System.String p2_cause_undetermined
         {
             get
             {
-                return _p2_cause_undeterminded;
+                return _p2_cause_undetermined;
             }
             set
             {
-                Onp2_cause_undetermindedChanging(value);
-                ReportPropertyChanging("p2_cause_undeterminded");
-                _p2_cause_undeterminded = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("p2_cause_undeterminded");
-                Onp2_cause_undetermindedChanged();
+                Onp2_cause_undeterminedChanging(value);
+                ReportPropertyChanging("p2_cause_undetermined");
+                _p2_cause_undetermined = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("p2_cause_undetermined");
+                Onp2_cause_undeterminedChanged();
             }
         }
-        private global::System.String _p2_cause_undeterminded;
-        partial void Onp2_cause_undetermindedChanging(global::System.String value);
-        partial void Onp2_cause_undetermindedChanged();
+        private global::System.String _p2_cause_undetermined;
+        partial void Onp2_cause_undeterminedChanging(global::System.String value);
+        partial void Onp2_cause_undeterminedChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -5154,24 +5222,24 @@ namespace BCCAModel
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> p2_corrective_writtentTargetDate
+        public Nullable<global::System.DateTime> p2_corrective_writtenTargetDate
         {
             get
             {
-                return _p2_corrective_writtentTargetDate;
+                return _p2_corrective_writtenTargetDate;
             }
             set
             {
-                Onp2_corrective_writtentTargetDateChanging(value);
-                ReportPropertyChanging("p2_corrective_writtentTargetDate");
-                _p2_corrective_writtentTargetDate = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("p2_corrective_writtentTargetDate");
-                Onp2_corrective_writtentTargetDateChanged();
+                Onp2_corrective_writtenTargetDateChanging(value);
+                ReportPropertyChanging("p2_corrective_writtenTargetDate");
+                _p2_corrective_writtenTargetDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("p2_corrective_writtenTargetDate");
+                Onp2_corrective_writtenTargetDateChanged();
             }
         }
-        private Nullable<global::System.DateTime> _p2_corrective_writtentTargetDate;
-        partial void Onp2_corrective_writtentTargetDateChanging(Nullable<global::System.DateTime> value);
-        partial void Onp2_corrective_writtentTargetDateChanged();
+        private Nullable<global::System.DateTime> _p2_corrective_writtenTargetDate;
+        partial void Onp2_corrective_writtenTargetDateChanging(Nullable<global::System.DateTime> value);
+        partial void Onp2_corrective_writtenTargetDateChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -6084,6 +6152,126 @@ namespace BCCAModel
         private Nullable<global::System.DateTime> _p1_action_medicalER_date;
         partial void Onp1_action_medicalER_dateChanging(Nullable<global::System.DateTime> value);
         partial void Onp1_action_medicalER_dateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String p1_nature_burn
+        {
+            get
+            {
+                return _p1_nature_burn;
+            }
+            set
+            {
+                Onp1_nature_burnChanging(value);
+                ReportPropertyChanging("p1_nature_burn");
+                _p1_nature_burn = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("p1_nature_burn");
+                Onp1_nature_burnChanged();
+            }
+        }
+        private global::System.String _p1_nature_burn;
+        partial void Onp1_nature_burnChanging(global::System.String value);
+        partial void Onp1_nature_burnChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> p1_numEmployeesInvolved
+        {
+            get
+            {
+                return _p1_numEmployeesInvolved;
+            }
+            set
+            {
+                Onp1_numEmployeesInvolvedChanging(value);
+                ReportPropertyChanging("p1_numEmployeesInvolved");
+                _p1_numEmployeesInvolved = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("p1_numEmployeesInvolved");
+                Onp1_numEmployeesInvolvedChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _p1_numEmployeesInvolved;
+        partial void Onp1_numEmployeesInvolvedChanging(Nullable<global::System.Int32> value);
+        partial void Onp1_numEmployeesInvolvedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String p2_cause_contactStress
+        {
+            get
+            {
+                return _p2_cause_contactStress;
+            }
+            set
+            {
+                Onp2_cause_contactStressChanging(value);
+                ReportPropertyChanging("p2_cause_contactStress");
+                _p2_cause_contactStress = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("p2_cause_contactStress");
+                Onp2_cause_contactStressChanged();
+            }
+        }
+        private global::System.String _p2_cause_contactStress;
+        partial void Onp2_cause_contactStressChanging(global::System.String value);
+        partial void Onp2_cause_contactStressChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String p2_factors_patientResistive
+        {
+            get
+            {
+                return _p2_factors_patientResistive;
+            }
+            set
+            {
+                Onp2_factors_patientResistiveChanging(value);
+                ReportPropertyChanging("p2_factors_patientResistive");
+                _p2_factors_patientResistive = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("p2_factors_patientResistive");
+                Onp2_factors_patientResistiveChanged();
+            }
+        }
+        private global::System.String _p2_factors_patientResistive;
+        partial void Onp2_factors_patientResistiveChanging(global::System.String value);
+        partial void Onp2_factors_patientResistiveChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String p2_cause_exposure_chemName
+        {
+            get
+            {
+                return _p2_cause_exposure_chemName;
+            }
+            set
+            {
+                Onp2_cause_exposure_chemNameChanging(value);
+                ReportPropertyChanging("p2_cause_exposure_chemName");
+                _p2_cause_exposure_chemName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("p2_cause_exposure_chemName");
+                Onp2_cause_exposure_chemNameChanged();
+            }
+        }
+        private global::System.String _p2_cause_exposure_chemName;
+        partial void Onp2_cause_exposure_chemNameChanging(global::System.String value);
+        partial void Onp2_cause_exposure_chemNameChanged();
 
         #endregion
     
@@ -6326,6 +6514,30 @@ namespace BCCAModel
         private global::System.String _supervisor;
         partial void OnsupervisorChanging(global::System.String value);
         partial void OnsupervisorChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String room
+        {
+            get
+            {
+                return _room;
+            }
+            set
+            {
+                OnroomChanging(value);
+                ReportPropertyChanging("room");
+                _room = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("room");
+                OnroomChanged();
+            }
+        }
+        private global::System.String _room;
+        partial void OnroomChanging(global::System.String value);
+        partial void OnroomChanged();
 
         #endregion
     
@@ -6398,55 +6610,17 @@ namespace BCCAModel
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__LabInspec__labIn__625A9A57", "LabInspectionDetails")]
-        public LabInspectionDetail LabInspectionDetail
+        public EntityCollection<LabInspectionDetail> LabInspectionDetails
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionDetail>("BCCAModel.FK__LabInspec__labIn__625A9A57", "LabInspectionDetails").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionDetail>("BCCAModel.FK__LabInspec__labIn__625A9A57", "LabInspectionDetails").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<LabInspectionDetail> LabInspectionDetailReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionDetail>("BCCAModel.FK__LabInspec__labIn__625A9A57", "LabInspectionDetails");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<LabInspectionDetail>("BCCAModel.FK__LabInspec__labIn__625A9A57", "LabInspectionDetails");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<LabInspectionDetail>("BCCAModel.FK__LabInspec__labIn__625A9A57", "LabInspectionDetails", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "LabInspectionRoomDetails", "Room")]
-        public EntityCollection<Room> Rooms
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Room>("BCCAModel.LabInspectionRoomDetails", "Room");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Room>("BCCAModel.LabInspectionRoomDetails", "Room", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<LabInspectionDetail>("BCCAModel.FK__LabInspec__labIn__625A9A57", "LabInspectionDetails", value);
                 }
             }
         }
@@ -6468,10 +6642,12 @@ namespace BCCAModel
         /// Create a new LabInspectionDetail object.
         /// </summary>
         /// <param name="labInsNo">Initial value of the labInsNo property.</param>
-        public static LabInspectionDetail CreateLabInspectionDetail(global::System.Int32 labInsNo)
+        /// <param name="checkbox">Initial value of the checkbox property.</param>
+        public static LabInspectionDetail CreateLabInspectionDetail(global::System.Int32 labInsNo, global::System.Int32 checkbox)
         {
             LabInspectionDetail labInspectionDetail = new LabInspectionDetail();
             labInspectionDetail.labInsNo = labInsNo;
+            labInspectionDetail.checkbox = checkbox;
             return labInspectionDetail;
         }
 
@@ -6534,30 +6710,6 @@ namespace BCCAModel
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String @checked
-        {
-            get
-            {
-                return _checked;
-            }
-            set
-            {
-                OncheckedChanging(value);
-                ReportPropertyChanging("checked");
-                _checked = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("checked");
-                OncheckedChanged();
-            }
-        }
-        private global::System.String _checked;
-        partial void OncheckedChanging(global::System.String value);
-        partial void OncheckedChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
         public global::System.String comments
         {
             get
@@ -6576,6 +6728,33 @@ namespace BCCAModel
         private global::System.String _comments;
         partial void OncommentsChanging(global::System.String value);
         partial void OncommentsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 checkbox
+        {
+            get
+            {
+                return _checkbox;
+            }
+            set
+            {
+                if (_checkbox != value)
+                {
+                    OncheckboxChanging(value);
+                    ReportPropertyChanging("checkbox");
+                    _checkbox = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("checkbox");
+                    OncheckboxChanged();
+                }
+            }
+        }
+        private global::System.Int32 _checkbox;
+        partial void OncheckboxChanging(global::System.Int32 value);
+        partial void OncheckboxChanged();
 
         #endregion
     
@@ -6974,6 +7153,296 @@ namespace BCCAModel
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__OfficeIns__offic__7E02B4CC", "OfficeInspectionDetails")]
+        public EntityCollection<OfficeInspectionDetail> OfficeInspectionDetails
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<OfficeInspectionDetail>("BCCAModel.FK__OfficeIns__offic__7E02B4CC", "OfficeInspectionDetails");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<OfficeInspectionDetail>("BCCAModel.FK__OfficeIns__offic__7E02B4CC", "OfficeInspectionDetails", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="OfficeInspectionDetail")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class OfficeInspectionDetail : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new OfficeInspectionDetail object.
+        /// </summary>
+        /// <param name="checkbox">Initial value of the checkbox property.</param>
+        public static OfficeInspectionDetail CreateOfficeInspectionDetail(global::System.Int32 checkbox)
+        {
+            OfficeInspectionDetail officeInspectionDetail = new OfficeInspectionDetail();
+            officeInspectionDetail.checkbox = checkbox;
+            return officeInspectionDetail;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> officeInsNo
+        {
+            get
+            {
+                return _officeInsNo;
+            }
+            set
+            {
+                OnofficeInsNoChanging(value);
+                ReportPropertyChanging("officeInsNo");
+                _officeInsNo = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("officeInsNo");
+                OnofficeInsNoChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _officeInsNo;
+        partial void OnofficeInsNoChanging(Nullable<global::System.Int32> value);
+        partial void OnofficeInsNoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> officeInsItemNo
+        {
+            get
+            {
+                return _officeInsItemNo;
+            }
+            set
+            {
+                OnofficeInsItemNoChanging(value);
+                ReportPropertyChanging("officeInsItemNo");
+                _officeInsItemNo = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("officeInsItemNo");
+                OnofficeInsItemNoChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _officeInsItemNo;
+        partial void OnofficeInsItemNoChanging(Nullable<global::System.Int32> value);
+        partial void OnofficeInsItemNoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> severityNo
+        {
+            get
+            {
+                return _severityNo;
+            }
+            set
+            {
+                OnseverityNoChanging(value);
+                ReportPropertyChanging("severityNo");
+                _severityNo = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("severityNo");
+                OnseverityNoChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _severityNo;
+        partial void OnseverityNoChanging(Nullable<global::System.Int32> value);
+        partial void OnseverityNoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String comments
+        {
+            get
+            {
+                return _comments;
+            }
+            set
+            {
+                OncommentsChanging(value);
+                ReportPropertyChanging("comments");
+                _comments = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("comments");
+                OncommentsChanged();
+            }
+        }
+        private global::System.String _comments;
+        partial void OncommentsChanging(global::System.String value);
+        partial void OncommentsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 checkbox
+        {
+            get
+            {
+                return _checkbox;
+            }
+            set
+            {
+                if (_checkbox != value)
+                {
+                    OncheckboxChanging(value);
+                    ReportPropertyChanging("checkbox");
+                    _checkbox = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("checkbox");
+                    OncheckboxChanged();
+                }
+            }
+        }
+        private global::System.Int32 _checkbox;
+        partial void OncheckboxChanging(global::System.Int32 value);
+        partial void OncheckboxChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__OfficeIns__offic__7E02B4CC", "OfficeInspection")]
+        public OfficeInspection OfficeInspection
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<OfficeInspection>("BCCAModel.FK__OfficeIns__offic__7E02B4CC", "OfficeInspection").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<OfficeInspection>("BCCAModel.FK__OfficeIns__offic__7E02B4CC", "OfficeInspection").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<OfficeInspection> OfficeInspectionReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<OfficeInspection>("BCCAModel.FK__OfficeIns__offic__7E02B4CC", "OfficeInspection");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<OfficeInspection>("BCCAModel.FK__OfficeIns__offic__7E02B4CC", "OfficeInspection", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__OfficeIns__offic__7EF6D905", "OfficeInspectionItems")]
+        public OfficeInspectionItem OfficeInspectionItem
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<OfficeInspectionItem>("BCCAModel.FK__OfficeIns__offic__7EF6D905", "OfficeInspectionItems").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<OfficeInspectionItem>("BCCAModel.FK__OfficeIns__offic__7EF6D905", "OfficeInspectionItems").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<OfficeInspectionItem> OfficeInspectionItemReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<OfficeInspectionItem>("BCCAModel.FK__OfficeIns__offic__7EF6D905", "OfficeInspectionItems");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<OfficeInspectionItem>("BCCAModel.FK__OfficeIns__offic__7EF6D905", "OfficeInspectionItems", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__OfficeIns__sever__7FEAFD3E", "Severity")]
+        public Severity Severity
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Severity>("BCCAModel.FK__OfficeIns__sever__7FEAFD3E", "Severity").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Severity>("BCCAModel.FK__OfficeIns__sever__7FEAFD3E", "Severity").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Severity> SeverityReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Severity>("BCCAModel.FK__OfficeIns__sever__7FEAFD3E", "Severity");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Severity>("BCCAModel.FK__OfficeIns__sever__7FEAFD3E", "Severity", value);
+                }
+            }
+        }
 
         #endregion
     }
@@ -7055,6 +7524,31 @@ namespace BCCAModel
 
         #endregion
     
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__OfficeIns__offic__7EF6D905", "OfficeInspectionDetails")]
+        public EntityCollection<OfficeInspectionDetail> OfficeInspectionDetails
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<OfficeInspectionDetail>("BCCAModel.FK__OfficeIns__offic__7EF6D905", "OfficeInspectionDetails");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<OfficeInspectionDetail>("BCCAModel.FK__OfficeIns__offic__7EF6D905", "OfficeInspectionDetails", value);
+                }
+            }
+        }
+
+        #endregion
     }
     
     /// <summary>
@@ -7243,132 +7737,6 @@ namespace BCCAModel
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="Room")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Room : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Room object.
-        /// </summary>
-        /// <param name="roomNo">Initial value of the roomNo property.</param>
-        public static Room CreateRoom(global::System.Int32 roomNo)
-        {
-            Room room = new Room();
-            room.roomNo = roomNo;
-            return room;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 roomNo
-        {
-            get
-            {
-                return _roomNo;
-            }
-            set
-            {
-                if (_roomNo != value)
-                {
-                    OnroomNoChanging(value);
-                    ReportPropertyChanging("roomNo");
-                    _roomNo = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("roomNo");
-                    OnroomNoChanged();
-                }
-            }
-        }
-        private global::System.Int32 _roomNo;
-        partial void OnroomNoChanging(global::System.Int32 value);
-        partial void OnroomNoChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String room1
-        {
-            get
-            {
-                return _room1;
-            }
-            set
-            {
-                Onroom1Changing(value);
-                ReportPropertyChanging("room1");
-                _room1 = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("room1");
-                Onroom1Changed();
-            }
-        }
-        private global::System.String _room1;
-        partial void Onroom1Changing(global::System.String value);
-        partial void Onroom1Changed();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Employee__roomNo__498EEC8D", "Employee")]
-        public EntityCollection<Employee> Employees
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Employee>("BCCAModel.FK__Employee__roomNo__498EEC8D", "Employee");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Employee>("BCCAModel.FK__Employee__roomNo__498EEC8D", "Employee", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "LabInspectionRoomDetails", "LabInspection")]
-        public EntityCollection<LabInspection> LabInspections
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<LabInspection>("BCCAModel.LabInspectionRoomDetails", "LabInspection");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<LabInspection>("BCCAModel.LabInspectionRoomDetails", "LabInspection", value);
-                }
-            }
-        }
-
-        #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="Severity")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -7443,6 +7811,31 @@ namespace BCCAModel
 
         #endregion
     
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__OfficeIns__sever__7FEAFD3E", "OfficeInspectionDetails")]
+        public EntityCollection<OfficeInspectionDetail> OfficeInspectionDetails
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<OfficeInspectionDetail>("BCCAModel.FK__OfficeIns__sever__7FEAFD3E", "OfficeInspectionDetails");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<OfficeInspectionDetail>("BCCAModel.FK__OfficeIns__sever__7FEAFD3E", "OfficeInspectionDetails", value);
+                }
+            }
+        }
+
+        #endregion
     }
     
     /// <summary>
@@ -7745,13 +8138,13 @@ namespace BCCAModel
         /// </summary>
         /// <param name="empNo">Initial value of the empNo property.</param>
         /// <param name="trainingNo">Initial value of the trainingNo property.</param>
-        /// <param name="active">Initial value of the active property.</param>
-        public static TrainingTaken CreateTrainingTaken(global::System.Int32 empNo, global::System.Int32 trainingNo, global::System.Decimal active)
+        /// <param name="trainingTakenNo">Initial value of the trainingTakenNo property.</param>
+        public static TrainingTaken CreateTrainingTaken(global::System.Int32 empNo, global::System.Int32 trainingNo, global::System.Int32 trainingTakenNo)
         {
             TrainingTaken trainingTaken = new TrainingTaken();
             trainingTaken.empNo = empNo;
             trainingTaken.trainingNo = trainingNo;
-            trainingTaken.active = active;
+            trainingTaken.trainingTakenNo = trainingTakenNo;
             return trainingTaken;
         }
 
@@ -7761,7 +8154,7 @@ namespace BCCAModel
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Int32 empNo
         {
@@ -7771,14 +8164,11 @@ namespace BCCAModel
             }
             set
             {
-                if (_empNo != value)
-                {
-                    OnempNoChanging(value);
-                    ReportPropertyChanging("empNo");
-                    _empNo = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("empNo");
-                    OnempNoChanged();
-                }
+                OnempNoChanging(value);
+                ReportPropertyChanging("empNo");
+                _empNo = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("empNo");
+                OnempNoChanged();
             }
         }
         private global::System.Int32 _empNo;
@@ -7788,7 +8178,7 @@ namespace BCCAModel
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Int32 trainingNo
         {
@@ -7798,14 +8188,11 @@ namespace BCCAModel
             }
             set
             {
-                if (_trainingNo != value)
-                {
-                    OntrainingNoChanging(value);
-                    ReportPropertyChanging("trainingNo");
-                    _trainingNo = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("trainingNo");
-                    OntrainingNoChanged();
-                }
+                OntrainingNoChanging(value);
+                ReportPropertyChanging("trainingNo");
+                _trainingNo = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("trainingNo");
+                OntrainingNoChanged();
             }
         }
         private global::System.Int32 _trainingNo;
@@ -7863,29 +8250,26 @@ namespace BCCAModel
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.Decimal active
+        public Nullable<global::System.Int32> completed
         {
             get
             {
-                return _active;
+                return _completed;
             }
             set
             {
-                if (_active != value)
-                {
-                    OnactiveChanging(value);
-                    ReportPropertyChanging("active");
-                    _active = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("active");
-                    OnactiveChanged();
-                }
+                OncompletedChanging(value);
+                ReportPropertyChanging("completed");
+                _completed = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("completed");
+                OncompletedChanged();
             }
         }
-        private global::System.Decimal _active;
-        partial void OnactiveChanging(global::System.Decimal value);
-        partial void OnactiveChanged();
+        private Nullable<global::System.Int32> _completed;
+        partial void OncompletedChanging(Nullable<global::System.Int32> value);
+        partial void OncompletedChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -8174,6 +8558,33 @@ namespace BCCAModel
         private global::System.String _radiation_ringIssued;
         partial void Onradiation_ringIssuedChanging(global::System.String value);
         partial void Onradiation_ringIssuedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 trainingTakenNo
+        {
+            get
+            {
+                return _trainingTakenNo;
+            }
+            set
+            {
+                if (_trainingTakenNo != value)
+                {
+                    OntrainingTakenNoChanging(value);
+                    ReportPropertyChanging("trainingTakenNo");
+                    _trainingTakenNo = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("trainingTakenNo");
+                    OntrainingTakenNoChanged();
+                }
+            }
+        }
+        private global::System.Int32 _trainingTakenNo;
+        partial void OntrainingTakenNoChanging(global::System.Int32 value);
+        partial void OntrainingTakenNoChanged();
 
         #endregion
     
@@ -8251,6 +8662,28 @@ namespace BCCAModel
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TrainingCours>("BCCAModel.FK__TrainingT__train__51300E55", "TrainingCourses", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "TrainingCourseTakenDetail", "CourseDetails")]
+        public EntityCollection<CourseDetail> CourseDetails
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<CourseDetail>("BCCAModel.TrainingCourseTakenDetail", "CourseDetails");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<CourseDetail>("BCCAModel.TrainingCourseTakenDetail", "CourseDetails", value);
                 }
             }
         }

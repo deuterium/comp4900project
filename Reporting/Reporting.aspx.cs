@@ -22,6 +22,7 @@ using System.Drawing;
  * add regex to last 3 sections
  * test really long inputs
  * put results msg in update panel triggered by btn click (so it disappears eveyr time you click submit)
+ * re-order controls so they appear in the order you click them?
  **/
 
 /// <summary>
@@ -70,9 +71,9 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
     {
         // Only do the initial set up the first time the page loads (and not on post-backs).
         if (!IsPostBack) {
-            GridView1.DataSource = ctx.Incidents;
-            GridView1.DataBind();
-
+            //GridView1.DataSource = ctx.Incidents;
+            //GridView1.DataBind();
+            
             ddlEmployers.DataSource = employers;
             ddlEmployers.DataBind();
 
@@ -110,6 +111,8 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             emp = qry.FirstOrDefault();
 
             tbxId.Text = emp.empNo.ToString();
+            tbxFirstName.Text = emp.fname.ToString();
+            tbxLastName.Text = emp.lname.ToString();
             
             var position = ctx.Positions
                            .Where(p => p.posName.Equals(emp.position))
@@ -143,10 +146,12 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
 
             ddlDepartments.SelectedValue = emp.deptNo.ToString();
 
-            tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("yyyy/MM/dd");
+            tbxRoom.Text = emp.room;
+
+            tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy");
             
             if (emp.endDate != null) {
-                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("yyyy/MM/dd");
+                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy");
             }
 
             setResultMsg(null, SuccessColour);
@@ -227,9 +232,17 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The button click event.</param>
     protected void btnCreateReport_Click(object sender, EventArgs e) {
-        createReport();
+        Page.Validate("vgpEmpInfo");
+        Page.Validate("vgpPanelA");
+        Page.Validate("vgpFCorrective");
+        Page.Validate("vgpGRelevant");
+        Page.Validate("vgpHManagers");
+        
+        if (Page.IsValid) {
+            createReport();
+        }
     }
-
+    
     /// <summary>
     /// Creates a new Incident report object (using the form fields) and saves it in the database.
     /// Returns the new Incident report on success, null on failure.
@@ -239,13 +252,13 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
         int empId = Convert.ToInt32(tbxId.Text);
         DateTime dateOfIncident = Convert.ToDateTime(tbx_p1_dateOfIncident.Text + " " + tbx_p1_timeOfIncident.Text);
         DateTime dateReported = Convert.ToDateTime(tbx_p1_dateReported.Text + " " + tbx_p1_timeReported.Text);
-       
+
         Incident report = new Incident {
             
             #region A_IncidentInfo
             empNo = empId,
             p1_dateOfIncident = dateOfIncident,
-            p1_timeReported = dateReported,
+            p1_dateReported = dateReported,
             p1_incidentDesc = tbx_p1_incidentDesc.Text,
             p1_witnessName1 = tbx_p1_witnessName1.Text,
             p1_witnessPhone1 = tbx_p1_witnessPhone1.Text,
@@ -257,11 +270,11 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p1_action_medicalER = convertCheckbox(cbx_p1_action_medicalER),
             #endregion A_IncidentInfo
 
-            #region B_NatureOfInjury           
+            #region B_NatureOfInjury
             p1_nature_no = convertCheckbox(cbx_p1_nature_no),
             p1_nature_musculoskeletal = convertCheckbox(cbx_p1_nature_musculoskeletal),
             p1_nature_bruise = convertCheckbox(cbx_p1_nature_bruise),
-            //p1_nature_burn = convertCheckbox(cbx_p1_nature_burn),
+            p1_nature_burn = convertCheckbox(cbx_p1_nature_burn),
             p1_nature_cut = convertCheckbox(cbx_p1_nature_cut),
             p1_nature_puncture = convertCheckbox(cbx_p1_nature_puncture),
             p1_nature_skinIrritation = convertCheckbox(cbx_p1_nature_skinIrritation),
@@ -271,7 +284,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p1_nature_psychological = convertCheckbox(cbx_p1_nature_psychological),
             p1_nature_respiratory = convertCheckbox(cbx_p1_nature_respiratory),
             #endregion B_NatureOfInjury
-
+            /*
             #region C_AccidentInvestigation
             p2_activity_no = convertCheckbox(cbx_p2_activity_no),
             p2_activity_repositioning = convertCheckbox(cbx_p2_activity_repositioning),
@@ -282,14 +295,13 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p2_activity_holding = convertCheckbox(cbx_p2_activity_holding),
             p2_activity_toileting = convertCheckbox(cbx_p2_activity_toileting),
             
-            p2_patient_celingLift = convertCheckbox(cbx_p2_patient_ceilingLift),
+            p2_patient_ceilingLift = convertCheckbox(cbx_p2_patient_ceilingLift),
             p2_patient_sitStandLift = convertCheckbox(cbx_p2_patient_sitStandLift),
             p2_patient_floorLift = convertCheckbox(cbx_p2_patient_floorLift),
             p2_patient_manualLift = convertCheckbox(cbx_p2_patient_manualLift),
             p2_patient_otherSpecify = tbx_p2_patient_otherSpecify.Text,
             p2_patient_adequateAssist = convertRadioButtonList(rbl_p2_patient_adequateAssist),
-            //p2_patient_involved = tbx_p2_patient_involved.Text,
-
+            
             p2_activity_washing = convertCheckbox(cbx_p2_activity_washing),
             p2_activity_dressing = convertCheckbox(cbx_p2_activity_dressing),
             p2_activity_changing = convertCheckbox(cbx_p2_activity_changing),
@@ -333,14 +345,14 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
 
             p2_cause_awkwardPosture = convertCheckbox(cbx_p2_cause_awkwardPosture),
             p2_cause_staticPosture = convertCheckbox(cbx_p2_cause_staticPosture),
-            //p2_cause_contact = convertCheckbox(cbx_),
+            p2_cause_contactStress = convertCheckbox(cbx_p2_cause_contactStress),
             p2_cause_force = convertCheckbox(cbx_p2_cause_force),
             p2_cause_rep = convertCheckbox(cbx_p2_cause_rep),
 
             p2_cause_motor = convertCheckbox(cbx_p2_cause_motor),
             p2_cause_slip = convertCheckbox(cbx_p2_cause_slip),
             p2_cause_aggression = convertCheckbox(cbx_p2_cause_aggression),
-            p2_cause_undeterminded = convertCheckbox(cbx_p2_cause_undetermined),    // spelled wrong
+            p2_cause_undetermined = convertCheckbox(cbx_p2_cause_undetermined),
             p2_cause_event = convertCheckbox(cbx_p2_cause_event),
             p2_cause_underEquip = convertCheckbox(cbx_p2_cause_underEquip),
             p2_cause_hit = convertCheckbox(cbx_p2_cause_hit),
@@ -356,8 +368,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p2_aggression_public = convertCheckbox(cbx_p2_cause_aggression_public),
             p2_aggression_worker = convertCheckbox(cbx_p2_cause_aggression_worker),
             p2_aggression_other = tbx_p2_cause_aggression_other.Text,
-
-            //p2_cause_chemName = convertCheckbox(p2_cause_chemName),
+            p2_cause_exposure_chemName = tbx_p2_cause_exposure_chemName.Text,
             p2_cause_chemInhalation = convertCheckbox(cbx_p2_cause_chemInhalation),
             p2_cause_chemIngest = convertCheckbox(cbx_p2_cause_chemIngest),
             p2_cause_chemContact = convertCheckbox(cbx_p2_cause_chemContact),
@@ -402,7 +413,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p2_factors_directions = convertCheckbox(cbx_p2_factors_directions),
             p2_factors_weight = convertCheckbox(cbx_p2_factors_weight),
             p2_factors_aggressive = convertCheckbox(cbx_p2_factors_aggressive),
-            //p2_factors_resistive = convertCheckbox(cbx_p2_factors_resistive),
+            p2_factors_patientResistive = convertCheckbox(cbx_p2_factors_patientResistive),
             p2_factors_movement = convertCheckbox(cbx_p2_factors_movement),
             p2_factors_confused = convertCheckbox(cbx_p2_factors_confused),
             p2_factors_influence = convertCheckbox(cbx_p2_factors_influence),
@@ -448,147 +459,159 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
             p2_manager_objections = tbx_p2_manager_objections.Text,
             p2_manager_alternative = tbx_p2_manager_alternative.Text,
             #endregion G_ManagersReport
-
+            */
         };
 
-        #region A_IncidentInfo_Dates
-        if (!tbx_p1_action_medicalER_date.Text.Equals(String.Empty)) {
-            DateTime dateMedicalER = Convert.ToDateTime(tbx_p1_action_medicalER_date.Text);
-            report.p1_action_medicalER_date = dateMedicalER;
-        }
+        //#region A_IncidentInfo_Dates
+        //if (!tbx_p1_action_medicalER_date.Text.Equals(String.Empty)) {
+        //    DateTime dateMedicalER = Convert.ToDateTime(tbx_p1_action_medicalER_date.Text);
+        //    report.p1_action_medicalER_date = dateMedicalER;
+        //}
 
-        if (!tbx_p1_action_medicalGP_date.Text.Equals(String.Empty)) {
-            DateTime dateMedicalGP = Convert.ToDateTime(tbx_p1_action_medicalGP_date.Text);
-            report.p1_action_medicalGP_date = dateMedicalGP;
-        }
-        #endregion A_IncidentInfo_Dates
+        //if (!tbx_p1_action_medicalGP_date.Text.Equals(String.Empty)) {
+        //    DateTime dateMedicalGP = Convert.ToDateTime(tbx_p1_action_medicalGP_date.Text);
+        //    report.p1_action_medicalGP_date = dateMedicalGP;
+        //}
+        //#endregion A_IncidentInfo_Dates
 
-        #region F_CorrectiveAction_Dates
-        if (!tbx_p2_corrective_personDate.Text.Equals(String.Empty)) {
-            DateTime dateCorrectivePerson = Convert.ToDateTime(tbx_p2_corrective_personDate.Text);
-            report.p2_corrective_personDate = dateCorrectivePerson;
-        }
+        //#region C_AccidentInvestigation_PatientHandling
+        //if (!tbx_p1_numEmployeesInvolved.Text.Equals(String.Empty)) {
+        //    try {
+        //        report.p1_numEmployeesInvolved = Convert.ToInt32(tbx_p1_numEmployeesInvolved.Text);
+        //    }
+        //    catch (FormatException) {
+        //        setResultMsg("The number of employees involved (in Patient Handling of Section C) must be a number.", FailColour);
+        //        return null;
+        //    }
+        //}
+        //#endregion C_AccidentInvestigation_PatientHandling
 
-        if (!tbx_p2_corrective_maintenanceDate.Text.Equals(String.Empty)) {
-            DateTime dateMaintenance = Convert.ToDateTime(tbx_p2_corrective_maintenanceDate.Text);
-            report.p2_corrective_maintenanceDate = dateMaintenance;
-        }
+        //#region F_CorrectiveAction_Dates
+        //if (!tbx_p2_corrective_personDate.Text.Equals(String.Empty)) {
+        //    DateTime dateCorrectivePerson = Convert.ToDateTime(tbx_p2_corrective_personDate.Text);
+        //    report.p2_corrective_personDate = dateCorrectivePerson;
+        //}
+
+        //if (!tbx_p2_corrective_maintenanceDate.Text.Equals(String.Empty)) {
+        //    DateTime dateMaintenance = Convert.ToDateTime(tbx_p2_corrective_maintenanceDate.Text);
+        //    report.p2_corrective_maintenanceDate = dateMaintenance;
+        //}
         
-        if (!tbx_p2_corrective_communicatedDate.Text.Equals(String.Empty)) {
-            DateTime dateCommunicated = Convert.ToDateTime(tbx_p2_corrective_communicatedDate.Text);
-            report.p2_corrective_communicatedDate = dateCommunicated;
-        }
+        //if (!tbx_p2_corrective_communicatedDate.Text.Equals(String.Empty)) {
+        //    DateTime dateCommunicated = Convert.ToDateTime(tbx_p2_corrective_communicatedDate.Text);
+        //    report.p2_corrective_communicatedDate = dateCommunicated;
+        //}
         
-        if (!tbx_p2_corrective_timeDate.Text.Equals(String.Empty)) {
-            DateTime dateTimeLoss = Convert.ToDateTime(tbx_p2_corrective_timeDate.Text);
-            report.p2_corrective_timeDate = dateTimeLoss;
-        }
-        #endregion F_CorrectiveAction_Dates
+        //if (!tbx_p2_corrective_timeDate.Text.Equals(String.Empty)) {
+        //    DateTime dateTimeLoss = Convert.ToDateTime(tbx_p2_corrective_timeDate.Text);
+        //    report.p2_corrective_timeDate = dateTimeLoss;
+        //}
+        //#endregion F_CorrectiveAction_Dates
 
-        #region G_FollowUp_Dates
-        if (!tbx_p2_corrective_writtenTargetDate.Text.Equals(String.Empty)) {
-            DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenTargetDate.Text);
-            report.p2_corrective_writtentTargetDate = writtenDate;
-        }
+        //#region G_FollowUp_Dates
+        //if (!tbx_p2_corrective_writtenTargetDate.Text.Equals(String.Empty)) {
+        //    DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenTargetDate.Text);
+        //    report.p2_corrective_writtenTargetDate = writtenDate;
+        //}
 
-        if (!tbx_p2_corrective_educationTargetDate.Text.Equals(String.Empty)) {
-            DateTime educationDate = Convert.ToDateTime(tbx_p2_corrective_educationTargetDate.Text);
-            report.p2_corrective_educationTargetDate = educationDate;
-        }
+        //if (!tbx_p2_corrective_educationTargetDate.Text.Equals(String.Empty)) {
+        //    DateTime educationDate = Convert.ToDateTime(tbx_p2_corrective_educationTargetDate.Text);
+        //    report.p2_corrective_educationTargetDate = educationDate;
+        //}
 
-        if (!tbx_p2_corrective_equipmentTargetDate.Text.Equals(String.Empty)) {
-            DateTime equipmentDate = Convert.ToDateTime(tbx_p2_corrective_equipmentTargetDate.Text);
-            report.p2_corrective_equipmentTargetDate = equipmentDate;
-        }
+        //if (!tbx_p2_corrective_equipmentTargetDate.Text.Equals(String.Empty)) {
+        //    DateTime equipmentDate = Convert.ToDateTime(tbx_p2_corrective_equipmentTargetDate.Text);
+        //    report.p2_corrective_equipmentTargetDate = equipmentDate;
+        //}
 
-        if (!tbx_p2_corrective_environmentTargetDate.Text.Equals(String.Empty)) {
-            DateTime environmentDate = Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text);
-            report.p2_corrective_environmentTargetDate = environmentDate;
-        }
+        //if (!tbx_p2_corrective_environmentTargetDate.Text.Equals(String.Empty)) {
+        //    DateTime environmentDate = Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text);
+        //    report.p2_corrective_environmentTargetDate = environmentDate;
+        //}
 
-        if (!tbx_p2_corrective_patientTargetDate.Text.Equals(String.Empty)) {
-            DateTime patientDate = Convert.ToDateTime(tbx_p2_corrective_patientTargetDate.Text);
-            report.p2_corrective_patientTargetDate = patientDate;
-        }
-        #endregion G_FollowUp_Dates
+        //if (!tbx_p2_corrective_patientTargetDate.Text.Equals(String.Empty)) {
+        //    DateTime patientDate = Convert.ToDateTime(tbx_p2_corrective_patientTargetDate.Text);
+        //    report.p2_corrective_patientTargetDate = patientDate;
+        //}
+        //#endregion G_FollowUp_Dates
 
-        #region H_FixedShiftRotation
+        //#region H_FixedShiftRotation
 
-        #region H_FixedShiftRotation_Week1
-        if (!tbx_p2_manager_week1_sun.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sun.Text);
-            report.p2_manager_week1_sun = d;
-        }
+        //#region H_FixedShiftRotation_Week1
+        //if (!tbx_p2_manager_week1_sun.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sun.Text);
+        //    report.p2_manager_week1_sun = d;
+        //}
 
-        if (!tbx_p2_manager_week1_mon.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_mon.Text);
-            report.p2_manager_week1_mon = d;
-        }
+        //if (!tbx_p2_manager_week1_mon.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_mon.Text);
+        //    report.p2_manager_week1_mon = d;
+        //}
         
-        if (!tbx_p2_manager_week1_tue.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_tue.Text);
-            report.p2_manager_week1_wed = d;
-        }
+        //if (!tbx_p2_manager_week1_tue.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_tue.Text);
+        //    report.p2_manager_week1_wed = d;
+        //}
 
-        if (!tbx_p2_manager_week1_wed.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_wed.Text);
-            report.p2_manager_week1_sun = d;
-        }
+        //if (!tbx_p2_manager_week1_wed.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_wed.Text);
+        //    report.p2_manager_week1_sun = d;
+        //}
 
-        if (!tbx_p2_manager_week1_thu.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_thu.Text);
-            report.p2_manager_week1_thu = d;
-        }
+        //if (!tbx_p2_manager_week1_thu.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_thu.Text);
+        //    report.p2_manager_week1_thu = d;
+        //}
 
-        if (!tbx_p2_manager_week1_fri.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_fri.Text);
-            report.p2_manager_week1_fri = d;
-        }
+        //if (!tbx_p2_manager_week1_fri.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_fri.Text);
+        //    report.p2_manager_week1_fri = d;
+        //}
         
-        if (!tbx_p2_manager_week1_sat.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sat.Text);
-            report.p2_manager_week1_sat = d;
-        }
-        #endregion H_FixedShiftRotation_Week1
+        //if (!tbx_p2_manager_week1_sat.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sat.Text);
+        //    report.p2_manager_week1_sat = d;
+        //}
+        //#endregion H_FixedShiftRotation_Week1
 
-        #region H_FixedShiftRotation_Week2
-        if (!tbx_p2_manager_week2_sun.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_sun.Text);
-            report.p2_manager_week2_sun = d;
-        }
+        //#region H_FixedShiftRotation_Week2
+        //if (!tbx_p2_manager_week2_sun.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_sun.Text);
+        //    report.p2_manager_week2_sun = d;
+        //}
 
-        if (!tbx_p2_manager_week2_mon.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_mon.Text);
-            report.p2_manager_week2_mon = d;
-        }
+        //if (!tbx_p2_manager_week2_mon.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_mon.Text);
+        //    report.p2_manager_week2_mon = d;
+        //}
 
-        if (!tbx_p2_manager_week2_tue.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_tue.Text);
-            report.p2_manager_week2_wed = d;
-        }
+        //if (!tbx_p2_manager_week2_tue.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_tue.Text);
+        //    report.p2_manager_week2_wed = d;
+        //}
 
-        if (!tbx_p2_manager_week2_wed.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_wed.Text);
-            report.p2_manager_week2_sun = d;
-        }
+        //if (!tbx_p2_manager_week2_wed.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_wed.Text);
+        //    report.p2_manager_week2_sun = d;
+        //}
 
-        if (!tbx_p2_manager_week2_thu.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_thu.Text);
-            report.p2_manager_week2_thu = d;
-        }
+        //if (!tbx_p2_manager_week2_thu.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_thu.Text);
+        //    report.p2_manager_week2_thu = d;
+        //}
 
-        if (!tbx_p2_manager_week2_fri.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_fri.Text);
-            report.p2_manager_week2_fri = d;
-        }
+        //if (!tbx_p2_manager_week2_fri.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_fri.Text);
+        //    report.p2_manager_week2_fri = d;
+        //}
 
-        if (!tbx_p2_manager_week2_sat.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_sat.Text);
-            report.p2_manager_week2_sat = d;
-        }
-        #endregion H_FixedShiftRotation_Week2
+        //if (!tbx_p2_manager_week2_sat.Text.Equals(String.Empty)) {
+        //    Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_sat.Text);
+        //    report.p2_manager_week2_sat = d;
+        //}
+        //#endregion H_FixedShiftRotation_Week2
 
-        #endregion H_FixedShiftRotation
+        //#endregion H_FixedShiftRotation
 
         try {
             ctx.AddToIncidents(report);
@@ -606,10 +629,10 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
     /// Otherwise, returns the value as a String ("1" for yes, "0" for no).
     /// </summary>
     /// <param name="cbx">The CheckBox to convert.</param>
-    /// <returns>String: 1 for yes/checked. Null: for no/unchecked.</returns>
+    /// <returns>String: 1 for yes/checked, 0 for no/unchecked.</returns>
     private String convertCheckbox(CheckBox cbx) {
         if (!cbx.Checked) {
-            return null;
+            return "0";
         }
         return "1";
     }
@@ -620,7 +643,7 @@ public partial class Reporting_Reporting : System.Web.UI.Page {
     /// Otherwise, returns the value as a String ("1" for yes, "0" for no).
     /// </summary>
     /// <param name="rbl">The radio button list to convert.</param>
-    /// <returns>String: 1 for yes, 0 for no. Null: for N/A or Unknown or no selection made.</returns>
+    /// <returns>String: 2 for N/A or Unknown or no selection made, 1 for yes, 0 for no.</returns>
     private String convertRadioButtonList(RadioButtonList rbl) {
         if ((rbl.SelectedValue == null) || rbl.SelectedValue.Equals("Null")) {
             return null;
