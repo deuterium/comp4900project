@@ -89,7 +89,7 @@ Summary Page:
                         SortExpression="labInsNo" />
                     <asp:BoundField DataField="deptName" HeaderText="Department" 
                         SortExpression="deptName" />
-                    <asp:BoundField DataField="date" DataFormatString="M/d/yyyy" HeaderText="Date" SortExpression="date" />
+                    <asp:BoundField DataField="date" HeaderText="Date" SortExpression="date" />
                     <asp:BoundField DataField="followupDate" HeaderText="Followup" 
                         SortExpression="followupDate" />
                     <asp:BoundField DataField="inspector" HeaderText="Inspector" 

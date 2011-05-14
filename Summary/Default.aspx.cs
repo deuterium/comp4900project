@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using BCCAModel;
 using System.Data;
+using System.Globalization;
 
 /// <summary>
 ///Summary/Default.aspx.cs
@@ -32,7 +33,7 @@ public partial class Summary_Default : System.Web.UI.Page
         if (!IsPostBack)
         {
             BCCAEntities ctx = new BCCAEntities();
-            ddlLabLabManager.DataSource = ctx.LabInspections.Select(l => new { text = l.labMgr, value = l.labMgr });
+            ddlLabLabManager.DataSource = ctx.LabInspections.Select(l => new { text = l.labMgr, value = l.labMgr }).Distinct();
             ddlLabLabManager.DataValueField = "value";
             ddlLabLabManager.DataTextField  = "text";
             ddlLabLabManager.DataBind();
@@ -65,11 +66,19 @@ public partial class Summary_Default : System.Web.UI.Page
         //String.Format("{0:Mm/dd/yyyy}", labInspectionDate);
 
         string labInspectionDate = Convert.ToString(tbxLabInspectionDate.Text);
-        string formatDate = String.Format("{0:dd/M/yyyy}", labInspectionDate);
 
-        //string date = "1/08/2008";
-        DateTime dt = Convert.ToDateTime(formatDate); 
-
+        System.Globalization.DateTimeFormatInfo dateInfo = new System.Globalization.DateTimeFormatInfo();
+        dateInfo.ShortDatePattern = "MM/dd/yyyy";
+        DateTime validDate;
+        if (tbxLabInspectionDate.Text.Length == 0)
+        {
+            validDate = Convert.ToDateTime("01/01/0001");
+        }
+        else
+        {
+            validDate = Convert.ToDateTime(labInspectionDate, dateInfo);
+        }
+        
         grvLabInspections.DataSource = ctx.LabInspections
                                                .Join(
                                                   ctx.Departments,
@@ -83,7 +92,7 @@ public partial class Summary_Default : System.Web.UI.Page
                                                      }
                                                )
                                                .Where(temp0 => ((temp0.D.deptName == department) || (temp0.LI.labMgr == labManager)
-                                                   ))
+                                                 || (temp0.LI.date == validDate)))
                                                .Select(
                                                   temp0 =>
                                                      new
