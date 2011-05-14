@@ -7,11 +7,18 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server" />
     <asp:CollapsiblePanelExtender ID="cpeUsers" runat="server" CollapseControlID="hr3Users"
-        ExpandControlID="hr3Users" TargetControlID="pnlUsers" Collapsed="true" />
+        ExpandControlID="hr3Users" TargetControlID="pnlUsers" Collapsed="true" ImageControlID="imgCollapseExpandUsers"
+        TextLabelID="lblCollapseExpandUsers" CollapsedText="(Show Details)" ExpandedText="(Hide Details)"
+        CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg" />
     <asp:CollapsiblePanelExtender ID="cpeDropDowns" runat="server" CollapseControlID="hr3DropDowns"
-        ExpandControlID="hr3DropDowns" TargetControlID="pnlDropDowns" Collapsed="true" />
+        ExpandControlID="hr3DropDowns" TargetControlID="pnlDropDowns" Collapsed="true"
+        ImageControlID="imgCollapseExpandDropDowns" TextLabelID="lblCollapseExpandDropDowns"
+        CollapsedText="(Show Details)" ExpandedText="(Hide Details)" CollapsedImage="../images/expand.jpg"
+        ExpandedImage="../images/collapse.jpg" />
     <asp:CollapsiblePanelExtender ID="cpeCourses" runat="server" CollapseControlID="hr3Courses"
-        ExpandControlID="hr3Courses" TargetControlID="pnlCourses" Collapsed="true" />
+        ExpandControlID="hr3Courses" TargetControlID="pnlCourses" Collapsed="true" ImageControlID="imgCollapseExpandCourses"
+        TextLabelID="lblCollapseExpandCourses" CollapsedText="(Show Details)" ExpandedText="(Hide Details)"
+        CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg" />
     <asp:CollapsiblePanelExtender ID="cpeUsersDescription" runat="server" CollapseControlID="hr3Users"
         ExpandControlID="hr3Users" TargetControlID="pnlUsersDescription" Collapsed="false" />
     <asp:CollapsiblePanelExtender ID="cpeDropDownsDescription" runat="server" CollapseControlID="hr3DropDowns"
@@ -29,7 +36,10 @@
     <div id="divContent">
         <div id="divUsers">
             <h3 id="hr3Users">
-                Manage System Users</h3>
+                <asp:Image ID="imgCollapseExpandUsers" runat="server" />
+                Manage System Users
+                <asp:Label ID="lblCollapseExpandUsers" runat="server" />
+            </h3>
             <asp:Panel ID="pnlUsersDescription" runat="server">
                 This section allows management of system user accounts which can access this web
                 application. In this section you can create new users and edit existing user's credentials
@@ -135,7 +145,10 @@
         </div>
         <div id="divDropDowns">
             <h3 id="hr3DropDowns">
-                Manage System Dropdown Menus</h3>
+                <asp:Image ID="imgCollapseExpandDropDowns" runat="server" />
+                Manage System Dropdown Menus
+                <asp:Label ID="lblCollapseExpandDropDowns" runat="server" />
+            </h3>
             <asp:Panel ID="pnlDropDownsDescription" runat="server">
                 This section allows for the addition and removal of Departments, Rooms, Positions,
                 and Supervisors in the default dropdown menus of this web application.
@@ -191,7 +204,10 @@
         </div>
         <div id="divCourses">
             <h3 id="hr3Courses">
-                Manage Courses</h3>
+                <asp:Image ID="imgCollapseExpandCourses" runat="server" />
+                Manage Courses
+                <asp:Label ID="lblCollapseExpandCourses" runat="server" />
+            </h3>
             <asp:Panel ID="pnlCoursesDescription" runat="server">
                 This section allows for the addition of courses that will show up in the Safety
                 and Training form of this web application.
