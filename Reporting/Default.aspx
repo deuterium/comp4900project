@@ -377,7 +377,6 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 <h3 id="hr3C"><asp:Image ID="imgExpandCollapseC" runat="server" /> C. Accident Investigation <asp:Label ID="ExpandCollapseC" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlC" CssClass="panel" runat="server">
     <div id="divCLeftPanel">
-    <h5>Activity</h5>
         <table>
             <tr><td><asp:CheckBox TabIndex="125" ID="cbx_p2_activity_no" Text="No Injury" runat="server" /></td></tr>
         </table>

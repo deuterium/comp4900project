@@ -167,4 +167,23 @@ ExpandedImage="../images/collapse.jpg">
 <asp:GridView ID="gdvReports" runat="server">
 </asp:GridView>
 
+<asp:Panel ID="pnlPop" BackColor="White" Width="400px" Height="100px" CssClass="popPanel" runat="server">
+    <table width="100%" cellpadding="5">
+        <tr>
+            <td>
+                <asp:Label ID="lblPnlPop" runat="server"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <asp:Button ID="btnPnlPopClose" runat="server" Text="Close" OnClick="btnPnlPopClose_Click" />
+            </td>
+        </tr>
+    </table>
+</asp:Panel>
+
+<asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
+<asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
+    DropShadow="true" BackgroundCssClass="modalBackground" />
+
 </asp:Content>
