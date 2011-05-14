@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using BCCAModel;
 using System.Data;
+using System.Globalization;
 
 /// <summary>
 ///Summary/Default.aspx.cs
@@ -18,8 +19,9 @@ public partial class Summary_Default : System.Web.UI.Page
 {
 
     static BCCAEntities ctx = new BCCAEntities();
-    private int department;
+    private string department;
     private string labManager;
+    
 
     /// <summary>
     /// Populates drop down list for Lab Managers
@@ -31,30 +33,82 @@ public partial class Summary_Default : System.Web.UI.Page
         if (!IsPostBack)
         {
             BCCAEntities ctx = new BCCAEntities();
-            ddlLabLabManager.DataSource = ctx.LabInspections.Select(l => new { text = l.labMgr, value = l.labMgr });
+            ddlLabLabManager.DataSource = ctx.LabInspections.Select(l => new { text = l.labMgr, value = l.labMgr }).Distinct();
             ddlLabLabManager.DataValueField = "value";
             ddlLabLabManager.DataTextField  = "text";
             ddlLabLabManager.DataBind();
+
+            ddlLabDepartment.DataSource = ctx.Departments.Select(D => new { text = D.deptName, value = D.deptName });
+            ddlLabDepartment.DataValueField = "value";
+            ddlLabDepartment.DataTextField = "text";
+            ddlLabDepartment.DataBind();
+
+            ddlOfficeDepartment.DataSource = ctx.Departments.Select(D => new { text = D.deptName, value = D.deptName });
+            ddlOfficeDepartment.DataValueField = "value";
+            ddlOfficeDepartment.DataTextField = "text";
+            ddlOfficeDepartment.DataBind();
         }
 
     }
 
-    #region Inspection Look Up
+    #region Lab Inspection Look Up
     /// <summary>
     /// When clicked it does a lookup for any lab inspections.
     /// And returns a grid view of the results.
     /// </summary>
-    protected void btnInspectionLookUp_Click(object sender, EventArgs e)
+    protected void btnLabInspectionLookUp_Click(object sender, EventArgs e)
     {
-        if (!(tbxLabDepartment.Text.Length == 0))
-        {
-            department = Convert.ToInt32(tbxLabDepartment.Text);
-        }
 
+        department = Convert.ToString(ddlLabDepartment.SelectedValue);
+        
         labManager = Convert.ToString(ddlLabLabManager.SelectedValue);
+        //String labInspectionDate = tbxLabInspectionDate.Text;
+        //String.Format("{0:Mm/dd/yyyy}", labInspectionDate);
 
-        grvLabInspections.DataSource = ctx.LabInspections.Select(LI => LI).Where(LI => ((LI.deptNo == department))
-                                                                                || (LI.labMgr == labManager));
+        string labInspectionDate = Convert.ToString(tbxLabInspectionDate.Text);
+
+        System.Globalization.DateTimeFormatInfo dateInfo = new System.Globalization.DateTimeFormatInfo();
+        dateInfo.ShortDatePattern = "MM/dd/yyyy";
+        DateTime validDate;
+        if (tbxLabInspectionDate.Text.Length == 0)
+        {
+            validDate = Convert.ToDateTime("01/01/0001");
+        }
+        else
+        {
+            validDate = Convert.ToDateTime(labInspectionDate, dateInfo);
+        }
+        
+        grvLabInspections.DataSource = ctx.LabInspections
+                                               .Join(
+                                                  ctx.Departments,
+                                                  LI => LI.deptNo,
+                                                  D => (Int32?)(D.deptNo),
+                                                  (LI, D) =>
+                                                     new
+                                                     {
+                                                         LI = LI,
+                                                         D = D
+                                                     }
+                                               )
+                                               .Where(temp0 => ((temp0.D.deptName == department) || (temp0.LI.labMgr == labManager)
+                                                 || (temp0.LI.date == validDate)))
+                                               .Select(
+                                                  temp0 =>
+                                                     new
+                                                     {
+                                                         labInsNo = temp0.LI.labInsNo,
+                                                         deptName = temp0.D.deptName,
+                                                         date = temp0.LI.date,
+                                                         followupDate = temp0.LI.followupDate,
+                                                         inspector = temp0.LI.inspector,
+                                                         labMgr = temp0.LI.labMgr,
+                                                         supervisor = temp0.LI.supervisor,
+                                                         room = temp0.LI.room
+                                                     }
+                                               );
+
+
         grvLabInspections.DataBind();
 
     }
@@ -124,6 +178,118 @@ public partial class Summary_Default : System.Web.UI.Page
 
                     if (e.Row.Cells[1].Text == "3")
                         e.Row.Cells[1].Text = "N/A";
+
+            }
+        }
+
+    }
+
+
+    #region Office Inspection Look Up
+    /// <summary>
+    /// When clicked it does a lookup for any office inspections.
+    /// And returns a grid view of the results.
+    /// </summary>
+    protected void btnOfficeInspectionLookUp_Click(object sender, EventArgs e)
+    {
+        department = Convert.ToString(ddlOfficeDepartment.SelectedValue);
+
+        grvOfficeInspections.DataSource = ctx.OfficeInspections
+                                                   .Join(
+                                                      ctx.Departments,
+                                                      OI => OI.deptNo,
+                                                      D => (Int32?)(D.deptNo),
+                                                      (OI, D) =>
+                                                         new
+                                                         {
+                                                             OI = OI,
+                                                             D = D
+                                                         }
+                                                   )
+                                                   .Where(temp0 => (temp0.D.deptName == ""))
+                                                   .Select(
+                                                      temp0 =>
+                                                         new
+                                                         {
+                                                             officeInsNo = temp0.OI.officeInsNo,
+                                                             deptName = temp0.D.deptName,
+                                                             insDate = temp0.OI.insDate,
+                                                             inspector = temp0.OI.inspector,
+                                                             area = temp0.OI.area,
+                                                         }
+                                                   );
+
+
+
+        grvOfficeInspections.DataBind();
+
+    }
+    #endregion
+
+    protected void grvOfficeInspections_SelectedIndexChanged(Object sender, EventArgs e)
+    {
+
+        // Get the currently selected row using the SelectedRow property.
+        GridViewRow row = grvOfficeInspections.SelectedRow;
+        row.Cells[1].Text.ToString();
+        int selectedOfficeInsNo = Convert.ToInt32(row.Cells[1].Text);
+
+        grvOfficeInspectionResults.DataSource = ctx.OfficeInspections
+                                                       .Join(
+                                                          ctx.OfficeInspectionDetails,
+                                                          OI => (Int32?)(OI.officeInsNo),
+                                                          OID => OID.officeInsNo,
+                                                          (OI, OID) =>
+                                                             new
+                                                             {
+                                                                 OI = OI,
+                                                                 OID = OID
+                                                             }
+                                                       )
+                                                       .Join(
+                                                          ctx.OfficeInspectionItems,
+                                                          temp0 => temp0.OID.officeInsItemNo,
+                                                          OII => (Int32?)(OII.officeInsItemNo),
+                                                          (temp0, OII) =>
+                                                             new
+                                                             {
+                                                                 temp0 = temp0,
+                                                                 OII = OII
+                                                             }
+                                                       )
+                                                       .Where(temp1 => (temp1.temp0.OI.officeInsNo == selectedOfficeInsNo))
+                                                       .Select(
+                                                          temp1 =>
+                                                             new
+                                                             {
+                                                                 officeInsNo = temp1.temp0.OI.officeInsNo,
+                                                                 checkbox = temp1.temp0.OID.checkbox,
+                                                                 comments = temp1.temp0.OID.comments
+                                                             }
+                                                       );
+
+        grvOfficeInspectionResults.DataBind();
+
+    }
+
+
+    protected void grvOfficeInspectionResults_DataBinding(object sender, GridViewRowEventArgs e)
+    {
+
+
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            for (int i = -1; i < grvOfficeInspectionResults.Rows.Count; i++)
+            {
+
+                if (e.Row.Cells[1].Text == "1")
+                    e.Row.Cells[1].Text = "Yes";
+
+                if (e.Row.Cells[1].Text == "2")
+                    e.Row.Cells[1].Text = "No";
+
+                if (e.Row.Cells[1].Text == "3")
+                    e.Row.Cells[1].Text = "N/A";
 
             }
         }
