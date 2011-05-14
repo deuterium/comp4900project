@@ -251,6 +251,9 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <returns>the newly created Incident report</returns>
     private Incident createReport() {
         int empId = Convert.ToInt32(tbxId.Text);
+        String temp = tbx_p1_timeReported.Text;
+        String temp2 = tbx_p1_timeOfIncident.Text;
+        
         DateTime dateOfIncident = Convert.ToDateTime(tbx_p1_dateOfIncident.Text + " " + tbx_p1_timeOfIncident.Text);
         DateTime dateReported = Convert.ToDateTime(tbx_p1_dateReported.Text + " " + tbx_p1_timeReported.Text);
 
