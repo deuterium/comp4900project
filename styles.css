@@ -89,6 +89,10 @@ a:hover
     text-align: right;
 }
 
+.watermarked {
+    color: #A9A9A9;
+}
+
 /* This is for extending the page. Use textbox for content */
 
 #content   
@@ -333,6 +337,27 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 }
 
 /* Reporting.aspx */
+
+#divEmpInfoLeftPanel
+{
+    display: inline;
+    float: left;
+    width: 270px;
+}
+
+#divEmpInfoMiddlePanel
+{
+    display: inline;
+    float: left;
+    width: 263px;
+}
+
+#divEmpInfoRightPanel
+{
+    display: inline;
+    float: left;
+    width: 267px;
+}
 
 #divCLeftPanel 
 {
