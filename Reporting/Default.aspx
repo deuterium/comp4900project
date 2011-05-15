@@ -214,124 +214,131 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 
 <h3 id="hr3A"><asp:Image ID="imgExpandCollapseA" runat="server" /> A. Incident/Accident Information <asp:Label ID="ExpandCollapseA" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlA" CssClass="panel" runat="server">
-    <table>
-        <tr>
-            <td>Date of Incident:</td>
-            <td>
-                <asp:TextBox TabIndex="112" ID="tbx_p1_dateOfIncident" runat="server" ></asp:TextBox>
-                <asp:CalendarExtender ID="cexDateOfIncident" runat="server" TargetControlID="tbx_p1_dateOfIncident" Format="M/d/yyyy" >
-                </asp:CalendarExtender>
-                <asp:RequiredFieldValidator ID="rfvDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
-                    ControlToValidate="tbx_p1_dateOfIncident" ErrorMessage="Date of incident is required."></asp:RequiredFieldValidator>
-                <asp:RegularExpressionValidator ID="revDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
-                    ControlToValidate="tbx_p1_dateOfIncident" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                    ErrorMessage="Date reported must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
-            </td>
-        </tr>
-        <tr>
-            <td>Time of Incident:</td>
-            <td>
-                <asp:TextBox TabIndex="113" ID="tbx_p1_timeOfIncident" runat="server" ></asp:TextBox>
-                <asp:RequiredFieldValidator ID="rfvTimeOfIncident" runat="server" ValidationGroup="vgpPanelA"
-                    ControlToValidate="tbx_p1_timeOfIncident" ErrorMessage="Time of incident is required."></asp:RequiredFieldValidator>
-                <asp:RegularExpressionValidator ID="revTimeOfIncident" runat="server" ValidationGroup="vgpPanelA"
-                    ControlToValidate="tbx_p1_timeOfIncident" ValidationExpression="^((([01]?[0-9]{1}|[2]{1}[0-3]{1}){1}(:[0-5]{1}[0-9]{1}){1})|(([0]?[0-9]{1}|[1]{1}[012]{1}){1}(:[0-5]{1}[0-9]{1})? ?(am|AM|pm|PM){1}))$" 
-                    ErrorMessage="Time of incident must be in one of the following formats: H pm, H:MM AM, HH:MM"></asp:RegularExpressionValidator>
-            </td>
-        </tr>
-        <tr>
-            <td>Date Reported:</td>
-            <td>
-                <asp:TextBox TabIndex="114" ID="tbx_p1_dateReported" runat="server" ></asp:TextBox>
-                <asp:CalendarExtender ID="cexDateReported" runat="server" TargetControlID="tbx_p1_dateReported" Format="M/d/yyyy" >
-                </asp:CalendarExtender>
-                <asp:RequiredFieldValidator ID="rfvDateReported" runat="server" ValidationGroup="vgpPanelA"
-                    ControlToValidate="tbx_p1_dateReported" ErrorMessage="Date reported is required."></asp:RequiredFieldValidator>
-                <asp:RegularExpressionValidator ID="revDateReported" runat="server" ValidationGroup="vgpPanelA"
-                    ControlToValidate="tbx_p1_dateReported" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                    ErrorMessage="Date reported must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
-                <asp:CompareValidator ID="cpvDateReported" runat="server" ValidationGroup="vgpPanelA"
-                    ControlToValidate="tbx_p1_dateReported" ControlToCompare="tbx_p1_dateOfIncident"
-                    Type="Date" Operator="GreaterThanEqual"
-                    ErrorMessage="Date reported must be the on or later than the date of the incident."></asp:CompareValidator>
-            </td>
-        </tr>
-        <tr>
-            <td>Time Reported:</td>
-            <td>
-                <asp:TextBox TabIndex="115" ID="tbx_p1_timeReported" runat="server" ></asp:TextBox>
-                <asp:RequiredFieldValidator ID="rfvTimeReported" runat="server" ValidationGroup="vgpPanelA"
-                    ControlToValidate="tbx_p1_timeReported" ErrorMessage="Time reported is required."></asp:RequiredFieldValidator>
-                <asp:RegularExpressionValidator ID="revTimeReported" runat="server" ValidationGroup="vgpPanelA"
-                    ControlToValidate="tbx_p1_timeReported" ValidationExpression="^((([01]?[0-9]{1}|[2]{1}[0-3]{1}){1}(:[0-5]{1}[0-9]{1}){1})|(([0]?[0-9]{1}|[1]{1}[012]{1}){1}(:[0-5]{1}[0-9]{1})? ?(am|AM|pm|PM){1}))$" 
-                    ErrorMessage="Time reported must be in one of the following formats: H pm, H:MM AM, HH:MM"></asp:RegularExpressionValidator>
-            </td>
-        </tr>
-        <tr>
-            <td>Incident Description:</td>
-            <td><asp:TextBox TabIndex="116" ID="tbx_p1_incidentDesc" runat="server" CssClass="commentBoxReporting" TextMode="MultiLine" ></asp:TextBox></td>
-        </tr>
-        <tr>
-            <td>Witness 1:</td>
-            <td>
-                Name: <asp:TextBox TabIndex="117" ID="tbx_p1_witnessName1" runat="server"></asp:TextBox>
-                <asp:RegularExpressionValidator ID="revWitnessName1" runat="server" ValidationGroup="vgpPanelA"
-                    ControlToValidate="tbx_p1_witnessName1" ErrorMessage="Witness 1 must have a first and last name separated by a space."
-                    ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
-                Phone: <asp:TextBox TabIndex="118" ID="tbx_p1_witnessPhone1" runat="server" ></asp:TextBox>
-                <asp:RegularExpressionValidator ID="revWitnessPhone1" runat="server" ValidationGroup="vgpPanelA"
-                    ControlToValidate="tbx_p1_witnessPhone1" ValidationExpression="^[0-9]{3}-{1}[0-9]{3}-{1}[0-9]{4}$"
-                    ErrorMessage="Phone number for witness 1 must be in format '###-###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
-            </td>
-        </tr>
-        <tr>
-            <td>Witness 2:</td>
-            <td>
-                Name: <asp:TextBox TabIndex="119" ID="tbx_p1_witnessName2" runat="server" ></asp:TextBox>
-                <asp:RegularExpressionValidator ID="rexWitnessName2" runat="server" ValidationGroup="vgpEmpInfo"
-                    ControlToValidate="tbx_p1_witnessName2" ErrorMessage="Witness 2 must have a first and last name separated by a space."
-                    ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
-                Phone: <asp:TextBox  TabIndex="120" ID="tbx_p1_witnessPhone2" runat="server"></asp:TextBox>
-                <asp:RegularExpressionValidator ID="revWitnessPhone2" runat="server" ValidationGroup="vgpPanelA"
-                    ControlToValidate="tbx_p1_witnessPhone2" ValidationExpression="^[0-9]{3}-{1}[0-9]{3}-{1}[0-9]{4}$" 
-                    ErrorMessage="Phone number for witness 2 must be in format '###-###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
-            </td>
-        </tr>
-        <tr><td>Action Following Incident:</td></tr>
-        <tr>
-            <td>
-                <table>
-                    <tr><td><asp:CheckBox ID="cbx_p1_action_report" Text="Report Only" runat="server" /></td></tr>
-                    <tr><td><asp:CheckBox ID="cbx_p1_action_firstAid" Text="First Aid" runat="server" /></td></tr>
-                    <td colspan="2"><asp:CheckBox ID="cbx_p1_action_lostTime" Text="Lost time (missed/will miss next scheduled shift due to injury)" runat="server" /></td>
-                    <tr>
-                        <td><asp:CheckBox ID="cbx_p1_action_medicalGP" Text="Medical Aid (GP / Clinic)" runat="server" /></td>
-                        <td>
-                            Date:
-                            <asp:TextBox ID="tbx_p1_action_medicalGP_date" runat="server" ></asp:TextBox>
-                            <asp:CalendarExtender ID="cexMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date" Format="M/d/yyyy" >
-                            </asp:CalendarExtender>
-                            <asp:RegularExpressionValidator ID="revMedicalGpDate" runat="server" ValidationGroup="vgpPanelA"
-                                ControlToValidate="tbx_p1_action_medicalGP_date" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                                ErrorMessage="Medical Aid (GP / Clinic) date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
-                        </td>
-                    </tr>
-                    <tr>
-	                    <td><asp:CheckBox ID="cbx_p1_action_medicalER" Text="Medical Aid (ER)" runat="server" /></td>
-                        <td>
-                            Date:
-                            <asp:TextBox ID="tbx_p1_action_medicalER_date" runat="server" ></asp:TextBox>
-                            <asp:CalendarExtender ID="cexMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date" Format="M/d/yyyy" >
-                            </asp:CalendarExtender>
-                            <asp:RegularExpressionValidator ID="revMedicalErDate" runat="server" ValidationGroup="vgpPanelA"
-                                ControlToValidate="tbx_p1_action_medicalER_date" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                                ErrorMessage="Medical Aid (ER) date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+    <div id="divALeftPanel">
+        <table>
+            <tr>
+                <td>Date of Incident:</td>
+                <td>
+                    <asp:TextBox TabIndex="112" ID="tbx_p1_dateOfIncident" runat="server" ></asp:TextBox>
+                    <asp:CalendarExtender ID="cexDateOfIncident" runat="server" TargetControlID="tbx_p1_dateOfIncident" Format="M/d/yyyy" >
+                    </asp:CalendarExtender>
+                    <asp:RequiredFieldValidator ID="rfvDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
+                        ControlToValidate="tbx_p1_dateOfIncident" ErrorMessage="Date of incident is required."></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="revDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
+                        ControlToValidate="tbx_p1_dateOfIncident" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="Date reported must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                </td>
+                <td colspan="2" ><h4>Witness 1:</h4></td>
+            </tr>
+            <tr>
+                <td>Time of Incident:</td>
+                <td>
+                    <asp:TextBox TabIndex="113" ID="tbx_p1_timeOfIncident" runat="server" ></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="rfvTimeOfIncident" runat="server" ValidationGroup="vgpPanelA"
+                        ControlToValidate="tbx_p1_timeOfIncident" ErrorMessage="Time of incident is required."></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="revTimeOfIncident" runat="server" ValidationGroup="vgpPanelA"
+                        ControlToValidate="tbx_p1_timeOfIncident" ValidationExpression="^((([01]?[0-9]{1}|[2]{1}[0-3]{1}){1}(:[0-5]{1}[0-9]{1}){1})|(([0]?[0-9]{1}|[1]{1}[012]{1}){1}(:[0-5]{1}[0-9]{1})? ?(am|AM|pm|PM){1}))$" 
+                        ErrorMessage="Time of incident must be in one of the following formats: H pm, H:MM AM, HH:MM"></asp:RegularExpressionValidator>
+                </td>
+                <td>Name:</td>
+                <td>
+                    <asp:TextBox TabIndex="117" ID="tbx_p1_witnessName1" runat="server"></asp:TextBox>
+                    <asp:RegularExpressionValidator ID="revWitnessName1" runat="server" ValidationGroup="vgpPanelA"
+                        ControlToValidate="tbx_p1_witnessName1" ErrorMessage="Witness 1 must have a first and last name separated by a space."
+                        ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
+                </td>
+                <td>Phone:</td>
+                <td>
+                    <asp:TextBox TabIndex="118" ID="tbx_p1_witnessPhone1" runat="server" ></asp:TextBox>
+                    <asp:RegularExpressionValidator ID="revWitnessPhone1" runat="server" ValidationGroup="vgpPanelA"
+                        ControlToValidate="tbx_p1_witnessPhone1" ValidationExpression="^[0-9]{3}-{1}[0-9]{3}-{1}[0-9]{4}$"
+                        ErrorMessage="Phone number for witness 1 must be in format '###-###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
+                </td>
+            </tr>
+            <tr>
+                <td>Date Reported:</td>
+                <td>
+                    <asp:TextBox TabIndex="114" ID="tbx_p1_dateReported" runat="server" ></asp:TextBox>
+                    <asp:CalendarExtender ID="cexDateReported" runat="server" TargetControlID="tbx_p1_dateReported" Format="M/d/yyyy" >
+                    </asp:CalendarExtender>
+                    <asp:RequiredFieldValidator ID="rfvDateReported" runat="server" ValidationGroup="vgpPanelA"
+                        ControlToValidate="tbx_p1_dateReported" ErrorMessage="Date reported is required."></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="revDateReported" runat="server" ValidationGroup="vgpPanelA"
+                        ControlToValidate="tbx_p1_dateReported" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="Date reported must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                    <asp:CompareValidator ID="cpvDateReported" runat="server" ValidationGroup="vgpPanelA"
+                        ControlToValidate="tbx_p1_dateReported" ControlToCompare="tbx_p1_dateOfIncident"
+                        Type="Date" Operator="GreaterThanEqual"
+                        ErrorMessage="Date reported must be the on or later than the date of the incident."></asp:CompareValidator>
+                </td>
+                <td colspan="2" ><h4>Witness 2:</h4></td>
+            </tr>
+            <tr>
+                <td>Time Reported:</td>
+                <td>
+                    <asp:TextBox TabIndex="115" ID="tbx_p1_timeReported" runat="server" ></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="rfvTimeReported" runat="server" ValidationGroup="vgpPanelA"
+                        ControlToValidate="tbx_p1_timeReported" ErrorMessage="Time reported is required."></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="revTimeReported" runat="server" ValidationGroup="vgpPanelA"
+                        ControlToValidate="tbx_p1_timeReported" ValidationExpression="^((([01]?[0-9]{1}|[2]{1}[0-3]{1}){1}(:[0-5]{1}[0-9]{1}){1})|(([0]?[0-9]{1}|[1]{1}[012]{1}){1}(:[0-5]{1}[0-9]{1})? ?(am|AM|pm|PM){1}))$" 
+                        ErrorMessage="Time reported must be in one of the following formats: H pm, H:MM AM, HH:MM"></asp:RegularExpressionValidator>
+                </td>
+                <td>Name:</td>
+                <td>
+                    <asp:TextBox TabIndex="119" ID="tbx_p1_witnessName2" runat="server" ></asp:TextBox>
+                    <asp:RegularExpressionValidator ID="rexWitnessName2" runat="server" ValidationGroup="vgpEmpInfo"
+                        ControlToValidate="tbx_p1_witnessName2" ErrorMessage="Witness 2 must have a first and last name separated by a space."
+                        ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
+                </td>
+                <td>Phone:</td>
+                <td>
+                    <asp:TextBox  TabIndex="120" ID="tbx_p1_witnessPhone2" runat="server"></asp:TextBox>
+                    <asp:RegularExpressionValidator ID="revWitnessPhone2" runat="server" ValidationGroup="vgpPanelA"
+                        ControlToValidate="tbx_p1_witnessPhone2" ValidationExpression="^[0-9]{3}-{1}[0-9]{3}-{1}[0-9]{4}$" 
+                        ErrorMessage="Phone number for witness 2 must be in format '###-###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="divABottomPanel">
+        <table>
+            <tr><td><h4>Incident Description:</h4></td></tr>
+            <tr>
+                <td><asp:TextBox TabIndex="116" ID="tbx_p1_incidentDesc" runat="server" CssClass="commentBoxReporting" TextMode="MultiLine" ></asp:TextBox></td>
+            </tr>
+        </table>
+        <table>
+            <tr><td><h4>Action Following Incident:</h4></td></tr>
+            <tr>
+	            <td><asp:CheckBox ID="cbx_p1_action_report" Text="Report Only" runat="server" /></td>
+	            <td><asp:CheckBox ID="cbx_p1_action_firstAid" Text="First Aid" runat="server" /></td>
+	            <td><asp:CheckBox ID="cbx_p1_action_medicalGP" Text="Medical Aid (GP / Clinic)" runat="server" /></td>
+	            <td>Date:</td>
+	            <td>
+                    <asp:TextBox ID="tbx_p1_action_medicalGP_date" runat="server" ></asp:TextBox>
+                    <asp:CalendarExtender ID="cexMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date" Format="M/d/yyyy" >
+                    </asp:CalendarExtender>
+                    <asp:RegularExpressionValidator ID="revMedicalGpDate" runat="server" ValidationGroup="vgpPanelA"
+                        ControlToValidate="tbx_p1_action_medicalGP_date" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="Medical Aid (GP / Clinic) date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                </td>
+            </tr>
+            <tr>
+	            <td colspan="2" ><asp:CheckBox ID="cbx_p1_action_lostTime" Text="Lost time (missed/will miss next scheduled shift due to injury)" runat="server" /></td>
+	            <td><asp:CheckBox ID="cbx_p1_action_medicalER" Text="Medical Aid (ER)" runat="server" /></td>
+	            <td>Date:</td>
+	            <td>
+                    <asp:TextBox ID="tbx_p1_action_medicalER_date" runat="server" ></asp:TextBox>
+                    <asp:CalendarExtender ID="cexMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date" Format="M/d/yyyy" >
+                    </asp:CalendarExtender>
+                    <asp:RegularExpressionValidator ID="revMedicalErDate" runat="server" ValidationGroup="vgpPanelA"
+                        ControlToValidate="tbx_p1_action_medicalER_date" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="Medical Aid (ER) date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                </td>
+            </tr>
+        </table>
+    </div>
 
     <asp:Button TabIndex="123" ID="btnCheckPanelA" runat="server" Text="Check" ValidationGroup="vgpPanelA" />
 
@@ -354,18 +361,14 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="124" ID="cbx_p1_nature_musculoskeletal" Text="Musculoskeletal Injyry (Strain / Sprain)" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="124" ID="cbx_p1_nature_bruise" Text="Bruise / Confusion" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="124" ID="cbx_p1_nature_burn" Text="Burn (Heat or Cold)" runat="server" /></td></tr>
-        </table>
-    </div>
-    <div id="divBMiddlePanel">
-        <table>
             <tr><td><asp:CheckBox TabIndex="125" ID="cbx_p1_nature_cut" Text="Cut / Scratch / Abrasion / Laceration / Puncture (Non BBF)" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="125" ID="cbx_p1_nature_puncture" Text="Puncture Wound (BBF)" runat="server" /></td></tr>
-            <tr><td><asp:CheckBox TabIndex="125" ID="cbx_p1_nature_skinIrritation" Text="Skin Irritation" runat="server" /></td></tr>
-            <tr><td><asp:CheckBox TabIndex="125" ID="cbx_p1_nature_skinMucous" Text="Skin / Mucous Membrane Exposure (incl. eye)" runat="server" /></td></tr>
-        </table>
+         </table>
     </div>
     <div id="divBRightPanel">
         <table>
+            <tr><td><asp:CheckBox TabIndex="125" ID="cbx_p1_nature_skinIrritation" Text="Skin Irritation" runat="server" /></td></tr>
+            <tr><td><asp:CheckBox TabIndex="125" ID="cbx_p1_nature_skinMucous" Text="Skin / Mucous Membrane Exposure (incl. eye)" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="126" ID="cbx_p1_nature_eye" Text="Eye Irritation" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="126" ID="cbx_p1_nature_allergic" Text="Allergic Response" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="126" ID="cbx_p1_nature_psychological" Text="Psychological Trauma / Aggressive Incident" runat="server" /></td></tr>
@@ -381,7 +384,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="125" ID="cbx_p2_activity_no" Text="No Injury" runat="server" /></td></tr>
         </table>
     
-        <h5>Patient Handling</h5>
+        <h4>Patient Handling</h4>
         <table>
             <tr><td><asp:CheckBox TabIndex="127" ID="cbx_p2_activity_repositioning" Text="Repositioning" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="127" ID="cbx_p2_activity_transferring" Text="Transferring (incl. to seclusion)" runat="server" /></td></tr>
@@ -392,7 +395,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="127" ID="cbx_p2_activity_toileting" Text="Toileting" runat="server" /></td></tr>
         </table>
 
-        <h5>Patient Handling Details</h5>
+        <h4>Patient Handling Details</h4>
         <table>
             <tr><td>Equipment used at time of Injury:</td></tr>
             <tr><td><asp:CheckBox TabIndex="128" ID="cbx_p2_patient_ceilingLift" Text="Ceiling Lift" runat="server" /></td></tr>
@@ -420,7 +423,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </td></tr>
         </table>
   
-        <h5>Patient Care</h5>
+        <h4>Patient Care</h4>
         <table>
             <tr><td><asp:CheckBox TabIndex="132" ID="cbx_p2_activity_washing" Text="Washing / Bathing" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="132" ID="cbx_p2_activity_dressing" Text="Dressing" runat="server" /></td></tr>
@@ -434,20 +437,21 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </td></tr>
         </table>
 
-        <h5>Sharps Handling</h5>
+    </div>
+
+    <div id="divCRightPanel">
+        <h4>Sharps Handling</h4>
         <table>
             <tr><td><asp:CheckBox TabIndex="133" ID="cbx_p2_activity_recapping" Text="Re-capping" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="133" ID="cbx_p2_activity_puncture" Text="Veno Puncture / Arterio Puncture" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="133" ID="cbx_p2_activity_sharpsDisposal" Text="Sharps Disposal" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="133" ID="cbx_p2_activity_otherSharps" Text="Other Sharps / Instruments" runat="server" /></td></tr>
         </table>
-    </div>
 
-    <div id="divCRightPanel">
-        <h5>Using Material / Equipment</h5>
+        <h4>Using Material / Equipment</h4>
         <table>
-            <tr><td>Material / Equipment Description (stretchers, carts, boxes, etc.):</td></tr>
-            <tr><td><asp:TextBox TabIndex="134" ID="tbx_p2_acitvity_material" runat="server" Width="200px"></asp:TextBox></td></tr>
+            <tr><td>Material / Equipment Description (stretchers, carts, boxes, etc):</td></tr>
+            <tr><td><asp:TextBox TabIndex="134" ID="tbx_p2_acitvity_material" runat="server" Width="350px"></asp:TextBox></td></tr>
             <tr><td><asp:CheckBox TabIndex="134" ID="cbx_p2_activity_lift" Text="Lift / Lower" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="134" ID="cbx_p2_activity_push" Text="Push / Pull" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="134" ID="cbx_p2_activity_carry" Text="Carry" runat="server" /></td></tr>
@@ -466,7 +470,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="134" ID="cbx_p2_activity_nonComp" Text="Office Work - Non Computer" runat="server" /></td></tr>
         </table>
 
-        <h5>Other</h5>
+        <h4>Other</h4>
         <table>
             <tr><td><asp:CheckBox TabIndex="135" ID="cbx_p2_activity_walking" Text="Walking / Running" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="135" ID="cbx_p2_activity_bending" Text="Bending" runat="server" /></td></tr>
@@ -487,20 +491,20 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 <h3 id="hr3D"><asp:Image ID="imgExpandCollapseD" runat="server" /> D. Cause <asp:Label ID="ExpandCollapseD" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlD" CssClass="panel" runat="server">
     <div id="divDLeftPanel">
-        <h5>Bite</h5>
+        <h4>Bite</h4>
         <table>
             <tr><td><asp:CheckBox TabIndex="136" ID="cbx_p2_cause_human" Text="Human" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="136" ID="cbx_p2_cause_animal" Text="Animal / Insect" runat="server"/></td></tr>
         </table>
 
-        <h5>BBF Exposure</h5>
+        <h4>BBF Exposure</h4>
         <table>
             <tr><td><asp:CheckBox TabIndex="137" ID="cbx_p2_cause_needle" Text="Needlestick" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="137" ID="cbx_p2_cause_otherSharps" Text="Other Sharps" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="137" ID="cbx_p2_cause_skin" Text="Skin/ Mucous Membrane (Splash / Spit)" runat="server"/></td></tr>
         </table>
 
-        <h5>Ergonomic Factors</h5>
+        <h4>Ergonomic Factors</h4>
         <table>
             <tr><td><asp:CheckBox TabIndex="138" ID="cbx_p2_cause_awkwardPosture" Text="Awkward Posture" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="138" ID="cbx_p2_cause_staticPosture" Text="Static Posture" runat="server"/></td></tr>
@@ -509,7 +513,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="138" ID="cbx_p2_cause_rep" Text="Repetition" runat="server"/></td></tr>
         </table>
 
-        <h5>Other</h5>
+        <h4>Other</h4>
         <table>
             <tr><td><asp:CheckBox TabIndex="139" ID="cbx_p2_cause_motor" Text="Motor Vehicle Accident" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="139" ID="cbx_p2_cause_slip" Text="Slip and Fall" runat="server"/></td></tr>
@@ -526,7 +530,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
     </div>
     
     <div id="divDAgressionDetailsPanel">
-        <h5>Details for Workplace Aggression Incidents</h5>
+        <h4>Details for Workplace Aggression Incidents</h4>
         Type of Incident:
         <table>
             <tr><td><asp:CheckBox TabIndex="140" ID="cbx_p2_cause_aggression_verbal" Text="Verbal - threats of violence, verbal assault" runat="server"/></td></tr>
@@ -549,7 +553,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
     </div>
 
     <div id="divDRightPanel">
-        <h5>Exposure</h5>
+        <h4>Exposure</h4>
         <table>
             <tr><td>Checmical Name: <asp:TextBox ID="tbx_p2_cause_exposure_chemName" runat="server"></asp:TextBox></td></tr>
             <tr><td><asp:CheckBox TabIndex="142" ID="cbx_p2_cause_chemInhalation" Text="Chemical Inhalation" runat="server"/></td></tr>
@@ -570,7 +574,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 <h3 id="hr3E"><asp:Image ID="imgExpandCollapseE" runat="server"/> E. Contributing Factors <asp:Label ID="ExpandCollapseE" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlE" CssClass="panel" runat="server">
     <div id="divELeftPanel" >
-        <h5>Equipment / Device</h5>
+        <h4>Equipment / Device</h4>
         <table>
             <tr><td><asp:CheckBox TabIndex="143" ID="cbx_p2_factors_malfunction" Text="Malfunctioning" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="143" ID="cbx_p2_factors_improperUse" Text="Improper Use" runat="server"/></td></tr>
@@ -583,7 +587,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </td></tr>
         </table>
     
-        <h5>Environment</h5>
+        <h4>Environment</h4>
         <table>
             <tr><td><asp:CheckBox TabIndex="144" ID="cbx_p2_factors_temp" Text="Temperature" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="144" ID="cbx_p2_factors_workplace" Text="Workplace" runat="server"/></td></tr>
@@ -602,7 +606,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
     </div>
 
     <div id="divEMiddlePanel">
-        <h5>Work Practice</h5>
+        <h4>Work Practice</h4>
         <table>
             <tr><td><asp:CheckBox TabIndex="145" ID="cbx_p2_factors_assessment" Text="Improper Assessment of Client / Load" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="145" ID="cbx_p2_factors_procedure" Text="Not Follow Appropriate Procedure" runat="server"/></td></tr>
@@ -617,7 +621,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </td></tr>
         </table>
 
-        <h5>Patient Related Factors</h5>
+        <h4>Patient Related Factors</h4>
         <table>
             <tr><td><asp:CheckBox TabIndex="146" ID="cbx_p2_factors_directions" Text="Unable to Follow Directions" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="146" ID="cbx_p2_factors_weight" Text="Inconsistent Weight Bearing" runat="server"/></td></tr>
@@ -635,7 +639,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
     </div>
 
     <div id="divERightPanel">
-        <h5>Organizational / Administrative</h5>
+        <h4>Organizational / Administrative</h4>
         <table>
             <tr><td><asp:CheckBox TabIndex="147" ID="cbx_p2_factors_alone" Text="Working Alone" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="147" ID="cbx_p2_factors_info" Text="Inadequate Information" runat="server"/></td></tr>
@@ -651,7 +655,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </td></tr>
         </table>
 
-        <h5>Worker</h5>
+        <h4>Worker</h4>
         <table>
             <tr><td><asp:CheckBox TabIndex="148" ID="cbx_p2_factors_inexperienced" Text="Inexperienced" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="148" ID="cbx_p2_factors_communication" Text="Communication Difficulties" runat="server"/></td></tr>

@@ -359,18 +359,33 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     width: 267px;
 }
 
+#divBLeftPanel
+{
+    display: inline;
+    float: left;
+    width: 400px;
+}
+
+#divBRightPanel
+{
+    display: inline;
+    float: left;
+    width: 400px;
+}
+
 #divCLeftPanel 
 {
     display: inline;
     float: left;
-    width: 350px;
+    width: 395px;
+    padding-left: 10px;
 }
 
 #divCRightPanel 
 {
     display: inline;
     float: left;  
-    width: 350px;
+    width: 395px;
 }
 
 
@@ -378,14 +393,14 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 {
     display: inline;
     float: left;
-    width: 350px;
+    width: 400px;
 }
 
 #divDRightPanel 
 {
     display: inline;
     float: left;  
-    width: 350px;
+    width: 400px;
 }
 
 
@@ -393,14 +408,23 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 {
     display: inline;
     float: left;
-    width: 350px;
+    width: 240px;
+}
+
+#divEMiddlePanel 
+{
+    display: inline;
+    float: left;  
+    width: 267px;
+    padding-left: 10px;
 }
 
 #divERightPanel 
 {
     display: inline;
     float: left;  
-    width: 350px;
+    width: 270px;
+    padding-left: 10px;
 }
 
 .commentBoxReporting 
