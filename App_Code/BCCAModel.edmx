@@ -193,7 +193,7 @@
           <Property Name="p2_patient_sitStandLift" Type="char" MaxLength="1" />
           <Property Name="p2_patient_floorLift" Type="char" MaxLength="1" />
           <Property Name="p2_patient_manualLift" Type="char" MaxLength="1" />
-          <Property Name="p2_patient_otherSpecify" Type="varchar" MaxLength="30" />
+          <Property Name="p2_patient_otherSpecify" Type="varchar(max)" />
           <Property Name="p2_patient_adequateAssist" Type="char" MaxLength="1" />
           <Property Name="p2_activity_washing" Type="char" MaxLength="1" />
           <Property Name="p2_activity_dressing" Type="char" MaxLength="1" />
@@ -201,19 +201,19 @@
           <Property Name="p2_activity_feeding" Type="char" MaxLength="1" />
           <Property Name="p2_activity_prep" Type="char" MaxLength="1" />
           <Property Name="p2_activity_dressingChanges" Type="char" MaxLength="1" />
-          <Property Name="p2_activity_otherPatientCare" Type="varchar" MaxLength="30" />
+          <Property Name="p2_activity_otherPatientCare" Type="varchar(max)" />
           <Property Name="p2_activity_recapping" Type="char" MaxLength="1" />
           <Property Name="p2_activity_puncture" Type="char" MaxLength="1" />
           <Property Name="p2_activity_sharpsDisposal" Type="char" MaxLength="1" />
           <Property Name="p2_activity_otherSharps" Type="char" MaxLength="1" />
-          <Property Name="p2_activity_material" Type="varchar" MaxLength="50" />
+          <Property Name="p2_activity_material" Type="varchar(max)" />
           <Property Name="p2_activity_lift" Type="char" MaxLength="1" />
           <Property Name="p2_activity_push" Type="char" MaxLength="1" />
           <Property Name="p2_activity_carry" Type="char" MaxLength="1" />
           <Property Name="p2_activity_otherMat" Type="varchar" MaxLength="50" />
           <Property Name="p2_activity_driving" Type="char" MaxLength="1" />
-          <Property Name="p2_activity_otherEquip" Type="varchar" MaxLength="50" />
-          <Property Name="p2_activity_otherEquipDesc" Type="varchar" MaxLength="50" />
+          <Property Name="p2_activity_otherEquip" Type="varchar(max)" />
+          <Property Name="p2_activity_otherEquipDesc" Type="varchar(max)" />
           <Property Name="p2_activity_equipMain" Type="char" MaxLength="1" />
           <Property Name="p2_activity_comp" Type="char" MaxLength="1" />
           <Property Name="p2_activity_nonComp" Type="char" MaxLength="1" />
@@ -222,7 +222,7 @@
           <Property Name="p2_activity_reading" Type="char" MaxLength="1" />
           <Property Name="p2_activity_spill" Type="char" MaxLength="1" />
           <Property Name="p2_activity_cleaning" Type="char" MaxLength="1" />
-          <Property Name="p2_activity_other" Type="varchar" MaxLength="50" />
+          <Property Name="p2_activity_other" Type="varchar(max)" />
           <Property Name="p2_cause_human" Type="char" MaxLength="1" />
           <Property Name="p2_cause_animal" Type="char" MaxLength="1" />
           <Property Name="p2_cause_needle" Type="char" MaxLength="1" />
@@ -239,7 +239,7 @@
           <Property Name="p2_cause_event" Type="char" MaxLength="1" />
           <Property Name="p2_cause_underEquip" Type="char" MaxLength="1" />
           <Property Name="p2_cause_hit" Type="char" MaxLength="1" />
-          <Property Name="p2_cause_other" Type="varchar" MaxLength="50" />
+          <Property Name="p2_cause_other" Type="varchar(max)" />
           <Property Name="p2_aggression_verbal" Type="char" MaxLength="1" />
           <Property Name="p2_aggression_biting" Type="char" MaxLength="1" />
           <Property Name="p2_aggression_hitting" Type="char" MaxLength="1" />
@@ -249,7 +249,7 @@
           <Property Name="p2_aggression_family" Type="char" MaxLength="1" />
           <Property Name="p2_aggression_public" Type="char" MaxLength="1" />
           <Property Name="p2_aggression_worker" Type="char" MaxLength="1" />
-          <Property Name="p2_aggression_other" Type="varchar" MaxLength="50" />
+          <Property Name="p2_aggression_other" Type="varchar(max)" />
           <Property Name="p2_cause_chemInhalation" Type="char" MaxLength="1" />
           <Property Name="p2_cause_chemIngest" Type="char" MaxLength="1" />
           <Property Name="p2_cause_chemContact" Type="char" MaxLength="1" />
@@ -266,7 +266,7 @@
           <Property Name="p2_factors_signage" Type="char" MaxLength="1" />
           <Property Name="p2_factors_notAvailable" Type="char" MaxLength="1" />
           <Property Name="p2_factors_poorDesign" Type="char" MaxLength="1" />
-          <Property Name="p2_factors_otherEquip" Type="varchar" MaxLength="50" />
+          <Property Name="p2_factors_otherEquip" Type="varchar(max)" />
           <Property Name="p2_factors_temp" Type="char" MaxLength="1" />
           <Property Name="p2_factors_workplace" Type="char" MaxLength="1" />
           <Property Name="p2_factors_layout" Type="char" MaxLength="1" />
@@ -276,7 +276,7 @@
           <Property Name="p2_factors_noise" Type="char" MaxLength="1" />
           <Property Name="p2_factors_vent" Type="char" MaxLength="1" />
           <Property Name="p2_factors_storage" Type="char" MaxLength="1" />
-          <Property Name="p2_factors_otherEnv" Type="varchar" MaxLength="50" />
+          <Property Name="p2_factors_otherEnv" Type="varchar(max)" />
           <Property Name="p2_factors_assessment" Type="char" MaxLength="1" />
           <Property Name="p2_factors_procedure" Type="char" MaxLength="1" />
           <Property Name="p2_factors_equip" Type="char" MaxLength="1" />
@@ -284,7 +284,7 @@
           <Property Name="p2_factors_extended" Type="char" MaxLength="1" />
           <Property Name="p2_factors_comm" Type="char" MaxLength="1" />
           <Property Name="p2_factors_unaccustomed" Type="char" MaxLength="1" />
-          <Property Name="p2_factors_otherWorkPractice" Type="varchar" MaxLength="50" />
+          <Property Name="p2_factors_otherWorkPractice" Type="varchar(max)" />
           <Property Name="p2_factors_directions" Type="char" MaxLength="1" />
           <Property Name="p2_factors_weight" Type="char" MaxLength="1" />
           <Property Name="p2_factors_aggressive" Type="char" MaxLength="1" />
@@ -292,7 +292,7 @@
           <Property Name="p2_factors_confused" Type="char" MaxLength="1" />
           <Property Name="p2_factors_influence" Type="char" MaxLength="1" />
           <Property Name="p2_factors_lang" Type="char" MaxLength="1" />
-          <Property Name="p2_factors_otherPatient" Type="varchar" MaxLength="50" />
+          <Property Name="p2_factors_otherPatient" Type="varchar(max)" />
           <Property Name="p2_factors_alone" Type="char" MaxLength="1" />
           <Property Name="p2_factors_info" Type="char" MaxLength="1" />
           <Property Name="p2_factors_scheduling" Type="char" MaxLength="1" />
@@ -302,15 +302,15 @@
           <Property Name="p2_factors_personal" Type="char" MaxLength="1" />
           <Property Name="p2_factors_safe" Type="char" MaxLength="1" />
           <Property Name="p2_factors_perceived" Type="char" MaxLength="1" />
-          <Property Name="p2_factors_otherOrganizational" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_otherOrganizational" Type="varchar(max)" />
           <Property Name="p2_factors_inexperienced" Type="char" MaxLength="1" />
           <Property Name="p2_factors_communication" Type="char" MaxLength="1" />
           <Property Name="p2_factors_fatigued" Type="char" MaxLength="1" />
           <Property Name="p2_factors_distracted" Type="char" MaxLength="1" />
           <Property Name="p2_factors_preexisting" Type="char" MaxLength="1" />
           <Property Name="p2_factors_sick" Type="char" MaxLength="1" />
-          <Property Name="p2_factors_otherWorker" Type="varchar" MaxLength="50" />
-          <Property Name="p2_corrective_person" Type="varchar" MaxLength="50" />
+          <Property Name="p2_factors_otherWorker" Type="varchar(max)" />
+          <Property Name="p2_corrective_person" Type="varchar(max)" />
           <Property Name="p2_corrective_personDate" Type="datetime" />
           <Property Name="p2_corrective_maintenance" Type="char" MaxLength="1" />
           <Property Name="p2_corrective_maintenanceDate" Type="datetime" />
@@ -320,7 +320,7 @@
           <Property Name="p2_corrective_timeDate" Type="datetime" />
           <Property Name="p2_corrective_written" Type="varchar(max)" />
           <Property Name="p2_corrective_writtenTargetDate" Type="datetime" />
-          <Property Name="p2_corrective_writtentCompletedDate" Type="datetime" />
+          <Property Name="p2_corrective_writtenCompletedDate" Type="datetime" />
           <Property Name="p2_corrective_education" Type="varchar(max)" />
           <Property Name="p2_corrective_educationTargetDate" Type="datetime" />
           <Property Name="p2_corrective_educationCompletedDate" Type="datetime" />
@@ -333,10 +333,10 @@
           <Property Name="p2_corrective_patient" Type="varchar(max)" />
           <Property Name="p2_corrective_patientTargetDate" Type="datetime" />
           <Property Name="p2_corrective_patientCompletedDate" Type="datetime" />
-          <Property Name="p2_manager_previous" Type="char" MaxLength="1" />
-          <Property Name="p2_manager_objections" Type="char" MaxLength="1" />
-          <Property Name="p2_manager_alternative" Type="char" MaxLength="1" />
-          <Property Name="p2_manager_normal" Type="char" MaxLength="1" />
+          <Property Name="p2_manager_previous" Type="varchar(max)" />
+          <Property Name="p2_manager_objections" Type="varchar(max)" />
+          <Property Name="p2_manager_alternative" Type="varchar(max)" />
+          <Property Name="p2_manager_normal" Type="varchar(max)" />
           <Property Name="p2_manager_week1_sun" Type="decimal" Precision="2" />
           <Property Name="p2_manager_week1_mon" Type="decimal" Precision="2" />
           <Property Name="p2_manager_week1_tue" Type="decimal" Precision="2" />
@@ -362,7 +362,7 @@
           <Property Name="p1_numEmployeesInvolved" Type="int" />
           <Property Name="p2_cause_contactStress" Type="char" MaxLength="1" />
           <Property Name="p2_factors_patientResistive" Type="char" MaxLength="1" />
-          <Property Name="p2_cause_exposure_chemName" Type="varchar" MaxLength="50" />
+          <Property Name="p2_cause_exposure_chemName" Type="varchar(max)" />
           <Property Name="followUpStatus" Type="char" Nullable="false" MaxLength="1" />
           <Property Name="reportSubmitter" Type="varchar" MaxLength="50" />
           <Property Name="submitterDeptNo" Type="int" />
@@ -901,7 +901,7 @@
           <Property Name="p2_patient_sitStandLift" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_patient_floorLift" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_patient_manualLift" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_patient_otherSpecify" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="p2_patient_otherSpecify" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_patient_adequateAssist" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_washing" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_dressing" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -909,19 +909,19 @@
           <Property Name="p2_activity_feeding" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_prep" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_dressingChanges" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_activity_otherPatientCare" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="p2_activity_otherPatientCare" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_activity_recapping" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_puncture" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_sharpsDisposal" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_otherSharps" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_activity_material" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_activity_material" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_activity_lift" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_push" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_carry" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_otherMat" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="p2_activity_driving" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_activity_otherEquip" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="p2_activity_otherEquipDesc" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_activity_otherEquip" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="p2_activity_otherEquipDesc" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_activity_equipMain" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_comp" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_nonComp" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -930,7 +930,7 @@
           <Property Name="p2_activity_reading" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_spill" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_cleaning" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_activity_other" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_activity_other" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_cause_human" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_cause_animal" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_cause_needle" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -947,7 +947,7 @@
           <Property Name="p2_cause_event" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_cause_underEquip" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_cause_hit" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_cause_other" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_cause_other" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_aggression_verbal" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_aggression_biting" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_aggression_hitting" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -957,7 +957,7 @@
           <Property Name="p2_aggression_family" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_aggression_public" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_aggression_worker" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_aggression_other" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_aggression_other" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_cause_chemInhalation" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_cause_chemIngest" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_cause_chemContact" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -974,7 +974,7 @@
           <Property Name="p2_factors_signage" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_notAvailable" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_poorDesign" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_factors_otherEquip" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_factors_otherEquip" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_factors_temp" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_workplace" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_layout" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -984,7 +984,7 @@
           <Property Name="p2_factors_noise" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_vent" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_storage" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_factors_otherEnv" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_factors_otherEnv" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_factors_assessment" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_procedure" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_equip" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -992,7 +992,7 @@
           <Property Name="p2_factors_extended" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_comm" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_unaccustomed" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_factors_otherWorkPractice" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_factors_otherWorkPractice" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_factors_directions" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_weight" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_aggressive" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -1000,7 +1000,7 @@
           <Property Name="p2_factors_confused" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_influence" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_lang" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_factors_otherPatient" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_factors_otherPatient" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_factors_alone" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_info" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_scheduling" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -1010,15 +1010,15 @@
           <Property Name="p2_factors_personal" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_safe" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_perceived" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_factors_otherOrganizational" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_otherOrganizational" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_factors_inexperienced" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_communication" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_fatigued" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_distracted" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_preexisting" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_sick" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_factors_otherWorker" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="p2_corrective_person" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_factors_otherWorker" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="p2_corrective_person" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_corrective_personDate" Type="DateTime" />
           <Property Name="p2_corrective_maintenance" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_corrective_maintenanceDate" Type="DateTime" />
@@ -1028,7 +1028,7 @@
           <Property Name="p2_corrective_timeDate" Type="DateTime" />
           <Property Name="p2_corrective_written" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_corrective_writtenTargetDate" Type="DateTime" />
-          <Property Name="p2_corrective_writtentCompletedDate" Type="DateTime" />
+          <Property Name="p2_corrective_writtenCompletedDate" Type="DateTime" />
           <Property Name="p2_corrective_education" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_corrective_educationTargetDate" Type="DateTime" />
           <Property Name="p2_corrective_educationCompletedDate" Type="DateTime" />
@@ -1041,10 +1041,10 @@
           <Property Name="p2_corrective_patient" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_corrective_patientTargetDate" Type="DateTime" />
           <Property Name="p2_corrective_patientCompletedDate" Type="DateTime" />
-          <Property Name="p2_manager_previous" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_manager_objections" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_manager_alternative" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_manager_normal" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_manager_previous" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="p2_manager_objections" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="p2_manager_alternative" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="p2_manager_normal" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_manager_week1_sun" Type="Decimal" Precision="2" Scale="0" />
           <Property Name="p2_manager_week1_mon" Type="Decimal" Precision="2" Scale="0" />
           <Property Name="p2_manager_week1_tue" Type="Decimal" Precision="2" Scale="0" />
@@ -1070,7 +1070,7 @@
           <Property Name="p1_numEmployeesInvolved" Type="Int32" />
           <Property Name="p2_cause_contactStress" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_patientResistive" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_cause_exposure_chemName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_cause_exposure_chemName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="followUpStatus" Type="String" Nullable="false" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="reportSubmitter" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="submitterDeptNo" Type="Int32" />
@@ -1609,7 +1609,7 @@
             <ScalarProperty Name="p2_corrective_timeDate" ColumnName="p2_corrective_timeDate" />
             <ScalarProperty Name="p2_corrective_written" ColumnName="p2_corrective_written" />
             <ScalarProperty Name="p2_corrective_writtenTargetDate" ColumnName="p2_corrective_writtenTargetDate" />
-            <ScalarProperty Name="p2_corrective_writtentCompletedDate" ColumnName="p2_corrective_writtentCompletedDate" />
+            <ScalarProperty Name="p2_corrective_writtenCompletedDate" ColumnName="p2_corrective_writtenCompletedDate" />
             <ScalarProperty Name="p2_corrective_education" ColumnName="p2_corrective_education" />
             <ScalarProperty Name="p2_corrective_educationTargetDate" ColumnName="p2_corrective_educationTargetDate" />
             <ScalarProperty Name="p2_corrective_educationCompletedDate" ColumnName="p2_corrective_educationCompletedDate" />

@@ -274,9 +274,9 @@ public partial class Training_Training : System.Web.UI.Page {
             }
             
 
-            tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("yyyy/MM/dd");
+            tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("DD/MM/YYYY");
             if (emp.endDate != null) {
-                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("yyyy/MM/dd");
+                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("DD/MM/YYYY");
             }
             setResultMsg(null, SuccessColour);
 
