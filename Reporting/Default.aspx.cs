@@ -343,7 +343,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
         Page.Validate("vgpFCorrective");
         Page.Validate("vgpGRelevant");
         Page.Validate("vgpHManagers");
-        
+
         if (Page.IsValid) {
             createReport();
         }
@@ -761,9 +761,10 @@ public partial class Reporting_Default : System.Web.UI.Page {
         try {
             ctx.AddToIncidents(report);
             ctx.SaveChanges();
+            Popup_Overlay("Report successfully created.", SuccessColour);
             return report;
         } catch (Exception ex) {
-            setResultMsg(ex.StackTrace, FailColour);
+            Popup_Overlay("An error has occured while creating your report. Please try again.", FailColour);
             return null;
         }
     }
