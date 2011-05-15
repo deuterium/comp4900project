@@ -338,6 +338,10 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 
 /* Reporting.aspx */
 
+.spanBold {
+    font-weight: bold;
+}
+
 #divEmpInfoLeftPanel
 {
     display: inline;
@@ -357,6 +361,18 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     display: inline;
     float: left;
     width: 267px;
+}
+
+#divATopPanel {
+    display: inline;
+    float: left;
+    width: 800px;
+}
+
+#divABottomPanel {
+    display: inline;
+    float: left;
+    width: 800px;
 }
 
 #divBLeftPanel

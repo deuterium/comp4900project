@@ -214,7 +214,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 
 <h3 id="hr3A"><asp:Image ID="imgExpandCollapseA" runat="server" /> A. Incident/Accident Information <asp:Label ID="ExpandCollapseA" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlA" CssClass="panel" runat="server">
-    <div id="divALeftPanel">
+    <div id="divATopPanel">
         <table>
             <tr>
                 <td>Date of Incident:</td>
@@ -228,7 +228,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                         ControlToValidate="tbx_p1_dateOfIncident" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Date reported must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
                 </td>
-                <td colspan="2" ><h4>Witness 1:</h4></td>
+                <td colspan="2" ><span class="spanBold" >Witness 1:</span></td>
             </tr>
             <tr>
                 <td>Time of Incident:</td>
@@ -249,7 +249,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 </td>
                 <td>Phone:</td>
                 <td>
-                    <asp:TextBox TabIndex="118" ID="tbx_p1_witnessPhone1" runat="server" ></asp:TextBox>
+                    <asp:TextBox TabIndex="118" ID="tbx_p1_witnessPhone1" runat="server" CssClass="smallTextbox" ></asp:TextBox>
                     <asp:RegularExpressionValidator ID="revWitnessPhone1" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_witnessPhone1" ValidationExpression="^[0-9]{3}-{1}[0-9]{3}-{1}[0-9]{4}$"
                         ErrorMessage="Phone number for witness 1 must be in format '###-###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
@@ -271,7 +271,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                         Type="Date" Operator="GreaterThanEqual"
                         ErrorMessage="Date reported must be the on or later than the date of the incident."></asp:CompareValidator>
                 </td>
-                <td colspan="2" ><h4>Witness 2:</h4></td>
+                <td colspan="2" ><span class="spanBold" >Witness 2:</span></td>
             </tr>
             <tr>
                 <td>Time Reported:</td>
@@ -292,31 +292,32 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 </td>
                 <td>Phone:</td>
                 <td>
-                    <asp:TextBox  TabIndex="120" ID="tbx_p1_witnessPhone2" runat="server"></asp:TextBox>
+                    <asp:TextBox TabIndex="120" ID="tbx_p1_witnessPhone2" runat="server" CssClass="smallTextbox" ></asp:TextBox>
                     <asp:RegularExpressionValidator ID="revWitnessPhone2" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_witnessPhone2" ValidationExpression="^[0-9]{3}-{1}[0-9]{3}-{1}[0-9]{4}$" 
                         ErrorMessage="Phone number for witness 2 must be in format '###-###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
                 </td>
             </tr>
         </table>
+        <br />
     </div>
 
     <div id="divABottomPanel">
+        <h4>Incident Description:</h4>
         <table>
-            <tr><td><h4>Incident Description:</h4></td></tr>
             <tr>
-                <td><asp:TextBox TabIndex="116" ID="tbx_p1_incidentDesc" runat="server" CssClass="commentBoxReporting" TextMode="MultiLine" ></asp:TextBox></td>
+                <td><asp:TextBox TabIndex="116" ID="tbx_p1_incidentDesc" runat="server" CssClass="commentBoxReporting" TextMode="MultiLine" Width="770px" ></asp:TextBox></td>
             </tr>
         </table>
+        <h4>Action Following Incident:</h4>
         <table>
-            <tr><td><h4>Action Following Incident:</h4></td></tr>
             <tr>
 	            <td><asp:CheckBox ID="cbx_p1_action_report" Text="Report Only" runat="server" /></td>
 	            <td><asp:CheckBox ID="cbx_p1_action_firstAid" Text="First Aid" runat="server" /></td>
 	            <td><asp:CheckBox ID="cbx_p1_action_medicalGP" Text="Medical Aid (GP / Clinic)" runat="server" /></td>
 	            <td>Date:</td>
 	            <td>
-                    <asp:TextBox ID="tbx_p1_action_medicalGP_date" runat="server" ></asp:TextBox>
+                    <asp:TextBox ID="tbx_p1_action_medicalGP_date" runat="server" CssClass="smallTextbox" ></asp:TextBox>
                     <asp:CalendarExtender ID="cexMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date" Format="M/d/yyyy" >
                     </asp:CalendarExtender>
                     <asp:RegularExpressionValidator ID="revMedicalGpDate" runat="server" ValidationGroup="vgpPanelA"
@@ -329,7 +330,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 	            <td><asp:CheckBox ID="cbx_p1_action_medicalER" Text="Medical Aid (ER)" runat="server" /></td>
 	            <td>Date:</td>
 	            <td>
-                    <asp:TextBox ID="tbx_p1_action_medicalER_date" runat="server" ></asp:TextBox>
+                    <asp:TextBox ID="tbx_p1_action_medicalER_date" runat="server" CssClass="smallTextbox" ></asp:TextBox>
                     <asp:CalendarExtender ID="cexMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date" Format="M/d/yyyy" >
                     </asp:CalendarExtender>
                     <asp:RegularExpressionValidator ID="revMedicalErDate" runat="server" ValidationGroup="vgpPanelA"
@@ -353,7 +354,6 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 
 <h3 id="hr3B"><asp:Image ID="imgExpandCollapseB" runat="server" /> B. Nature of Injury <asp:Label ID="ExpandCollapseB" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlB" CssClass="panel" runat="server">
-
     <h4>Nature of Injury</h4>
     <div id="divBLeftPanel">
         <table>
@@ -771,7 +771,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         <td>
             Written Safe Work Procedures Required / Updated:
             <br />
-            <asp:TextBox TabIndex="162" ID="tbx_p2_corrective_written" runat="server" CssClass="commentBoxReporting" TextMode="MultiLine" ></asp:TextBox>
+            <asp:TextBox TabIndex="162" ID="tbx_p2_corrective_written" runat="server" CssClass="commentBoxReporting"
+                TextMode="MultiLine" Width="590px" ></asp:TextBox>
         </td>
         <td>
             Target Completion Date:
@@ -797,7 +798,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         <td>
             Education or Training Required / Provided for Specific Task:
             <br />
-            <asp:TextBox TabIndex="165" ID="tbx_p2_corrective_education" runat="server" CssClass="commentBoxReporting" TextMode="MultiLine" ></asp:TextBox>
+            <asp:TextBox TabIndex="165" ID="tbx_p2_corrective_education" runat="server" CssClass="commentBoxReporting"
+                TextMode="MultiLine" Width="590px" ></asp:TextBox>
         </td>
         <td>
             Target Completion Date:
@@ -824,7 +826,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             
             Equipment - Repair / Replace / Purchase
             <br />
-            <asp:TextBox TabIndex="168" ID="tbx_p2_corrective_equipment" runat="server" CssClass="commentBoxReporting" TextMode="MultiLine" ></asp:TextBox>
+            <asp:TextBox TabIndex="168" ID="tbx_p2_corrective_equipment" runat="server" CssClass="commentBoxReporting"
+                TextMode="MultiLine" Width="590px" ></asp:TextBox>
         </td>
         <td>
             Target Completion Date:
@@ -850,7 +853,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         <td>
             Environment - Change / Modify Workstation or subsitute / Eliminate Product:
             <br />
-            <asp:TextBox TabIndex="171" ID="tbx_p2_corrective_environment" runat="server" CssClass="commentBoxReporting" TextMode="MultiLine" ></asp:TextBox>
+            <asp:TextBox TabIndex="171" ID="tbx_p2_corrective_environment" runat="server" CssClass="commentBoxReporting"
+                TextMode="MultiLine" Width="590px" ></asp:TextBox>
         </td>
         <td>
             Target Completion Date:
@@ -879,7 +883,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         <td>
             Patient/Resident Related Incidents - Lift / Transfer Re-Accessed or Care Plan / ADL Card Updated:
             <br />
-            <asp:TextBox TabIndex="174" ID="tbx_p2_corrective_patient" runat="server" CssClass="commentBoxReporting" TextMode="MultiLine" ></asp:TextBox>
+            <asp:TextBox TabIndex="174" ID="tbx_p2_corrective_patient" runat="server" CssClass="commentBoxReporting"
+                TextMode="MultiLine" Width="590px" ></asp:TextBox>
         </td>
         <td>
             Target Completion Date:
@@ -912,11 +917,11 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 <asp:Panel ID="pnlH" CssClass="panel" runat="server">
 <table>
     <tr><td>Do you know of any previous pain/disability in the area of the worker's present injury? If YES, please explain.</td></tr>
-    <tr><td><asp:TextBox TabIndex="177" ID="tbx_p2_manager_previous" runat="server" CssClass="commentBoxReporting" TextMode="MultiLine" ></asp:TextBox></td></tr>
+    <tr><td><asp:TextBox TabIndex="177" ID="tbx_p2_manager_previous" runat="server" CssClass="commentBoxReporting" TextMode="MultiLine" Width="770px" ></asp:TextBox></td></tr>
     <tr><td>Do you have any objections to the claim being accepted? If YES, please explain.</td></tr>
-    <tr><td><asp:TextBox TabIndex="178" ID="tbx_p2_manager_objections" runat="server" CssClass="commentBoxReporting" TextMode="MultiLine" ></asp:TextBox></td></tr>
+    <tr><td><asp:TextBox TabIndex="178" ID="tbx_p2_manager_objections" runat="server" CssClass="commentBoxReporting" TextMode="MultiLine" Width="770px" ></asp:TextBox></td></tr>
     <tr><td>Is alternative light duty or modified work available?</td></tr>
-    <tr><td><asp:TextBox TabIndex="179" ID="tbx_p2_manager_alternative" runat="server" CssClass="commentBoxReporting" TextMode="MultiLine" ></asp:TextBox></td></tr>
+    <tr><td><asp:TextBox TabIndex="179" ID="tbx_p2_manager_alternative" runat="server" CssClass="commentBoxReporting" TextMode="MultiLine" Width="770px" ></asp:TextBox></td></tr>
     <tr>
         <td>
             Does the worker work a fixed shift rotation? If yes, please provide:
