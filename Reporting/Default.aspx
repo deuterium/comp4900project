@@ -172,12 +172,12 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <td>
                     <asp:TextBox TabIndex="109" ID="tbxStartDate" runat="server" MaxLength="10" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="twxStartDate" runat="server" TargetControlID="tbxStartDate"
-                        WatermarkCssClass="watermarked" WatermarkText="M/D/YYYY"></asp:TextBoxWatermarkExtender>
+                        WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="M/d/yyyy" >
                     </asp:CalendarExtender>
                     <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpEmpInfo"
                         ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                        ErrorMessage="Start date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                        ErrorMessage="Start date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
                 </td>
             </tr>
             <tr>
@@ -185,12 +185,12 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <td>
                     <asp:TextBox TabIndex="110" ID="tbxEndDate" runat="server"></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="twxEndDate" runat="server" TargetControlID="tbxEndDate"
-                        WatermarkCssClass="watermarked" WatermarkText="M/D/YYYY"></asp:TextBoxWatermarkExtender>
+                        WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="M/d/yyyy" >
                     </asp:CalendarExtender>
                     <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpEmpInfo"
                         ControlToValidate="tbxEndDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                        ErrorMessage="End date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                        ErrorMessage="End date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
                     <asp:CompareValidator ID="cpvStartEndDates" runat="server" ValidationGroup="vgpEmpInfo"
                         ControlToValidate="tbxEndDate" ControlToCompare="tbxStartDate" Operator="GreaterThan" Type="Date"
                         ErrorMessage="End date must be later than start date." ></asp:CompareValidator>
@@ -229,7 +229,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                         ControlToValidate="tbx_p1_dateOfIncident" ErrorMessage="Date of incident is required."></asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="revDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_dateOfIncident" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                        ErrorMessage="Date reported must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                        ErrorMessage="Date reported must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
                 </td>
                 <td colspan="2" ><span class="spanBold" >Witness 1:</span></td>
             </tr>
@@ -268,7 +268,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                         ControlToValidate="tbx_p1_dateReported" ErrorMessage="Date reported is required."></asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="revDateReported" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_dateReported" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                        ErrorMessage="Date reported must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                        ErrorMessage="Date reported must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
                     <asp:CompareValidator ID="cpvDateReported" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_dateReported" ControlToCompare="tbx_p1_dateOfIncident"
                         Type="Date" Operator="GreaterThanEqual"
@@ -325,7 +325,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     </asp:CalendarExtender>
                     <asp:RegularExpressionValidator ID="revMedicalGpDate" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_action_medicalGP_date" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                        ErrorMessage="Medical Aid (GP / Clinic) date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                        ErrorMessage="Medical Aid (GP / Clinic) date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
                 </td>
             </tr>
             <tr>
@@ -338,7 +338,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     </asp:CalendarExtender>
                     <asp:RegularExpressionValidator ID="revMedicalErDate" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_action_medicalER_date" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                        ErrorMessage="Medical Aid (ER) date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                        ErrorMessage="Medical Aid (ER) date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
                 </td>
             </tr>
         </table>
@@ -348,7 +348,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 
     <%--<asp:RegularExpressionValidator ID="revMedicalAidDate" runat="server" ValidationGroup="vgpPanelA"
         ControlToValidate="tbxMedicalAidDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-        ErrorMessage="Medical Aid date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+        ErrorMessage="Medical Aid date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
     --%>
     <asp:ValidationSummary ID="vsyPanelA" runat="server" ValidationGroup="vgpPanelA"
         DisplayMode="BulletList" />
@@ -694,7 +694,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </asp:CalendarExtender>
             <asp:RegularExpressionValidator ID="revPersonDate" runat="server" ValidationGroup="vgpFCorrective"
                 ControlToValidate="tbx_p2_corrective_personDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                ErrorMessage="Person assigned date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                ErrorMessage="Person assigned date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
         </td>
     </tr>
     <tr>
@@ -715,7 +715,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </asp:CalendarExtender>
             <asp:RegularExpressionValidator ID="revMaintenanceDate" runat="server" ValidationGroup="vgpFCorrective"
                 ControlToValidate="tbx_p2_corrective_maintenanceDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                ErrorMessage="Maintenance date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                ErrorMessage="Maintenance date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
         </td>
     </tr>
     <tr>
@@ -736,7 +736,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </asp:CalendarExtender>
             <asp:RegularExpressionValidator ID="revCommToStaffDate" runat="server" ValidationGroup="vgpFCorrective"
                 ControlToValidate="tbx_p2_corrective_communicatedDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                ErrorMessage="Communicated to staff date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                ErrorMessage="Communicated to staff date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
         </td>
     </tr>
     <tr>
@@ -757,7 +757,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </asp:CalendarExtender>
             <asp:RegularExpressionValidator ID="revTimeLossDate" runat="server" ValidationGroup="vgpFCorrective"
                 ControlToValidate="tbx_p2_corrective_timeDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                ErrorMessage="Time loss date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                ErrorMessage="Time loss date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
         </td>
     </tr>
 </table>
@@ -785,7 +785,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </asp:CalendarExtender>
             <asp:RegularExpressionValidator ID="revWrittenTargetDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_writtenTargetDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                ErrorMessage="Written target date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                ErrorMessage="Written target date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
             <br />
             Date completed:
             <br />
@@ -794,7 +794,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </asp:CalendarExtender>
             <asp:RegularExpressionValidator ID="revWrittenCompletedDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_writtenCompletedDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                ErrorMessage="Written date completed must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                ErrorMessage="Written date completed must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
         </td>
     </tr>
     <tr>
@@ -812,7 +812,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </asp:CalendarExtender>
             <asp:RegularExpressionValidator ID="revEducationTargetDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_educationTargetDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                ErrorMessage="Education target date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                ErrorMessage="Education target date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
             <br />
             Date completed:
             <br />
@@ -821,7 +821,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </asp:CalendarExtender>
             <asp:RegularExpressionValidator ID="revEducationCompletedDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_educationCompletedDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                ErrorMessage="Education date completed must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                ErrorMessage="Education date completed must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
         </td>
     </tr>
     <tr>
@@ -840,7 +840,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </asp:CalendarExtender>
             <asp:RegularExpressionValidator ID="revEquipmentTargetDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_equipmentTargetDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                ErrorMessage="Equipment target date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                ErrorMessage="Equipment target date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
             <br />
             Date completed:
             <br />
@@ -849,7 +849,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </asp:CalendarExtender>
             <asp:RegularExpressionValidator ID="revEquipmentCompletedDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_equipmentCompletedDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                ErrorMessage="Eqipment date completed must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                ErrorMessage="Eqipment date completed must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
         </td>
     </tr>
     <tr>
@@ -867,7 +867,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </asp:CalendarExtender>
             <asp:RegularExpressionValidator ID="rexEnvironmentTargetDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_environmentTargetDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$" 
-                ErrorMessage="Environment target date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                ErrorMessage="Environment target date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
             <br />
             Date completed:
             <br />
@@ -876,7 +876,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </asp:CalendarExtender>
             <asp:RegularExpressionValidator ID="revEnvironmentCompletedDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_environmentCompletedDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$" 
-                ErrorMessage="Environment date completed must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                ErrorMessage="Environment date completed must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
         </td>
     </tr>
 
@@ -897,7 +897,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </asp:CalendarExtender>
             <asp:RegularExpressionValidator ID="rexPatientTargetDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_patientTargetDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$" 
-                ErrorMessage="Patient/Resident target date must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                ErrorMessage="Patient/Resident target date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
             <br />
             Date completed:
             <br />
@@ -906,7 +906,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </asp:CalendarExtender>
             <asp:RegularExpressionValidator ID="revPatientCompletedDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_patientCompletedDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                ErrorMessage="Patient/Resident date completed must be in format 'M/D/YYYY'"></asp:RegularExpressionValidator>
+                ErrorMessage="Patient/Resident date completed must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
         </td>
     </tr>
 
