@@ -748,11 +748,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
             p2_corrective_patient = convertTextBox(tbx_p2_corrective_patient),
             #endregion G_FollowUp
 
-            //#region G_ManagersReport
+            #region G_ManagersReport
             //p2_manager_previous = convertTextBox(tbx_p2_manager_previous),
             //p2_manager_objections = convertTextBox(tbx_p2_manager_objections),
             //p2_manager_alternative = convertTextBox(tbx_p2_manager_alternative),
-            //#endregion G_ManagersReport
+            #endregion G_ManagersReport
 
         };
 
@@ -1001,13 +1001,13 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
     #endregion Create New Incident Report
 
-    #region Create New Incident Report
+    #region Load Incident Report
     /// <summary>
     /// Calls the create report method, which creates and saves an Incident report in the database.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The button click event.</param>
-    protected void btnCreateReport_Click(object sender, EventArgs e) {
+    protected void btnGetReport_Click(object sender, EventArgs e) {
         Page.Validate("vgpEmpInfo");
         Page.Validate("vgpPanelA");
         Page.Validate("vgpFCorrective");
@@ -1033,9 +1033,9 @@ public partial class Reporting_Default : System.Web.UI.Page {
         getEmployeeData();
 
         #region A_IncidentInfo
-        tbx_p1_dateOfIncident.Text = convertDateTimeToString(report.p1_dateOfIncident);
+        tbx_p1_dateOfIncident.Text = convertDateTimeToString((DateTime) (DateTime) report.p1_dateOfIncident);
         tbx_p1_timeOfIncident.Text = String.Format("h:m tt", report.p1_dateOfIncident);
-        tbx_p1_dateReported.Text = convertDateTimeToString(report.p1_dateReported);
+        tbx_p1_dateReported.Text = convertDateTimeToString((DateTime) report.p1_dateReported);
         tbx_p1_timeReported.Text = String.Format("h:m tt", report.p1_dateReported);
         tbx_p1_incidentDesc.Text = report.p1_incidentDesc.ToString();
         tbx_p1_witnessName1.Text = report.p1_witnessName1.ToString();
@@ -1044,9 +1044,9 @@ public partial class Reporting_Default : System.Web.UI.Page {
         tbx_p1_witnessPhone2.Text = report.p1_witnessPhone2.ToString();
         cbx_p1_action_firstAid.Checked =convertToCheckbox(report.p1_action_firstAid.ToString());
         cbx_p1_action_medicalGP.Checked = convertToCheckbox(report.p1_action_medicalGP.ToString());
-        tbx_p1_action_medicalGP_date.Text = convertDateTimeToString(report.p1_action_medicalGP_date);
+        tbx_p1_action_medicalGP_date.Text = convertDateTimeToString((DateTime) report.p1_action_medicalGP_date);
         cbx_p1_action_medicalER.Checked = convertToCheckbox(report.p1_action_medicalER.ToString());
-        tbx_p1_action_medicalER_date.Text = convertDateTimeToString(report.p1_action_medicalER_date);
+        tbx_p1_action_medicalER_date.Text = convertDateTimeToString((DateTime) report.p1_action_medicalER_date);
         cbx_p1_action_lostTime.Checked = convertToCheckbox(report.p1_action_lostTime.ToString());
         #endregion A_IncidentInfo
 
@@ -1224,31 +1224,31 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
         #region F_CorrectiveAction
         tbx_p2_corrective_person.Text = report.p2_corrective_person.ToString();
-        tbx_p2_corrective_personDate.Text = convertDateTimeToString(report.p2_corrective_personDate);
+        tbx_p2_corrective_personDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_personDate);
         rbl_p2_corrective_maintenance.SelectedValue = report.p2_corrective_maintenance.ToString();
-        tbx_p2_corrective_maintenanceDate.Text = convertDateTimeToString(report.p2_corrective_maintenanceDate);
+        tbx_p2_corrective_maintenanceDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_maintenanceDate);
         rbl_p2_corrective_communicated.SelectedValue = report.p2_corrective_communicated.ToString();
-        tbx_p2_corrective_communicatedDate.Text = convertDateTimeToString(report.p2_corrective_communicatedDate);
+        tbx_p2_corrective_communicatedDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_communicatedDate);
         rbl_p2_corrective_time.SelectedValue = report.p2_corrective_time.ToString();
-        tbx_p2_corrective_timeDate.Text = convertDateTimeToString(report.p2_corrective_timeDate);
+        tbx_p2_corrective_timeDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_timeDate);
         #endregion F_CorrectiveAction
 
         #region G_FollowUp
         tbx_p2_corrective_written.Text = report.p2_corrective_written.ToString();
-        tbx_p2_corrective_writtenTargetDate.Text = convertDateTimeToString(report.p2_corrective_writtenTargetDate);
-        tbx_p2_corrective_writtenCompletedDate.Text = convertDateTimeToString(report.p2_corrective_writtenCompletedDate);
+        tbx_p2_corrective_writtenTargetDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_writtenTargetDate);
+        //tbx_p2_corrective_writtenCompletedDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_writtenCompletedDate);
         tbx_p2_corrective_education.Text = report.p2_corrective_education.ToString();
-        tbx_p2_corrective_educationTargetDate.Text = convertDateTimeToString(report.p2_corrective_educationTargetDate);
-        tbx_p2_corrective_educationCompletedDate.Text = convertDateTimeToString(report.p2_corrective_educationCompletedDate);
+        tbx_p2_corrective_educationTargetDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_educationTargetDate);
+        tbx_p2_corrective_educationCompletedDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_educationCompletedDate);
         tbx_p2_corrective_equipment.Text = report.p2_corrective_equipment.ToString();
-        tbx_p2_corrective_equipmentTargetDate.Text = convertDateTimeToString(report.p2_corrective_equipmentTargetDate);
-        tbx_p2_corrective_equipmentCompletedDate.Text = convertDateTimeToString(report.p2_corrective_equipmentCompletedDate);
+        tbx_p2_corrective_equipmentTargetDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_equipmentTargetDate);
+        tbx_p2_corrective_equipmentCompletedDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_equipmentCompletedDate);
         tbx_p2_corrective_environment.Text = report.p2_corrective_environment.ToString();
-        tbx_p2_corrective_environmentTargetDate.Text = convertDateTimeToString(report.p2_corrective_environmentTargetDate);
-        tbx_p2_corrective_environmentCompletedDate.Text = convertDateTimeToString(report.p2_corrective_environmentCompletedDate);
+        tbx_p2_corrective_environmentTargetDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_environmentTargetDate);
+        tbx_p2_corrective_environmentCompletedDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_environmentCompletedDate);
         tbx_p2_corrective_patient.Text = report.p2_corrective_patient.ToString();
-        tbx_p2_corrective_patientTargetDate.Text = convertDateTimeToString(report.p2_corrective_patientTargetDate);
-        tbx_p2_corrective_patientCompletedDate.Text = convertDateTimeToString(report.p2_corrective_patientCompletedDate);
+        tbx_p2_corrective_patientTargetDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_patientTargetDate);
+        tbx_p2_corrective_patientCompletedDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_patientCompletedDate);
         #endregion G_FollowUp
 
         #region G_ManagersReport
@@ -1306,11 +1306,13 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="value">The Date to convert.</param>
     /// <returns>The date in the format M/d/yyyy or null, if the value is null or the default date time.</returns>
     private String convertDateTimeToString(DateTime value) {
-        if (value.Equals(DateTime.MinValue) {
+        if (value.Equals(DateTime.MinValue)) {
             return null;
         }
         return String.Format("M/d/yyyy", value.ToString());
     }
+
+    #endregion Load Incident Report
 
     // old code, no longer used?
     /// <summary>
