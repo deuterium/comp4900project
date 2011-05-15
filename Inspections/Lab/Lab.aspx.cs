@@ -64,23 +64,25 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
         {
 
             #region LabInspection Object
+
+            DateTime tmpDate = Convert.ToDateTime(tbxLabInspectionDate.Text);
             //LabInspection object that will be inserted into the database before the rest of the form
             //so that the unique id can be used to link the LabInspectionDetail objects.
             LabInspection inc = new LabInspection()
             {
                 deptNo = Convert.ToInt32(tbxLabDepartment.Text),
                 inspector = tbxLabInspectors.Text,
-                date = Convert.ToDateTime(tbxLabInspectionDate.Text),
+                date = tmpDate,
                 labMgr = ddlLabLabManager.Text,
                 supervisor = tbxLabSupervisor.Text,
                 room = tbxLabRoom.Text
             };
-
+            ctx.AddToLabInspections(inc);
+            ctx.SaveChanges();
             //Try-catch for saving the LabInspection object into the database.
             try
             {
-                ctx.AddToLabInspections(inc);
-                ctx.SaveChanges();
+                
             }
             catch (Exception ex)
             {
@@ -98,7 +100,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 checkbox = radiobuttonConvert(this.rblFireEvac.SelectedItem.Value),
                 comments = this.tbxCommentFireEvac.Text,
             });
-
+            /*
             //Fire extinguisher in working condition
             ctx.AddToLabInspectionDetails(new LabInspectionDetail() 
             {
@@ -647,18 +649,21 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 checkbox = radiobuttonConvert(this.rblPressureTankSup.SelectedItem.Value),
                 comments = this.tbxCommentPressureTankSup.Text,
             });
+            */
             #endregion
 
             #region LabInspectionDetail Objects SaveChanges
             //Try-catch for saving the LabInspectionDetail objects into the database.
+
+            ctx.SaveChanges();
+
             try
             {
-                ctx.AddToLabInspections(inc);
-                ctx.SaveChanges();
+                
             }
             catch (Exception ex)
             {
-                Popup_Overlay(ex.Message, Color.Red);
+                Popup_Overlay(ex.InnerException.ToString(), Color.Red);
                 return;
             }
             #endregion

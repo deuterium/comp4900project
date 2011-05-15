@@ -57,10 +57,6 @@
             <End Role="LabInspectionItem" EntitySet="LabInspectionItem" />
             <End Role="FollowUp" EntitySet="FollowUp" />
           </AssociationSet>
-          <AssociationSet Name="FK__Incident__deptNo__2EA5EC27" Association="BCCAModel.Store.FK__Incident__deptNo__2EA5EC27">
-            <End Role="Department" EntitySet="Department" />
-            <End Role="Incident" EntitySet="Incident" />
-          </AssociationSet>
           <AssociationSet Name="FK__Incident__empNo__04AFB25B" Association="BCCAModel.Store.FK__Incident__empNo__04AFB25B">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="Incident" EntitySet="Incident" />
@@ -369,7 +365,6 @@
           <Property Name="p2_cause_exposure_chemName" Type="varchar" MaxLength="50" />
           <Property Name="followUpStatus" Type="char" Nullable="false" MaxLength="1" />
           <Property Name="reportSubmitter" Type="varchar" MaxLength="50" />
-          <Property Name="deptNo" Type="int" />
           <Property Name="submitterDeptNo" Type="int" />
         </EntityType>
         <EntityType Name="LabInspection">
@@ -499,14 +494,6 @@
           <Property Name="endDate" Type="datetime" />
           <Property Name="completed" Type="int" />
           <Property Name="evaluation" Type="char" MaxLength="1" />
-          <Property Name="biosafety_BSCSeminar" Type="datetime" />
-          <Property Name="SOPsigned" Type="char" MaxLength="1" />
-          <Property Name="spillCleanupPracticalDate" Type="datetime" />
-          <Property Name="respiratorDate" Type="datetime" />
-          <Property Name="respiratorType" Type="varchar" MaxLength="20" />
-          <Property Name="respiratorModel" Type="varchar" MaxLength="30" />
-          <Property Name="respiratorComments" Type="varchar(max)" />
-          <Property Name="certificateNum" Type="varchar" MaxLength="30" />
           <Property Name="trainingTakenNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="Users">
@@ -552,18 +539,6 @@
             </Principal>
             <Dependent Role="FollowUp">
               <PropertyRef Name="labInsItemNo" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Incident__deptNo__2EA5EC27">
-          <End Role="Department" Type="BCCAModel.Store.Department" Multiplicity="0..1" />
-          <End Role="Incident" Type="BCCAModel.Store.Incident" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="deptNo" />
-            </Principal>
-            <Dependent Role="Incident">
-              <PropertyRef Name="deptNo" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -775,10 +750,6 @@
             <End Role="Department" EntitySet="Departments" />
             <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
-          <AssociationSet Name="FK__Incident__deptNo__2EA5EC27" Association="BCCAModel.FK__Incident__deptNo__2EA5EC27">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="Incident" EntitySet="Incidents" />
-          </AssociationSet>
           <AssociationSet Name="FK__Incident__submit__2F9A1060" Association="BCCAModel.FK__Incident__submit__2F9A1060">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Incident" EntitySet="Incidents" />
@@ -859,8 +830,7 @@
           <Property Name="deptNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="deptName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="Employees" Relationship="BCCAModel.FK__Employee__deptNo__489AC854" FromRole="Department" ToRole="Employee" />
-          <NavigationProperty Name="Incidents" Relationship="BCCAModel.FK__Incident__deptNo__2EA5EC27" FromRole="Department" ToRole="Incident" />
-          <NavigationProperty Name="Incidents1" Relationship="BCCAModel.FK__Incident__submit__2F9A1060" FromRole="Department" ToRole="Incident" />
+          <NavigationProperty Name="Incidents" Relationship="BCCAModel.FK__Incident__submit__2F9A1060" FromRole="Department" ToRole="Incident" />
           <NavigationProperty Name="LabInspections" Relationship="BCCAModel.FK__LabInspec__deptN__59C55456" FromRole="Department" ToRole="LabInspection" />
           <NavigationProperty Name="OfficeInspections" Relationship="BCCAModel.FK__OfficeIns__deptN__6FB49575" FromRole="Department" ToRole="OfficeInspection" />
           <NavigationProperty Name="Users" Relationship="BCCAModel.fk_deptNo" FromRole="Department" ToRole="Users" />
@@ -1103,10 +1073,8 @@
           <Property Name="p2_cause_exposure_chemName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="followUpStatus" Type="String" Nullable="false" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="reportSubmitter" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="deptNo" Type="Int32" />
           <Property Name="submitterDeptNo" Type="Int32" />
-          <NavigationProperty Name="Department" Relationship="BCCAModel.FK__Incident__deptNo__2EA5EC27" FromRole="Incident" ToRole="Department" />
-          <NavigationProperty Name="Department1" Relationship="BCCAModel.FK__Incident__submit__2F9A1060" FromRole="Incident" ToRole="Department" />
+          <NavigationProperty Name="Department" Relationship="BCCAModel.FK__Incident__submit__2F9A1060" FromRole="Incident" ToRole="Department" />
           <NavigationProperty Name="Employee" Relationship="BCCAModel.FK__Incident__empNo__04AFB25B" FromRole="Incident" ToRole="Employee" />
         </EntityType>
         <EntityType Name="LabInspection">
@@ -1235,14 +1203,6 @@
           <Property Name="endDate" Type="DateTime" />
           <Property Name="completed" Type="Int32" />
           <Property Name="evaluation" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="biosafety_BSCSeminar" Type="DateTime" />
-          <Property Name="SOPsigned" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="spillCleanupPracticalDate" Type="DateTime" />
-          <Property Name="respiratorDate" Type="DateTime" />
-          <Property Name="respiratorType" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="respiratorModel" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
-          <Property Name="respiratorComments" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-          <Property Name="certificateNum" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
           <Property Name="trainingTakenNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Employee" Relationship="BCCAModel.FK__TrainingT__empNo__503BEA1C" FromRole="TrainingTaken" ToRole="Employee" />
           <NavigationProperty Name="TrainingCours" Relationship="BCCAModel.FK__TrainingT__train__51300E55" FromRole="TrainingTaken" ToRole="TrainingCourses" />
@@ -1268,18 +1228,6 @@
               <PropertyRef Name="deptNo" />
             </Principal>
             <Dependent Role="Employee">
-              <PropertyRef Name="deptNo" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Incident__deptNo__2EA5EC27">
-          <End Role="Department" Type="BCCAModel.Department" Multiplicity="0..1" />
-          <End Role="Incident" Type="BCCAModel.Incident" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="deptNo" />
-            </Principal>
-            <Dependent Role="Incident">
               <PropertyRef Name="deptNo" />
             </Dependent>
           </ReferentialConstraint>
@@ -1706,7 +1654,6 @@
             <ScalarProperty Name="p2_cause_exposure_chemName" ColumnName="p2_cause_exposure_chemName" />
             <ScalarProperty Name="followUpStatus" ColumnName="followUpStatus" />
             <ScalarProperty Name="reportSubmitter" ColumnName="reportSubmitter" />
-            <ScalarProperty Name="deptNo" ColumnName="deptNo" />
             <ScalarProperty Name="submitterDeptNo" ColumnName="submitterDeptNo" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="LabInspections"><EntityTypeMapping TypeName="BCCAModel.LabInspection"><MappingFragment StoreEntitySet="LabInspection">
@@ -1782,14 +1729,6 @@
             <ScalarProperty Name="endDate" ColumnName="endDate" />
             <ScalarProperty Name="completed" ColumnName="completed" />
             <ScalarProperty Name="evaluation" ColumnName="evaluation" />
-            <ScalarProperty Name="biosafety_BSCSeminar" ColumnName="biosafety_BSCSeminar" />
-            <ScalarProperty Name="SOPsigned" ColumnName="SOPsigned" />
-            <ScalarProperty Name="spillCleanupPracticalDate" ColumnName="spillCleanupPracticalDate" />
-            <ScalarProperty Name="respiratorDate" ColumnName="respiratorDate" />
-            <ScalarProperty Name="respiratorType" ColumnName="respiratorType" />
-            <ScalarProperty Name="respiratorModel" ColumnName="respiratorModel" />
-            <ScalarProperty Name="respiratorComments" ColumnName="respiratorComments" />
-            <ScalarProperty Name="certificateNum" ColumnName="certificateNum" />
             <ScalarProperty Name="trainingTakenNo" ColumnName="trainingTakenNo" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Users"><EntityTypeMapping TypeName="BCCAModel.User"><MappingFragment StoreEntitySet="Users">
@@ -1828,146 +1767,118 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="BCCAModel">
-        <EntityTypeShape EntityType="BCCAModel.CourseDetail" Width="1.5" PointX="3" PointY="21.25" Height="1.5956835937500031" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.Department" Width="1.5" PointX="0.75" PointY="32" Height="2.5571907552083353" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.Employee" Width="1.5" PointX="3" PointY="27.5" Height="3.7109993489583317" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.FollowUp" Width="1.5" PointX="5.25" PointY="32.625" Height="2.172587890624996" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.Incident" Width="1.5" PointX="8.25" PointY="10.375" Height="41.209778645833325" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.LabInspection" Width="1.5" PointX="3" PointY="32" Height="3.5186979166666674" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.LabInspectionDetail" Width="1.5" PointX="5.25" PointY="35.625" Height="2.172587890624996" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.LabInspectionItem" Width="1.5" PointX="3" PointY="39.75" Height="1.7879850260416674" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.OfficeInspection" Width="1.5" PointX="3" PointY="36.25" Height="2.749492187499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.OfficeInspectionDetail" Width="1.5" PointX="5.25" PointY="39.25" Height="2.5571907552083388" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.OfficeInspectionItem" Width="1.5" PointX="3" PointY="42.625" Height="1.5956835937500102" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.CourseDetail" Width="1.5" PointX="3" PointY="20.25" Height="1.5956835937500031" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Department" Width="1.5" PointX="0.75" PointY="31" Height="2.3648893229166674" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Employee" Width="1.5" PointX="3" PointY="26.375" Height="3.7109993489583317" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.FollowUp" Width="1.5" PointX="5.25" PointY="31.5" Height="2.172587890624996" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Incident" Width="1.5" PointX="8.25" PointY="9.5" Height="40.825175781249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.LabInspection" Width="1.5" PointX="3" PointY="30.875" Height="3.5186979166666674" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.LabInspectionDetail" Width="1.5" PointX="5.25" PointY="34.5" Height="2.172587890624996" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.LabInspectionItem" Width="1.5" PointX="3" PointY="38.75" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.OfficeInspection" Width="1.5" PointX="3" PointY="35.125" Height="2.749492187499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.OfficeInspectionDetail" Width="1.5" PointX="5.25" PointY="38.25" Height="2.5571907552083388" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.OfficeInspectionItem" Width="1.5" PointX="3" PointY="41.5" Height="1.5956835937500102" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.Position" Width="1.5" PointX="0.75" PointY="0.75" Height="1.4033821614583317" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.Role" Width="1.5" PointX="0.75" PointY="24.375" Height="1.5956835937500031" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.Severity" Width="1.5" PointX="3" PointY="45" Height="1.5956835937500102" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Role" Width="1.5" PointX="0.75" PointY="23.375" Height="1.5956835937500031" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Severity" Width="1.5" PointX="3" PointY="43.875" Height="1.5956835937500102" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.sysdiagram" Width="1.5" PointX="2.75" PointY="0.75" Height="1.9802864583333388" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.TrainingCours" Width="1.5" PointX="3" PointY="18.625" Height="1.7879850260416674" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.TrainingTaken" Width="1.5" PointX="5.25" PointY="27.125" Height="4.4802050781250031" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.User" Width="1.5" PointX="3" PointY="24" Height="2.3648893229166674" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.TrainingCours" Width="1.5" PointX="3" PointY="17.5" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.TrainingTaken" Width="1.5" PointX="5.25" PointY="26.75" Height="2.9417936197916674" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.User" Width="1.5" PointX="3" PointY="23" Height="2.3648893229166674" IsExpanded="true" />
         <AssociationConnector Association="BCCAModel.FK__Employee__deptNo__489AC854" ManuallyRouted="false">
-          <ConnectorPoint PointX="1.5" PointY="32" />
-          <ConnectorPoint PointX="1.5" PointY="29.355499674479166" />
-          <ConnectorPoint PointX="2.5416666666666665" PointY="29.355499674479166" />
-          <ConnectorPoint PointX="2.7083333333333335" PointY="29.355499674479166" />
-          <ConnectorPoint PointX="3" PointY="29.355499674479166" />
-        </AssociationConnector>
-        <AssociationConnector Association="BCCAModel.FK__Incident__deptNo__2EA5EC27" ManuallyRouted="false">
-          <ConnectorPoint PointX="1.5" PointY="34.557190755208339" />
-          <ConnectorPoint PointX="1.5" PointY="49.121481119791667" />
-          <ConnectorPoint PointX="4.791666666666667" PointY="49.121481119791667" />
-          <ConnectorPoint PointX="4.958333333333333" PointY="49.121481119791667" />
-          <ConnectorPoint PointX="8.25" PointY="49.121481119791667" />
+          <ConnectorPoint PointX="1.5" PointY="31" />
+          <ConnectorPoint PointX="1.5" PointY="28.230499674479166" />
+          <ConnectorPoint PointX="2.5416666666666665" PointY="28.230499674479166" />
+          <ConnectorPoint PointX="2.7083333333333335" PointY="28.230499674479166" />
+          <ConnectorPoint PointX="3" PointY="28.230499674479166" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__Incident__submit__2F9A1060" ManuallyRouted="false">
-          <ConnectorPoint PointX="1.9062525" PointY="34.557190755208339" />
-          <ConnectorPoint PointX="1.9062525" PointY="47.858579856770845" />
-          <ConnectorPoint PointX="4.791666666666667" PointY="47.858579856770845" />
-          <ConnectorPoint PointX="4.958333333333333" PointY="47.858579856770845" />
-          <ConnectorPoint PointX="8.25" PointY="47.858579856770845" />
+          <ConnectorPoint PointX="1.5" PointY="33.364889322916667" />
+          <ConnectorPoint PointX="1.5" PointY="47.9291796875" />
+          <ConnectorPoint PointX="8.25" PointY="47.9291796875" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__LabInspec__deptN__59C55456" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="33.278595377604169" />
-          <ConnectorPoint PointX="3" PointY="33.278595377604169" />
+          <ConnectorPoint PointX="2.25" PointY="32.182444661458334" />
+          <ConnectorPoint PointX="3" PointY="32.182444661458334" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__OfficeIns__deptN__6FB49575" ManuallyRouted="false">
-          <ConnectorPoint PointX="1.0937475" PointY="34.557190755208339" />
-          <ConnectorPoint PointX="1.0937475" PointY="37.62474609375" />
-          <ConnectorPoint PointX="1.4166666666666667" PointY="37.62474609375" />
-          <ConnectorPoint PointX="1.5833333333333333" PointY="37.62474609375" />
-          <ConnectorPoint PointX="1.8229191666666667" PointY="37.62474609375" />
-          <ConnectorPoint PointX="1.9895858333333332" PointY="37.62474609375" />
-          <ConnectorPoint PointX="3" PointY="37.62474609375" />
+          <ConnectorPoint PointX="1.9062525" PointY="33.364889322916667" />
+          <ConnectorPoint PointX="1.9062525" PointY="36.49974609375" />
+          <ConnectorPoint PointX="3" PointY="36.49974609375" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.fk_deptNo" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.2500000000000013" PointY="32" />
-          <ConnectorPoint PointX="2.625" PointY="31.625" />
-          <ConnectorPoint PointX="2.625" PointY="25.182444661458334" />
-          <ConnectorPoint PointX="3" PointY="25.182444661458334" />
+          <ConnectorPoint PointX="2.25" PointY="31.001152846153843" />
+          <ConnectorPoint PointX="2.625" PointY="30.626152846153843" />
+          <ConnectorPoint PointX="2.625" PointY="24.182444661458334" />
+          <ConnectorPoint PointX="3" PointY="24.182444661458334" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__Incident__empNo__04AFB25B" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="31.210999348958332" />
-          <ConnectorPoint PointX="4.875" PointY="31.585999348958332" />
-          <ConnectorPoint PointX="4.875" PointY="51.959778645833325" />
-          <ConnectorPoint PointX="7.875" PointY="51.959778645833325" />
-          <ConnectorPoint PointX="8.25" PointY="51.584778645833325" />
+          <ConnectorPoint PointX="4.5" PointY="29.920146484375" />
+          <ConnectorPoint PointX="8.25" PointY="29.920146484375" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__TrainingT__empNo__503BEA1C" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="29.324247174479165" />
-          <ConnectorPoint PointX="5.25" PointY="29.324247174479165" />
+          <ConnectorPoint PointX="4.5" PointY="28.220896809895834" />
+          <ConnectorPoint PointX="5.25" PointY="28.220896809895834" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__FollowUp__labIns__5F7E2DAC" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="33.7112939453125" />
-          <ConnectorPoint PointX="4.791666666666667" PointY="33.7112939453125" />
-          <ConnectorPoint PointX="4.958333333333333" PointY="33.7112939453125" />
-          <ConnectorPoint PointX="5.25" PointY="33.7112939453125" />
+          <ConnectorPoint PointX="4.5" PointY="32.5862939453125" />
+          <ConnectorPoint PointX="5.25" PointY="32.5862939453125" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__FollowUp__labIns__607251E5" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.4757692307692318" PointY="39.75" />
-          <ConnectorPoint PointX="4.8160744349011209" PointY="39.409694795868113" />
-          <ConnectorPoint PointX="4.9339255650988791" PointY="39.291843665670349" />
-          <ConnectorPoint PointX="5.0625" PointY="39.163269230769231" />
-          <ConnectorPoint PointX="5.0625" PointY="34.285692917968746" />
-          <ConnectorPoint PointX="5.25" PointY="34.285692917968746" />
+          <ConnectorPoint PointX="4.4757692307692318" PointY="38.75" />
+          <ConnectorPoint PointX="4.875" PointY="38.350769230769231" />
+          <ConnectorPoint PointX="4.875" PointY="33.160692917968746" />
+          <ConnectorPoint PointX="5.25" PointY="33.160692917968746" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__LabInspec__labIn__625A9A57" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="35.455235378205131" />
-          <ConnectorPoint PointX="4.6875" PointY="35.642735378205131" />
-          <ConnectorPoint PointX="4.6875" PointY="35.0625" />
-          <ConnectorPoint PointX="4.8160744349011217" PointY="35.191074434901118" />
-          <ConnectorPoint PointX="4.9339255650988791" PointY="35.308925565098882" />
-          <ConnectorPoint PointX="5.0035744349011217" PointY="35.378574434901118" />
-          <ConnectorPoint PointX="5.1214255650988791" PointY="35.496425565098882" />
-          <ConnectorPoint PointX="5.25" PointY="35.625" />
+          <ConnectorPoint PointX="4.5" PointY="34.330235378205131" />
+          <ConnectorPoint PointX="4.8160744349011217" PointY="34.646309813106249" />
+          <ConnectorPoint PointX="4.9339255650988791" PointY="34.764160943304013" />
+          <ConnectorPoint PointX="5.0625" PointY="34.892735378205131" />
+          <ConnectorPoint PointX="5.0625" PointY="34.3125" />
+          <ConnectorPoint PointX="5.25" PointY="34.5" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__LabInspec__labIt__634EBE90" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="39.806537461538461" />
-          <ConnectorPoint PointX="4.8160744349011209" PointY="39.490463026637343" />
-          <ConnectorPoint PointX="4.9339255650988791" PointY="39.372611896439579" />
-          <ConnectorPoint PointX="4.96875" PointY="39.337787461538461" />
-          <ConnectorPoint PointX="4.96875" PointY="36.7425459453125" />
-          <ConnectorPoint PointX="4.979166666666667" PointY="36.7425459453125" />
-          <ConnectorPoint PointX="5.145833333333333" PointY="36.7425459453125" />
-          <ConnectorPoint PointX="5.25" PointY="36.7425459453125" />
+          <ConnectorPoint PointX="4.5" PointY="38.806537461538461" />
+          <ConnectorPoint PointX="5.03125" PointY="38.275287461538461" />
+          <ConnectorPoint PointX="5.03125" PointY="35.6175459453125" />
+          <ConnectorPoint PointX="5.25" PointY="35.6175459453125" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__OfficeIns__offic__7E02B4CC" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="38.9671834951923" />
-          <ConnectorPoint PointX="4.65625" PointY="39.1234334951923" />
-          <ConnectorPoint PointX="4.65625" PointY="38.65625" />
-          <ConnectorPoint PointX="4.8160744349011217" PointY="38.816074434901118" />
-          <ConnectorPoint PointX="5.1214255650988791" PointY="39.121425565098882" />
-          <ConnectorPoint PointX="5.25" PointY="39.25" />
+          <ConnectorPoint PointX="4.5" PointY="37.81102964903846" />
+          <ConnectorPoint PointX="4.6875" PointY="37.99852964903846" />
+          <ConnectorPoint PointX="4.6875" PointY="37.6875" />
+          <ConnectorPoint PointX="4.8160744349011217" PointY="37.816074434901118" />
+          <ConnectorPoint PointX="4.9339255650988791" PointY="37.933925565098882" />
+          <ConnectorPoint PointX="4.9723244349011217" PointY="37.972324434901118" />
+          <ConnectorPoint PointX="5.0901755650988791" PointY="38.090175565098882" />
+          <ConnectorPoint PointX="5.25" PointY="38.25" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__OfficeIns__offic__7EF6D905" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="43.422841796875005" />
-          <ConnectorPoint PointX="4.791666666666667" PointY="43.422841796875005" />
-          <ConnectorPoint PointX="4.958333333333333" PointY="43.422841796875005" />
-          <ConnectorPoint PointX="5.5104141666666671" PointY="43.422841796875005" />
-          <ConnectorPoint PointX="5.6770808333333331" PointY="43.422841796875005" />
-          <ConnectorPoint PointX="6" PointY="43.422841796875005" />
-          <ConnectorPoint PointX="6" PointY="41.807190755208339" />
+          <ConnectorPoint PointX="4.5" PointY="42.297841796875005" />
+          <ConnectorPoint PointX="5.5104141666666671" PointY="42.297841796875005" />
+          <ConnectorPoint PointX="5.6770808333333331" PointY="42.297841796875005" />
+          <ConnectorPoint PointX="6" PointY="42.297841796875005" />
+          <ConnectorPoint PointX="6" PointY="40.807190755208339" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__OfficeIns__sever__7FEAFD3E" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="45.797841796875005" />
-          <ConnectorPoint PointX="4.791666666666667" PointY="45.797841796875005" />
-          <ConnectorPoint PointX="4.958333333333333" PointY="45.797841796875005" />
-          <ConnectorPoint PointX="5.5937475" PointY="45.797841796875005" />
-          <ConnectorPoint PointX="5.5937475" PointY="41.807190755208339" />
+          <ConnectorPoint PointX="4.5" PointY="44.672841796875005" />
+          <ConnectorPoint PointX="5.5937475" PointY="44.672841796875005" />
+          <ConnectorPoint PointX="5.5937475" PointY="40.807190755208339" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__Users__roleNo__7849DB76" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="24.716222330729167" />
-          <ConnectorPoint PointX="3" PointY="24.716222330729167" />
+          <ConnectorPoint PointX="2.25" PointY="23.716222330729167" />
+          <ConnectorPoint PointX="3" PointY="23.716222330729167" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__TrainingT__train__51300E55" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="19.518992513020834" />
-          <ConnectorPoint PointX="6" PointY="19.518992513020834" />
-          <ConnectorPoint PointX="6" PointY="27.125" />
+          <ConnectorPoint PointX="4.5" PointY="18.393992513020834" />
+          <ConnectorPoint PointX="6" PointY="18.393992513020834" />
+          <ConnectorPoint PointX="6" PointY="26.75" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.TrainingCourseTakenDetail" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="22.047841796875" />
-          <ConnectorPoint PointX="5.5937475" PointY="22.047841796875" />
-          <ConnectorPoint PointX="5.5937475" PointY="27.125" />
+          <ConnectorPoint PointX="4.5" PointY="21.047841796875" />
+          <ConnectorPoint PointX="5.5937475" PointY="21.047841796875" />
+          <ConnectorPoint PointX="5.5937475" PointY="26.75" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>
