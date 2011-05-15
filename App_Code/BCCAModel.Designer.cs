@@ -19,7 +19,6 @@ using System.Runtime.Serialization;
 #region EDM Relationship Metadata
 
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__Employee__deptNo__489AC854", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Employee), true)]
-[assembly: EdmRelationshipAttribute("BCCAModel", "FK__Incident__deptNo__2EA5EC27", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "Incident", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Incident), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__Incident__submit__2F9A1060", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "Incident", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Incident), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__LabInspec__deptN__59C55456", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabInspection), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__OfficeIns__deptN__6FB49575", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "OfficeInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.OfficeInspection), true)]
@@ -741,30 +740,8 @@ namespace BCCAModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Incident__deptNo__2EA5EC27", "Incident")]
-        public EntityCollection<Incident> Incidents
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Incident>("BCCAModel.FK__Incident__deptNo__2EA5EC27", "Incident");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Incident>("BCCAModel.FK__Incident__deptNo__2EA5EC27", "Incident", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Incident__submit__2F9A1060", "Incident")]
-        public EntityCollection<Incident> Incidents1
+        public EntityCollection<Incident> Incidents
         {
             get
             {
@@ -6374,30 +6351,6 @@ namespace BCCAModel
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> deptNo
-        {
-            get
-            {
-                return _deptNo;
-            }
-            set
-            {
-                OndeptNoChanging(value);
-                ReportPropertyChanging("deptNo");
-                _deptNo = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("deptNo");
-                OndeptNoChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _deptNo;
-        partial void OndeptNoChanging(Nullable<global::System.Int32> value);
-        partial void OndeptNoChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
         public Nullable<global::System.Int32> submitterDeptNo
         {
             get
@@ -6427,46 +6380,8 @@ namespace BCCAModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Incident__deptNo__2EA5EC27", "Department")]
-        public Department Department
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__Incident__deptNo__2EA5EC27", "Department").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__Incident__deptNo__2EA5EC27", "Department").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Department> DepartmentReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__Incident__deptNo__2EA5EC27", "Department");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Department>("BCCAModel.FK__Incident__deptNo__2EA5EC27", "Department", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__Incident__submit__2F9A1060", "Department")]
-        public Department Department1
+        public Department Department
         {
             get
             {
@@ -6482,7 +6397,7 @@ namespace BCCAModel
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<Department> Department1Reference
+        public EntityReference<Department> DepartmentReference
         {
             get
             {
@@ -8614,198 +8529,6 @@ namespace BCCAModel
         private global::System.String _evaluation;
         partial void OnevaluationChanging(global::System.String value);
         partial void OnevaluationChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> biosafety_BSCSeminar
-        {
-            get
-            {
-                return _biosafety_BSCSeminar;
-            }
-            set
-            {
-                Onbiosafety_BSCSeminarChanging(value);
-                ReportPropertyChanging("biosafety_BSCSeminar");
-                _biosafety_BSCSeminar = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("biosafety_BSCSeminar");
-                Onbiosafety_BSCSeminarChanged();
-            }
-        }
-        private Nullable<global::System.DateTime> _biosafety_BSCSeminar;
-        partial void Onbiosafety_BSCSeminarChanging(Nullable<global::System.DateTime> value);
-        partial void Onbiosafety_BSCSeminarChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String SOPsigned
-        {
-            get
-            {
-                return _SOPsigned;
-            }
-            set
-            {
-                OnSOPsignedChanging(value);
-                ReportPropertyChanging("SOPsigned");
-                _SOPsigned = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("SOPsigned");
-                OnSOPsignedChanged();
-            }
-        }
-        private global::System.String _SOPsigned;
-        partial void OnSOPsignedChanging(global::System.String value);
-        partial void OnSOPsignedChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> spillCleanupPracticalDate
-        {
-            get
-            {
-                return _spillCleanupPracticalDate;
-            }
-            set
-            {
-                OnspillCleanupPracticalDateChanging(value);
-                ReportPropertyChanging("spillCleanupPracticalDate");
-                _spillCleanupPracticalDate = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("spillCleanupPracticalDate");
-                OnspillCleanupPracticalDateChanged();
-            }
-        }
-        private Nullable<global::System.DateTime> _spillCleanupPracticalDate;
-        partial void OnspillCleanupPracticalDateChanging(Nullable<global::System.DateTime> value);
-        partial void OnspillCleanupPracticalDateChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> respiratorDate
-        {
-            get
-            {
-                return _respiratorDate;
-            }
-            set
-            {
-                OnrespiratorDateChanging(value);
-                ReportPropertyChanging("respiratorDate");
-                _respiratorDate = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("respiratorDate");
-                OnrespiratorDateChanged();
-            }
-        }
-        private Nullable<global::System.DateTime> _respiratorDate;
-        partial void OnrespiratorDateChanging(Nullable<global::System.DateTime> value);
-        partial void OnrespiratorDateChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String respiratorType
-        {
-            get
-            {
-                return _respiratorType;
-            }
-            set
-            {
-                OnrespiratorTypeChanging(value);
-                ReportPropertyChanging("respiratorType");
-                _respiratorType = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("respiratorType");
-                OnrespiratorTypeChanged();
-            }
-        }
-        private global::System.String _respiratorType;
-        partial void OnrespiratorTypeChanging(global::System.String value);
-        partial void OnrespiratorTypeChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String respiratorModel
-        {
-            get
-            {
-                return _respiratorModel;
-            }
-            set
-            {
-                OnrespiratorModelChanging(value);
-                ReportPropertyChanging("respiratorModel");
-                _respiratorModel = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("respiratorModel");
-                OnrespiratorModelChanged();
-            }
-        }
-        private global::System.String _respiratorModel;
-        partial void OnrespiratorModelChanging(global::System.String value);
-        partial void OnrespiratorModelChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String respiratorComments
-        {
-            get
-            {
-                return _respiratorComments;
-            }
-            set
-            {
-                OnrespiratorCommentsChanging(value);
-                ReportPropertyChanging("respiratorComments");
-                _respiratorComments = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("respiratorComments");
-                OnrespiratorCommentsChanged();
-            }
-        }
-        private global::System.String _respiratorComments;
-        partial void OnrespiratorCommentsChanging(global::System.String value);
-        partial void OnrespiratorCommentsChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String certificateNum
-        {
-            get
-            {
-                return _certificateNum;
-            }
-            set
-            {
-                OncertificateNumChanging(value);
-                ReportPropertyChanging("certificateNum");
-                _certificateNum = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("certificateNum");
-                OncertificateNumChanged();
-            }
-        }
-        private global::System.String _certificateNum;
-        partial void OncertificateNumChanging(global::System.String value);
-        partial void OncertificateNumChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
