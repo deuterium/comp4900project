@@ -180,6 +180,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         var reports = ctx.Incidents
                       .Select(r => r);
 
+        #region Employee Info Filters
         if (!tbxFirstName.Text.Equals(String.Empty)) {
             reports = reports.Where(r => r.Employee.fname.Equals(tbxFirstName.Text));
         }
@@ -198,7 +199,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         }
 
         if (ddlEmployers.SelectedValue != noOptionSpecified) {
-            if (!ddlEmployers.SelectedValue.Equals(otherOption)) {
+            if (ddlEmployers.SelectedValue.Equals(otherOption)) {
                 reports = reports.Where(r => r.Employee.employer.Equals(tbxEmployer.Text));
             }
             else {
@@ -206,11 +207,18 @@ public partial class Tracking_Default : System.Web.UI.Page {
             }
         }
 
-        if (ddlDepartments.SelectedValue != noOptionSpecified) {
-            reports = reports.Where(r => r.Employee.deptNo.Equals(ddlDepartments.SelectedValue));
-        }
+        //if (ddlDepartments.SelectedValue != noOptionSpecified) {
+        //    if (ddlDepartments.SelectedValue.Equals(otherOption)) {
+        //        reports = reports.Where(r => r.Employee.Department.deptName.Equals(tbxDepartment.Text));
+        //    }
+        //    else {
+        //        reports = reports.Where(r => r.Employee.Department.deptName.Equals(ddlDepartments.SelectedValue));
+        //    }    
+        //}
 
-        //room
+        if (tbxRoom.Text != String.Empty) {
+            reports = reports.Where(r => r.Employee.room.Equals(tbxRoom.Text));
+        }
 
         if (tbxSupervisor.Text != String.Empty) {
             reports = reports.Where(r => r.Employee.supervisor.Equals(tbxSupervisor.Text));
@@ -225,6 +233,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
             DateTime endDate = Convert.ToDateTime(tbxEndDate.Text);
             reports = reports.Where(r => r.Employee.endDate.Equals(endDate));
         }
+        #endregion Employee Info Filters
 
         gdvReports.DataSource = reports;
         gdvReports.DataBind();
