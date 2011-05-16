@@ -17,11 +17,9 @@ using System.Globalization;
 /// </summary>
 public partial class Summary_Default : System.Web.UI.Page
 {
-
     static BCCAEntities ctx = new BCCAEntities();
     private string department;
     private string labManager;
-    
 
     /// <summary>
     /// Populates drop down list for Lab Managers
@@ -37,6 +35,10 @@ public partial class Summary_Default : System.Web.UI.Page
 
         grvLabInspections.Visible = false;
         grvLabInspectionResults.Visible = false;
+
+        grvOfficeInspections.Visible = false;
+        grvOfficeInspectionResults.Visible = false;
+
         if (!IsPostBack)
         {
             BCCAEntities ctx = new BCCAEntities();
@@ -65,7 +67,12 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     protected void btnLabInspectionLookUp_Click(object sender, EventArgs e)
     {
+        // Session Value of logged in users Deptartment Number
+        int userDeptNo = (int)Session["DeptNo"];
+
+        // Sets the gridview visibile on lookup of an inspection
         grvLabInspections.Visible = true;
+
         department = Convert.ToString(ddlLabDepartment.SelectedValue);
         
         labManager = Convert.ToString(ddlLabLabManager.SelectedValue);
@@ -99,7 +106,7 @@ public partial class Summary_Default : System.Web.UI.Page
                                                      }
                                                )
                                                .Where(temp0 => ((temp0.D.deptName == department) || (temp0.LI.labMgr == labManager)
-                                                 || (temp0.LI.date == validDate)))
+                                                 || (temp0.LI.date == validDate)) && (temp0.LI.deptNo == userDeptNo))
                                                .Select(
                                                   temp0 =>
                                                      new
@@ -171,8 +178,7 @@ public partial class Summary_Default : System.Web.UI.Page
 
     protected void grvLabInspectionResults_DataBinding(object sender, GridViewRowEventArgs e)
     {
-
-
+        
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             for (int i = -1; i < grvLabInspectionResults.Rows.Count; i++)
@@ -200,7 +206,24 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     protected void btnOfficeInspectionLookUp_Click(object sender, EventArgs e)
     {
+        grvOfficeInspections.Visible = true;
+        // Session Value of logged in users Deptartment Number
+        int userDeptNo = (int)Session["DeptNo"];
         department = Convert.ToString(ddlOfficeDepartment.SelectedValue);
+
+        string officeInspectionDate = Convert.ToString(tbxOfficeInspectionDate.Text);
+
+        System.Globalization.DateTimeFormatInfo dateInfo = new System.Globalization.DateTimeFormatInfo();
+        dateInfo.ShortDatePattern = "MM/dd/yyyy";
+        DateTime validDate;
+        if (tbxOfficeInspectionDate.Text.Length == 0)
+        {
+            validDate = Convert.ToDateTime("01/01/0001");
+        }
+        else
+        {
+            validDate = Convert.ToDateTime(officeInspectionDate, dateInfo);
+        }
 
         grvOfficeInspections.DataSource = ctx.OfficeInspections
                                                    .Join(
@@ -214,7 +237,7 @@ public partial class Summary_Default : System.Web.UI.Page
                                                              D = D
                                                          }
                                                    )
-                                                   .Where(temp0 => (temp0.D.deptName == ""))
+                                                   .Where(temp0 => ((temp0.D.deptName == department) || (temp0.OI.insDate == validDate)) && (temp0.OI.deptNo == userDeptNo))
                                                    .Select(
                                                       temp0 =>
                                                          new
@@ -236,6 +259,8 @@ public partial class Summary_Default : System.Web.UI.Page
 
     protected void grvOfficeInspections_SelectedIndexChanged(Object sender, EventArgs e)
     {
+        grvOfficeInspectionResults.Visible = true;
+        grvOfficeInspections.Visible = true;
 
         // Get the currently selected row using the SelectedRow property.
         GridViewRow row = grvOfficeInspections.SelectedRow;
@@ -270,7 +295,7 @@ public partial class Summary_Default : System.Web.UI.Page
                                                           temp1 =>
                                                              new
                                                              {
-                                                                 officeInsNo = temp1.temp0.OI.officeInsNo,
+                                                                 officeInsName = temp1.OII.officeInsName,
                                                                  checkbox = temp1.temp0.OID.checkbox,
                                                                  comments = temp1.temp0.OID.comments
                                                              }

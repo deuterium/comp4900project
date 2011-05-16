@@ -202,17 +202,34 @@ ExpandedImage="../images/collapse.jpg">
                     <asp:GridView ID="grvValidCourses" runat="server" 
                         onrowcancelingedit="grvValidCourses_RowCancelingEdit" 
                         onrowediting="grvValidCourses_RowEditing" 
-                        onrowupdating="grvValidCourses_RowUpdating">
+                        onrowupdating="grvValidCourses_RowUpdating" AutoGenerateColumns="False">
                         <Columns>
                             <asp:CommandField ShowEditButton="True" />
                             <asp:CommandField ShowSelectButton="True" />
-                            <asp:TemplateField>
+                            <asp:BoundField DataField="coursename" HeaderText="Training Name" 
+                                ReadOnly="True" SortExpression="coursename" />
+                            <asp:BoundField DataField="ttNo" HeaderText="ttNo" SortExpression="ttNo" />
+                            <asp:TemplateField HeaderText="Start Date" SortExpression="startDate">
                                 <EditItemTemplate>
-                                    <asp:TextBox ID="tbxEditValidStartDate" runat="server"></asp:TextBox>
-                                    <asp:CalendarExtender ID="tbxEditValidStartDate_CalendarExtender" 
-                                        runat="server" Enabled="True" TargetControlID="tbxEditValidStartDate">
+                                    <asp:TextBox ID="TextBox3" runat="server" Text='<%# Bind("startDate") %>'></asp:TextBox>
+                                    <asp:CalendarExtender ID="TextBox3_CalendarExtender" runat="server" 
+                                        Enabled="True" TargetControlID="TextBox3">
                                     </asp:CalendarExtender>
                                 </EditItemTemplate>
+                                <ItemTemplate>
+                                    <asp:Label ID="Label3" runat="server" Text='<%# Bind("startDate", "{0:d}") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="End Date" SortExpression="endDate">
+                                <EditItemTemplate>
+                                    <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("endDate") %>'></asp:TextBox>
+                                    <asp:CalendarExtender ID="TextBox1_CalendarExtender" runat="server" 
+                                        Enabled="True" TargetControlID="TextBox1">
+                                    </asp:CalendarExtender>
+                                </EditItemTemplate>
+                                <ItemTemplate>
+                                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("endDate", "{0:d}") %>'></asp:Label>
+                                </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
                     </asp:GridView>
