@@ -79,21 +79,23 @@ public partial class Admin_Default : System.Web.UI.Page
                 tdUserSystemUsers.Visible = false;
                 tdUserCreateRoleDiv.Visible = true;
                 btnUserDelete.Visible = false;
-                tbUsername.Text = String.Empty;
                 tbUsername.ReadOnly = false;
-                tbPassword.Text = String.Empty;
+                User_Pass_Clear();
                 cvlUserNew.Enabled = true;
                 rblUserRole.ClearSelection();
                 tbwPassword.Enabled = false;
+                tbUsername.Enabled = true;
                 btnUserNew.Text = "Create User";
                 break;
             case "Edit":
+                User_Pass_Clear();
                 tdUserCreateRoleDiv.Visible = false;
                 tdUserCreateLabDiv.Visible = false;
                 tdUserSystemUsers.Visible = true;
                 btnUserDelete.Visible = true;
                 tbUsername.ReadOnly = true;
                 cvlUserNew.Enabled = false;
+                tbUsername.Enabled = false;
                 btnUserNew.Text = "Change Password";
                 break;
             default:

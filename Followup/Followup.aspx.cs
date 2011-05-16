@@ -22,11 +22,14 @@ public partial class Followup_Followup : System.Web.UI.Page
             switch (PreviousPage.followupType)
             {
                 case "Incident":
+                    divFollowupIncident.Visible = true;
                     break;
                 case "Lab":
+                    divFollowupLab.Visible = true;
                     Populate_Lab_Followup(Convert.ToInt32(PreviousPage.followupNo));
                     break;
                 case "Office":
+                    divFollowupOffice.Visible = true;
                     break;
                 default:
                     throw new System.SystemException("Default case of switch should never be reached");

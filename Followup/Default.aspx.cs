@@ -18,16 +18,20 @@ public partial class Followup_Default : System.Web.UI.Page
     //Used to determine if report or inspection on Followup.aspx
     public string followupType { get; set; }
 
-
     /// <summary>
-    /// 
+    /// Checks if page view is a valid, logged in user, if not forwards to ~/Login.aspx
+    /// Checks what role the valid user is in. Incident/Accident reports, lab inspections
+    /// and office inspections that need followup will be populated depending on what Role 
+    /// the logged in user is.
+    /// Administrator/Safety Officer: All Reports/Inspections
+    /// Lab Manager: Only Reports/Inspections to do with their corrseponding Deptpartment
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void Page_Load(object sender, EventArgs e)
     {
+        //Check User Authentication
         ASP.global_asax.Session_Authentication();
-
         //Gets reports based on user role
         int? userRoleNo = (int?)Session["RoleNo"];
         switch (ctx.Roles.Where(r => r.roleNo == userRoleNo).Select(r => r.role1).First())
@@ -54,9 +58,11 @@ public partial class Followup_Default : System.Web.UI.Page
 
     #region Incident/Accident Followup
     /// <summary>
-    /// TODO:
+    /// Populates all Incident/Accident Reports that need follow up into a gridview for selection.
+    /// The populated reports are sorted by newest reports first.
+    /// Displays a count on the summary panel before the gridview is expanded.
     /// </summary>
-    /// <param name="mode"></param>
+    /// <param name="mode">Mode to populate gridview, 0 for all needing follow up, 1 for specific department</param>
     protected void Populate_Incidents(int mode)
     {
         switch (mode)
@@ -100,7 +106,9 @@ public partial class Followup_Default : System.Web.UI.Page
     }
 
     /// <summary>
-    /// TODO:
+    /// When user selects a Incident/Accident Report, the report ID is saved in a page scoped
+    /// variable and the Server transfers the user to Followup.aspx with the ID and "Incident"
+    /// as a page mode under the PreviousPage directive.
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
@@ -114,9 +122,11 @@ public partial class Followup_Default : System.Web.UI.Page
 
     #region Lab Inspection Followup
     /// <summary>
-    /// TODO:
+    /// Populates all Lab Inspections that need follow up into a gridview for selection.
+    /// The populated inspections are sorted by newest reports first.
+    /// Displays a count on the summary panel before the gridview is expanded.
     /// </summary>
-    /// <param name="mode"></param>
+    /// <param name="mode">Mode to populate gridview, 0 for all needing follow up, 1 for specific department</param>
     protected void Populate_Labs(int mode)
     {
         switch (mode)
@@ -168,7 +178,9 @@ public partial class Followup_Default : System.Web.UI.Page
     }
 
     /// <summary>
-    /// TODO:
+    /// When user selects a Lab Inspection, the inspection ID is saved in a page scoped
+    /// variable and the Server transfers the user to Followup.aspx with the ID and "Lab"
+    /// as a page mode under the PreviousPage directive.
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
@@ -182,9 +194,11 @@ public partial class Followup_Default : System.Web.UI.Page
 
     #region Office Inspection Followup
     /// <summary>
-    /// TODO:
+    /// Populates all Office Inspections that need follow up into a gridview for selection.
+    /// The populated inspections are sorted by newest reports first.
+    /// Displays a count on the summary panel before the gridview is expanded.
     /// </summary>
-    /// <param name="mode"></param>
+    /// <param name="mode">Mode to populate gridview, 0 for all needing follow up, 1 for specific department</param>
     protected void Populate_Offices(int mode)
     {
         switch (mode)
@@ -236,10 +250,12 @@ public partial class Followup_Default : System.Web.UI.Page
     }
 
     /// <summary>
-    /// 
+    /// When user selects a Office Inspection, the inspection ID is saved in a page scoped
+    /// variable and the Server transfers the user to Followup.aspx with the ID and "Office"
+    /// as a page mode under the PreviousPage directive.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void gvwFollowupOfficeInspection_SelectedIndexChanged(object sender, EventArgs e)
     {
         followupNo = gvwFollowupOfficeInspection.SelectedRow.Cells[1].Text;

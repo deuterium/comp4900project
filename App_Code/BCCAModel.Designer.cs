@@ -6638,6 +6638,30 @@ namespace BCCAModel
         private global::System.String _reportSubmitter;
         partial void OnreportSubmitterChanging(global::System.String value);
         partial void OnreportSubmitterChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String comments
+        {
+            get
+            {
+                return _comments;
+            }
+            set
+            {
+                OncommentsChanging(value);
+                ReportPropertyChanging("comments");
+                _comments = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("comments");
+                OncommentsChanged();
+            }
+        }
+        private global::System.String _comments;
+        partial void OncommentsChanging(global::System.String value);
+        partial void OncommentsChanged();
 
         #endregion
     
@@ -7284,6 +7308,30 @@ namespace BCCAModel
         private global::System.String _reportSubmitter;
         partial void OnreportSubmitterChanging(global::System.String value);
         partial void OnreportSubmitterChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String comments
+        {
+            get
+            {
+                return _comments;
+            }
+            set
+            {
+                OncommentsChanging(value);
+                ReportPropertyChanging("comments");
+                _comments = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("comments");
+                OncommentsChanged();
+            }
+        }
+        private global::System.String _comments;
+        partial void OncommentsChanging(global::System.String value);
+        partial void OncommentsChanged();
 
         #endregion
     
