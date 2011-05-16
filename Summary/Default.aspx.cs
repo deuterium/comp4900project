@@ -30,6 +30,11 @@ public partial class Summary_Default : System.Web.UI.Page
     /// <param name="e">not used in our code</param>
     protected void Page_Load(object sender, EventArgs e)
     {
+        //Authentication Check
+        ASP.global_asax.Session_Authentication();
+        //Session["RoleNo"].ToString();
+        //Session["DeptNo"].ToString();    THESE GET Stuff
+
         grvLabInspections.Visible = false;
         grvLabInspectionResults.Visible = false;
         if (!IsPostBack)

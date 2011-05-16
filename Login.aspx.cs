@@ -78,21 +78,21 @@ public partial class Login : System.Web.UI.Page
                 (tbxLoginUsername.Text + "&U74U53R", "MD5");
             try
             {
-                Session["RoleNo"] = ctx.Users.Where(u => u.userName == "tbxLoginUsername.Text").Select(r => r.roleNo).First();
+                Session["RoleNo"] = ctx.Users.Where(u => u.userName == tbxLoginUsername.Text).Select(r => r.roleNo).First();
             }
             catch (Exception ex)
-            { 
-            
+            {
+                Session["RoleNo"] = String.Empty;
             }
 
 
             try
             {
-                Session["DepartNo"] = ctx.Users.Where(u => u.userName == "tbxLoginUsername.Text").Select(r => r.deptNo).First();
+                Session["DeptNo"] = ctx.Users.Where(u => u.userName == tbxLoginUsername.Text).Select(r => r.deptNo).First();
             }
             catch (Exception ex)
             {
-
+                Session["DeptNo"] = String.Empty;
             }
             
 
