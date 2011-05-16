@@ -653,7 +653,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
             if (!tbx_p2_corrective_writtenCompletedDate.Text.Equals(String.Empty)) {
                 DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenCompletedDate.Text);
                 // spelled wrong
-                report.p2_corrective_writtentCompletedDate = writtenDate;
+                report.p2_corrective_writtenCompletedDate = writtenDate;
             }
 
             if (!tbx_p2_corrective_educationCompletedDate.Text.Equals(String.Empty)) {

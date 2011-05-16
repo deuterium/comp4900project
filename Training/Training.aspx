@@ -228,6 +228,17 @@ ExpandedImage="../images/collapse.jpg">
                 <h4 id="hr4CoursesCompleted"><asp:Image ID="imgExpandCollapseCoursesCompleted" runat="server" /> Valid: <asp:Label ID="ExpandCollapseCoursesCompleted" runat="server" Text=""></asp:Label></h4>
                 <asp:Panel ID="pnlCoursesCompleted" CssClass="panel" runat="server">
                     
+                    <asp:GridView ID="grvValidCourses" runat="server" 
+                        onrowcancelingedit="grvValidCourses_RowCancelingEdit" 
+                        onrowediting="grvValidCourses_RowEditing" 
+                        onrowupdating="grvValidCourses_RowUpdating">
+                        <Columns>
+                            <asp:CommandField ShowEditButton="True" />
+                            <asp:CommandField ShowSelectButton="True" />
+                            <asp:TemplateField></asp:TemplateField>
+                        </Columns>
+                    </asp:GridView>
+                    
                 </asp:Panel>
                 <h4 id="hr4CoursesExpired"><asp:Image ID="imgExpandCollapseCoursesExpired" runat="server" /> Expired: <asp:Label ID="ExpandCollapseCoursesExpired" runat="server" Text=""></asp:Label></h4>
                 <asp:Panel ID="pnlCoursesExpired" CssClass="panel" runat="server">
