@@ -8,6 +8,7 @@ using BCCAModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using System.Globalization;
 
 /** TO DO:
  * fix time regex (see sample forms) --> make a up/down arrow clock (NumericUpDown)
@@ -59,7 +60,31 @@ public partial class Reporting_Default : System.Web.UI.Page {
         "Medical Aid (GP / Clinic)",
         "Medical Aid (ER)"
     };
+    // Date format
+    System.Globalization.DateTimeFormatInfo dateFormatInfo = new System.Globalization.DateTimeFormatInfo();
     #endregion class variables
+    
+    /// <summary>
+    /// Sets up the dynamic elements when the page loads for the first time.
+    /// Populates the Employer, Position, and Department drop down lists.
+    /// Hides Popup panel on page load.
+    /// </summary>
+    /// <param name="sender">The object that requested the page load.</param>
+    /// <param name="e">The page load event.</param>
+    protected void Page_Load(object sender, EventArgs e) {
+        // Only do the initial set up the first time the page loads (and not on post-backs).
+        if (!IsPostBack) {
+            PopulateEmployersDdl();
+            PopulatePositionsDdl();
+            PopulateDepartmentsDdl();
+            pnlPop.Style.Value = "display:none;";
+            lblResults.Visible = true;
+            GridView1.DataSource = ctx.Employees;
+            GridView1.DataBind();
+            tsmScriptManager.SetFocus(tbxLastName.ClientID);
+            dateFormatInfo.ShortDatePattern = "MM/dd/yyyy";
+        }
+    }
 
     #region Employee Info Related
     #region Drop Down Lists
@@ -306,8 +331,8 @@ public partial class Reporting_Default : System.Web.UI.Page {
             return null;
         }
 
-        DateTime formStartDate = Convert.ToDateTime(tbxStartDate.Text);
-        DateTime formEndDate = Convert.ToDateTime(tbxEndDate.Text);
+        DateTime formStartDate = Convert.ToDateTime(tbxStartDate.Text, dateFormatInfo);
+        DateTime formEndDate = Convert.ToDateTime(tbxEndDate.Text, dateFormatInfo);
 
         emp = new Employee {
             fname = tbxFirstName.Text,
@@ -466,28 +491,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
     #endregion Update Employee
     #endregion EmployeeInfoRelated
-
-    /// <summary>
-    /// Sets up the dynamic elements when the page loads for the first time.
-    /// Populates the Employer, Position, and Department drop down lists.
-    /// Hides Popup panel on page load.
-    /// </summary>
-    /// <param name="sender">The object that requested the page load.</param>
-    /// <param name="e">The page load event.</param>
-    protected void Page_Load(object sender, EventArgs e)
-    {
-        // Only do the initial set up the first time the page loads (and not on post-backs).
-        if (!IsPostBack) {
-            PopulateEmployersDdl();
-            PopulatePositionsDdl();
-            PopulateDepartmentsDdl();
-            pnlPop.Style.Value = "display:none;";
-            lblResults.Visible = true;
-            GridView1.DataSource = ctx.Employees;
-            GridView1.DataBind();
-            tsmScriptManager.SetFocus(tbxLastName.ClientID);
-        }
-    }
 
     #region Page Popup
     /// <summary>
@@ -722,7 +725,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
             p2_factors_personal = convertCheckbox(cbx_p2_factors_personal),
             p2_factors_safe = convertCheckbox(cbx_p2_factors_safe),
             p2_factors_perceived = convertCheckbox(cbx_p2_factors_perceived),
-            //p2_factors_otherOrganizational = convertTextBox(tbx_p2_factors_otherOrganizational),
+            p2_factors_otherOrganizational = convertTextBox(tbx_p2_factors_otherOrganizational),
 
             p2_factors_inexperienced = convertCheckbox(cbx_p2_factors_inexperienced),
             p2_factors_communication = convertCheckbox(cbx_p2_factors_communication),
@@ -749,11 +752,12 @@ public partial class Reporting_Default : System.Web.UI.Page {
             #endregion G_FollowUp
 
             #region G_ManagersReport
-            //p2_manager_previous = convertTextBox(tbx_p2_manager_previous),
-            //p2_manager_objections = convertTextBox(tbx_p2_manager_objections),
-            //p2_manager_alternative = convertTextBox(tbx_p2_manager_alternative),
+            p2_manager_previous = convertTextBox(tbx_p2_manager_previous),
+            p2_manager_objections = convertTextBox(tbx_p2_manager_objections),
+            p2_manager_alternative = convertTextBox(tbx_p2_manager_alternative),
             #endregion G_ManagersReport
 
+            followUpStatus = "0",
         };
 
         #region A_IncidentInfo_Dates
@@ -774,7 +778,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
                 report.p1_numEmployeesInvolved = Convert.ToInt32(tbx_p1_numEmployeesInvolved.Text);
             }
             catch (FormatException) {
-                setResultMsg("The number of employees involved (in Patient Handling of Section C) must be a number.", FailColour);
+                Popup_Overlay("Report not created. The number of employees involved (in Patient Handling of Section C) must be a number.", FailColour);
                 return null;
             }
         }
@@ -837,7 +841,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
         if (!tbx_p2_corrective_writtenCompletedDate.Text.Equals(String.Empty)) {
             DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenCompletedDate.Text);
-            //report.p2_corrective_writtenCompletedDate = writtenDate;
+            report.p2_corrective_writtenCompletedDate = writtenDate;
         }
 
         if (!tbx_p2_corrective_educationCompletedDate.Text.Equals(String.Empty)) {
@@ -865,7 +869,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
         #endregion G_FollowUp_Dates
 
         #region H_FixedShiftRotation
-
         #region H_FixedShiftRotation_Week1
         if (!tbx_p2_manager_week1_sun.Text.Equals(String.Empty)) {
             Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sun.Text);
@@ -939,7 +942,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
             report.p2_manager_week2_sat = d;
         }
         #endregion H_FixedShiftRotation_Week2
-
         #endregion H_FixedShiftRotation
 
         try {
@@ -1313,21 +1315,4 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
 
     #endregion Load Incident Report
-
-    // old code, no longer used?
-    /// <summary>
-    /// Sets and displays the result message for the header form.
-    /// Using a null msg param will clear and hide the message.
-    /// </summary>
-    /// <param name="msg">The message to display</param>
-    /// <param name="foreColour">The font colour of the message</param>
-    private void setResultMsg(String msg, Color foreColour) {
-        if (msg == null) {
-            lblResults.Text = String.Empty;
-            lblResults.Visible = false;
-        }
-        lblResults.Visible = true;
-        lblResults.ForeColor = foreColour;
-        lblResults.Text = msg;
-    }
 }
