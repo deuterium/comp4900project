@@ -30,6 +30,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// <param name="e">not used in our code</param>
     protected void Page_Load(object sender, EventArgs e)
     {
+        grvLabInspections.Visible = false;
+        grvLabInspectionResults.Visible = false;
         if (!IsPostBack)
         {
             BCCAEntities ctx = new BCCAEntities();
@@ -58,7 +60,7 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     protected void btnLabInspectionLookUp_Click(object sender, EventArgs e)
     {
-
+        grvLabInspections.Visible = true;
         department = Convert.ToString(ddlLabDepartment.SelectedValue);
         
         labManager = Convert.ToString(ddlLabLabManager.SelectedValue);
@@ -116,7 +118,8 @@ public partial class Summary_Default : System.Web.UI.Page
 
     protected void grvLabInspections_SelectedIndexChanged(Object sender, EventArgs e)
     {
-
+        grvLabInspectionResults.Visible = true;
+        grvLabInspections.Visible = true;
         // Get the currently selected row using the SelectedRow property.
         GridViewRow row = grvLabInspections.SelectedRow;
         row.Cells[1].Text.ToString();
