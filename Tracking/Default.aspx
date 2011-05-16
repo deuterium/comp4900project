@@ -36,8 +36,6 @@ ExpandedImage="../images/collapse.jpg">
                 <td>Last name:</td>
                 <td>
                     <asp:TextBox TabIndex="100" ID="tbxLastName" runat="server" ></asp:TextBox>
-                    <asp:RequiredFieldValidator ID="rfvLastName" runat="server" ValidationGroup="vgpEmpInfo"
-                        ControlToValidate="tbxLastName" ErrorMessage="Last name is required."></asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="revLastName" runat="server" ValidationGroup="vgpEmpInfo"
                         ControlToValidate="tbxLastName" ErrorMessage="Last name can only contain letters."
                         ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
@@ -47,8 +45,6 @@ ExpandedImage="../images/collapse.jpg">
                 <td>First name:</td>
                 <td>
                     <asp:TextBox TabIndex="101" ID="tbxFirstName" runat="server" ></asp:TextBox>
-                    <asp:RequiredFieldValidator ID="rfvFirstName" runat="server" ValidationGroup="vgpEmpInfo"
-                        ControlToValidate="tbxFirstName" ErrorMessage="First name is required."></asp:RequiredFieldValidator>  
                     <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpEmpInfo"
                         ControlToValidate="tbxFirstName" ErrorMessage="First name can only contain letters."
                         ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
@@ -163,6 +159,9 @@ ExpandedImage="../images/collapse.jpg">
     <asp:ListItem Text="Activity" style="font-weight: bold;"></asp:ListItem>
     <asp:ListItem Text="No Injury" ></asp:ListItem>
 </asp:DropDownList>
+
+<asp:Button ID="btnSearch" ValidationGroup="vgpHeader" runat="server" 
+    Text="Search" onclick="btnSearch_Click" />
 
 <asp:GridView ID="gdvReports" runat="server">
 </asp:GridView>

@@ -46,6 +46,7 @@ Safety Training Database and Website
     <PagerStyle CssClass="GridViewPagerStyle" />
     <AlternatingRowStyle CssClass="GridViewAlternatingRowStyle" />
     <HeaderStyle CssClass="GridViewHeaderStyle" />
+    <EmptyDataRowStyle CssClass="GridViewRowStyle" />
 </asp:GridView>
 
 <asp:DropDownList runat="server" Width="155px" ></asp:DropDownList>
