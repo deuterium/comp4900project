@@ -255,10 +255,10 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
             // Department DDL
             var department = ctx.Departments
-                            .Where(d => d.deptName.Equals(emp.Department.deptName))
+                            .Where(d => d.deptName.Equals(emp.deptName))
                             .Select(d => d).FirstOrDefault();
 
-            if (emp.deptNo == null) {
+            if (emp.deptName == null) {
                 ddlDepartments.SelectedIndex = 0;
             }
             else if (department != null) {
@@ -266,7 +266,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
             }
             else {
                 ddlDepartments.SelectedValue = otherOption;
-                tbxDepartment.Text = emp.Department.deptName;
+                tbxDepartment.Text = emp.deptName;
             }
             CheckDepartmentSelection();
 
@@ -369,13 +369,13 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
         #region department
         if (ddlDepartments.SelectedValue.Equals(otherOption)) {
-            //emp.Department = tbxDepartment.Text;
+            emp.deptName = tbxDepartment.Text;
         }
         else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
-            //emp.department = null;
+            emp.deptName = null;
         }
         else {
-            //emp.deptNo = ddlDepartments.SelectedValue;
+            emp.deptName = ddlDepartments.SelectedValue;
         }
         #endregion department
         try {
@@ -469,13 +469,13 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
         #region department
         if (ddlDepartments.SelectedValue.Equals(otherOption)) {
-            //emp.Department = tbxDepartment.Text;
+            emp.deptName = tbxDepartment.Text;
         }
         else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
-            //emp.department = null;
+            emp.deptName = null;
         }
         else {
-            //emp.deptNo = ddlDepartments.SelectedValue;
+            emp.deptName = ddlDepartments.SelectedValue;
         }
         #endregion department
 
