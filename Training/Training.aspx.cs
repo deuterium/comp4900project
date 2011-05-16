@@ -119,8 +119,6 @@ public partial class Training_Training : System.Web.UI.Page {
                                      new
                                      {
                                          coursename = temp1.TC.trainingName,
-                                         lastname = temp1.temp0.emp.lname,
-                                         firstname = temp1.temp0.emp.fname,
                                          startdate = temp1.temp0.TT.startDate,
                                          enddate = temp1.temp0.TT.endDate
                                      }
@@ -261,9 +259,9 @@ public partial class Training_Training : System.Web.UI.Page {
             }
             
 
-            tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("DD/MM/YYYY");
+            tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("MM/dd/YYYY");
             if (emp.endDate != null) {
-                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("DD/MM/YYYY");
+                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("MM/dd/YYYY");
             }
             setResultMsg(null, SuccessColour);
 
@@ -369,14 +367,10 @@ public partial class Training_Training : System.Web.UI.Page {
                     .Where(employee => employee.empNo == empNo)
                     .First();
 
-        var dept = ctx.Departments
-                        .Where(d => d.deptName == ddlDepartments.SelectedValue)
-                        .Select(d => d.deptNo).FirstOrDefault();
-
         emp.lname = tbxLastName.Text;
         emp.fname = tbxFirstName.Text;
         emp.employer = (!(ddlEmployers.SelectedIndex == 0) ? ddlEmployers.SelectedValue : null);
-        emp.deptName = (!(ddlDepartments.SelectedValue == "") ? Convert.ToString(ddlDepartments.SelectedValue) : null);
+        emp.deptName = (!(ddlDepartments.SelectedValue == "") ? ddlDepartments.SelectedValue : null);
         emp.room = (!(tbxRoom.Text == "") ? (tbxRoom.Text) : null);
         emp.startDate = Convert.ToDateTime(tbxStartDate.Text);
         emp.endDate = (!(tbxEndDate.Text == "") ? Convert.ToDateTime(tbxEndDate.Text): (DateTime?)null);
@@ -418,10 +412,6 @@ public partial class Training_Training : System.Web.UI.Page {
 
             DateTime tmpStartDate = Convert.ToDateTime(tbxStartDate.Text);
             DateTime tmpEndDate = Convert.ToDateTime(tbxEndDate.Text);
-
-            var dept = ctx.Departments
-                        .Where(d => d.deptName == ddlDepartments.SelectedValue)
-                        .Select(d => d.deptNo).FirstOrDefault();
 
             String pos;
             if (ddlPositions.SelectedValue == "Other (specify)") {
@@ -469,6 +459,8 @@ public partial class Training_Training : System.Web.UI.Page {
         var q = Session["query"];
 
         int empNo = Convert.ToInt32(tbxId.Text);
+
+        
 
     }
     protected void grvValidCourses_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)

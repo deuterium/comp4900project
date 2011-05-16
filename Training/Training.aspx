@@ -156,7 +156,7 @@ ExpandedImage="../images/collapse.jpg">
                             Start Date:</td>
                         <td>
                             <asp:TextBox ID="tbxStartDate" runat="server"></asp:TextBox>
-                            <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="DD/MM/YYYY" >
+                            <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="MM/dd/YYYY" >
                             </asp:CalendarExtender>
                         </td>
                     </tr>
@@ -165,7 +165,7 @@ ExpandedImage="../images/collapse.jpg">
                             End Date:</td>
                         <td>
                             <asp:TextBox ID="tbxEndDate" runat="server"></asp:TextBox><br />
-                            <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="DD/MM/YYYY" >
+                            <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="MM/dd/YYYY" >
                             </asp:CalendarExtender>
                         </td>
                     </tr>

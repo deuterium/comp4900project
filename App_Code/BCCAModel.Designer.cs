@@ -7366,10 +7366,12 @@ namespace BCCAModel
         /// Create a new OfficeInspectionDetail object.
         /// </summary>
         /// <param name="checkbox">Initial value of the checkbox property.</param>
-        public static OfficeInspectionDetail CreateOfficeInspectionDetail(global::System.Int32 checkbox)
+        /// <param name="officeInsDetNo">Initial value of the officeInsDetNo property.</param>
+        public static OfficeInspectionDetail CreateOfficeInspectionDetail(global::System.Int32 checkbox, global::System.Int32 officeInsDetNo)
         {
             OfficeInspectionDetail officeInspectionDetail = new OfficeInspectionDetail();
             officeInspectionDetail.checkbox = checkbox;
+            officeInspectionDetail.officeInsDetNo = officeInsDetNo;
             return officeInspectionDetail;
         }
 
@@ -7475,7 +7477,7 @@ namespace BCCAModel
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Int32 checkbox
         {
@@ -7485,19 +7487,43 @@ namespace BCCAModel
             }
             set
             {
-                if (_checkbox != value)
-                {
-                    OncheckboxChanging(value);
-                    ReportPropertyChanging("checkbox");
-                    _checkbox = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("checkbox");
-                    OncheckboxChanged();
-                }
+                OncheckboxChanging(value);
+                ReportPropertyChanging("checkbox");
+                _checkbox = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("checkbox");
+                OncheckboxChanged();
             }
         }
         private global::System.Int32 _checkbox;
         partial void OncheckboxChanging(global::System.Int32 value);
         partial void OncheckboxChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 officeInsDetNo
+        {
+            get
+            {
+                return _officeInsDetNo;
+            }
+            set
+            {
+                if (_officeInsDetNo != value)
+                {
+                    OnofficeInsDetNoChanging(value);
+                    ReportPropertyChanging("officeInsDetNo");
+                    _officeInsDetNo = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("officeInsDetNo");
+                    OnofficeInsDetNoChanged();
+                }
+            }
+        }
+        private global::System.Int32 _officeInsDetNo;
+        partial void OnofficeInsDetNoChanging(global::System.Int32 value);
+        partial void OnofficeInsDetNoChanged();
 
         #endregion
     

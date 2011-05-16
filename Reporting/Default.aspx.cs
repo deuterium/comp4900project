@@ -1,5 +1,3 @@
-
-C:\_4900_Project\comp4900project>@git.exe %*
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,10 +60,8 @@ public partial class Reporting_Default : System.Web.UI.Page {
         "Medical Aid (GP / Clinic)",
         "Medical Aid (ER)"
     };
-    // Date format
-    System.Globalization.DateTimeFormatInfo dateFormatInfo = new System.Globalization.DateTimeFormatInfo();
     #endregion class variables
-    
+
     /// <summary>
     /// Sets up the dynamic elements when the page loads for the first time.
     /// Populates the Employer, Position, and Department drop down lists.
@@ -84,7 +80,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
             //GridView1.DataSource = ctx.Employees;
             //GridView1.DataBind();
             tsmScriptManager.SetFocus(tbxLastName.ClientID);
-            dateFormatInfo.ShortDatePattern = "MM/dd/yyyy";
         }
     }
 
@@ -93,42 +88,42 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
     #region Load DropDownLists
 
-        /// <summary>
-        /// Populates the employers drop down list.
-        /// </summary>
-        private void PopulateEmployersDdl() {
-            ddlEmployers.DataSource = employers;
-            ddlEmployers.DataBind();
-        }
+    /// <summary>
+    /// Populates the employers drop down list.
+    /// </summary>
+    private void PopulateEmployersDdl() {
+        ddlEmployers.DataSource = employers;
+        ddlEmployers.DataBind();
+    }
 
-        /// <summary>
-        /// Populates the positions drop down list.
-        /// Loads positions from the database.
-        /// Adds the "no selection" option to the front of the list.
-        /// Adds the "other" option to the end of the list.
-        /// </summary>
-        private void PopulatePositionsDdl() {
-            ddlPositions.DataSource = ctx.Positions;
-            ddlPositions.DataValueField = "posName";
-            ddlPositions.DataBind();
-            ddlPositions.Items.Insert(ddlPositions.Items.Count, otherOption);
-            ddlPositions.Items.Insert(0, noOptionSpecified);
-        }
+    /// <summary>
+    /// Populates the positions drop down list.
+    /// Loads positions from the database.
+    /// Adds the "no selection" option to the front of the list.
+    /// Adds the "other" option to the end of the list.
+    /// </summary>
+    private void PopulatePositionsDdl() {
+        ddlPositions.DataSource = ctx.Positions;
+        ddlPositions.DataValueField = "posName";
+        ddlPositions.DataBind();
+        ddlPositions.Items.Insert(ddlPositions.Items.Count, otherOption);
+        ddlPositions.Items.Insert(0, noOptionSpecified);
+    }
 
-        /// <summary>
-        /// Populates the departments drop down list.
-        /// Loads departments from the database.
-        /// Adds the "no selection" option to the front of the list.
-        /// Adds the "other" option to the end of the list.
-        /// </summary>
-        private void PopulateDepartmentsDdl() {
-            ddlDepartments.DataSource = ctx.Departments;
-            ddlDepartments.DataValueField = "deptName";
-            ddlDepartments.DataBind();
-            ddlDepartments.Items.Insert(ddlDepartments.Items.Count, otherOption);
-            ddlDepartments.Items.Insert(0, noOptionSpecified);
-        }
-    
+    /// <summary>
+    /// Populates the departments drop down list.
+    /// Loads departments from the database.
+    /// Adds the "no selection" option to the front of the list.
+    /// Adds the "other" option to the end of the list.
+    /// </summary>
+    private void PopulateDepartmentsDdl() {
+        ddlDepartments.DataSource = ctx.Departments;
+        ddlDepartments.DataValueField = "deptName";
+        ddlDepartments.DataBind();
+        ddlDepartments.Items.Insert(ddlDepartments.Items.Count, otherOption);
+        ddlDepartments.Items.Insert(0, noOptionSpecified);
+    }
+
     #endregion Load DropDownLists
 
     #region Other Option Textbox Toggle
@@ -187,7 +182,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
             tbxEmployer.Visible = false;
         }
     }
-    
+
     /// <summary>
     /// Displays a textbox if the "Other (specify)" option of the departments drop down list is selected.
     /// Hides the textbox if any other option is selected
@@ -256,20 +251,20 @@ public partial class Reporting_Default : System.Web.UI.Page {
             CheckEmployeeSelection();
 
             // Department DDL
-            //var department = ctx.Departments
-            //                .Where(d => d.deptName.Equals(emp.deptName))
-            //                .Select(d => d).FirstOrDefault();
+            var department = ctx.Departments
+                            .Where(d => d.deptName.Equals(emp.deptName))
+                            .Select(d => d).FirstOrDefault();
 
-            //if (emp.deptName == null) {
-            //    ddlDepartments.SelectedIndex = 0;
-            //}
-            //else if (department != null) {
-            //    ddlDepartments.SelectedValue = department.deptName;
-            //}
-            //else {
-            //    ddlDepartments.SelectedValue = otherOption;
-            //    tbxDepartment.Text = emp.deptName;
-            //}
+            if (emp.deptName == null) {
+                ddlDepartments.SelectedIndex = 0;
+            }
+            else if (department != null) {
+                ddlDepartments.SelectedValue = department.deptName;
+            }
+            else {
+                ddlDepartments.SelectedValue = otherOption;
+                tbxDepartment.Text = emp.deptName;
+            }
             CheckDepartmentSelection();
 
             if (emp.supervisor == null) {
@@ -332,18 +327,24 @@ public partial class Reporting_Default : System.Web.UI.Page {
             Popup_Overlay("An employee with that first and last name already exists. Please change either the first or the last name.", FailColour);
             return null;
         }
-
-        DateTime formStartDate = Convert.ToDateTime(tbxStartDate.Text, dateFormatInfo);
-        DateTime formEndDate = Convert.ToDateTime(tbxEndDate.Text, dateFormatInfo);
-
+        
         emp = new Employee {
             fname = tbxFirstName.Text,
             lname = tbxLastName.Text,
             room = tbxRoom.Text,
             supervisor = tbxSupervisor.Text,
-            startDate = formStartDate,
-            endDate = formEndDate
         };
+
+        #region dates
+        if (!tbxStartDate.Text.Equals(String.Empty)) {
+            DateTime formStartDate = Convert.ToDateTime(tbxStartDate.Text);
+            emp.startDate = formStartDate;
+        }
+        if (!tbxEndDate.Text.Equals(String.Empty)) {
+            DateTime formEndDate = Convert.ToDateTime(tbxEndDate.Text);
+            emp.endDate = formEndDate;
+        }
+        #endregion dates
 
         #region position
         if (ddlPositions.SelectedValue.Equals(otherOption)) {
@@ -370,16 +371,17 @@ public partial class Reporting_Default : System.Web.UI.Page {
         #endregion employer
 
         #region department
-        //if (ddlDepartments.SelectedValue.Equals(otherOption)) {
-        //    emp.deptName = tbxDepartment.Text;
-        //}
-        //else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
-        //    emp.deptName = null;
-        //}
-        //else {
-        //    emp.deptName = ddlDepartments.SelectedValue;
-        //}
+        if (ddlDepartments.SelectedValue.Equals(otherOption)) {
+            emp.deptName = tbxDepartment.Text;
+        }
+        else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
+            emp.deptName = null;
+        }
+        else {
+            emp.deptName = ddlDepartments.SelectedValue;
+        }
         #endregion department
+        
         try {
             ctx.AddToEmployees(emp);
             ctx.SaveChanges();
@@ -391,7 +393,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
             Popup_Overlay("An error has occured while creating this employee. Please try again." + ex.StackTrace.ToString(), FailColour);
             return null;
         }
-        
+
     }
     #endregion Create Employee
 
@@ -518,7 +520,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
         // do nothing
     }
     #endregion
-        
+
     #region Create New Incident Report
     /// <summary>
     /// Calls the create report method, which creates and saves an Incident report in the database.
@@ -536,7 +538,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
             createReport();
         }
     }
-    
+
     /// <summary>
     /// Creates a new Incident report object (using the form fields) and saves it in the database.
     /// Returns the new Incident report on success, null on failure.
@@ -982,7 +984,8 @@ public partial class Reporting_Default : System.Web.UI.Page {
     private String convertRadioButtonList(RadioButtonList rbl) {
         if ((rbl == null) || rbl.SelectedValue.Equals(String.Empty)) {
             return null;
-        } else {
+        }
+        else {
             return rbl.SelectedValue.ToString();
         }
     }
@@ -997,9 +1000,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
     private String convertTextBox(TextBox tbx) {
         if (tbx == null) {
             return null;
-        } else if (tbx.Text.Equals(String.Empty)) {
+        }
+        else if (tbx.Text.Equals(String.Empty)) {
             return null;
-        } else {
+        }
+        else {
             return tbx.Text;
         }
     }
@@ -1007,22 +1012,14 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
     #region Load Incident Report
     /// <summary>
-    /// Calls the create report method, which creates and saves an Incident report in the database.
+    /// Calls the getReport method, which load an Incident report from the database into the form.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The button click event.</param>
-    protected void btnGetReport_Click(object sender, EventArgs e) {
-        Page.Validate("vgpEmpInfo");
-        Page.Validate("vgpPanelA");
-        Page.Validate("vgpFCorrective");
-        Page.Validate("vgpGRelevant");
-        Page.Validate("vgpHManagers");
-
-        if (Page.IsValid) {
-            createReport();
-        }
+    protected void btnLoadReport_Click(object sender, EventArgs e) {
+        getReport(2);
     }
-      
+
     private Incident getReport(int id) {
         var report = ctx.Incidents
                      .Where(r => r.incidentNo.Equals(id))
@@ -1037,250 +1034,250 @@ public partial class Reporting_Default : System.Web.UI.Page {
         getEmployeeData();
 
         #region A_IncidentInfo
-        tbx_p1_dateOfIncident.Text = convertDateTimeToString((DateTime) (DateTime) report.p1_dateOfIncident);
-        tbx_p1_timeOfIncident.Text = String.Format("h:m tt", report.p1_dateOfIncident);
-        tbx_p1_dateReported.Text = convertDateTimeToString((DateTime) report.p1_dateReported);
-        tbx_p1_timeReported.Text = String.Format("h:m tt", report.p1_dateReported);
-        tbx_p1_incidentDesc.Text = report.p1_incidentDesc.ToString();
-        tbx_p1_witnessName1.Text = report.p1_witnessName1.ToString();
-        tbx_p1_witnessPhone1.Text = report.p1_witnessPhone1.ToString();
-        tbx_p1_witnessName2.Text = report.p1_witnessName2.ToString();
-        tbx_p1_witnessPhone2.Text = report.p1_witnessPhone2.ToString();
-        cbx_p1_action_firstAid.Checked =convertToCheckbox(report.p1_action_firstAid.ToString());
-        cbx_p1_action_medicalGP.Checked = convertToCheckbox(report.p1_action_medicalGP.ToString());
-        tbx_p1_action_medicalGP_date.Text = convertDateTimeToString((DateTime) report.p1_action_medicalGP_date);
-        cbx_p1_action_medicalER.Checked = convertToCheckbox(report.p1_action_medicalER.ToString());
-        tbx_p1_action_medicalER_date.Text = convertDateTimeToString((DateTime) report.p1_action_medicalER_date);
-        cbx_p1_action_lostTime.Checked = convertToCheckbox(report.p1_action_lostTime.ToString());
+        tbx_p1_dateOfIncident.Text = convertDateTimeToString(report.p1_dateOfIncident);
+        //tbx_p1_timeOfIncident.Text = convertTimeToString(report.p1_dateOfIncident);
+        tbx_p1_dateReported.Text = convertDateTimeToString(report.p1_dateReported);
+        //tbx_p1_timeReported.Text = convertTimeToString(report.p1_dateReported);
+        tbx_p1_incidentDesc.Text = convertToTextbox(report.p1_incidentDesc);
+        tbx_p1_witnessName1.Text = convertToTextbox(report.p1_witnessName1);
+        tbx_p1_witnessPhone1.Text = convertToTextbox(report.p1_witnessPhone1);
+        tbx_p1_witnessName2.Text = convertToTextbox(report.p1_witnessName2);
+        tbx_p1_witnessPhone2.Text = convertToTextbox(report.p1_witnessPhone2);
+        cbx_p1_action_firstAid.Checked = convertToCheckbox(report.p1_action_firstAid);
+        cbx_p1_action_medicalGP.Checked = convertToCheckbox(report.p1_action_medicalGP);
+        tbx_p1_action_medicalGP_date.Text = convertDateTimeToString(report.p1_action_medicalGP_date);
+        cbx_p1_action_medicalER.Checked = convertToCheckbox(report.p1_action_medicalER);
+        tbx_p1_action_medicalER_date.Text = convertDateTimeToString(report.p1_action_medicalER_date);
+        cbx_p1_action_lostTime.Checked = convertToCheckbox(report.p1_action_lostTime);
         #endregion A_IncidentInfo
 
         #region B_NatureOfInjury
-        cbx_p1_nature_no.Checked = convertToCheckbox(report.p1_nature_no.ToString());
-        cbx_p1_nature_musculoskeletal.Checked = convertToCheckbox(report.p1_nature_musculoskeletal.ToString());
-        cbx_p1_nature_bruise.Checked = convertToCheckbox(report.p1_nature_bruise.ToString());
-        cbx_p1_nature_burn.Checked = convertToCheckbox(report.p1_nature_burn.ToString());
-        cbx_p1_nature_cut.Checked = convertToCheckbox(report.p1_nature_cut.ToString());
-        cbx_p1_nature_puncture.Checked = convertToCheckbox(report.p1_nature_puncture.ToString());
-        cbx_p1_nature_skinIrritation.Checked = convertToCheckbox(report.p1_nature_skinIrritation.ToString());
-        cbx_p1_nature_skinMucous.Checked = convertToCheckbox(report.p1_nature_skinMucous.ToString());
-        cbx_p1_nature_eye.Checked = convertToCheckbox(report.p1_nature_eye.ToString());
-        cbx_p1_nature_allergic.Checked = convertToCheckbox(report.p1_nature_allergic.ToString());
-        cbx_p1_nature_psychological.Checked = convertToCheckbox(report.p1_nature_psychological.ToString());
-        cbx_p1_nature_respiratory.Checked = convertToCheckbox(report.p1_nature_respiratory.ToString());
+        cbx_p1_nature_no.Checked = convertToCheckbox(report.p1_nature_no);
+        cbx_p1_nature_musculoskeletal.Checked = convertToCheckbox(report.p1_nature_musculoskeletal);
+        cbx_p1_nature_bruise.Checked = convertToCheckbox(report.p1_nature_bruise);
+        cbx_p1_nature_burn.Checked = convertToCheckbox(report.p1_nature_burn);
+        cbx_p1_nature_cut.Checked = convertToCheckbox(report.p1_nature_cut);
+        cbx_p1_nature_puncture.Checked = convertToCheckbox(report.p1_nature_puncture);
+        cbx_p1_nature_skinIrritation.Checked = convertToCheckbox(report.p1_nature_skinIrritation);
+        cbx_p1_nature_skinMucous.Checked = convertToCheckbox(report.p1_nature_skinMucous);
+        cbx_p1_nature_eye.Checked = convertToCheckbox(report.p1_nature_eye);
+        cbx_p1_nature_allergic.Checked = convertToCheckbox(report.p1_nature_allergic);
+        cbx_p1_nature_psychological.Checked = convertToCheckbox(report.p1_nature_psychological);
+        cbx_p1_nature_respiratory.Checked = convertToCheckbox(report.p1_nature_respiratory);
         #endregion B_NatureOfInjury
 
         #region C_AccidentInvestigation
-        cbx_p2_activity_no.Checked = convertToCheckbox(report.p2_activity_no.ToString());
-        cbx_p2_activity_repositioning.Checked = convertToCheckbox(report.p2_activity_repositioning.ToString());
-        cbx_p2_activity_transferring.Checked = convertToCheckbox(report.p2_activity_transferring.ToString());
-        cbx_p2_activity_assistedWalking.Checked = convertToCheckbox(report.p2_activity_assistedWalking.ToString());
-        cbx_p2_activity_assistedFloor.Checked = convertToCheckbox(report.p2_activity_assistedFloor.ToString());
-        cbx_p2_activity_fall.Checked = convertToCheckbox(report.p2_activity_fall.ToString());
-        cbx_p2_activity_holding.Checked = convertToCheckbox(report.p2_activity_holding.ToString());
-        cbx_p2_activity_toileting.Checked = convertToCheckbox(report.p2_activity_toileting.ToString());
-        
-        cbx_p2_patient_ceilingLift.Checked = convertToCheckbox(report.p2_patient_ceilingLift.ToString());
-        cbx_p2_patient_sitStandLift.Checked = convertToCheckbox(report.p2_patient_sitStandLift.ToString());
-        cbx_p2_patient_floorLift.Checked = convertToCheckbox(report.p2_patient_floorLift.ToString());
-        cbx_p2_patient_manualLift.Checked = convertToCheckbox(report.p2_patient_manualLift.ToString());
-        tbx_p1_numEmployeesInvolved.Text = report.p1_numEmployeesInvolved.ToString();
-        
-        tbx_p2_patient_otherSpecify.Text = report.p2_patient_otherSpecify.ToString();
-        rbl_p2_patient_adequateAssist.SelectedValue = report.p2_patient_adequateAssist.ToString();
+        cbx_p2_activity_no.Checked = convertToCheckbox(report.p2_activity_no);
+        cbx_p2_activity_repositioning.Checked = convertToCheckbox(report.p2_activity_repositioning);
+        cbx_p2_activity_transferring.Checked = convertToCheckbox(report.p2_activity_transferring);
+        cbx_p2_activity_assistedWalking.Checked = convertToCheckbox(report.p2_activity_assistedWalking);
+        cbx_p2_activity_assistedFloor.Checked = convertToCheckbox(report.p2_activity_assistedFloor);
+        cbx_p2_activity_fall.Checked = convertToCheckbox(report.p2_activity_fall);
+        cbx_p2_activity_holding.Checked = convertToCheckbox(report.p2_activity_holding);
+        cbx_p2_activity_toileting.Checked = convertToCheckbox(report.p2_activity_toileting);
 
-        cbx_p2_activity_washing.Checked = convertToCheckbox(report.p2_activity_washing.ToString());
-        cbx_p2_activity_dressing.Checked = convertToCheckbox(report.p2_activity_dressing.ToString());
-        cbx_p2_activity_changing.Checked = convertToCheckbox(report.p2_activity_changing.ToString());
-        cbx_p2_activity_feeding.Checked = convertToCheckbox(report.p2_activity_feeding.ToString());
-        cbx_p2_activity_prep.Checked = convertToCheckbox(report.p2_activity_prep.ToString());
-        cbx_p2_activity_dressingChanges.Checked = convertToCheckbox(report.p2_activity_dressingChanges.ToString());
-        tbx_p2_activity_otherPatientCare.Text = report.p2_activity_otherPatientCare.ToString();
+        cbx_p2_patient_ceilingLift.Checked = convertToCheckbox(report.p2_patient_ceilingLift);
+        cbx_p2_patient_sitStandLift.Checked = convertToCheckbox(report.p2_patient_sitStandLift);
+        cbx_p2_patient_floorLift.Checked = convertToCheckbox(report.p2_patient_floorLift);
+        cbx_p2_patient_manualLift.Checked = convertToCheckbox(report.p2_patient_manualLift);
+        tbx_p1_numEmployeesInvolved.Text = (report.p1_numEmployeesInvolved == null) ? String.Empty : report.p1_numEmployeesInvolved.ToString();
 
-        cbx_p2_activity_recapping.Checked = convertToCheckbox(report.p2_activity_recapping.ToString());
-        cbx_p2_activity_puncture.Checked = convertToCheckbox(report.p2_activity_puncture.ToString());
-        cbx_p2_activity_sharpsDisposal.Checked = convertToCheckbox(report.p2_activity_sharpsDisposal.ToString());
-        cbx_p2_activity_otherSharps.Checked = convertToCheckbox(report.p2_activity_otherSharps.ToString());
+        tbx_p2_patient_otherSpecify.Text = convertToTextbox(report.p2_patient_otherSpecify);
+        rbl_p2_patient_adequateAssist.SelectedValue = convertToTextbox(report.p2_patient_adequateAssist);
 
-        tbx_p2_acitvity_material.Text = report.p2_activity_material.ToString();
-        cbx_p2_activity_recapping.Checked = convertToCheckbox(report.p2_activity_lift.ToString());
-        cbx_p2_activity_push.Checked = convertToCheckbox(report.p2_activity_push.ToString());
-        cbx_p2_activity_carry.Checked = convertToCheckbox(report.p2_activity_carry.ToString());
-        tbx_p2_activity_otherMat.Text = report.p2_activity_otherMat.ToString();
-        cbx_p2_activity_driving.Checked = convertToCheckbox(report.p2_activity_driving.ToString());
-        tbx_p2_activity_otherEquip.Text = report.p2_activity_otherEquip.ToString();
-        cbx_p2_activity_otherEquipDesc.Checked = convertToCheckbox(report.p2_activity_otherEquipDesc.ToString());
-        cbx_p2_activity_equipMain.Checked = convertToCheckbox(report.p2_activity_equipMain.ToString());
-        cbx_p2_activity_comp.Checked = convertToCheckbox(report.p2_activity_comp.ToString());
-        cbx_p2_activity_nonComp.Checked = convertToCheckbox(report.p2_activity_nonComp.ToString());
-        
-        cbx_p2_activity_walking.Checked = convertToCheckbox(report.p2_activity_walking.ToString());
-        cbx_p2_activity_bending.Checked = convertToCheckbox(report.p2_activity_bending.ToString());
-        cbx_p2_activity_reading.Checked = convertToCheckbox(report.p2_activity_reading.ToString());
-        cbx_p2_activity_spill.Checked = convertToCheckbox(report.p2_activity_spill.ToString());
-        cbx_p2_activity_cleaning.Checked = convertToCheckbox(report.p2_activity_cleaning.ToString());
-        tbx_p2_activity_other.Text = report.p2_activity_other.ToString();
-         #endregion C_AccidentInvestigation
+        cbx_p2_activity_washing.Checked = convertToCheckbox(report.p2_activity_washing);
+        cbx_p2_activity_dressing.Checked = convertToCheckbox(report.p2_activity_dressing);
+        cbx_p2_activity_changing.Checked = convertToCheckbox(report.p2_activity_changing);
+        cbx_p2_activity_feeding.Checked = convertToCheckbox(report.p2_activity_feeding);
+        cbx_p2_activity_prep.Checked = convertToCheckbox(report.p2_activity_prep);
+        cbx_p2_activity_dressingChanges.Checked = convertToCheckbox(report.p2_activity_dressingChanges);
+        tbx_p2_activity_otherPatientCare.Text = convertToTextbox(report.p2_activity_otherPatientCare);
+
+        cbx_p2_activity_recapping.Checked = convertToCheckbox(report.p2_activity_recapping);
+        cbx_p2_activity_puncture.Checked = convertToCheckbox(report.p2_activity_puncture);
+        cbx_p2_activity_sharpsDisposal.Checked = convertToCheckbox(report.p2_activity_sharpsDisposal);
+        cbx_p2_activity_otherSharps.Checked = convertToCheckbox(report.p2_activity_otherSharps);
+
+        tbx_p2_acitvity_material.Text = convertToTextbox(report.p2_activity_material);
+        cbx_p2_activity_recapping.Checked = convertToCheckbox(report.p2_activity_lift);
+        cbx_p2_activity_push.Checked = convertToCheckbox(report.p2_activity_push);
+        cbx_p2_activity_carry.Checked = convertToCheckbox(report.p2_activity_carry);
+        tbx_p2_activity_otherMat.Text = convertToTextbox(report.p2_activity_otherMat);
+        cbx_p2_activity_driving.Checked = convertToCheckbox(report.p2_activity_driving);
+        tbx_p2_activity_otherEquip.Text = convertToTextbox(report.p2_activity_otherEquip);
+        cbx_p2_activity_otherEquipDesc.Checked = convertToCheckbox(report.p2_activity_otherEquipDesc);
+        cbx_p2_activity_equipMain.Checked = convertToCheckbox(report.p2_activity_equipMain);
+        cbx_p2_activity_comp.Checked = convertToCheckbox(report.p2_activity_comp);
+        cbx_p2_activity_nonComp.Checked = convertToCheckbox(report.p2_activity_nonComp);
+
+        cbx_p2_activity_walking.Checked = convertToCheckbox(report.p2_activity_walking);
+        cbx_p2_activity_bending.Checked = convertToCheckbox(report.p2_activity_bending);
+        cbx_p2_activity_reading.Checked = convertToCheckbox(report.p2_activity_reading);
+        cbx_p2_activity_spill.Checked = convertToCheckbox(report.p2_activity_spill);
+        cbx_p2_activity_cleaning.Checked = convertToCheckbox(report.p2_activity_cleaning);
+        tbx_p2_activity_other.Text = convertToTextbox(report.p2_activity_other);
+        #endregion C_AccidentInvestigation
 
         #region D_Cause
-        cbx_p2_cause_human.Checked = convertToCheckbox(report.p2_cause_human.ToString());
-        cbx_p2_cause_animal.Checked = convertToCheckbox(report.p2_cause_animal.ToString());
+        cbx_p2_cause_human.Checked = convertToCheckbox(report.p2_cause_human);
+        cbx_p2_cause_animal.Checked = convertToCheckbox(report.p2_cause_animal);
 
-        cbx_p2_cause_needle.Checked = convertToCheckbox(report.p2_cause_needle.ToString());
-        cbx_p2_cause_otherSharps.Checked = convertToCheckbox(report.p2_cause_otherSharps.ToString());
-        cbx_p2_cause_skin.Checked = convertToCheckbox(report.p2_cause_skin.ToString());
+        cbx_p2_cause_needle.Checked = convertToCheckbox(report.p2_cause_needle);
+        cbx_p2_cause_otherSharps.Checked = convertToCheckbox(report.p2_cause_otherSharps);
+        cbx_p2_cause_skin.Checked = convertToCheckbox(report.p2_cause_skin);
 
-        cbx_p2_cause_awkwardPosture.Checked = convertToCheckbox(report.p2_cause_awkwardPosture.ToString());
-        cbx_p2_cause_staticPosture.Checked = convertToCheckbox(report.p2_cause_staticPosture.ToString());
-        cbx_p2_cause_contactStress.Checked = convertToCheckbox(report.p2_cause_contactStress.ToString());
-        cbx_p2_cause_force.Checked = convertToCheckbox(report.p2_cause_force.ToString());
-        cbx_p2_cause_rep.Checked = convertToCheckbox(report.p2_cause_rep.ToString());
+        cbx_p2_cause_awkwardPosture.Checked = convertToCheckbox(report.p2_cause_awkwardPosture);
+        cbx_p2_cause_staticPosture.Checked = convertToCheckbox(report.p2_cause_staticPosture);
+        cbx_p2_cause_contactStress.Checked = convertToCheckbox(report.p2_cause_contactStress);
+        cbx_p2_cause_force.Checked = convertToCheckbox(report.p2_cause_force);
+        cbx_p2_cause_rep.Checked = convertToCheckbox(report.p2_cause_rep);
 
-        cbx_p2_cause_motor.Checked = convertToCheckbox(report.p2_cause_motor.ToString());
-        cbx_p2_cause_slip.Checked = convertToCheckbox(report.p2_cause_slip.ToString());
-        cbx_p2_cause_aggression.Checked = convertToCheckbox(report.p2_cause_aggression.ToString());
-        cbx_p2_cause_undetermined.Checked = convertToCheckbox(report.p2_cause_undetermined.ToString());
-        cbx_p2_cause_event.Checked = convertToCheckbox(report.p2_cause_event.ToString());
-        cbx_p2_cause_underEquip.Checked = convertToCheckbox(report.p2_cause_underEquip.ToString());
-        cbx_p2_cause_hit.Checked = convertToCheckbox(report.p2_cause_hit.ToString());
-        tbx_p2_cause_other.Text = report.p2_cause_other.ToString();
+        cbx_p2_cause_motor.Checked = convertToCheckbox(report.p2_cause_motor);
+        cbx_p2_cause_slip.Checked = convertToCheckbox(report.p2_cause_slip);
+        cbx_p2_cause_aggression.Checked = convertToCheckbox(report.p2_cause_aggression);
+        cbx_p2_cause_undetermined.Checked = convertToCheckbox(report.p2_cause_undetermined);
+        cbx_p2_cause_event.Checked = convertToCheckbox(report.p2_cause_event);
+        cbx_p2_cause_underEquip.Checked = convertToCheckbox(report.p2_cause_underEquip);
+        cbx_p2_cause_hit.Checked = convertToCheckbox(report.p2_cause_hit);
+        tbx_p2_cause_other.Text = convertToTextbox(report.p2_cause_other);
 
-        cbx_p2_cause_aggression_verbal.Checked = convertToCheckbox(report.p2_aggression_verbal.ToString());
-        cbx_p2_cause_aggression_biting.Checked = convertToCheckbox(report.p2_aggression_biting.ToString());
-        cbx_p2_cause_aggression_hitting.Checked = convertToCheckbox(report.p2_aggression_hitting.ToString());
-        cbx_p2_cause_aggression_squeezing.Checked = convertToCheckbox(report.p2_aggression_squeezing.ToString());
-        cbx_p2_cause_aggression_assault.Checked = convertToCheckbox(report.p2_aggression_assault.ToString());
-        cbx_p2_cause_aggression_patient.Checked = convertToCheckbox(report.p2_aggression_patient.ToString());
-        cbx_p2_cause_aggression_family.Checked = convertToCheckbox(report.p2_aggression_family.ToString());
-        cbx_p2_cause_aggression_public.Checked = convertToCheckbox(report.p2_aggression_public.ToString());
-        cbx_p2_cause_aggression_worker.Checked = convertToCheckbox(report.p2_aggression_worker.ToString());
-        tbx_p2_cause_aggression_other.Text = report.p2_aggression_other.ToString();
-                        
-        tbx_p2_cause_exposure_chemName.Text = report.p2_cause_exposure_chemName.ToString();
-        cbx_p2_cause_chemInhalation.Checked = convertToCheckbox(report.p2_cause_chemInhalation.ToString());
-        cbx_p2_cause_chemIngest.Checked = convertToCheckbox(report.p2_cause_chemIngest.ToString());
-        cbx_p2_cause_chemContact.Checked = convertToCheckbox(report.p2_cause_chemContact.ToString());
-        cbx_p2_cause_latex.Checked = convertToCheckbox(report.p2_cause_latex.ToString());
-        cbx_p2_cause_dust.Checked = convertToCheckbox(report.p2_cause_dust.ToString());
-        cbx_p2_cause_disease.Checked = convertToCheckbox(report.p2_cause_disease.ToString());
-        cbx_p2_cause_temp.Checked = convertToCheckbox(report.p2_cause_temp.ToString());
-        cbx_p2_cause_noise.Checked = convertToCheckbox(report.p2_cause_noise.ToString());
-        cbx_p2_cause_radiation.Checked = convertToCheckbox(report.p2_cause_radiation.ToString());
-        cbx_p2_cause_elec.Checked = convertToCheckbox(report.p2_cause_elec.ToString());
-        cbx_p2_cause_air.Checked = convertToCheckbox(report.p2_cause_air.ToString());
+        cbx_p2_cause_aggression_verbal.Checked = convertToCheckbox(report.p2_aggression_verbal);
+        cbx_p2_cause_aggression_biting.Checked = convertToCheckbox(report.p2_aggression_biting);
+        cbx_p2_cause_aggression_hitting.Checked = convertToCheckbox(report.p2_aggression_hitting);
+        cbx_p2_cause_aggression_squeezing.Checked = convertToCheckbox(report.p2_aggression_squeezing);
+        cbx_p2_cause_aggression_assault.Checked = convertToCheckbox(report.p2_aggression_assault);
+        cbx_p2_cause_aggression_patient.Checked = convertToCheckbox(report.p2_aggression_patient);
+        cbx_p2_cause_aggression_family.Checked = convertToCheckbox(report.p2_aggression_family);
+        cbx_p2_cause_aggression_public.Checked = convertToCheckbox(report.p2_aggression_public);
+        cbx_p2_cause_aggression_worker.Checked = convertToCheckbox(report.p2_aggression_worker);
+        tbx_p2_cause_aggression_other.Text = convertToTextbox(report.p2_aggression_other);
+
+        tbx_p2_cause_exposure_chemName.Text = convertToTextbox(report.p2_cause_exposure_chemName);
+        cbx_p2_cause_chemInhalation.Checked = convertToCheckbox(report.p2_cause_chemInhalation);
+        cbx_p2_cause_chemIngest.Checked = convertToCheckbox(report.p2_cause_chemIngest);
+        cbx_p2_cause_chemContact.Checked = convertToCheckbox(report.p2_cause_chemContact);
+        cbx_p2_cause_latex.Checked = convertToCheckbox(report.p2_cause_latex);
+        cbx_p2_cause_dust.Checked = convertToCheckbox(report.p2_cause_dust);
+        cbx_p2_cause_disease.Checked = convertToCheckbox(report.p2_cause_disease);
+        cbx_p2_cause_temp.Checked = convertToCheckbox(report.p2_cause_temp);
+        cbx_p2_cause_noise.Checked = convertToCheckbox(report.p2_cause_noise);
+        cbx_p2_cause_radiation.Checked = convertToCheckbox(report.p2_cause_radiation);
+        cbx_p2_cause_elec.Checked = convertToCheckbox(report.p2_cause_elec);
+        cbx_p2_cause_air.Checked = convertToCheckbox(report.p2_cause_air);
         #endregion D_Cause
 
-        #region E_ContributingFactors       
-        cbx_p2_factors_malfunction.Checked = convertToCheckbox(report.p2_factors_malfunction.ToString());
-        cbx_p2_factors_improperUse.Checked = convertToCheckbox(report.p2_factors_improperUse.ToString());
-        cbx_p2_factors_signage.Checked = convertToCheckbox(report.p2_factors_signage.ToString());
-        cbx_p2_factors_notAvailable.Checked = convertToCheckbox(report.p2_factors_notAvailable.ToString());
-        cbx_p2_factors_poorDesign.Checked = convertToCheckbox(report.p2_factors_poorDesign.ToString());
-        tbx_p2_factors_otherEquip.Text = report.p2_factors_otherEquip.ToString();
+        #region E_ContributingFactors
+        cbx_p2_factors_malfunction.Checked = convertToCheckbox(report.p2_factors_malfunction);
+        cbx_p2_factors_improperUse.Checked = convertToCheckbox(report.p2_factors_improperUse);
+        cbx_p2_factors_signage.Checked = convertToCheckbox(report.p2_factors_signage);
+        cbx_p2_factors_notAvailable.Checked = convertToCheckbox(report.p2_factors_notAvailable);
+        cbx_p2_factors_poorDesign.Checked = convertToCheckbox(report.p2_factors_poorDesign);
+        tbx_p2_factors_otherEquip.Text = convertToTextbox(report.p2_factors_otherEquip);
 
-        cbx_p2_factors_temp.Checked = convertToCheckbox(report.p2_factors_temp.ToString());
-        cbx_p2_factors_workplace.Checked = convertToCheckbox(report.p2_factors_workplace.ToString());
-        cbx_p2_factors_layout.Checked = convertToCheckbox(report.p2_factors_layout.ToString());
-        cbx_p2_factors_limitedWorkspace.Checked = convertToCheckbox(report.p2_factors_limitedWorkspace.ToString());
-        cbx_p2_factors_slippery.Checked = convertToCheckbox(report.p2_factors_slippery.ToString());
-        cbx_p2_factors_lighting.Checked = convertToCheckbox(report.p2_factors_lighting.ToString());
-        cbx_p2_factors_noise.Checked = convertToCheckbox(report.p2_factors_noise.ToString());
-        cbx_p2_factors_vent.Checked = convertToCheckbox(report.p2_factors_vent.ToString());
-        cbx_p2_factors_storage.Checked = convertToCheckbox(report.p2_factors_storage.ToString());
-        tbx_p2_factors_otherEnv.Text = report.p2_factors_otherEnv.ToString();
+        cbx_p2_factors_temp.Checked = convertToCheckbox(report.p2_factors_temp);
+        cbx_p2_factors_workplace.Checked = convertToCheckbox(report.p2_factors_workplace);
+        cbx_p2_factors_layout.Checked = convertToCheckbox(report.p2_factors_layout);
+        cbx_p2_factors_limitedWorkspace.Checked = convertToCheckbox(report.p2_factors_limitedWorkspace);
+        cbx_p2_factors_slippery.Checked = convertToCheckbox(report.p2_factors_slippery);
+        cbx_p2_factors_lighting.Checked = convertToCheckbox(report.p2_factors_lighting);
+        cbx_p2_factors_noise.Checked = convertToCheckbox(report.p2_factors_noise);
+        cbx_p2_factors_vent.Checked = convertToCheckbox(report.p2_factors_vent);
+        cbx_p2_factors_storage.Checked = convertToCheckbox(report.p2_factors_storage);
+        tbx_p2_factors_otherEnv.Text = convertToTextbox(report.p2_factors_otherEnv);
 
-        cbx_p2_factors_assessment.Checked = convertToCheckbox(report.p2_factors_assessment.ToString());
-        cbx_p2_factors_procedure.Checked = convertToCheckbox(report.p2_factors_procedure.ToString());
-        cbx_p2_factors_appropriateEquip.Checked = convertToCheckbox(report.p2_factors_appropriateEquip.ToString());
-        cbx_p2_factors_conduct.Checked = convertToCheckbox(report.p2_factors_conduct.ToString());
-        cbx_p2_factors_extended.Checked = convertToCheckbox(report.p2_factors_extended.ToString());
-        cbx_p2_factors_comm.Checked = convertToCheckbox(report.p2_factors_comm.ToString());
-        cbx_p2_factors_unaccustomed.Checked = convertToCheckbox(report.p2_factors_unaccustomed.ToString());
-        tbx_p2_factors_otherWorkPractice.Text = report.p2_factors_otherWorkPractice.ToString();
+        cbx_p2_factors_assessment.Checked = convertToCheckbox(report.p2_factors_assessment);
+        cbx_p2_factors_procedure.Checked = convertToCheckbox(report.p2_factors_procedure);
+        cbx_p2_factors_appropriateEquip.Checked = convertToCheckbox(report.p2_factors_appropriateEquip);
+        cbx_p2_factors_conduct.Checked = convertToCheckbox(report.p2_factors_conduct);
+        cbx_p2_factors_extended.Checked = convertToCheckbox(report.p2_factors_extended);
+        cbx_p2_factors_comm.Checked = convertToCheckbox(report.p2_factors_comm);
+        cbx_p2_factors_unaccustomed.Checked = convertToCheckbox(report.p2_factors_unaccustomed);
+        tbx_p2_factors_otherWorkPractice.Text = convertToTextbox(report.p2_factors_otherWorkPractice);
 
-        cbx_p2_factors_directions.Checked = convertToCheckbox(report.p2_factors_directions.ToString());
-        cbx_p2_factors_weight.Checked = convertToCheckbox(report.p2_factors_weight.ToString());
-        cbx_p2_factors_aggressive.Checked = convertToCheckbox(report.p2_factors_aggressive.ToString());
-        cbx_p2_factors_patientResistive.Checked = convertToCheckbox(report.p2_factors_patientResistive.ToString());
-        cbx_p2_factors_movement.Checked = convertToCheckbox(report.p2_factors_movement.ToString());
-        cbx_p2_factors_confused.Checked = convertToCheckbox(report.p2_factors_confused.ToString());
-        cbx_p2_factors_influence.Checked = convertToCheckbox(report.p2_factors_influence.ToString());
-        cbx_p2_factors_lang.Checked = convertToCheckbox(report.p2_factors_lang.ToString());
-        tbx_p2_factors_otherPatient.Text = report.p2_factors_otherPatient.ToString();
+        cbx_p2_factors_directions.Checked = convertToCheckbox(report.p2_factors_directions);
+        cbx_p2_factors_weight.Checked = convertToCheckbox(report.p2_factors_weight);
+        cbx_p2_factors_aggressive.Checked = convertToCheckbox(report.p2_factors_aggressive);
+        cbx_p2_factors_patientResistive.Checked = convertToCheckbox(report.p2_factors_patientResistive);
+        cbx_p2_factors_movement.Checked = convertToCheckbox(report.p2_factors_movement);
+        cbx_p2_factors_confused.Checked = convertToCheckbox(report.p2_factors_confused);
+        cbx_p2_factors_influence.Checked = convertToCheckbox(report.p2_factors_influence);
+        cbx_p2_factors_lang.Checked = convertToCheckbox(report.p2_factors_lang);
+        tbx_p2_factors_otherPatient.Text = convertToTextbox(report.p2_factors_otherPatient);
 
-        cbx_p2_factors_alone.Checked = convertToCheckbox(report.p2_factors_alone.ToString());
-        cbx_p2_factors_info.Checked = convertToCheckbox(report.p2_factors_info.ToString());
-        cbx_p2_factors_scheduling.Checked = convertToCheckbox(report.p2_factors_scheduling.ToString());
-        cbx_p2_factors_training.Checked = convertToCheckbox(report.p2_factors_training.ToString());
-        cbx_p2_factors_equip.Checked = convertToCheckbox(report.p2_factors_equip.ToString());
-        cbx_p2_factors_personal.Checked = convertToCheckbox(report.p2_factors_personal.ToString());
-        cbx_p2_factors_safe.Checked = convertToCheckbox(report.p2_factors_safe.ToString());
-        cbx_p2_factors_perceived.Checked = convertToCheckbox(report.p2_factors_perceived.ToString());
-        //tbx_p2_factors_otherOrganizational.Text = report.p2_factors_otherOrganizational.ToString();
+        cbx_p2_factors_alone.Checked = convertToCheckbox(report.p2_factors_alone);
+        cbx_p2_factors_info.Checked = convertToCheckbox(report.p2_factors_info);
+        cbx_p2_factors_scheduling.Checked = convertToCheckbox(report.p2_factors_scheduling);
+        cbx_p2_factors_training.Checked = convertToCheckbox(report.p2_factors_training);
+        cbx_p2_factors_equip.Checked = convertToCheckbox(report.p2_factors_equip);
+        cbx_p2_factors_personal.Checked = convertToCheckbox(report.p2_factors_personal);
+        cbx_p2_factors_safe.Checked = convertToCheckbox(report.p2_factors_safe);
+        cbx_p2_factors_perceived.Checked = convertToCheckbox(report.p2_factors_perceived);
+        tbx_p2_factors_otherOrganizational.Text = convertToTextbox(report.p2_factors_otherOrganizational);
 
-        cbx_p2_factors_inexperienced.Checked = convertToCheckbox(report.p2_factors_inexperienced.ToString());
-        cbx_p2_factors_communication.Checked = convertToCheckbox(report.p2_factors_communication.ToString());
-        cbx_p2_factors_fatigued.Checked = convertToCheckbox(report.p2_factors_fatigued.ToString());
-        cbx_p2_factors_distracted.Checked = convertToCheckbox(report.p2_factors_distracted.ToString());
-        cbx_p2_factors_preexisting.Checked = convertToCheckbox(report.p2_factors_preexisting.ToString());
-        cbx_p2_factors_sick.Checked = convertToCheckbox(report.p2_factors_sick.ToString());
-        tbx_p2_factors_otherWorker.Text = report.p2_factors_otherWorker.ToString();
+        cbx_p2_factors_inexperienced.Checked = convertToCheckbox(report.p2_factors_inexperienced);
+        cbx_p2_factors_communication.Checked = convertToCheckbox(report.p2_factors_communication);
+        cbx_p2_factors_fatigued.Checked = convertToCheckbox(report.p2_factors_fatigued);
+        cbx_p2_factors_distracted.Checked = convertToCheckbox(report.p2_factors_distracted);
+        cbx_p2_factors_preexisting.Checked = convertToCheckbox(report.p2_factors_preexisting);
+        cbx_p2_factors_sick.Checked = convertToCheckbox(report.p2_factors_sick);
+        tbx_p2_factors_otherWorker.Text = convertToTextbox(report.p2_factors_otherWorker);
         #endregion E_ContributingFactors
 
         #region F_CorrectiveAction
-        tbx_p2_corrective_person.Text = report.p2_corrective_person.ToString();
-        tbx_p2_corrective_personDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_personDate);
-        rbl_p2_corrective_maintenance.SelectedValue = report.p2_corrective_maintenance.ToString();
-        tbx_p2_corrective_maintenanceDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_maintenanceDate);
-        rbl_p2_corrective_communicated.SelectedValue = report.p2_corrective_communicated.ToString();
-        tbx_p2_corrective_communicatedDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_communicatedDate);
-        rbl_p2_corrective_time.SelectedValue = report.p2_corrective_time.ToString();
-        tbx_p2_corrective_timeDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_timeDate);
+        tbx_p2_corrective_person.Text = convertToTextbox(report.p2_corrective_person);
+        tbx_p2_corrective_personDate.Text = convertDateTimeToString(report.p2_corrective_personDate);
+        rbl_p2_corrective_maintenance.SelectedValue = convertToTextbox(report.p2_corrective_maintenance);
+        tbx_p2_corrective_maintenanceDate.Text = convertDateTimeToString(report.p2_corrective_maintenanceDate);
+        rbl_p2_corrective_communicated.SelectedValue = convertToTextbox(report.p2_corrective_communicated);
+        tbx_p2_corrective_communicatedDate.Text = convertDateTimeToString(report.p2_corrective_communicatedDate);
+        rbl_p2_corrective_time.SelectedValue = convertToTextbox(report.p2_corrective_time);
+        tbx_p2_corrective_timeDate.Text = convertDateTimeToString(report.p2_corrective_timeDate);
         #endregion F_CorrectiveAction
 
         #region G_FollowUp
-        tbx_p2_corrective_written.Text = report.p2_corrective_written.ToString();
-        tbx_p2_corrective_writtenTargetDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_writtenTargetDate);
-        //tbx_p2_corrective_writtenCompletedDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_writtenCompletedDate);
-        tbx_p2_corrective_education.Text = report.p2_corrective_education.ToString();
-        tbx_p2_corrective_educationTargetDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_educationTargetDate);
-        tbx_p2_corrective_educationCompletedDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_educationCompletedDate);
-        tbx_p2_corrective_equipment.Text = report.p2_corrective_equipment.ToString();
-        tbx_p2_corrective_equipmentTargetDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_equipmentTargetDate);
-        tbx_p2_corrective_equipmentCompletedDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_equipmentCompletedDate);
-        tbx_p2_corrective_environment.Text = report.p2_corrective_environment.ToString();
-        tbx_p2_corrective_environmentTargetDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_environmentTargetDate);
-        tbx_p2_corrective_environmentCompletedDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_environmentCompletedDate);
-        tbx_p2_corrective_patient.Text = report.p2_corrective_patient.ToString();
-        tbx_p2_corrective_patientTargetDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_patientTargetDate);
-        tbx_p2_corrective_patientCompletedDate.Text = convertDateTimeToString((DateTime) report.p2_corrective_patientCompletedDate);
+        tbx_p2_corrective_written.Text = convertToTextbox(report.p2_corrective_written);
+        tbx_p2_corrective_writtenTargetDate.Text = convertDateTimeToString(report.p2_corrective_writtenTargetDate);
+        tbx_p2_corrective_writtenCompletedDate.Text = convertDateTimeToString(report.p2_corrective_writtenCompletedDate);
+        tbx_p2_corrective_education.Text = convertToTextbox(report.p2_corrective_education);
+        tbx_p2_corrective_educationTargetDate.Text = convertDateTimeToString(report.p2_corrective_educationTargetDate);
+        tbx_p2_corrective_educationCompletedDate.Text = convertDateTimeToString(report.p2_corrective_educationCompletedDate);
+        tbx_p2_corrective_equipment.Text = convertToTextbox(report.p2_corrective_equipment);
+        tbx_p2_corrective_equipmentTargetDate.Text = convertDateTimeToString(report.p2_corrective_equipmentTargetDate);
+        tbx_p2_corrective_equipmentCompletedDate.Text = convertDateTimeToString(report.p2_corrective_equipmentCompletedDate);
+        tbx_p2_corrective_environment.Text = convertToTextbox(report.p2_corrective_environment);
+        tbx_p2_corrective_environmentTargetDate.Text = convertDateTimeToString(report.p2_corrective_environmentTargetDate);
+        tbx_p2_corrective_environmentCompletedDate.Text = convertDateTimeToString(report.p2_corrective_environmentCompletedDate);
+        tbx_p2_corrective_patient.Text = convertToTextbox(report.p2_corrective_patient);
+        tbx_p2_corrective_patientTargetDate.Text = convertDateTimeToString(report.p2_corrective_patientTargetDate);
+        tbx_p2_corrective_patientCompletedDate.Text = convertDateTimeToString(report.p2_corrective_patientCompletedDate);
         #endregion G_FollowUp
 
         #region G_ManagersReport
-        //tbx_p2_manager_previous.Text = report.p2_manager_previous.ToString();
-        //tbx_p2_manager_objections.Text = report.p2_manager_objections.ToString();
-        //tbx_p2_manager_alternative.Text = report.p2_manager_alternative.ToString();
-        #endregion G_ManagersReport     
+        tbx_p2_manager_previous.Text = convertToTextbox(report.p2_manager_previous);
+        tbx_p2_manager_objections.Text = convertToTextbox(report.p2_manager_objections);
+        tbx_p2_manager_alternative.Text = convertToTextbox(report.p2_manager_alternative);
+        #endregion G_ManagersReport
 
         #region H_FixedShiftRotation
 
         #region H_FixedShiftRotation_Week1
-        tbx_p2_manager_week1_sun.Text = report.p2_manager_week1_sun.ToString();
-        tbx_p2_manager_week1_mon.Text = report.p2_manager_week1_mon.ToString();
-        tbx_p2_manager_week1_tue.Text = report.p2_manager_week1_tue.ToString();
-        tbx_p2_manager_week1_wed.Text = report.p2_manager_week1_wed.ToString();
-        tbx_p2_manager_week1_thu.Text = report.p2_manager_week1_thu.ToString();
-        tbx_p2_manager_week1_fri.Text = report.p2_manager_week1_fri.ToString();
-        tbx_p2_manager_week1_sat.Text = report.p2_manager_week1_sat.ToString();
+        tbx_p2_manager_week1_sun.Text = report.p2_manager_week1_sun == null ? String.Empty : report.p2_manager_week1_sun.ToString();
+        tbx_p2_manager_week1_mon.Text = report.p2_manager_week1_mon == null ? String.Empty : report.p2_manager_week1_mon.ToString();
+        tbx_p2_manager_week1_tue.Text = report.p2_manager_week1_tue == null ? String.Empty : report.p2_manager_week1_tue.ToString();
+        tbx_p2_manager_week1_wed.Text = report.p2_manager_week1_wed == null ? String.Empty : report.p2_manager_week1_wed.ToString();
+        tbx_p2_manager_week1_thu.Text = report.p2_manager_week1_thu == null ? String.Empty : report.p2_manager_week1_thu.ToString();
+        tbx_p2_manager_week1_fri.Text = report.p2_manager_week1_fri == null ? String.Empty : report.p2_manager_week1_fri.ToString();
+        tbx_p2_manager_week1_sat.Text = report.p2_manager_week1_sat == null ? String.Empty : report.p2_manager_week1_sat.ToString();
         #endregion H_FixedShiftRotation_Week1
 
         #region H_FixedShiftRotation_Week2
-        tbx_p2_manager_week2_sun.Text = report.p2_manager_week2_sun.ToString();
-        tbx_p2_manager_week2_mon.Text = report.p2_manager_week2_mon.ToString();
-        tbx_p2_manager_week2_tue.Text = report.p2_manager_week2_tue.ToString();
-        tbx_p2_manager_week2_wed.Text = report.p2_manager_week2_wed.ToString();
-        tbx_p2_manager_week2_thu.Text = report.p2_manager_week2_thu.ToString();
-        tbx_p2_manager_week2_fri.Text = report.p2_manager_week2_fri.ToString();
-        tbx_p2_manager_week2_sat.Text = report.p2_manager_week2_sat.ToString();
+        tbx_p2_manager_week2_sun.Text = report.p2_manager_week2_sun == null ? String.Empty : report.p2_manager_week2_sun.ToString();
+        tbx_p2_manager_week2_mon.Text = report.p2_manager_week2_mon == null ? String.Empty : report.p2_manager_week2_mon.ToString();
+        tbx_p2_manager_week2_tue.Text = report.p2_manager_week2_tue == null ? String.Empty : report.p2_manager_week2_tue.ToString();
+        tbx_p2_manager_week2_wed.Text = report.p2_manager_week2_wed == null ? String.Empty : report.p2_manager_week2_wed.ToString();
+        tbx_p2_manager_week2_thu.Text = report.p2_manager_week2_thu == null ? String.Empty : report.p2_manager_week2_thu.ToString();
+        tbx_p2_manager_week2_fri.Text = report.p2_manager_week2_fri == null ? String.Empty : report.p2_manager_week2_fri.ToString();
+        tbx_p2_manager_week2_sat.Text = report.p2_manager_week2_sat == null ? String.Empty : report.p2_manager_week2_sat.ToString();
         #endregion H_FixedShiftRotation_Week2
 
         #endregion H_FixedShiftRotation
@@ -1301,7 +1298,21 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
         return true;
     }
-       
+
+    /// <summary>
+    /// If a string is NULL, returns an empty string.
+    /// Otherwise, returns the value.
+    /// This is so textboxes display an empty string instead of NULL.
+    /// </summary>
+    /// <param name="value">The String to convert.</param>
+    /// <returns>Empty string if null, otherwise returns the value.</returns>
+    private String convertToTextbox(String value) {
+        if (value == null) {
+            return String.Empty;
+        }
+        return value;
+    }
+
     /// <summary>
     /// Converts a DateTime into a String.
     /// Returns The date in the format M/d/yyyy.
@@ -1309,18 +1320,27 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="value">The Date to convert.</param>
     /// <returns>The date in the format M/d/yyyy or null, if the value is null or the default date time.</returns>
-    private String convertDateTimeToString(DateTime value) {
-        if (value.Equals(DateTime.MinValue)) {
-            return null;
+    private String convertDateTimeToString(Object value) {
+        if (value == null) {
+            return String.Empty;
         }
-        return String.Format("M/d/yyyy", value.ToString());
+        
+        return String.Format("M/d/yyyy", ((DateTime)value));
     }
 
+    /// <summary>
+    /// Converts a DateTime into a String.
+    /// Returns The date in the format M/d/yyyy.
+    /// Returns null if the value is null or is the default date time (indicating the date was unknown).
+    /// </summary>
+    /// <param name="value">The Date to convert.</param>
+    /// <returns>The date in the format M/d/yyyy or null, if the value is null or the default date time.</returns>
+    private String convertTimeToString(DateTime value) {
+        if (value.Equals(DateTime.MinValue)) {
+            return String.Empty;
+        }
+        return String.Format("h:m tt", value);
+    }
     #endregion Load Incident Report
+    
 }
-C:\_4900_Project\comp4900project>@set ErrorLevel=%ErrorLevel%
-
-C:\_4900_Project\comp4900project>@rem Restore the original console codepage.
-
-C:\_4900_Project\comp4900project>@chcp %cp_oem% > nul < nul
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
