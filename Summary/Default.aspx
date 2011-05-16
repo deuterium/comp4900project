@@ -69,6 +69,9 @@ Summary Page:
                 <td>
                     <asp:TextBox ID="tbxLabInspectionDate" runat="server"></asp:TextBox>
                     <asp:CalendarExtender ID="cexLabInspectionDate" runat="server" TargetControlID="tbxLabInspectionDate" Format="M/d/yyyy"></asp:CalendarExtender>
+                    <asp:RegularExpressionValidator ID="revLabInspectionDate" runat="server" ValidationGroup="vgrLabInspectionLookUp"
+                        ControlToValidate="tbxLabInspectionDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="Date of Inspection must be 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
                 </td>
                 <td>
                     &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -142,6 +145,9 @@ Summary Page:
                 <td>
                     <asp:TextBox ID="tbxOfficeInspectionDate" runat="server"></asp:TextBox>
                     <asp:CalendarExtender ID="cexOfficeInspectionDate" runat="server" TargetControlID="tbxOfficeInspectionDate" Format="yyyy/MM/dd"></asp:CalendarExtender>
+                    <asp:RegularExpressionValidator ID="revOfficeInspectionDate" runat="server" ValidationGroup="vgrOfficeInspectionLookUp"
+                        ControlToValidate="tbxOfficeInspectionDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="Date of Inspection must be 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
                 </td>
                 <td>
                     &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -209,6 +215,7 @@ Summary Page:
                     ErrorMessage="You must enter a number." ValidationGroup="vgrExpiringCourseLookUp"></asp:RequiredFieldValidator>
                 <asp:RegularExpressionValidator ID="revMonths" runat="server" ControlToValidate="tbxMonthsRange" 
                     ErrorMessage="Numbers between (1 - 60)" ValidationExpression="^\d+$" ValidationGroup="vgrExpiringCourseLookUp"></asp:RegularExpressionValidator>
+                <asp:ValidationSummary ID="vsuExpiringCourses" ValidationGroup="vgrExpiringCourseLookUp" runat="server" />
             </td>
         </tr>
     </table>
