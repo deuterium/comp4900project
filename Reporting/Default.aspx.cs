@@ -276,7 +276,9 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
             tbxRoom.Text = emp.room;
 
-            tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy");
+            if (emp.startDate != null) {
+                tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy");
+            }
 
             if (emp.endDate != null) {
                 tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy");
@@ -1035,9 +1037,9 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
         #region A_IncidentInfo
         tbx_p1_dateOfIncident.Text = convertDateTimeToString(report.p1_dateOfIncident);
-        //tbx_p1_timeOfIncident.Text = convertTimeToString(report.p1_dateOfIncident);
+        tbx_p1_timeOfIncident.Text = convertTimeToString(report.p1_dateOfIncident);
         tbx_p1_dateReported.Text = convertDateTimeToString(report.p1_dateReported);
-        //tbx_p1_timeReported.Text = convertTimeToString(report.p1_dateReported);
+        tbx_p1_timeReported.Text = convertTimeToString(report.p1_dateReported);
         tbx_p1_incidentDesc.Text = convertToTextbox(report.p1_incidentDesc);
         tbx_p1_witnessName1.Text = convertToTextbox(report.p1_witnessName1);
         tbx_p1_witnessPhone1.Text = convertToTextbox(report.p1_witnessPhone1);
@@ -1308,38 +1310,36 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <returns>Empty string if null, otherwise returns the value.</returns>
     private String convertToTextbox(String value) {
         if (value == null) {
-            return String.Empty;
-        }
+            return String.Empty;}
         return value;
     }
 
     /// <summary>
-    /// Converts a DateTime into a String.
-    /// Returns The date in the format M/d/yyyy.
-    /// Returns null if the value is null or is the default date time (indicating the date was unknown).
+    /// Converts a DateTime into a formatted string.
+    /// Returns the date in the format "M/d/yyyy" (e.g. 11/1/2010).
+    /// Returns an empty string if the value is null.
     /// </summary>
     /// <param name="value">The Date to convert.</param>
-    /// <returns>The date in the format M/d/yyyy or null, if the value is null or the default date time.</returns>
+    /// <returns>The date in the format "M/d/yyyy" or an empty string if the value is null.</returns>
     private String convertDateTimeToString(Object value) {
         if (value == null) {
             return String.Empty;
         }
-        
-        return String.Format("M/d/yyyy", ((DateTime)value));
+        return Convert.ToDateTime(value).ToString("M/d/yyyy");
     }
 
     /// <summary>
-    /// Converts a DateTime into a String.
-    /// Returns The date in the format M/d/yyyy.
-    /// Returns null if the value is null or is the default date time (indicating the date was unknown).
+    /// Converts a DateTime into a formatted string.
+    /// Returns the date in the format "h:mm tt" (e.g. 5:37 PM).
+    /// Returns an empty string if the value is null.
     /// </summary>
     /// <param name="value">The Date to convert.</param>
-    /// <returns>The date in the format M/d/yyyy or null, if the value is null or the default date time.</returns>
-    private String convertTimeToString(DateTime value) {
-        if (value.Equals(DateTime.MinValue)) {
+    /// <returns>The time in the format "h:mm tt" or an empty string if the value is null.</returns>
+    private String convertTimeToString(Object value) {
+        if (value == null) {
             return String.Empty;
         }
-        return String.Format("h:m tt", value);
+        return Convert.ToDateTime(value).ToString("h:mm tt");
     }
     #endregion Load Incident Report
     
