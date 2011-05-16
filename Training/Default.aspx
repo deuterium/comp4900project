@@ -6,21 +6,22 @@
     <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
         DataSourceID="EntityDataSource1">
         <Columns>
-            <asp:BoundField DataField="empNo" HeaderText="empNo" ReadOnly="True" 
-                SortExpression="empNo" />
-            <asp:BoundField DataField="trainingNo" HeaderText="trainingNo" ReadOnly="True" 
-                SortExpression="trainingNo" />
             <asp:BoundField DataField="startDate" HeaderText="startDate" ReadOnly="True" 
                 SortExpression="startDate" />
             <asp:BoundField DataField="endDate" HeaderText="endDate" ReadOnly="True" 
                 SortExpression="endDate" />
-            <asp:CommandField ShowEditButton="True" />
+            <asp:TemplateField>
+                <ItemTemplate>
+                    <asp:Label ID="Label1" runat="server" 
+                        Text='<%# Eval("TrainingCourses.trainingName") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
         </Columns>
     </asp:GridView>
     <asp:EntityDataSource ID="EntityDataSource1" runat="server" 
         ConnectionString="name=BCCAEntities" DefaultContainerName="BCCAEntities" 
-        EnableFlattening="False" EntitySetName="TrainingTakens" 
-        Select="it.[empNo], it.[trainingNo], it.[startDate], it.[endDate]">
+        EnableFlattening="False" EntitySetName="TrainingTakens" Include="trainingName"
+        Select="it.[startDate], it.[endDate]">
     </asp:EntityDataSource>
 </asp:Content>
 
