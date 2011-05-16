@@ -417,4 +417,8 @@ public partial class Summary_Default : System.Web.UI.Page
         grvExpiringCourseLookUp.DataBind();
     }
     #endregion
+    protected void btnStatistics_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Statistics.aspx");
+    }
 }
