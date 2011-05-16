@@ -521,7 +521,7 @@ public partial class Training_Training : System.Web.UI.Page {
         }
         catch (Exception ex)
         {
-            Popup_Overlay("An error has occured while updatin this employee. Please try again." + ex.StackTrace.ToString(), FailColour);
+            Popup_Overlay("An error has occured while updating this employee. Please try again." + ex.StackTrace.ToString(), FailColour);
             return null;
         }
     }
@@ -592,9 +592,10 @@ public partial class Training_Training : System.Web.UI.Page {
                                          coursename = temp1.TC.trainingName,
                                          startdate = temp1.temp0.TT.startDate,
                                          enddate = temp1.temp0.TT.endDate,
-                                         trainingTakenNo = temp1.temp0.TT.trainingTakenNo
+                                         ttNo = temp1.temp0.TT.trainingTakenNo,
                                      }
                                );
+
         grvValidCourses.DataSource = q;
         Session["query"] = q;
         BindData();
@@ -656,44 +657,9 @@ public partial class Training_Training : System.Web.UI.Page {
         grvExpiringCourseLookUp.Caption = "<table width=\"100%\" class=\"gvCaption\"><tr><td>Expiring Courses</td></tr></table>";
         grvExpiringCourseLookUp.DataBind();
     }
+   
 
-
-
-    /// <summary>
-    /// Sets and displays the result message for the header form.
-    /// Using a null msg param will clear and hide the message.
-    /// </summary>
-    /// <param name="msg">The message to display</param>
-    /// <param name="foreColour">The font colour of the message</param>
-    private void setResultMsg(String msg, Color foreColour) {
-        if (msg == null) {
-            lblResults.Text = String.Empty;
-            lblResults.Visible = false;
-        }
-        lblResults.Visible = true;
-        lblResults.ForeColor = foreColour;
-        lblResults.Text = msg;
-    }
-
-    
-    private void CheckPositionOption() {
-        if (ddlPositions.SelectedValue.Equals(otherOption)) {
-            tbxPosition.Visible = true;
-        }
-        else {
-            tbxPosition.Visible = false;
-        }
-    }
-
-    private void CheckEmployeeOption() {
-        if (ddlEmployers.SelectedValue.Equals(otherOption)) {
-            tbxEmployer.Visible = true;
-        }
-        else {
-            tbxEmployer.Visible = false;
-        }
-    }
-
+    #region clearPage
     protected void btnClear_Click(object sender, EventArgs e)
     {
         ResetFormControlValues(this);
@@ -732,6 +698,8 @@ public partial class Training_Training : System.Web.UI.Page {
         }
     }
 
+    #endregion 
+
     protected void grvValidCourses_RowEditing(object sender, GridViewEditEventArgs e)
     {
         grvValidCourses.EditIndex = e.NewEditIndex;
@@ -741,9 +709,40 @@ public partial class Training_Training : System.Web.UI.Page {
     {
         var q = Session["query"];
 
+        GridViewRow row = grvValidCourses.Rows[e.RowIndex];
+        
         int empNo = Convert.ToInt32(tbxId.Text);
 
-        
+        int ttNo = Convert.ToInt32(e.NewValues["ttNo"]);
+
+        TrainingTaken training = ctx.TrainingTakens
+                       .Where(tt => tt.trainingTakenNo == ttNo)
+                       .Select(tt => tt).FirstOrDefault();
+
+        if (e.NewValues["Start Date"] != null)
+        {
+            DateTime strStart = Convert.ToDateTime(e.NewValues["Start Date"].ToString());
+            training.startDate = strStart;
+        }
+        if (e.NewValues["End Date"] != null)
+        {
+            DateTime strEnd = Convert.ToDateTime(e.NewValues["End Date"].ToString());
+            training.endDate = strEnd;
+        }
+
+        try
+        {
+            //ctx.DetectChanges();
+            ctx.SaveChanges();
+            grvValidCourses.EditIndex = -1;
+            e.Cancel = true;
+            Popup_Overlay("Update successful.", SuccessColour);
+        }
+        catch (Exception ex)
+        {
+            Popup_Overlay("An error has occured while updating this training. Please try again." + ex.StackTrace.ToString(), FailColour);
+        }
+            
 
     }
     protected void grvValidCourses_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
