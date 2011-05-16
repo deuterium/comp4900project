@@ -79,8 +79,8 @@ public partial class Reporting_Default : System.Web.UI.Page {
             PopulateDepartmentsDdl();
             pnlPop.Style.Value = "display:none;";
             lblResults.Visible = true;
-            GridView1.DataSource = ctx.Employees;
-            GridView1.DataBind();
+            //GridView1.DataSource = ctx.Employees;
+            //GridView1.DataBind();
             tsmScriptManager.SetFocus(tbxLastName.ClientID);
             dateFormatInfo.ShortDatePattern = "MM/dd/yyyy";
         }
@@ -254,20 +254,20 @@ public partial class Reporting_Default : System.Web.UI.Page {
             CheckEmployeeSelection();
 
             // Department DDL
-            var department = ctx.Departments
-                            .Where(d => d.deptName.Equals(emp.deptName))
-                            .Select(d => d).FirstOrDefault();
+            //var department = ctx.Departments
+            //                .Where(d => d.deptName.Equals(emp.deptName))
+            //                .Select(d => d).FirstOrDefault();
 
-            if (emp.deptName == null) {
-                ddlDepartments.SelectedIndex = 0;
-            }
-            else if (department != null) {
-                ddlDepartments.SelectedValue = department.deptName;
-            }
-            else {
-                ddlDepartments.SelectedValue = otherOption;
-                tbxDepartment.Text = emp.deptName;
-            }
+            //if (emp.deptName == null) {
+            //    ddlDepartments.SelectedIndex = 0;
+            //}
+            //else if (department != null) {
+            //    ddlDepartments.SelectedValue = department.deptName;
+            //}
+            //else {
+            //    ddlDepartments.SelectedValue = otherOption;
+            //    tbxDepartment.Text = emp.deptName;
+            //}
             CheckDepartmentSelection();
 
             if (emp.supervisor == null) {
@@ -368,15 +368,15 @@ public partial class Reporting_Default : System.Web.UI.Page {
         #endregion employer
 
         #region department
-        if (ddlDepartments.SelectedValue.Equals(otherOption)) {
-            emp.deptName = tbxDepartment.Text;
-        }
-        else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
-            emp.deptName = null;
-        }
-        else {
-            emp.deptName = ddlDepartments.SelectedValue;
-        }
+        //if (ddlDepartments.SelectedValue.Equals(otherOption)) {
+        //    emp.deptName = tbxDepartment.Text;
+        //}
+        //else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
+        //    emp.deptName = null;
+        //}
+        //else {
+        //    emp.deptName = ddlDepartments.SelectedValue;
+        //}
         #endregion department
         try {
             ctx.AddToEmployees(emp);
@@ -468,15 +468,15 @@ public partial class Reporting_Default : System.Web.UI.Page {
         #endregion employer
 
         #region department
-        if (ddlDepartments.SelectedValue.Equals(otherOption)) {
-            emp.deptName = tbxDepartment.Text;
-        }
-        else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
-            emp.deptName = null;
-        }
-        else {
-            emp.deptName = ddlDepartments.SelectedValue;
-        }
+        //if (ddlDepartments.SelectedValue.Equals(otherOption)) {
+        //    emp.deptName = tbxDepartment.Text;
+        //}
+        //else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
+        //    emp.deptName = null;
+        //}
+        //else {
+        //    emp.deptName = ddlDepartments.SelectedValue;
+        //}
         #endregion department
 
         try {
