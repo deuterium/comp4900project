@@ -63,7 +63,7 @@ public partial class Followup_Default : System.Web.UI.Page
         {
             //Role: Admin/Safety Officer; Sees all reports
             case 0:
-                gvwFollowupIncidents.DataSource = ctx.Incidents
+                var qry = ctx.Incidents
                     .Where(inc => ((inc.followUpStatus == "0") || (inc.followUpStatus == "1")))
                     .Select(inc => new
                     {
@@ -73,11 +73,13 @@ public partial class Followup_Default : System.Web.UI.Page
                         incSubmitter = inc.reportSubmitter
                     })
                     .OrderBy(a => a.incDate);
+                gvwFollowupIncidents.DataSource = qry;
+                lblFollowupIncicentsCount.Text = qry.Count().ToString();
                 break;
             //Role: Lab Manager; Sees all corrseponding reports to their lab
             case 1:
                 int? userDeptNo = (int?)Session["DeptNo"];
-                gvwFollowupIncidents.DataSource = ctx.Incidents
+                var query = ctx.Incidents
                     .Where(inc => ((inc.followUpStatus == "0") || (inc.followUpStatus == "1"))
                     && (inc.submitterDeptNo == userDeptNo))
                     .Select(inc => new
@@ -88,6 +90,8 @@ public partial class Followup_Default : System.Web.UI.Page
                         incSubmitter = inc.reportSubmitter
                     })
                     .OrderBy(a => a.incDate);
+                gvwFollowupIncidents.DataSource = query;
+                lblFollowupIncicentsCount.Text = query.Count().ToString();
                 break;
             default:
                 throw new System.SystemException("Default case of switch should never be reached");
@@ -119,7 +123,7 @@ public partial class Followup_Default : System.Web.UI.Page
         {
             //Role: Admin/Safety Officer; Sees all reports
             case 0:
-                gvwFollowupLabInspection.DataSource = ctx.LabInspections
+                var qry = ctx.LabInspections
                     .Where(l => ((l.followUpStatus == "0") || (l.followUpStatus == "1")))
                     .Select(l => new
                     {
@@ -133,11 +137,13 @@ public partial class Followup_Default : System.Web.UI.Page
                         insSubmitter = l.reportSubmitter
                     })
                     .OrderBy(a => a.insDate);
+                gvwFollowupLabInspection.DataSource = qry;
+                lblFollowupLabInspectionCount.Text = qry.Count().ToString();
                 break;
             //Role: Lab Manager; Sees all corrseponding reports to their lab
             case 1:
                 int? userDeptNo = (int?)Session["DeptNo"];
-                gvwFollowupLabInspection.DataSource = ctx.LabInspections
+                var query = ctx.LabInspections
                     .Where(l => ((l.followUpStatus == "0") || (l.followUpStatus == "1"))
                         && (l.deptNo == userDeptNo))
                     .Select(l => new
@@ -152,6 +158,8 @@ public partial class Followup_Default : System.Web.UI.Page
                         insSubmitter = l.reportSubmitter
                     })
                     .OrderBy(a => a.insDate);
+                gvwFollowupLabInspection.DataSource = query;
+                lblFollowupLabInspectionCount.Text = query.Count().ToString();
                 break;
             default:
                 throw new System.SystemException("Default case of switch should never be reached");
@@ -183,7 +191,7 @@ public partial class Followup_Default : System.Web.UI.Page
         {
             //Role: Admin/Safety Officer; Sees all reports
             case 0:
-                gvwFollowupOfficeInspection.DataSource = ctx.OfficeInspections
+                var qry = ctx.OfficeInspections
                     .Where(o => ((o.followUpStatus == "0") || (o.followUpStatus == "1")))
                     .Select(o => new
                     {
@@ -197,11 +205,13 @@ public partial class Followup_Default : System.Web.UI.Page
                         insSubmitter = o.reportSubmitter
                     })
                     .OrderBy(a => a.insDate);
+                gvwFollowupOfficeInspection.DataSource = qry;
+                lblFollowupOfficeInspectionCount.Text = qry.Count().ToString();
                 break;
             //Role: Lab Manager; Sees all corrseponding reports to their lab
             case 1:
                 int? userDeptNo = (int?)Session["DeptNo"];
-                gvwFollowupOfficeInspection.DataSource = ctx.OfficeInspections
+                var query = ctx.OfficeInspections
                     .Where(o => ((o.followUpStatus == "0") || (o.followUpStatus == "1"))
                         && (o.deptNo == userDeptNo))
                     .Select(o => new
@@ -216,6 +226,8 @@ public partial class Followup_Default : System.Web.UI.Page
                         insSubmitter = o.reportSubmitter
                     })
                     .OrderBy(a => a.insDate);
+                gvwFollowupOfficeInspection.DataSource = query;
+                lblFollowupOfficeInspectionCount.Text = query.Count().ToString();
                 break;
             default:
                 throw new System.SystemException("Default case of switch should never be reached");
