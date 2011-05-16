@@ -156,7 +156,7 @@ ExpandedImage="../images/collapse.jpg">
                             Start Date:</td>
                         <td>
                             <asp:TextBox ID="tbxStartDate" runat="server"></asp:TextBox>
-                            <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="yyyy/MM/dd" >
+                            <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="DD/MM/YYYY" >
                             </asp:CalendarExtender>
                         </td>
                     </tr>
@@ -165,7 +165,7 @@ ExpandedImage="../images/collapse.jpg">
                             End Date:</td>
                         <td>
                             <asp:TextBox ID="tbxEndDate" runat="server"></asp:TextBox><br />
-                            <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="yyyy/MM/dd" >
+                            <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="DD/MM/YYYY" >
                             </asp:CalendarExtender>
                         </td>
                     </tr>
@@ -201,14 +201,14 @@ ExpandedImage="../images/collapse.jpg">
 
             <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpHeader"
                 ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{4}/{1}[0-9]{2}/{1}[0-9]{2}$" 
-                ErrorMessage="Start date must be in format 'YYYY/MM/DD'"></asp:RegularExpressionValidator>
+                ErrorMessage="Start date must be in format 'DD/MM/YYYY'"></asp:RegularExpressionValidator>
             <asp:RangeValidator ID="rgvStartDate" runat="server" ValidationGroup="vgpHeader"
                 ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 1900/01/01 and 2500/01/01."
                 MaximumValue="2500/01/01" MinimumValue="1900/01/01"></asp:RangeValidator>
 
             <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpHeader"
                 ControlToValidate="tbxEndDate" ValidationExpression="^[0-9]{4}/{1}[0-9]{2}/{1}[0-9]{2}$" 
-                ErrorMessage="End date must be in format 'YYYY/MM/DD'"></asp:RegularExpressionValidator>
+                ErrorMessage="End date must be in format 'DD/MM/YYYY'"></asp:RegularExpressionValidator>
             <asp:RangeValidator ID="rgvEndDate" runat="server" ValidationGroup="vgpHeader"
                 ControlToValidate="tbxEndDate" ErrorMessage="End date must be between 1900/01/01 and 2500/01/01."
                 MaximumValue="2500/01/01" MinimumValue="1900/01/01"></asp:RangeValidator>
@@ -227,6 +227,17 @@ ExpandedImage="../images/collapse.jpg">
             <asp:Panel ID="pnlCourses" CssClass="panel" runat="server">
                 <h4 id="hr4CoursesCompleted"><asp:Image ID="imgExpandCollapseCoursesCompleted" runat="server" /> Valid: <asp:Label ID="ExpandCollapseCoursesCompleted" runat="server" Text=""></asp:Label></h4>
                 <asp:Panel ID="pnlCoursesCompleted" CssClass="panel" runat="server">
+                    
+                    <asp:GridView ID="grvValidCourses" runat="server" 
+                        onrowcancelingedit="grvValidCourses_RowCancelingEdit" 
+                        onrowediting="grvValidCourses_RowEditing" 
+                        onrowupdating="grvValidCourses_RowUpdating">
+                        <Columns>
+                            <asp:CommandField ShowEditButton="True" />
+                            <asp:CommandField ShowSelectButton="True" />
+                            <asp:TemplateField></asp:TemplateField>
+                        </Columns>
+                    </asp:GridView>
                     
                 </asp:Panel>
                 <h4 id="hr4CoursesExpired"><asp:Image ID="imgExpandCollapseCoursesExpired" runat="server" /> Expired: <asp:Label ID="ExpandCollapseCoursesExpired" runat="server" Text=""></asp:Label></h4>
