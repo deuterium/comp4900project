@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="body">
 
-<asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
+    <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
 </asp:ToolkitScriptManager>
 
 <asp:CollapsiblePanelExtender ID="cpeReportInfo" runat="server" Collapsed="false"

@@ -6743,11 +6743,13 @@ namespace BCCAModel
         /// </summary>
         /// <param name="labInsNo">Initial value of the labInsNo property.</param>
         /// <param name="checkbox">Initial value of the checkbox property.</param>
-        public static LabInspectionDetail CreateLabInspectionDetail(global::System.Int32 labInsNo, global::System.Int32 checkbox)
+        /// <param name="labInsDetNo">Initial value of the labInsDetNo property.</param>
+        public static LabInspectionDetail CreateLabInspectionDetail(global::System.Int32 labInsNo, global::System.Int32 checkbox, global::System.Int32 labInsDetNo)
         {
             LabInspectionDetail labInspectionDetail = new LabInspectionDetail();
             labInspectionDetail.labInsNo = labInsNo;
             labInspectionDetail.checkbox = checkbox;
+            labInspectionDetail.labInsDetNo = labInsDetNo;
             return labInspectionDetail;
         }
 
@@ -6757,7 +6759,7 @@ namespace BCCAModel
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Int32 labInsNo
         {
@@ -6767,14 +6769,11 @@ namespace BCCAModel
             }
             set
             {
-                if (_labInsNo != value)
-                {
-                    OnlabInsNoChanging(value);
-                    ReportPropertyChanging("labInsNo");
-                    _labInsNo = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("labInsNo");
-                    OnlabInsNoChanged();
-                }
+                OnlabInsNoChanging(value);
+                ReportPropertyChanging("labInsNo");
+                _labInsNo = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("labInsNo");
+                OnlabInsNoChanged();
             }
         }
         private global::System.Int32 _labInsNo;
@@ -6832,7 +6831,7 @@ namespace BCCAModel
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Int32 checkbox
         {
@@ -6842,19 +6841,43 @@ namespace BCCAModel
             }
             set
             {
-                if (_checkbox != value)
-                {
-                    OncheckboxChanging(value);
-                    ReportPropertyChanging("checkbox");
-                    _checkbox = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("checkbox");
-                    OncheckboxChanged();
-                }
+                OncheckboxChanging(value);
+                ReportPropertyChanging("checkbox");
+                _checkbox = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("checkbox");
+                OncheckboxChanged();
             }
         }
         private global::System.Int32 _checkbox;
         partial void OncheckboxChanging(global::System.Int32 value);
         partial void OncheckboxChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 labInsDetNo
+        {
+            get
+            {
+                return _labInsDetNo;
+            }
+            set
+            {
+                if (_labInsDetNo != value)
+                {
+                    OnlabInsDetNoChanging(value);
+                    ReportPropertyChanging("labInsDetNo");
+                    _labInsDetNo = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("labInsDetNo");
+                    OnlabInsDetNoChanged();
+                }
+            }
+        }
+        private global::System.Int32 _labInsDetNo;
+        partial void OnlabInsDetNoChanging(global::System.Int32 value);
+        partial void OnlabInsDetNoChanged();
 
         #endregion
     
