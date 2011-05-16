@@ -12,5 +12,6 @@
             <asp:BoundField DataField="checkbox" HeaderText="Checked (yes/no)" SortExpression="checkbox" />
             <asp:BoundField DataField="comments" HeaderText="Comment" SortExpression="comments" />
         </Columns>
+        <EmptyDataTemplate>No report data was found.</EmptyDataTemplate>
     </asp:GridView>
 </asp:Content>

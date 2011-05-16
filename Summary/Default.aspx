@@ -13,12 +13,12 @@
     <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
 </asp:ToolkitScriptManager>
 
-<asp:CollapsiblePanelExtender ID="cpeA" runat="server" Collapsed="false"
+<asp:CollapsiblePanelExtender ID="cpeA" runat="server" Collapsed="true"
 CollapseControlID="inspectionLookUp" ExpandControlID="inspectionLookUp" TargetControlID="pnlA"
 ImageControlID="imgExpandCollapseInspectionLookUp" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
-<asp:CollapsiblePanelExtender ID="cpeB" runat="server" Collapsed="false"
+<asp:CollapsiblePanelExtender ID="cpeB" runat="server" Collapsed="true"
 CollapseControlID="courseLookUp" ExpandControlID="courseLookUp" TargetControlID="pnlB"
 ImageControlID="imgExpandCollapseCourseLookUp" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
@@ -31,6 +31,11 @@ ImageControlID="imgExpandCollapseLabInspectionLookUp" CollapsedImage="../images/
 <asp:CollapsiblePanelExtender ID="cpeD" runat="server" Collapsed="true"
 CollapseControlID="officeInspectionLookUp" ExpandControlID="officeInspectionLookUp" TargetControlID="pnlD"
 ImageControlID="imgExpandCollapseOfficeInspectionLookUp" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+</asp:CollapsiblePanelExtender>
+
+<asp:CollapsiblePanelExtender ID="cpeE" runat="server" Collapsed="true"
+CollapseControlID="statistics" ExpandControlID="statistics" TargetControlID="pnlE"
+ImageControlID="imgExpandCollapseStatistics" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 Summary Page:
 
@@ -92,7 +97,7 @@ Summary Page:
                         SortExpression="labInsNo" />
                     <asp:BoundField DataField="deptName" HeaderText="Department" 
                         SortExpression="deptName" />
-                    <asp:BoundField DataField="date" HeaderText="Date" SortExpression="date" />
+                    <asp:BoundField DataField="date" HeaderText="Date" DataFormatString="{0:M/dd/yyyy}" SortExpression="date" />
                     <asp:BoundField DataField="followupDate" HeaderText="Followup" 
                         SortExpression="followupDate" />
                     <asp:BoundField DataField="inspector" HeaderText="Inspector" 
@@ -169,7 +174,7 @@ Summary Page:
                         SortExpression="officeInsNo" />
                     <asp:BoundField DataField="deptNo" HeaderText="Department" 
                         SortExpression="deptNo" />
-                    <asp:BoundField DataField="date" HeaderText="Date" SortExpression="date" />
+                    <asp:BoundField DataField="date" HeaderText="Date" DataFormatString="{0:M/dd/yyyy}" SortExpression="date" />
                     <asp:BoundField DataField="inspector" HeaderText="Inspector" 
                         SortExpression="inspector" />
                     <asp:BoundField DataField="supervisor" HeaderText="Supervisor" 
@@ -224,5 +229,9 @@ Summary Page:
         <asp:Panel ID="grvPanelExpiringCourses" runat="server"></asp:Panel>
     </div>
     </asp:Panel>
-
+    <h3 id="statistics"><asp:Image ID="imgExpandCollapseStatistics" runat="server" /> Statistics:</h3>
+    <asp:Panel ID="pnlE" CssClass="panel" runat="server">
+        <asp:Button ID="btnStatistics" runat="server" Text="Statistics Lookup" 
+            onclick="btnStatistics_Click" />
+    </asp:Panel>
 </asp:Content>

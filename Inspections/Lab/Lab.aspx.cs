@@ -75,7 +75,8 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 date = tmpDate,
                 labMgr = ddlLabLabManager.Text,
                 supervisor = tbxLabSupervisor.Text,
-                room = tbxLabRoom.Text
+                room = tbxLabRoom.Text,
+                followUpStatus = "0"
             };
             ctx.AddToLabInspections(inc);
             ctx.SaveChanges();
@@ -100,7 +101,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 checkbox = radiobuttonConvert(this.rblFireEvac.SelectedItem.Value),
                 comments = this.tbxCommentFireEvac.Text,
             });
-            /*
+
             //Fire extinguisher in working condition
             ctx.AddToLabInspectionDetails(new LabInspectionDetail() 
             {
@@ -207,8 +208,8 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             {
                 labInsNo = inc.labInsNo,
                 labItemNo = 13,
-                checkbox = radiobuttonConvert(this.rblFireEvac.SelectedItem.Value),
-                comments = this.tbxCommentFireEvac.Text,
+                checkbox = radiobuttonConvert(this.rblSafety.SelectedItem.Value),
+                comments = this.tbxCommentSafety.Text,
             });
 
             //Laboratory coat, gowns, gloves available/worn
@@ -649,7 +650,6 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 checkbox = radiobuttonConvert(this.rblPressureTankSup.SelectedItem.Value),
                 comments = this.tbxCommentPressureTankSup.Text,
             });
-            */
             #endregion
 
             #region LabInspectionDetail Objects SaveChanges
