@@ -6,6 +6,7 @@
 <head id="Head1" runat="server">
     <link href="styles.css" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/ico" href="images/favicon.ico" />
+    </script>
     <title></title>
     <asp:ContentPlaceHolder id="head" runat="server">
     </asp:ContentPlaceHolder>

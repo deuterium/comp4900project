@@ -191,9 +191,9 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpEmpInfo"
                         ControlToValidate="tbxEndDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="End date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-                    <asp:CompareValidator ID="cpvStartEndDates" runat="server" ValidationGroup="vgpEmpInfo"
+<%--                    <asp:CompareValidator ID="cpvStartEndDates" runat="server" ValidationGroup="vgpEmpInfo"
                         ControlToValidate="tbxEndDate" ControlToCompare="tbxStartDate" Operator="GreaterThan" Type="Date"
-                        ErrorMessage="End date must be later than start date." ></asp:CompareValidator>
+                        ErrorMessage="End date must be later than start date." ></asp:CompareValidator>--%>
                 </td>
             </tr>
         </table>
@@ -269,10 +269,10 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     <asp:RegularExpressionValidator ID="revDateReported" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_dateReported" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Date reported must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-                    <asp:CompareValidator ID="cpvDateReported" runat="server" ValidationGroup="vgpPanelA"
+                    <%--<asp:CompareValidator ID="cpvDateReported" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_dateReported" ControlToCompare="tbx_p1_dateOfIncident"
                         Type="Date" Operator="GreaterThanEqual"
-                        ErrorMessage="Date reported must be the on or later than the date of the incident."></asp:CompareValidator>
+                        ErrorMessage="Date reported must be the on or later than the date of the incident."></asp:CompareValidator>--%>
                 </td>
                 <td colspan="2" ><span class="spanBold" >Witness 2:</span></td>
             </tr>
