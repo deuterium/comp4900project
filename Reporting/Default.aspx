@@ -199,7 +199,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         </table>
     </div>
 
-    <div>
+    <div id="divEmpInfoButtons" >
         <asp:Button TabIndex="111" ID="btnGetEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
             Text="Get Employee" onclick="btnGetEmployee_Click" />
         <asp:Button TabIndex="111" ID="btnCreateEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
