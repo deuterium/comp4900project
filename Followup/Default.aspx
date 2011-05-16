@@ -1,9 +1,9 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Followup_Default" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
+<asp:content id="Content1" contentplaceholderid="head" runat="Server">
+</asp:content>
+<asp:content id="Content2" contentplaceholderid="body" runat="Server">
     <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server" />
     <asp:CollapsiblePanelExtender ID="cpeFollowupIncicents" runat="server" CollapseControlID="hr3Incidents"
         ExpandControlID="hr3Incidents" TargetControlID="pnlFollowupIncicents" Collapsed="true"
@@ -115,4 +115,4 @@
             </asp:Panel>
         </div>
     </div>
-</asp:Content>
+</asp:content>
