@@ -43,6 +43,7 @@
                         <asp:BoundField DataField="incSubmitter" HeaderText="Incident Submitted by" ReadOnly="True" 
                             SortExpression="incSubmitter"/>
                     </Columns>
+                    <EmptyDataTemplate>No Incident/Accident reports currently need following up.</EmptyDataTemplate>
                 </asp:GridView>
             </asp:Panel>
         </div>
@@ -70,6 +71,7 @@
                         <asp:BoundField DataField="insSubmitter" HeaderText="Inspection Submitted by" ReadOnly="True" 
                             SortExpression="insSubmitter" />
                     </Columns>
+                    <EmptyDataTemplate>No Lab Inspections currently need following up.</EmptyDataTemplate>
                 </asp:GridView>
             </asp:Panel>
         </div>
@@ -81,19 +83,23 @@
             </h3>
             <asp:Panel ID="pnlFollowupOfficeInspection" CssClass="panel" runat="server">
                 <asp:GridView ID="gvwFollowupOfficeInspection" runat="server" 
-                    AutoGenerateColumns="False" >
+                    AutoGenerateColumns="False" 
+                    onselectedindexchanged="gvwFollowupOfficeInspection_SelectedIndexChanged" >
                     <Columns>
                         <asp:CommandField SelectText="Followup" ButtonType="Link" 
                             ShowSelectButton="True" />
-                        <asp:BoundField DataField="incNo" HeaderText="Report Number" ReadOnly="True" 
-                            SortExpression="incNo"/>
-                        <asp:BoundField DataField="incDate" HeaderText="Date of Incident" ReadOnly="True" 
-                            SortExpression="incDate"/>
-                        <asp:BoundField DataField="incEmpName" HeaderText="Incident Employee" ReadOnly="True" 
-                            SortExpression="incEmpName"/>
-                        <asp:BoundField DataField="incSubmitter" HeaderText="Incident Submitted by" ReadOnly="True" 
-                            SortExpression="incSubmitter"/>
+                        <asp:BoundField DataField="insNo" HeaderText="Inspection Number" ReadOnly="True" 
+                            SortExpression="insNo" />
+                        <asp:BoundField DataField="insDate" HeaderText="Date of Inspection" ReadOnly="True" 
+                            SortExpression="insDate" />
+                        <asp:BoundField DataField="insLoc" HeaderText="Location" ReadOnly="True" 
+                            SortExpression="insLoc" />
+                        <asp:BoundField DataField="insIpt" HeaderText="Office Inspector" ReadOnly="True" 
+                            SortExpression="insMgr" />
+                        <asp:BoundField DataField="insSubmitter" HeaderText="Inspection Submitted by" ReadOnly="True" 
+                            SortExpression="insSubmitter" />
                     </Columns>
+                    <EmptyDataTemplate>No Office Inspections currently need following up.</EmptyDataTemplate>
                 </asp:GridView>
             </asp:Panel>
         </div>
