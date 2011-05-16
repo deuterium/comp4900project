@@ -5271,24 +5271,24 @@ namespace BCCAModel
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> p2_corrective_writtentCompletedDate
+        public Nullable<global::System.DateTime> p2_corrective_writtenCompletedDate
         {
             get
             {
-                return _p2_corrective_writtentCompletedDate;
+                return _p2_corrective_writtenCompletedDate;
             }
             set
             {
-                Onp2_corrective_writtentCompletedDateChanging(value);
-                ReportPropertyChanging("p2_corrective_writtentCompletedDate");
-                _p2_corrective_writtentCompletedDate = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("p2_corrective_writtentCompletedDate");
-                Onp2_corrective_writtentCompletedDateChanged();
+                Onp2_corrective_writtenCompletedDateChanging(value);
+                ReportPropertyChanging("p2_corrective_writtenCompletedDate");
+                _p2_corrective_writtenCompletedDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("p2_corrective_writtenCompletedDate");
+                Onp2_corrective_writtenCompletedDateChanged();
             }
         }
-        private Nullable<global::System.DateTime> _p2_corrective_writtentCompletedDate;
-        partial void Onp2_corrective_writtentCompletedDateChanging(Nullable<global::System.DateTime> value);
-        partial void Onp2_corrective_writtentCompletedDateChanged();
+        private Nullable<global::System.DateTime> _p2_corrective_writtenCompletedDate;
+        partial void Onp2_corrective_writtenCompletedDateChanging(Nullable<global::System.DateTime> value);
+        partial void Onp2_corrective_writtenCompletedDateChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
