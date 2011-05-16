@@ -668,6 +668,8 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 Popup_Overlay(ex.InnerException.ToString(), Color.Red);
                 return;
             }
+
+            Popup_Overlay("Update Successful", Color.Red);
             #endregion
         }
     }
