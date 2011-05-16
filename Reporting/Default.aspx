@@ -199,16 +199,17 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         </table>
     </div>
 
-    <div>
+    <div id="divEmpInfoButtons" >
         <asp:Button TabIndex="111" ID="btnGetEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
             Text="Get Employee" onclick="btnGetEmployee_Click" />
         <asp:Button TabIndex="111" ID="btnCreateEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
             Text="Create Employee" onclick="btnCreateEmployee_Click" />
-        <asp:Button TabIndex="1112" ID="Button1" runat="server" ValidationGroup="vgpEmpInfo" 
+        <asp:Button TabIndex="1112" ID="btnUpdateEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
             Text="Update  Employee" onclick="btnUpdateEmployee_Click" />
         <asp:Button TabIndex="1112" ID="btnCreateReport" runat="server" 
             Text="Create Report" onclick="btnCreateReport_Click" />
-
+        <asp:Button TabIndex="1112" ID="btnLoadReport" runat="server" 
+            Text="Load Report" onclick="btnLoadReport_Click" />
         <p><asp:Label ID="lblResults" runat="server" Text="" Visible="false" ></asp:Label></p>
 
         <asp:ValidationSummary ID="vsyEmployeeInfo" runat="server" ValidationGroup="vgpEmpInfo" DisplayMode="BulletList" />
