@@ -37,6 +37,11 @@ ImageControlID="imgExpandCollapseOfficeInspectionLookUp" CollapsedImage="../imag
 CollapseControlID="statistics" ExpandControlID="statistics" TargetControlID="pnlE"
 ImageControlID="imgExpandCollapseStatistics" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
+<asp:CollapsiblePanelExtender ID="cpeF" runat="server" Collapsed="true"
+CollapseControlID="incident" ExpandControlID="incident" TargetControlID="pnlF"
+ImageControlID="imgExpandCollapseIncident" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+</asp:CollapsiblePanelExtender>
 Summary Page:
 
 <h3 id="inspectionLookUp"><asp:Image ID="imgExpandCollapseInspectionLookUp" runat="server" /> Inspection Lookup:</h3>
@@ -44,7 +49,7 @@ Summary Page:
         <h3 id="labInspectionLookUp"><asp:Image ID="imgExpandCollapseLabInspectionLookUp" runat="server" /> Lab Inspection:</h3>
         <asp:Panel ID="pnlC" CssClass="panel" runat="server">
             <table>
-            <tr>
+            <tr id="departmentRow" runat="server">
                 <td>
                     Department: 
                 </td>
@@ -229,9 +234,15 @@ Summary Page:
         <asp:Panel ID="grvPanelExpiringCourses" runat="server"></asp:Panel>
     </div>
     </asp:Panel>
+
     <h3 id="statistics"><asp:Image ID="imgExpandCollapseStatistics" runat="server" /> Statistics:</h3>
     <asp:Panel ID="pnlE" CssClass="panel" runat="server">
         <asp:Button ID="btnStatistics" runat="server" Text="Statistics Lookup" 
             onclick="btnStatistics_Click" />
     </asp:Panel>
+
+    <h3 id="incident"><asp:Image ID="imgExpandCollapseIncident" runat="server" /> Incident Lookup:</h3>
+    <asp:Panel ID="pnlF" CssClass="panel" runat="server">
+    </asp:Panel>
+
 </asp:Content>
