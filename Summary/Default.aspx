@@ -104,6 +104,7 @@ Summary Page:
                     <asp:BoundField DataField="room" HeaderText="Room" 
                         SortExpression="room" />
                 </Columns>
+                <EmptyDataTemplate>No results were found.</EmptyDataTemplate>
             </asp:GridView> 
             <asp:GridView ID="grvLabInspectionResults" runat="server" AutoGenerateColumns="false"
             DataKeyNames="labInsItem" OnRowDataBound="grvLabInspectionResults_DataBinding">
@@ -174,6 +175,7 @@ Summary Page:
                     <asp:BoundField DataField="supervisor" HeaderText="Supervisor" 
                         SortExpression="supervisor" />
                 </Columns>
+                <EmptyDataTemplate>No results were found.</EmptyDataTemplate>
             </asp:GridView> 
             <asp:GridView ID="grvOfficeInspectionResults" runat="server" AutoGenerateColumns="false"
             DataKeyNames="officeInsItem" OnRowDataBound="grvOfficeInspectionResults_DataBinding">
