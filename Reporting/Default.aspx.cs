@@ -13,9 +13,6 @@ using System.Text;
  * fix time regex (see sample forms) --> make a up/down arrow clock (NumericUpDown)
  * fix table style (when you select Other from DDL)
  * make clear all and clear individual form buttons
- * add regex validator to phone
- * add regex for name
- * custom validator for Others in DDL
  * ask about dates (how the labels on the forms say M/D/Y)
  * Kalen: panel A, panel B
  * Kalen: comment boxes are centered (vertically) - see section G
@@ -60,10 +57,37 @@ public partial class Reporting_Default : System.Web.UI.Page {
         "Medical Aid (ER)"
     };
     #endregion class variables
+    
+    /// <summary>
+    /// Sets up the dynamic elements when the page loads for the first time.
+    /// Populates the Employer, Position, and Department drop down lists.
+    /// Hides Popup panel on page load.
+    /// </summary>
+    /// <param name="sender">The object that requested the page load.</param>
+    /// <param name="e">The page load event.</param>
+    protected void Page_Load(object sender, EventArgs e) {
+        // Only do the initial set up the first time the page loads (and not on post-backs).
+        if (!IsPostBack) {
+            PopulateEmployersDdl();
+            PopulatePositionsDdl();
+            PopulateDepartmentsDdl();
+            pnlPop.Style.Value = "display:none;";
+            lblResults.Visible = true;
+            GridView1.DataSource = ctx.Employees;
+            GridView1.DataBind();
+            tsmScriptManager.SetFocus(tbxLastName.ClientID);
+        }
+    }
+
+    // test
+    protected void tbx_p2_patient_otherSpecify_OnTextChanged(object sender, EventArgs e) {
+        if (!tbx_p2_patient_otherSpecify.Text.Equals(String.Empty)) {
+            cbx_p2_patient_other.Checked = true;
+        }
+    }
 
     #region Employee Info Related
     #region Drop Down Lists
-
     #region Load DropDownLists
 
         /// <summary>
@@ -174,7 +198,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
     }
     #endregion Other Option Textbox Toggle
-
     #endregion DropDownLists
 
     #region Load Employee Data
@@ -466,28 +489,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
     #endregion Update Employee
     #endregion EmployeeInfoRelated
-
-    /// <summary>
-    /// Sets up the dynamic elements when the page loads for the first time.
-    /// Populates the Employer, Position, and Department drop down lists.
-    /// Hides Popup panel on page load.
-    /// </summary>
-    /// <param name="sender">The object that requested the page load.</param>
-    /// <param name="e">The page load event.</param>
-    protected void Page_Load(object sender, EventArgs e)
-    {
-        // Only do the initial set up the first time the page loads (and not on post-backs).
-        if (!IsPostBack) {
-            PopulateEmployersDdl();
-            PopulatePositionsDdl();
-            PopulateDepartmentsDdl();
-            pnlPop.Style.Value = "display:none;";
-            lblResults.Visible = true;
-            GridView1.DataSource = ctx.Employees;
-            GridView1.DataBind();
-            tsmScriptManager.SetFocus(tbxLastName.ClientID);
-        }
-    }
 
     #region Page Popup
     /// <summary>

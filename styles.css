@@ -363,6 +363,13 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     width: 267px;
 }
 
+#divEmpInfoButtons {
+    display: inline;
+    float: left;
+    width: 800px;
+    padding-top: 10px;
+}
+
 #divATopPanel {
     display: inline;
     float: left;
