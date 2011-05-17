@@ -409,8 +409,8 @@ public partial class Summary_Default : System.Web.UI.Page
         row.Cells[1].Text.ToString();
         int selectedOfficeInsNo = Convert.ToInt32(row.Cells[1].Text);
 
-        var qry = ctx.LabInspections.Where(LI => (LI.labInsNo == 41)).Select(LI => new { followupDate = LI.followupDate });
-        lblLabFollowUpDate.Text = Convert.ToString(qry);
+        //var qry = ctx.LabInspections.Where(LI => (LI.labInsNo == 41)).Select(LI => new { followupDate = LI.followupDate });
+        //lblLabFollowUpDate.Text = Convert.ToString(qry);
 
         grvOfficeInspectionResults.DataSource = ctx.OfficeInspections
                                                            .Join(
@@ -446,7 +446,7 @@ public partial class Summary_Default : System.Web.UI.Page
                                                                      OJ = OJ
                                                                  }
                                                            )
-                                                           .Where(temp2 => (temp2.temp1.temp0.OI.officeInsNo == 1))
+                                                           .Where(temp2 => (temp2.temp1.temp0.OI.officeInsNo == selectedOfficeInsNo))
                                                            .SelectMany(
                                                               temp2 => temp2.OJ.DefaultIfEmpty(),
                                                               (temp2, OFU) =>
