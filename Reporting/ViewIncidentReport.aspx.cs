@@ -11,7 +11,7 @@ using BCCAModel;
 public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     #region Class Variables
     // The background color of disabled controls.
-    public Color DisabledColor = ColorTranslator.FromHtml("#E6E6E6");
+    public Color DisabledColor = ColorTranslator.FromHtml("#FFFFFF");
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
     // Text colour for failure messages
@@ -90,7 +90,8 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// </summary>
     /// <param name="cbx">The TextBox to disable.</param>
     private void disableTextBox(TextBox tbx) {
-         tbx.Enabled = false;
+         tbx.ReadOnly = true;
+         tbx.ForeColor = Color.Black;
          tbx.BackColor = DisabledColor;
     }
     /// <summary>
@@ -436,6 +437,7 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         disableWatermark(twePatientTargetDate);
         disableWatermark(twePatientCompletedDate);        
         #endregion watermarks
+
     }
     #endregion Disable Form
 

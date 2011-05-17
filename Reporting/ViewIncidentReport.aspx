@@ -149,8 +149,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     <asp:TextBox TabIndex="109" ID="tbxStartDate" runat="server" MaxLength="10" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweStartDate" runat="server" TargetControlID="tbxStartDate"
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-                    <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="M/d/yyyy" >
-                    </asp:CalendarExtender>
+                    <%--<asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="M/d/yyyy" >
+                    </asp:CalendarExtender>--%>
                     <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpEmpInfo"
                         ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Start date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
@@ -162,8 +162,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     <asp:TextBox TabIndex="110" ID="tbxEndDate" runat="server" MaxLength="10" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweEndDate" runat="server" TargetControlID="tbxEndDate"
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-                    <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="M/d/yyyy" >
-                    </asp:CalendarExtender>
+                    <%--<asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="M/d/yyyy" >
+                    </asp:CalendarExtender>--%>
                     <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpEmpInfo"
                         ControlToValidate="tbxEndDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="End date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
@@ -183,8 +183,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     <asp:TextBox TabIndex="112" ID="tbx_p1_dateOfIncident" runat="server" MaxLength="10" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweDateOfIncident" runat="server" TargetControlID="tbx_p1_dateOfIncident"
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-                    <asp:CalendarExtender ID="cexDateOfIncident" runat="server" TargetControlID="tbx_p1_dateOfIncident" Format="M/d/yyyy" >
-                    </asp:CalendarExtender>
+                    <%--<asp:CalendarExtender ID="cexDateOfIncident" runat="server" TargetControlID="tbx_p1_dateOfIncident" Format="M/d/yyyy" >
+                    </asp:CalendarExtender>--%>
                     <asp:RequiredFieldValidator ID="rfvDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_dateOfIncident" ErrorMessage="Date of incident is required."></asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="revDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
@@ -230,8 +230,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     <asp:TextBox TabIndex="114" ID="tbx_p1_dateReported" runat="server" MaxLength="10" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweDateReported" runat="server" TargetControlID="tbx_p1_dateReported"
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-                    <asp:CalendarExtender ID="cexDateReported" runat="server" TargetControlID="tbx_p1_dateReported" Format="M/d/yyyy" >
-                    </asp:CalendarExtender>
+                    <%--<asp:CalendarExtender ID="cexDateReported" runat="server" TargetControlID="tbx_p1_dateReported" Format="M/d/yyyy" >
+                    </asp:CalendarExtender>--%>
                     <asp:RequiredFieldValidator ID="rfvDateReported" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_dateReported" ErrorMessage="Date reported is required."></asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="revDateReported" runat="server" ValidationGroup="vgpPanelA"
@@ -297,8 +297,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     <asp:TextBox ID="tbx_p1_action_medicalGP_date" runat="server" MaxLength="10" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date"
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-                    <asp:CalendarExtender ID="cexMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date" Format="M/d/yyyy" >
-                    </asp:CalendarExtender>
+                    <%--<asp:CalendarExtender ID="cexMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date" Format="M/d/yyyy" >
+                    </asp:CalendarExtender>--%>
                     <asp:RegularExpressionValidator ID="revMedicalGpDate" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_action_medicalGP_date" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Medical Aid (GP / Clinic) date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
@@ -312,8 +312,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     <asp:TextBox ID="tbx_p1_action_medicalER_date" runat="server" MaxLength="10" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date"
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-                    <asp:CalendarExtender ID="cexMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date" Format="M/d/yyyy" >
-                    </asp:CalendarExtender>
+                    <%--<asp:CalendarExtender ID="cexMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date" Format="M/d/yyyy" >
+                    </asp:CalendarExtender>--%>
                     <asp:RegularExpressionValidator ID="revMedicalErDate" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_action_medicalER_date" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Medical Aid (ER) date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
@@ -668,8 +668,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="150" ID="tbx_p2_corrective_personDate" runat="server" MaxLength="10" ></asp:TextBox>
             <asp:TextBoxWatermarkExtender ID="tweCorrectivePersonDate" runat="server" TargetControlID="tbx_p2_corrective_personDate"
                   WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-            <asp:CalendarExtender ID="cexCorrectivePersonDate" runat="server" TargetControlID="tbx_p2_corrective_personDate" Format="M/d/yyyy" >
-            </asp:CalendarExtender>
+            <%--<asp:CalendarExtender ID="cexCorrectivePersonDate" runat="server" TargetControlID="tbx_p2_corrective_personDate" Format="M/d/yyyy" >
+            </asp:CalendarExtender>--%>
             <asp:RegularExpressionValidator ID="revPersonDate" runat="server" ValidationGroup="vgpFCorrective"
                 ControlToValidate="tbx_p2_corrective_personDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Person assigned date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
@@ -691,8 +691,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="154" ID="tbx_p2_corrective_maintenanceDate" runat="server" MaxLength="10" ></asp:TextBox>
             <asp:TextBoxWatermarkExtender ID="tweCorrectiveMaintebanceDate" runat="server" TargetControlID="tbx_p2_corrective_maintenanceDate"
                 WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-            <asp:CalendarExtender ID="cexMaintenanceDate" runat="server" TargetControlID="tbx_p2_corrective_maintenanceDate" Format="M/d/yyyy" >
-            </asp:CalendarExtender>
+            <%--<asp:CalendarExtender ID="cexMaintenanceDate" runat="server" TargetControlID="tbx_p2_corrective_maintenanceDate" Format="M/d/yyyy" >
+            </asp:CalendarExtender>--%>
             <asp:RegularExpressionValidator ID="revMaintenanceDate" runat="server" ValidationGroup="vgpFCorrective"
                 ControlToValidate="tbx_p2_corrective_maintenanceDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Maintenance date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
@@ -714,8 +714,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="158" ID="tbx_p2_corrective_communicatedDate" runat="server" MaxLength="10" ></asp:TextBox>
             <asp:TextBoxWatermarkExtender ID="tweCorrectiveCommDate" runat="server" TargetControlID="tbx_p2_corrective_communicatedDate"
                 WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-            <asp:CalendarExtender ID="cexCommToStaffDate" runat="server" TargetControlID="tbx_p2_corrective_communicatedDate" Format="M/d/yyyy" >
-            </asp:CalendarExtender>
+            <%--<asp:CalendarExtender ID="cexCommToStaffDate" runat="server" TargetControlID="tbx_p2_corrective_communicatedDate" Format="M/d/yyyy" >
+            </asp:CalendarExtender>--%>
             <asp:RegularExpressionValidator ID="revCommToStaffDate" runat="server" ValidationGroup="vgpFCorrective"
                 ControlToValidate="tbx_p2_corrective_communicatedDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Communicated to staff date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
@@ -737,8 +737,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="161" ID="tbx_p2_corrective_timeDate" runat="server" MaxLength="10" ></asp:TextBox>
             <asp:TextBoxWatermarkExtender ID="tweCorrectiveTimeDate" runat="server" TargetControlID="tbx_p2_corrective_timeDate"
                 WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-            <asp:CalendarExtender ID="cexTimeLossDate" runat="server" TargetControlID="tbx_p2_corrective_timeDate" Format="M/d/yyyy" >
-            </asp:CalendarExtender>
+            <%--<asp:CalendarExtender ID="cexTimeLossDate" runat="server" TargetControlID="tbx_p2_corrective_timeDate" Format="M/d/yyyy" >
+            </asp:CalendarExtender>--%>
             <asp:RegularExpressionValidator ID="revTimeLossDate" runat="server" ValidationGroup="vgpFCorrective"
                 ControlToValidate="tbx_p2_corrective_timeDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Time loss date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
@@ -767,8 +767,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="163" ID="tbx_p2_corrective_writtenTargetDate" runat="server" MaxLength="10" ></asp:TextBox>
             <asp:TextBoxWatermarkExtender ID="tweWrittenTargetDate" runat="server" TargetControlID="tbx_p2_corrective_writtenTargetDate"
                 WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-            <asp:CalendarExtender ID="cexWrittenTargetDate" runat="server" TargetControlID="tbx_p2_corrective_writtenTargetDate" Format="M/d/yyyy" >
-            </asp:CalendarExtender>
+            <%--<asp:CalendarExtender ID="cexWrittenTargetDate" runat="server" TargetControlID="tbx_p2_corrective_writtenTargetDate" Format="M/d/yyyy" >
+            </asp:CalendarExtender>--%>
             <asp:RegularExpressionValidator ID="revWrittenTargetDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_writtenTargetDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Written target date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
@@ -778,8 +778,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="164" ID="tbx_p2_corrective_writtenCompletedDate" runat="server" MaxLength="10" ></asp:TextBox>
             <asp:TextBoxWatermarkExtender ID="tweWrittenCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_writtenCompletedDate"
                 WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-            <asp:CalendarExtender ID="cexWrittenCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_writtenCompletedDate" Format="M/d/yyyy" >
-            </asp:CalendarExtender>
+            <%--<asp:CalendarExtender ID="cexWrittenCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_writtenCompletedDate" Format="M/d/yyyy" >
+            </asp:CalendarExtender>--%>
             <asp:RegularExpressionValidator ID="revWrittenCompletedDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_writtenCompletedDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Written date completed must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
@@ -798,8 +798,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="166" ID="tbx_p2_corrective_educationTargetDate" runat="server" MaxLength="10" ></asp:TextBox>
             <asp:TextBoxWatermarkExtender ID="tweEducationTargetDate" runat="server" TargetControlID="tbx_p2_corrective_educationTargetDate"
                 WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-            <asp:CalendarExtender ID="cexEducationTargetDate" runat="server" TargetControlID="tbx_p2_corrective_educationTargetDate" Format="M/d/yyyy" >
-            </asp:CalendarExtender>
+            <%--<asp:CalendarExtender ID="cexEducationTargetDate" runat="server" TargetControlID="tbx_p2_corrective_educationTargetDate" Format="M/d/yyyy" >
+            </asp:CalendarExtender>--%>
             <asp:RegularExpressionValidator ID="revEducationTargetDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_educationTargetDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Education target date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
@@ -809,8 +809,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="167" ID="tbx_p2_corrective_educationCompletedDate" runat="server" MaxLength="10" ></asp:TextBox>
             <asp:TextBoxWatermarkExtender ID="tweEducationCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_educationCompletedDate"
                 WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-            <asp:CalendarExtender ID="cexEducationCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_educationCompletedDate" Format="M/d/yyyy" >
-            </asp:CalendarExtender>
+            <%--<asp:CalendarExtender ID="cexEducationCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_educationCompletedDate" Format="M/d/yyyy" >
+            </asp:CalendarExtender>--%>
             <asp:RegularExpressionValidator ID="revEducationCompletedDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_educationCompletedDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Education date completed must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
@@ -830,8 +830,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="169" ID="tbx_p2_corrective_equipmentTargetDate" runat="server" MaxLength="10" ></asp:TextBox>
             <asp:TextBoxWatermarkExtender ID="tweEquipmentTargetDate" runat="server" TargetControlID="tbx_p2_corrective_equipmentTargetDate"
                 WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-            <asp:CalendarExtender ID="cexEquipmentTargetDate" runat="server" TargetControlID="tbx_p2_corrective_equipmentTargetDate" Format="M/d/yyyy" >
-            </asp:CalendarExtender>
+            <%--<asp:CalendarExtender ID="cexEquipmentTargetDate" runat="server" TargetControlID="tbx_p2_corrective_equipmentTargetDate" Format="M/d/yyyy" >
+            </asp:CalendarExtender>--%>
             <asp:RegularExpressionValidator ID="revEquipmentTargetDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_equipmentTargetDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Equipment target date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
@@ -841,8 +841,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="170" ID="tbx_p2_corrective_equipmentCompletedDate" runat="server" MaxLength="10" ></asp:TextBox>
             <asp:TextBoxWatermarkExtender ID="tweEquipmentCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_equipmentCompletedDate"
                 WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-            <asp:CalendarExtender ID="cexEquipmentCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_equipmentCompletedDate" Format="M/d/yyyy" >
-            </asp:CalendarExtender>
+            <%--<asp:CalendarExtender ID="cexEquipmentCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_equipmentCompletedDate" Format="M/d/yyyy" >
+            </asp:CalendarExtender>--%>
             <asp:RegularExpressionValidator ID="revEquipmentCompletedDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_equipmentCompletedDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Eqipment date completed must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
@@ -861,8 +861,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="172" ID="tbx_p2_corrective_environmentTargetDate" runat="server" MaxLength="10" ></asp:TextBox>
             <asp:TextBoxWatermarkExtender ID="tweEnvironmentTargetDate" runat="server" TargetControlID="tbx_p2_corrective_environmentTargetDate"
                 WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-            <asp:CalendarExtender ID="cexEnvironmentTargetDate" runat="server" TargetControlID="tbx_p2_corrective_environmentTargetDate" Format="M/d/yyyy" >
-            </asp:CalendarExtender>
+            <%--<asp:CalendarExtender ID="cexEnvironmentTargetDate" runat="server" TargetControlID="tbx_p2_corrective_environmentTargetDate" Format="M/d/yyyy" >
+            </asp:CalendarExtender>--%>
             <asp:RegularExpressionValidator ID="rexEnvironmentTargetDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_environmentTargetDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$" 
                 ErrorMessage="Environment target date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
@@ -872,8 +872,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="173" ID="tbx_p2_corrective_environmentCompletedDate" runat="server" MaxLength="10" ></asp:TextBox>
             <asp:TextBoxWatermarkExtender ID="tweEnvironmentCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_environmentCompletedDate"
                 WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-            <asp:CalendarExtender ID="cexEnvironmentCompleteDate" runat="server" TargetControlID="tbx_p2_corrective_environmentCompletedDate" Format="M/d/yyyy" >
-            </asp:CalendarExtender>
+            <%--<asp:CalendarExtender ID="cexEnvironmentCompleteDate" runat="server" TargetControlID="tbx_p2_corrective_environmentCompletedDate" Format="M/d/yyyy" >
+            </asp:CalendarExtender>--%>
             <asp:RegularExpressionValidator ID="revEnvironmentCompletedDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_environmentCompletedDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$" 
                 ErrorMessage="Environment date completed must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
@@ -895,8 +895,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="175" ID="tbx_p2_corrective_patientTargetDate" runat="server" MaxLength="10" ></asp:TextBox>
             <asp:TextBoxWatermarkExtender ID="twePatientTargetDate" runat="server" TargetControlID="tbx_p2_corrective_patientTargetDate"
                 WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-            <asp:CalendarExtender ID="cexPatientTargetDate" runat="server" TargetControlID="tbx_p2_corrective_patientTargetDate" Format="M/d/yyyy" >
-            </asp:CalendarExtender>
+            <%--<asp:CalendarExtender ID="cexPatientTargetDate" runat="server" TargetControlID="tbx_p2_corrective_patientTargetDate" Format="M/d/yyyy" >
+            </asp:CalendarExtender>--%>
             <asp:RegularExpressionValidator ID="rexPatientTargetDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_patientTargetDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$" 
                 ErrorMessage="Patient/Resident target date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
@@ -906,8 +906,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <asp:TextBox TabIndex="176" ID="tbx_p2_corrective_patientCompletedDate" runat="server" MaxLength="10" ></asp:TextBox>
             <asp:TextBoxWatermarkExtender ID="twePatientCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_patientCompletedDate"
                 WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
-            <asp:CalendarExtender ID="cexPatientCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_patientCompletedDate" Format="M/d/yyyy" >
-            </asp:CalendarExtender>
+            <%--<asp:CalendarExtender ID="cexPatientCompletedDate" runat="server" TargetControlID="tbx_p2_corrective_patientCompletedDate" Format="M/d/yyyy" >
+            </asp:CalendarExtender>--%>
             <asp:RegularExpressionValidator ID="revPatientCompletedDate" runat="server" ValidationGroup="vgpGRelevant"
                 ControlToValidate="tbx_p2_corrective_patientCompletedDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                 ErrorMessage="Patient/Resident date completed must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
