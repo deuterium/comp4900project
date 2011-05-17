@@ -6,10 +6,28 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Drawing;
 using AjaxControlToolkit;
+using BCCAModel;
 
 public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
+    #region Class Variables
+    // The background color of disabled controls.
     public Color DisabledColor = ColorTranslator.FromHtml("#E6E6E6");
-    
+    // Database Entity framework context
+    BCCAEntities ctx = new BCCAEntities();
+    // Text colour for failure messages
+    public static Color FailColour = Color.Red;
+    // Text colour for success messages
+    public static Color SuccessColour = Color.Green;
+    // Text value of DropDowns for the other option, selecting this option causes a textbox to appear for custom data entry
+    public static String otherOption = "Other (specifiy)";
+    // Text value of DropDowns for the none specified option (null value in db)
+    public static String noOptionSpecified = String.Empty;
+    // List of static, pre-defined employers a user can select
+    public static List<String> employers = new List<String> {
+        noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
+    };
+    #endregion Class Variables
+
     /// <summary>
     /// Sets up the dynamic elements when the page loads for the first time.
     /// Hides Popup panel on page load.
@@ -20,9 +38,18 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         // Only do the initial set up the first time the page loads (and not on post-backs).
         if (!IsPostBack) {
             pnlPop.Style.Value = "display:none;";
+            loadReport(2);
+            //try {
+            //    int id = PreviousPage.incidentReportId;
+            //}
+            //catch (Exception ex) {
+            //    Response.Redirect("Default.aspx");
+            //}
+
             disableAllControls();
         }
     }
+
     #region Page Popup
     /// <summary>
     /// Calls the show method of the modal popup AJAX panel.
@@ -48,31 +75,52 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     }
     #endregion
 
+    #region Disable Form
+    /// <summary>
+    /// Disabled the parameter CheckBox control.
+    /// </summary>
+    /// <param name="cbx">The CheckBox to disable.</param>
     private void disableCheckBox(CheckBox cbx) {
         cbx.Enabled = false;
         //cbx.BackColor = DisabledColor;
     }
-
+    /// <summary>
+    /// Disabled the parameter TextBox control.
+    /// Changes the control's background color to the disabled color.
+    /// </summary>
+    /// <param name="cbx">The TextBox to disable.</param>
     private void disableTextBox(TextBox tbx) {
          tbx.Enabled = false;
          tbx.BackColor = DisabledColor;
     }
-
+    /// <summary>
+    /// Disabled the parameter DropDownList control.
+    /// Change the control's background color to the disabled color.
+    /// </summary>
+    /// <param name="cbx">The DropDownList to disable.</param>
     private void disableDropDownList(DropDownList ddl) {
         ddl.Enabled = false;
         ddl.BackColor = DisabledColor;
     }
-
+    /// <summary>
+    /// Disabled the parameter RadioButtonList control.
+    /// </summary>
+    /// <param name="cbx">The RadioButtonList to disable.</param>
     private void disableRadioButtonList(RadioButtonList rbl) {
         rbl.Enabled = false;
-        //rbl.BackColor = DisabledColor;
     }
-
+    /// <summary>
+    /// Disabled the parameter TextBoxWatermarkExtender control.
+    /// </summary>
+    /// <param name="cbx">The TextBoxWatermarkExtender to disable.</param>
     private void disableWatermark(TextBoxWatermarkExtender twe) {
         twe.Enabled = false;
-        //rbl.BackColor = DisabledColor;
     }
-
+    
+    /// <summary>
+    /// Calls the appropriate disable method on each of the form's controls.
+    /// Disables watermarks as well.
+    /// </summary>
     private void disableAllControls() {
         #region Employee Info
         disableTextBox(tbxId);
@@ -389,5 +437,529 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         disableWatermark(twePatientCompletedDate);        
         #endregion watermarks
     }
+    #endregion Disable Form
+
+
+    #region Load Incident Report
+    /// <summary>
+    /// Calls the getReport method, which load an Incident report from the database into the form.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The button click event.</param>
+    protected void btnLoadReport_Click(object sender, EventArgs e) {
+        loadReport(2);
+    }
+
+    /// <summary>
+    /// Loads an Incident report (with the specified ID) from the database into the form.
+    /// </summary>
+    /// <param name="id">The incidentNo (ID) of the report to load.</param>
+    /// <returns></returns>
+    private Incident loadReport(int id) {
+        var report = ctx.Incidents
+                     .Where(r => r.incidentNo.Equals(id))
+                     .Select(r => r).FirstOrDefault();
+
+        if (report == null) {
+            Popup_Overlay("Report not found.", SuccessColour);
+        }
+
+        tbxFirstName.Text = report.Employee.fname.ToString();
+        tbxLastName.Text = report.Employee.lname.ToString();
+        getEmployeeData();
+
+        #region A_IncidentInfo
+        tbx_p1_dateOfIncident.Text = convertDateTimeToString(report.p1_dateOfIncident);
+        tbx_p1_timeOfIncident.Text = convertTimeToString(report.p1_dateOfIncident);
+        tbx_p1_dateReported.Text = convertDateTimeToString(report.p1_dateReported);
+        tbx_p1_timeReported.Text = convertTimeToString(report.p1_dateReported);
+        tbx_p1_incidentDesc.Text = convertToTextBoxValue(report.p1_incidentDesc);
+        tbx_p1_witnessName1.Text = convertToTextBoxValue(report.p1_witnessName1);
+        tbx_p1_witnessPhone1.Text = convertToTextBoxValue(report.p1_witnessPhone1);
+        tbx_p1_witnessName2.Text = convertToTextBoxValue(report.p1_witnessName2);
+        tbx_p1_witnessPhone2.Text = convertToTextBoxValue(report.p1_witnessPhone2);
+        cbx_p1_action_report.Checked = convertToCheckBoxValue(report.p1_action_report);
+        cbx_p1_action_firstAid.Checked = convertToCheckBoxValue(report.p1_action_firstAid);
+        cbx_p1_action_medicalGP.Checked = convertToCheckBoxValue(report.p1_action_medicalGP);
+        tbx_p1_action_medicalGP_date.Text = convertDateTimeToString(report.p1_action_medicalGP_date);
+        cbx_p1_action_medicalER.Checked = convertToCheckBoxValue(report.p1_action_medicalER);
+        tbx_p1_action_medicalER_date.Text = convertDateTimeToString(report.p1_action_medicalER_date);
+        cbx_p1_action_lostTime.Checked = convertToCheckBoxValue(report.p1_action_lostTime);
+        #endregion A_IncidentInfo
+
+        #region B_NatureOfInjury
+        cbx_p1_nature_no.Checked = convertToCheckBoxValue(report.p1_nature_no);
+        cbx_p1_nature_musculoskeletal.Checked = convertToCheckBoxValue(report.p1_nature_musculoskeletal);
+        cbx_p1_nature_bruise.Checked = convertToCheckBoxValue(report.p1_nature_bruise);
+        cbx_p1_nature_burn.Checked = convertToCheckBoxValue(report.p1_nature_burn);
+        cbx_p1_nature_cut.Checked = convertToCheckBoxValue(report.p1_nature_cut);
+        cbx_p1_nature_puncture.Checked = convertToCheckBoxValue(report.p1_nature_puncture);
+        cbx_p1_nature_skinIrritation.Checked = convertToCheckBoxValue(report.p1_nature_skinIrritation);
+        cbx_p1_nature_skinMucous.Checked = convertToCheckBoxValue(report.p1_nature_skinMucous);
+        cbx_p1_nature_eye.Checked = convertToCheckBoxValue(report.p1_nature_eye);
+        cbx_p1_nature_allergic.Checked = convertToCheckBoxValue(report.p1_nature_allergic);
+        cbx_p1_nature_psychological.Checked = convertToCheckBoxValue(report.p1_nature_psychological);
+        cbx_p1_nature_respiratory.Checked = convertToCheckBoxValue(report.p1_nature_respiratory);
+        #endregion B_NatureOfInjury
+
+        #region C_AccidentInvestigation
+        cbx_p2_activity_no.Checked = convertToCheckBoxValue(report.p2_activity_no);
+        cbx_p2_activity_repositioning.Checked = convertToCheckBoxValue(report.p2_activity_repositioning);
+        cbx_p2_activity_transferring.Checked = convertToCheckBoxValue(report.p2_activity_transferring);
+        cbx_p2_activity_assistedWalking.Checked = convertToCheckBoxValue(report.p2_activity_assistedWalking);
+        cbx_p2_activity_assistedFloor.Checked = convertToCheckBoxValue(report.p2_activity_assistedFloor);
+        cbx_p2_activity_fall.Checked = convertToCheckBoxValue(report.p2_activity_fall);
+        cbx_p2_activity_holding.Checked = convertToCheckBoxValue(report.p2_activity_holding);
+        cbx_p2_activity_toileting.Checked = convertToCheckBoxValue(report.p2_activity_toileting);
+
+        cbx_p2_patient_ceilingLift.Checked = convertToCheckBoxValue(report.p2_patient_ceilingLift);
+        cbx_p2_patient_sitStandLift.Checked = convertToCheckBoxValue(report.p2_patient_sitStandLift);
+        cbx_p2_patient_floorLift.Checked = convertToCheckBoxValue(report.p2_patient_floorLift);
+        cbx_p2_patient_manualLift.Checked = convertToCheckBoxValue(report.p2_patient_manualLift);
+        cbx_p2_patient_other.Checked = convertToCheckBoxValue(report.p2_patient_otherSpecify);
+        tbx_p2_patient_otherSpecify.Text = convertToTextBoxValue(report.p2_patient_otherSpecify);
+        tbx_p1_numEmployeesInvolved.Text = (report.p1_numEmployeesInvolved == null) ? String.Empty : report.p1_numEmployeesInvolved.ToString();
+
+        tbx_p2_patient_otherSpecify.Text = convertToTextBoxValue(report.p2_patient_otherSpecify);
+        rbl_p2_patient_adequateAssist.SelectedValue = convertToTextBoxValue(report.p2_patient_adequateAssist);
+
+        cbx_p2_activity_washing.Checked = convertToCheckBoxValue(report.p2_activity_washing);
+        cbx_p2_activity_dressing.Checked = convertToCheckBoxValue(report.p2_activity_dressing);
+        cbx_p2_activity_changing.Checked = convertToCheckBoxValue(report.p2_activity_changing);
+        cbx_p2_activity_feeding.Checked = convertToCheckBoxValue(report.p2_activity_feeding);
+        cbx_p2_activity_prep.Checked = convertToCheckBoxValue(report.p2_activity_prep);
+        cbx_p2_activity_dressingChanges.Checked = convertToCheckBoxValue(report.p2_activity_dressingChanges);
+        tbx_p2_activity_otherPatientCare.Text = convertToTextBoxValue(report.p2_activity_otherPatientCare);
+
+        cbx_p2_activity_recapping.Checked = convertToCheckBoxValue(report.p2_activity_recapping);
+        cbx_p2_activity_puncture.Checked = convertToCheckBoxValue(report.p2_activity_puncture);
+        cbx_p2_activity_sharpsDisposal.Checked = convertToCheckBoxValue(report.p2_activity_sharpsDisposal);
+        cbx_p2_activity_otherSharps.Checked = convertToCheckBoxValue(report.p2_activity_otherSharps);
+
+        tbx_p2_activity_material.Text = convertToTextBoxValue(report.p2_activity_material);
+        cbx_p2_activity_lift.Checked = convertToCheckBoxValue(report.p2_activity_lift);
+        cbx_p2_activity_push.Checked = convertToCheckBoxValue(report.p2_activity_push);
+        cbx_p2_activity_carry.Checked = convertToCheckBoxValue(report.p2_activity_carry);
+        tbx_p2_activity_otherMat.Text = convertToTextBoxValue(report.p2_activity_otherMat);
+        cbx_p2_activity_driving.Checked = convertToCheckBoxValue(report.p2_activity_driving);
+        tbx_p2_activity_otherEquip.Text = convertToTextBoxValue(report.p2_activity_otherEquip);
+        cbx_p2_activity_otherEquipDesc.Checked = convertToCheckBoxValue(report.p2_activity_otherEquipDesc);
+        tbx_p2_activity_otherEquipDesc.Text = convertToTextBoxValue(report.p2_activity_otherEquipDesc);
+
+        cbx_p2_activity_equipMain.Checked = convertToCheckBoxValue(report.p2_activity_equipMain);
+        cbx_p2_activity_comp.Checked = convertToCheckBoxValue(report.p2_activity_comp);
+        cbx_p2_activity_nonComp.Checked = convertToCheckBoxValue(report.p2_activity_nonComp);
+
+        cbx_p2_activity_walking.Checked = convertToCheckBoxValue(report.p2_activity_walking);
+        cbx_p2_activity_bending.Checked = convertToCheckBoxValue(report.p2_activity_bending);
+        cbx_p2_activity_reading.Checked = convertToCheckBoxValue(report.p2_activity_reading);
+        cbx_p2_activity_spill.Checked = convertToCheckBoxValue(report.p2_activity_spill);
+        cbx_p2_activity_cleaning.Checked = convertToCheckBoxValue(report.p2_activity_cleaning);
+        tbx_p2_activity_other.Text = convertToTextBoxValue(report.p2_activity_other);
+        #endregion C_AccidentInvestigation
+
+        #region D_Cause
+        cbx_p2_cause_human.Checked = convertToCheckBoxValue(report.p2_cause_human);
+        cbx_p2_cause_animal.Checked = convertToCheckBoxValue(report.p2_cause_animal);
+
+        cbx_p2_cause_needle.Checked = convertToCheckBoxValue(report.p2_cause_needle);
+        cbx_p2_cause_otherSharps.Checked = convertToCheckBoxValue(report.p2_cause_otherSharps);
+        cbx_p2_cause_skin.Checked = convertToCheckBoxValue(report.p2_cause_skin);
+
+        cbx_p2_cause_awkwardPosture.Checked = convertToCheckBoxValue(report.p2_cause_awkwardPosture);
+        cbx_p2_cause_staticPosture.Checked = convertToCheckBoxValue(report.p2_cause_staticPosture);
+        cbx_p2_cause_contactStress.Checked = convertToCheckBoxValue(report.p2_cause_contactStress);
+        cbx_p2_cause_force.Checked = convertToCheckBoxValue(report.p2_cause_force);
+        cbx_p2_cause_rep.Checked = convertToCheckBoxValue(report.p2_cause_rep);
+
+        cbx_p2_cause_motor.Checked = convertToCheckBoxValue(report.p2_cause_motor);
+        cbx_p2_cause_slip.Checked = convertToCheckBoxValue(report.p2_cause_slip);
+        cbx_p2_cause_aggression.Checked = convertToCheckBoxValue(report.p2_cause_aggression);
+        cbx_p2_cause_undetermined.Checked = convertToCheckBoxValue(report.p2_cause_undetermined);
+        cbx_p2_cause_event.Checked = convertToCheckBoxValue(report.p2_cause_event);
+        cbx_p2_cause_underEquip.Checked = convertToCheckBoxValue(report.p2_cause_underEquip);
+        cbx_p2_cause_hit.Checked = convertToCheckBoxValue(report.p2_cause_hit);
+        tbx_p2_cause_other.Text = convertToTextBoxValue(report.p2_cause_other);
+
+        cbx_p2_cause_aggression_verbal.Checked = convertToCheckBoxValue(report.p2_aggression_verbal);
+        cbx_p2_cause_aggression_biting.Checked = convertToCheckBoxValue(report.p2_aggression_biting);
+        cbx_p2_cause_aggression_hitting.Checked = convertToCheckBoxValue(report.p2_aggression_hitting);
+        cbx_p2_cause_aggression_squeezing.Checked = convertToCheckBoxValue(report.p2_aggression_squeezing);
+        cbx_p2_cause_aggression_assault.Checked = convertToCheckBoxValue(report.p2_aggression_assault);
+        cbx_p2_cause_aggression_patient.Checked = convertToCheckBoxValue(report.p2_aggression_patient);
+        cbx_p2_cause_aggression_family.Checked = convertToCheckBoxValue(report.p2_aggression_family);
+        cbx_p2_cause_aggression_public.Checked = convertToCheckBoxValue(report.p2_aggression_public);
+        cbx_p2_cause_aggression_worker.Checked = convertToCheckBoxValue(report.p2_aggression_worker);
+        tbx_p2_cause_aggression_other.Text = convertToTextBoxValue(report.p2_aggression_other);
+
+        tbx_p2_cause_exposure_chemName.Text = convertToTextBoxValue(report.p2_cause_exposure_chemName);
+        cbx_p2_cause_chemInhalation.Checked = convertToCheckBoxValue(report.p2_cause_chemInhalation);
+        cbx_p2_cause_chemIngest.Checked = convertToCheckBoxValue(report.p2_cause_chemIngest);
+        cbx_p2_cause_chemContact.Checked = convertToCheckBoxValue(report.p2_cause_chemContact);
+        cbx_p2_cause_latex.Checked = convertToCheckBoxValue(report.p2_cause_latex);
+        cbx_p2_cause_dust.Checked = convertToCheckBoxValue(report.p2_cause_dust);
+        cbx_p2_cause_disease.Checked = convertToCheckBoxValue(report.p2_cause_disease);
+        cbx_p2_cause_temp.Checked = convertToCheckBoxValue(report.p2_cause_temp);
+        cbx_p2_cause_noise.Checked = convertToCheckBoxValue(report.p2_cause_noise);
+        cbx_p2_cause_radiation.Checked = convertToCheckBoxValue(report.p2_cause_radiation);
+        cbx_p2_cause_elec.Checked = convertToCheckBoxValue(report.p2_cause_elec);
+        cbx_p2_cause_air.Checked = convertToCheckBoxValue(report.p2_cause_air);
+        #endregion D_Cause
+
+        #region E_ContributingFactors
+        cbx_p2_factors_malfunction.Checked = convertToCheckBoxValue(report.p2_factors_malfunction);
+        cbx_p2_factors_improperUse.Checked = convertToCheckBoxValue(report.p2_factors_improperUse);
+        cbx_p2_factors_signage.Checked = convertToCheckBoxValue(report.p2_factors_signage);
+        cbx_p2_factors_notAvailable.Checked = convertToCheckBoxValue(report.p2_factors_notAvailable);
+        cbx_p2_factors_poorDesign.Checked = convertToCheckBoxValue(report.p2_factors_poorDesign);
+        tbx_p2_factors_otherEquip.Text = convertToTextBoxValue(report.p2_factors_otherEquip);
+
+        cbx_p2_factors_temp.Checked = convertToCheckBoxValue(report.p2_factors_temp);
+        cbx_p2_factors_workplace.Checked = convertToCheckBoxValue(report.p2_factors_workplace);
+        cbx_p2_factors_layout.Checked = convertToCheckBoxValue(report.p2_factors_layout);
+        cbx_p2_factors_limitedWorkspace.Checked = convertToCheckBoxValue(report.p2_factors_limitedWorkspace);
+        cbx_p2_factors_slippery.Checked = convertToCheckBoxValue(report.p2_factors_slippery);
+        cbx_p2_factors_lighting.Checked = convertToCheckBoxValue(report.p2_factors_lighting);
+        cbx_p2_factors_noise.Checked = convertToCheckBoxValue(report.p2_factors_noise);
+        cbx_p2_factors_vent.Checked = convertToCheckBoxValue(report.p2_factors_vent);
+        cbx_p2_factors_storage.Checked = convertToCheckBoxValue(report.p2_factors_storage);
+        tbx_p2_factors_otherEnv.Text = convertToTextBoxValue(report.p2_factors_otherEnv);
+
+        cbx_p2_factors_assessment.Checked = convertToCheckBoxValue(report.p2_factors_assessment);
+        cbx_p2_factors_procedure.Checked = convertToCheckBoxValue(report.p2_factors_procedure);
+        cbx_p2_factors_appropriateEquip.Checked = convertToCheckBoxValue(report.p2_factors_appropriateEquip);
+        cbx_p2_factors_conduct.Checked = convertToCheckBoxValue(report.p2_factors_conduct);
+        cbx_p2_factors_extended.Checked = convertToCheckBoxValue(report.p2_factors_extended);
+        cbx_p2_factors_comm.Checked = convertToCheckBoxValue(report.p2_factors_comm);
+        cbx_p2_factors_unaccustomed.Checked = convertToCheckBoxValue(report.p2_factors_unaccustomed);
+        tbx_p2_factors_otherWorkPractice.Text = convertToTextBoxValue(report.p2_factors_otherWorkPractice);
+
+        cbx_p2_factors_directions.Checked = convertToCheckBoxValue(report.p2_factors_directions);
+        cbx_p2_factors_weight.Checked = convertToCheckBoxValue(report.p2_factors_weight);
+        cbx_p2_factors_aggressive.Checked = convertToCheckBoxValue(report.p2_factors_aggressive);
+        cbx_p2_factors_patientResistive.Checked = convertToCheckBoxValue(report.p2_factors_patientResistive);
+        cbx_p2_factors_movement.Checked = convertToCheckBoxValue(report.p2_factors_movement);
+        cbx_p2_factors_confused.Checked = convertToCheckBoxValue(report.p2_factors_confused);
+        cbx_p2_factors_influence.Checked = convertToCheckBoxValue(report.p2_factors_influence);
+        cbx_p2_factors_lang.Checked = convertToCheckBoxValue(report.p2_factors_lang);
+        tbx_p2_factors_otherPatient.Text = convertToTextBoxValue(report.p2_factors_otherPatient);
+
+        cbx_p2_factors_alone.Checked = convertToCheckBoxValue(report.p2_factors_alone);
+        cbx_p2_factors_info.Checked = convertToCheckBoxValue(report.p2_factors_info);
+        cbx_p2_factors_scheduling.Checked = convertToCheckBoxValue(report.p2_factors_scheduling);
+        cbx_p2_factors_training.Checked = convertToCheckBoxValue(report.p2_factors_training);
+        cbx_p2_factors_equip.Checked = convertToCheckBoxValue(report.p2_factors_equip);
+        cbx_p2_factors_personal.Checked = convertToCheckBoxValue(report.p2_factors_personal);
+        cbx_p2_factors_safe.Checked = convertToCheckBoxValue(report.p2_factors_safe);
+        cbx_p2_factors_perceived.Checked = convertToCheckBoxValue(report.p2_factors_perceived);
+        tbx_p2_factors_otherOrganizational.Text = convertToTextBoxValue(report.p2_factors_otherOrganizational);
+
+        cbx_p2_factors_inexperienced.Checked = convertToCheckBoxValue(report.p2_factors_inexperienced);
+        cbx_p2_factors_communication.Checked = convertToCheckBoxValue(report.p2_factors_communication);
+        cbx_p2_factors_fatigued.Checked = convertToCheckBoxValue(report.p2_factors_fatigued);
+        cbx_p2_factors_distracted.Checked = convertToCheckBoxValue(report.p2_factors_distracted);
+        cbx_p2_factors_preexisting.Checked = convertToCheckBoxValue(report.p2_factors_preexisting);
+        cbx_p2_factors_sick.Checked = convertToCheckBoxValue(report.p2_factors_sick);
+        tbx_p2_factors_otherWorker.Text = convertToTextBoxValue(report.p2_factors_otherWorker);
+        #endregion E_ContributingFactors
+
+        #region F_CorrectiveAction
+        tbx_p2_corrective_person.Text = convertToTextBoxValue(report.p2_corrective_person);
+        tbx_p2_corrective_personDate.Text = convertDateTimeToString(report.p2_corrective_personDate);
+        rbl_p2_corrective_maintenance.SelectedValue = convertToTextBoxValue(report.p2_corrective_maintenance);
+        tbx_p2_corrective_maintenanceDate.Text = convertDateTimeToString(report.p2_corrective_maintenanceDate);
+        rbl_p2_corrective_communicated.SelectedValue = convertToTextBoxValue(report.p2_corrective_communicated);
+        tbx_p2_corrective_communicatedDate.Text = convertDateTimeToString(report.p2_corrective_communicatedDate);
+        rbl_p2_corrective_time.SelectedValue = convertToTextBoxValue(report.p2_corrective_time);
+        tbx_p2_corrective_timeDate.Text = convertDateTimeToString(report.p2_corrective_timeDate);
+        #endregion F_CorrectiveAction
+
+        #region G_FollowUp
+        tbx_p2_corrective_written.Text = convertToTextBoxValue(report.p2_corrective_written);
+        tbx_p2_corrective_writtenTargetDate.Text = convertDateTimeToString(report.p2_corrective_writtenTargetDate);
+        tbx_p2_corrective_writtenCompletedDate.Text = convertDateTimeToString(report.p2_corrective_writtenCompletedDate);
+        tbx_p2_corrective_education.Text = convertToTextBoxValue(report.p2_corrective_education);
+        tbx_p2_corrective_educationTargetDate.Text = convertDateTimeToString(report.p2_corrective_educationTargetDate);
+        tbx_p2_corrective_educationCompletedDate.Text = convertDateTimeToString(report.p2_corrective_educationCompletedDate);
+        tbx_p2_corrective_equipment.Text = convertToTextBoxValue(report.p2_corrective_equipment);
+        tbx_p2_corrective_equipmentTargetDate.Text = convertDateTimeToString(report.p2_corrective_equipmentTargetDate);
+        tbx_p2_corrective_equipmentCompletedDate.Text = convertDateTimeToString(report.p2_corrective_equipmentCompletedDate);
+        tbx_p2_corrective_environment.Text = convertToTextBoxValue(report.p2_corrective_environment);
+        tbx_p2_corrective_environmentTargetDate.Text = convertDateTimeToString(report.p2_corrective_environmentTargetDate);
+        tbx_p2_corrective_environmentCompletedDate.Text = convertDateTimeToString(report.p2_corrective_environmentCompletedDate);
+        tbx_p2_corrective_patient.Text = convertToTextBoxValue(report.p2_corrective_patient);
+        tbx_p2_corrective_patientTargetDate.Text = convertDateTimeToString(report.p2_corrective_patientTargetDate);
+        tbx_p2_corrective_patientCompletedDate.Text = convertDateTimeToString(report.p2_corrective_patientCompletedDate);
+        #endregion G_FollowUp
+
+        #region G_ManagersReport
+        tbx_p2_manager_previous.Text = convertToTextBoxValue(report.p2_manager_previous);
+        tbx_p2_manager_objections.Text = convertToTextBoxValue(report.p2_manager_objections);
+        tbx_p2_manager_alternative.Text = convertToTextBoxValue(report.p2_manager_alternative);
+        #endregion G_ManagersReport
+
+        #region H_FixedShiftRotation
+
+        #region H_FixedShiftRotation_Week1
+        tbx_p2_manager_week1_sun.Text = report.p2_manager_week1_sun == null ? String.Empty : report.p2_manager_week1_sun.ToString();
+        tbx_p2_manager_week1_mon.Text = report.p2_manager_week1_mon == null ? String.Empty : report.p2_manager_week1_mon.ToString();
+        tbx_p2_manager_week1_tue.Text = report.p2_manager_week1_tue == null ? String.Empty : report.p2_manager_week1_tue.ToString();
+        tbx_p2_manager_week1_wed.Text = report.p2_manager_week1_wed == null ? String.Empty : report.p2_manager_week1_wed.ToString();
+        tbx_p2_manager_week1_thu.Text = report.p2_manager_week1_thu == null ? String.Empty : report.p2_manager_week1_thu.ToString();
+        tbx_p2_manager_week1_fri.Text = report.p2_manager_week1_fri == null ? String.Empty : report.p2_manager_week1_fri.ToString();
+        tbx_p2_manager_week1_sat.Text = report.p2_manager_week1_sat == null ? String.Empty : report.p2_manager_week1_sat.ToString();
+        #endregion H_FixedShiftRotation_Week1
+
+        #region H_FixedShiftRotation_Week2
+        tbx_p2_manager_week2_sun.Text = report.p2_manager_week2_sun == null ? String.Empty : report.p2_manager_week2_sun.ToString();
+        tbx_p2_manager_week2_mon.Text = report.p2_manager_week2_mon == null ? String.Empty : report.p2_manager_week2_mon.ToString();
+        tbx_p2_manager_week2_tue.Text = report.p2_manager_week2_tue == null ? String.Empty : report.p2_manager_week2_tue.ToString();
+        tbx_p2_manager_week2_wed.Text = report.p2_manager_week2_wed == null ? String.Empty : report.p2_manager_week2_wed.ToString();
+        tbx_p2_manager_week2_thu.Text = report.p2_manager_week2_thu == null ? String.Empty : report.p2_manager_week2_thu.ToString();
+        tbx_p2_manager_week2_fri.Text = report.p2_manager_week2_fri == null ? String.Empty : report.p2_manager_week2_fri.ToString();
+        tbx_p2_manager_week2_sat.Text = report.p2_manager_week2_sat == null ? String.Empty : report.p2_manager_week2_sat.ToString();
+        #endregion H_FixedShiftRotation_Week2
+
+        #endregion H_FixedShiftRotation
+
+        return report;
+    }
+
+    /// <summary>
+    /// Converts a String value in the database to a radio button list value.
+    /// If the value is null or "2", returns false.
+    /// If the value is "1" returns true;
+    /// </summary>
+    /// <param name="value">The String to convert.</param>
+    /// <returns>Boolean: true for 1, false for 2 or null.</returns>
+    private Boolean convertToCheckBoxValue(String value) {
+        if ((value == null) || value.Equals("2")) {
+            return false;
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// If a string is NULL, returns an empty string.
+    /// Otherwise, returns the value.
+    /// This is so textboxes display an empty string instead of NULL.
+    /// </summary>
+    /// <param name="value">The String to convert.</param>
+    /// <returns>Empty string if null, otherwise returns the value.</returns>
+    private String convertToTextBoxValue(String value) {
+        if (value == null) {
+            return String.Empty;
+        }
+        return value;
+    }
+
+    /// <summary>
+    /// Converts a DateTime into a formatted string.
+    /// Returns the date in the format "M/d/yyyy" (e.g. 11/1/2010).
+    /// Returns an empty string if the value is null.
+    /// </summary>
+    /// <param name="value">The Date to convert.</param>
+    /// <returns>The date in the format "M/d/yyyy" or an empty string if the value is null.</returns>
+    private String convertDateTimeToString(Object value) {
+        if (value == null) {
+            return String.Empty;
+        }
+        return Convert.ToDateTime(value).ToString("M/d/yyyy");
+    }
+
+    /// <summary>
+    /// Converts a DateTime into a formatted string.
+    /// Returns the date in the format "h:mm tt" (e.g. 5:37 PM).
+    /// Returns an empty string if the value is null.
+    /// </summary>
+    /// <param name="value">The Date to convert.</param>
+    /// <returns>The time in the format "h:mm tt" or an empty string if the value is null.</returns>
+    private String convertTimeToString(Object value) {
+        if (value == null) {
+            return String.Empty;
+        }
+        return Convert.ToDateTime(value).ToString("h:mm tt");
+    }
+
+    #region Load Employee Data
+    /// <summary>
+    /// Uses the employee's first and last name to get the rest employee's information from the database.
+    /// Populates the Header form with this data.
+    /// </summary>
+    private void getEmployeeData() {
+        String first = tbxFirstName.Text;
+        String last = tbxLastName.Text;
+        Employee emp = null;
+
+        var qry = ctx.Employees
+                  .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
+                  .Select(e => e);
+
+        if ((qry != null) && (qry.Count() == 1)) {
+            emp = qry.FirstOrDefault();
+
+            tbxId.Text = emp.empNo.ToString();
+            tbxFirstName.Text = emp.fname.ToString();
+            tbxLastName.Text = emp.lname.ToString();
+
+            // Position DDL
+            var position = ctx.Positions
+                           .Where(p => p.posName.Equals(emp.position))
+                           .Select(p => p).FirstOrDefault();
+
+            if (emp.position == null) {
+                ddlPositions.SelectedIndex = 0;
+            }
+            else if (position != null) {
+                ddlPositions.SelectedValue = position.posName;
+            }
+            else {
+                ddlPositions.SelectedValue = otherOption;
+                tbxPosition.Text = emp.position;
+            }
+            CheckPositionSelection();
+
+            // Employer DDL
+            if (emp.employer == null) {
+                ddlEmployers.SelectedIndex = 0;
+            }
+            else if (employers.Contains(emp.employer)) {
+                ddlEmployers.SelectedValue = emp.employer;
+            }
+            else {
+                ddlEmployers.SelectedValue = otherOption;
+                tbxEmployer.Text = emp.employer;
+            }
+            CheckEmployeeSelection();
+
+            // Department DDL
+            var department = ctx.Departments
+                            .Where(d => d.deptName.Equals(emp.deptName))
+                            .Select(d => d).FirstOrDefault();
+
+            if (emp.deptName == null) {
+                ddlDepartments.SelectedIndex = 0;
+            }
+            else if (department != null) {
+                ddlDepartments.SelectedValue = department.deptName;
+            }
+            else {
+                ddlDepartments.SelectedValue = otherOption;
+                tbxDepartment.Text = emp.deptName;
+            }
+            CheckDepartmentSelection();
+
+            if (emp.supervisor == null) {
+                tbxSupervisor.Text = String.Empty;
+            }
+            else {
+                tbxSupervisor.Text = emp.supervisor;
+            }
+
+            tbxRoom.Text = emp.room;
+
+            if (emp.startDate != null) {
+                tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy");
+            }
+
+            if (emp.endDate != null) {
+                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy");
+            }
+
+        }
+        else if ((qry != null) && (qry.Count() <= 0)) {
+            Popup_Overlay("No employee with that first and last name found.", FailColour);
+        }
+        else {
+            Popup_Overlay("There was more than one employee with that first and last name.", FailColour);
+        }
+    }
+
+    #region Drop Down Lists
     
+    #region Other Option Textbox Toggle
+    /// <summary>
+    /// Calls CheckPositionSelection(), which displays a textbox if the "Other (specify)" option is selected
+    /// and hides the textbox if any other option is selected
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The index changed event.</param>
+    protected void ddlPositions_SelectedIndexChanged(object sender, EventArgs e) {
+        CheckPositionSelection();
+    }
+
+    /// <summary>
+    /// Calls CheckEmployeeSelection(), which displays a textbox if the "Other (specify)" option is selected
+    /// and hides the textbox if any other option is selected
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The index changed event.</param>
+    protected void ddlEmployers_SelectedIndexChanged(object sender, EventArgs e) {
+        CheckEmployeeSelection();
+    }
+
+    /// <summary>
+    /// Calls CheckDepartmentSelection(), which displays a textbox if the "Other (specify)" option is selected
+    /// and hides the textbox if any other option is selected
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The index changed event.</param>
+    protected void ddlDepartments_SelectedIndexChanged(object sender, EventArgs e) {
+        CheckDepartmentSelection();
+    }
+
+    /// <summary>
+    /// Displays a textbox if the "Other (specify)" option of the positions drop down list is selected.
+    /// Hides the textbox if any other option is selected
+    /// </summary>
+    private void CheckPositionSelection() {
+        if (ddlPositions.SelectedValue.Equals(otherOption)) {
+            tbxPosition.Visible = true;
+        }
+        else {
+            tbxPosition.Visible = false;
+        }
+    }
+
+    /// <summary>
+    /// Displays a textbox if the "Other (specify)" option of the employee drop down list is selected.
+    /// Hides the textbox if any other option is selected
+    /// </summary>
+    private void CheckEmployeeSelection() {
+        if (ddlEmployers.SelectedValue.Equals(otherOption)) {
+            tbxEmployer.Visible = true;
+        }
+        else {
+            tbxEmployer.Visible = false;
+        }
+    }
+
+    /// <summary>
+    /// Displays a textbox if the "Other (specify)" option of the departments drop down list is selected.
+    /// Hides the textbox if any other option is selected
+    /// </summary>
+    private void CheckDepartmentSelection() {
+        if (ddlDepartments.SelectedValue.Equals(otherOption)) {
+            tbxDepartment.Visible = true;
+        }
+        else {
+            tbxDepartment.Visible = false;
+        }
+    }
+    #endregion Other Option Textbox Toggle
+
+    #endregion DropDownLists
+
+    /// <summary>
+    /// Calls getEmployeeData(), which fetches the employee from the database using the employee's first and last name
+    /// then populates the rest of the form with the employee's information.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The index changed event.</param>
+    protected void btnGetEmployee_Click(object sender, EventArgs e) {
+        getEmployeeData();
+    }
+    #endregion LoadEmployeeData
+
+    #endregion Load Incident Report
 }
