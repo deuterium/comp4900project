@@ -3,6 +3,16 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="head">
+    <style type="text/css">
+    .style1
+    {
+        width: 100%;
+    }
+    .style2
+    {
+        width: 309px;
+    }
+</style>
 </asp:Content>
 
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="body">
@@ -39,12 +49,6 @@ ExpandedImage="../images/collapse.jpg">
     ImageControlID="imgExpandCollapseCoursesCatalog" TextLabelID="ExpandCollapseCoursesCatalog" CollapsedImage="../images/expand.jpg" 
     ExpandedImage="../images/collapse.jpg">
     </asp:CollapsiblePanelExtender>
-
-<asp:CollapsiblePanelExtender ID="cpeCourseDetails" runat="server" Collapsed="true"
-CollapseControlID="hr3CourseDetails" ExpandControlID="hr3CourseDetails" TargetControlID="pnlCourseDetails"
-ImageControlID="imgExpandCollapseCoursesDetails" TextLabelID="ExpandCollapseCoursesDetails" CollapsedImage="../images/expand.jpg" 
-ExpandedImage="../images/collapse.jpg">
-</asp:CollapsiblePanelExtender>
 
         <div id="divContent">
         <div id="divReportInfo">
@@ -236,8 +240,93 @@ ExpandedImage="../images/collapse.jpg">
                         </Columns>
                     </asp:GridView>
                     
-                    <asp:GridView ID="GridView1" runat="server">
-                    </asp:GridView>
+                    <asp:Panel ID="pnlBioSafety" runat="server" CssClass="panel">
+                        <div>
+                            <table class="style1">
+                                <tr>
+                                    <td class="style2">
+                                        Date of Course:</td>
+                                    <td>
+                                        <asp:TextBox ID="tbxCourseDate" runat="server"></asp:TextBox>
+                                        <asp:CalendarExtender ID="tbxCourseDate_CalendarExtender" runat="server" 
+                                            Enabled="True" TargetControlID="tbxCourseDate">
+                                        </asp:CalendarExtender>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="style2">
+                                        CL2 SOP Signed:</td>
+                                    <td>
+                                        <asp:RadioButtonList ID="rblSigned" runat="server" RepeatDirection="Horizontal">
+                                            <asp:ListItem ID="limSigned" runat="server" Text="Yes" Value="Yes" />
+                                            <asp:ListItem ID="limNotSigned" runat="server" Text="No" Value="No" />
+                                        </asp:RadioButtonList>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="style2">
+                                        Evaluation:</td>
+                                    <td>
+                                        <asp:RadioButtonList ID="rblEvaluation" runat="server" 
+                                            RepeatDirection="Horizontal">
+                                            <asp:ListItem ID="limPassed" runat="server" Text="Pass" Value="Pass" />
+                                            <asp:ListItem ID="limFailed" runat="server" Text="Fail" Value="Fail" />
+                                        </asp:RadioButtonList>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="style2">
+                                        &nbsp;Respirator Fit-Testing:</td>
+                                    <td>
+                                        &nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="style2">
+                                        &nbsp;&nbsp;&nbsp; Date of fit&nbsp;</td>
+                                    <td>
+                                        <asp:TextBox ID="tbxDateFit" runat="server"></asp:TextBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="style2">
+                                        &nbsp;&nbsp; &nbsp;Type of Respirator:</td>
+                                    <td>
+                                        <asp:TextBox ID="tbxRespType" runat="server"></asp:TextBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="style2">
+                                        &nbsp;&nbsp;&nbsp; Model:</td>
+                                    <td>
+                                        <asp:TextBox ID="tbxRespModel" runat="server"></asp:TextBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="style2">
+                                        &nbsp;&nbsp;&nbsp; Comments:</td>
+                                    <td>
+                                        <asp:TextBox ID="tbxRespComment" runat="server"></asp:TextBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="style2">
+                                        Date of Spill Clean-up training:</td>
+                                    <td>
+                                        <asp:TextBox ID="tbxSpillDate" runat="server"></asp:TextBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="style2">
+                                        Certificate Number:</td>
+                                    <td>
+                                        <asp:TextBox ID="TextBox9" runat="server"></asp:TextBox>
+                                    </td>
+                                </tr>
+                            </table>
+                            &nbsp;<asp:Button ID="Button1" runat="server" Text="Save Details" />
+                            <br />
+                        </div>
+                    </asp:Panel>
                     
                 </asp:Panel>
                 <h4 id="hr4CoursesExpired"><asp:Image ID="imgExpandCollapseCoursesExpired" runat="server" /> Expired: <asp:Label ID="ExpandCollapseCoursesExpired" runat="server" Text=""></asp:Label></h4>
@@ -258,31 +347,7 @@ ExpandedImage="../images/collapse.jpg">
         </div>
 
         <div id="divCourseDetails">
-            <h3 id="hr3CourseDetails"><asp:Image ID="imgExpandCollapseCoursesDetails" runat="server" /> Course Details</h3>
-            <asp:Panel ID="pnlCourseDetails" CssClass="panel" runat="server">
-            <div>
-                Date of Course:
-                <br />
-                CL2 SOP Signed:
-                <asp:RadioButtonList ID="rblSigned" runat="server" RepeatDirection="Horizontal">
-                    <asp:ListItem ID="limSigned" runat="server" Text="Yes" Value="Yes" />
-                    <asp:ListItem ID="limNotSigned" runat="server" Text="No" Value="No" />
-                </asp:RadioButtonList>
-                Evaluation:
-                <asp:RadioButtonList ID="rblEvaluation" runat="server" RepeatDirection="Horizontal">
-                    <asp:ListItem ID="limPassed" runat="server" Text="Yes" Value="Yes" />
-                    <asp:ListItem ID="limFailed" runat="server" Text="No" Value="No" />
-                </asp:RadioButtonList>
-                Respirator Fit-Testing:
-                <asp:DropDownList ID="ddlRespiratorFitTesting" runat="server"></asp:DropDownList>
-                <br />
-                Spill Clean-up training:
-                <asp:RadioButtonList ID="rblSpillCleanUpTraining" runat="server" RepeatDirection="Horizontal">
-                    <asp:ListItem ID="limComplete" runat="server" Text="Yes" Value="Yes" />
-                    <asp:ListItem ID="limNotComplete" runat="server" Text="No" Value="No" />
-                </asp:RadioButtonList>
-            </div>
-            </asp:Panel>
+            
 
             <asp:Panel ID="pnlPop" BackColor="White" Width="400px" Height="100px" CssClass="popPanel" runat="server">
     <table width="100%" cellpadding="5">
