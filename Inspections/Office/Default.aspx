@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Office.aspx.cs" Inherits="Inspections_Office_Office" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Inspections_Office_Office" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="head"></asp:Content>
@@ -114,10 +114,10 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </tr>
             <tr>
                 <td>
-                    Room: 
+                    Area: 
                 </td>
                 <td>
-                    <asp:TextBox runat="server" ID="tbxOfficeRoom" />
+                    <asp:TextBox runat="server" ID="tbxOfficeArea" />
                 </td>
                 <td>
                     &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -127,14 +127,6 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 </td>
                 <td>
                     <asp:TextBox runat="server" ID="tbxOfficeInspectors"></asp:TextBox>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Lab Manager:
-                </td>
-                <td>
-                    <asp:DropDownList runat="server" ID="ddlOfficeLabManager"></asp:DropDownList>
                 </td>
             </tr>
             <tr>
@@ -395,7 +387,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tdbCommentSpace"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSpace"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1177,7 +1169,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentsOnLineTrain"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentOnLineTrain"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1335,6 +1327,26 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </asp:Panel>
 
     <asp:Button ID="btnOfficeInspectionSubmit" runat="server" Text="Submit" onclick="btnOfficeInspectionSubmit_Click" />
+
+    <asp:Panel ID="pnlPop" BackColor="White" CssClass="popPanel" runat="server">
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td>
+                    <asp:Label ID="lblPnlPop" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    <asp:Button ID="btnPnlPopClose" runat="server" Text="Close" />
+                </td>
+            </tr>
+        </table>
+    </asp:Panel>
+
+    <asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
+
+    <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
+        DropShadow="true" BackgroundCssClass="modalBackground" />
 
 </div>
 
