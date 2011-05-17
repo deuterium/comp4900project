@@ -229,13 +229,24 @@ ExpandedImage="../images/collapse.jpg">
                                     <asp:Label ID="Label2" runat="server" Text='<%# Bind("endDate", "{0:d}") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
+                            <asp:BoundField DataField="trainingTakenNo" HeaderText="trainingTakenNo" 
+                                SortExpression="trainingTakenNo" ReadOnly="True" />
                         </Columns>
                     </asp:GridView>
                     
                     <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
                         ConnectionString="<%$ ConnectionStrings:comp4900t4waveturtleConnectionString %>" 
+                        ConflictDetection="CompareAllValues" 
                         
-                        SelectCommand="SELECT TrainingCourses.trainingName, TrainingTaken.startDate, TrainingTaken.endDate FROM TrainingTaken INNER JOIN Employee ON TrainingTaken.empNo = Employee.empNo INNER JOIN TrainingCourses ON TrainingTaken.trainingNo = TrainingCourses.trainingNo where TrainingTaken.endDate &gt;= GETDATE() OR TrainingTaken.endDate IS NULL ">
+                        SelectCommand="SELECT TrainingCourses.trainingName, TrainingTaken.startDate, TrainingTaken.endDate, TrainingTaken.trainingTakenNo FROM TrainingTaken INNER JOIN Employee ON TrainingTaken.empNo = Employee.empNo INNER JOIN TrainingCourses ON TrainingTaken.trainingNo = TrainingCourses.trainingNo WHERE (TrainingTaken.endDate &gt;= GETDATE()) OR (TrainingTaken.endDate IS NULL)" 
+                        OldValuesParameterFormatString="original_{0}" 
+                        
+                        UpdateCommand="UPDATE TrainingTaken SET startDate = @startDate, endDate = @endDate WHERE (trainingTakenNo = @original_trainingTakenNo)">
+                        <UpdateParameters>
+                            <asp:Parameter Name="startDate" Type="DateTime" />
+                            <asp:Parameter Name="endDate" Type="DateTime" />
+                            <asp:Parameter Name="original_trainingTakenNo" Type="Int32"/>
+                        </UpdateParameters>
                     </asp:SqlDataSource>
                     
                     <asp:GridView ID="GridView1" runat="server">

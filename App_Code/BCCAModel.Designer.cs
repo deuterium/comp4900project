@@ -24,10 +24,12 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("BCCAModel", "fk_deptNo", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.User), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__Incident__empNo__04AFB25B", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Employee), "Incident", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Incident), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__TrainingT__empNo__503BEA1C", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Employee), "TrainingTaken", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.TrainingTaken), true)]
-[assembly: EdmRelationshipAttribute("BCCAModel", "FK__FollowUp__labIns__5F7E2DAC", "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.LabInspection), "FollowUp", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.FollowUp), true)]
-[assembly: EdmRelationshipAttribute("BCCAModel", "FK__FollowUp__labIns__607251E5", "LabInspectionItem", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.LabInspectionItem), "FollowUp", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.FollowUp), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__FollowUp__labIns__5F7E2DAC", "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.LabInspection), "LabFollowUp", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabFollowUp), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__FollowUp__labIns__607251E5", "LabInspectionItem", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.LabInspectionItem), "LabFollowUp", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabFollowUp), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__LabInspec__labIn__625A9A57", "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.LabInspection), "LabInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabInspectionDetail), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__LabInspec__labIt__634EBE90", "LabInspectionItem", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.LabInspectionItem), "LabInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabInspectionDetail), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__OfficeFol__offic__3FD07829", "OfficeInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.OfficeInspection), "OfficeFollowUp", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.OfficeFollowUp), true)]
+[assembly: EdmRelationshipAttribute("BCCAModel", "FK__OfficeFol__offic__40C49C62", "OfficeInspectionItems", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.OfficeInspectionItem), "OfficeFollowUp", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.OfficeFollowUp), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__OfficeIns__offic__7E02B4CC", "OfficeInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.OfficeInspection), "OfficeInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.OfficeInspectionDetail), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__OfficeIns__offic__7EF6D905", "OfficeInspectionItems", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.OfficeInspectionItem), "OfficeInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.OfficeInspectionDetail), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__Users__roleNo__7849DB76", "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Role), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.User), true)]
@@ -135,22 +137,6 @@ namespace BCCAModel
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<FollowUp> FollowUps
-        {
-            get
-            {
-                if ((_FollowUps == null))
-                {
-                    _FollowUps = base.CreateObjectSet<FollowUp>("FollowUps");
-                }
-                return _FollowUps;
-            }
-        }
-        private ObjectSet<FollowUp> _FollowUps;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<Incident> Incidents
         {
             get
@@ -163,6 +149,22 @@ namespace BCCAModel
             }
         }
         private ObjectSet<Incident> _Incidents;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<LabFollowUp> LabFollowUps
+        {
+            get
+            {
+                if ((_LabFollowUps == null))
+                {
+                    _LabFollowUps = base.CreateObjectSet<LabFollowUp>("LabFollowUps");
+                }
+                return _LabFollowUps;
+            }
+        }
+        private ObjectSet<LabFollowUp> _LabFollowUps;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -211,6 +213,22 @@ namespace BCCAModel
             }
         }
         private ObjectSet<LabInspectionItem> _LabInspectionItems;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<OfficeFollowUp> OfficeFollowUps
+        {
+            get
+            {
+                if ((_OfficeFollowUps == null))
+                {
+                    _OfficeFollowUps = base.CreateObjectSet<OfficeFollowUp>("OfficeFollowUps");
+                }
+                return _OfficeFollowUps;
+            }
+        }
+        private ObjectSet<OfficeFollowUp> _OfficeFollowUps;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -384,19 +402,19 @@ namespace BCCAModel
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the FollowUps EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToFollowUps(FollowUp followUp)
-        {
-            base.AddObject("FollowUps", followUp);
-        }
-    
-        /// <summary>
         /// Deprecated Method for adding a new object to the Incidents EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToIncidents(Incident incident)
         {
             base.AddObject("Incidents", incident);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the LabFollowUps EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToLabFollowUps(LabFollowUp labFollowUp)
+        {
+            base.AddObject("LabFollowUps", labFollowUp);
         }
     
         /// <summary>
@@ -421,6 +439,14 @@ namespace BCCAModel
         public void AddToLabInspectionItems(LabInspectionItem labInspectionItem)
         {
             base.AddObject("LabInspectionItems", labInspectionItem);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the OfficeFollowUps EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToOfficeFollowUps(OfficeFollowUp officeFollowUp)
+        {
+            base.AddObject("OfficeFollowUps", officeFollowUp);
         }
     
         /// <summary>
@@ -1118,214 +1144,6 @@ namespace BCCAModel
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TrainingTaken>("BCCAModel.FK__TrainingT__empNo__503BEA1C", "TrainingTaken", value);
-                }
-            }
-        }
-
-        #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="FollowUp")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class FollowUp : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new FollowUp object.
-        /// </summary>
-        /// <param name="followUpNo">Initial value of the followUpNo property.</param>
-        /// <param name="labInsNo">Initial value of the labInsNo property.</param>
-        public static FollowUp CreateFollowUp(global::System.Int32 followUpNo, global::System.Int32 labInsNo)
-        {
-            FollowUp followUp = new FollowUp();
-            followUp.followUpNo = followUpNo;
-            followUp.labInsNo = labInsNo;
-            return followUp;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 followUpNo
-        {
-            get
-            {
-                return _followUpNo;
-            }
-            set
-            {
-                if (_followUpNo != value)
-                {
-                    OnfollowUpNoChanging(value);
-                    ReportPropertyChanging("followUpNo");
-                    _followUpNo = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("followUpNo");
-                    OnfollowUpNoChanged();
-                }
-            }
-        }
-        private global::System.Int32 _followUpNo;
-        partial void OnfollowUpNoChanging(global::System.Int32 value);
-        partial void OnfollowUpNoChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 labInsNo
-        {
-            get
-            {
-                return _labInsNo;
-            }
-            set
-            {
-                OnlabInsNoChanging(value);
-                ReportPropertyChanging("labInsNo");
-                _labInsNo = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("labInsNo");
-                OnlabInsNoChanged();
-            }
-        }
-        private global::System.Int32 _labInsNo;
-        partial void OnlabInsNoChanging(global::System.Int32 value);
-        partial void OnlabInsNoChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Int32> labInsItemNo
-        {
-            get
-            {
-                return _labInsItemNo;
-            }
-            set
-            {
-                OnlabInsItemNoChanging(value);
-                ReportPropertyChanging("labInsItemNo");
-                _labInsItemNo = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("labInsItemNo");
-                OnlabInsItemNoChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _labInsItemNo;
-        partial void OnlabInsItemNoChanging(Nullable<global::System.Int32> value);
-        partial void OnlabInsItemNoChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String actionTaken
-        {
-            get
-            {
-                return _actionTaken;
-            }
-            set
-            {
-                OnactionTakenChanging(value);
-                ReportPropertyChanging("actionTaken");
-                _actionTaken = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("actionTaken");
-                OnactionTakenChanged();
-            }
-        }
-        private global::System.String _actionTaken;
-        partial void OnactionTakenChanging(global::System.String value);
-        partial void OnactionTakenChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__FollowUp__labIns__5F7E2DAC", "LabInspection")]
-        public LabInspection LabInspection
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspection>("BCCAModel.FK__FollowUp__labIns__5F7E2DAC", "LabInspection").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspection>("BCCAModel.FK__FollowUp__labIns__5F7E2DAC", "LabInspection").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<LabInspection> LabInspectionReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspection>("BCCAModel.FK__FollowUp__labIns__5F7E2DAC", "LabInspection");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<LabInspection>("BCCAModel.FK__FollowUp__labIns__5F7E2DAC", "LabInspection", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__FollowUp__labIns__607251E5", "LabInspectionItem")]
-        public LabInspectionItem LabInspectionItem
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionItem>("BCCAModel.FK__FollowUp__labIns__607251E5", "LabInspectionItem").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionItem>("BCCAModel.FK__FollowUp__labIns__607251E5", "LabInspectionItem").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<LabInspectionItem> LabInspectionItemReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionItem>("BCCAModel.FK__FollowUp__labIns__607251E5", "LabInspectionItem");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<LabInspectionItem>("BCCAModel.FK__FollowUp__labIns__607251E5", "LabInspectionItem", value);
                 }
             }
         }
@@ -6346,6 +6164,262 @@ namespace BCCAModel
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="LabFollowUp")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class LabFollowUp : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new LabFollowUp object.
+        /// </summary>
+        /// <param name="followUpNo">Initial value of the followUpNo property.</param>
+        /// <param name="labInsNo">Initial value of the labInsNo property.</param>
+        public static LabFollowUp CreateLabFollowUp(global::System.Int32 followUpNo, global::System.Int32 labInsNo)
+        {
+            LabFollowUp labFollowUp = new LabFollowUp();
+            labFollowUp.followUpNo = followUpNo;
+            labFollowUp.labInsNo = labInsNo;
+            return labFollowUp;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 followUpNo
+        {
+            get
+            {
+                return _followUpNo;
+            }
+            set
+            {
+                if (_followUpNo != value)
+                {
+                    OnfollowUpNoChanging(value);
+                    ReportPropertyChanging("followUpNo");
+                    _followUpNo = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("followUpNo");
+                    OnfollowUpNoChanged();
+                }
+            }
+        }
+        private global::System.Int32 _followUpNo;
+        partial void OnfollowUpNoChanging(global::System.Int32 value);
+        partial void OnfollowUpNoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 labInsNo
+        {
+            get
+            {
+                return _labInsNo;
+            }
+            set
+            {
+                OnlabInsNoChanging(value);
+                ReportPropertyChanging("labInsNo");
+                _labInsNo = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("labInsNo");
+                OnlabInsNoChanged();
+            }
+        }
+        private global::System.Int32 _labInsNo;
+        partial void OnlabInsNoChanging(global::System.Int32 value);
+        partial void OnlabInsNoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> labInsItemNo
+        {
+            get
+            {
+                return _labInsItemNo;
+            }
+            set
+            {
+                OnlabInsItemNoChanging(value);
+                ReportPropertyChanging("labInsItemNo");
+                _labInsItemNo = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("labInsItemNo");
+                OnlabInsItemNoChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _labInsItemNo;
+        partial void OnlabInsItemNoChanging(Nullable<global::System.Int32> value);
+        partial void OnlabInsItemNoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String comment
+        {
+            get
+            {
+                return _comment;
+            }
+            set
+            {
+                OncommentChanging(value);
+                ReportPropertyChanging("comment");
+                _comment = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("comment");
+                OncommentChanged();
+            }
+        }
+        private global::System.String _comment;
+        partial void OncommentChanging(global::System.String value);
+        partial void OncommentChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> inspectionDate
+        {
+            get
+            {
+                return _inspectionDate;
+            }
+            set
+            {
+                OninspectionDateChanging(value);
+                ReportPropertyChanging("inspectionDate");
+                _inspectionDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("inspectionDate");
+                OninspectionDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _inspectionDate;
+        partial void OninspectionDateChanging(Nullable<global::System.DateTime> value);
+        partial void OninspectionDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String inspectionConductedBy
+        {
+            get
+            {
+                return _inspectionConductedBy;
+            }
+            set
+            {
+                OninspectionConductedByChanging(value);
+                ReportPropertyChanging("inspectionConductedBy");
+                _inspectionConductedBy = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("inspectionConductedBy");
+                OninspectionConductedByChanged();
+            }
+        }
+        private global::System.String _inspectionConductedBy;
+        partial void OninspectionConductedByChanging(global::System.String value);
+        partial void OninspectionConductedByChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__FollowUp__labIns__5F7E2DAC", "LabInspection")]
+        public LabInspection LabInspection
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspection>("BCCAModel.FK__FollowUp__labIns__5F7E2DAC", "LabInspection").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspection>("BCCAModel.FK__FollowUp__labIns__5F7E2DAC", "LabInspection").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<LabInspection> LabInspectionReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspection>("BCCAModel.FK__FollowUp__labIns__5F7E2DAC", "LabInspection");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<LabInspection>("BCCAModel.FK__FollowUp__labIns__5F7E2DAC", "LabInspection", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__FollowUp__labIns__607251E5", "LabInspectionItem")]
+        public LabInspectionItem LabInspectionItem
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionItem>("BCCAModel.FK__FollowUp__labIns__607251E5", "LabInspectionItem").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionItem>("BCCAModel.FK__FollowUp__labIns__607251E5", "LabInspectionItem").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<LabInspectionItem> LabInspectionItemReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<LabInspectionItem>("BCCAModel.FK__FollowUp__labIns__607251E5", "LabInspectionItem");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<LabInspectionItem>("BCCAModel.FK__FollowUp__labIns__607251E5", "LabInspectionItem", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="LabInspection")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -6686,18 +6760,18 @@ namespace BCCAModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__FollowUp__labIns__5F7E2DAC", "FollowUp")]
-        public EntityCollection<FollowUp> FollowUps
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__FollowUp__labIns__5F7E2DAC", "LabFollowUp")]
+        public EntityCollection<LabFollowUp> LabFollowUps
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<FollowUp>("BCCAModel.FK__FollowUp__labIns__5F7E2DAC", "FollowUp");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<LabFollowUp>("BCCAModel.FK__FollowUp__labIns__5F7E2DAC", "LabFollowUp");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<FollowUp>("BCCAModel.FK__FollowUp__labIns__5F7E2DAC", "FollowUp", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<LabFollowUp>("BCCAModel.FK__FollowUp__labIns__5F7E2DAC", "LabFollowUp", value);
                 }
             }
         }
@@ -7046,18 +7120,18 @@ namespace BCCAModel
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__FollowUp__labIns__607251E5", "FollowUp")]
-        public EntityCollection<FollowUp> FollowUps
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__FollowUp__labIns__607251E5", "LabFollowUp")]
+        public EntityCollection<LabFollowUp> LabFollowUps
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<FollowUp>("BCCAModel.FK__FollowUp__labIns__607251E5", "FollowUp");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<LabFollowUp>("BCCAModel.FK__FollowUp__labIns__607251E5", "LabFollowUp");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<FollowUp>("BCCAModel.FK__FollowUp__labIns__607251E5", "FollowUp", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<LabFollowUp>("BCCAModel.FK__FollowUp__labIns__607251E5", "LabFollowUp", value);
                 }
             }
         }
@@ -7080,6 +7154,262 @@ namespace BCCAModel
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<LabInspectionDetail>("BCCAModel.FK__LabInspec__labIt__634EBE90", "LabInspectionDetails", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="OfficeFollowUp")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class OfficeFollowUp : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new OfficeFollowUp object.
+        /// </summary>
+        /// <param name="officeFollowUpNo">Initial value of the officeFollowUpNo property.</param>
+        /// <param name="officeInsNo">Initial value of the officeInsNo property.</param>
+        public static OfficeFollowUp CreateOfficeFollowUp(global::System.Int32 officeFollowUpNo, global::System.Int32 officeInsNo)
+        {
+            OfficeFollowUp officeFollowUp = new OfficeFollowUp();
+            officeFollowUp.officeFollowUpNo = officeFollowUpNo;
+            officeFollowUp.officeInsNo = officeInsNo;
+            return officeFollowUp;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 officeFollowUpNo
+        {
+            get
+            {
+                return _officeFollowUpNo;
+            }
+            set
+            {
+                if (_officeFollowUpNo != value)
+                {
+                    OnofficeFollowUpNoChanging(value);
+                    ReportPropertyChanging("officeFollowUpNo");
+                    _officeFollowUpNo = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("officeFollowUpNo");
+                    OnofficeFollowUpNoChanged();
+                }
+            }
+        }
+        private global::System.Int32 _officeFollowUpNo;
+        partial void OnofficeFollowUpNoChanging(global::System.Int32 value);
+        partial void OnofficeFollowUpNoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 officeInsNo
+        {
+            get
+            {
+                return _officeInsNo;
+            }
+            set
+            {
+                OnofficeInsNoChanging(value);
+                ReportPropertyChanging("officeInsNo");
+                _officeInsNo = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("officeInsNo");
+                OnofficeInsNoChanged();
+            }
+        }
+        private global::System.Int32 _officeInsNo;
+        partial void OnofficeInsNoChanging(global::System.Int32 value);
+        partial void OnofficeInsNoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> officeInsItemNo
+        {
+            get
+            {
+                return _officeInsItemNo;
+            }
+            set
+            {
+                OnofficeInsItemNoChanging(value);
+                ReportPropertyChanging("officeInsItemNo");
+                _officeInsItemNo = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("officeInsItemNo");
+                OnofficeInsItemNoChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _officeInsItemNo;
+        partial void OnofficeInsItemNoChanging(Nullable<global::System.Int32> value);
+        partial void OnofficeInsItemNoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String inspectionConductedBy
+        {
+            get
+            {
+                return _inspectionConductedBy;
+            }
+            set
+            {
+                OninspectionConductedByChanging(value);
+                ReportPropertyChanging("inspectionConductedBy");
+                _inspectionConductedBy = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("inspectionConductedBy");
+                OninspectionConductedByChanged();
+            }
+        }
+        private global::System.String _inspectionConductedBy;
+        partial void OninspectionConductedByChanging(global::System.String value);
+        partial void OninspectionConductedByChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> inspectionDate
+        {
+            get
+            {
+                return _inspectionDate;
+            }
+            set
+            {
+                OninspectionDateChanging(value);
+                ReportPropertyChanging("inspectionDate");
+                _inspectionDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("inspectionDate");
+                OninspectionDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _inspectionDate;
+        partial void OninspectionDateChanging(Nullable<global::System.DateTime> value);
+        partial void OninspectionDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String comment
+        {
+            get
+            {
+                return _comment;
+            }
+            set
+            {
+                OncommentChanging(value);
+                ReportPropertyChanging("comment");
+                _comment = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("comment");
+                OncommentChanged();
+            }
+        }
+        private global::System.String _comment;
+        partial void OncommentChanging(global::System.String value);
+        partial void OncommentChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__OfficeFol__offic__3FD07829", "OfficeInspection")]
+        public OfficeInspection OfficeInspection
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<OfficeInspection>("BCCAModel.FK__OfficeFol__offic__3FD07829", "OfficeInspection").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<OfficeInspection>("BCCAModel.FK__OfficeFol__offic__3FD07829", "OfficeInspection").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<OfficeInspection> OfficeInspectionReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<OfficeInspection>("BCCAModel.FK__OfficeFol__offic__3FD07829", "OfficeInspection");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<OfficeInspection>("BCCAModel.FK__OfficeFol__offic__3FD07829", "OfficeInspection", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__OfficeFol__offic__40C49C62", "OfficeInspectionItems")]
+        public OfficeInspectionItem OfficeInspectionItem
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<OfficeInspectionItem>("BCCAModel.FK__OfficeFol__offic__40C49C62", "OfficeInspectionItems").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<OfficeInspectionItem>("BCCAModel.FK__OfficeFol__offic__40C49C62", "OfficeInspectionItems").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<OfficeInspectionItem> OfficeInspectionItemReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<OfficeInspectionItem>("BCCAModel.FK__OfficeFol__offic__40C49C62", "OfficeInspectionItems");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<OfficeInspectionItem>("BCCAModel.FK__OfficeFol__offic__40C49C62", "OfficeInspectionItems", value);
                 }
             }
         }
@@ -7346,6 +7676,28 @@ namespace BCCAModel
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Department>("BCCAModel.FK__OfficeIns__deptN__6FB49575", "Department", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__OfficeFol__offic__3FD07829", "OfficeFollowUp")]
+        public EntityCollection<OfficeFollowUp> OfficeFollowUps
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<OfficeFollowUp>("BCCAModel.FK__OfficeFol__offic__3FD07829", "OfficeFollowUp");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<OfficeFollowUp>("BCCAModel.FK__OfficeFol__offic__3FD07829", "OfficeFollowUp", value);
                 }
             }
         }
@@ -7685,6 +8037,28 @@ namespace BCCAModel
         #endregion
     
         #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__OfficeFol__offic__40C49C62", "OfficeFollowUp")]
+        public EntityCollection<OfficeFollowUp> OfficeFollowUps
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<OfficeFollowUp>("BCCAModel.FK__OfficeFol__offic__40C49C62", "OfficeFollowUp");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<OfficeFollowUp>("BCCAModel.FK__OfficeFol__offic__40C49C62", "OfficeFollowUp", value);
+                }
+            }
+        }
     
         /// <summary>
         /// No Metadata Documentation available.
