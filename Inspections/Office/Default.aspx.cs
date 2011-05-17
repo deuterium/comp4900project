@@ -26,6 +26,8 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
     /// <param name="e">not used in our code</param>
     protected void Page_Load(object sender, EventArgs e)
     {
+        ASP.global_asax.Session_Authentication();
+
         if (!IsPostBack)
         {
             ddlOfficeDepartment.DataSource = ctx.Departments.Select(D => new { text = D.deptName, value = D.deptNo });
@@ -78,7 +80,8 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
                 insDate = tmpDate,
                 area = tbxOfficeArea.Text,
                 deptNo = Convert.ToInt32(ddlOfficeDepartment.SelectedValue),
-                reportSubmitter = "Mike", //WTF is this field **************************************************
+                reportSubmitter = Session["AuthenticatedUser"].ToString(),
+                comments = tbxCommentOfficeComments.Text,
                 followUpStatus = "0"
             };
 
@@ -103,7 +106,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 1,
-                officeInsDetNo = 1,
                 checkbox = radiobuttonConvert(this.rblWorkForm.SelectedItem.Value),
                 comments = this.tbxCommentWorkForm.Text,
             });
@@ -113,7 +115,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 2,
-                officeInsDetNo = 2,
                 checkbox = radiobuttonConvert(this.rblNewWorkHaz.SelectedItem.Value),
                 comments = this.tbxCommentNewWorkHaz.Text,
             });
@@ -123,7 +124,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 3,
-                officeInsDetNo = 3,
                 checkbox = radiobuttonConvert(this.rblConFirstA.SelectedItem.Value),
                 comments = this.tbxCommentConFirstA.Text,
             });
@@ -133,7 +133,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 4,
-                officeInsDetNo = 4,
                 checkbox = radiobuttonConvert(this.rblSafeHealth.SelectedItem.Value),
                 comments = this.tbxCommentSafeHealth.Text,
             });
@@ -143,7 +142,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 5,
-                officeInsDetNo = 5,
                 checkbox = radiobuttonConvert(this.rblHSTrain.SelectedItem.Value),
                 comments = this.tbxCommentHSTrain.Text,
             });
@@ -153,7 +151,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 6,
-                officeInsDetNo = 6,
                 checkbox = radiobuttonConvert(this.rblExitSignWork.SelectedItem.Value),
                 comments = this.tbxCommentExitSignWork.Text,
             });
@@ -163,7 +160,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 7,
-                officeInsDetNo = 7,
                 checkbox = radiobuttonConvert(this.rblExitClear.SelectedItem.Value),
                 comments = this.tbxCommentExitClear.Text,
             });
@@ -173,7 +169,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 8,
-                officeInsDetNo = 8,
                 checkbox = radiobuttonConvert(this.rblExtinguishDate.SelectedItem.Value),
                 comments = this.tbxCommentExtinguishDate.Text,
             });
@@ -183,7 +178,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 9,
-                officeInsDetNo = 9,
                 checkbox = radiobuttonConvert(this.rblEmProcFloor.SelectedItem.Value),
                 comments = this.tbxCommentEmProcFloor.Text,
             });
@@ -197,7 +191,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 10,
-                officeInsDetNo = 10,
                 checkbox = radiobuttonConvert(this.rblSpace.SelectedItem.Value),
                 comments = this.tbxCommentSpace.Text,
             });
@@ -207,7 +200,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 11,
-                officeInsDetNo = 11,
                 checkbox = radiobuttonConvert(this.rblGlareReflect.SelectedItem.Value),
                 comments = this.tbxCommentGlareReflect.Text,
             });
@@ -217,7 +209,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 12,
-                officeInsDetNo = 12,
                 checkbox = radiobuttonConvert(this.rblChairs.SelectedItem.Value),
                 comments = this.tbxCommentChairs.Text,
             });
@@ -227,7 +218,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 13,
-                officeInsDetNo = 13,
                 checkbox = radiobuttonConvert(this.rblHousekeep.SelectedItem.Value),
                 comments = this.tbxCommentHousekeep.Text,
             });
@@ -237,7 +227,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 14,
-                officeInsDetNo = 14,
                 checkbox = radiobuttonConvert(this.rblOverstack.SelectedItem.Value),
                 comments = this.tbxCommentOverstack.Text,
             });
@@ -247,7 +236,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 15,
-                officeInsDetNo = 15,
                 checkbox = radiobuttonConvert(this.rblPosture.SelectedItem.Value),
                 comments = this.tbxCommentPosture.Text,
             });
@@ -261,7 +249,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 16,
-                officeInsDetNo = 16,
                 checkbox = radiobuttonConvert(this.rblLevel.SelectedItem.Value),
                 comments = this.tbxCommentLevel.Text,
             });
@@ -271,7 +258,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 17,
-                officeInsDetNo = 17,
                 checkbox = radiobuttonConvert(this.rblTripSlipFall.SelectedItem.Value),
                 comments = this.tbxCommentTripSlipFall.Text,
             });
@@ -281,7 +267,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 18,
-                officeInsDetNo = 18,
                 checkbox = radiobuttonConvert(this.rblSlipRes.SelectedItem.Value),
                 comments = this.tbxCommentSlipRes.Text,
             });
@@ -291,7 +276,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 19,
-                officeInsDetNo = 19,
                 checkbox = radiobuttonConvert(this.rblSteps.SelectedItem.Value),
                 comments = this.tbxCommentSteps.Text,
             });
@@ -305,7 +289,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 20,
-                officeInsDetNo = 20,
                 checkbox = radiobuttonConvert(this.rblSwitchPanel.SelectedItem.Value),
                 comments = this.tbxCommentSwitchPanel.Text,
             });
@@ -315,7 +298,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 21,
-                officeInsDetNo = 21,
                 checkbox = radiobuttonConvert(this.rblCordPlug.SelectedItem.Value),
                 comments = this.tbxCommentCordPlug.Text,
             });
@@ -325,7 +307,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 22,
-                officeInsDetNo = 22,
                 checkbox = radiobuttonConvert(this.rblOverload.SelectedItem.Value),
                 comments = this.tbxCommentOverload.Text,
             });
@@ -335,7 +316,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 23,
-                officeInsDetNo = 23,
                 checkbox = radiobuttonConvert(this.rblTripCord.SelectedItem.Value),
                 comments = this.tbxCommentTripCord.Text,
             });
@@ -349,7 +329,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 24,
-                officeInsDetNo = 24,
                 checkbox = radiobuttonConvert(this.rblVent.SelectedItem.Value),
                 comments = this.tbxCommentVent.Text,
             });
@@ -359,7 +338,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 25,
-                officeInsDetNo = 25,
                 checkbox = radiobuttonConvert(this.rblNoise.SelectedItem.Value),
                 comments = this.tbxCommentNoise.Text,
             });
@@ -369,7 +347,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 26,
-                officeInsDetNo = 26,
                 checkbox = radiobuttonConvert(this.rblLighting.SelectedItem.Value),
                 comments = this.tbxCommentLighting.Text,
             });
@@ -383,7 +360,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 27,
-                officeInsDetNo = 27,
                 checkbox = radiobuttonConvert(this.rblSafeProc.SelectedItem.Value),
                 comments = this.tbxCommentSafeProc.Text,
             });
@@ -393,7 +369,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 28,
-                officeInsDetNo = 28,
                 checkbox = radiobuttonConvert(this.rblDocs.SelectedItem.Value),
                 comments = this.tbxCommentDocs.Text,
             });
@@ -403,7 +378,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 29,
-                officeInsDetNo = 29,
                 checkbox = radiobuttonConvert(this.rblConcern.SelectedItem.Value),
                 comments = this.tbxCommentConcern.Text,
             });
@@ -417,7 +391,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 30,
-                officeInsDetNo = 30,
                 checkbox = radiobuttonConvert(this.rblPersonEquipReq.SelectedItem.Value),
                 comments = this.tbxCommentPersonEquipReq.Text,
             });
@@ -427,7 +400,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 31,
-                officeInsDetNo = 31,
                 checkbox = radiobuttonConvert(this.rblEquipProp.SelectedItem.Value),
                 comments = this.tbxCommentEquipProp.Text,
             });
@@ -437,7 +409,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 32,
-                officeInsDetNo = 32,
                 checkbox = radiobuttonConvert(this.rblPPE.SelectedItem.Value),
                 comments = this.tbxCommentPPE.Text,
             });
@@ -451,7 +422,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 33,
-                officeInsDetNo = 33,
                 checkbox = radiobuttonConvert(this.rblLiftTech.SelectedItem.Value),
                 comments = this.tbxCommentLiftTech.Text,
             });
@@ -461,7 +431,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 34,
-                officeInsDetNo = 34,
                 checkbox = radiobuttonConvert(this.rblPoorPosture.SelectedItem.Value),
                 comments = this.tbxCommentPoorPosture.Text,
             });
@@ -471,7 +440,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 35,
-                officeInsDetNo = 35,
                 checkbox = radiobuttonConvert(this.rblHandle.SelectedItem.Value),
                 comments = this.tbxCommentHandle.Text,
             });
@@ -481,7 +449,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 36,
-                officeInsDetNo = 36,
                 checkbox = radiobuttonConvert(this.rblHandleProc.SelectedItem.Value),
                 comments = this.tbxCommentHandleProc.Text,
             });
@@ -495,7 +462,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 37,
-                officeInsDetNo = 37,
                 checkbox = radiobuttonConvert(this.rblMSDSandOHSAH.SelectedItem.Value),
                 comments = this.tbxCommentMSDSandOHSAH.Text,
             });
@@ -505,7 +471,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 38,
-                officeInsDetNo = 38,
                 checkbox = radiobuttonConvert(this.rblWHMISTrain.SelectedItem.Value),
                 comments = this.tbxCommentWHMISTrain.Text,
             });
@@ -517,7 +482,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 39,
-                officeInsDetNo = 39,
                 checkbox = radiobuttonConvert(this.rblFourQuestions.SelectedItem.Value),
                 comments = this.tbxCommentFourQuestions.Text,
             });
@@ -527,7 +491,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 40,
-                officeInsDetNo = 40,
                 checkbox = radiobuttonConvert(this.rblOnLineTrain.SelectedItem.Value),
                 comments = this.tbxCommentOnLineTrain.Text,
             });
@@ -537,7 +500,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 41,
-                officeInsDetNo = 41,
                 checkbox = radiobuttonConvert(this.rblSpill.SelectedItem.Value),
                 comments = this.tbxCommentSpill.Text,
             });
@@ -551,7 +513,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 42,
-                officeInsDetNo = 42,
                 checkbox = radiobuttonConvert(this.rblEvacAlarm.SelectedItem.Value),
                 comments = this.tbxCommentEvacAlarm.Text,
             });
@@ -561,7 +522,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 43,
-                officeInsDetNo = 43,
                 checkbox = radiobuttonConvert(this.rblMuster.SelectedItem.Value),
                 comments = this.tbxCommentMuster.Text,
             });
@@ -571,7 +531,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 44,
-                officeInsDetNo = 44,
                 checkbox = radiobuttonConvert(this.rblWarden.SelectedItem.Value),
                 comments = this.tbxCommentWarden.Text,
             });
@@ -581,7 +540,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 45,
-                officeInsDetNo = 45,
                 checkbox = radiobuttonConvert(this.rblExtinguishWork.SelectedItem.Value),
                 comments = this.tbxCommentExtinguishWork.Text,
             });
@@ -591,18 +549,9 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             {
                 officeInsNo = onc.officeInsNo,
                 officeInsItemNo = 46,
-                officeInsDetNo = 46,
                 checkbox = radiobuttonConvert(this.rblOfficeClear.SelectedItem.Value),
                 comments = this.tbxCommentOfficeClear.Text,
             });
-
-            #endregion
-
-            #region Section L Comments
-
-            //Adding the large Comment section at the bottom of the page to the original Office Inspection Object.
-            onc.comments = tbxCommentOfficeComments.Text;
-            //********************************This may not work**********************************
 
             #endregion
 
