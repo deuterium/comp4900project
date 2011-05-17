@@ -68,6 +68,12 @@ ImageControlID="imgExpandCollapseK" TextLabelID="ExpandCollapseK" CollapsedText=
 ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
+<asp:CollapsiblePanelExtender ID="cpeL" runat="server" Collapsed="true"
+CollapseControlID="labL" ExpandControlID="labL" TargetControlID="pnlL"
+ImageControlID="imgExpandCollapseL" TextLabelID="ExpandCollapseL" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedImage="../../images/collapse.jpg">
+</asp:CollapsiblePanelExtender>
+
 <div>
     <div id="labHeader" class="headerPanel">
         <table>
@@ -1599,6 +1605,11 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
         </tr>
     </table>
+    </asp:Panel>
+
+    <h3 id="labL"><asp:Image ID="imgExpandCollapseL" runat="server" /> L. Comments</h3>
+    <asp:Panel ID="pnlL" CssClass="panel" runat="server">
+        <asp:TextBox TextMode="MultiLine" Wrap="true" Width="795px" Height="200px" ID="tbxCommentLabComments" runat="server"></asp:TextBox>
     </asp:Panel>
 
     <asp:Button ID="btnLabInspectionSubmit" runat="server" Text="Submit" onclick="btnLabInspectionSubmit_Click" />

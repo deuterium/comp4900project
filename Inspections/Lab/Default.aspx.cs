@@ -26,6 +26,8 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
     /// <param name="e">not used in our code</param>
     protected void Page_Load(object sender, EventArgs e)
     {
+        ASP.global_asax.Session_Authentication();
+
         if (!IsPostBack)
         {
             ddlLabLabManager.DataSource = ctx.LabInspections.Select(l => new { text = l.labMgr, value = l.labMgr }).Distinct();
@@ -84,6 +86,8 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 supervisor = tbxLabSupervisor.Text,
                 room = tbxLabRoom.Text,
                 followUpStatus = "0",
+                reportSubmitter = Session["AuthenticatedUser"].ToString(),
+                comments = tbxCommentLabComments.Text,
                 deptNo = Convert.ToInt32(ddlLabDepartment.SelectedValue)
             };
 
