@@ -1056,6 +1056,53 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 <asp:GridView ID="gdvReports" runat="server">
 </asp:GridView>
 
+<asp:GridView ID="gdvTracker" runat="server" AutoGenerateColumns="False" 
+    OnSelectedIndexChanged="gdvTracker_SelectedIndexChanged" OnRowCommand="gdvTracker_RowCommand" >
+    <Columns>
+        <asp:TemplateField>
+            <ItemTemplate>
+                <asp:Button ID="btnRowViewReport" runat="server" 
+                    CommandName="RowViewReport" 
+                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
+                    Text="View Report" />
+            </ItemTemplate>
+        </asp:TemplateField>
+        <asp:TemplateField>
+            <ItemTemplate>
+                <asp:Button ID="btnRowViewEmployees" runat="server" 
+                    CommandName="RowViewEmployees" 
+                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
+                    Text="View Employees" />
+            </ItemTemplate>
+        </asp:TemplateField>
+        <asp:TemplateField>
+            <ItemTemplate>
+                <asp:Button ID="btnRowViewReport" runat="server" 
+                    CommandName="RowViewCourses" 
+                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
+                    Text="View Report" />
+            </ItemTemplate>
+        </asp:TemplateField>
+        <asp:TemplateField>
+            <ItemTemplate>
+                <asp:Button ID="btnRowViewReport" runat="server" 
+                    CommandName="RowViewLabInspections" 
+                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
+                    Text="View Report" />
+            </ItemTemplate>
+        </asp:TemplateField>
+        <asp:TemplateField>
+            <ItemTemplate>
+                <asp:Button ID="btnRowViewOfficeInspections" runat="server" 
+                    CommandName="RowViewOfficeInspections" 
+                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
+                    Text="View Report" />
+            </ItemTemplate>
+        </asp:TemplateField>
+    </Columns>
+    <EmptyDataTemplate>No incident reports found.</EmptyDataTemplate>
+</asp:GridView>
+
 <asp:Panel ID="pnlPop" BackColor="White" Width="400px" Height="100px" CssClass="popPanel" runat="server">
     <table width="100%" cellpadding="5">
         <tr>
