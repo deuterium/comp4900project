@@ -278,7 +278,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 18,
+                labItemNo = 19,
                 checkbox = radiobuttonConvert(this.rblHealthSurv.SelectedItem.Value),
                 comments = this.tbxCommentHealthSurv.Text,
             });
@@ -291,7 +291,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 19,
+                labItemNo = 20,
                 checkbox = radiobuttonConvert(this.rblBenchTidy.SelectedItem.Value),
                 comments = this.tbxCommentBenchTidy.Text,
             });
@@ -300,7 +300,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 20,
+                labItemNo = 21,
                 checkbox = radiobuttonConvert(this.rblTripHaz.SelectedItem.Value),
                 comments = this.tbxCommentTripHaz.Text,
             });
@@ -309,7 +309,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 21,
+                labItemNo = 22,
                 checkbox = radiobuttonConvert(this.rblExits.SelectedItem.Value),
                 comments = this.tbxCommentExits.Text,
             });
@@ -318,7 +318,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 22,
+                labItemNo = 23,
                 checkbox = radiobuttonConvert(this.rblFoodDrink.SelectedItem.Value),
                 comments = this.tbxCommentFoodDrink.Text,
             });
@@ -327,7 +327,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 23,
+                labItemNo = 24,
                 checkbox = radiobuttonConvert(this.rblGlassTube.SelectedItem.Value),
                 comments = this.tbxCommentGlassTube.Text,
             });
@@ -336,7 +336,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 24,
+                labItemNo = 25,
                 checkbox = radiobuttonConvert(this.rblFallHaz.SelectedItem.Value),
                 comments = this.tbxCommentFallHaz.Text,
             });
@@ -345,7 +345,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 25,
+                labItemNo = 26,
                 checkbox = radiobuttonConvert(this.rblStool.SelectedItem.Value),
                 comments = this.tbxCommentStool.Text,
             });
@@ -358,7 +358,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 26,
+                labItemNo = 27,
                 checkbox = radiobuttonConvert(this.rblSharpCont.SelectedItem.Value),
                 comments = this.tbxCommentSharpCont.Text,
             });
@@ -367,7 +367,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 27,
+                labItemNo = 28,
                 checkbox = radiobuttonConvert(this.rblYellowCont.SelectedItem.Value),
                 comments = this.tbxCommentYellowCont.Text,
             });
@@ -376,7 +376,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 28,
+                labItemNo = 29,
                 checkbox = radiobuttonConvert(this.rblYellowBagHSS.SelectedItem.Value),
                 comments = this.tbxCommentYellowBagHSS.Text,
             });
@@ -385,7 +385,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 29,
+                labItemNo = 30,
                 checkbox = radiobuttonConvert(this.rblCyto.SelectedItem.Value),
                 comments = this.tbxCommentCyto.Text,
             });
@@ -394,7 +394,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 30,
+                labItemNo = 31,
                 checkbox = radiobuttonConvert(this.rblBulkLabel.SelectedItem.Value),
                 comments = this.tbxCommentBulkLabel.Text,
             });
@@ -403,7 +403,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 31,
+                labItemNo = 32,
                 checkbox = radiobuttonConvert(this.rblBulk25L.SelectedItem.Value),
                 comments = this.tbxCommentBulk25L.Text,
             });
@@ -412,7 +412,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 32,
+                labItemNo = 33,
                 checkbox = radiobuttonConvert(this.rblInterim.SelectedItem.Value),
                 comments = this.tbxCommentInterim.Text,
             });
@@ -421,7 +421,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 33,
+                labItemNo = 34,
                 checkbox = radiobuttonConvert(this.rblEthidium.SelectedItem.Value),
                 comments = this.tbxCommentEthidium.Text,
             });
@@ -434,7 +434,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 34,
+                labItemNo = 35,
                 checkbox = radiobuttonConvert(this.rblDisenfect.SelectedItem.Value),
                 comments = this.tbxCommentDisenfect.Text,
             });
@@ -442,7 +442,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 35,
+                labItemNo = 36,
                 checkbox = radiobuttonConvert(this.rblBioHazSign.SelectedItem.Value),
                 comments = this.tbxCommentBioHazSign.Text,
             });
@@ -455,7 +455,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 36,
+                labItemNo = 37,
                 checkbox = radiobuttonConvert(this.rblSash.SelectedItem.Value),
                 comments = this.tbxCommentSash.Text,
             });
@@ -464,7 +464,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 37,
+                labItemNo = 38,
                 checkbox = radiobuttonConvert(this.rblBioCabCert.SelectedItem.Value),
                 comments = this.tbxCommentBioCabCert.Text,
             });
@@ -473,7 +473,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 38,
+                labItemNo = 39,
                 checkbox = radiobuttonConvert(this.rblBioCabClean.SelectedItem.Value),
                 comments = this.tbxCommentBioCabClean.Text,
             });
@@ -482,7 +482,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 39,
+                labItemNo = 40,
                 checkbox = radiobuttonConvert(this.rblFumeFunc.SelectedItem.Value),
                 comments = this.tbxCommentFumeFunc.Text,
             });
@@ -495,7 +495,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 40,
+                labItemNo = 41,
                 checkbox = radiobuttonConvert(this.rblVacuumPump.SelectedItem.Value),
                 comments = this.tbxCommentVacuumPump.Text,
             });
@@ -504,7 +504,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 41,
+                labItemNo = 42,
                 checkbox = radiobuttonConvert(this.rblFrayedCords.SelectedItem.Value),
                 comments = this.tbxCommentFrayedCords.Text,
             });
@@ -513,7 +513,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 42,
+                labItemNo = 43,
                 checkbox = radiobuttonConvert(this.rblOutlets.SelectedItem.Value),
                 comments = this.tbxCommentOutlets.Text,
             });
@@ -522,7 +522,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 43,
+                labItemNo = 44,
                 checkbox = radiobuttonConvert(this.rblPowerBar.SelectedItem.Value),
                 comments = this.tbxCommentPowerBar.Text,
             });
@@ -531,7 +531,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 44,
+                labItemNo = 45,
                 checkbox = radiobuttonConvert(this.rblEmPower.SelectedItem.Value),
                 comments = this.tbxCommentEmPower.Text,
             });
@@ -544,7 +544,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 45,
+                labItemNo = 46,
                 checkbox = radiobuttonConvert(this.rblFlam.SelectedItem.Value),
                 comments = this.tbxCommentFlam.Text,
             });
@@ -553,7 +553,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 46,
+                labItemNo = 47,
                 checkbox = radiobuttonConvert(this.rblSolventCab.SelectedItem.Value),
                 comments = this.tbxCommentSolventCab.Text,
             });
@@ -562,7 +562,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 47,
+                labItemNo = 48,
                 checkbox = radiobuttonConvert(this.rblSolventOutside.SelectedItem.Value),
                 comments = this.tbxCommentSolventOutside.Text,
             });
@@ -571,7 +571,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 48,
+                labItemNo = 49,
                 checkbox = radiobuttonConvert(this.rblPropHaz.SelectedItem.Value),
                 comments = this.tbxCommentPropHaz.Text,
             });
@@ -580,7 +580,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 49,
+                labItemNo = 50,
                 checkbox = radiobuttonConvert(this.rblPropCyto.SelectedItem.Value),
                 comments = this.tbxCommentPropCyto.Text,
             });
@@ -589,7 +589,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 50,
+                labItemNo = 51,
                 checkbox = radiobuttonConvert(this.rblCytoToDate.SelectedItem.Value),
                 comments = this.tbxCommentCytoToDate.Text,
             });
@@ -598,7 +598,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 51,
+                labItemNo = 52,
                 checkbox = radiobuttonConvert(this.rblReagentSecure.SelectedItem.Value),
                 comments = this.tbxCommentReagentSecure.Text,
             });
@@ -607,7 +607,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 52,
+                labItemNo = 53,
                 checkbox = radiobuttonConvert(this.rblIncompat.SelectedItem.Value),
                 comments = this.tbxCommentIncompat.Text,
             });
@@ -620,7 +620,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 53,
+                labItemNo = 54,
                 checkbox = radiobuttonConvert(this.rblBiosafety.SelectedItem.Value),
                 comments = this.tbxCommentBiosafety.Text,
             });
@@ -629,7 +629,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 54,
+                labItemNo = 55,
                 checkbox = radiobuttonConvert(this.rblWorkplaceSafety.SelectedItem.Value),
                 comments = this.tbxCommentWorkplaceSafety.Text,
             });
@@ -638,7 +638,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 55,
+                labItemNo = 56,
                 checkbox = radiobuttonConvert(this.rblWHMIS.SelectedItem.Value),
                 comments = this.tbxCommentWHMIS.Text,
             });
@@ -647,7 +647,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 56,
+                labItemNo = 57,
                 checkbox = radiobuttonConvert(this.rblTDG.SelectedItem.Value),
                 comments = this.tbxCommentTDG.Text,
             });
@@ -660,7 +660,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 57,
+                labItemNo = 58,
                 checkbox = radiobuttonConvert(this.rblStorageSeis.SelectedItem.Value),
                 comments = this.tbxCommentStorageSeis.Text,
             });
@@ -669,7 +669,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 58,
+                labItemNo = 59,
                 checkbox = radiobuttonConvert(this.rblEquipGuards.SelectedItem.Value),
                 comments = this.tbxCommentEquipGuards.Text,
             });
@@ -678,7 +678,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
                 labInsNo = inc.labInsNo,
-                labItemNo = 59,
+                labItemNo = 60,
                 checkbox = radiobuttonConvert(this.rblPressureTankSup.SelectedItem.Value),
                 comments = this.tbxCommentPressureTankSup.Text,
             });

@@ -194,7 +194,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFireEvac"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentFireEvac"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -216,7 +216,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFireExtinguish"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentFireExtinguish"></asp:TextBox>
             </td>
         </tr>
         <tr>      
@@ -238,7 +238,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBloodandBody"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentBloodandBody"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -260,7 +260,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentInjuryonDuty"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentInjuryonDuty"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -282,7 +282,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEmergencyNumber"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentEmergencyNumber"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -304,7 +304,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentMSDS"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentMSDS"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -326,7 +326,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEmergencyShower"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentEmergencyShower"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -348,7 +348,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEmergencyShowerTest"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentEmergencyShowerTest"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -370,7 +370,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEyewash"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentEyewash"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -392,7 +392,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEyewashTest"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentEyewashTest"></asp:TextBox>
             </td>
         </tr>
         <tr> 
@@ -414,7 +414,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentChemicalSpill"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentChemicalSpill"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -436,7 +436,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBiohazard"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentBiohazard"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -487,7 +487,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSafety"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentSafety"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -509,7 +509,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentLabCoat"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentLabCoat"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -531,7 +531,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFootwear"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentFootwear"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -554,7 +554,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentRespirator"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentRespirator"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -576,7 +576,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentVacuum"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentVacuum"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -599,7 +599,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSplashGuard"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentSplashGuard"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -621,7 +621,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentHealthSurv"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentHealthSurv"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -671,7 +671,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBenchTidy"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentBenchTidy"></asp:TextBox>
             </td>
         </tr>
         <tr>  
@@ -693,7 +693,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentTripHaz"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentTripHaz"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -715,7 +715,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentExits"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentExits"></asp:TextBox>
             </td>
         </tr>
         <tr> 
@@ -737,7 +737,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFoodDrink"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentFoodDrink"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -759,7 +759,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentGlassTube"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentGlassTube"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -781,7 +781,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFallHaz"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentFallHaz"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -803,7 +803,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentStool"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentStool"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -853,7 +853,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSharpCont"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentSharpCont"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -875,7 +875,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentYellowCont"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentYellowCont"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -898,7 +898,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentYellowBagHSS"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentYellowBagHSS"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -920,7 +920,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentCyto"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentCyto"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -942,7 +942,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBulkLabel"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentBulkLabel"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -964,7 +964,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBulk25L"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentBulk25L"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -986,7 +986,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentInterim"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentInterim"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1008,7 +1008,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEthidium"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentEthidium"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -1057,7 +1057,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentDisenfect"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentDisenfect"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1079,7 +1079,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBioHazSign"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentBioHazSign"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -1129,7 +1129,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSash"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentSash"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1151,7 +1151,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBioCabCert"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentBioCabCert"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1173,7 +1173,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBioCabClean"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentBioCabClean"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1195,7 +1195,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFumeFunc"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentFumeFunc"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -1244,7 +1244,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentVacuumPump"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentVacuumPump"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1266,7 +1266,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFrayedCords"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentFrayedCords"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1288,7 +1288,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentOutlets"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentOutlets"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1310,7 +1310,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentPowerBar"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentPowerBar"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1332,7 +1332,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEmPower"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentEmPower"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -1381,7 +1381,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentFlam"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentFlam"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1403,7 +1403,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSolventCab"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentSolventCab"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1425,7 +1425,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentSolventOutside"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentSolventOutside"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1447,7 +1447,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentPropHaz"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentPropHaz"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1469,7 +1469,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentPropCyto"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentPropCyto"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1492,7 +1492,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentCytoToDate"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentCytoToDate"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1515,7 +1515,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentReagentSecure"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentReagentSecure"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1537,7 +1537,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentIncompat"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentIncompat"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -1587,7 +1587,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentBiosafety"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentBiosafety"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1609,7 +1609,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentWorkplaceSafety"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentWorkplaceSafety"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1631,7 +1631,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentWHMIS"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentWHMIS"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1653,7 +1653,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentTDG"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentTDG"></asp:TextBox>
             </td>
         </tr>
     </table>
@@ -1702,7 +1702,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentStorageSeis"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentStorageSeis"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1724,7 +1724,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentEquipGuards"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentEquipGuards"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -1746,7 +1746,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 &nbsp&nbsp
             </td>
             <td>
-                <asp:TextBox CssClass="inspectionComments" runat="server" ID="tbxCommentPressureTankSup"></asp:TextBox>
+                <asp:TextBox CssClass="inspectionComments" runat="server" TextMode="MultiLine" Wrap="true" ID="tbxCommentPressureTankSup"></asp:TextBox>
             </td>
         </tr>
     </table>
