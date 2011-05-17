@@ -22,14 +22,14 @@ public partial class Followup_Followup : System.Web.UI.Page
             switch (PreviousPage.followupType)
             {
                 case "Incident":
-                    divFollowupIncident.Visible = true;
+                    divFollowupIncidentReport.Visible = true;
                     break;
                 case "Lab":
-                    divFollowupLab.Visible = true;
+                    divLabOfficeFollowupReport.Visible = true;
                     Populate_Lab_Followup(Convert.ToInt32(PreviousPage.followupNo));
                     break;
                 case "Office":
-                    divFollowupOffice.Visible = true;
+                    divLabOfficeFollowupReport.Visible = true;
                     break;
                 default:
                     throw new System.SystemException("Default case of switch should never be reached");
@@ -47,7 +47,7 @@ public partial class Followup_Followup : System.Web.UI.Page
 
     #endregion
 
-    #region Lab Followup
+    #region Lab & Office Followup
     protected void Populate_Lab_Followup(int insNo)
     {
         gvwLabFollowup.DataSource = ctx.LabInspections
@@ -84,8 +84,18 @@ public partial class Followup_Followup : System.Web.UI.Page
                                         }
                                   );
         gvwLabFollowup.DataBind();
+        gvwLabFollowup.Columns[0].ItemStyle.Width = 220;
+        gvwLabFollowup.Columns[1].ItemStyle.Width = 80;
+        gvwLabFollowup.Columns[2].ItemStyle.Width = 250;
+        gvwLabFollowup.Columns[3].ItemStyle.Width = 250;
+
     }
 
+    /// <summary>
+    /// Changes the bound data in the Lab/Office Gridview to Yes,No,N/A depenind on database value
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">row in the gridview</param>
     protected void gvwLabFollowup_RowDataBound(object sender, System.Web.UI.WebControls.GridViewRowEventArgs e)
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
@@ -105,9 +115,16 @@ public partial class Followup_Followup : System.Web.UI.Page
             }
         }
     }
-    #endregion
+    
+    protected void btnLabOfficeFollowupSave_Click(object sender, EventArgs e)
+    {
+        //save comments
+    }
 
-    #region Office Followup
-
+    protected void btnLabOfficeFollowupSubmit_Click(object sender, EventArgs e)
+    {
+        //submit and mark followup as complete
+    }
     #endregion
+    
 }
