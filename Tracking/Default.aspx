@@ -43,6 +43,9 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </div>
 
 <div id="divReportInfo">
+<asp:Button TabIndex="1112" ID="btnFilterReport" runat="server" 
+    Text="Filter Reports" onclick="btnFilterReport_Click" />
+
 
 <h3 id="hr3A"><asp:Image ID="imgExpandCollapseA" runat="server" /> A. Incident/Accident Information <asp:Label ID="ExpandCollapseA" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlA" CssClass="panel" runat="server">
@@ -53,7 +56,6 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 	            <td><asp:CheckBox ID="cbx_p1_action_report" Text="Report Only" runat="server" /></td>
 	            <td><asp:CheckBox ID="cbx_p1_action_firstAid" Text="First Aid" runat="server" /></td>
 	            <td><asp:CheckBox ID="cbx_p1_action_medicalGP" Text="Medical Aid (GP / Clinic)" runat="server" /></td>
-	            <td>Date:</td>
 	            <td>
                     <asp:TextBox ID="tbx_p1_action_medicalGP_date" runat="server" MaxLength="10" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date"
@@ -68,7 +70,6 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr>
 	            <td colspan="2" ><asp:CheckBox ID="cbx_p1_action_lostTime" Text="Lost time (missed/will miss next scheduled shift due to injury)" runat="server" /></td>
 	            <td><asp:CheckBox ID="cbx_p1_action_medicalER" Text="Medical Aid (ER)" runat="server" /></td>
-	            <td>Date:</td>
 	            <td>
                     <asp:TextBox ID="tbx_p1_action_medicalER_date" runat="server" MaxLength="10" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date"
@@ -82,8 +83,6 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </tr>
         </table>
     </div>
-
-    <asp:Button TabIndex="123" ID="btnCheckPanelA" runat="server" Text="Check" ValidationGroup="vgpPanelA" />
 
     <%--<asp:RegularExpressionValidator ID="revMedicalAidDate" runat="server" ValidationGroup="vgpPanelA"
         ControlToValidate="tbxMedicalAidDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
@@ -206,8 +205,6 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 
         <h4>Using Material / Equipment</h4>
         <table>
-            <tr><td>Material / Equipment Description (stretchers, carts, boxes, etc):</td></tr>
-            <tr><td><asp:TextBox TabIndex="134" ID="tbx_p2_activity_material" runat="server" Width="350px"></asp:TextBox></td></tr>
             <tr><td><asp:CheckBox TabIndex="134" ID="cbx_p2_activity_lift" Text="Lift / Lower" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="134" ID="cbx_p2_activity_push" Text="Push / Pull" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="134" ID="cbx_p2_activity_carry" Text="Carry" runat="server" /></td></tr>
@@ -521,6 +518,26 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <asp:Label ID="lblIncidentNo" runat="server" Text='<%# Bind("incidentNo") %>'></asp:Label>
             </ItemTemplate>
         </asp:TemplateField>
+        <asp:TemplateField HeaderText="Department">
+            <ItemTemplate>
+                <asp:Label ID="lblDepartment" runat="server" Text='<%# Bind("Employee.deptName") %>'></asp:Label>
+            </ItemTemplate>
+        </asp:TemplateField>
+        <asp:TemplateField HeaderText="Date of Incident">
+            <ItemTemplate>
+                <asp:Label ID="lblDateOfIncident" runat="server" Text='<%# Bind("p1_dateOfIncident") %>'></asp:Label>
+            </ItemTemplate>
+        </asp:TemplateField>
+        <asp:TemplateField HeaderText="Submitter">
+            <ItemTemplate>
+                <asp:Label ID="lblSubmitter" runat="server" Text='<%# Bind("reportSubmitter") %>'></asp:Label>
+            </ItemTemplate>
+        </asp:TemplateField>
+        <asp:TemplateField HeaderText="Employee Name">
+            <ItemTemplate>
+                <asp:Label ID="lblEmployee" runat="server" Text='<%# Bind("Employee.fname") %>'></asp:Label>
+            </ItemTemplate>
+        </asp:TemplateField>
         <asp:TemplateField>
             <ItemTemplate>
                 <asp:Button ID="btnRowViewReport" runat="server" 
@@ -583,6 +600,9 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 <asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
 <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
     DropShadow="true" BackgroundCssClass="modalBackground" />
+
+
+
 
 </div>
 

@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq.Expressions;
 using System.Web.UI.WebControls;
+using AjaxControlToolkit;
 
 public partial class Tracking_Default : System.Web.UI.Page {
-
-    #region class variables
+    #region Class Variables
+    // The background color of disabled controls.
+    public Color DisabledColor = ColorTranslator.FromHtml("#E6E6E6");
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
     // Text colour for failure messages
@@ -23,7 +25,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
     public static List<String> employers = new List<String> {
         noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
     };
-    #endregion class variables
+    #endregion Class Variables
 
     /// <summary>
     /// Sets up the dynamic elements when the page loads for the first time.
@@ -36,6 +38,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
     {    
         if (!IsPostBack) {
             pnlPop.Style.Value = "display:none;";
+            disableAllTextBoxes();
         }
     }
 
@@ -78,6 +81,20 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// <param name="e">The button click event.</param>
     protected void btnFilterReport_Click(object sender, EventArgs e) {
         filterReport(gdvTracker);
+        collapseAllPanels();
+    }
+
+    private void collapseAllPanels() {
+        cpeA.Collapsed = true;
+        cpeA.ClientState = "true";
+        cpeB.Collapsed = true;
+        cpeB.ClientState = "true";
+        cpeC.Collapsed = true;
+        cpeC.ClientState = "true";
+        cpeD.Collapsed = true;
+        cpeD.ClientState = "true";
+        cpeE.Collapsed = true;
+        cpeE.ClientState = "true";
     }
 
     /// <summary>
@@ -387,6 +404,75 @@ public partial class Tracking_Default : System.Web.UI.Page {
         toggleOther(tbx_p2_factors_otherWorker, cbx_p2_factors_otherWorker);
     }
     #endregion Toggle Other TextBox and CheckBox
+
+    #region Disable Form
+    /// <summary>
+    /// Disabled the parameter TextBox control.
+    /// Changes the control's background color to the disabled color.
+    /// </summary>
+    /// <param name="cbx">The TextBox to disable.</param>
+    private void disableTextBox(TextBox tbx) {
+        tbx.Enabled = false;
+        tbx.BackColor = DisabledColor;
+        tbx.Visible = false;
+    }
+    /// <summary>
+    /// Disabled the parameter RadioButtonList control.
+    /// </summary>
+    /// <param name="cbx">The RadioButtonList to disable.</param>
+    private void disableRadioButtonList(RadioButtonList rbl) {
+        rbl.Enabled = false;
+    }
+    /// <summary>
+    /// Disabled the parameter TextBoxWatermarkExtender control.
+    /// </summary>
+    /// <param name="cbx">The TextBoxWatermarkExtender to disable.</param>
+    private void disableWatermark(TextBoxWatermarkExtender twe) {
+        twe.Enabled = false;
+    }
+
+    /// <summary>
+    /// Calls the disableTextBox method on each textbox in the form.
+    /// Disables all the watermarks as well.
+    /// </summary>
+    private void disableAllTextBoxes() {
+        #region A_IncidentInfo
+        disableTextBox(tbx_p1_action_medicalGP_date);
+        disableTextBox(tbx_p1_action_medicalER_date);
+        #endregion A_IncidentInfo
+
+        #region B_NatureOfInjury
+        disableTextBox(tbx_p1_numEmployeesInvolved);
+        disableTextBox(tbx_p2_patient_otherSpecify);
+        disableTextBox(tbx_p2_activity_otherPatientCare);
+        disableTextBox(tbx_p2_activity_otherMat);
+        disableTextBox(tbx_p2_activity_otherEquip);
+        disableTextBox(tbx_p2_activity_otherEquipDesc);
+        disableTextBox(tbx_p2_activity_other);
+        #endregion C_AccidentInvestigation
+
+        #region D_Cause
+        disableTextBox(tbx_p2_cause_other);
+        disableTextBox(tbx_p2_cause_aggression_other);
+
+        disableTextBox(tbx_p2_cause_exposure_chemName);
+        #endregion D_Cause
+
+        #region E_ContributingFactors
+        disableTextBox(tbx_p2_factors_otherEquip);
+        disableTextBox(tbx_p2_factors_otherEnv);
+        disableTextBox(tbx_p2_factors_otherWorkPractice);
+        disableTextBox(tbx_p2_factors_otherPatient);
+        disableTextBox(tbx_p2_factors_otherOrganizational);
+        disableTextBox(tbx_p2_factors_otherWorker);
+        #endregion E_ContributingFactors
+
+        #region watermarks
+        disableWatermark(tweMedicalGpDate);
+        disableWatermark(tweMedicalErDate);
+        #endregion watermarks
+    }
+    #endregion Disable Form
 
     protected void gdvTracker_RowCommand(object sender, GridViewCommandEventArgs e) {
         switch (e.CommandName) {

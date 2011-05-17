@@ -44,13 +44,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
     };
     #endregion class variables
 
-
-
-    // TESTING!
-    public String incidentReportId { get; set; }
-
-
-
     /// <summary>
     /// Sets up the dynamic elements when the page loads for the first time.
     /// Populates the Employer, Position, and Department drop down lists.
@@ -555,15 +548,17 @@ public partial class Reporting_Default : System.Web.UI.Page {
             return null;
         }
 
-        DateTime formStartDate = Convert.ToDateTime(tbxStartDate.Text);
-        DateTime formEndDate = Convert.ToDateTime(tbxEndDate.Text);
+        if (!tbxStartDate.Text.Equals(String.Empty)) {
+            emp.startDate = Convert.ToDateTime(tbxStartDate.Text);
+        }
+        if (!tbxEndDate.Text.Equals(String.Empty)) {
+            emp.endDate = Convert.ToDateTime(tbxEndDate.Text);
+        }
 
         emp.fname = tbxFirstName.Text;
         emp.lname = tbxLastName.Text;
         emp.room = tbxRoom.Text;
         emp.supervisor = tbxSupervisor.Text;
-        emp.startDate = formStartDate;
-        emp.endDate = formEndDate;
 
         #region position
         if (ddlPositions.SelectedValue.Equals(otherOption)) {
@@ -590,15 +585,15 @@ public partial class Reporting_Default : System.Web.UI.Page {
         #endregion employer
 
         #region department
-        //if (ddlDepartments.SelectedValue.Equals(otherOption)) {
-        //    emp.deptName = tbxDepartment.Text;
-        //}
-        //else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
-        //    emp.deptName = null;
-        //}
-        //else {
-        //    emp.deptName = ddlDepartments.SelectedValue;
-        //}
+        if (ddlDepartments.SelectedValue.Equals(otherOption)) {
+            emp.deptName = tbxDepartment.Text;
+        }
+        else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
+            emp.deptName = null;
+        }
+        else {
+            emp.deptName = ddlDepartments.SelectedValue;
+        }
         #endregion department
 
         try {
