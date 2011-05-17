@@ -77,14 +77,14 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr>
                 <td>Last name:</td>
                 <td>
-                    <asp:TextBox TabIndex="100" ID="tbxLastName" runat="server" MaxLength="20" ></asp:TextBox>
+                    <asp:TextBox TabIndex="100" ID="tbxLastName" runat="server" ClientID="tbxLastNameClient" MaxLength="20" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweLastName" runat="server" TargetControlID="tbxLastName"
                         WatermarkCssClass="watermarked" WatermarkText="Required field"></asp:TextBoxWatermarkExtender>
                     <asp:RequiredFieldValidator ID="rfvLastName" runat="server" ValidationGroup="vgpEmpInfo"
                         ControlToValidate="tbxLastName" ErrorMessage="Last name is required."></asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="revLastName" runat="server" ValidationGroup="vgpEmpInfo"
                         ControlToValidate="tbxLastName" ErrorMessage="Last name can only contain letters."
-                        ValidationExpression="^[A-Za-z']$" ></asp:RegularExpressionValidator>
+                        ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
                 </td>
             </tr>
             <tr>
@@ -97,7 +97,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                         ControlToValidate="tbxFirstName" ErrorMessage="First name is required."></asp:RequiredFieldValidator>  
                     <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpEmpInfo"
                         ControlToValidate="tbxFirstName" ErrorMessage="First name can only contain letters."
-                        ValidationExpression="^[A-Za-z']$" ></asp:RegularExpressionValidator>
+                        ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
                 </td>
             </tr>
         </table>
