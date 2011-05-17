@@ -11,7 +11,7 @@
     <asp:TextBox ID="tbNoHidden" runat="server" CssClass="hidden" />
     <div id="divLabOfficeFollowupReport" runat="server" visible="false">
         <div id="divLabOfficeFollowupReportData">
-            <asp:GridView ID="gvwLabFollowup" Width="800px" runat="server" AutoGenerateColumns="False"
+            <asp:GridView ID="gvwLabOfficeFollowup" Width="800px" runat="server" AutoGenerateColumns="False"
                 OnRowDataBound="gvwLabFollowup_RowDataBound">
                 <Columns>
                     <asp:BoundField DataField="labInsItem" HeaderText="Item" ReadOnly="True" SortExpression="labInsItem" />
