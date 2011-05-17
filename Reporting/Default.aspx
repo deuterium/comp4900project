@@ -1151,8 +1151,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 
 </asp:Panel>
 
-<asp:GridView ID="gdvTracker" runat="server" AutoGenerateColumns="False" 
-    OnSelectedIndexChanged="gdvTracker_SelectedIndexChanged" OnRowCommand="gdvTracker_RowCommand" >
+<asp:GridView ID="gdvTracker" runat="server" AutoGenerateColumns="False" OnRowCommand="gdvTracker_RowCommand" >
     <Columns>
         <asp:TemplateField HeaderText="Incident No.">
             <ItemTemplate>

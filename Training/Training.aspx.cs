@@ -53,6 +53,7 @@ public partial class Training_Training : System.Web.UI.Page {
             pnlPop.Style.Value = "display:none;";
             lblResults.Visible = true;
             tsmScriptManager.SetFocus(tbxLastName.ClientID);
+            pnlBioSafety.Visible = false;
         }
     }
 
@@ -728,11 +729,13 @@ public partial class Training_Training : System.Web.UI.Page {
                 Object temp2 = training.startDate;
                 try
                 {
-                    training.startDate = Convert.ToDateTime(strStart);
+                    System.Globalization.CultureInfo enUS = new System.Globalization.CultureInfo("en-US");
+                    training.startDate = Convert.ToDateTime(Convert.ToDateTime(strStart, enUS));
                 }
                 catch (Exception ex)
                 {
                     Popup_Overlay("Unsupported date format.", FailColour);
+                    return;
                 }
             }
 
@@ -744,11 +747,13 @@ public partial class Training_Training : System.Web.UI.Page {
                 String strEnd = e.NewValues["endDate"].ToString();
                 try
                 {
-                    training.endDate = Convert.ToDateTime(strEnd);
+                    System.Globalization.CultureInfo enUS = new System.Globalization.CultureInfo("en-US");
+                    training.endDate = Convert.ToDateTime(Convert.ToDateTime(strEnd, enUS));
                 }
                 catch (Exception ex)
                 {
-                    Popup_Overlay("Unsupported date format.", FailColour);
+                    Popup_Overlay(ex.Message, FailColour);
+                    return;
                 }
             }
         }
@@ -760,10 +765,12 @@ public partial class Training_Training : System.Web.UI.Page {
             grvValidCourses.EditIndex = -1;
             e.Cancel = true;
             Popup_Overlay("Update successful.", SuccessColour);
+            BindData();
         }
         catch (Exception ex)
         {
             Popup_Overlay("An error has occured while updating this training. Please try again." + ex.StackTrace.ToString(), FailColour);
+            return;
         }
             
 
@@ -775,6 +782,47 @@ public partial class Training_Training : System.Web.UI.Page {
     }
     protected void grvValidCourses_SelectedIndexChanged(object sender, EventArgs e)
     {
+        GridViewRow row = grvValidCourses.SelectedRow;
+        String name = row.Cells[2].Text.ToString();
+        int ttNo = Convert.ToInt32(row.Cells[3].Text);
 
+        TrainingTaken training = ctx.TrainingTakens
+                       .Where(tt => tt.trainingTakenNo == ttNo)
+                       .Select(tt => tt).FirstOrDefault();
+
+        if (name.Equals("Biosafety Training") || name.Equals("Chem Safety Training")
+            || name.Equals("Cyto. Safety Training"))
+        {
+            pnlBioSafety.Visible = true;
+            lblDosIssued.Visible = false;
+            lblDosSubmitted.Visible = false;
+            lblRingIssued.Visible = false;
+            rblDosIssued.Visible = false;
+            rblDosSubmitted.Visible = false;
+            rblRingIssued.Visible = false;
+
+            //tbxCourseDate.Text = training.courseDate
+            if (name.Equals("Biosafety Training")) {
+                tbxBSCDate.Text = Convert.ToString(training.biosafety_BSCSeminar);
+            }
+            if (training.SOPsigned.ToString().Equals("1")) {
+                rblSigned.SelectedValue = "Yes";
+            } else {
+                rblSigned.SelectedValue = "No";
+            }
+            if (training.evaluation.ToString().Equals("1")) {
+                rblEvaluation.SelectedValue = "Pass";
+            } else {
+                rblEvaluation.SelectedValue = "Fail";
+            }
+            tbxDateFit.Text = Convert.ToString(training.respiratorDate);
+            if (!(name.Equals("Cyto. Safety Training"))) {
+                tbxSpillDate.Text = Convert.ToString(training.spillCleanupPracticalDate);
+            }
+            tbxRespType.Text = training.respiratorType;
+            tbxRespModel.Text = training.respiratorModel;
+            tbxRespComment.Text = training.respiratorComments;
+            tbxCert.Text = training.certificateNum;
+        }
     }
 }

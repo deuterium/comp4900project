@@ -511,6 +511,7 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 .inspectionComments
 {
     width: 200px;
+    max-width: 200px;
 }
 
 .tblItem
