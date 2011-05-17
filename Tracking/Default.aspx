@@ -525,7 +525,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         </asp:TemplateField>
         <asp:TemplateField HeaderText="Date of Incident">
             <ItemTemplate>
-                <asp:Label ID="lblDateOfIncident" runat="server" Text='<%# Bind("p1_dateOfIncident") %>'></asp:Label>
+                <asp:Label ID="lblDateOfIncident" runat="server" Text='<%# Eval("p1_dateOfIncident", "{0:M/d/yyyy}") %>'></asp:Label>
             </ItemTemplate>
         </asp:TemplateField>
         <asp:TemplateField HeaderText="Submitter">
@@ -538,44 +538,28 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <asp:Label ID="lblEmployee" runat="server" Text='<%# Bind("Employee.fname") %>'></asp:Label>
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField>
+        <asp:TemplateField HeaderText="Click to View">
             <ItemTemplate>
                 <asp:Button ID="btnRowViewReport" runat="server" 
                     CommandName="RowViewReport" 
                     CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
-                    Text="View Report" />
-            </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField>
-            <ItemTemplate>
+                    Text="Report" />
                 <asp:Button ID="btnRowViewEmployees" runat="server" 
                     CommandName="RowViewEmployees" 
                     CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
-                    Text="View Employees" />
-            </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField>
-            <ItemTemplate>
+                    Text="Employees" />
                 <asp:Button ID="btnRowViewCourses" runat="server" 
-                    CommandName="RowViewCourses" 
+                    CommandName="RowViewCourses"
                     CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
-                    Text="View Courses" />
-            </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField>
-            <ItemTemplate>
+                    Text="Courses" />
                 <asp:Button ID="btnRowViewLabInspections" runat="server" 
                     CommandName="RowViewLabInspections" 
                     CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
-                    Text="View Lab Inspections" />
-            </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField>
-            <ItemTemplate>
+                    Text="Lab Inspections" />
                 <asp:Button ID="btnRowViewOfficeInspections" runat="server" 
                     CommandName="RowViewOfficeInspections" 
                     CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
-                    Text="View Office Inpsections" />
+                    Text="Office Inpsections" />
             </ItemTemplate>
         </asp:TemplateField>
     </Columns>
