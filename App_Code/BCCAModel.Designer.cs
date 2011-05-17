@@ -30,7 +30,6 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__LabInspec__labIt__634EBE90", "LabInspectionItem", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.LabInspectionItem), "LabInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabInspectionDetail), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__OfficeIns__offic__7E02B4CC", "OfficeInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.OfficeInspection), "OfficeInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.OfficeInspectionDetail), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__OfficeIns__offic__7EF6D905", "OfficeInspectionItems", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.OfficeInspectionItem), "OfficeInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.OfficeInspectionDetail), true)]
-[assembly: EdmRelationshipAttribute("BCCAModel", "FK__OfficeIns__sever__7FEAFD3E", "Severity", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Severity), "OfficeInspectionDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.OfficeInspectionDetail), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__Users__roleNo__7849DB76", "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Role), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.User), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__TrainingT__train__51300E55", "TrainingCourses", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.TrainingCours), "TrainingTaken", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.TrainingTaken), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "TrainingCourseTakenDetail", "CourseDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.CourseDetail), "TrainingTaken", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.TrainingTaken))]
@@ -296,22 +295,6 @@ namespace BCCAModel
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Severity> Severities
-        {
-            get
-            {
-                if ((_Severities == null))
-                {
-                    _Severities = base.CreateObjectSet<Severity>("Severities");
-                }
-                return _Severities;
-            }
-        }
-        private ObjectSet<Severity> _Severities;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<sysdiagram> sysdiagrams
         {
             get
@@ -478,14 +461,6 @@ namespace BCCAModel
         public void AddToRoles(Role role)
         {
             base.AddObject("Roles", role);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the Severities EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToSeverities(Severity severity)
-        {
-            base.AddObject("Severities", severity);
         }
     
         /// <summary>
@@ -7479,30 +7454,6 @@ namespace BCCAModel
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> severityNo
-        {
-            get
-            {
-                return _severityNo;
-            }
-            set
-            {
-                OnseverityNoChanging(value);
-                ReportPropertyChanging("severityNo");
-                _severityNo = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("severityNo");
-                OnseverityNoChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _severityNo;
-        partial void OnseverityNoChanging(Nullable<global::System.Int32> value);
-        partial void OnseverityNoChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
         public global::System.String comments
         {
             get
@@ -7649,44 +7600,6 @@ namespace BCCAModel
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<OfficeInspectionItem>("BCCAModel.FK__OfficeIns__offic__7EF6D905", "OfficeInspectionItems", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__OfficeIns__sever__7FEAFD3E", "Severity")]
-        public Severity Severity
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Severity>("BCCAModel.FK__OfficeIns__sever__7FEAFD3E", "Severity").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Severity>("BCCAModel.FK__OfficeIns__sever__7FEAFD3E", "Severity").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Severity> SeverityReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Severity>("BCCAModel.FK__OfficeIns__sever__7FEAFD3E", "Severity");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Severity>("BCCAModel.FK__OfficeIns__sever__7FEAFD3E", "Severity", value);
                 }
             }
         }
@@ -7974,110 +7887,6 @@ namespace BCCAModel
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<User>("BCCAModel.FK__Users__roleNo__7849DB76", "Users", value);
-                }
-            }
-        }
-
-        #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="BCCAModel", Name="Severity")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Severity : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Severity object.
-        /// </summary>
-        /// <param name="severityNo">Initial value of the severityNo property.</param>
-        public static Severity CreateSeverity(global::System.Int32 severityNo)
-        {
-            Severity severity = new Severity();
-            severity.severityNo = severityNo;
-            return severity;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 severityNo
-        {
-            get
-            {
-                return _severityNo;
-            }
-            set
-            {
-                if (_severityNo != value)
-                {
-                    OnseverityNoChanging(value);
-                    ReportPropertyChanging("severityNo");
-                    _severityNo = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("severityNo");
-                    OnseverityNoChanged();
-                }
-            }
-        }
-        private global::System.Int32 _severityNo;
-        partial void OnseverityNoChanging(global::System.Int32 value);
-        partial void OnseverityNoChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String severityDesc
-        {
-            get
-            {
-                return _severityDesc;
-            }
-            set
-            {
-                OnseverityDescChanging(value);
-                ReportPropertyChanging("severityDesc");
-                _severityDesc = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("severityDesc");
-                OnseverityDescChanged();
-            }
-        }
-        private global::System.String _severityDesc;
-        partial void OnseverityDescChanging(global::System.String value);
-        partial void OnseverityDescChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__OfficeIns__sever__7FEAFD3E", "OfficeInspectionDetails")]
-        public EntityCollection<OfficeInspectionDetail> OfficeInspectionDetails
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<OfficeInspectionDetail>("BCCAModel.FK__OfficeIns__sever__7FEAFD3E", "OfficeInspectionDetails");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<OfficeInspectionDetail>("BCCAModel.FK__OfficeIns__sever__7FEAFD3E", "OfficeInspectionDetails", value);
                 }
             }
         }
