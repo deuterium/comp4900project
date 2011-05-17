@@ -171,6 +171,7 @@ Summary Page:
                 </Columns>
 
             </asp:GridView>
+            Follow Up Date:<asp:Label id="lblLabFollowUpDate" runat="server" Text="" />
             </asp:Panel>
         
         <h3 id="officeInspectionLookUp"><asp:Image ID="imgExpandCollapseOfficeInspectionLookUp" runat="server" /> Office Inspection:</h3>
