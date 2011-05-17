@@ -55,6 +55,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
         #region Page Validation
 
         //Validates the various sections of the page to ensure the data is input correctly.
+        Page.Validate("vgpLabA");
         Page.Validate("vgpLabB");
         Page.Validate("vgpLabC");
         Page.Validate("vgpLabD");

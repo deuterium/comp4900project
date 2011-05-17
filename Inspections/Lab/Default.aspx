@@ -83,6 +83,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 </td>
                 <td>
                     <asp:DropDownList runat="server" ID="ddlLabDepartment"></asp:DropDownList>
+                    <asp:RequiredFieldValidator ControlToValidate="ddlLabDepartment" ValidationGroup="vgpLabA" runat="server" 
+                        ID="rfvDepart" ErrorMessage="Department is required" ForeColor="Red">*</asp:RequiredFieldValidator>
                 </td>
                 <td>
                     &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -92,6 +94,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 </td>
                 <td>
                     <asp:TextBox runat="server" ID="tbxLabSupervisor"></asp:TextBox>
+                    <asp:RequiredFieldValidator ControlToValidate="tbxLabSupervisor" ValidationGroup="vgpLabA" runat="server" 
+                        ID="rfvSup" ErrorMessage="Supervisor is required" ForeColor="Red">*</asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
@@ -100,6 +104,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 </td>
                 <td>
                     <asp:TextBox runat="server" ID="tbxLabRoom" />
+                    <asp:RequiredFieldValidator ControlToValidate="tbxLabRoom" ValidationGroup="vgpLabA" runat="server" 
+                        ID="rfvRoom" ErrorMessage="Room is required" ForeColor="Red">*</asp:RequiredFieldValidator>
                 </td>
                 <td>
                     &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -109,6 +115,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 </td>
                 <td>
                     <asp:TextBox runat="server" ID="tbxLabInspectors"></asp:TextBox>
+                    <asp:RequiredFieldValidator ControlToValidate="tbxLabInspectors" ValidationGroup="vgpLabA" runat="server" 
+                        ID="rfvInspect" ErrorMessage="Inspector is required" ForeColor="Red">*</asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
@@ -117,6 +125,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 </td>
                 <td>
                     <asp:DropDownList runat="server" ID="ddlLabLabManager"></asp:DropDownList>
+                    <asp:RequiredFieldValidator ControlToValidate="ddlLabLabManager" ValidationGroup="vgpLabA" runat="server" 
+                        ID="rfvLabMan" ErrorMessage="Lab Manager is required" ForeColor="Red">*</asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
@@ -125,7 +135,13 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 </td>
                 <td>
                     <asp:TextBox ID="tbxLabInspectionDate" runat="server"></asp:TextBox>
-                    <asp:CalendarExtender ID="cexLabInspectionDate" runat="server" TargetControlID="tbxLabInspectionDate" Format="MM/dd/yyyy"></asp:CalendarExtender>
+                    <asp:CalendarExtender ID="cexLabInspectionDate" runat="server" TargetControlID="tbxLabInspectionDate" 
+                        Format="MM/DD/YYYY"></asp:CalendarExtender>
+                    <asp:RequiredFieldValidator ControlToValidate="tbxLabInspectionDate" ValidationGroup="vgpLabA" runat="server" 
+                        ID="rfvCalendar" ErrorMessage="Date of Inspection is required" ForeColor="Red">*</asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="revLabInspectionDate" runat="server" ValidationGroup="vgpLabA"
+                        ControlToValidate="tbxLabInspectionDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="Date of Inspection must be 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
                 </td>
             </tr>
         </table>
@@ -163,7 +179,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Fire evacuation route posted on exits in each section/floor" runat="server" ID="lblFireEvac" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFireEvac">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblFireEvac">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -172,7 +189,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblFireEvac" ValidationGroup="vgpLabB" runat="server" ID="rfvFireEvac" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblFireEvac" ValidationGroup="vgpLabB" runat="server" ID="rfvFireEvac" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -184,7 +202,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Fire extinguisher in working condition" runat="server" ID="lblFireExtinguish" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2"  runat="server" ID="rblFireExtinguish">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2"  runat="server" 
+                    ID="rblFireExtinguish">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -192,7 +211,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblFireExtinguish" ValidationGroup="vgpLabB" runat="server" ID="rfvFireExtinguish" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblFireExtinguish" ValidationGroup="vgpLabB" runat="server" 
+                    ID="rfvFireExtinguish" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -204,7 +224,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Blood and Body Fluid protocol posted" runat="server" ID="lblBloodandBody" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBloodandBody">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblBloodandBody">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -212,7 +233,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblBloodandBody" ValidationGroup="vgpLabB" runat="server" ID="rfvBloodandBody" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblBloodandBody" ValidationGroup="vgpLabB" runat="server" ID="rfvBloodandBody" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -224,7 +246,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Injury on Duty Flow Chart posted" runat="server" ID="lblInjuryonDuty" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblInjuryonDuty">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblInjuryonDuty">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -232,7 +255,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblInjuryonDuty" ValidationGroup="vgpLabB" runat="server" ID="rfvInjuryonDuty" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblInjuryonDuty" ValidationGroup="vgpLabB" runat="server" ID="rfvInjuryonDuty" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -244,7 +268,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Emergency numbers posted" runat="server" ID="lblEmergencyNumber" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEmergencyNumber">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblEmergencyNumber">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -252,7 +277,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblEmergencyNumber" ValidationGroup="vgpLabB" runat="server" ID="rfvEmergencyNumber" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblEmergencyNumber" ValidationGroup="vgpLabB" runat="server" 
+                    ID="rfvEmergencyNumber" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -264,7 +290,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="MSDS binder/computer station accessible & up to date" runat="server" ID="lblMSDS" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblMSDS">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblMSDS">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -272,7 +299,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblMSDS" ValidationGroup="vgpLabB" runat="server" ID="rfvMSDS" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblMSDS" ValidationGroup="vgpLabB" runat="server" ID="rfvMSDS" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -284,7 +312,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Emergency Shower available/accessible" runat="server" ID="lblEmergencyShower" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEmergencyShower">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblEmergencyShower">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -292,7 +321,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblEmergencyShower" ValidationGroup="vgpLabB" runat="server" ID="rfvEmergencyShower" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblEmergencyShower" ValidationGroup="vgpLabB" runat="server" 
+                    ID="rfvEmergencyShower" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -304,7 +334,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Emergency Shower tested monthly (if located in section)" runat="server" ID="lblEmergencyShowerTest" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEmergencyShowerTest">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblEmergencyShowerTest">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -312,7 +343,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblEmergencyShowerTest" ValidationGroup="vgpLabB" runat="server" ID="rfvEmergencyShowerTest" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblEmergencyShowerTest" ValidationGroup="vgpLabB" runat="server" 
+                    ID="rfvEmergencyShowerTest" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -324,7 +356,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Eyewash available/accessible" runat="server" ID="lblEyewash" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEyewash">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblEyewash">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -332,7 +365,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblEyewash" ValidationGroup="vgpLabB" runat="server" ID="rfvEyewash" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblEyewash" ValidationGroup="vgpLabB" runat="server" ID="rfvEyewash" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -344,7 +378,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Eyewash tested weekly if not sterile/sealed (& if in section)" runat="server" ID="lblEyewashTest" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEyewashTest">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblEyewashTest">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -352,7 +387,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblEyewashTest" ValidationGroup="vgpLabB" runat="server" ID="rfvEyewashTest" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblEyewashTest" ValidationGroup="vgpLabB" runat="server" ID="rfvEyewashTest" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -364,7 +400,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Chemical spill kit accessible/stocked adequately" runat="server" ID="lblChemicalSpill" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblChemicalSpill">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblChemicalSpill">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -372,7 +409,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblChemicalSpill" ValidationGroup="vgpLabB" runat="server" ID="rfvChemicalSpill" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblChemicalSpill" ValidationGroup="vgpLabB" runat="server" 
+                    ID="rfvChemicalSpill" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -384,7 +422,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Biohazard spill kit accessible/stocked adequately" runat="server" ID="lblBiohazard" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBiohazard">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblBiohazard">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -392,7 +431,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblBiohazard" ValidationGroup="vgpLabB" runat="server" ID="rfvBiohazard" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblBiohazard" ValidationGroup="vgpLabB" runat="server" ID="rfvBiohazard" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -433,7 +473,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Safety Glasses/Facial shield available and in good condition" runat="server" ID="lblSafety" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblSafety">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblSafety">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -441,7 +482,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblSafety" ValidationGroup="vgpLabC" runat="server" ID="rfvSafety" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblSafety" ValidationGroup="vgpLabC" runat="server" ID="rfvSafety" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -453,7 +495,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Laboratory coat, gowns, gloves available/worn" runat="server" ID="lblLabCoat" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblLabCoat">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblLabCoat">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -461,7 +504,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblLabCoat" ValidationGroup="vgpLabC" runat="server" ID="rfvLabCoat" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblLabCoat" ValidationGroup="vgpLabC" runat="server" ID="rfvLabCoat" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -473,7 +517,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Substantial footwear worn (closed toe and heel)" runat="server" ID="lblFootwear" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFootwear">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblFootwear">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -481,7 +526,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblFootwear" ValidationGroup="vgpLabC" runat="server" ID="rfvFootwear" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblFootwear" ValidationGroup="vgpLabC" runat="server" ID="rfvFootwear" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -494,7 +540,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Respirator(s) available/fit tested and documented" runat="server" ID="lblRespirator" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblRespirator">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblRespirator">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -502,7 +549,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblRespirator" ValidationGroup="vgpLabC" runat="server" ID="rfvRespirator" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblRespirator" ValidationGroup="vgpLabC" runat="server" ID="rfvRespirator" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -514,7 +562,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Appropriate vacuum flask used on vacuum supply" runat="server" ID="lblVacuum" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblVacuum">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblVacuum">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -522,7 +571,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblVacuum" ValidationGroup="vgpLabC" runat="server" ID="rfvVacuum" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblVacuum" ValidationGroup="vgpLabC" runat="server" ID="rfvVacuum" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -535,7 +585,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Splash guards available where necessary" runat="server" ID="lblSplashGuard" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblSplashGuard">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblSplashGuard">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -543,7 +594,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblSplashGuard" ValidationGroup="vgpLabC" runat="server" ID="rfvSplashGuard" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblSplashGuard" ValidationGroup="vgpLabC" runat="server" ID="rfvSplashGuard" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -555,7 +607,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Appropriate health surveillance/immunization provided" runat="server" ID="lblHealthSurv" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblHealthSurv">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblHealthSurv">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -563,7 +616,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblHealthSurv" ValidationGroup="vgpLabC" runat="server" ID="rfvHealthSurv" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblHealthSurv" ValidationGroup="vgpLabC" runat="server" ID="rfvHealthSurv" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -603,7 +657,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Bench tops and sink areas tidy" runat="server" ID="lblBenchTidy" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBenchTidy">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblBenchTidy">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -611,7 +666,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblBenchTidy" ValidationGroup="vgpLabD" runat="server" ID="rfvBenchTidy" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblBenchTidy" ValidationGroup="vgpLabD" runat="server" ID="rfvBenchTidy" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -623,7 +679,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="No tripping hazards observed" runat="server" ID="lblTripHaz" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblTripHaz">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblTripHaz">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -631,7 +688,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblTripHaz" ValidationGroup="vgpLabD" runat="server" ID="rfvTripHaz" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblTripHaz" ValidationGroup="vgpLabD" runat="server" ID="rfvTripHaz" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -643,7 +701,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Laboratory exits clear and doors unlocked" runat="server" ID="lblExits" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblExits">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblExits">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -651,7 +710,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblExits" ValidationGroup="vgpLabD" runat="server" ID="rfvExits" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblExits" ValidationGroup="vgpLabD" runat="server" ID="rfvExits" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -663,7 +723,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="No food and drink observed in laboratory area" runat="server" ID="lblFoodDrink" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFoodDrink">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblFoodDrink">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -671,7 +732,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblFoodDrink" ValidationGroup="vgpLabD" runat="server" ID="rfvFoodDrink" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblFoodDrink" ValidationGroup="vgpLabD" runat="server" ID="rfvFoodDrink" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -683,7 +745,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Glassware and tubing in good working condition" runat="server" ID="lblGlassTube" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblGlassTube">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblGlassTube">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -691,7 +754,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblGlassTube" ValidationGroup="vgpLabD" runat="server" ID="rfvGlassTube" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblGlassTube" ValidationGroup="vgpLabD" runat="server" ID="rfvGlassTube" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -703,7 +767,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="No falling object hazards identifiable" runat="server" ID="lblFallHaz" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFallHaz">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblFallHaz">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -711,7 +776,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblFallHaz" ValidationGroup="vgpLabD" runat="server" ID="rfvFallHaz" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblFallHaz" ValidationGroup="vgpLabD" runat="server" ID="rfvFallHaz" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -723,7 +789,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Step stool available for out-of-reach items" runat="server" ID="lblStool" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblStool">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblStool">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -731,7 +798,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblStool" ValidationGroup="vgpLabD" runat="server" ID="rfvStool" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblStool" ValidationGroup="vgpLabD" runat="server" ID="rfvStool" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -771,7 +839,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Separate collection containers for sharps available" runat="server" ID="lblSharpCont" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblSharpCont">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblSharpCont">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -779,7 +848,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblSharpCont" ValidationGroup="vgpLabE" runat="server" ID="rfvSharpCont" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblSharpCont" ValidationGroup="vgpLabE" runat="server" ID="rfvSharpCont" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -791,7 +861,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Biohazard needles/sharps in yellow 'Sharps' container" runat="server" ID="lblYellowCont" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblYellowCont">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblYellowCont">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -799,7 +870,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblYellowCont" ValidationGroup="vgpLabE" runat="server" ID="rfvYellowCont" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblYellowCont" ValidationGroup="vgpLabE" runat="server" ID="rfvYellowCont" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -812,7 +884,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Other biohazard waste disposed in yellow bags/HSS tubs" runat="server" ID="lblYellowBagHSS" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblYellowBagHSS">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblYellowBagHSS">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -820,7 +893,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblYellowBagHSS" ValidationGroup="vgpLabE" runat="server" ID="rfvYellowBagHSS" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblYellowBagHSS" ValidationGroup="vgpLabE" runat="server" ID="rfvYellowBagHSS" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -832,7 +906,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Cytotoxic waste containers available" runat="server" ID="lblCyto" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblCyto">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblCyto">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -840,7 +915,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblCyto" ValidationGroup="vgpLabE" runat="server" ID="rfvCyto" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblCyto" ValidationGroup="vgpLabE" runat="server" ID="rfvCyto" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -852,7 +928,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Bulk solvent waste containers closed and labelled" runat="server" ID="lblBulkLabel" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBulkLabel">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblBulkLabel">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -860,7 +937,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblBulkLabel" ValidationGroup="vgpLabE" runat="server" ID="rfvBulkLabel" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblBulkLabel" ValidationGroup="vgpLabE" runat="server" ID="rfvBulkLabel" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -872,7 +950,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Bulk Solvent waste containers > 25L stored in flammable storage cabinet" runat="server" ID="lblBulk25L" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBulk25L">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblBulk25L">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -880,7 +959,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblBulk25L" ValidationGroup="vgpLabE" runat="server" ID="rfvBulk25L" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblBulk25L" ValidationGroup="vgpLabE" runat="server" ID="rfvBulk25L" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -892,7 +972,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Interim solvent waste containers closed" runat="server" ID="lblInterim" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblInterim">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblInterim">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -900,7 +981,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblInterim" ValidationGroup="vgpLabE" runat="server" ID="rfvInterim" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblInterim" ValidationGroup="vgpLabE" runat="server" ID="rfvInterim" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -912,7 +994,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Ethidium bromide waste segregated" runat="server" ID="lblEthidium" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEthidium">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblEthidium">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -920,7 +1003,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblEthidium" ValidationGroup="vgpLabE" runat="server" ID="rfvEthidium" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblEthidium" ValidationGroup="vgpLabE" runat="server" ID="rfvEthidium" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -930,7 +1014,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <h3 id="labF"><asp:Image ID="imgExpandCollapseF" runat="server" /> F. Biohazards <asp:Label ID="ExpandCollapseF" runat="server" Text=""></asp:Label></h3>
+    <h3 id="labF"><asp:Image ID="imgExpandCollapseF" runat="server" /> F. Biohazards <asp:Label ID="ExpandCollapseF" runat="server" 
+        Text=""></asp:Label></h3>
     <asp:Panel ID="pnlF" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -958,7 +1043,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Appropriate disinfectant(s) in correct concentration available" runat="server" ID="lblDisenfect" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblDisenfect">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblDisenfect">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -966,7 +1052,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblDisenfect" ValidationGroup="vgpLabF" runat="server" ID="rfvDisenfect" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblDisenfect" ValidationGroup="vgpLabF" runat="server" ID="rfvDisenfect" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -978,7 +1065,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Biological hazard signs posted" runat="server" ID="lblBioHazSign" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBioHazSign">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblBioHazSign">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -986,7 +1074,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblBioHazSign" ValidationGroup="vgpLabF" runat="server" ID="rfvBioHazSign" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblBioHazSign" ValidationGroup="vgpLabF" runat="server" ID="rfvBioHazSign" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -996,7 +1085,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <h3 id="labG"><asp:Image ID="imgExpandCollapseG" runat="server" /> G. Fume Hoods/Biological Safety Cabinets <asp:Label ID="ExpandCollapseG" runat="server" Text=""></asp:Label></h3>
+    <h3 id="labG"><asp:Image ID="imgExpandCollapseG" runat="server" /> G. Fume Hoods/Biological Safety Cabinets <asp:Label ID="ExpandCollapseG" 
+        runat="server" Text=""></asp:Label></h3>
     <asp:Panel ID="pnlG" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -1025,7 +1115,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Sash at recommended height and air flow on" runat="server" ID="lblSash" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblSash">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblSash">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1033,7 +1124,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblSash" ValidationGroup="vgpLabG" runat="server" ID="rfvSash" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblSash" ValidationGroup="vgpLabG" runat="server" ID="rfvSash" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1045,7 +1137,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Biological safety cabinets certified" runat="server" ID="lblBioCabCert" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBioCabCert">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblBioCabCert">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1053,7 +1146,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblBioCabCert" ValidationGroup="vgpLabG" runat="server" ID="rfvBioCabCert" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblBioCabCert" ValidationGroup="vgpLabG" runat="server" ID="rfvBioCabCert" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1065,7 +1159,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Biological safety cabinets clean and tidy" runat="server" ID="lblBioCabClean" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBioCabClean">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblBioCabClean">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1073,7 +1168,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblBioCabClean" ValidationGroup="vgpLabG" runat="server" ID="rfvBioCabClean" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblBioCabClean" ValidationGroup="vgpLabG" runat="server" 
+                    ID="rfvBioCabClean" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1085,7 +1181,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Fume hood(s) functioning properly" runat="server" ID="lblFumeFunc" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFumeFunc">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblFumeFunc">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1093,7 +1190,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblFumeFunc" ValidationGroup="vgpLabG" runat="server" ID="rfvFumeFunc" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblFumeFunc" ValidationGroup="vgpLabG" runat="server" ID="rfvFumeFunc" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1103,7 +1201,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <h3 id="labH"><asp:Image ID="imgExpandCollapseH" runat="server" /> H. Electrical Apparatus <asp:Label ID="ExpandCollapseH" runat="server" Text="" /></h3>
+    <h3 id="labH"><asp:Image ID="imgExpandCollapseH" runat="server" /> H. Electrical Apparatus <asp:Label ID="ExpandCollapseH" runat="server" 
+        Text="" /></h3>
     <asp:Panel ID="pnlH" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -1131,7 +1230,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Vacuum pumps stored safely and belts guarded" runat="server" ID="lblVacuumPump" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblVacuumPump">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblVacuumPump">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1139,7 +1239,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblVacuumPump" ValidationGroup="vgpLabH" runat="server" ID="rfvVacuumPump" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblVacuumPump" ValidationGroup="vgpLabH" runat="server" ID="rfvVacuumPump" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1151,7 +1252,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="No frayed or cracked electrical cords observed" runat="server" ID="lblFrayedCords" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFrayedCords">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblFrayedCords">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1159,7 +1261,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblFrayedCords" ValidationGroup="vgpLabH" runat="server" ID="rfvFrayedCords" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblFrayedCords" ValidationGroup="vgpLabH" runat="server" ID="rfvFrayedCords" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1171,7 +1274,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Electrical outlets are not overloaded" runat="server" ID="lblOutlets" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblOutlets">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblOutlets">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1179,7 +1283,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblOutlets" ValidationGroup="vgpLabH" runat="server" ID="rfvOutlets" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblOutlets" ValidationGroup="vgpLabH" runat="server" ID="rfvOutlets" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1191,7 +1296,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Power bars have a circuit breaker and not 'daisy-chained'" runat="server" ID="lblPowerBar" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblPowerBar">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblPowerBar">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1199,7 +1305,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblPowerBar" ValidationGroup="vgpLabH" runat="server" ID="rfvPowerBar" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblPowerBar" ValidationGroup="vgpLabH" runat="server" ID="rfvPowerBar" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1211,7 +1318,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Critical equipment connected to emergency power" runat="server" ID="lblEmPower" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEmPower">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblEmPower">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1219,7 +1327,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblEmPower" ValidationGroup="vgpLabH" runat="server" ID="rfvEmPower" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblEmPower" ValidationGroup="vgpLabH" runat="server" ID="rfvEmPower" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1229,7 +1338,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <h3 id="labI"><asp:Image ID="imgExpandCollapseI" runat="server" /> I. Chemicals and Reagents <asp:Label ID="ExpandCollapseI" runat="server" Text=""></asp:Label></h3>
+    <h3 id="labI"><asp:Image ID="imgExpandCollapseI" runat="server" /> I. Chemicals and Reagents <asp:Label ID="ExpandCollapseI" 
+        runat="server" Text=""></asp:Label></h3>
     <asp:Panel ID="pnlI" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -1257,7 +1367,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Flammables stored in appropriate refrigerator/cabinet" runat="server" ID="lblFlam" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblFlam">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblFlam">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1265,7 +1376,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblFlam" ValidationGroup="vgpLabI" runat="server" ID="rfvFlam" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblFlam" ValidationGroup="vgpLabI" runat="server" ID="rfvFlam" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1277,7 +1389,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Solvent storage cabinet available, clean and closed" runat="server" ID="lblSolventCab" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblSolventCab">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblSolventCab">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1285,7 +1398,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblSolventCab" ValidationGroup="vgpLabI" runat="server" ID="rfvSolventCab" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblSolventCab" ValidationGroup="vgpLabI" runat="server" ID="rfvSolventCab" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1297,7 +1411,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Solvent Containers outside safety cabinet < 25L" runat="server" ID="lblSolventOutside" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblSolventOutside">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblSolventOutside">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1305,7 +1420,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblSolventOutside" ValidationGroup="vgpLabI" runat="server" ID="rfvSolventOutside" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblSolventOutside" ValidationGroup="vgpLabI" runat="server" 
+                    ID="rfvSolventOutside" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1317,7 +1433,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Proper labelling of hazardous materials" runat="server" ID="lblPropHaz" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblPropHaz">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblPropHaz">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1325,7 +1442,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblPropHaz" ValidationGroup="vgpLabI" runat="server" ID="rfvPropHaz" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblPropHaz" ValidationGroup="vgpLabI" runat="server" ID="rfvPropHaz" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1337,7 +1455,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Proper labelling of cytotoxic materials" runat="server" ID="lblPropCyto" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblPropCyto">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblPropCyto">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1345,7 +1464,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblPropCyto" ValidationGroup="vgpLabI" runat="server" ID="rfvPropCyto" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblPropCyto" ValidationGroup="vgpLabI" runat="server" ID="rfvPropCyto" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1354,10 +1474,12 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
         </tr>
         <tr>
             <td>
-                <asp:Label Text="Cytotoxic materials exposure records and inventory sheets completed and up to date" runat="server" ID="lblCytoToDate" />
+                <asp:Label Text="Cytotoxic materials exposure records and inventory sheets completed and up to date" runat="server" 
+                    ID="lblCytoToDate" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblCytoToDate">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblCytoToDate">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1365,7 +1487,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblCytoToDate" ValidationGroup="vgpLabI" runat="server" ID="rfvCytoToDate" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblCytoToDate" ValidationGroup="vgpLabI" runat="server" ID="rfvCytoToDate" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1374,10 +1497,12 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
         </tr>
         <tr>
             <td>
-                <asp:Label Text="Reagent chemicals stored securely (lips on shelves or doors on cupboards)" runat="server" ID="lblReagentSecure" />
+                <asp:Label Text="Reagent chemicals stored securely (lips on shelves or doors on cupboards)" runat="server" 
+                    ID="lblReagentSecure" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblReagentSecure">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblReagentSecure">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1385,7 +1510,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblReagentSecure" ValidationGroup="vgpLabI" runat="server" ID="rfvReagentSecure" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblReagentSecure" ValidationGroup="vgpLabI" runat="server" 
+                    ID="rfvReagentSecure" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1397,7 +1523,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Incompatible materials separated" runat="server" ID="lblIncompat" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblIncompat">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblIncompat">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1405,7 +1532,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblIncompat" ValidationGroup="vgpLabI" runat="server" ID="rfvIncompat" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblIncompat" ValidationGroup="vgpLabI" runat="server" ID="rfvIncompat" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1415,7 +1543,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <h3 id="labJ"><asp:Image ID="imgExpandCollapseJ" runat="server" /> J. Training <asp:Label ID="ExpandCollapseJ" runat="server" Text=""/></h3>
+    <h3 id="labJ"><asp:Image ID="imgExpandCollapseJ" runat="server" /> J. Training <asp:Label ID="ExpandCollapseJ" runat="server" 
+        Text=""/></h3>
     <asp:Panel ID="pnlJ" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -1440,10 +1569,12 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
         </tr>
         <tr>
             <td>
-                <asp:Label Text="Biosafety, chemical and cytotoxics safety training provided and documented" runat="server" ID="lblBiosafety" />
+                <asp:Label Text="Biosafety, chemical and cytotoxics safety training provided and documented" runat="server" 
+                    ID="lblBiosafety" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblBiosafety">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblBiosafety">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1451,7 +1582,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblBiosafety" ValidationGroup="vgpLabJ" runat="server" ID="rfvBiosafety" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblBiosafety" ValidationGroup="vgpLabJ" runat="server" 
+                    ID="rfvBiosafety" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1463,7 +1595,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Workplace safety training provided and documented" runat="server" ID="lblWorkplaceSafety" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblWorkplaceSafety">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblWorkplaceSafety">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1471,7 +1604,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblWorkplaceSafety" ValidationGroup="vgpLabJ" runat="server" ID="rfvWorkplaceSafety" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblWorkplaceSafety" ValidationGroup="vgpLabJ" runat="server" 
+                    ID="rfvWorkplaceSafety" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1483,7 +1617,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="WHMIS - all staff are trained (current and documented)" runat="server" ID="lblWHMIS" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblWHMIS">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblWHMIS">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1491,7 +1626,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblWHMIS" ValidationGroup="vgpLabJ" runat="server" ID="rfvWHMIS" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblWHMIS" ValidationGroup="vgpLabJ" runat="server" ID="rfvWHMIS" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1503,7 +1639,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="TDG training provided (if applicable) and documented" runat="server" ID="lblTDG" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblTDG">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblTDG">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1511,7 +1648,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblTDG" ValidationGroup="vgpLabJ" runat="server" ID="rfvTDG" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblTDG" ValidationGroup="vgpLabJ" runat="server" ID="rfvTDG" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1521,7 +1659,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <h3 id="labK"><asp:Image ID="imgExpandCollapseK" runat="server" /> K. Miscellaneous <asp:Label ID="ExpandCollapseK" runat="server" Text=""/></h3>
+    <h3 id="labK"><asp:Image ID="imgExpandCollapseK" runat="server" /> K. Miscellaneous <asp:Label ID="ExpandCollapseK" runat="server" 
+        Text=""/></h3>
     <asp:Panel ID="pnlK" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -1549,7 +1688,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Equipment/storage shelves seismically restrained" runat="server" ID="lblStorageSeis" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblStorageSeis">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblStorageSeis">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1557,7 +1697,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblStorageSeis" ValidationGroup="vgpLabK" runat="server" ID="rfvStorageSeis" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblStorageSeis" ValidationGroup="vgpLabK" runat="server" ID="rfvStorageSeis" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1569,7 +1710,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Appropriate equipment guard(s) provided" runat="server" ID="lblEquipGuards" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblEquipGuards">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblEquipGuards">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1577,7 +1719,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblEquipGuards" ValidationGroup="vgpLabK" runat="server" ID="rfvEquipGuards" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblEquipGuards" ValidationGroup="vgpLabK" runat="server" ID="rfvEquipGuards" 
+                    ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
@@ -1589,7 +1732,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <asp:Label Text="Pressurized gas tanks restrained/supported" runat="server" ID="lblPressureTankSup" />
             </td>
             <td class="tblYesNoNA" colspan="3">
-                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" ID="rblPressureTankSup">
+                <asp:RadioButtonList RepeatDirection="Horizontal" RepeatLayout="Table" CellPadding="5" CellSpacing="2" runat="server" 
+                    ID="rblPressureTankSup">
                     <asp:ListItem Text="" Value="Yes" />
                     <asp:ListItem Text="" Value="No" />
                     <asp:ListItem Text="" Value="NA" />
@@ -1597,7 +1741,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </td>
             <td>
                 &nbsp&nbsp
-                <asp:RequiredFieldValidator ControlToValidate="rblPressureTankSup" ValidationGroup="vgpLabK" runat="server" ID="rfvPressureTankSup" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ControlToValidate="rblPressureTankSup" ValidationGroup="vgpLabK" runat="server" 
+                    ID="rfvPressureTankSup" ErrorMessage="*" ForeColor="Red">*</asp:RequiredFieldValidator>
                 &nbsp&nbsp
             </td>
             <td>
