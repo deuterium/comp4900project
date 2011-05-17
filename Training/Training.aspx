@@ -245,7 +245,8 @@ ExpandedImage="../images/collapse.jpg">
                             <table class="style1">
                                 <tr>
                                     <td class="style2">
-                                        Date of Course:</td>
+                                        <asp:Label ID="lbCourseDate" runat="server" Text="Date of Course:"></asp:Label>
+                                    </td>
                                     <td>
                                         <asp:TextBox ID="tbxCourseDate" runat="server"></asp:TextBox>
                                         <asp:CalendarExtender ID="tbxCourseDate_CalendarExtender" runat="server" 
@@ -255,7 +256,8 @@ ExpandedImage="../images/collapse.jpg">
                                 </tr>
                                 <tr>
                                     <td class="style2">
-                                        CL2 SOP Signed:</td>
+                                        <asp:Label ID="lblSOPSigned" runat="server" Text="SOP Signed:"></asp:Label>
+                                    </td>
                                     <td>
                                         <asp:RadioButtonList ID="rblSigned" runat="server" RepeatDirection="Horizontal">
                                             <asp:ListItem ID="limSigned" runat="server" Text="Yes" Value="Yes" />
@@ -265,7 +267,8 @@ ExpandedImage="../images/collapse.jpg">
                                 </tr>
                                 <tr>
                                     <td class="style2">
-                                        Evaluation:</td>
+                                        <asp:Label ID="lblEval" runat="server" Text="Evaluation:"></asp:Label>
+                                    </td>
                                     <td>
                                         <asp:RadioButtonList ID="rblEvaluation" runat="server" 
                                             RepeatDirection="Horizontal">
@@ -276,7 +279,9 @@ ExpandedImage="../images/collapse.jpg">
                                 </tr>
                                 <tr>
                                     <td class="style2">
-                                        &nbsp;Respirator Fit-Testing:</td>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <asp:Label ID="bl" runat="server" Text="Respirator Fit-Testing:"></asp:Label>
+                                    </td>
                                     <td>
                                         &nbsp;</td>
                                 </tr>
@@ -317,9 +322,42 @@ ExpandedImage="../images/collapse.jpg">
                                 </tr>
                                 <tr>
                                     <td class="style2">
+                                        Dosimeter request form submitted:</td>
+                                    <td>
+                                        <asp:RadioButtonList ID="rblDosSubmitted" runat="server" 
+                                            RepeatDirection="Horizontal">
+                                            <asp:ListItem ID="limSigned0" runat="server" Text="Yes" Value="Yes" />
+                                            <asp:ListItem ID="limNotSigned0" runat="server" Text="No" Value="No" />
+                                        </asp:RadioButtonList>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="style2">
+                                        Dosimeter issued:</td>
+                                    <td>
+                                        <asp:RadioButtonList ID="rblDosIssued" runat="server" 
+                                            RepeatDirection="Horizontal">
+                                            <asp:ListItem ID="limSigned1" runat="server" Text="Yes" Value="Yes" />
+                                            <asp:ListItem ID="limNotSigned1" runat="server" Text="No" Value="No" />
+                                        </asp:RadioButtonList>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="style2">
+                                        Ring issued:</td>
+                                    <td>
+                                        <asp:RadioButtonList ID="rblRingIssued" runat="server" 
+                                            RepeatDirection="Horizontal">
+                                            <asp:ListItem ID="limSigned2" runat="server" Text="Yes" Value="Yes" />
+                                            <asp:ListItem ID="limNotSigned2" runat="server" Text="No" Value="No" />
+                                        </asp:RadioButtonList>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="style2">
                                         Certificate Number:</td>
                                     <td>
-                                        <asp:TextBox ID="TextBox9" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="tbxCert" runat="server"></asp:TextBox>
                                     </td>
                                 </tr>
                             </table>
