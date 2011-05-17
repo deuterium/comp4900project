@@ -42,13 +42,14 @@ public partial class Reporting_Default : System.Web.UI.Page {
     public static List<String> employers = new List<String> {
         noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
     };
+    #endregion class variables
+
 
 
     // TESTING!
-    public int incidentReportId { get; set; }
+    public String incidentReportId { get; set; }
 
 
-    #endregion class variables
 
     /// <summary>
     /// Sets up the dynamic elements when the page loads for the first time.
@@ -63,14 +64,17 @@ public partial class Reporting_Default : System.Web.UI.Page {
             PopulateEmployersDdl();
             PopulatePositionsDdl();
             PopulateDepartmentsDdl();
+            populateTrackerGridView();
             pnlPop.Style.Value = "display:none;";
             lblResults.Visible = true;
-            gdvTracker.DataSource = ctx.Incidents;
-            gdvTracker.DataBind();
-            //GridView1.DataSource = ctx.Employees;
-            //GridView1.DataBind();
+            
             tsmScriptManager.SetFocus(tbxLastName.ClientID);
         }
+    }
+
+    private void populateTrackerGridView() {
+        gdvTracker.DataSource = ctx.Incidents;
+        gdvTracker.DataBind();
     }
 
     #region Toggle Other TextBox and CheckBox
@@ -1469,7 +1473,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The button click event.</param>
     protected void btnFilterReport_Click(object sender, EventArgs e) {
-        filterReport(gdvReports);
+        filterReport(gdvTracker);
     }
 
     /// <summary>
@@ -1662,12 +1666,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
     #endregion Filter Report
 
-    String incidentNo = "";
     String selection = "";
 
     protected void gdvTracker_SelectedIndexChanged(object sender, EventArgs e)
     {
-        incidentNo = gdvTracker.SelectedRow.Cells[1].Text;
+        incidentReportId = gdvTracker.SelectedRow.Cells[1].Text;
         selection = "Incident";
     }
 
