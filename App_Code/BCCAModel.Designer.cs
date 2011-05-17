@@ -6375,54 +6375,6 @@ namespace BCCAModel
         private global::System.String _comment;
         partial void OncommentChanging(global::System.String value);
         partial void OncommentChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> inspectionDate
-        {
-            get
-            {
-                return _inspectionDate;
-            }
-            set
-            {
-                OninspectionDateChanging(value);
-                ReportPropertyChanging("inspectionDate");
-                _inspectionDate = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("inspectionDate");
-                OninspectionDateChanged();
-            }
-        }
-        private Nullable<global::System.DateTime> _inspectionDate;
-        partial void OninspectionDateChanging(Nullable<global::System.DateTime> value);
-        partial void OninspectionDateChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String inspectionConductedBy
-        {
-            get
-            {
-                return _inspectionConductedBy;
-            }
-            set
-            {
-                OninspectionConductedByChanging(value);
-                ReportPropertyChanging("inspectionConductedBy");
-                _inspectionConductedBy = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("inspectionConductedBy");
-                OninspectionConductedByChanged();
-            }
-        }
-        private global::System.String _inspectionConductedBy;
-        partial void OninspectionConductedByChanging(global::System.String value);
-        partial void OninspectionConductedByChanged();
 
         #endregion
     
@@ -6825,6 +6777,30 @@ namespace BCCAModel
         private global::System.String _followupComment;
         partial void OnfollowupCommentChanging(global::System.String value);
         partial void OnfollowupCommentChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String followupSubmitter
+        {
+            get
+            {
+                return _followupSubmitter;
+            }
+            set
+            {
+                OnfollowupSubmitterChanging(value);
+                ReportPropertyChanging("followupSubmitter");
+                _followupSubmitter = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("followupSubmitter");
+                OnfollowupSubmitterChanged();
+            }
+        }
+        private global::System.String _followupSubmitter;
+        partial void OnfollowupSubmitterChanging(global::System.String value);
+        partial void OnfollowupSubmitterChanged();
 
         #endregion
     
@@ -7381,54 +7357,6 @@ namespace BCCAModel
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String inspectionConductedBy
-        {
-            get
-            {
-                return _inspectionConductedBy;
-            }
-            set
-            {
-                OninspectionConductedByChanging(value);
-                ReportPropertyChanging("inspectionConductedBy");
-                _inspectionConductedBy = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("inspectionConductedBy");
-                OninspectionConductedByChanged();
-            }
-        }
-        private global::System.String _inspectionConductedBy;
-        partial void OninspectionConductedByChanging(global::System.String value);
-        partial void OninspectionConductedByChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> inspectionDate
-        {
-            get
-            {
-                return _inspectionDate;
-            }
-            set
-            {
-                OninspectionDateChanging(value);
-                ReportPropertyChanging("inspectionDate");
-                _inspectionDate = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("inspectionDate");
-                OninspectionDateChanged();
-            }
-        }
-        private Nullable<global::System.DateTime> _inspectionDate;
-        partial void OninspectionDateChanging(Nullable<global::System.DateTime> value);
-        partial void OninspectionDateChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
         public global::System.String comment
         {
             get
@@ -7775,6 +7703,54 @@ namespace BCCAModel
         private global::System.String _followupComment;
         partial void OnfollowupCommentChanging(global::System.String value);
         partial void OnfollowupCommentChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> followupDate
+        {
+            get
+            {
+                return _followupDate;
+            }
+            set
+            {
+                OnfollowupDateChanging(value);
+                ReportPropertyChanging("followupDate");
+                _followupDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("followupDate");
+                OnfollowupDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _followupDate;
+        partial void OnfollowupDateChanging(Nullable<global::System.DateTime> value);
+        partial void OnfollowupDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String followupSubmitter
+        {
+            get
+            {
+                return _followupSubmitter;
+            }
+            set
+            {
+                OnfollowupSubmitterChanging(value);
+                ReportPropertyChanging("followupSubmitter");
+                _followupSubmitter = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("followupSubmitter");
+                OnfollowupSubmitterChanged();
+            }
+        }
+        private global::System.String _followupSubmitter;
+        partial void OnfollowupSubmitterChanging(global::System.String value);
+        partial void OnfollowupSubmitterChanged();
 
         #endregion
     
@@ -9362,6 +9338,30 @@ namespace BCCAModel
         private global::System.String _radiation_ringIssued;
         partial void Onradiation_ringIssuedChanging(global::System.String value);
         partial void Onradiation_ringIssuedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> courseDate
+        {
+            get
+            {
+                return _courseDate;
+            }
+            set
+            {
+                OncourseDateChanging(value);
+                ReportPropertyChanging("courseDate");
+                _courseDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("courseDate");
+                OncourseDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _courseDate;
+        partial void OncourseDateChanging(Nullable<global::System.DateTime> value);
+        partial void OncourseDateChanged();
 
         #endregion
     

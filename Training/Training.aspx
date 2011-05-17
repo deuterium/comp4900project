@@ -256,6 +256,17 @@ ExpandedImage="../images/collapse.jpg">
                                 </tr>
                                 <tr>
                                     <td class="style2">
+                                        <asp:Label ID="lblBSCDate" runat="server" Text="Date of BSC Seminar"></asp:Label>
+                                    </td>
+                                    <td>
+                                        <asp:TextBox ID="tbxBSCDate" runat="server"></asp:TextBox>
+                                        <asp:CalendarExtender ID="tbxBSCDate_CalendarExtender" runat="server" 
+                                            Enabled="True" TargetControlID="tbxBSCDate">
+                                        </asp:CalendarExtender>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="style2">
                                         <asp:Label ID="lblSOPSigned" runat="server" Text="SOP Signed:"></asp:Label>
                                     </td>
                                     <td>
@@ -279,50 +290,60 @@ ExpandedImage="../images/collapse.jpg">
                                 </tr>
                                 <tr>
                                     <td class="style2">
-                                        &nbsp;&nbsp;&nbsp;
-                                        <asp:Label ID="bl" runat="server" Text="Respirator Fit-Testing:"></asp:Label>
+                                        <asp:Label ID="lblresp1" runat="server" Text="Respirator Fit-Testing:"></asp:Label>
                                     </td>
                                     <td>
                                         &nbsp;</td>
                                 </tr>
                                 <tr>
                                     <td class="style2">
-                                        &nbsp;&nbsp;&nbsp; Date of fit&nbsp;</td>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <asp:Label ID="lblRespFit" runat="server" Text="Date of fit:"></asp:Label>
+                                    </td>
                                     <td>
                                         <asp:TextBox ID="tbxDateFit" runat="server"></asp:TextBox>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="style2">
-                                        &nbsp;&nbsp; &nbsp;Type of Respirator:</td>
+                                        &nbsp;&nbsp; &nbsp;<asp:Label ID="lblRespType" runat="server" Text="Type of Respirator:"></asp:Label>
+                                    </td>
                                     <td>
                                         <asp:TextBox ID="tbxRespType" runat="server"></asp:TextBox>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="style2">
-                                        &nbsp;&nbsp;&nbsp; Model:</td>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <asp:Label ID="lblRespModel" runat="server" Text="Model:"></asp:Label>
+                                    </td>
                                     <td>
                                         <asp:TextBox ID="tbxRespModel" runat="server"></asp:TextBox>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="style2">
-                                        &nbsp;&nbsp;&nbsp; Comments:</td>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <asp:Label ID="lblRespComment" runat="server" Text="Comments:"></asp:Label>
+                                    </td>
                                     <td>
                                         <asp:TextBox ID="tbxRespComment" runat="server"></asp:TextBox>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="style2">
-                                        Date of Spill Clean-up training:</td>
+                                        <asp:Label ID="lblSpillDate" runat="server" 
+                                            Text="Date of Spill Clean-up training:"></asp:Label>
+                                    </td>
                                     <td>
                                         <asp:TextBox ID="tbxSpillDate" runat="server"></asp:TextBox>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="style2">
-                                        Dosimeter request form submitted:</td>
+                                        <asp:Label ID="lblDosSubmitted" runat="server" 
+                                            Text="Dosimeter request form submitted:"></asp:Label>
+                                    </td>
                                     <td>
                                         <asp:RadioButtonList ID="rblDosSubmitted" runat="server" 
                                             RepeatDirection="Horizontal">
@@ -333,7 +354,8 @@ ExpandedImage="../images/collapse.jpg">
                                 </tr>
                                 <tr>
                                     <td class="style2">
-                                        Dosimeter issued:</td>
+                                        <asp:Label ID="lblDosIssued" runat="server" Text="Dosimeter issued:"></asp:Label>
+                                    </td>
                                     <td>
                                         <asp:RadioButtonList ID="rblDosIssued" runat="server" 
                                             RepeatDirection="Horizontal">
@@ -344,7 +366,8 @@ ExpandedImage="../images/collapse.jpg">
                                 </tr>
                                 <tr>
                                     <td class="style2">
-                                        Ring issued:</td>
+                                        <asp:Label ID="lblRingIssued" runat="server" Text="Ring issued:"></asp:Label>
+                                    </td>
                                     <td>
                                         <asp:RadioButtonList ID="rblRingIssued" runat="server" 
                                             RepeatDirection="Horizontal">
@@ -355,7 +378,8 @@ ExpandedImage="../images/collapse.jpg">
                                 </tr>
                                 <tr>
                                     <td class="style2">
-                                        Certificate Number:</td>
+                                        <asp:Label ID="lblCert" runat="server" Text="Certificate Number:"></asp:Label>
+                                    </td>
                                     <td>
                                         <asp:TextBox ID="tbxCert" runat="server"></asp:TextBox>
                                     </td>
