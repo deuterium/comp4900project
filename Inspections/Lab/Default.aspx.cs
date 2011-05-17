@@ -51,6 +51,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
     {
 
         #region Page Validation
+
         //Validates the various sections of the page to ensure the data is input correctly.
         Page.Validate("vgpLabB");
         Page.Validate("vgpLabC");
@@ -62,6 +63,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
         Page.Validate("vgpLabI");
         Page.Validate("vgpLabJ");
         Page.Validate("vgpLabK");
+
         #endregion
 
         //If the page is valid then it continues to enter the data into the database.
@@ -71,6 +73,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             #region LabInspection Object
 
             DateTime tmpDate = Convert.ToDateTime(tbxLabInspectionDate.Text);
+
             //LabInspection object that will be inserted into the database before the rest of the form
             //so that the unique id can be used to link the LabInspectionDetail objects.
             LabInspection inc = new LabInspection()
@@ -95,9 +98,11 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 Popup_Overlay(ex.Message, Color.Red);
                 return;
             }
+
             #endregion
 
             #region LabInspectionDetail Objects Section B
+
             //Fire evacuation route posted on exits in each section/floor
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
@@ -205,9 +210,11 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 checkbox = radiobuttonConvert(this.rblBiohazard.SelectedValue),
                 comments = this.tbxCommentBiohazard.Text,
             });
+
             #endregion
 
             #region LabInspectionDetail Objects Section C
+
             //Safety Glasses/Facial shield available and in good condition
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
@@ -270,9 +277,11 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 checkbox = radiobuttonConvert(this.rblHealthSurv.SelectedItem.Value),
                 comments = this.tbxCommentHealthSurv.Text,
             });
+
             #endregion
 
             #region LabInspectionDetail Objects Section D
+
             //Bench tops and sink areas tidy
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
@@ -335,9 +344,11 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 checkbox = radiobuttonConvert(this.rblStool.SelectedItem.Value),
                 comments = this.tbxCommentStool.Text,
             });
+
             #endregion
 
             #region LabInspectionDetail Objects Section E
+
             //Separate collection containers for sharps available
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
@@ -409,9 +420,11 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 checkbox = radiobuttonConvert(this.rblEthidium.SelectedItem.Value),
                 comments = this.tbxCommentEthidium.Text,
             });
+
             #endregion
 
             #region LabInspectionDetail Objects Section F
+
             //Appropriate disinfectant(s) in correct concentration available
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
@@ -432,6 +445,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             #endregion
 
             #region LabInspectionDetail Objects Section G
+
             //Sash at recommended height and air flow on
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
@@ -467,9 +481,11 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 checkbox = radiobuttonConvert(this.rblFumeFunc.SelectedItem.Value),
                 comments = this.tbxCommentFumeFunc.Text,
             });
+
             #endregion
 
             #region LabInspectionDetail Objects Section H
+
             //Vacuum pumps stored safely and belts guarded
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
@@ -514,9 +530,11 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 checkbox = radiobuttonConvert(this.rblEmPower.SelectedItem.Value),
                 comments = this.tbxCommentEmPower.Text,
             });
+
             #endregion
 
             #region LabInspectionDetail Objects Section I
+
             //Flammables stored in appropriate refrigerator/cabinet
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
@@ -588,9 +606,11 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 checkbox = radiobuttonConvert(this.rblIncompat.SelectedItem.Value),
                 comments = this.tbxCommentIncompat.Text,
             });
+
             #endregion
 
             #region LabInspectionDetail Objects Section J
+
             //Biosafety, chemical and cytotoxics safety training provided and documented
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
@@ -626,9 +646,11 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 checkbox = radiobuttonConvert(this.rblTDG.SelectedItem.Value),
                 comments = this.tbxCommentTDG.Text,
             });
+
             #endregion
 
             #region LabInspectionDetail Objects Section K
+
             //Equipment/storage shelves seismically restrained
             ctx.AddToLabInspectionDetails(new LabInspectionDetail()
             {
@@ -655,9 +677,11 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 checkbox = radiobuttonConvert(this.rblPressureTankSup.SelectedItem.Value),
                 comments = this.tbxCommentPressureTankSup.Text,
             });
+
             #endregion
 
             #region LabInspectionDetail Objects SaveChanges
+
             //Try-catch for saving the LabInspectionDetail objects into the database.
             try
             {
@@ -668,6 +692,9 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 Popup_Overlay(ex.InnerException.ToString(), Color.Red);
                 return;
             }
+
+            Popup_Overlay("Update Successful", Color.Green);
+
             #endregion
         }
     }
