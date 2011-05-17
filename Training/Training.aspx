@@ -202,36 +202,41 @@ ExpandedImage="../images/collapse.jpg">
                     <asp:GridView ID="grvValidCourses" runat="server" 
                         onrowcancelingedit="grvValidCourses_RowCancelingEdit" 
                         onrowediting="grvValidCourses_RowEditing" 
-                        onrowupdating="grvValidCourses_RowUpdating" AutoGenerateColumns="False">
+                        onrowupdating="grvValidCourses_RowUpdating" AutoGenerateColumns="False" 
+                        onselectedindexchanged="grvValidCourses_SelectedIndexChanged">
                         <Columns>
                             <asp:CommandField ShowEditButton="True" />
-                            <asp:CommandField ShowSelectButton="True" />
+                            <asp:CommandField ShowSelectButton="True" SelectText="Details" />
                             <asp:BoundField DataField="coursename" HeaderText="Training Name" 
                                 ReadOnly="True" SortExpression="coursename" />
-                            <asp:BoundField DataField="ttNo" HeaderText="ttNo" SortExpression="ttNo" />
+                            <asp:BoundField DataField="ttNo" HeaderText="ttNo" SortExpression="ttNo" 
+                                ReadOnly="True" />
                             <asp:TemplateField HeaderText="Start Date" SortExpression="startDate">
                                 <EditItemTemplate>
-                                    <asp:TextBox ID="TextBox3" runat="server" Text='<%# Bind("startDate") %>'></asp:TextBox>
+                                    <asp:TextBox ID="TextBox3" runat="server" Text='<%# Bind("startDate", "{0:M/d/yyyy}") %>'></asp:TextBox>
                                     <asp:CalendarExtender ID="TextBox3_CalendarExtender" runat="server" 
-                                        Enabled="True" TargetControlID="TextBox3">
+                                        Enabled="True" TargetControlID="TextBox3" Format="M/d/yyyy">
                                     </asp:CalendarExtender>
                                 </EditItemTemplate>
                                 <ItemTemplate>
-                                    <asp:Label ID="Label3" runat="server" Text='<%# Bind("startDate", "{0:d}") %>'></asp:Label>
+                                    <asp:Label ID="Label3" runat="server" Text='<%# Bind("startDate", "{0:M/d/yyyy}") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="End Date" SortExpression="endDate">
                                 <EditItemTemplate>
-                                    <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("endDate") %>'></asp:TextBox>
+                                    <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("endDate", "{0:M/d/yyy}") %>'></asp:TextBox>
                                     <asp:CalendarExtender ID="TextBox1_CalendarExtender" runat="server" 
-                                        Enabled="True" TargetControlID="TextBox1">
+                                        Enabled="True" TargetControlID="TextBox1" Format="M/d/yyyy">
                                     </asp:CalendarExtender>
                                 </EditItemTemplate>
                                 <ItemTemplate>
-                                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("endDate", "{0:d}") %>'></asp:Label>
+                                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("endDate", "{0:M/d/yyyy}") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
+                    </asp:GridView>
+                    
+                    <asp:GridView ID="GridView1" runat="server">
                     </asp:GridView>
                     
                 </asp:Panel>

@@ -712,22 +712,45 @@ public partial class Training_Training : System.Web.UI.Page {
         GridViewRow row = grvValidCourses.Rows[e.RowIndex];
         
         int empNo = Convert.ToInt32(tbxId.Text);
-
-        int ttNo = Convert.ToInt32(e.NewValues["ttNo"]);
+        int ttNo = Convert.ToInt32(grvValidCourses.Rows[e.RowIndex].Cells[3].Text);
+        //String ttNoTeest = grvValidCourses.Rows[e.RowIndex].Cells[3].Text;
 
         TrainingTaken training = ctx.TrainingTakens
                        .Where(tt => tt.trainingTakenNo == ttNo)
                        .Select(tt => tt).FirstOrDefault();
 
-        if (e.NewValues["Start Date"] != null)
+        if (e.NewValues["startDate"] != null)
         {
-            DateTime strStart = Convert.ToDateTime(e.NewValues["Start Date"].ToString());
-            training.startDate = strStart;
+            if (!(e.NewValues["startDate"].Equals(String.Empty)))
+            {
+                String strStart = e.NewValues["startDate"].ToString();
+                Object temp = e.NewValues["startDate"];
+                Object temp2 = training.startDate;
+                try
+                {
+                    training.startDate = Convert.ToDateTime(strStart);
+                }
+                catch (Exception ex)
+                {
+                    Popup_Overlay("Unsupported date format.", FailColour);
+                }
+            }
+
         }
-        if (e.NewValues["End Date"] != null)
+        if (e.NewValues["endDate"] != null)
         {
-            DateTime strEnd = Convert.ToDateTime(e.NewValues["End Date"].ToString());
-            training.endDate = strEnd;
+            if (!(e.NewValues["endDate"].Equals(String.Empty)))
+            {
+                String strEnd = e.NewValues["endDate"].ToString();
+                try
+                {
+                    training.endDate = Convert.ToDateTime(strEnd);
+                }
+                catch (Exception ex)
+                {
+                    Popup_Overlay("Unsupported date format.", FailColour);
+                }
+            }
         }
 
         try
@@ -749,5 +772,9 @@ public partial class Training_Training : System.Web.UI.Page {
     {
         grvValidCourses.EditIndex = -1;
         BindData();
+    }
+    protected void grvValidCourses_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
     }
 }
