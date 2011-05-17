@@ -40,12 +40,12 @@ CollapseControlID="hr3E" ExpandControlID="hr3E" TargetControlID="pnlE"
 ImageControlID="imgExpandCollapseE" TextLabelID="ExpandCollapseE" 
 CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
 </div>
 
 <div id="divReportInfo">
 <asp:Button TabIndex="1112" ID="btnFilterReport" runat="server" 
     Text="Filter Reports" onclick="btnFilterReport_Click" />
-
 
 <h3 id="hr3A"><asp:Image ID="imgExpandCollapseA" runat="server" /> A. Incident/Accident Information <asp:Label ID="ExpandCollapseA" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlA" CssClass="panel" runat="server">
@@ -535,7 +535,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         </asp:TemplateField>
         <asp:TemplateField HeaderText="Employee Name">
             <ItemTemplate>
-                <asp:Label ID="lblEmployee" runat="server" Text='<%# Bind("Employee.fname") %>'></asp:Label>
+                <asp:Label ID="lblEmpFirstName" runat="server" Text='<%# Bind("Employee.fname") %>'></asp:Label>
+                <asp:Label ID="lblEmpLastName" runat="server" Text='<%# Bind("Employee.lname") %>'></asp:Label>
             </ItemTemplate>
         </asp:TemplateField>
         <asp:TemplateField HeaderText="Click to View">
@@ -585,9 +586,49 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
     DropShadow="true" BackgroundCssClass="modalBackground" />
 
-
-
-
+<asp:CollapsiblePanelExtender ID="cpeEmployeeCourses" runat="server" Collapsed="true"
+CollapseControlID="hr3EmpCourses" ExpandControlID="hr3EmpCourses" TargetControlID="pnlEmployeeCourses"
+ImageControlID="imgExpandCollapseEmpCourses" TextLabelID="ExpandCollapseEmpCourses" 
+CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+</asp:CollapsiblePanelExtender>
 </div>
 
+<%--<asp:Panel ID="pnlEmpCoursesContainer" runat="server" Visible="false" >--%>
+    <h3 id="hr3EmpCourses"><asp:Image ID="imgExpandCollapseEmpCourses" runat="server" /> Employee Courses <asp:Label ID="ExpandCollapseEmpCourses" runat="server" Text=""></asp:Label></h3>
+    <asp:Panel ID="pnlEmployeeCourses" CssClass="panel" runat="server">
+
+        <asp:GridView ID="gdvEmpCourses" runat="server" AutoGenerateColumns="False" OnRowCommand="gdvTracker_RowCommand" >
+        <Columns>
+            <asp:TemplateField HeaderText="Name">
+                <ItemTemplate>
+                    <asp:Label ID="lblCourseName" runat="server" Text='<%# Bind("courseName") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
+           <asp:TemplateField HeaderText="Status">
+                <ItemTemplate>
+                    <asp:Label ID="lblCourseStatus" runat="server" Text='<%# Bind("status") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Completion Date">
+                <ItemTemplate>
+                    <asp:Label ID="lblCompletionDate" runat="server" Text='<%# Eval("completionDate", "{0:M/d/yyyy}") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Expiration Date">
+                <ItemTemplate>
+                    <asp:Label ID="lblExpirationDate" runat="server" Text='<%# Eval("expirationDate", "{0:M/d/yyyy}") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Required">
+                <ItemTemplate>
+                    <asp:Label ID="lblRequired" runat="server" Text='<%# Bind("required") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
+        </Columns>
+        <EmptyDataTemplate>No courses found.</EmptyDataTemplate>
+    </asp:GridView>
+
+
+    </asp:Panel>
+<%--</asp:Panel>--%>
 </asp:Content>

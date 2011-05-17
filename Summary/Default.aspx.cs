@@ -250,7 +250,6 @@ public partial class Summary_Default : System.Web.UI.Page
                                             comments = temp1.temp0.LID.comments
                                         }
                                   );
-
         grvLabInspectionResults.DataBind();
 
     }
