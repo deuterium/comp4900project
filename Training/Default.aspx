@@ -234,8 +234,8 @@ ExpandedImage="../images/collapse.jpg">
                     
                     <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
                         ConnectionString="<%$ ConnectionStrings:comp4900t4waveturtleConnectionString %>" 
-                        SelectCommand="SELECT TrainingCourses.trainingName, TrainingTaken.startDate, TrainingTaken.endDate FROM TrainingTaken INNER JOIN Employee ON TrainingTaken.empNo = Employee.empNo INNER JOIN TrainingCourses ON TrainingTaken.trainingNo = TrainingCourses.trainingNo where TrainingTaken.endDate &gt;= GETDATE() OR TrainingTaken.endDate IS NULL " 
-                        UpdateCommand="UPDATE TrainingTaken SET startDate =, endDate = FROM TrainingTaken INNER JOIN TrainingCourses ON TrainingTaken.trainingNo = TrainingCourses.trainingNo INNER JOIN Employee ON TrainingTaken.empNo = Employee.empNo">
+                        
+                        SelectCommand="SELECT TrainingCourses.trainingName, TrainingTaken.startDate, TrainingTaken.endDate FROM TrainingTaken INNER JOIN Employee ON TrainingTaken.empNo = Employee.empNo INNER JOIN TrainingCourses ON TrainingTaken.trainingNo = TrainingCourses.trainingNo where TrainingTaken.endDate &gt;= GETDATE() OR TrainingTaken.endDate IS NULL ">
                     </asp:SqlDataSource>
                     
                     <asp:GridView ID="GridView1" runat="server">

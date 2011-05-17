@@ -9,9 +9,6 @@
 <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
 </asp:ToolkitScriptManager>
 
-    <asp:GridView ID="GridView1" runat="server">
-    </asp:GridView>
-
 <div ID="divCollapsiblePanelExtenders" visible="false">
 <asp:CollapsiblePanelExtender ID="cpeA" runat="server" Collapsed="true"
 CollapseControlID="hr3A" ExpandControlID="hr3A" TargetControlID="pnlA"
