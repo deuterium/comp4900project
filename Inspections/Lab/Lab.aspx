@@ -76,7 +76,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                     Department: 
                 </td>
                 <td>
-                    <asp:TextBox runat="server" ID="tbxLabDepartment"></asp:TextBox>
+                    <asp:DropDownList runat="server" ID="ddlLabDepartment"></asp:DropDownList>
                 </td>
                 <td>
                     &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -120,16 +120,6 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <td>
                     <asp:TextBox ID="tbxLabInspectionDate" runat="server"></asp:TextBox>
                     <asp:CalendarExtender ID="cexLabInspectionDate" runat="server" TargetControlID="tbxLabInspectionDate" Format="MM/dd/yyyy"></asp:CalendarExtender>
-                </td>
-                <td>
-                    &nbsp&nbsp&nbsp&nbsp&nbsp
-                </td>
-                <td>
-                    Date of Follow Up: 
-                </td>
-                <td>
-                    <asp:TextBox ID="tbxLabFollowupDate" runat="server"></asp:TextBox>
-                    <asp:CalendarExtender ID="cexLabFollowupDate" runat="server" TargetControlID="tbxLabFollowupDate" Format="MM/dd/yyyy"></asp:CalendarExtender>
                 </td>
             </tr>
         </table>

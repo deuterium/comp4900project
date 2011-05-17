@@ -191,9 +191,9 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpEmpInfo"
                         ControlToValidate="tbxEndDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="End date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-                    <asp:CompareValidator ID="cpvStartEndDates" runat="server" ValidationGroup="vgpEmpInfo"
+<%--                    <asp:CompareValidator ID="cpvStartEndDates" runat="server" ValidationGroup="vgpEmpInfo"
                         ControlToValidate="tbxEndDate" ControlToCompare="tbxStartDate" Operator="GreaterThan" Type="Date"
-                        ErrorMessage="End date must be later than start date." ></asp:CompareValidator>
+                        ErrorMessage="End date must be later than start date." ></asp:CompareValidator>--%>
                 </td>
             </tr>
         </table>
@@ -204,13 +204,17 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             Text="Get Employee" onclick="btnGetEmployee_Click" />
         <asp:Button TabIndex="111" ID="btnCreateEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
             Text="Create Employee" onclick="btnCreateEmployee_Click" />
-        <asp:Button TabIndex="1112" ID="Button1" runat="server" ValidationGroup="vgpEmpInfo" 
+        <asp:Button TabIndex="1112" ID="btnUpdateEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
             Text="Update  Employee" onclick="btnUpdateEmployee_Click" />
         <asp:Button TabIndex="1112" ID="btnCreateReport" runat="server" 
             Text="Create Report" onclick="btnCreateReport_Click" />
-
+        <asp:Button TabIndex="1112" ID="btnLoadReport" runat="server" 
+            Text="Load Report" onclick="btnLoadReport_Click" />
+        <asp:Button TabIndex="1112" ID="btnFilterReport" runat="server" 
+            Text="Filter Reports" onclick="btnFilterReport_Click" />
         <p><asp:Label ID="lblResults" runat="server" Text="" Visible="false" ></asp:Label></p>
-
+        
+        
         <asp:ValidationSummary ID="vsyEmployeeInfo" runat="server" ValidationGroup="vgpEmpInfo" DisplayMode="BulletList" />
     </div>
 </asp:Panel>
@@ -279,10 +283,10 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     <asp:RegularExpressionValidator ID="revDateReported" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_dateReported" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Date reported must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-                    <asp:CompareValidator ID="cpvDateReported" runat="server" ValidationGroup="vgpPanelA"
+                    <%--<asp:CompareValidator ID="cpvDateReported" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_dateReported" ControlToCompare="tbx_p1_dateOfIncident"
                         Type="Date" Operator="GreaterThanEqual"
-                        ErrorMessage="Date reported must be the on or later than the date of the incident."></asp:CompareValidator>
+                        ErrorMessage="Date reported must be the on or later than the date of the incident."></asp:CompareValidator>--%>
                 </td>
                 <td colspan="2" ><span class="spanBold" >Witness 2:</span></td>
             </tr>
@@ -474,7 +478,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         <h4>Using Material / Equipment</h4>
         <table>
             <tr><td>Material / Equipment Description (stretchers, carts, boxes, etc):</td></tr>
-            <tr><td><asp:TextBox TabIndex="134" ID="tbx_p2_acitvity_material" runat="server" Width="350px"></asp:TextBox></td></tr>
+            <tr><td><asp:TextBox TabIndex="134" ID="tbx_p2_activity_material" runat="server" Width="350px"></asp:TextBox></td></tr>
             <tr><td><asp:CheckBox TabIndex="134" ID="cbx_p2_activity_lift" Text="Lift / Lower" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="134" ID="cbx_p2_activity_push" Text="Push / Pull" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="134" ID="cbx_p2_activity_carry" Text="Carry" runat="server" /></td></tr>
@@ -1048,6 +1052,9 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
     <asp:ValidationSummary ID="vsyHManagers" runat="server" ValidationGroup="vgpHManagers" DisplayMode="BulletList" />
 
 </asp:Panel>
+
+<asp:GridView ID="gdvReports" runat="server">
+</asp:GridView>
 
 <asp:Panel ID="pnlPop" BackColor="White" Width="400px" Height="100px" CssClass="popPanel" runat="server">
     <table width="100%" cellpadding="5">

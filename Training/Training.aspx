@@ -7,14 +7,8 @@
 
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="body">
 
-<asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
+    <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
 </asp:ToolkitScriptManager>
-
-<asp:CollapsiblePanelExtender ID="cpeReportInfo" runat="server" Collapsed="false"
-CollapseControlID="hr3ReportInfo" ExpandControlID="hr3ReportInfo" TargetControlID="pnlReportInfo"
-ImageControlID="imgExpandCollapseReportInfo" TextLabelID="ExpandCollapseA" CollapsedImage="../images/expand.jpg" 
-ExpandedImage="../images/collapse.jpg">
-</asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeCourses" runat="server" Collapsed="true"
 CollapseControlID="hr3Courses" ExpandControlID="hr3Courses" TargetControlID="pnlCourses"
@@ -55,171 +49,148 @@ ExpandedImage="../images/collapse.jpg">
         <div id="divContent">
         <div id="divReportInfo">
             <h3 id="hr3ReportInfo">Header Info:</h3>
-            <asp:Panel ID="pnlReportInfo" CssClass="panel" runat="server">
-            <div id="divRecordHeaderLeft">
-                  <table>
-                    <tr>
-                        <td class="trainingTableWidth">
-                            ID:
-                        </td>
-                        <td>
-                            <asp:TextBox ID="tbxId" runat="server" Enabled="False" Height="22px"></asp:TextBox>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="trainingTableWidth">
-                            Last name*:
-                        </td>
-                        <td>
-                          <asp:TextBox ID="tbxLastName" runat="server"></asp:TextBox>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="trainingTableWidth">
-                            First name*:</td>
-                        <td>
-                            <asp:TextBox ID="tbxFirstName" runat="server" ></asp:TextBox>
-                        </td>
-                    </tr>
-                  </table>
-                </div>
-                <div id="divRecordHeaderMiddle">
-                    <table>
-                    <tr>
-                        <td class="trainingTableWidth">
-                            Position:</td>
-                        <td>
-                            <asp:DropDownList ID="ddlPositions" runat="server" OnSelectedIndexChanged="ddlPositions_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <asp:UpdatePanel ID="uplPosition" runat="server">
-                                <ContentTemplate>
-                                    <asp:TextBox ID="tbxPosition" runat="server" Visible="false"></asp:TextBox>
-                                </ContentTemplate>
-                                <Triggers>
-                                    <asp:AsyncPostBackTrigger ControlID="ddlPositions" EventName="SelectedIndexChanged" />
-                                </Triggers>
-                            </asp:UpdatePanel>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="trainingTableWidth">
-                            Employer:</td>
-                        <td>
-                            <asp:DropDownList ID="ddlEmployers" runat="server" OnSelectedIndexChanged="ddlEmployers_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <asp:UpdatePanel ID="uplEmployer" runat="server">
-                                <ContentTemplate>
-                                    <asp:TextBox ID="tbxEmployer" runat="server" Visible="false"></asp:TextBox>
-                                </ContentTemplate>
-                                <Triggers>
-                                    <asp:AsyncPostBackTrigger ControlID="ddlEmployers" EventName="SelectedIndexChanged" />
-                                </Triggers>
-                            </asp:UpdatePanel>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="trainingTableWidth">
-                            Department:
-                        </td>
-                        <td>
-                            <asp:DropDownList ID="ddlDepartments" runat="server"></asp:DropDownList>
-                        </td>
-                    </tr>
-                    </table>
-                </div>
-                <div id="divRecordHeaderRight">
-                    <table>
-                    <tr>
-                        <td class="trainingTableWidth">
-                            Room:</td>
-                        <td>
-                            <asp:TextBox ID="tbxRoom" runat="server"></asp:TextBox>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="trainingTableWidth">
-                            Supervisor:</td>
-                        <td>
-                            <asp:TextBox ID="tbxSupervisor" runat="server"></asp:TextBox>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="trainingTableWidth">
-                            Start Date:</td>
-                        <td>
-                            <asp:TextBox ID="tbxStartDate" runat="server"></asp:TextBox>
-                            <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="yyyy/MM/dd" >
-                            </asp:CalendarExtender>
-                        </td>
-                    </tr>
-                            <tr>
-                        <td class="trainingTableWidth">
-                            End Date:</td>
-                        <td>
-                            <asp:TextBox ID="tbxEndDate" runat="server"></asp:TextBox><br />
-                            <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="yyyy/MM/dd" >
-                            </asp:CalendarExtender>
-                        </td>
-                    </tr>
-                    </table>
-                </div>
-                <asp:Button ID="btnGetEmployee" ValidationGroup="vgpHeader" runat="server" 
-                    Text="Get Employee" onclick="btnGetEmployee_Click" />
-                <asp:Button ID="btnUpdateEmployee0" runat="server" Text="Update Employee" onclick="btnUpdateEmployee_Click" 
-                    />
-                <asp:Button ID="btnCreateEmployee" runat="server" 
-                    onclick="btnCreateEmployee_Click" Text="Create Employee" />
-                <asp:Button ID="btnClear" runat="server" 
-                    Text="Clear" onclick="btnClear_Click" />
-            <p>
-                <asp:Label ID="lblResults" runat="server" Text="" Visible="false" ></asp:Label>
-                <asp:Label ID="lblError" runat="server"></asp:Label>
-            </p>
+<asp:Panel ID="pnlEmployeeInfo" CssClass="panel" runat="server">
 
-            <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxFirstName" ErrorMessage="First name can only contain letters."
-                ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
-            <asp:RegularExpressionValidator ID="revLastName" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxLastName" ErrorMessage="Last name can only contain letters."
-                ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
-            
-            <asp:RegularExpressionValidator ID="revRoom" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxRoom" ValidationExpression="^[0-9\-, ]+$" 
-                ErrorMessage="Room can only contain digits, dashes, commas, and spaces."></asp:RegularExpressionValidator>
+    <div id="divEmpInfoLeftPanel" >
+        <table>
+            <tr>
+                <td>Id:</td>
+                <td><asp:TextBox ID="tbxId" runat="server" Enabled="false" BackColor="#E6E6E6" ></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td>Last name:</td>
+                <td>
+                    <asp:TextBox TabIndex="100" ID="tbxLastName" runat="server" ClientID="tbxLastNameClient" ></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="rfvLastName" runat="server" ValidationGroup="vgpEmpInfo"
+                        ControlToValidate="tbxLastName" ErrorMessage="Last name is required."></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="revLastName" runat="server" ValidationGroup="vgpEmpInfo"
+                        ControlToValidate="tbxLastName" ErrorMessage="Last name can only contain letters."
+                        ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
+                </td>
+            </tr>
+            <tr>
+                <td>First name:</td>
+                <td>
+                    <asp:TextBox TabIndex="101" ID="tbxFirstName" runat="server" ></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="rfvFirstName" runat="server" ValidationGroup="vgpEmpInfo"
+                        ControlToValidate="tbxFirstName" ErrorMessage="First name is required."></asp:RequiredFieldValidator>  
+                    <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpEmpInfo"
+                        ControlToValidate="tbxFirstName" ErrorMessage="First name can only contain letters."
+                        ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
+                </td>
+            </tr>
+        </table>
+    </div>
 
-            <asp:RegularExpressionValidator ID="revSupervisor" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxSupervisor" ErrorMessage="Supervisor must have a first and last name separated by a space."
-                ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
+    <div id="divEmpInfoMiddlePanel" >
+        <table>
+            <tr>
+                <td>Position:</td>
+                <td>
+                    <asp:DropDownList TabIndex="102" ID="ddlPositions" runat="server" OnSelectedIndexChanged="ddlPositions_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
+                    <asp:UpdatePanel ID="uplPosition" runat="server">
+                        <ContentTemplate>
+                            <asp:TextBox TabIndex="103" ID="tbxPosition" runat="server" Visible="false"></asp:TextBox>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="ddlPositions" EventName="SelectedIndexChanged" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </td>
+            </tr>
+            <tr>
+                <td>Employer:</td>
+                <td>
+                    <asp:DropDownList TabIndex="104" ID="ddlEmployers" runat="server" OnSelectedIndexChanged="ddlEmployers_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
+                    <asp:UpdatePanel ID="uplEmployer" runat="server">
+                        <ContentTemplate>
+                            <asp:TextBox TabIndex="105" ID="tbxEmployer" runat="server" Visible="false"></asp:TextBox>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="ddlEmployers" EventName="SelectedIndexChanged" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </td>
+            </tr>
+            <tr>
+                <td>Department:</td>
+                <td>
+                    <asp:DropDownList TabIndex="106" ID="ddlDepartments" runat="server" OnSelectedIndexChanged="ddlDepartments_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
+                    <asp:UpdatePanel ID="uplDepartment" runat="server">
+                        <ContentTemplate>
+                            <asp:TextBox TabIndex="103" ID="tbxDepartment" runat="server" Visible="false"></asp:TextBox>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="ddlDepartments" EventName="SelectedIndexChanged" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </td>
+            </tr>
+        </table>
+    </div>
 
-            <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{4}/{1}[0-9]{2}/{1}[0-9]{2}$" 
-                ErrorMessage="Start date must be in format 'YYYY/MM/DD'"></asp:RegularExpressionValidator>
-            <asp:RangeValidator ID="rgvStartDate" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxStartDate" ErrorMessage="Start date must be between 1900/01/01 and 2500/01/01."
-                MaximumValue="2500/01/01" MinimumValue="1900/01/01"></asp:RangeValidator>
+    <div id="divEmpInfoRightPanel" >
+        <table>
+            <tr>
+                <td>Room:</td>
+                <td><asp:TextBox TabIndex="107" ID="tbxRoom" runat="server" ></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td>Supervisor:</td>
+                <td>
+                    <asp:TextBox TabIndex="108" ID="tbxSupervisor" runat="server" ></asp:TextBox>
+                    <asp:RegularExpressionValidator ID="revSupervisor" runat="server" ValidationGroup="vgpEmpInfo"
+                        ControlToValidate="tbxSupervisor" ErrorMessage="Supervisor must have a first and last name separated by a space."
+                        ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
+                </td>
+            </tr>
+            <tr>
+                <td>Start date:</td>
+                <td>
+                    <asp:TextBox TabIndex="109" ID="tbxStartDate" runat="server" MaxLength="10" ></asp:TextBox>
+                    <asp:TextBoxWatermarkExtender ID="twxStartDate" runat="server" TargetControlID="tbxStartDate"
+                        WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
+                    <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="M/d/yyyy" >
+                    </asp:CalendarExtender>
+                    <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpEmpInfo"
+                        ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="Start date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                </td>
+            </tr>
+            <tr>
+                <td>End date:</td>
+                <td>
+                    <asp:TextBox TabIndex="110" ID="tbxEndDate" runat="server"></asp:TextBox>
+                    <asp:TextBoxWatermarkExtender ID="twxEndDate" runat="server" TargetControlID="tbxEndDate"
+                        WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
+                    <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="M/d/yyyy" >
+                    </asp:CalendarExtender>
+                    <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpEmpInfo"
+                        ControlToValidate="tbxEndDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="End date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+<%--                    <asp:CompareValidator ID="cpvStartEndDates" runat="server" ValidationGroup="vgpEmpInfo"
+                        ControlToValidate="tbxEndDate" ControlToCompare="tbxStartDate" Operator="GreaterThan" Type="Date"
+                        ErrorMessage="End date must be later than start date." ></asp:CompareValidator>--%>
+                </td>
+            </tr>
+        </table>
+    </div>
 
-            <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxEndDate" ValidationExpression="^[0-9]{4}/{1}[0-9]{2}/{1}[0-9]{2}$" 
-                ErrorMessage="End date must be in format 'YYYY/MM/DD'"></asp:RegularExpressionValidator>
-            <asp:RangeValidator ID="rgvEndDate" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxEndDate" ErrorMessage="End date must be between 1900/01/01 and 2500/01/01."
-                MaximumValue="2500/01/01" MinimumValue="1900/01/01"></asp:RangeValidator>
-            <asp:CompareValidator ID="cpvStartEndDates" runat="server" ValidationGroup="vgpHeader"
-                ControlToValidate="tbxEndDate" ControlToCompare="tbxStartDate" Operator="GreaterThan" Type="Date"
-                ErrorMessage="End date must be later than start date." ></asp:CompareValidator>
+    <div id="divEmpInfoButtons" >
+        <asp:Button TabIndex="111" ID="btnGetEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
+            Text="Get Employee" onclick="btnGetEmployee_Click" />
+        <asp:Button TabIndex="111" ID="btnCreateEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
+            Text="Create Employee" onclick="btnCreateEmployee_Click" />
+        <asp:Button TabIndex="1112" ID="btnUpdateEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
+            Text="Update  Employee" onclick="btnUpdateEmployee_Click" />
+        <asp:Button TabIndex="1112" ID="btnClear" runat="server" 
+            Text="Clear" onclick="btnClear_Click" />
+        <p><asp:Label ID="lblResults" runat="server" Text="" Visible="false" ></asp:Label></p>
 
-            <asp:ValidationSummary ID="vsmHeader" runat="server" ValidationGroup="vgpHeader"
-                DisplayMode="BulletList" />
-                
-            </asp:Panel>
+        <asp:ValidationSummary ID="vsyEmployeeInfo" runat="server" ValidationGroup="vgpEmpInfo" DisplayMode="BulletList" />
+    </div>
+</asp:Panel>
+
         </div>
 
         <div id="divCourses">
@@ -228,13 +199,49 @@ ExpandedImage="../images/collapse.jpg">
                 <h4 id="hr4CoursesCompleted"><asp:Image ID="imgExpandCollapseCoursesCompleted" runat="server" /> Valid: <asp:Label ID="ExpandCollapseCoursesCompleted" runat="server" Text=""></asp:Label></h4>
                 <asp:Panel ID="pnlCoursesCompleted" CssClass="panel" runat="server">
                     
+                    <asp:GridView ID="grvValidCourses" runat="server" 
+                        onrowcancelingedit="grvValidCourses_RowCancelingEdit" 
+                        onrowediting="grvValidCourses_RowEditing" 
+                        onrowupdating="grvValidCourses_RowUpdating" AutoGenerateColumns="False">
+                        <Columns>
+                            <asp:CommandField ShowEditButton="True" />
+                            <asp:CommandField ShowSelectButton="True" />
+                            <asp:BoundField DataField="coursename" HeaderText="Training Name" 
+                                ReadOnly="True" SortExpression="coursename" />
+                            <asp:BoundField DataField="ttNo" HeaderText="ttNo" SortExpression="ttNo" />
+                            <asp:TemplateField HeaderText="Start Date" SortExpression="startDate">
+                                <EditItemTemplate>
+                                    <asp:TextBox ID="TextBox3" runat="server" Text='<%# Bind("startDate") %>'></asp:TextBox>
+                                    <asp:CalendarExtender ID="TextBox3_CalendarExtender" runat="server" 
+                                        Enabled="True" TargetControlID="TextBox3">
+                                    </asp:CalendarExtender>
+                                </EditItemTemplate>
+                                <ItemTemplate>
+                                    <asp:Label ID="Label3" runat="server" Text='<%# Bind("startDate", "{0:d}") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="End Date" SortExpression="endDate">
+                                <EditItemTemplate>
+                                    <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("endDate") %>'></asp:TextBox>
+                                    <asp:CalendarExtender ID="TextBox1_CalendarExtender" runat="server" 
+                                        Enabled="True" TargetControlID="TextBox1">
+                                    </asp:CalendarExtender>
+                                </EditItemTemplate>
+                                <ItemTemplate>
+                                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("endDate", "{0:d}") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                        </Columns>
+                    </asp:GridView>
+                    
                 </asp:Panel>
                 <h4 id="hr4CoursesExpired"><asp:Image ID="imgExpandCollapseCoursesExpired" runat="server" /> Expired: <asp:Label ID="ExpandCollapseCoursesExpired" runat="server" Text=""></asp:Label></h4>
                 <asp:Panel ID="pnlCoursesExpired" CssClass="panel" runat="server">
                 </asp:Panel>
                 <h4 id="hr4CoursesNotCompleted"><asp:Image ID="imgExpandCollapseCoursesNotCompleted" runat="server" /> Not Completed: <asp:Label ID="ExpandCollapseCoursesNoteCompleted" runat="server" Text=""></asp:Label></h4>
                 <asp:Panel ID="pnlCoursesNotCompleted" CssClass="panel" runat="server">
-                    <asp:GridView ID="gdvCoursesNotCompleted" runat="server" ForeColor="Red">
+                    <asp:GridView ID="gdvCoursesNotCompleted" runat="server" ForeColor="Red" 
+                        ClientIDMode="AutoID">
                     </asp:GridView>
                 </asp:Panel>
                 <h4 id="hr4CoursesCatalog"><asp:Image ID="imgExpandCollapseCoursesCatalog" runat="server" /> Catalog <asp:Label ID="ExpandCollapseCoursesCatalog" runat="server" Text=""></asp:Label></h4>
@@ -271,6 +278,24 @@ ExpandedImage="../images/collapse.jpg">
                 </asp:RadioButtonList>
             </div>
             </asp:Panel>
+
+            <asp:Panel ID="pnlPop" BackColor="White" Width="400px" Height="100px" CssClass="popPanel" runat="server">
+    <table width="100%" cellpadding="5">
+        <tr>
+            <td>
+                <asp:Label ID="lblPnlPop" runat="server"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <asp:Button ID="btnPnlPopClose" runat="server" Text="Close" OnClick="btnPnlPopClose_Click" />
+            </td>
+        </tr>
+    </table>
+</asp:Panel>
+<asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
+<asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
+    DropShadow="true" BackgroundCssClass="modalBackground" />
         </div>
     </div>
 </asp:Content>

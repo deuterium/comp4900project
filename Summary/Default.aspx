@@ -13,12 +13,12 @@
     <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
 </asp:ToolkitScriptManager>
 
-<asp:CollapsiblePanelExtender ID="cpeA" runat="server" Collapsed="false"
+<asp:CollapsiblePanelExtender ID="cpeA" runat="server" Collapsed="true"
 CollapseControlID="inspectionLookUp" ExpandControlID="inspectionLookUp" TargetControlID="pnlA"
 ImageControlID="imgExpandCollapseInspectionLookUp" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
-<asp:CollapsiblePanelExtender ID="cpeB" runat="server" Collapsed="false"
+<asp:CollapsiblePanelExtender ID="cpeB" runat="server" Collapsed="true"
 CollapseControlID="courseLookUp" ExpandControlID="courseLookUp" TargetControlID="pnlB"
 ImageControlID="imgExpandCollapseCourseLookUp" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
@@ -32,6 +32,16 @@ ImageControlID="imgExpandCollapseLabInspectionLookUp" CollapsedImage="../images/
 CollapseControlID="officeInspectionLookUp" ExpandControlID="officeInspectionLookUp" TargetControlID="pnlD"
 ImageControlID="imgExpandCollapseOfficeInspectionLookUp" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
+<asp:CollapsiblePanelExtender ID="cpeE" runat="server" Collapsed="true"
+CollapseControlID="statistics" ExpandControlID="statistics" TargetControlID="pnlE"
+ImageControlID="imgExpandCollapseStatistics" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+</asp:CollapsiblePanelExtender>
+
+<asp:CollapsiblePanelExtender ID="cpeF" runat="server" Collapsed="true"
+CollapseControlID="incident" ExpandControlID="incident" TargetControlID="pnlF"
+ImageControlID="imgExpandCollapseIncident" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+</asp:CollapsiblePanelExtender>
 Summary Page:
 
 <h3 id="inspectionLookUp"><asp:Image ID="imgExpandCollapseInspectionLookUp" runat="server" /> Inspection Lookup:</h3>
@@ -39,7 +49,7 @@ Summary Page:
         <h3 id="labInspectionLookUp"><asp:Image ID="imgExpandCollapseLabInspectionLookUp" runat="server" /> Lab Inspection:</h3>
         <asp:Panel ID="pnlC" CssClass="panel" runat="server">
             <table>
-            <tr>
+            <tr id="departmentRow" runat="server">
                 <td>
                     Department: 
                 </td>
@@ -92,7 +102,7 @@ Summary Page:
                         SortExpression="labInsNo" />
                     <asp:BoundField DataField="deptName" HeaderText="Department" 
                         SortExpression="deptName" />
-                    <asp:BoundField DataField="date" HeaderText="Date" SortExpression="date" />
+                    <asp:BoundField DataField="date" HeaderText="Date" DataFormatString="{0:M/dd/yyyy}" SortExpression="date" />
                     <asp:BoundField DataField="followupDate" HeaderText="Followup" 
                         SortExpression="followupDate" />
                     <asp:BoundField DataField="inspector" HeaderText="Inspector" 
@@ -107,7 +117,7 @@ Summary Page:
                 <EmptyDataTemplate>No results were found.</EmptyDataTemplate>
             </asp:GridView> 
             <asp:GridView ID="grvLabInspectionResults" runat="server" AutoGenerateColumns="false"
-            DataKeyNames="labInsItem" OnRowDataBound="grvLabInspectionResults_DataBinding">
+            DataKeyNames="labInsItem" Width="790px" OnRowDataBound="grvLabInspectionResults_DataBinding">
             <Columns>
                     <asp:BoundField DataField="labInsItem" HeaderText="Item" ReadOnly="True" 
                         SortExpression="labInsItem" />
@@ -145,7 +155,7 @@ Summary Page:
                 </td>
                 <td>
                     <asp:TextBox ID="tbxOfficeInspectionDate" runat="server"></asp:TextBox>
-                    <asp:CalendarExtender ID="cexOfficeInspectionDate" runat="server" TargetControlID="tbxOfficeInspectionDate" Format="yyyy/MM/dd"></asp:CalendarExtender>
+                    <asp:CalendarExtender ID="cexOfficeInspectionDate" runat="server" TargetControlID="tbxOfficeInspectionDate" Format="MM/dd/yyyy"></asp:CalendarExtender>
                     <asp:RegularExpressionValidator ID="revOfficeInspectionDate" runat="server" ValidationGroup="vgrOfficeInspectionLookUp"
                         ControlToValidate="tbxOfficeInspectionDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Date of Inspection must be 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
@@ -162,26 +172,26 @@ Summary Page:
             </tr>
         </table>
             <asp:ValidationSummary ID="vsuOfficeInspectionLookUp" ValidationGroup="vgrOfficeInspectionLookUp" runat="server" />
-            <asp:GridView ID="grvOfficeInspections" Width="800px" runat="server" AutoGenerateColumns="False"
-                autogenerateselectbutton="True" DataKeyNames="labInsNo" onselectedindexchanged="grvOfficeInspections_SelectedIndexChanged">
+            <asp:GridView ID="grvOfficeInspections" Width="790px" runat="server" AutoGenerateColumns="False"
+                autogenerateselectbutton="True" DataKeyNames="officeInsNo" onselectedindexchanged="grvOfficeInspections_SelectedIndexChanged">
                 <Columns>
                     <asp:BoundField DataField="officeInsNo" HeaderText="Office Inspection" ReadOnly="True" 
                         SortExpression="officeInsNo" />
-                    <asp:BoundField DataField="deptNo" HeaderText="Department" 
-                        SortExpression="deptNo" />
-                    <asp:BoundField DataField="date" HeaderText="Date" SortExpression="date" />
+                    <asp:BoundField DataField="deptName" HeaderText="Department" 
+                        SortExpression="deptName" />
+                    <asp:BoundField DataField="insDate" HeaderText="Date" DataFormatString="{0:M/dd/yyyy}" SortExpression="insDate" />
                     <asp:BoundField DataField="inspector" HeaderText="Inspector" 
                         SortExpression="inspector" />
-                    <asp:BoundField DataField="supervisor" HeaderText="Supervisor" 
-                        SortExpression="supervisor" />
+                    <asp:BoundField DataField="area" HeaderText="Area" 
+                        SortExpression="Area" />
                 </Columns>
                 <EmptyDataTemplate>No results were found.</EmptyDataTemplate>
             </asp:GridView> 
-            <asp:GridView ID="grvOfficeInspectionResults" runat="server" AutoGenerateColumns="false"
-            DataKeyNames="officeInsItem" OnRowDataBound="grvOfficeInspectionResults_DataBinding">
+            <asp:GridView ID="grvOfficeInspectionResults" Width="790px" runat="server" AutoGenerateColumns="false"
+            DataKeyNames="officeInsName" OnRowDataBound="grvOfficeInspectionResults_DataBinding">
             <Columns>
-                    <asp:BoundField DataField="officeInsItem" HeaderText="Item" ReadOnly="True" 
-                        SortExpression="officeInsItem" />
+                    <asp:BoundField DataField="officeInsName" HeaderText="Item" ReadOnly="True" 
+                        SortExpression="officeInsName" />
 
                     <asp:BoundField DataField="checkbox" HeaderText="Checked (yes/no)" 
                         SortExpression="checkbox" />
@@ -223,6 +233,16 @@ Summary Page:
     </table>
         <asp:Panel ID="grvPanelExpiringCourses" runat="server"></asp:Panel>
     </div>
+    </asp:Panel>
+
+    <h3 id="statistics"><asp:Image ID="imgExpandCollapseStatistics" runat="server" /> Statistics:</h3>
+    <asp:Panel ID="pnlE" CssClass="panel" runat="server">
+        <asp:Button ID="btnStatistics" runat="server" Text="Statistics Lookup" 
+            onclick="btnStatistics_Click" />
+    </asp:Panel>
+
+    <h3 id="incident"><asp:Image ID="imgExpandCollapseIncident" runat="server" /> Incident Lookup:</h3>
+    <asp:Panel ID="pnlF" CssClass="panel" runat="server">
     </asp:Panel>
 
 </asp:Content>

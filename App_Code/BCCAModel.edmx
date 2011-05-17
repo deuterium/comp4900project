@@ -12,25 +12,10 @@
           <EntitySet Name="FollowUp" EntityType="BCCAModel.Store.FollowUp" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Incident" EntityType="BCCAModel.Store.Incident" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="LabInspection" EntityType="BCCAModel.Store.LabInspection" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="LabInspectionDetails" EntityType="BCCAModel.Store.LabInspectionDetails" store:Type="Tables" store:Schema="dbo" store:Name="LabInspectionDetails">
-            <DefiningQuery>SELECT 
-      [LabInspectionDetails].[labInsNo] AS [labInsNo], 
-      [LabInspectionDetails].[labItemNo] AS [labItemNo], 
-      [LabInspectionDetails].[comments] AS [comments], 
-      [LabInspectionDetails].[checkbox] AS [checkbox]
-      FROM [dbo].[LabInspectionDetails] AS [LabInspectionDetails]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="LabInspectionDetails" EntityType="BCCAModel.Store.LabInspectionDetails" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="LabInspectionItem" EntityType="BCCAModel.Store.LabInspectionItem" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OfficeInspection" EntityType="BCCAModel.Store.OfficeInspection" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="OfficeInspectionDetails" EntityType="BCCAModel.Store.OfficeInspectionDetails" store:Type="Tables" store:Schema="dbo" store:Name="OfficeInspectionDetails">
-            <DefiningQuery>SELECT 
-      [OfficeInspectionDetails].[officeInsNo] AS [officeInsNo], 
-      [OfficeInspectionDetails].[officeInsItemNo] AS [officeInsItemNo], 
-      [OfficeInspectionDetails].[severityNo] AS [severityNo], 
-      [OfficeInspectionDetails].[comments] AS [comments], 
-      [OfficeInspectionDetails].[checkbox] AS [checkbox]
-      FROM [dbo].[OfficeInspectionDetails] AS [OfficeInspectionDetails]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="OfficeInspectionDetails" EntityType="BCCAModel.Store.OfficeInspectionDetails" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="OfficeInspectionItems" EntityType="BCCAModel.Store.OfficeInspectionItems" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Position" EntityType="BCCAModel.Store.Position" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Role" EntityType="BCCAModel.Store.Role" store:Type="Tables" Schema="dbo" />
@@ -45,10 +30,6 @@
           </EntitySet>
           <EntitySet Name="TrainingTaken" EntityType="BCCAModel.Store.TrainingTaken" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Users" EntityType="BCCAModel.Store.Users" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK__Employee__deptNo__489AC854" Association="BCCAModel.Store.FK__Employee__deptNo__489AC854">
-            <End Role="Department" EntitySet="Department" />
-            <End Role="Employee" EntitySet="Employee" />
-          </AssociationSet>
           <AssociationSet Name="FK__FollowUp__labIns__5F7E2DAC" Association="BCCAModel.Store.FK__FollowUp__labIns__5F7E2DAC">
             <End Role="LabInspection" EntitySet="LabInspection" />
             <End Role="FollowUp" EntitySet="FollowUp" />
@@ -140,13 +121,13 @@
           <Property Name="lname" Type="varchar" Nullable="false" MaxLength="20" />
           <Property Name="fname" Type="varchar" Nullable="false" MaxLength="20" />
           <Property Name="employer" Type="varchar" MaxLength="10" />
-          <Property Name="deptNo" Type="int" />
           <Property Name="startDate" Type="datetime" Nullable="false" />
           <Property Name="endDate" Type="datetime" />
           <Property Name="active" Type="char" MaxLength="1" />
           <Property Name="supervisor" Type="varchar" MaxLength="50" />
           <Property Name="position" Type="varchar" MaxLength="50" />
           <Property Name="room" Type="varchar" MaxLength="50" />
+          <Property Name="deptName" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="FollowUp">
           <Key>
@@ -193,7 +174,7 @@
           <Property Name="p2_patient_sitStandLift" Type="char" MaxLength="1" />
           <Property Name="p2_patient_floorLift" Type="char" MaxLength="1" />
           <Property Name="p2_patient_manualLift" Type="char" MaxLength="1" />
-          <Property Name="p2_patient_otherSpecify" Type="varchar" MaxLength="30" />
+          <Property Name="p2_patient_otherSpecify" Type="varchar(max)" />
           <Property Name="p2_patient_adequateAssist" Type="char" MaxLength="1" />
           <Property Name="p2_activity_washing" Type="char" MaxLength="1" />
           <Property Name="p2_activity_dressing" Type="char" MaxLength="1" />
@@ -201,19 +182,19 @@
           <Property Name="p2_activity_feeding" Type="char" MaxLength="1" />
           <Property Name="p2_activity_prep" Type="char" MaxLength="1" />
           <Property Name="p2_activity_dressingChanges" Type="char" MaxLength="1" />
-          <Property Name="p2_activity_otherPatientCare" Type="varchar" MaxLength="30" />
+          <Property Name="p2_activity_otherPatientCare" Type="varchar(max)" />
           <Property Name="p2_activity_recapping" Type="char" MaxLength="1" />
           <Property Name="p2_activity_puncture" Type="char" MaxLength="1" />
           <Property Name="p2_activity_sharpsDisposal" Type="char" MaxLength="1" />
           <Property Name="p2_activity_otherSharps" Type="char" MaxLength="1" />
-          <Property Name="p2_activity_material" Type="varchar" MaxLength="50" />
+          <Property Name="p2_activity_material" Type="varchar(max)" />
           <Property Name="p2_activity_lift" Type="char" MaxLength="1" />
           <Property Name="p2_activity_push" Type="char" MaxLength="1" />
           <Property Name="p2_activity_carry" Type="char" MaxLength="1" />
           <Property Name="p2_activity_otherMat" Type="varchar" MaxLength="50" />
           <Property Name="p2_activity_driving" Type="char" MaxLength="1" />
-          <Property Name="p2_activity_otherEquip" Type="varchar" MaxLength="50" />
-          <Property Name="p2_activity_otherEquipDesc" Type="varchar" MaxLength="50" />
+          <Property Name="p2_activity_otherEquip" Type="varchar(max)" />
+          <Property Name="p2_activity_otherEquipDesc" Type="varchar(max)" />
           <Property Name="p2_activity_equipMain" Type="char" MaxLength="1" />
           <Property Name="p2_activity_comp" Type="char" MaxLength="1" />
           <Property Name="p2_activity_nonComp" Type="char" MaxLength="1" />
@@ -222,7 +203,7 @@
           <Property Name="p2_activity_reading" Type="char" MaxLength="1" />
           <Property Name="p2_activity_spill" Type="char" MaxLength="1" />
           <Property Name="p2_activity_cleaning" Type="char" MaxLength="1" />
-          <Property Name="p2_activity_other" Type="varchar" MaxLength="50" />
+          <Property Name="p2_activity_other" Type="varchar(max)" />
           <Property Name="p2_cause_human" Type="char" MaxLength="1" />
           <Property Name="p2_cause_animal" Type="char" MaxLength="1" />
           <Property Name="p2_cause_needle" Type="char" MaxLength="1" />
@@ -239,7 +220,7 @@
           <Property Name="p2_cause_event" Type="char" MaxLength="1" />
           <Property Name="p2_cause_underEquip" Type="char" MaxLength="1" />
           <Property Name="p2_cause_hit" Type="char" MaxLength="1" />
-          <Property Name="p2_cause_other" Type="varchar" MaxLength="50" />
+          <Property Name="p2_cause_other" Type="varchar(max)" />
           <Property Name="p2_aggression_verbal" Type="char" MaxLength="1" />
           <Property Name="p2_aggression_biting" Type="char" MaxLength="1" />
           <Property Name="p2_aggression_hitting" Type="char" MaxLength="1" />
@@ -249,7 +230,7 @@
           <Property Name="p2_aggression_family" Type="char" MaxLength="1" />
           <Property Name="p2_aggression_public" Type="char" MaxLength="1" />
           <Property Name="p2_aggression_worker" Type="char" MaxLength="1" />
-          <Property Name="p2_aggression_other" Type="varchar" MaxLength="50" />
+          <Property Name="p2_aggression_other" Type="varchar(max)" />
           <Property Name="p2_cause_chemInhalation" Type="char" MaxLength="1" />
           <Property Name="p2_cause_chemIngest" Type="char" MaxLength="1" />
           <Property Name="p2_cause_chemContact" Type="char" MaxLength="1" />
@@ -266,7 +247,7 @@
           <Property Name="p2_factors_signage" Type="char" MaxLength="1" />
           <Property Name="p2_factors_notAvailable" Type="char" MaxLength="1" />
           <Property Name="p2_factors_poorDesign" Type="char" MaxLength="1" />
-          <Property Name="p2_factors_otherEquip" Type="varchar" MaxLength="50" />
+          <Property Name="p2_factors_otherEquip" Type="varchar(max)" />
           <Property Name="p2_factors_temp" Type="char" MaxLength="1" />
           <Property Name="p2_factors_workplace" Type="char" MaxLength="1" />
           <Property Name="p2_factors_layout" Type="char" MaxLength="1" />
@@ -276,7 +257,7 @@
           <Property Name="p2_factors_noise" Type="char" MaxLength="1" />
           <Property Name="p2_factors_vent" Type="char" MaxLength="1" />
           <Property Name="p2_factors_storage" Type="char" MaxLength="1" />
-          <Property Name="p2_factors_otherEnv" Type="varchar" MaxLength="50" />
+          <Property Name="p2_factors_otherEnv" Type="varchar(max)" />
           <Property Name="p2_factors_assessment" Type="char" MaxLength="1" />
           <Property Name="p2_factors_procedure" Type="char" MaxLength="1" />
           <Property Name="p2_factors_equip" Type="char" MaxLength="1" />
@@ -284,7 +265,7 @@
           <Property Name="p2_factors_extended" Type="char" MaxLength="1" />
           <Property Name="p2_factors_comm" Type="char" MaxLength="1" />
           <Property Name="p2_factors_unaccustomed" Type="char" MaxLength="1" />
-          <Property Name="p2_factors_otherWorkPractice" Type="varchar" MaxLength="50" />
+          <Property Name="p2_factors_otherWorkPractice" Type="varchar(max)" />
           <Property Name="p2_factors_directions" Type="char" MaxLength="1" />
           <Property Name="p2_factors_weight" Type="char" MaxLength="1" />
           <Property Name="p2_factors_aggressive" Type="char" MaxLength="1" />
@@ -292,7 +273,7 @@
           <Property Name="p2_factors_confused" Type="char" MaxLength="1" />
           <Property Name="p2_factors_influence" Type="char" MaxLength="1" />
           <Property Name="p2_factors_lang" Type="char" MaxLength="1" />
-          <Property Name="p2_factors_otherPatient" Type="varchar" MaxLength="50" />
+          <Property Name="p2_factors_otherPatient" Type="varchar(max)" />
           <Property Name="p2_factors_alone" Type="char" MaxLength="1" />
           <Property Name="p2_factors_info" Type="char" MaxLength="1" />
           <Property Name="p2_factors_scheduling" Type="char" MaxLength="1" />
@@ -302,15 +283,15 @@
           <Property Name="p2_factors_personal" Type="char" MaxLength="1" />
           <Property Name="p2_factors_safe" Type="char" MaxLength="1" />
           <Property Name="p2_factors_perceived" Type="char" MaxLength="1" />
-          <Property Name="p2_factors_otherOrganizational" Type="char" MaxLength="1" />
+          <Property Name="p2_factors_otherOrganizational" Type="varchar(max)" />
           <Property Name="p2_factors_inexperienced" Type="char" MaxLength="1" />
           <Property Name="p2_factors_communication" Type="char" MaxLength="1" />
           <Property Name="p2_factors_fatigued" Type="char" MaxLength="1" />
           <Property Name="p2_factors_distracted" Type="char" MaxLength="1" />
           <Property Name="p2_factors_preexisting" Type="char" MaxLength="1" />
           <Property Name="p2_factors_sick" Type="char" MaxLength="1" />
-          <Property Name="p2_factors_otherWorker" Type="varchar" MaxLength="50" />
-          <Property Name="p2_corrective_person" Type="varchar" MaxLength="50" />
+          <Property Name="p2_factors_otherWorker" Type="varchar(max)" />
+          <Property Name="p2_corrective_person" Type="varchar(max)" />
           <Property Name="p2_corrective_personDate" Type="datetime" />
           <Property Name="p2_corrective_maintenance" Type="char" MaxLength="1" />
           <Property Name="p2_corrective_maintenanceDate" Type="datetime" />
@@ -320,7 +301,7 @@
           <Property Name="p2_corrective_timeDate" Type="datetime" />
           <Property Name="p2_corrective_written" Type="varchar(max)" />
           <Property Name="p2_corrective_writtenTargetDate" Type="datetime" />
-          <Property Name="p2_corrective_writtentCompletedDate" Type="datetime" />
+          <Property Name="p2_corrective_writtenCompletedDate" Type="datetime" />
           <Property Name="p2_corrective_education" Type="varchar(max)" />
           <Property Name="p2_corrective_educationTargetDate" Type="datetime" />
           <Property Name="p2_corrective_educationCompletedDate" Type="datetime" />
@@ -333,10 +314,9 @@
           <Property Name="p2_corrective_patient" Type="varchar(max)" />
           <Property Name="p2_corrective_patientTargetDate" Type="datetime" />
           <Property Name="p2_corrective_patientCompletedDate" Type="datetime" />
-          <Property Name="p2_manager_previous" Type="char" MaxLength="1" />
-          <Property Name="p2_manager_objections" Type="char" MaxLength="1" />
-          <Property Name="p2_manager_alternative" Type="char" MaxLength="1" />
-          <Property Name="p2_manager_normal" Type="char" MaxLength="1" />
+          <Property Name="p2_manager_previous" Type="varchar(max)" />
+          <Property Name="p2_manager_objections" Type="varchar(max)" />
+          <Property Name="p2_manager_alternative" Type="varchar(max)" />
           <Property Name="p2_manager_week1_sun" Type="decimal" Precision="2" />
           <Property Name="p2_manager_week1_mon" Type="decimal" Precision="2" />
           <Property Name="p2_manager_week1_tue" Type="decimal" Precision="2" />
@@ -362,7 +342,7 @@
           <Property Name="p1_numEmployeesInvolved" Type="int" />
           <Property Name="p2_cause_contactStress" Type="char" MaxLength="1" />
           <Property Name="p2_factors_patientResistive" Type="char" MaxLength="1" />
-          <Property Name="p2_cause_exposure_chemName" Type="varchar" MaxLength="50" />
+          <Property Name="p2_cause_exposure_chemName" Type="varchar(max)" />
           <Property Name="followUpStatus" Type="char" Nullable="false" MaxLength="1" />
           <Property Name="reportSubmitter" Type="varchar" MaxLength="50" />
           <Property Name="submitterDeptNo" Type="int" />
@@ -381,19 +361,17 @@
           <Property Name="room" Type="varchar" MaxLength="50" />
           <Property Name="followUpStatus" Type="char" Nullable="false" MaxLength="1" />
           <Property Name="reportSubmitter" Type="varchar" MaxLength="50" />
+          <Property Name="comments" Type="varchar(max)" />
         </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'comp4900t4waveturtle.dbo.LabInspectionDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
         <EntityType Name="LabInspectionDetails">
           <Key>
-            <PropertyRef Name="labInsNo" />
-            <PropertyRef Name="checkbox" />
+            <PropertyRef Name="labInsDetNo" />
           </Key>
           <Property Name="labInsNo" Type="int" Nullable="false" />
           <Property Name="labItemNo" Type="int" />
           <Property Name="comments" Type="varchar(max)" />
           <Property Name="checkbox" Type="int" Nullable="false" />
+          <Property Name="labInsDetNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="LabInspectionItem">
           <Key>
@@ -413,19 +391,18 @@
           <Property Name="deptNo" Type="int" />
           <Property Name="followUpStatus" Type="char" Nullable="false" MaxLength="1" />
           <Property Name="reportSubmitter" Type="varchar" MaxLength="50" />
+          <Property Name="comments" Type="varchar(max)" />
         </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'comp4900t4waveturtle.dbo.OfficeInspectionDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
         <EntityType Name="OfficeInspectionDetails">
           <Key>
-            <PropertyRef Name="checkbox" />
+            <PropertyRef Name="officeInsDetNo" />
           </Key>
           <Property Name="officeInsNo" Type="int" />
           <Property Name="officeInsItemNo" Type="int" />
           <Property Name="severityNo" Type="int" />
           <Property Name="comments" Type="varchar(max)" />
           <Property Name="checkbox" Type="int" Nullable="false" />
+          <Property Name="officeInsDetNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="OfficeInspectionItems">
           <Key>
@@ -506,18 +483,6 @@
           <Property Name="password" Type="varchar(max)" />
           <Property Name="deptNo" Type="int" />
         </EntityType>
-        <Association Name="FK__Employee__deptNo__489AC854">
-          <End Role="Department" Type="BCCAModel.Store.Department" Multiplicity="0..1" />
-          <End Role="Employee" Type="BCCAModel.Store.Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="deptNo" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="deptNo" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__FollowUp__labIns__5F7E2DAC">
           <End Role="LabInspection" Type="BCCAModel.Store.LabInspection" Multiplicity="1" />
           <End Role="FollowUp" Type="BCCAModel.Store.FollowUp" Multiplicity="*" />
@@ -746,10 +711,6 @@
           <EntitySet Name="TrainingCourses" EntityType="BCCAModel.TrainingCours" />
           <EntitySet Name="TrainingTakens" EntityType="BCCAModel.TrainingTaken" />
           <EntitySet Name="Users" EntityType="BCCAModel.User" />
-          <AssociationSet Name="FK__Employee__deptNo__489AC854" Association="BCCAModel.FK__Employee__deptNo__489AC854">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
           <AssociationSet Name="FK__Incident__submit__2F9A1060" Association="BCCAModel.FK__Incident__submit__2F9A1060">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Incident" EntitySet="Incidents" />
@@ -829,7 +790,6 @@
           </Key>
           <Property Name="deptNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="deptName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="Employees" Relationship="BCCAModel.FK__Employee__deptNo__489AC854" FromRole="Department" ToRole="Employee" />
           <NavigationProperty Name="Incidents" Relationship="BCCAModel.FK__Incident__submit__2F9A1060" FromRole="Department" ToRole="Incident" />
           <NavigationProperty Name="LabInspections" Relationship="BCCAModel.FK__LabInspec__deptN__59C55456" FromRole="Department" ToRole="LabInspection" />
           <NavigationProperty Name="OfficeInspections" Relationship="BCCAModel.FK__OfficeIns__deptN__6FB49575" FromRole="Department" ToRole="OfficeInspection" />
@@ -843,14 +803,13 @@
           <Property Name="lname" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
           <Property Name="fname" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
           <Property Name="employer" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
-          <Property Name="deptNo" Type="Int32" />
           <Property Name="startDate" Type="DateTime" Nullable="false" />
           <Property Name="endDate" Type="DateTime" />
           <Property Name="active" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="supervisor" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="position" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="room" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="Department" Relationship="BCCAModel.FK__Employee__deptNo__489AC854" FromRole="Employee" ToRole="Department" />
+          <Property Name="deptName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="Incidents" Relationship="BCCAModel.FK__Incident__empNo__04AFB25B" FromRole="Employee" ToRole="Incident" />
           <NavigationProperty Name="TrainingTakens" Relationship="BCCAModel.FK__TrainingT__empNo__503BEA1C" FromRole="Employee" ToRole="TrainingTaken" />
         </EntityType>
@@ -901,7 +860,7 @@
           <Property Name="p2_patient_sitStandLift" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_patient_floorLift" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_patient_manualLift" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_patient_otherSpecify" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="p2_patient_otherSpecify" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_patient_adequateAssist" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_washing" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_dressing" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -909,19 +868,19 @@
           <Property Name="p2_activity_feeding" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_prep" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_dressingChanges" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_activity_otherPatientCare" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="p2_activity_otherPatientCare" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_activity_recapping" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_puncture" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_sharpsDisposal" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_otherSharps" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_activity_material" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_activity_material" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_activity_lift" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_push" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_carry" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_otherMat" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="p2_activity_driving" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_activity_otherEquip" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="p2_activity_otherEquipDesc" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_activity_otherEquip" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="p2_activity_otherEquipDesc" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_activity_equipMain" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_comp" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_nonComp" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -930,7 +889,7 @@
           <Property Name="p2_activity_reading" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_spill" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_activity_cleaning" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_activity_other" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_activity_other" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_cause_human" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_cause_animal" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_cause_needle" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -947,7 +906,7 @@
           <Property Name="p2_cause_event" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_cause_underEquip" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_cause_hit" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_cause_other" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_cause_other" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_aggression_verbal" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_aggression_biting" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_aggression_hitting" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -957,7 +916,7 @@
           <Property Name="p2_aggression_family" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_aggression_public" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_aggression_worker" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_aggression_other" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_aggression_other" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_cause_chemInhalation" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_cause_chemIngest" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_cause_chemContact" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -974,7 +933,7 @@
           <Property Name="p2_factors_signage" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_notAvailable" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_poorDesign" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_factors_otherEquip" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_factors_otherEquip" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_factors_temp" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_workplace" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_layout" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -984,7 +943,7 @@
           <Property Name="p2_factors_noise" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_vent" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_storage" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_factors_otherEnv" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_factors_otherEnv" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_factors_assessment" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_procedure" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_equip" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -992,7 +951,7 @@
           <Property Name="p2_factors_extended" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_comm" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_unaccustomed" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_factors_otherWorkPractice" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_factors_otherWorkPractice" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_factors_directions" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_weight" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_aggressive" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -1000,7 +959,7 @@
           <Property Name="p2_factors_confused" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_influence" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_lang" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_factors_otherPatient" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_factors_otherPatient" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_factors_alone" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_info" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_scheduling" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -1010,15 +969,15 @@
           <Property Name="p2_factors_personal" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_safe" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_perceived" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_factors_otherOrganizational" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_factors_otherOrganizational" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_factors_inexperienced" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_communication" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_fatigued" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_distracted" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_preexisting" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_sick" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_factors_otherWorker" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
-          <Property Name="p2_corrective_person" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_factors_otherWorker" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="p2_corrective_person" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_corrective_personDate" Type="DateTime" />
           <Property Name="p2_corrective_maintenance" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_corrective_maintenanceDate" Type="DateTime" />
@@ -1028,7 +987,7 @@
           <Property Name="p2_corrective_timeDate" Type="DateTime" />
           <Property Name="p2_corrective_written" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_corrective_writtenTargetDate" Type="DateTime" />
-          <Property Name="p2_corrective_writtentCompletedDate" Type="DateTime" />
+          <Property Name="p2_corrective_writtenCompletedDate" Type="DateTime" />
           <Property Name="p2_corrective_education" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_corrective_educationTargetDate" Type="DateTime" />
           <Property Name="p2_corrective_educationCompletedDate" Type="DateTime" />
@@ -1041,10 +1000,9 @@
           <Property Name="p2_corrective_patient" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_corrective_patientTargetDate" Type="DateTime" />
           <Property Name="p2_corrective_patientCompletedDate" Type="DateTime" />
-          <Property Name="p2_manager_previous" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_manager_objections" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_manager_alternative" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_manager_normal" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+          <Property Name="p2_manager_previous" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="p2_manager_objections" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="p2_manager_alternative" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="p2_manager_week1_sun" Type="Decimal" Precision="2" Scale="0" />
           <Property Name="p2_manager_week1_mon" Type="Decimal" Precision="2" Scale="0" />
           <Property Name="p2_manager_week1_tue" Type="Decimal" Precision="2" Scale="0" />
@@ -1070,7 +1028,7 @@
           <Property Name="p1_numEmployeesInvolved" Type="Int32" />
           <Property Name="p2_cause_contactStress" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p2_factors_patientResistive" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="p2_cause_exposure_chemName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="p2_cause_exposure_chemName" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="followUpStatus" Type="String" Nullable="false" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="reportSubmitter" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="submitterDeptNo" Type="Int32" />
@@ -1091,19 +1049,20 @@
           <Property Name="room" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="followUpStatus" Type="String" Nullable="false" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="reportSubmitter" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="comments" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="Department" Relationship="BCCAModel.FK__LabInspec__deptN__59C55456" FromRole="LabInspection" ToRole="Department" />
           <NavigationProperty Name="FollowUps" Relationship="BCCAModel.FK__FollowUp__labIns__5F7E2DAC" FromRole="LabInspection" ToRole="FollowUp" />
           <NavigationProperty Name="LabInspectionDetails" Relationship="BCCAModel.FK__LabInspec__labIn__625A9A57" FromRole="LabInspection" ToRole="LabInspectionDetails" />
         </EntityType>
         <EntityType Name="LabInspectionDetail">
           <Key>
-            <PropertyRef Name="labInsNo" />
-            <PropertyRef Name="checkbox" />
+            <PropertyRef Name="labInsDetNo" />
           </Key>
           <Property Name="labInsNo" Type="Int32" Nullable="false" />
           <Property Name="labItemNo" Type="Int32" />
           <Property Name="comments" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="checkbox" Type="Int32" Nullable="false" />
+          <Property Name="labInsDetNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="LabInspection" Relationship="BCCAModel.FK__LabInspec__labIn__625A9A57" FromRole="LabInspectionDetails" ToRole="LabInspection" />
           <NavigationProperty Name="LabInspectionItem" Relationship="BCCAModel.FK__LabInspec__labIt__634EBE90" FromRole="LabInspectionDetails" ToRole="LabInspectionItem" />
         </EntityType>
@@ -1127,18 +1086,20 @@
           <Property Name="deptNo" Type="Int32" />
           <Property Name="followUpStatus" Type="String" Nullable="false" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="reportSubmitter" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="comments" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="Department" Relationship="BCCAModel.FK__OfficeIns__deptN__6FB49575" FromRole="OfficeInspection" ToRole="Department" />
           <NavigationProperty Name="OfficeInspectionDetails" Relationship="BCCAModel.FK__OfficeIns__offic__7E02B4CC" FromRole="OfficeInspection" ToRole="OfficeInspectionDetails" />
         </EntityType>
         <EntityType Name="OfficeInspectionDetail">
           <Key>
-            <PropertyRef Name="checkbox" />
+            <PropertyRef Name="officeInsDetNo" />
           </Key>
           <Property Name="officeInsNo" Type="Int32" />
           <Property Name="officeInsItemNo" Type="Int32" />
           <Property Name="severityNo" Type="Int32" />
           <Property Name="comments" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="checkbox" Type="Int32" Nullable="false" />
+          <Property Name="officeInsDetNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="OfficeInspection" Relationship="BCCAModel.FK__OfficeIns__offic__7E02B4CC" FromRole="OfficeInspectionDetails" ToRole="OfficeInspection" />
           <NavigationProperty Name="OfficeInspectionItem" Relationship="BCCAModel.FK__OfficeIns__offic__7EF6D905" FromRole="OfficeInspectionDetails" ToRole="OfficeInspectionItems" />
           <NavigationProperty Name="Severity" Relationship="BCCAModel.FK__OfficeIns__sever__7FEAFD3E" FromRole="OfficeInspectionDetails" ToRole="Severity" />
@@ -1220,18 +1181,6 @@
           <NavigationProperty Name="Department" Relationship="BCCAModel.fk_deptNo" FromRole="Users" ToRole="Department" />
           <NavigationProperty Name="Role" Relationship="BCCAModel.FK__Users__roleNo__7849DB76" FromRole="Users" ToRole="Role" />
         </EntityType>
-        <Association Name="FK__Employee__deptNo__489AC854">
-          <End Role="Department" Type="BCCAModel.Department" Multiplicity="0..1" />
-          <End Role="Employee" Type="BCCAModel.Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="deptNo" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="deptNo" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Incident__submit__2F9A1060">
           <End Role="Department" Type="BCCAModel.Department" Multiplicity="0..1" />
           <End Role="Incident" Type="BCCAModel.Incident" Multiplicity="*" />
@@ -1435,13 +1384,13 @@
             <ScalarProperty Name="lname" ColumnName="lname" />
             <ScalarProperty Name="fname" ColumnName="fname" />
             <ScalarProperty Name="employer" ColumnName="employer" />
-            <ScalarProperty Name="deptNo" ColumnName="deptNo" />
             <ScalarProperty Name="startDate" ColumnName="startDate" />
             <ScalarProperty Name="endDate" ColumnName="endDate" />
             <ScalarProperty Name="active" ColumnName="active" />
             <ScalarProperty Name="supervisor" ColumnName="supervisor" />
             <ScalarProperty Name="position" ColumnName="position" />
             <ScalarProperty Name="room" ColumnName="room" />
+            <ScalarProperty Name="deptName" ColumnName="deptName" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="FollowUps"><EntityTypeMapping TypeName="BCCAModel.FollowUp"><MappingFragment StoreEntitySet="FollowUp">
             <ScalarProperty Name="followUpNo" ColumnName="followUpNo" />
@@ -1609,7 +1558,7 @@
             <ScalarProperty Name="p2_corrective_timeDate" ColumnName="p2_corrective_timeDate" />
             <ScalarProperty Name="p2_corrective_written" ColumnName="p2_corrective_written" />
             <ScalarProperty Name="p2_corrective_writtenTargetDate" ColumnName="p2_corrective_writtenTargetDate" />
-            <ScalarProperty Name="p2_corrective_writtentCompletedDate" ColumnName="p2_corrective_writtentCompletedDate" />
+            <ScalarProperty Name="p2_corrective_writtenCompletedDate" ColumnName="p2_corrective_writtenCompletedDate" />
             <ScalarProperty Name="p2_corrective_education" ColumnName="p2_corrective_education" />
             <ScalarProperty Name="p2_corrective_educationTargetDate" ColumnName="p2_corrective_educationTargetDate" />
             <ScalarProperty Name="p2_corrective_educationCompletedDate" ColumnName="p2_corrective_educationCompletedDate" />
@@ -1625,7 +1574,6 @@
             <ScalarProperty Name="p2_manager_previous" ColumnName="p2_manager_previous" />
             <ScalarProperty Name="p2_manager_objections" ColumnName="p2_manager_objections" />
             <ScalarProperty Name="p2_manager_alternative" ColumnName="p2_manager_alternative" />
-            <ScalarProperty Name="p2_manager_normal" ColumnName="p2_manager_normal" />
             <ScalarProperty Name="p2_manager_week1_sun" ColumnName="p2_manager_week1_sun" />
             <ScalarProperty Name="p2_manager_week1_mon" ColumnName="p2_manager_week1_mon" />
             <ScalarProperty Name="p2_manager_week1_tue" ColumnName="p2_manager_week1_tue" />
@@ -1667,12 +1615,14 @@
             <ScalarProperty Name="room" ColumnName="room" />
             <ScalarProperty Name="followUpStatus" ColumnName="followUpStatus" />
             <ScalarProperty Name="reportSubmitter" ColumnName="reportSubmitter" />
+            <ScalarProperty Name="comments" ColumnName="comments" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="LabInspectionDetails"><EntityTypeMapping TypeName="BCCAModel.LabInspectionDetail"><MappingFragment StoreEntitySet="LabInspectionDetails">
             <ScalarProperty Name="labInsNo" ColumnName="labInsNo" />
             <ScalarProperty Name="labItemNo" ColumnName="labItemNo" />
             <ScalarProperty Name="comments" ColumnName="comments" />
             <ScalarProperty Name="checkbox" ColumnName="checkbox" />
+            <ScalarProperty Name="labInsDetNo" ColumnName="labInsDetNo" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="LabInspectionItems"><EntityTypeMapping TypeName="BCCAModel.LabInspectionItem"><MappingFragment StoreEntitySet="LabInspectionItem">
             <ScalarProperty Name="labInsItemNo" ColumnName="labInsItemNo" />
@@ -1686,6 +1636,7 @@
             <ScalarProperty Name="deptNo" ColumnName="deptNo" />
             <ScalarProperty Name="followUpStatus" ColumnName="followUpStatus" />
             <ScalarProperty Name="reportSubmitter" ColumnName="reportSubmitter" />
+            <ScalarProperty Name="comments" ColumnName="comments" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="OfficeInspectionDetails"><EntityTypeMapping TypeName="BCCAModel.OfficeInspectionDetail"><MappingFragment StoreEntitySet="OfficeInspectionDetails">
             <ScalarProperty Name="officeInsNo" ColumnName="officeInsNo" />
@@ -1693,6 +1644,7 @@
             <ScalarProperty Name="severityNo" ColumnName="severityNo" />
             <ScalarProperty Name="comments" ColumnName="comments" />
             <ScalarProperty Name="checkbox" ColumnName="checkbox" />
+            <ScalarProperty Name="officeInsDetNo" ColumnName="officeInsDetNo" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="OfficeInspectionItems"><EntityTypeMapping TypeName="BCCAModel.OfficeInspectionItem"><MappingFragment StoreEntitySet="OfficeInspectionItems">
             <ScalarProperty Name="officeInsItemNo" ColumnName="officeInsItemNo" />
@@ -1767,118 +1719,107 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="BCCAModel">
-        <EntityTypeShape EntityType="BCCAModel.CourseDetail" Width="1.5" PointX="3" PointY="20.25" Height="1.5956835937500031" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.Department" Width="1.5" PointX="0.75" PointY="31" Height="2.3648893229166674" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.Employee" Width="1.5" PointX="3" PointY="26.375" Height="3.7109993489583317" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.FollowUp" Width="1.5" PointX="5.25" PointY="31.5" Height="2.172587890624996" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.Incident" Width="1.5" PointX="8.25" PointY="9.5" Height="40.825175781249996" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.LabInspection" Width="1.5" PointX="3" PointY="30.875" Height="3.5186979166666674" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.LabInspectionDetail" Width="1.5" PointX="5.25" PointY="34.5" Height="2.172587890624996" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.LabInspectionItem" Width="1.5" PointX="3" PointY="38.75" Height="1.7879850260416674" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.OfficeInspection" Width="1.5" PointX="3" PointY="35.125" Height="2.749492187499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.OfficeInspectionDetail" Width="1.5" PointX="5.25" PointY="38.25" Height="2.5571907552083388" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.OfficeInspectionItem" Width="1.5" PointX="3" PointY="41.5" Height="1.5956835937500102" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.CourseDetail" Width="1.5" PointX="8.75" PointY="52.125" Height="1.595683593749996" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Department" Width="1.5" PointX="0.75" PointY="29.125" Height="2.1725878906250031" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Employee" Width="1.5" PointX="5.75" PointY="35.5" Height="3.5186979166666674" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.FollowUp" Width="1.5" PointX="5.25" PointY="27.25" Height="2.1725878906250031" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Incident" Width="1.5" PointX="8" PointY="9.875" Height="40.632874348958332" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.LabInspection" Width="1.5" PointX="3" PointY="26.5" Height="3.7109993489583317" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.LabInspectionDetail" Width="1.5" PointX="5.25" PointY="24.25" Height="2.3648893229166674" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.LabInspectionItem" Width="1.5" PointX="3" PointY="20.5" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.OfficeInspection" Width="1.5" PointX="3" PointY="31" Height="2.9417936197916674" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.OfficeInspectionDetail" Width="1.5" PointX="5.25" PointY="31.125" Height="2.749492187499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.OfficeInspectionItem" Width="1.5" PointX="3" PointY="35.5" Height="1.5956835937500102" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.Position" Width="1.5" PointX="0.75" PointY="0.75" Height="1.4033821614583317" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.Role" Width="1.5" PointX="0.75" PointY="23.375" Height="1.5956835937500031" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.Severity" Width="1.5" PointX="3" PointY="43.875" Height="1.5956835937500102" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Role" Width="1.5" PointX="0.75" PointY="23.5" Height="1.5956835937500031" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.Severity" Width="1.5" PointX="3" PointY="37.875" Height="1.5956835937500102" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.sysdiagram" Width="1.5" PointX="2.75" PointY="0.75" Height="1.9802864583333388" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.TrainingCours" Width="1.5" PointX="3" PointY="17.5" Height="1.7879850260416674" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.TrainingTaken" Width="1.5" PointX="5.25" PointY="26.75" Height="2.9417936197916674" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.TrainingCours" Width="1.5" PointX="8.75" PointY="54.5" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="BCCAModel.TrainingTaken" Width="1.5" PointX="11" PointY="35.75" Height="2.9417936197916674" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.User" Width="1.5" PointX="3" PointY="23" Height="2.3648893229166674" IsExpanded="true" />
-        <AssociationConnector Association="BCCAModel.FK__Employee__deptNo__489AC854" ManuallyRouted="false">
-          <ConnectorPoint PointX="1.5" PointY="31" />
-          <ConnectorPoint PointX="1.5" PointY="28.230499674479166" />
-          <ConnectorPoint PointX="2.5416666666666665" PointY="28.230499674479166" />
-          <ConnectorPoint PointX="2.7083333333333335" PointY="28.230499674479166" />
-          <ConnectorPoint PointX="3" PointY="28.230499674479166" />
-        </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__Incident__submit__2F9A1060" ManuallyRouted="false">
-          <ConnectorPoint PointX="1.5" PointY="33.364889322916667" />
-          <ConnectorPoint PointX="1.5" PointY="47.9291796875" />
-          <ConnectorPoint PointX="8.25" PointY="47.9291796875" />
+          <ConnectorPoint PointX="2.25" PointY="30.605499674479166" />
+          <ConnectorPoint PointX="8" PointY="30.605499674479166" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__LabInspec__deptN__59C55456" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="32.182444661458334" />
-          <ConnectorPoint PointX="3" PointY="32.182444661458334" />
+          <ConnectorPoint PointX="2.25" PointY="29.667999674479166" />
+          <ConnectorPoint PointX="3" PointY="29.667999674479166" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__OfficeIns__deptN__6FB49575" ManuallyRouted="false">
-          <ConnectorPoint PointX="1.9062525" PointY="33.364889322916667" />
-          <ConnectorPoint PointX="1.9062525" PointY="36.49974609375" />
-          <ConnectorPoint PointX="3" PointY="36.49974609375" />
+          <ConnectorPoint PointX="1.5" PointY="31.297587890625003" />
+          <ConnectorPoint PointX="1.5" PointY="32.619691255208338" />
+          <ConnectorPoint PointX="3" PointY="32.619691255208338" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.fk_deptNo" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="31.001152846153843" />
-          <ConnectorPoint PointX="2.625" PointY="30.626152846153843" />
+          <ConnectorPoint PointX="2.25" PointY="29.126152846153843" />
+          <ConnectorPoint PointX="2.625" PointY="28.751152846153843" />
           <ConnectorPoint PointX="2.625" PointY="24.182444661458334" />
           <ConnectorPoint PointX="3" PointY="24.182444661458334" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__Incident__empNo__04AFB25B" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="29.920146484375" />
-          <ConnectorPoint PointX="8.25" PointY="29.920146484375" />
+          <ConnectorPoint PointX="7.25" PointY="37.259348958333334" />
+          <ConnectorPoint PointX="8" PointY="37.259348958333334" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__TrainingT__empNo__503BEA1C" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="28.220896809895834" />
-          <ConnectorPoint PointX="5.25" PointY="28.220896809895834" />
+          <ConnectorPoint PointX="6.5" PointY="39.018697916666667" />
+          <ConnectorPoint PointX="6.5" PointY="50.757874348958332" />
+          <ConnectorPoint PointX="10.625" PointY="50.757874348958332" />
+          <ConnectorPoint PointX="10.625" PointY="37.220896809895834" />
+          <ConnectorPoint PointX="11" PointY="37.220896809895834" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__FollowUp__labIns__5F7E2DAC" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="32.5862939453125" />
-          <ConnectorPoint PointX="5.25" PointY="32.5862939453125" />
+          <ConnectorPoint PointX="4.5" PointY="28.3362939453125" />
+          <ConnectorPoint PointX="5.25" PointY="28.3362939453125" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__FollowUp__labIns__607251E5" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.4757692307692318" PointY="38.75" />
-          <ConnectorPoint PointX="4.875" PointY="38.350769230769231" />
-          <ConnectorPoint PointX="4.875" PointY="33.160692917968746" />
-          <ConnectorPoint PointX="5.25" PointY="33.160692917968746" />
+          <ConnectorPoint PointX="4.5" PointY="22.287985026041667" />
+          <ConnectorPoint PointX="4.875" PointY="22.662985026041667" />
+          <ConnectorPoint PointX="4.875" PointY="27.761894972656251" />
+          <ConnectorPoint PointX="5.25" PointY="27.761894972656251" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__LabInspec__labIn__625A9A57" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="34.330235378205131" />
-          <ConnectorPoint PointX="4.8160744349011217" PointY="34.646309813106249" />
-          <ConnectorPoint PointX="4.9339255650988791" PointY="34.764160943304013" />
-          <ConnectorPoint PointX="5.0625" PointY="34.892735378205131" />
-          <ConnectorPoint PointX="5.0625" PointY="34.3125" />
-          <ConnectorPoint PointX="5.25" PointY="34.5" />
+          <ConnectorPoint PointX="4.5" PointY="26.563460538461534" />
+          <ConnectorPoint PointX="4.8160744349011209" PointY="26.247386103560412" />
+          <ConnectorPoint PointX="4.9339255650988791" PointY="26.129534973362656" />
+          <ConnectorPoint PointX="5.0625" PointY="26.000960538461534" />
+          <ConnectorPoint PointX="5.0625" PointY="26.803542169070514" />
+          <ConnectorPoint PointX="5.2511528461538459" PointY="26.614889322916667" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__LabInspec__labIt__634EBE90" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="38.806537461538461" />
-          <ConnectorPoint PointX="5.03125" PointY="38.275287461538461" />
-          <ConnectorPoint PointX="5.03125" PointY="35.6175459453125" />
-          <ConnectorPoint PointX="5.25" PointY="35.6175459453125" />
+          <ConnectorPoint PointX="4.5" PointY="21.362740013020833" />
+          <ConnectorPoint PointX="6" PointY="21.362740013020833" />
+          <ConnectorPoint PointX="6" PointY="24.25" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__OfficeIns__offic__7E02B4CC" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="37.81102964903846" />
-          <ConnectorPoint PointX="4.6875" PointY="37.99852964903846" />
-          <ConnectorPoint PointX="4.6875" PointY="37.6875" />
-          <ConnectorPoint PointX="4.8160744349011217" PointY="37.816074434901118" />
-          <ConnectorPoint PointX="4.9339255650988791" PointY="37.933925565098882" />
-          <ConnectorPoint PointX="4.9723244349011217" PointY="37.972324434901118" />
-          <ConnectorPoint PointX="5.0901755650988791" PointY="38.090175565098882" />
-          <ConnectorPoint PointX="5.25" PointY="38.25" />
+          <ConnectorPoint PointX="4.5" PointY="32.49974609375" />
+          <ConnectorPoint PointX="5.25" PointY="32.49974609375" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__OfficeIns__offic__7EF6D905" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="42.297841796875005" />
-          <ConnectorPoint PointX="5.5104141666666671" PointY="42.297841796875005" />
-          <ConnectorPoint PointX="5.6770808333333331" PointY="42.297841796875005" />
-          <ConnectorPoint PointX="6" PointY="42.297841796875005" />
-          <ConnectorPoint PointX="6" PointY="40.807190755208339" />
+          <ConnectorPoint PointX="4.5000000000000018" PointY="35.5" />
+          <ConnectorPoint PointX="4.875" PointY="35.125" />
+          <ConnectorPoint PointX="4.875" PointY="33.218371140624996" />
+          <ConnectorPoint PointX="5.25" PointY="33.218371140624996" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__OfficeIns__sever__7FEAFD3E" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="44.672841796875005" />
-          <ConnectorPoint PointX="5.5937475" PointY="44.672841796875005" />
-          <ConnectorPoint PointX="5.5937475" PointY="40.807190755208339" />
+          <ConnectorPoint PointX="4.5" PointY="39.275940755208339" />
+          <ConnectorPoint PointX="5.46875" PointY="39.275940755208339" />
+          <ConnectorPoint PointX="5.46875" PointY="33.874492187499996" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__Users__roleNo__7849DB76" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="23.716222330729167" />
-          <ConnectorPoint PointX="3" PointY="23.716222330729167" />
+          <ConnectorPoint PointX="2.25" PointY="24.701564127604168" />
+          <ConnectorPoint PointX="2.5416666666666665" PointY="24.701564127604168" />
+          <ConnectorPoint PointX="2.7083333333333335" PointY="24.701564127604168" />
+          <ConnectorPoint PointX="3" PointY="24.701564127604168" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__TrainingT__train__51300E55" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="18.393992513020834" />
-          <ConnectorPoint PointX="6" PointY="18.393992513020834" />
-          <ConnectorPoint PointX="6" PointY="26.75" />
+          <ConnectorPoint PointX="10.25" PointY="55.393992513020834" />
+          <ConnectorPoint PointX="11.75" PointY="55.393992513020834" />
+          <ConnectorPoint PointX="11.75" PointY="38.691793619791667" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.TrainingCourseTakenDetail" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="21.047841796875" />
-          <ConnectorPoint PointX="5.5937475" PointY="21.047841796875" />
-          <ConnectorPoint PointX="5.5937475" PointY="26.75" />
+          <ConnectorPoint PointX="10.25" PointY="52.922841796875" />
+          <ConnectorPoint PointX="11.3437475" PointY="52.922841796875" />
+          <ConnectorPoint PointX="11.3437475" PointY="38.691793619791667" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

@@ -28,10 +28,15 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            ddlLabLabManager.DataSource = ctx.LabInspections.Select(l => new { text = l.labMgr, value = l.labMgr });
+            ddlLabLabManager.DataSource = ctx.LabInspections.Select(l => new { text = l.labMgr, value = l.labMgr }).Distinct();
             ddlLabLabManager.DataValueField = "value";
             ddlLabLabManager.DataTextField = "text";
             ddlLabLabManager.DataBind();
+
+            ddlLabDepartment.DataSource = ctx.Departments.Select(D => new { text = D.deptName, value = D.deptNo });
+            ddlLabDepartment.DataValueField = "value";
+            ddlLabDepartment.DataTextField = "text";
+            ddlLabDepartment.DataBind();
         }
     }
 
@@ -70,19 +75,20 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             //so that the unique id can be used to link the LabInspectionDetail objects.
             LabInspection inc = new LabInspection()
             {
-                deptNo = Convert.ToInt32(tbxLabDepartment.Text),
                 inspector = tbxLabInspectors.Text,
                 date = tmpDate,
                 labMgr = ddlLabLabManager.Text,
                 supervisor = tbxLabSupervisor.Text,
-                room = tbxLabRoom.Text
+                room = tbxLabRoom.Text,
+                followUpStatus = "0",
+                deptNo = Convert.ToInt32(ddlLabDepartment.SelectedValue)
             };
-            ctx.AddToLabInspections(inc);
-            ctx.SaveChanges();
+
             //Try-catch for saving the LabInspection object into the database.
             try
             {
-                
+                ctx.AddToLabInspections(inc);
+                ctx.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -100,7 +106,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 checkbox = radiobuttonConvert(this.rblFireEvac.SelectedItem.Value),
                 comments = this.tbxCommentFireEvac.Text,
             });
-            /*
+
             //Fire extinguisher in working condition
             ctx.AddToLabInspectionDetails(new LabInspectionDetail() 
             {
@@ -207,8 +213,8 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             {
                 labInsNo = inc.labInsNo,
                 labItemNo = 13,
-                checkbox = radiobuttonConvert(this.rblFireEvac.SelectedItem.Value),
-                comments = this.tbxCommentFireEvac.Text,
+                checkbox = radiobuttonConvert(this.rblSafety.SelectedItem.Value),
+                comments = this.tbxCommentSafety.Text,
             });
 
             //Laboratory coat, gowns, gloves available/worn
@@ -649,23 +655,21 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 checkbox = radiobuttonConvert(this.rblPressureTankSup.SelectedItem.Value),
                 comments = this.tbxCommentPressureTankSup.Text,
             });
-            */
             #endregion
 
             #region LabInspectionDetail Objects SaveChanges
             //Try-catch for saving the LabInspectionDetail objects into the database.
-
-            ctx.SaveChanges();
-
             try
             {
-                
+                ctx.SaveChanges();
             }
             catch (Exception ex)
             {
                 Popup_Overlay(ex.InnerException.ToString(), Color.Red);
                 return;
             }
+
+            Popup_Overlay("Update Successful", Color.Red);
             #endregion
         }
     }
