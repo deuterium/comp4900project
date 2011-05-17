@@ -1677,10 +1677,12 @@ public partial class Reporting_Default : System.Web.UI.Page {
     protected void gdvTracker_RowCommand(object sender, GridViewCommandEventArgs e) {
         switch (e.CommandName) {
             case "RowViewReport":
-                // Retrieve the row index stored in the CommandArgument property.
+                // Get the row that called the event
                 int index = Convert.ToInt32(e.CommandArgument);
-                // Retrieve the row that contains the button from the Rows collection.
                 GridViewRow row = gdvTracker.Rows[index];
+                // Get the text of the label holding the Incident No
+                String incidentNo = ((Label)row.FindControl("lblIncidentNo")).Text;
+                Response.Redirect("~/Reporting/ViewIncidentReport.aspx?IncidentNo=" + incidentNo);
                 break;
             case "RowViewEmployees":
                 // code here

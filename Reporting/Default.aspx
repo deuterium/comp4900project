@@ -1154,6 +1154,11 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 <asp:GridView ID="gdvTracker" runat="server" AutoGenerateColumns="False" 
     OnSelectedIndexChanged="gdvTracker_SelectedIndexChanged" OnRowCommand="gdvTracker_RowCommand" >
     <Columns>
+        <asp:TemplateField HeaderText="Incident No.">
+            <ItemTemplate>
+                <asp:Label ID="lblIncidentNo" runat="server" Text='<%# Bind("incidentNo") %>'></asp:Label>
+            </ItemTemplate>
+        </asp:TemplateField>
         <asp:TemplateField>
             <ItemTemplate>
                 <asp:Button ID="btnRowViewReport" runat="server" 
