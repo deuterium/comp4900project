@@ -12,9 +12,9 @@
     <div id="divLabOfficeFollowupReport" runat="server" visible="false">
         <div id="divLabOfficeFollowupReportData">
             <asp:GridView ID="gvwLabOfficeFollowup" Width="800px" runat="server" AutoGenerateColumns="False"
-                OnRowDataBound="gvwLabFollowup_RowDataBound">
+                OnRowDataBound="gvwLabOfficeFollowup_RowDataBound">
                 <Columns>
-                    <asp:BoundField DataField="labInsItem" HeaderText="Item" ReadOnly="True" SortExpression="labInsItem" />
+                    <asp:BoundField DataField="insItem" HeaderText="Item" ReadOnly="True" SortExpression="labInsItem" />
                     <asp:BoundField DataField="checkbox" HeaderText="Checked (yes/no)" SortExpression="checkbox" />
                     <asp:BoundField DataField="comments" HeaderText="Comment" SortExpression="comments" />
                     <asp:TemplateField HeaderText="Corrective Action Taken">
