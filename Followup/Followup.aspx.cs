@@ -17,29 +17,33 @@ public partial class Followup_Followup : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (!IsPostBack)
         {
-            switch (PreviousPage.followupType)
+            try
             {
-                case "Incident":
-                    divFollowupIncidentReport.Visible = true;
-                    break;
-                case "Lab":
-                    divLabOfficeFollowupReport.Visible = true;
-                    Populate_Lab_Followup(Convert.ToInt32(PreviousPage.followupNo));
-                    break;
-                case "Office":
-                    divLabOfficeFollowupReport.Visible = true;
-                    break;
-                default:
-                    throw new System.SystemException("Default case of switch should never be reached");
+                switch (PreviousPage.followupType)
+                {
+                    case "Incident":
+                        divFollowupIncidentReport.Visible = true;
+                        break;
+                    case "Lab":
+                        divLabOfficeFollowupReport.Visible = true;
+                        Populate_Lab_Followup(Convert.ToInt32(PreviousPage.followupNo));
+                        break;
+                    case "Office":
+                        divLabOfficeFollowupReport.Visible = true;
+                        break;
+                    default:
+                        throw new System.SystemException("Default case of switch should never be reached");
+                }
             }
-        }
-        //If execption thrown, no data from previous page; Should not be here unless transfered
-        //from Default.aspx in this same directory with selected report information
-        catch (Exception ex)
-        {
-            Response.Redirect("Default.aspx");
+            //If execption thrown, no data from previous page; Should not be here unless transfered
+            //from Default.aspx in this same directory with selected report information
+            catch (Exception ex)
+            {
+                ex.ToString();
+                Response.Redirect("Default.aspx");
+            }
         }
     }
 
@@ -91,6 +95,12 @@ public partial class Followup_Followup : System.Web.UI.Page
 
     }
 
+    protected void tbSubmittedby_Load(object sender, EventArgs e)
+    {
+        tbSubmittedby.Text = Session["AuthenticatedUser"].ToString();
+        tbFollowUpDate.Text = DateTime.Now.ToShortDateString();
+    }
+
     /// <summary>
     /// Changes the bound data in the Lab/Office Gridview to Yes,No,N/A depenind on database value
     /// </summary>
@@ -102,7 +112,6 @@ public partial class Followup_Followup : System.Web.UI.Page
         {
             for (int i = -1; i < gvwLabFollowup.Rows.Count; i++)
             {
-
                 if (e.Row.Cells[1].Text == "1")
                     e.Row.Cells[1].Text = "Yes";
 
@@ -111,20 +120,40 @@ public partial class Followup_Followup : System.Web.UI.Page
 
                 if (e.Row.Cells[1].Text == "3")
                     e.Row.Cells[1].Text = "N/A";
-
             }
         }
-    }
-    
-    protected void btnLabOfficeFollowupSave_Click(object sender, EventArgs e)
-    {
-        //save comments
     }
 
     protected void btnLabOfficeFollowupSubmit_Click(object sender, EventArgs e)
     {
-        //submit and mark followup as complete
+        switch (PreviousPage.followupType)
+        {
+            case "Lab":
+                Submit_Lab_Followup();
+                break;
+            case "Office":
+
+                break;
+            default:
+                throw new System.SystemException("Default case of switch should never be reached");
+        }
     }
+
+    
+    protected void Submit_Lab_Followup() {
+        foreach (GridViewRow r in gvwLabFollowup.Rows)
+        {
+            ctx.AddToLabFollowUps(new LabFollowUp() 
+            { 
+                labInsNo = Convert.ToInt32?(PreviousPage.followupNo)
+                
+            });
+            string test1 = r.Cells[0].Text;
+            string test = ((TextBox)r.Cells[3].FindControl("tbCorrectiveAction")).Text;
+        }
+    }
+    protected void Submit_Office_Followup() { }
     #endregion
+
     
 }

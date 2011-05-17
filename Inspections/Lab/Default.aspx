@@ -136,7 +136,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <td>
                     <asp:TextBox ID="tbxLabInspectionDate" runat="server"></asp:TextBox>
                     <asp:CalendarExtender ID="cexLabInspectionDate" runat="server" TargetControlID="tbxLabInspectionDate" 
-                        Format="MM/DD/YYYY"></asp:CalendarExtender>
+                        Format="MM/dd/yyyy"></asp:CalendarExtender>
                     <asp:RequiredFieldValidator ControlToValidate="tbxLabInspectionDate" ValidationGroup="vgpLabA" runat="server" 
                         ID="rfvCalendar" ErrorMessage="Date of Inspection is required" ForeColor="Red">*</asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="revLabInspectionDate" runat="server" ValidationGroup="vgpLabA"
