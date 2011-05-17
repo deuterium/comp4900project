@@ -115,29 +115,15 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr>
                 <td>Employer:</td>
                 <td>
-                    <asp:DropDownList TabIndex="104" ID="ddlEmployers" runat="server" OnSelectedIndexChanged="ddlEmployers_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
-                    <asp:UpdatePanel ID="uplEmployer" runat="server">
-                        <ContentTemplate>
-                            <asp:TextBox TabIndex="105" ID="tbxEmployer" runat="server" Visible="false" MaxLength="10" ></asp:TextBox>
-                        </ContentTemplate>
-                        <Triggers>
-                            <asp:AsyncPostBackTrigger ControlID="ddlEmployers" EventName="SelectedIndexChanged" />
-                        </Triggers>
-                    </asp:UpdatePanel>
+                    <asp:DropDownList TabIndex="104" ID="ddlEmployers" runat="server"></asp:DropDownList>
+                    <asp:TextBox TabIndex="105" ID="tbxEmployer" runat="server" Visible="false" MaxLength="10" ></asp:TextBox>
                 </td>
             </tr>
             <tr>
                 <td>Department:</td>
                 <td>
-                    <asp:DropDownList TabIndex="106" ID="ddlDepartments" runat="server" OnSelectedIndexChanged="ddlDepartments_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
-                    <asp:UpdatePanel ID="uplDepartment" runat="server">
-                        <ContentTemplate>
-                            <asp:TextBox TabIndex="103" ID="tbxDepartment" runat="server" Visible="false"></asp:TextBox>
-                        </ContentTemplate>
-                        <Triggers>
-                            <asp:AsyncPostBackTrigger ControlID="ddlDepartments" EventName="SelectedIndexChanged" />
-                        </Triggers>
-                    </asp:UpdatePanel>
+                    <asp:DropDownList TabIndex="106" ID="ddlDepartments" runat="server"></asp:DropDownList>
+                    <asp:TextBox TabIndex="103" ID="tbxDepartment" runat="server" Visible="false"></asp:TextBox>
                 </td>
             </tr>
         </table>
@@ -184,31 +170,9 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpEmpInfo"
                         ControlToValidate="tbxEndDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="End date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-<%--                    <asp:CompareValidator ID="cpvStartEndDates" runat="server" ValidationGroup="vgpEmpInfo"
-                        ControlToValidate="tbxEndDate" ControlToCompare="tbxStartDate" Operator="GreaterThan" Type="Date"
-                        ErrorMessage="End date must be later than start date." ></asp:CompareValidator>--%>
                 </td>
             </tr>
         </table>
-    </div>
-
-    <div id="divEmpInfoButtons" >
-        <asp:Button TabIndex="111" ID="btnGetEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
-            Text="Get Employee" onclick="btnGetEmployee_Click" />
-        <asp:Button TabIndex="111" ID="btnCreateEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
-            Text="Create Employee" onclick="btnCreateEmployee_Click" />
-        <asp:Button TabIndex="1112" ID="btnUpdateEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
-            Text="Update  Employee" onclick="btnUpdateEmployee_Click" />
-        <asp:Button TabIndex="1112" ID="btnCreateReport" runat="server" 
-            Text="Create Report" onclick="btnCreateReport_Click" />
-        <asp:Button TabIndex="1112" ID="btnLoadReport" runat="server" 
-            Text="Load Report" onclick="btnLoadReport_Click" />
-        <asp:Button TabIndex="1112" ID="btnFilterReport" runat="server" 
-            Text="Filter Reports" onclick="btnFilterReport_Click" />
-        <p><asp:Label ID="lblResults" runat="server" Text="" Visible="false" ></asp:Label></p>
-        
-        
-        <asp:ValidationSummary ID="vsyEmployeeInfo" runat="server" ValidationGroup="vgpEmpInfo" DisplayMode="BulletList" />
     </div>
 </asp:Panel>
 
@@ -423,15 +387,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="128" ID="cbx_p2_patient_floorLift" Text="Floor Lift" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="128" ID="cbx_p2_patient_manualLift" Text="Manual Lift" runat="server" /></td></tr>
             <tr><td>
-                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                    <ContentTemplate>
-                        <asp:CheckBox TabIndex="128" ID="cbx_p2_patient_other" Text="Other: " runat="server" AutoPostBack="true" />
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="tbx_p2_patient_otherSpecify" EventName="TextChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
-                <asp:TextBox TabIndex="128" ID="tbx_p2_patient_otherSpecify" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_patient_otherSpecify_OnTextChanged" ></asp:TextBox>                
+                <asp:CheckBox TabIndex="128" ID="cbx_p2_patient_other" Text="Other: " runat="server" />
+                <asp:TextBox TabIndex="128" ID="tbx_p2_patient_otherSpecify" runat="server"></asp:TextBox>
             </td></tr>
             <tr><td>Was adaquate assistance available?</td></tr>
             <tr><td>
@@ -1055,56 +1012,6 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
     <asp:ValidationSummary ID="vsyHManagers" runat="server" ValidationGroup="vgpHManagers" DisplayMode="BulletList" />
 
 </asp:Panel>
-
-<asp:GridView ID="gdvReports" runat="server">
-</asp:GridView>
-
-<asp:GridView ID="gdvTracker" runat="server" AutoGenerateColumns="False" 
-    OnSelectedIndexChanged="gdvTracker_SelectedIndexChanged" OnRowCommand="gdvTracker_RowCommand" >
-    <Columns>
-        <asp:TemplateField>
-            <ItemTemplate>
-                <asp:Button ID="btnRowViewReport" runat="server" 
-                    CommandName="RowViewReport" 
-                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
-                    Text="View Report" />
-            </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField>
-            <ItemTemplate>
-                <asp:Button ID="btnRowViewEmployees" runat="server" 
-                    CommandName="RowViewEmployees" 
-                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
-                    Text="View Employees" />
-            </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField>
-            <ItemTemplate>
-                <asp:Button ID="btnRowViewReport" runat="server" 
-                    CommandName="RowViewCourses" 
-                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
-                    Text="View Report" />
-            </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField>
-            <ItemTemplate>
-                <asp:Button ID="btnRowViewReport" runat="server" 
-                    CommandName="RowViewLabInspections" 
-                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
-                    Text="View Report" />
-            </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField>
-            <ItemTemplate>
-                <asp:Button ID="btnRowViewOfficeInspections" runat="server" 
-                    CommandName="RowViewOfficeInspections" 
-                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
-                    Text="View Report" />
-            </ItemTemplate>
-        </asp:TemplateField>
-    </Columns>
-    <EmptyDataTemplate>No incident reports found.</EmptyDataTemplate>
-</asp:GridView>
 
 <asp:Panel ID="pnlPop" BackColor="White" Width="400px" Height="100px" CssClass="popPanel" runat="server">
     <table width="100%" cellpadding="5">

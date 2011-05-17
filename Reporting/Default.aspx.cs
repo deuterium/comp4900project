@@ -93,7 +93,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
         cbx.Checked = false;
     }
-
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
@@ -110,11 +109,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
     protected void tbx_p2_activity_otherPatientCare_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_activity_otherPatientCare, cbx_p2_activity_otherPatientCare);
     }
-     
-    
-    
-    
-    
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
@@ -154,14 +148,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="e">The text changed event.</param>
     protected void tbx_p2_cause_other_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_cause_other, cbx_p2_cause_other);
-    }
-    /// <summary>
-    /// Calls toggleOther() for the textbox and it's corresponding checkbox.
-    /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_other_OnTextChanged(object sender, EventArgs e) {
-        toggleOther(tbx_p2_activity_other, cbx_p2_activity_other);
     }
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
@@ -210,6 +196,14 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="e">The text changed event.</param>
     protected void tbx_p2_factors_otherOrganizational_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherOrganizational, cbx_p2_factors_otherOrganizational);
+    }
+    /// <summary>
+    /// Calls toggleOther() for the textbox and it's corresponding checkbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The text changed event.</param>
+    protected void tbx_p2_factors_otherWorker_OnTextChanged(object sender, EventArgs e) {
+        toggleOther(tbx_p2_factors_otherWorker, cbx_p2_factors_otherWorker);
     }
     #endregion Toggle Other Textbox and Checkbox
 
