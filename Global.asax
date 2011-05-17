@@ -23,6 +23,8 @@
     {
         Session["AuthenticatedUser"] = String.Empty;
         Session["AuthenticationHash"] = String.Empty;
+        Session["RoleNo"] = String.Empty;
+        Session["DeptNo"] = String.Empty;
 
     }
     ///Not Used

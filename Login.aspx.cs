@@ -58,8 +58,6 @@ public partial class Login : System.Web.UI.Page
         }
     }
 
-    
-
     /// <summary>
     /// Authenticates User Credentials to database
     /// Redirects on success and stores login status in session
@@ -82,17 +80,20 @@ public partial class Login : System.Web.UI.Page
             }
             catch (Exception ex)
             {
-                Session["RoleNo"] = String.Empty;
+                ex.ToString();
+                Session["RoleNo"] = "";
             }
 
 
             try
             {
                 Session["DeptNo"] = ctx.Users.Where(u => u.userName == tbxLoginUsername.Text).Select(r => r.deptNo).First();
+                Session["DeptNo"].ToString();
             }
             catch (Exception ex)
             {
-                Session["DeptNo"] = String.Empty;
+                ex.ToString();
+                Session["DeptNo"] = "";
             }
             
 

@@ -32,7 +32,7 @@
             <asp:Panel id="pnlLabOfficeFollowupComments" runat="server" CssClass="panelFollowup">
             <table cellspacing="5" width="600">
                 <tr>
-                    <td rowspan="2">
+                    <td rowspan="3">
                         <asp:TextBox ID="tbLabOfficeFollowupComments" Width="400" Height="100" TextMode="MultiLine"
                             runat="server">
                         </asp:TextBox>
@@ -48,17 +48,18 @@
                     </td>
                 </tr>
                 <tr>
-                    <td valign="bottom">
-                        <asp:Button ID="btnLabOfficeFollowupSave" runat="server" Text="Save Comments" 
-                            onclick="btnLabOfficeFollowupSave_Click"  />
-                        <br />
-                        (saves comments in this followup)
+                    <td>
+                        Submitted by:
                     </td>
-                    <td valign="bottom">
+                    <td>
+                        <asp:TextBox ID="tbSubmittedby" disabled="true" runat="server" 
+                            onload="tbSubmittedby_Load"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="bottom" colspan="2" align="right">
                         <asp:Button ID="btnLabOfficeFollowupSubmit" runat="server" 
                             Text="Submit Followup" onclick="btnLabOfficeFollowupSubmit_Click" />
-                        <br />
-                        (Marks followup as complete)
                     </td>
                 </tr>
             </table>
