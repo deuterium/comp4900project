@@ -83,6 +83,13 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
     }
 
+    // test
+    protected void tbx_p2_patient_otherSpecify_OnTextChanged(object sender, EventArgs e) {
+        if (!tbx_p2_patient_otherSpecify.Text.Equals(String.Empty)) {
+            cbx_p2_patient_other.Checked = true;
+        }
+    }
+
     #region Employee Info Related
     #region Drop Down Lists
 
