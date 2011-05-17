@@ -77,7 +77,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr>
                 <td>Last name:</td>
                 <td>
-                    <asp:TextBox TabIndex="100" ID="tbxLastName" runat="server" on ClientID="tbxLastNameClient" MaxLength="20" ></asp:TextBox>
+                    <asp:TextBox TabIndex="100" ID="tbxLastName" runat="server" MaxLength="20" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweLastName" runat="server" TargetControlID="tbxLastName"
                         WatermarkCssClass="watermarked" WatermarkText="Required field"></asp:TextBoxWatermarkExtender>
                     <asp:RequiredFieldValidator ID="rfvLastName" runat="server" ValidationGroup="vgpEmpInfo"
