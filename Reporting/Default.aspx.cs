@@ -1666,14 +1666,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
     #endregion Filter Report
 
-    String selection = "";
-
-    protected void gdvTracker_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        incidentReportId = gdvTracker.SelectedRow.Cells[1].Text;
-        selection = "Incident";
-    }
-
     protected void gdvTracker_RowCommand(object sender, GridViewCommandEventArgs e) {
         switch (e.CommandName) {
             case "RowViewReport":
@@ -1699,14 +1691,5 @@ public partial class Reporting_Default : System.Web.UI.Page {
             default:
                 throw new System.SystemException("Default case of switch should never be reached");
         }
-
-        if (e.CommandName.Equals("ViewReport")) {
-            
-            
-
-            Popup_Overlay("View Report Code.", SuccessColour);
-            
-        }
-
     }
 }
