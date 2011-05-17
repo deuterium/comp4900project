@@ -28,11 +28,6 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            ddlOfficeLabManager.DataSource = ctx.LabInspections.Select(l => new { text = l.labMgr, value = l.labMgr });
-            ddlOfficeLabManager.DataValueField = "value";
-            ddlOfficeLabManager.DataTextField = "text";
-            ddlOfficeLabManager.DataBind();
-
             ddlOfficeDepartment.DataSource = ctx.Departments.Select(D => new { text = D.deptName, value = D.deptNo });
             ddlOfficeDepartment.DataValueField = "value";
             ddlOfficeDepartment.DataTextField = "text";
