@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Reporting_Default" %>
-
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ViewIncidentReport.aspx.cs" Inherits="Reporting_ViewIncidentReport" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="head">
@@ -108,15 +107,9 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr>
                 <td>Position:</td>
                 <td>
-                    <asp:DropDownList TabIndex="102" ID="ddlPositions" runat="server" OnSelectedIndexChanged="ddlPositions_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
-                    <asp:UpdatePanel ID="uplPosition" runat="server">
-                        <ContentTemplate>
-                            <asp:TextBox TabIndex="103" ID="tbxPosition" runat="server" Visible="false" MaxLength="50" ></asp:TextBox>
-                        </ContentTemplate>
-                        <Triggers>
-                            <asp:AsyncPostBackTrigger ControlID="ddlPositions" EventName="SelectedIndexChanged" />
-                        </Triggers>
-                    </asp:UpdatePanel>
+                    <asp:DropDownList TabIndex="102" ID="ddlPositions" runat="server" AutoPostBack="true" ></asp:DropDownList>
+                    <asp:TextBox TabIndex="103" ID="tbxPosition" runat="server" Visible="false" MaxLength="50" ></asp:TextBox>
+
                 </td>
             </tr>
             <tr>
@@ -430,7 +423,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="128" ID="cbx_p2_patient_floorLift" Text="Floor Lift" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="128" ID="cbx_p2_patient_manualLift" Text="Manual Lift" runat="server" /></td></tr>
             <tr><td>
-                <asp:UpdatePanel ID="uplPatientOther" runat="server">
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                     <ContentTemplate>
                         <asp:CheckBox TabIndex="128" ID="cbx_p2_patient_other" Text="Other: " runat="server" AutoPostBack="true" />
                     </ContentTemplate>
@@ -466,15 +459,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="132" ID="cbx_p2_activity_prep" Text="Prep / Dispensing Meds" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="132" ID="cbx_p2_activity_dressingChanges" Text="Dressing Changes" runat="server" /></td></tr>
             <tr><td>
-                 <asp:UpdatePanel ID="uplOtherPatientCare" runat="server">
-                    <ContentTemplate>
-                        <asp:CheckBox TabIndex="132" ID="cbx_p2_activity_otherPatientCare" Text="Other: " runat="server" AutoPostBack="true" />
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="tbx_p2_activity_otherPatientCare" EventName="TextChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
-                <asp:TextBox TabIndex="132" ID="tbx_p2_activity_otherPatientCare" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_activity_otherPatientCare_OnTextChanged" ></asp:TextBox>
+                <asp:CheckBox TabIndex="132" ID="cbx_p2_activity_otherPatientCare" Text="Other: " runat="server" />
+                <asp:TextBox TabIndex="132" ID="tbx_p2_activity_otherPatientCare" runat="server"></asp:TextBox>
             </td></tr>
         </table>
 
@@ -497,38 +483,17 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="134" ID="cbx_p2_activity_push" Text="Push / Pull" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="134" ID="cbx_p2_activity_carry" Text="Carry" runat="server" /></td></tr>
             <tr><td>
-                <asp:UpdatePanel ID="uplOtherMat" runat="server">
-                    <ContentTemplate>
-                        <asp:CheckBox TabIndex="134" ID="cbx_p2_activity_otherMat" Text="Other Material Description: " runat="server" AutoPostBack="true" />
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="tbx_p2_activity_otherMat" EventName="TextChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
-                <asp:TextBox TabIndex="134" ID="tbx_p2_activity_otherMat" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_activity_otherMat_OnTextChanged" ></asp:TextBox>
+                <asp:CheckBox TabIndex="134" ID="cbx_p2_activity_otherMat" Text="Other Material Description: " runat="server" />
+                <asp:TextBox TabIndex="134" ID="tbx_p2_activity_otherMat" runat="server"></asp:TextBox>
             </td></tr>
             <tr><td><asp:CheckBox TabIndex="134" ID="cbx_p2_activity_driving" Text="Equipment Operation - Driving" runat="server" /></td></tr>
             <tr><td>
-                <asp:UpdatePanel ID="uplOtherEquip" runat="server">
-                    <ContentTemplate>
-                        <asp:CheckBox TabIndex="134" ID="cbx_p2_activity_otherEquip" Text="Equipment Operation - Other: " runat="server" AutoPostBack="true"/>
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="tbx_p2_activity_otherEquip" EventName="TextChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
-                <asp:TextBox TabIndex="134" ID="tbx_p2_activity_otherEquip" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_activity_otherEquip_OnTextChanged" ></asp:TextBox>
+                <asp:CheckBox TabIndex="134" ID="cbx_p2_activity_otherEquip" Text="Equipment Operation - Other: " runat="server" />
+                <asp:TextBox TabIndex="134" ID="tbx_p2_activity_otherEquip" runat="server"></asp:TextBox>
             </td></tr>
             <tr><td>
-                <asp:UpdatePanel ID="UpdatePanel2" runat="server">
-                    <ContentTemplate>
-                        <asp:CheckBox TabIndex="134" ID="cbx_p2_activity_otherEquipDesc" Text="Other Equipment Description: " runat="server" AutoPostBack="true" />
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="tbx_p2_activity_otherEquipDesc" EventName="TextChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
-                <asp:TextBox TabIndex="134" ID="tbx_p2_activity_otherEquipDesc" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_activity_otherEquipDesc_OnTextChanged" ></asp:TextBox>
+                <asp:CheckBox TabIndex="134" ID="cbx_p2_activity_otherEquipDesc" Text="Other Equipment Description: " runat="server" />
+                <asp:TextBox TabIndex="134" ID="tbx_p2_activity_otherEquipDesc" runat="server"></asp:TextBox>
             </td></tr>
             <tr><td><asp:CheckBox TabIndex="134" ID="cbx_p2_activity_equipMain" Text="Equipment Maintenance" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="134" ID="cbx_p2_activity_comp" Text="Office Work - Computer" runat="server" /></td></tr>
@@ -543,15 +508,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="135" ID="cbx_p2_activity_spill" Text="Spill Cleanup" runat="server" /></td></tr>
             <tr><td><asp:CheckBox TabIndex="135" ID="cbx_p2_activity_cleaning" Text="Cleaning" runat="server" /></td></tr>
             <tr><td>
-                <asp:UpdatePanel ID="uplActivityOther" runat="server">
-                    <ContentTemplate>
-                        <asp:CheckBox TabIndex="135" ID="cbx_p2_activity_other" Text="Other: " runat="server" AutoPostBack="true" />
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="tbx_p2_activity_other" EventName="TextChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
-                <asp:TextBox TabIndex="135" ID="tbx_p2_activity_other" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_activity_other_OnTextChanged" ></asp:TextBox>
+                <asp:CheckBox TabIndex="135" ID="cbx_p2_activity_other" Text="Other: " runat="server" />
+                <asp:TextBox TabIndex="135" ID="tbx_p2_activity_other" runat="server"></asp:TextBox>
             </td></tr>
         </table>
         
@@ -595,15 +553,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="139" ID="cbx_p2_cause_underEquip" Text="Caught In / Under / Between Equipment" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="139" ID="cbx_p2_cause_hit" Text="Hit / Struck By / Cut by Equipment" runat="server"/></td></tr>
             <tr><td>
-                <asp:UpdatePanel ID="uplCauseOther" runat="server">
-                    <ContentTemplate>
-                        <asp:CheckBox TabIndex="139" ID="cbx_p2_cause_other" Text="Other: " runat="server" AutoPostBack="true" />
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="tbx_p2_cause_other" EventName="TextChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
-                <asp:TextBox TabIndex="139" ID="tbx_p2_cause_other" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_cause_other_OnTextChanged" ></asp:TextBox>
+                <asp:CheckBox TabIndex="139" ID="cbx_p2_cause_other" Text="Other: " runat="server"/>
+                <asp:TextBox TabIndex="139" ID="tbx_p2_cause_other" runat="server"></asp:TextBox>
             </td></tr>
         </table>
     </div>
@@ -625,15 +576,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="141" ID="cbx_p2_cause_aggression_public" Text="Other member of Public" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="141" ID="cbx_p2_cause_aggression_worker" Text="Worker" runat="server"/></td></tr>
             <tr><td>
-                <asp:UpdatePanel ID="uplAgressionOther" runat="server">
-                    <ContentTemplate>
-                       <asp:CheckBox TabIndex="141" ID="cbx_p2_cause_aggression_other" Text="Other: " runat="server" AutoPostBack="true" />
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="tbx_p2_cause_aggression_other" EventName="TextChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
-                <asp:TextBox TabIndex="141" ID="tbx_p2_cause_aggression_other" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_cause_aggression_other_OnTextChanged" ></asp:TextBox>
+                <asp:CheckBox TabIndex="141" ID="cbx_p2_cause_aggression_other" Text="Other: " runat="server"/>
+                <asp:TextBox TabIndex="141" ID="tbx_p2_cause_aggression_other" runat="server"></asp:TextBox>
             </td></tr>
         </table>
     </div>
@@ -668,15 +612,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="143" ID="cbx_p2_factors_notAvailable" Text="Not Available at Point of Use" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="143" ID="cbx_p2_factors_poorDesign" Text="Poor Design" runat="server"/></td></tr>
             <tr><td>
-                <asp:UpdatePanel ID="uplFactorsOtherEquip" runat="server">
-                    <ContentTemplate>
-                        <asp:CheckBox TabIndex="143" ID="cbx_p2_factors_otherEquip" Text="Other: " runat="server" AutoPostBack="true" />
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="tbx_p2_factors_otherEquip" EventName="TextChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
-                <asp:TextBox TabIndex="143" ID="tbx_p2_factors_otherEquip" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherEquip_OnTextChanged" ></asp:TextBox>
+                <asp:CheckBox TabIndex="143" ID="cbx_p2_factors_otherEquip" Text="Other: " runat="server"/>
+                <asp:TextBox TabIndex="143" ID="tbx_p2_factors_otherEquip" runat="server"></asp:TextBox>
             </td></tr>
         </table>
     
@@ -692,15 +629,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="144" ID="cbx_p2_factors_vent" Text="Ventilation Inadequate" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="144" ID="cbx_p2_factors_storage" Text="Improper Storage" runat="server"/></td></tr>
             <tr><td>
-                <asp:UpdatePanel ID="uplOtherEnv" runat="server">
-                    <ContentTemplate>
-                        <asp:CheckBox TabIndex="144" ID="cbx_p2_factors_otherEnv" Text="Other: " runat="server" AutoPostBack="true" />
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="tbx_p2_factors_otherEnv" EventName="TextChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
-                <asp:TextBox TabIndex="144" ID="tbx_p2_factors_otherEnv" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherEnv_OnTextChanged" ></asp:TextBox>
+                <asp:CheckBox TabIndex="144" ID="cbx_p2_factors_otherEnv" Text="Other: " runat="server"/>
+                <asp:TextBox TabIndex="144" ID="tbx_p2_factors_otherEnv" runat="server"></asp:TextBox>
             </td></tr>
         </table>
     </div>
@@ -716,15 +646,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="145" ID="cbx_p2_factors_comm" Text="Communication" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="145" ID="cbx_p2_factors_unaccustomed" Text="Unaccustomed" runat="server"/></td></tr>
             <tr><td>
-                <asp:UpdatePanel ID="uplOtherWorkPractice" runat="server">
-                    <ContentTemplate>
-                        <asp:CheckBox TabIndex="145" ID="cbx_p2_factors_otherWorkPractice" Text="Other: " runat="server" AutoPostBack="true" />
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="tbx_p2_factors_otherWorkPractice" EventName="TextChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
-                <asp:TextBox TabIndex="145" ID="tbx_p2_factors_otherWorkPractice" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherWorkPractice_OnTextChanged" ></asp:TextBox>
+                <asp:CheckBox TabIndex="145" ID="cbx_p2_factors_otherWorkPractice" Text="Other: " runat="server"/>
+                <asp:TextBox TabIndex="145" ID="tbx_p2_factors_otherWorkPractice" runat="server"></asp:TextBox>
             </td></tr>
         </table>
 
@@ -739,15 +662,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="146" ID="cbx_p2_factors_influence" Text="Under Influence of Drugs / Alcohol" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="146" ID="cbx_p2_factors_lang" Text="Language Barriers" runat="server"/></td></tr>
             <tr><td>
-                <asp:UpdatePanel ID="uplOtherPatient" runat="server">
-                    <ContentTemplate>
-                        <asp:CheckBox TabIndex="146" ID="cbx_p2_factors_otherPatient" Text="Other: " runat="server" AutoPostBack="true" />
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="tbx_p2_factors_otherPatient" EventName="TextChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
-                <asp:TextBox TabIndex="146" ID="tbx_p2_factors_otherPatient" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherPatient_OnTextChanged" ></asp:TextBox>
+                <asp:CheckBox TabIndex="146" ID="cbx_p2_factors_otherPatient" Text="Other: " runat="server"/>
+                <asp:TextBox TabIndex="146" ID="tbx_p2_factors_otherPatient" runat="server"></asp:TextBox>
             </td></tr>
         </table>
     </div>
@@ -764,15 +680,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="147" ID="cbx_p2_factors_safe" Text="Lack of Safe Work Procedures" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="147" ID="cbx_p2_factors_perceived" Text="Perceived Time Constraints" runat="server"/></td></tr>
             <tr><td>
-                <asp:UpdatePanel ID="uplOtherOrganizational" runat="server">
-                    <ContentTemplate>
-                        <asp:CheckBox TabIndex="147" ID="cbx_p2_factors_otherOrganizational" Text="Other: " runat="server" AutoPostBack="true" />
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="tbx_p2_factors_otherOrganizational" EventName="TextChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
-                <asp:TextBox TabIndex="147" ID="tbx_p2_factors_otherOrganizational" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherOrganizational_OnTextChanged" ></asp:TextBox>
+                <asp:CheckBox TabIndex="147" ID="cbx_p2_factors_otherOrganizational" Text="Other: " runat="server"/>
+                <asp:TextBox TabIndex="147" ID="tbx_p2_factors_otherOrganizational" runat="server"></asp:TextBox>
             </td></tr>
         </table>
 
@@ -785,15 +694,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             <tr><td><asp:CheckBox TabIndex="148" ID="cbx_p2_factors_preexisting" Text="Pre-existing Injury" runat="server"/></td></tr>
             <tr><td><asp:CheckBox TabIndex="148" ID="cbx_p2_factors_sick" Text="Sick / Medicated" runat="server"/></td></tr>
             <tr><td>
-                <asp:UpdatePanel ID="uplOtherWorker" runat="server">
-                    <ContentTemplate>
-                        <asp:CheckBox TabIndex="148" ID="cbx_p2_factors_otherWorker" Text="Other: " runat="server" AutoPostBack="true" />
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="tbx_p2_factors_otherWorker" EventName="TextChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
-                <asp:TextBox TabIndex="148" ID="tbx_p2_factors_otherWorker" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherWorker_OnTextChanged" ></asp:TextBox>
+                <asp:CheckBox TabIndex="148" ID="cbx_p2_factors_otherWorker" Text="Other: " runat="server"/>
+                <asp:TextBox TabIndex="148" ID="tbx_p2_factors_otherWorker" runat="server"></asp:TextBox>
             </td></tr>
         </table>
     </div>

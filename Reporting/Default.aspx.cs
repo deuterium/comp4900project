@@ -85,12 +85,133 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
     }
 
-    // test
-    protected void tbx_p2_patient_otherSpecify_OnTextChanged(object sender, EventArgs e) {
-        if (!tbx_p2_patient_otherSpecify.Text.Equals(String.Empty)) {
-            cbx_p2_patient_other.Checked = true;
+    #region Toggle Other Textbox and Checkbox
+    private void toggleOther(TextBox tbx, CheckBox cbx) {
+        if (!tbx.Text.Equals(String.Empty)) {
+            cbx.Checked = true;
+            return;
         }
+        cbx.Checked = false;
     }
+
+    /// <summary>
+    /// Calls toggleOther() for the textbox and it's corresponding checkbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The text changed event.</param>
+    protected void tbx_p2_patient_otherSpecify_OnTextChanged(object sender, EventArgs e) {
+        toggleOther(tbx_p2_patient_otherSpecify, cbx_p2_patient_other);
+    }
+    /// <summary>
+    /// Calls toggleOther() for the textbox and it's corresponding checkbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The text changed event.</param>
+    protected void tbx_p2_activity_otherPatientCare_OnTextChanged(object sender, EventArgs e) {
+        toggleOther(tbx_p2_activity_otherPatientCare, cbx_p2_activity_otherPatientCare);
+    }
+     
+    
+    
+    
+    
+    /// <summary>
+    /// Calls toggleOther() for the textbox and it's corresponding checkbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The text changed event.</param>
+    protected void tbx_p2_activity_otherMat_OnTextChanged(object sender, EventArgs e) {
+        toggleOther(tbx_p2_activity_otherMat, cbx_p2_activity_otherMat);
+    }
+    /// <summary>
+    /// Calls toggleOther() for the textbox and it's corresponding checkbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The text changed event.</param>
+    protected void tbx_p2_activity_otherEquip_OnTextChanged(object sender, EventArgs e) {
+        toggleOther(tbx_p2_activity_otherEquip, cbx_p2_activity_otherEquip);
+    }
+    /// <summary>
+    /// Calls toggleOther() for the textbox and it's corresponding checkbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The text changed event.</param>
+    protected void tbx_p2_activity_otherEquipDesc_OnTextChanged(object sender, EventArgs e) {
+        toggleOther(tbx_p2_activity_otherEquipDesc, cbx_p2_activity_otherEquipDesc);
+    }
+    /// <summary>
+    /// Calls toggleOther() for the textbox and it's corresponding checkbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The text changed event.</param>
+    protected void tbx_p2_activity_other_OnTextChanged(object sender, EventArgs e) {
+        toggleOther(tbx_p2_activity_other, cbx_p2_activity_other);
+    }
+    /// <summary>
+    /// Calls toggleOther() for the textbox and it's corresponding checkbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The text changed event.</param>
+    protected void tbx_p2_cause_other_OnTextChanged(object sender, EventArgs e) {
+        toggleOther(tbx_p2_cause_other, cbx_p2_cause_other);
+    }
+    /// <summary>
+    /// Calls toggleOther() for the textbox and it's corresponding checkbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The text changed event.</param>
+    protected void tbx_p2_activity_other_OnTextChanged(object sender, EventArgs e) {
+        toggleOther(tbx_p2_activity_other, cbx_p2_activity_other);
+    }
+    /// <summary>
+    /// Calls toggleOther() for the textbox and it's corresponding checkbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The text changed event.</param>
+    protected void tbx_p2_cause_aggression_other_OnTextChanged(object sender, EventArgs e) {
+        toggleOther(tbx_p2_cause_aggression_other, cbx_p2_cause_aggression_other);
+    }
+    /// <summary>
+    /// Calls toggleOther() for the textbox and it's corresponding checkbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The text changed event.</param>
+    protected void tbx_p2_factors_otherEquip_OnTextChanged(object sender, EventArgs e) {
+        toggleOther(tbx_p2_factors_otherEquip, cbx_p2_factors_otherEquip);
+    }
+    /// <summary>
+    /// Calls toggleOther() for the textbox and it's corresponding checkbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The text changed event.</param>
+    protected void tbx_p2_factors_otherEnv_OnTextChanged(object sender, EventArgs e) {
+        toggleOther(tbx_p2_factors_otherEnv, cbx_p2_factors_otherEnv);
+    }
+    /// <summary>
+    /// Calls toggleOther() for the textbox and it's corresponding checkbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The text changed event.</param>
+    protected void tbx_p2_factors_otherWorkPractice_OnTextChanged(object sender, EventArgs e) {
+        toggleOther(tbx_p2_factors_otherWorkPractice, cbx_p2_factors_otherWorkPractice);
+    }
+    /// <summary>
+    /// Calls toggleOther() for the textbox and it's corresponding checkbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The text changed event.</param>
+    protected void tbx_p2_factors_otherPatient_OnTextChanged(object sender, EventArgs e) {
+        toggleOther(tbx_p2_factors_otherPatient, cbx_p2_factors_otherPatient);
+    }
+    /// <summary>
+    /// Calls toggleOther() for the textbox and it's corresponding checkbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The text changed event.</param>
+    protected void tbx_p2_factors_otherOrganizational_OnTextChanged(object sender, EventArgs e) {
+        toggleOther(tbx_p2_factors_otherOrganizational, cbx_p2_factors_otherOrganizational);
+    }
+    #endregion Toggle Other Textbox and Checkbox
 
     #region Employee Info Related
     #region Drop Down Lists
@@ -643,7 +764,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
             p2_activity_otherMat = convertTextBox(tbx_p2_activity_otherMat),
             p2_activity_driving = convertCheckbox(cbx_p2_activity_driving),
             p2_activity_otherEquip = convertTextBox(tbx_p2_activity_otherEquip),
-            p2_activity_otherEquipDesc = convertCheckbox(cbx_p2_activity_otherEquipDesc),
+            p2_activity_otherEquipDesc = convertTextBox(tbx_p2_activity_otherEquipDesc),
             p2_activity_equipMain = convertCheckbox(cbx_p2_activity_equipMain),
             p2_activity_comp = convertCheckbox(cbx_p2_activity_comp),
             p2_activity_nonComp = convertCheckbox(cbx_p2_activity_nonComp),
@@ -1109,7 +1230,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
         cbx_p2_activity_sharpsDisposal.Checked = convertToCheckbox(report.p2_activity_sharpsDisposal);
         cbx_p2_activity_otherSharps.Checked = convertToCheckbox(report.p2_activity_otherSharps);
 
-        // error 
         tbx_p2_activity_material.Text = convertToTextbox(report.p2_activity_material);
         cbx_p2_activity_lift.Checked = convertToCheckbox(report.p2_activity_lift);
         cbx_p2_activity_push.Checked = convertToCheckbox(report.p2_activity_push);
@@ -1117,7 +1237,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
         tbx_p2_activity_otherMat.Text = convertToTextbox(report.p2_activity_otherMat);
         cbx_p2_activity_driving.Checked = convertToCheckbox(report.p2_activity_driving);
         tbx_p2_activity_otherEquip.Text = convertToTextbox(report.p2_activity_otherEquip);
-        cbx_p2_activity_otherEquipDesc.Checked = convertToCheckbox(report.p2_activity_otherEquipDesc);
+        cbx_p2_activity_otherEquipDesc.Text = convertToTextbox(report.p2_activity_otherEquipDesc);
         cbx_p2_activity_equipMain.Checked = convertToCheckbox(report.p2_activity_equipMain);
         cbx_p2_activity_comp.Checked = convertToCheckbox(report.p2_activity_comp);
         cbx_p2_activity_nonComp.Checked = convertToCheckbox(report.p2_activity_nonComp);
