@@ -59,7 +59,8 @@ public partial class Summary_Default : System.Web.UI.Page
                 userRole = 0;
                 break;
             case "Lab Manager":
-                departmentRow.Visible = false;
+                departmentRowLab.Visible = false;
+                departmentRowOffice.Visible = false;
                 userRole = 1;
                 break;
             default:
@@ -218,38 +219,60 @@ public partial class Summary_Default : System.Web.UI.Page
         int selectedLabInsNo = Convert.ToInt32(row.Cells[1].Text);
 
         grvLabInspectionResults.DataSource = ctx.LabInspections
-                                  .Join(
-                                     ctx.LabInspectionDetails,
-                                     LI => LI.labInsNo,
-                                     LID => LID.labInsNo,
-                                     (LI, LID) =>
-                                        new
-                                        {
-                                            LI = LI,
-                                            LID = LID
-                                        }
-                                  )
-                                  .Join(
-                                     ctx.LabInspectionItems,
-                                     temp0 => temp0.LID.labItemNo,
-                                     LII => (Int32?)(LII.labInsItemNo),
-                                     (temp0, LII) =>
-                                        new
-                                        {
-                                            temp0 = temp0,
-                                            LII = LII
-                                        }
-                                  )
-                                  .Where(temp1 => (temp1.temp0.LI.labInsNo == selectedLabInsNo))
-                                  .Select(
-                                     temp1 =>
-                                        new
-                                        {
-                                            labInsItem = temp1.LII.labInsItem,
-                                            checkbox = temp1.temp0.LID.checkbox,
-                                            comments = temp1.temp0.LID.comments
-                                        }
-                                  );
+                                                       .Join(
+                                                          ctx.LabInspectionDetails,
+                                                          LI => LI.labInsNo,
+                                                          LID => LID.labInsNo,
+                                                          (LI, LID) =>
+                                                             new
+                                                             {
+                                                                 LI = LI,
+                                                                 LID = LID
+                                                             }
+                                                       )
+                                                       .Join(
+                                                          ctx.LabInspectionItems,
+                                                          temp0 => temp0.LID.labItemNo,
+                                                          LII => (Int32?)(LII.labInsItemNo),
+                                                          (temp0, LII) =>
+                                                             new
+                                                             {
+                                                                 temp0 = temp0,
+                                                                 LII = LII
+                                                             }
+                                                       )
+                                                       .GroupJoin(
+                                                          ctx.LabFollowUps,
+                                                          temp1 => (Int32?)(temp1.LII.labInsItemNo),
+                                                          LFU => LFU.labInsItemNo,
+                                                          (temp1, OJ) =>
+                                                             new
+                                                             {
+                                                                 temp1 = temp1,
+                                                                 OJ = OJ
+                                                             }
+                                                       )
+                                                       .Where(temp2 => (temp2.temp1.temp0.LI.labInsNo == selectedLabInsNo))
+                                                       .SelectMany(
+                                                          temp2 => temp2.OJ.DefaultIfEmpty(),
+                                                          (temp2, LFU) =>
+                                                             new
+                                                             {
+                                                                 temp2 = temp2,
+                                                                 LFU = LFU
+                                                             }
+                                                       )
+                                                       .Where(temp3 => (temp3.LFU.labInsNo == selectedLabInsNo))
+                                                       .Select(
+                                                          temp3 =>
+                                                             new
+                                                             {
+                                                                 labInsItem = temp3.temp2.temp1.LII.labInsItem,
+                                                                 checkbox = temp3.temp2.temp1.temp0.LID.checkbox,
+                                                                 comments = temp3.temp2.temp1.temp0.LID.comments,
+                                                                 comment = temp3.LFU.comment
+                                                             }
+                                                       );
 
         grvLabInspectionResults.DataBind();
 
@@ -387,38 +410,52 @@ public partial class Summary_Default : System.Web.UI.Page
         int selectedOfficeInsNo = Convert.ToInt32(row.Cells[1].Text);
 
         grvOfficeInspectionResults.DataSource = ctx.OfficeInspections
-                                                       .Join(
-                                                          ctx.OfficeInspectionDetails,
-                                                          OI => (Int32?)(OI.officeInsNo),
-                                                          OID => OID.officeInsNo,
-                                                          (OI, OID) =>
-                                                             new
-                                                             {
-                                                                 OI = OI,
-                                                                 OID = OID
-                                                             }
-                                                       )
-                                                       .Join(
-                                                          ctx.OfficeInspectionItems,
-                                                          temp0 => temp0.OID.officeInsItemNo,
-                                                          OII => (Int32?)(OII.officeInsItemNo),
-                                                          (temp0, OII) =>
-                                                             new
-                                                             {
-                                                                 temp0 = temp0,
-                                                                 OII = OII
-                                                             }
-                                                       )
-                                                       .Where(temp1 => (temp1.temp0.OI.officeInsNo == selectedOfficeInsNo))
-                                                       .Select(
-                                                          temp1 =>
-                                                             new
-                                                             {
-                                                                 officeInsName = temp1.OII.officeInsName,
-                                                                 checkbox = temp1.temp0.OID.checkbox,
-                                                                 comments = temp1.temp0.OID.comments
-                                                             }
-                                                       );
+                                                            .Join(
+                                                                ctx.OfficeInspectionDetails,
+                                                                OI => (Int32?)(OI.officeInsNo),
+                                                                OID => OID.officeInsNo,
+                                                                (OI, OID) =>
+                                                                    new
+                                                                    {
+                                                                        OI = OI,
+                                                                        OID = OID
+                                                                    }
+                                                            )
+                                                            .Join(
+                                                                ctx.OfficeInspectionItems,
+                                                                temp0 => temp0.OID.officeInsItemNo,
+                                                                OII => (Int32?)(OII.officeInsItemNo),
+                                                                (temp0, OII) =>
+                                                                    new
+                                                                    {
+                                                                        temp0 = temp0,
+                                                                        OII = OII
+                                                                    }
+                                                            )
+                                                            .GroupJoin(
+                                                                ctx.OfficeFollowUps,
+                                                                temp1 => (Int32?)(temp1.OII.officeInsItemNo),
+                                                                OFU => OFU.officeInsItemNo,
+                                                                (temp1, OJ) =>
+                                                                    new
+                                                                    {
+                                                                        temp1 = temp1,
+                                                                        OJ = OJ
+                                                                    }
+                                                            )
+                                                            .Where(temp2 => (temp2.temp1.temp0.OI.officeInsNo == selectedOfficeInsNo))
+                                                            .SelectMany(
+                                                                temp2 => temp2.OJ.DefaultIfEmpty(),
+                                                                (temp2, OFU) =>
+                                                                    new
+                                                                    {
+                                                                        officeInsName = temp2.temp1.OII.officeInsName,
+                                                                        checkbox = temp2.temp1.temp0.OID.checkbox,
+                                                                        comments = temp2.temp1.temp0.OI.comments,
+                                                                        comment = OFU.comment
+                                                                    }
+                                                            );
+
 
         grvOfficeInspectionResults.DataBind();
 
@@ -571,11 +608,11 @@ public partial class Summary_Default : System.Web.UI.Page
         Response.Redirect("Statistics.aspx");
     }
 
-    // Incidient Code 
+    #region Incident Code
 
         private void populateTrackerGridView() {
-        gdvTracker.DataSource = ctx.Incidents;
-        gdvTracker.DataBind();
+            gdvTracker.DataSource = ctx.Incidents;
+            gdvTracker.DataBind();
     }
 
     #region Toggle Other TextBox and CheckBox
@@ -2205,12 +2242,9 @@ public partial class Summary_Default : System.Web.UI.Page
 
         if (e.CommandName.Equals("ViewReport"))
         {
-
-
-
             Popup_Overlay("View Report Code.", SuccessColour);
-
         }
 
     }
+    #endregion
 }

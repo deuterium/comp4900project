@@ -89,7 +89,7 @@ Summary Page:
         <h3 id="labInspectionLookUp"><asp:Image ID="imgExpandCollapseLabInspectionLookUp" runat="server" /> Lab Inspection:</h3>
         <asp:Panel ID="pnlC" CssClass="panel" runat="server">
             <table>
-            <tr id="departmentRow" runat="server">
+            <tr id="departmentRowLab" runat="server">
                 <td>
                     Department: 
                 </td>
@@ -97,9 +97,6 @@ Summary Page:
                     <asp:DropDownList Width="155px" runat="server" ID="ddlLabDepartment" AppendDataBoundItems="true">
                         <asp:ListItem Text="Select Department" Value="none" />
                     </asp:DropDownList>
-                </td>
-                <td>
-                    &nbsp&nbsp&nbsp&nbsp&nbsp
                 </td>
             </tr>
             <tr>
@@ -168,6 +165,9 @@ Summary Page:
                     <asp:BoundField DataField="comments" HeaderText="Comment" 
                         SortExpression="comments" />
 
+                    <asp:BoundField DataField="comment" HeaderText="Corrective Action"
+                        SortExpression="comment" />
+
                 </Columns>
 
             </asp:GridView>
@@ -176,7 +176,7 @@ Summary Page:
         <h3 id="officeInspectionLookUp"><asp:Image ID="imgExpandCollapseOfficeInspectionLookUp" runat="server" /> Office Inspection:</h3>
         <asp:Panel ID="pnlD" CssClass="panel" runat="server">
                     <table>
-            <tr>
+            <tr id="departmentRowOffice" runat="server">
                 <td>
                     Department: 
                 </td>
@@ -239,6 +239,9 @@ Summary Page:
                     <asp:BoundField DataField="comments" HeaderText="Comment" 
                         SortExpression="comments" />
 
+                    <asp:BoundField DataField="comment" HeaderText="Corrective Action"
+                        SortExpression="comment" />
+
                 </Columns>
 
             </asp:GridView>
@@ -282,9 +285,8 @@ Summary Page:
     </asp:Panel>
 
     <h3 id="incident"><asp:Image ID="imgExpandCollapseIncident" runat="server" /> Incident Lookup:</h3>
-<h3 id="incidentEmployee">Employee Information</h3>
 <asp:Panel ID="pnlF" CssClass="panel" runat="server">
-<asp:GridView ID="gdvTracker" runat="server" AutoGenerateColumns="False" 
+<asp:GridView ID="gdvTracker" Width="800px" runat="server" AutoGenerateColumns="False" 
     OnSelectedIndexChanged="gdvTracker_SelectedIndexChanged" OnRowCommand="gdvTracker_RowCommand" >
     <Columns>
         <asp:TemplateField HeaderText="Incident No.">
@@ -300,9 +302,31 @@ Summary Page:
                     Text="View Report" />
             </ItemTemplate>
         </asp:TemplateField>
+        <asp:TemplateField HeaderText="Department">
+            <ItemTemplate>
+                <asp:Label ID="lblDepartment" runat="server" Text='<%# Bind("Employee.deptName") %>'></asp:Label>
+            </ItemTemplate>
+        </asp:TemplateField>
+        <asp:TemplateField HeaderText="Date of Incident">
+            <ItemTemplate>
+                <asp:Label ID="lblDateOfIncident" runat="server" Text='<%# Eval("p1_dateOfIncident", "{0:MM/dd/yyyy}") %>'></asp:Label>
+            </ItemTemplate>
+        </asp:TemplateField>
+        <asp:TemplateField HeaderText="Submitter">
+            <ItemTemplate>
+                <asp:Label ID="lblSubmitter" runat="server" Text='<%# Bind("reportSubmitter") %>'></asp:Label>
+            </ItemTemplate>
+        </asp:TemplateField>
+        <asp:TemplateField HeaderText="Employee Name">
+            <ItemTemplate>
+                <asp:Label ID="lblFEmployee" runat="server" Text='<%# Eval("Employee.fname") %>'></asp:Label>
+                <asp:Label ID="lblLEmployee" runat="server" Text='<%# Eval("Employee.lname") %>'></asp:Label>
+            </ItemTemplate>
+        </asp:TemplateField>
     </Columns>
     <EmptyDataTemplate>No incident reports found.</EmptyDataTemplate>
 </asp:GridView>
+<h3 id="incidentEmployee">Employee Information</h3>
 <asp:Panel ID="pnlEmployeeInfo" CssClass="panel" runat="server">
     <div id="divEmpInfoLeftPanel" >
         <table>
