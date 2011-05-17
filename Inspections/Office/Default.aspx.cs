@@ -50,6 +50,7 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
         #region Page Validation
 
         //Validates the various sections of the page to ensure the data is input correctly.
+        Page.Validate("vgpOfficeA");
         Page.Validate("vgpOfficeB");
         Page.Validate("vgpOfficeC");
         Page.Validate("vgpOfficeD");

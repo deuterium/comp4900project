@@ -44,13 +44,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
     };
     #endregion class variables
 
-
-
-    // TESTING!
-    public String incidentReportId { get; set; }
-
-
-
     /// <summary>
     /// Sets up the dynamic elements when the page loads for the first time.
     /// Populates the Employer, Position, and Department drop down lists.
@@ -555,15 +548,17 @@ public partial class Reporting_Default : System.Web.UI.Page {
             return null;
         }
 
-        DateTime formStartDate = Convert.ToDateTime(tbxStartDate.Text);
-        DateTime formEndDate = Convert.ToDateTime(tbxEndDate.Text);
+        if (!tbxStartDate.Text.Equals(String.Empty)) {
+            emp.startDate = Convert.ToDateTime(tbxStartDate.Text);
+        }
+        if (!tbxEndDate.Text.Equals(String.Empty)) {
+            emp.endDate = Convert.ToDateTime(tbxEndDate.Text);
+        }
 
         emp.fname = tbxFirstName.Text;
         emp.lname = tbxLastName.Text;
         emp.room = tbxRoom.Text;
         emp.supervisor = tbxSupervisor.Text;
-        emp.startDate = formStartDate;
-        emp.endDate = formEndDate;
 
         #region position
         if (ddlPositions.SelectedValue.Equals(otherOption)) {
@@ -590,15 +585,15 @@ public partial class Reporting_Default : System.Web.UI.Page {
         #endregion employer
 
         #region department
-        //if (ddlDepartments.SelectedValue.Equals(otherOption)) {
-        //    emp.deptName = tbxDepartment.Text;
-        //}
-        //else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
-        //    emp.deptName = null;
-        //}
-        //else {
-        //    emp.deptName = ddlDepartments.SelectedValue;
-        //}
+        if (ddlDepartments.SelectedValue.Equals(otherOption)) {
+            emp.deptName = tbxDepartment.Text;
+        }
+        else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
+            emp.deptName = null;
+        }
+        else {
+            emp.deptName = ddlDepartments.SelectedValue;
+        }
         #endregion department
 
         try {
@@ -1666,21 +1661,15 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
     #endregion Filter Report
 
-    String selection = "";
-
-    protected void gdvTracker_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        incidentReportId = gdvTracker.SelectedRow.Cells[1].Text;
-        selection = "Incident";
-    }
-
     protected void gdvTracker_RowCommand(object sender, GridViewCommandEventArgs e) {
         switch (e.CommandName) {
             case "RowViewReport":
-                // Retrieve the row index stored in the CommandArgument property.
+                // Get the row that called the event
                 int index = Convert.ToInt32(e.CommandArgument);
-                // Retrieve the row that contains the button from the Rows collection.
                 GridViewRow row = gdvTracker.Rows[index];
+                // Get the text of the label holding the Incident No
+                String incidentNo = ((Label)row.FindControl("lblIncidentNo")).Text;
+                Response.Redirect("~/Reporting/ViewIncidentReport.aspx?IncidentNo=" + incidentNo);
                 break;
             case "RowViewEmployees":
                 // code here
@@ -1697,14 +1686,5 @@ public partial class Reporting_Default : System.Web.UI.Page {
             default:
                 throw new System.SystemException("Default case of switch should never be reached");
         }
-
-        if (e.CommandName.Equals("ViewReport")) {
-            
-            
-
-            Popup_Overlay("View Report Code.", SuccessColour);
-            
-        }
-
     }
 }

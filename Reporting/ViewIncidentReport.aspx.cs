@@ -11,7 +11,7 @@ using BCCAModel;
 public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     #region Class Variables
     // The background color of disabled controls.
-    public Color DisabledColor = ColorTranslator.FromHtml("#E6E6E6");
+    public Color DisabledColor = ColorTranslator.FromHtml("#FFFFFF");
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
     // Text colour for failure messages
@@ -38,14 +38,14 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         // Only do the initial set up the first time the page loads (and not on post-backs).
         if (!IsPostBack) {
             pnlPop.Style.Value = "display:none;";
-            loadReport(2);
-            //try {
-            //    int id = PreviousPage.incidentReportId;
-            //}
-            //catch (Exception ex) {
-            //    Response.Redirect("Default.aspx");
-            //}
-
+            String reqIncidentNo = Request.QueryString["IncidentNo"];
+            try {
+                int incidentNo = Convert.ToInt32(reqIncidentNo);
+                loadReport(incidentNo);
+            }
+            catch (FormatException ex) {
+                // redirect to error page
+            }
             disableAllControls();
         }
     }
@@ -90,7 +90,8 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// </summary>
     /// <param name="cbx">The TextBox to disable.</param>
     private void disableTextBox(TextBox tbx) {
-         tbx.Enabled = false;
+         tbx.ReadOnly = true;
+         tbx.ForeColor = Color.Black;
          tbx.BackColor = DisabledColor;
     }
     /// <summary>
@@ -436,20 +437,11 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         disableWatermark(twePatientTargetDate);
         disableWatermark(twePatientCompletedDate);        
         #endregion watermarks
+
     }
     #endregion Disable Form
 
-
     #region Load Incident Report
-    /// <summary>
-    /// Calls the getReport method, which load an Incident report from the database into the form.
-    /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The button click event.</param>
-    protected void btnLoadReport_Click(object sender, EventArgs e) {
-        loadReport(2);
-    }
-
     /// <summary>
     /// Loads an Incident report (with the specified ID) from the database into the form.
     /// </summary>
