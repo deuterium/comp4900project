@@ -141,16 +141,16 @@ public partial class Followup_Followup : System.Web.UI.Page
 
     
     protected void Submit_Lab_Followup() {
-        foreach (GridViewRow r in gvwLabFollowup.Rows)
-        {
-            ctx.AddToLabFollowUps(new LabFollowUp() 
-            { 
-                labInsNo = Convert.ToInt32?(PreviousPage.followupNo)
+        //foreach (GridViewRow r in gvwLabFollowup.Rows)
+        //{
+        //    ctx.AddToLabFollowUps(new LabFollowUp() 
+        //    { 
+        //        labInsNo = Convert.ToInt32?(PreviousPage.followupNo)
                 
-            });
-            string test1 = r.Cells[0].Text;
-            string test = ((TextBox)r.Cells[3].FindControl("tbCorrectiveAction")).Text;
-        }
+        //    });
+        //    string test1 = r.Cells[0].Text;
+        //    string test = ((TextBox)r.Cells[3].FindControl("tbCorrectiveAction")).Text;
+        //}
     }
     protected void Submit_Office_Followup() { }
     #endregion

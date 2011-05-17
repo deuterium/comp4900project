@@ -9,6 +9,11 @@ using AjaxControlToolkit;
 using System.Data.Objects;
 using System.Drawing;
 
+/**
+ * TO DO:
+ * Documentation
+ */
+
 public partial class Tracking_Default : System.Web.UI.Page {
     #region Class Variables
     // The background color of disabled controls.
@@ -83,10 +88,15 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// <param name="e">The button click event.</param>
     protected void btnFilterReport_Click(object sender, EventArgs e) {
         filterReport(gdvTracker);
-        collapseAllPanels();
+        collapseAllFilterPanels();
+        pnlResultsContainer.Visible = true;
+        cpeResults.Collapsed = false;
+        cpeResults.ClientState = "false";
     }
 
-    private void collapseAllPanels() {
+    private void collapseAllFilterPanels() {
+        cpeFilters.Collapsed = true;
+        cpeFilters.ClientState = "true";
         cpeA.Collapsed = true;
         cpeA.ClientState = "true";
         cpeB.Collapsed = true;
@@ -480,18 +490,27 @@ public partial class Tracking_Default : System.Web.UI.Page {
         // Get the row that called the event
         int index = Convert.ToInt32(e.CommandArgument);
         GridViewRow row = gdvTracker.Rows[index];
-        // Get the text of the label holding the Incident No
-        String incidentNo = ((Label)row.FindControl("lblIncidentNo")).Text;
+        // Get the Incident No
+        String strIncidentNo = ((Label)row.FindControl("lblIncidentNo")).Text;
+        int incidentNo = -1;
+        try {
+            incidentNo = Convert.ToInt32(strIncidentNo);
+        }
+        catch (FormatException ex) {
+            Popup_Overlay("An unexpected error has occured. Please refresh the page and try again.", FailColour);
+            return;
+        }
 
         // Find out which button was clicked, take appropriate action
         switch (e.CommandName) {
             case "RowViewReport":
-                Response.Redirect("~/Reporting/ViewIncidentReport.aspx?IncidentNo=" + incidentNo);
+                Response.Redirect("~/Reporting/ViewIncidentReport.aspx?IncidentNo=" + strIncidentNo);
                 break;
-            case "RowViewEmployees":
+            case "RowViewEmployee":
+                loadEmployee(getEmployeeFromIncidentId(incidentNo));
                 break;
             case "RowViewCourses":
-                getCourses(incidentNo);
+                loadCourses(getEmployeeFromIncidentId(incidentNo));
                 break;
             case "RowViewLabInspections":
                 // code here
@@ -504,25 +523,19 @@ public partial class Tracking_Default : System.Web.UI.Page {
         }
     }
 
+    private Employee getEmployeeFromIncidentId(int incidentNo) {
+        Employee emp = ctx.Incidents
+                        .Where(i => i.incidentNo.Equals(incidentNo))
+                        .Select(i => i.Employee).FirstOrDefault();
+        return emp;
+    }
 
     #region Look Up Courses
 
-    private void getCourses(String incidentNo) {
-        try {
-            int id = Convert.ToInt32(incidentNo);
-            Employee emp = ctx.Incidents
-                           .Where(i => i.incidentNo.Equals(id))
-                           .Select(i => i.Employee).FirstOrDefault();
-            if (emp != null) {
-                getCourses(emp);
-            }
+    private void loadCourses(Employee employee) {
+        if (employee == null) {
+            return;
         }
-        catch (FormatException ex) {
-            // redirect to error page
-        }
-    }
-
-    private void getCourses(Employee employee) {
         var qry = ctx.TrainingTakens
                   .Select(tt => new {
                       courseName = tt.TrainingCours.trainingName,
@@ -534,15 +547,20 @@ public partial class Tracking_Default : System.Web.UI.Page {
         gdvEmpCourses.DataSource = qry;
         gdvEmpCourses.DataBind();
         foreach (GridViewRow row in gdvEmpCourses.Rows) {
-            String expirationDateStr = ((Label)row.FindControl("lblCourseStatus")).Text;
-            DateTime expirationDate = Convert.ToDateTime(expirationDateStr);
-            if (expirationDate >= DateTime.Now) {
-                row.ForeColor = Color.Red;
+            String strExpirationDate = ((Label)row.FindControl("lblExpirationDate")).Text;
+            if ((strExpirationDate != null) && (!strExpirationDate.Equals(String.Empty))) {
+                DateTime expirationDate = Convert.ToDateTime(strExpirationDate);
+                if (expirationDate >= DateTime.Now) {
+                    row.ForeColor = Color.Red;
+                }
             }
         }
+        pnlEmpCoursesContainer.Visible = true;
+        cpeEmployeeCourses.Collapsed = false;
+        cpeEmployeeCourses.ClientState = "false";
     }
 
-    // not used atm
+    // not used atm, will be?
     private void getCourses2(Employee employee) {
         var q = from x in ctx.TrainingCourses
                 select x;
@@ -597,4 +615,43 @@ public partial class Tracking_Default : System.Web.UI.Page {
     }
     #endregion Look Up Courses
 
+    #region Look Up Employee Info
+    private void loadEmployee(Employee emp) {
+        if (emp != null) {
+            lblId.Text = emp.empNo.ToString();
+            lblFirstName.Text = emp.fname.ToString();
+            lblLastName.Text = emp.lname.ToString();
+            lblPosition.Text = convertToTextBoxValue(emp.position);
+            lblEmployer.Text = convertToTextBoxValue(emp.employer);
+            lblDepartment.Text = convertToTextBoxValue(emp.deptName);
+            lblSupervisor.Text = convertToTextBoxValue(emp.supervisor);
+            lblRoom.Text = convertToTextBoxValue(emp.room);
+
+            if (emp.startDate != null) {
+                lblStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy");
+            }
+
+            if (emp.endDate != null) {
+                lblEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy");
+            }
+        }
+        pnlEmpInfoContainer.Visible = true;
+        cpeEmpInfo.Collapsed = false;
+        cpeEmpInfo.ClientState = "false";
+    }
+
+    /// <summary>
+    /// If a string is NULL, returns an empty string.
+    /// Otherwise, returns the value.
+    /// This is so textboxes display an empty string instead of NULL.
+    /// </summary>
+    /// <param name="value">The String to convert.</param>
+    /// <returns>Empty string if null, otherwise returns the value.</returns>
+    private String convertToTextBoxValue(String value) {
+        if (value == null) {
+            return String.Empty;
+        }
+        return value;
+    }
+    #endregion Look Up Employee Info
 }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
