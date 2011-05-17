@@ -2,6 +2,7 @@
 using System.Linq;
 using BCCAModel;
 using System.Web.UI.WebControls;
+using System.Drawing;
 
 /// <summary>
 ///Followup/Followup.aspx.cs
@@ -21,14 +22,16 @@ public partial class Followup_Followup : System.Web.UI.Page
         {
             try
             {
-                switch (PreviousPage.followupType)
+                tbTypeHidden.Text = PreviousPage.followupType;
+                tbNoHidden.Text = PreviousPage.followupNo;
+                switch (tbTypeHidden.Text)
                 {
                     case "Incident":
                         divFollowupIncidentReport.Visible = true;
                         break;
                     case "Lab":
                         divLabOfficeFollowupReport.Visible = true;
-                        Populate_Lab_Followup(Convert.ToInt32(PreviousPage.followupNo));
+                        Populate_Lab_Followup(Convert.ToInt32(tbNoHidden.Text));
                         break;
                     case "Office":
                         divLabOfficeFollowupReport.Visible = true;
@@ -45,6 +48,25 @@ public partial class Followup_Followup : System.Web.UI.Page
                 Response.Redirect("Default.aspx");
             }
         }
+    }
+
+    /// <summary>
+    /// Calls the show method of the modal popup AJAX panel.
+    /// Shows a confirmation page overlay with a message.
+    /// </summary>
+    /// <param name="msg">Message displayed on confirmation overlay</param>
+    /// <param name="color">Color for the message to be</param>
+    protected void Popup_Overlay(string msg, Color color)
+    {
+        lblPnlPop.Text = msg;
+        lblPnlPop.ForeColor = color;
+        pnlPop.Style.Value = "display:block;";
+        mpePop.Show();
+    }
+
+    protected void btnPnlPopClose_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Default.aspx");
     }
 
     #region Incident Followup
@@ -126,7 +148,7 @@ public partial class Followup_Followup : System.Web.UI.Page
 
     protected void btnLabOfficeFollowupSubmit_Click(object sender, EventArgs e)
     {
-        switch (PreviousPage.followupType)
+        switch (tbTypeHidden.Text)
         {
             case "Lab":
                 Submit_Lab_Followup();
@@ -139,21 +161,51 @@ public partial class Followup_Followup : System.Web.UI.Page
         }
     }
 
-    
-    protected void Submit_Lab_Followup() {
+
+    protected void Submit_Lab_Followup()
+    {
+        int insNo = Convert.ToInt32(tbNoHidden.Text);
         foreach (GridViewRow r in gvwLabFollowup.Rows)
         {
-            ctx.AddToLabFollowUps(new LabFollowUp() 
-            { 
-                labInsNo = Convert.ToInt32?(PreviousPage.followupNo)
-                
+            //Decodes &codes;
+            string insItem = Server.HtmlDecode(r.Cells[0].Text);
+
+            int insItemNo = ctx.LabInspectionItems
+                    .Where(lii => lii.labInsItem == insItem)
+                    .Select(lii => lii.labInsItemNo).First();
+            string insComment = ((TextBox)r.Cells[3].FindControl("tbCorrectiveAction")).Text;
+            ctx.AddToLabFollowUps(new LabFollowUp()
+            {
+                labInsNo = insNo,
+                labInsItemNo = insItemNo,
+                comment = insComment
             });
-            string test1 = r.Cells[0].Text;
-            string test = ((TextBox)r.Cells[3].FindControl("tbCorrectiveAction")).Text;
         }
+
+        LabInspection labIns = ctx.LabInspections
+            .Where(li => li.labInsNo == insNo)
+            .Select(li => li).First();
+        labIns.followupComment = tbLabOfficeFollowupComments.Text;
+        labIns.followupSubmitter = tbSubmittedby.Text;
+        labIns.followupDate = Convert.ToDateTime(tbFollowUpDate.Text);
+        labIns.followUpStatus = "2";
+
+        try
+        {
+            ctx.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            Popup_Overlay(ex.Message, Color.Red);
+            return;
+        }
+        Popup_Overlay("Follow up Submitted.", Color.Green);
     }
-    protected void Submit_Office_Followup() { }
+    protected void Submit_Office_Followup()
+    {
+
+    }
     #endregion
 
-    
+
 }
