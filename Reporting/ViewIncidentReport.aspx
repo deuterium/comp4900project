@@ -150,7 +150,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <td>Start date:</td>
                 <td>
                     <asp:TextBox TabIndex="109" ID="tbxStartDate" runat="server" MaxLength="10" ></asp:TextBox>
-                    <asp:TextBoxWatermarkExtender ID="twxStartDate" runat="server" TargetControlID="tbxStartDate"
+                    <asp:TextBoxWatermarkExtender ID="tweStartDate" runat="server" TargetControlID="tbxStartDate"
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="M/d/yyyy" >
                     </asp:CalendarExtender>
@@ -163,7 +163,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <td>End date:</td>
                 <td>
                     <asp:TextBox TabIndex="110" ID="tbxEndDate" runat="server" MaxLength="10" ></asp:TextBox>
-                    <asp:TextBoxWatermarkExtender ID="twxEndDate" runat="server" TargetControlID="tbxEndDate"
+                    <asp:TextBoxWatermarkExtender ID="tweEndDate" runat="server" TargetControlID="tbxEndDate"
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="M/d/yyyy" >
                     </asp:CalendarExtender>
@@ -324,13 +324,6 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             </tr>
         </table>
     </div>
-
-    <asp:Button TabIndex="123" ID="btnCheckPanelA" runat="server" Text="Check" ValidationGroup="vgpPanelA" />
-
-    <%--<asp:RegularExpressionValidator ID="revMedicalAidDate" runat="server" ValidationGroup="vgpPanelA"
-        ControlToValidate="tbxMedicalAidDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-        ErrorMessage="Medical Aid date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-    --%>
     <asp:ValidationSummary ID="vsyPanelA" runat="server" ValidationGroup="vgpPanelA"
         DisplayMode="BulletList" />
 

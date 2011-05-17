@@ -12,20 +12,11 @@ using System.Globalization;
 
 /** TO DO:
  * fix time regex (see sample forms) --> make a up/down arrow clock (NumericUpDown)
- * fix table style (when you select Other from DDL)
  * make clear all and clear individual form buttons
- * add regex validator to phone
- * add regex for name
  * custom validator for Others in DDL
- * ask about dates (how the labels on the forms say M/D/Y)
- * Kalen: panel A, panel B
- * Kalen: comment boxes are centered (vertically) - see section G
  * add regex to last 3 sections
- * test really long inputs
- * put results msg in update panel triggered by btn click (so it disappears eveyr time you click submit)
- * re-order controls so they appear in the order you click them?
- * add schedule (last part of follow-up)
- * Add create user
+ * test really long inputs, restrict input size
+ * style + validate schedule (last part of follow-up)
  **/
 
 /// <summary>
@@ -700,6 +691,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
             p1_witnessPhone1 = convertTextBox(tbx_p1_witnessPhone1),
             p1_witnessName2 = convertTextBox(tbx_p1_witnessName2),
             p1_witnessPhone2 = convertTextBox(tbx_p1_witnessPhone2),
+            p1_action_report = convertCheckbox(cbx_p1_action_report),
             p1_action_firstAid = convertCheckbox(cbx_p1_action_firstAid),
             p1_action_medicalGP = convertCheckbox(cbx_p1_action_medicalGP),
             p1_action_lostTime = convertCheckbox(cbx_p1_action_lostTime),
@@ -1169,6 +1161,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
         tbx_p1_witnessPhone1.Text = convertToTextbox(report.p1_witnessPhone1);
         tbx_p1_witnessName2.Text = convertToTextbox(report.p1_witnessName2);
         tbx_p1_witnessPhone2.Text = convertToTextbox(report.p1_witnessPhone2);
+        cbx_p1_action_report.Checked = convertToCheckbox(report.p1_action_report);
         cbx_p1_action_firstAid.Checked = convertToCheckbox(report.p1_action_firstAid);
         cbx_p1_action_medicalGP.Checked = convertToCheckbox(report.p1_action_medicalGP);
         tbx_p1_action_medicalGP_date.Text = convertDateTimeToString(report.p1_action_medicalGP_date);
@@ -1206,6 +1199,8 @@ public partial class Reporting_Default : System.Web.UI.Page {
         cbx_p2_patient_sitStandLift.Checked = convertToCheckbox(report.p2_patient_sitStandLift);
         cbx_p2_patient_floorLift.Checked = convertToCheckbox(report.p2_patient_floorLift);
         cbx_p2_patient_manualLift.Checked = convertToCheckbox(report.p2_patient_manualLift);
+        cbx_p2_patient_other.Checked = convertToCheckbox(report.p2_patient_otherSpecify);
+        tbx_p2_patient_otherSpecify.Text = convertToTextbox(report.p2_patient_otherSpecify);
         tbx_p1_numEmployeesInvolved.Text = (report.p1_numEmployeesInvolved == null) ? String.Empty : report.p1_numEmployeesInvolved.ToString();
 
         tbx_p2_patient_otherSpecify.Text = convertToTextbox(report.p2_patient_otherSpecify);
@@ -1231,7 +1226,9 @@ public partial class Reporting_Default : System.Web.UI.Page {
         tbx_p2_activity_otherMat.Text = convertToTextbox(report.p2_activity_otherMat);
         cbx_p2_activity_driving.Checked = convertToCheckbox(report.p2_activity_driving);
         tbx_p2_activity_otherEquip.Text = convertToTextbox(report.p2_activity_otherEquip);
-        cbx_p2_activity_otherEquipDesc.Text = convertToTextbox(report.p2_activity_otherEquipDesc);
+        cbx_p2_activity_otherEquipDesc.Checked = convertToCheckbox(report.p2_activity_otherEquipDesc);
+        tbx_p2_activity_otherEquipDesc.Text = convertToTextbox(report.p2_activity_otherEquipDesc);
+
         cbx_p2_activity_equipMain.Checked = convertToCheckbox(report.p2_activity_equipMain);
         cbx_p2_activity_comp.Checked = convertToCheckbox(report.p2_activity_comp);
         cbx_p2_activity_nonComp.Checked = convertToCheckbox(report.p2_activity_nonComp);
