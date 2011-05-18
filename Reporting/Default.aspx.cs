@@ -52,6 +52,8 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="sender">The object that requested the page load.</param>
     /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e) {
+        ASP.global_asax.Session_Authentication();
+
         // Only do the initial set up the first time the page loads (and not on post-backs).
         if (!IsPostBack) {
             PopulateEmployersDdl();
@@ -187,7 +189,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
     #region Employee Info Related
     #region Drop Down Lists
-
     #region Load DropDownLists
 
     /// <summary>
@@ -298,7 +299,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
     }
     #endregion Other Option Textbox Toggle
-
     #endregion DropDownLists
 
     #region Load Employee Data
@@ -856,28 +856,10 @@ public partial class Reporting_Default : System.Web.UI.Page {
             p2_factors_otherWorker = convertTextBox(tbx_p2_factors_otherWorker),
             #endregion E_ContributingFactors
 
-            #region F_CorrectiveAction
-            p2_corrective_person = convertTextBox(tbx_p2_corrective_person),
-            p2_corrective_maintenance = convertRadioButtonList(rbl_p2_corrective_maintenance),
-            p2_corrective_communicated = convertRadioButtonList(rbl_p2_corrective_communicated),
-            p2_corrective_time = convertRadioButtonList(rbl_p2_corrective_time),
-            #endregion F_CorrectiveAction
-
-            #region G_FollowUp
-            p2_corrective_written = convertTextBox(tbx_p2_corrective_written),
-            p2_corrective_education = convertTextBox(tbx_p2_corrective_education),
-            p2_corrective_equipment = convertTextBox(tbx_p2_corrective_equipment),
-            p2_corrective_environment = convertTextBox(tbx_p2_corrective_environment),
-            p2_corrective_patient = convertTextBox(tbx_p2_corrective_patient),
-            #endregion G_FollowUp
-
-            #region G_ManagersReport
-            p2_manager_previous = convertTextBox(tbx_p2_manager_previous),
-            p2_manager_objections = convertTextBox(tbx_p2_manager_objections),
-            p2_manager_alternative = convertTextBox(tbx_p2_manager_alternative),
-            #endregion G_ManagersReport
-
             followUpStatus = "0",
+            reportSubmitter = Session["AuthenticatedUser"].ToString(),
+            submitterDeptNo = Convert.ToInt32(Session["DeptNo"])
+            
         };
 
         #region A_IncidentInfo_Dates
@@ -903,166 +885,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
             }
         }
         #endregion C_AccidentInvestigation_PatientHandling
-
-        #region F_CorrectiveAction_Dates
-        if (!tbx_p2_corrective_personDate.Text.Equals(String.Empty)) {
-            DateTime dateCorrectivePerson = Convert.ToDateTime(tbx_p2_corrective_personDate.Text);
-            report.p2_corrective_personDate = dateCorrectivePerson;
-        }
-
-        if (!tbx_p2_corrective_maintenanceDate.Text.Equals(String.Empty)) {
-            DateTime dateMaintenance = Convert.ToDateTime(tbx_p2_corrective_maintenanceDate.Text);
-            report.p2_corrective_maintenanceDate = dateMaintenance;
-        }
-
-        if (!tbx_p2_corrective_communicatedDate.Text.Equals(String.Empty)) {
-            DateTime dateCommunicated = Convert.ToDateTime(tbx_p2_corrective_communicatedDate.Text);
-            report.p2_corrective_communicatedDate = dateCommunicated;
-        }
-
-        if (!tbx_p2_corrective_timeDate.Text.Equals(String.Empty)) {
-            DateTime dateTimeLoss = Convert.ToDateTime(tbx_p2_corrective_timeDate.Text);
-            report.p2_corrective_timeDate = dateTimeLoss;
-        }
-        #endregion F_CorrectiveAction_Dates
-
-        #region G_FollowUp_Dates
-
-        #region G_FollowUp_Dates_Target
-
-        if (!tbx_p2_corrective_writtenTargetDate.Text.Equals(String.Empty)) {
-            DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenTargetDate.Text);
-            report.p2_corrective_writtenTargetDate = writtenDate;
-        }
-
-        if (!tbx_p2_corrective_educationTargetDate.Text.Equals(String.Empty)) {
-            DateTime educationDate = Convert.ToDateTime(tbx_p2_corrective_educationTargetDate.Text);
-            report.p2_corrective_educationTargetDate = educationDate;
-        }
-
-        if (!tbx_p2_corrective_equipmentTargetDate.Text.Equals(String.Empty)) {
-            DateTime equipmentDate = Convert.ToDateTime(tbx_p2_corrective_equipmentTargetDate.Text);
-            report.p2_corrective_equipmentTargetDate = equipmentDate;
-        }
-
-        if (!tbx_p2_corrective_environmentTargetDate.Text.Equals(String.Empty)) {
-            DateTime environmentDate = Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text);
-            report.p2_corrective_environmentTargetDate = environmentDate;
-        }
-
-        if (!tbx_p2_corrective_patientTargetDate.Text.Equals(String.Empty)) {
-            DateTime patientDate = Convert.ToDateTime(tbx_p2_corrective_patientTargetDate.Text);
-            report.p2_corrective_patientTargetDate = patientDate;
-        }
-
-        #endregion G_FollowUp_Dates_Target
-
-        #region G_FollowUp_Dates_Completed
-
-        if (!tbx_p2_corrective_writtenCompletedDate.Text.Equals(String.Empty)) {
-            DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenCompletedDate.Text);
-            report.p2_corrective_writtenCompletedDate = writtenDate;
-        }
-
-        if (!tbx_p2_corrective_educationCompletedDate.Text.Equals(String.Empty)) {
-            DateTime educationDate = Convert.ToDateTime(tbx_p2_corrective_educationCompletedDate.Text);
-            report.p2_corrective_educationCompletedDate = educationDate;
-        }
-
-        if (!tbx_p2_corrective_equipmentCompletedDate.Text.Equals(String.Empty)) {
-            DateTime equipmentDate = Convert.ToDateTime(tbx_p2_corrective_equipmentCompletedDate.Text);
-            report.p2_corrective_equipmentCompletedDate = equipmentDate;
-        }
-
-        if (!tbx_p2_corrective_environmentCompletedDate.Text.Equals(String.Empty)) {
-            DateTime environmentDate = Convert.ToDateTime(tbx_p2_corrective_environmentCompletedDate.Text);
-            report.p2_corrective_environmentCompletedDate = environmentDate;
-        }
-
-        if (!tbx_p2_corrective_patientCompletedDate.Text.Equals(String.Empty)) {
-            DateTime patientDate = Convert.ToDateTime(tbx_p2_corrective_patientCompletedDate.Text);
-            report.p2_corrective_patientCompletedDate = patientDate;
-        }
-
-        #endregion G_FollowUp_Dates_Completed
-
-        #endregion G_FollowUp_Dates
-
-        #region H_FixedShiftRotation
-        #region H_FixedShiftRotation_Week1
-        if (!tbx_p2_manager_week1_sun.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sun.Text);
-            report.p2_manager_week1_sun = d;
-        }
-
-        if (!tbx_p2_manager_week1_mon.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_mon.Text);
-            report.p2_manager_week1_mon = d;
-        }
-
-        if (!tbx_p2_manager_week1_tue.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_tue.Text);
-            report.p2_manager_week1_tue = d;
-        }
-
-        if (!tbx_p2_manager_week1_wed.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_wed.Text);
-            report.p2_manager_week1_wed = d;
-        }
-
-        if (!tbx_p2_manager_week1_thu.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_thu.Text);
-            report.p2_manager_week1_thu = d;
-        }
-
-        if (!tbx_p2_manager_week1_fri.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_fri.Text);
-            report.p2_manager_week1_fri = d;
-        }
-
-        if (!tbx_p2_manager_week1_sat.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sat.Text);
-            report.p2_manager_week1_sat = d;
-        }
-        #endregion H_FixedShiftRotation_Week1
-
-        #region H_FixedShiftRotation_Week2
-        if (!tbx_p2_manager_week2_sun.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_sun.Text);
-            report.p2_manager_week2_sun = d;
-        }
-
-        if (!tbx_p2_manager_week2_mon.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_mon.Text);
-            report.p2_manager_week2_mon = d;
-        }
-
-        if (!tbx_p2_manager_week2_tue.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_tue.Text);
-            report.p2_manager_week2_tue = d;
-        }
-
-        if (!tbx_p2_manager_week2_wed.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_wed.Text);
-            report.p2_manager_week2_wed = d;
-        }
-
-        if (!tbx_p2_manager_week2_thu.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_thu.Text);
-            report.p2_manager_week2_thu = d;
-        }
-
-        if (!tbx_p2_manager_week2_fri.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_fri.Text);
-            report.p2_manager_week2_fri = d;
-        }
-
-        if (!tbx_p2_manager_week2_sat.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_sat.Text);
-            report.p2_manager_week2_sat = d;
-        }
-        #endregion H_FixedShiftRotation_Week2
-        #endregion H_FixedShiftRotation
 
         return report;
     }
