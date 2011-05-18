@@ -31,21 +31,23 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// <summary>
     /// Sets up the dynamic elements when the page loads for the first time.
     /// Hides Popup panel on page load.
+    /// Populates the DDLs.
     /// </summary>
     /// <param name="sender">The object that requested the page load.</param>
     /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e) {
         // Only do the initial set up the first time the page loads (and not on post-backs).
         if (!IsPostBack) {
-            pnlPop.Style.Value = "display:none;";
+            pnlPop.Style.Value = "display:none;"; 
             String reqIncidentNo = Request.QueryString["IncidentNo"];
+            int incidentNo = -1;
             try {
-                int incidentNo = Convert.ToInt32(reqIncidentNo);
-                loadReport(incidentNo);
+                incidentNo = Convert.ToInt32(reqIncidentNo);
             }
             catch (FormatException ex) {
                 // redirect to error page
             }
+            loadReport(incidentNo);
             disableAllControls();
         }
     }
@@ -82,6 +84,7 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// <param name="cbx">The CheckBox to disable.</param>
     private void disableCheckBox(CheckBox cbx) {
         cbx.Enabled = false;
+        cbx.ForeColor = Color.Black;
         //cbx.BackColor = DisabledColor;
     }
     /// <summary>
@@ -93,15 +96,6 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
          tbx.ReadOnly = true;
          tbx.ForeColor = Color.Black;
          tbx.BackColor = DisabledColor;
-    }
-    /// <summary>
-    /// Disabled the parameter DropDownList control.
-    /// Change the control's background color to the disabled color.
-    /// </summary>
-    /// <param name="cbx">The DropDownList to disable.</param>
-    private void disableDropDownList(DropDownList ddl) {
-        ddl.Enabled = false;
-        ddl.BackColor = DisabledColor;
     }
     /// <summary>
     /// Disabled the parameter RadioButtonList control.
@@ -127,11 +121,8 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         disableTextBox(tbxId);
         disableTextBox(tbxFirstName);
         disableTextBox(tbxLastName);
-        disableDropDownList(ddlPositions);
         disableTextBox(tbxPosition);
-        disableDropDownList(ddlEmployers);
         disableTextBox(tbxEmployer);
-        disableDropDownList(ddlDepartments);
         disableTextBox(tbxDepartment);
         disableTextBox(tbxRoom);
         disableTextBox(tbxSupervisor);
@@ -454,6 +445,7 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
 
         if (report == null) {
             Popup_Overlay("Report not found.", SuccessColour);
+            return null;
         }
 
         tbxFirstName.Text = report.Employee.fname.ToString();
@@ -794,66 +786,24 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
             tbxFirstName.Text = emp.fname.ToString();
             tbxLastName.Text = emp.lname.ToString();
 
-            // Position DDL
-            var position = ctx.Positions
-                           .Where(p => p.posName.Equals(emp.position))
-                           .Select(p => p).FirstOrDefault();
-
-            if (emp.position == null) {
-                ddlPositions.SelectedIndex = 0;
-            }
-            else if (position != null) {
-                ddlPositions.SelectedValue = position.posName;
-            }
-            else {
-                ddlPositions.SelectedValue = otherOption;
+            if (emp.position != null) {
                 tbxPosition.Text = emp.position;
             }
-            CheckPositionSelection();
-
-            // Employer DDL
-            if (emp.employer == null) {
-                ddlEmployers.SelectedIndex = 0;
-            }
-            else if (employers.Contains(emp.employer)) {
-                ddlEmployers.SelectedValue = emp.employer;
-            }
-            else {
-                ddlEmployers.SelectedValue = otherOption;
+            if (emp.employer != null) {
                 tbxEmployer.Text = emp.employer;
             }
-            CheckEmployeeSelection();
-
-            // Department DDL
-            var department = ctx.Departments
-                            .Where(d => d.deptName.Equals(emp.deptName))
-                            .Select(d => d).FirstOrDefault();
-
-            if (emp.deptName == null) {
-                ddlDepartments.SelectedIndex = 0;
-            }
-            else if (department != null) {
-                ddlDepartments.SelectedValue = department.deptName;
-            }
-            else {
-                ddlDepartments.SelectedValue = otherOption;
+            if (emp.deptName != null) {
                 tbxDepartment.Text = emp.deptName;
             }
-            CheckDepartmentSelection();
-
-            if (emp.supervisor == null) {
-                tbxSupervisor.Text = String.Empty;
-            }
-            else {
+            if (emp.supervisor != null) {
                 tbxSupervisor.Text = emp.supervisor;
             }
-
-            tbxRoom.Text = emp.room;
-
+            if (emp.room != null) {
+                tbxRoom.Text = emp.room;
+            }
             if (emp.startDate != null) {
                 tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy");
             }
-
             if (emp.endDate != null) {
                 tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy");
             }
@@ -866,81 +816,6 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
             Popup_Overlay("There was more than one employee with that first and last name.", FailColour);
         }
     }
-
-    #region Drop Down Lists
-    
-    #region Other Option Textbox Toggle
-    /// <summary>
-    /// Calls CheckPositionSelection(), which displays a textbox if the "Other (specify)" option is selected
-    /// and hides the textbox if any other option is selected
-    /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void ddlPositions_SelectedIndexChanged(object sender, EventArgs e) {
-        CheckPositionSelection();
-    }
-
-    /// <summary>
-    /// Calls CheckEmployeeSelection(), which displays a textbox if the "Other (specify)" option is selected
-    /// and hides the textbox if any other option is selected
-    /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void ddlEmployers_SelectedIndexChanged(object sender, EventArgs e) {
-        CheckEmployeeSelection();
-    }
-
-    /// <summary>
-    /// Calls CheckDepartmentSelection(), which displays a textbox if the "Other (specify)" option is selected
-    /// and hides the textbox if any other option is selected
-    /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void ddlDepartments_SelectedIndexChanged(object sender, EventArgs e) {
-        CheckDepartmentSelection();
-    }
-
-    /// <summary>
-    /// Displays a textbox if the "Other (specify)" option of the positions drop down list is selected.
-    /// Hides the textbox if any other option is selected
-    /// </summary>
-    private void CheckPositionSelection() {
-        if (ddlPositions.SelectedValue.Equals(otherOption)) {
-            tbxPosition.Visible = true;
-        }
-        else {
-            tbxPosition.Visible = false;
-        }
-    }
-
-    /// <summary>
-    /// Displays a textbox if the "Other (specify)" option of the employee drop down list is selected.
-    /// Hides the textbox if any other option is selected
-    /// </summary>
-    private void CheckEmployeeSelection() {
-        if (ddlEmployers.SelectedValue.Equals(otherOption)) {
-            tbxEmployer.Visible = true;
-        }
-        else {
-            tbxEmployer.Visible = false;
-        }
-    }
-
-    /// <summary>
-    /// Displays a textbox if the "Other (specify)" option of the departments drop down list is selected.
-    /// Hides the textbox if any other option is selected
-    /// </summary>
-    private void CheckDepartmentSelection() {
-        if (ddlDepartments.SelectedValue.Equals(otherOption)) {
-            tbxDepartment.Visible = true;
-        }
-        else {
-            tbxDepartment.Visible = false;
-        }
-    }
-    #endregion Other Option Textbox Toggle
-
-    #endregion DropDownLists
 
     /// <summary>
     /// Calls getEmployeeData(), which fetches the employee from the database using the employee's first and last name

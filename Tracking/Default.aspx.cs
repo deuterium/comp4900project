@@ -18,6 +18,7 @@ using System.Data;
  * Add security code, restrict access to certain departments depending on user??
  * Get FollowUpStatus not follow up comments
  * Change buttons to link to department and only show up in the department subheader?
+ * Add what you filtered section
  */
 
 public partial class Tracking_Default : System.Web.UI.Page {
@@ -302,16 +303,29 @@ public partial class Tracking_Default : System.Web.UI.Page {
         dt.Columns.Add(new DataColumn("employee", typeof(System.String)));
 
         String prevDeptName = String.Empty;
+        int incidentCount = 0;
 
         // Put the data in rows, inserting rows for subheaders
         foreach (var report in reports) {
-            // if it's the start of a new department, add a subheader row
+            // if it's the start of a new department
+            // add a subtotal row for the previous department
+            // add a subheader row for the new department
             if (!prevDeptName.Equals(report.Employee.deptName)) {
+                // subtotal
+                if (incidentCount != 0) {
+                    DataRow drSubtotal = dt.NewRow();
+                    drSubtotal["incidentNo"] = "Number of Incidents: " + incidentCount;
+                    dt.Rows.Add(drSubtotal);
+                    incidentCount = 0;
+                }
+                // subheader
                 prevDeptName = report.Employee.deptName;
                 DataRow drSubheader = dt.NewRow();
                 drSubheader["incidentNo"] = report.Employee.deptName;
                 dt.Rows.Add(drSubheader);
+                
             }
+            incidentCount++;
             DataRow dr = dt.NewRow();
             dr["incidentNo"] = report.incidentNo;
             if (report.p1_dateOfIncident != null) {
@@ -321,6 +335,19 @@ public partial class Tracking_Default : System.Web.UI.Page {
             dr["employee"] = report.Employee.fname + " " + report.Employee.lname;
             dt.Rows.Add(dr);
         }
+
+        // Add last subtotal row
+        if (incidentCount != 0) {
+            DataRow drSubtotal = dt.NewRow();
+            drSubtotal["incidentNo"] = "Subtotal Number of Incidents: " + incidentCount;
+            dt.Rows.Add(drSubtotal);
+            incidentCount = 0;
+        }
+        // Add total
+        DataRow drTotal = dt.NewRow();
+        drTotal["incidentNo"] = "Total Number of Incidents: " + reports.Count();
+        dt.Rows.Add(drTotal);
+        incidentCount = 0;
 
         // Bind the data to the Grid View
         gdvTracker.DataSource = dt;
@@ -577,10 +604,6 @@ public partial class Tracking_Default : System.Web.UI.Page {
             default:
                 throw new System.SystemException("Default case of switch should never be reached");
         }
-    }
-
-    private void loadInspections() {
-
     }
 
     private Employee getEmployeeFromIncidentId(int incidentNo) {
