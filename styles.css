@@ -494,6 +494,28 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     border: 1px solid #dbeff5;
 }
 
+.parentPanel
+{
+    display: inline;
+    float: left;
+    padding: 0px; 
+    width: 810px; 
+    margin: 0; 
+    background: #e8f7fb; 
+    border: 1px solid #dbeff5;
+}
+
+.childPanel
+{
+    display: inline;
+    float: left;
+    padding-left: 0px;
+    width: 800px; 
+    margin: 0; 
+    background: #e8f7fb; 
+    border: 1px solid #dbeff5;
+}
+
 .headerPanel 
 {
     padding-bottom: 10px;

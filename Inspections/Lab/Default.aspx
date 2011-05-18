@@ -1767,7 +1767,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </tr>
             <tr>
                 <td align="right">
-                    <asp:Button ID="btnPnlPopClose" runat="server" Text="Close" />
+                    <asp:Button ID="btnPnlPopClose" runat="server" Text="Close" 
+                        onclick="btnPnlPopClose_Click" />
                 </td>
             </tr>
         </table>

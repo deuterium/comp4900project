@@ -80,9 +80,9 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </div>
 
 <h3 id="hr3Filters"><asp:Image ID="imgExpandCollapseFilters" runat="server" /> Incident Form Filters <asp:Label ID="lblExpandCollapseFilters" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlFilters" CssClass="panel" runat="server">
+<asp:Panel ID="pnlFilters" CssClass="parentPanel" runat="server">
 <h3 id="hr3A"><asp:Image ID="imgExpandCollapseA" runat="server" /> A. Incident/Accident Information <asp:Label ID="ExpandCollapseA" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlA" CssClass="panel" runat="server" >
+<asp:Panel ID="pnlA" CssClass="childPanel" runat="server" >
     <div id="divABottomPanel">
         <h4>Action Following Incident:</h4>
         <table>
@@ -128,7 +128,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:Panel>
 
 <h3 id="hr3B"><asp:Image ID="imgExpandCollapseB" runat="server" /> B. Nature of Injury <asp:Label ID="ExpandCollapseB" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlB" CssClass="panel" runat="server">
+<asp:Panel ID="pnlB" CssClass="childPanel" runat="server">
     <h4>Nature of Injury</h4>
     <div id="divBLeftPanel">
         <table>
@@ -153,7 +153,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:Panel>
 
 <h3 id="hr3C"><asp:Image ID="imgExpandCollapseC" runat="server" /> C. Accident Investigation <asp:Label ID="ExpandCollapseC" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlC" CssClass="panel" runat="server">
+<asp:Panel ID="pnlC" CssClass="childPanel" runat="server">
     <div id="divCLeftPanel">
         <table>
             <tr><td><asp:CheckBox TabIndex="125" ID="cbx_p2_activity_no" Text="No Injury" runat="server" /></td></tr>
@@ -307,7 +307,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:Panel>
 
 <h3 id="hr3D"><asp:Image ID="imgExpandCollapseD" runat="server" /> D. Cause <asp:Label ID="ExpandCollapseD" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlD" CssClass="panel" runat="server">
+<asp:Panel ID="pnlD" CssClass="childPanel" runat="server">
     <div id="divDLeftPanel">
         <h4>Bite</h4>
         <table>
@@ -404,7 +404,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:Panel>
 
 <h3 id="hr3E"><asp:Image ID="imgExpandCollapseE" runat="server"/> E. Contributing Factors <asp:Label ID="ExpandCollapseE" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlE" CssClass="panel" runat="server">
+<asp:Panel ID="pnlE" CssClass="childPanel" runat="server">
     <div id="divELeftPanel" >
         <h4>Equipment / Device</h4>
         <table>
@@ -553,7 +553,14 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 <asp:Panel ID="pnlResultsContainer" runat="server" Visible="false" >
 <h3 id="hr3Results"><asp:Image ID="imgExpandCollapseResults" runat="server" /> Results <asp:Label ID="lblExpandCollapseResults" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlResults" CssClass="panel" runat="server">
-<asp:Label ID="lblFilters" runat="server" />
+
+<asp:Panel ID="pnlFiltersSelected" runat="server">
+    <asp:Label ID="lblFilters" runat="server" Text="No filters selected." Font-Bold="true" />
+    <br />
+</asp:Panel>
+
+<br />
+
 <asp:GridView ID="gdvTracker" runat="server" AutoGenerateColumns="False" OnRowCommand="gdvTracker_RowCommand" HorizontalAlign="Center" >
     <Columns>
         <asp:TemplateField HeaderText="#" ItemStyle-Width="20" >
@@ -576,7 +583,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <asp:Label ID="lblEmployeeName" runat="server" Text='<%# Bind("employee") %>'></asp:Label>
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="Click to View" ItemStyle-Width="455"  ItemStyle-HorizontalAlign="Center" >
+        <asp:TemplateField HeaderText="Click to View" ItemStyle-Width="250"  ItemStyle-HorizontalAlign="Center" >
             <ItemTemplate>
                 <asp:Button ID="btnRowViewReport" runat="server" 
                     CommandName="RowViewReport" 
@@ -590,6 +597,10 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     CommandName="RowViewCourses"
                     CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
                     Text="Courses" />
+            </ItemTemplate>    
+        </asp:TemplateField>
+        <asp:TemplateField HeaderText="" ItemStyle-Width="0"  ItemStyle-HorizontalAlign="Center" >
+            <ItemTemplate>
                 <asp:Button ID="btnRowViewLabInspections" runat="server" 
                     CommandName="RowViewLabInspections" 
                     CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
@@ -597,7 +608,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <asp:Button ID="btnRowViewOfficeInspections" runat="server" 
                     CommandName="RowViewOfficeInspections" 
                     CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
-                    Text="Office Inpsections" />
+                    Text="Office Inspections" />
             </ItemTemplate>
         </asp:TemplateField>
     </Columns>
@@ -721,7 +732,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     <asp:Label ID="lblInspectionDate" runat="server" Text='<%# Eval("inspectionDate", "{0:M/d/yyyy}") %>'></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:BoundField DataField="followup" HeaderText="Followed-Up?" ReadOnly="True" SortExpression="followup" />
+            <asp:BoundField DataField="followup" HeaderText="Follow-Up" ReadOnly="True" SortExpression="followup" />
             <asp:BoundField DataField="inspector" HeaderText="Inspector" ReadOnly="True" SortExpression="inspector" />
             <asp:BoundField DataField="labManager" HeaderText="Lab Manager" ReadOnly="True" SortExpression="labManager" />
             <asp:BoundField DataField="supervisor" HeaderText="Supervisor" ReadOnly="True" SortExpression="supervisor" />
@@ -746,7 +757,11 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
     <asp:Panel ID="pnlOfficeInspections" CssClass="panel" runat="server" >
         <asp:GridView ID="gdvOfficeInspections" runat="server" AutoGenerateColumns="False" OnRowCommand="gdvOfficeInspections_RowCommand" >
         <Columns>
-            <asp:BoundField DataField="officeInspectionNo" HeaderText="#" ReadOnly="True" SortExpression="deptName" />
+            <asp:TemplateField HeaderText="#">
+                <ItemTemplate>
+                    <asp:Label ID="lblOfficeInspectionNo" runat="server" Text='<%# Bind("officeInspectionNo") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
             <asp:BoundField DataField="deptName" HeaderText="Department" ReadOnly="True" SortExpression="deptName" />
             <asp:BoundField DataField="inspectionDate" HeaderText="Date" DataFormatString="{0:M/dd/yyyy}" SortExpression="inspectionDate" />
             <asp:BoundField DataField="followup" HeaderText="Follow-up" ReadOnly="True" SortExpression="deptName" />
