@@ -144,7 +144,8 @@ Summary Page:
             <td>
                 <asp:Button ID="btnLabInspectionLookUp" ValidationGroup="vgrLabInspectionLookUp" 
                     runat="server" Text="Search" onclick="btnLabInspectionLookUp_Click" />
-            </td>
+                <asp:Button ID="btnLabInspectionLookUpAll" runat="server" Text="List All" 
+                    onclick="btnLabInspectionLookUpAll_Click" /></td>
             </tr>
         </table>
             <asp:ValidationSummary ID="vsuLabInspectionLookUp" ValidationGroup="vgrLabInspectionLookUp" runat="server" />
@@ -260,7 +261,8 @@ Summary Page:
             <td>
                 <asp:Button ID="btnOfficeInspectionLookUp" ValidationGroup="vgrOfficeInspectionLookUp" 
                     runat="server" Text="Search" onclick="btnOfficeInspectionLookUp_Click" />
-            </td>
+                <asp:Button ID="btnOfficeInspectionLookUpAll" runat="server" Text="List All" 
+                    onclick="btnOfficeInspectionLookUpAll_Click" /> </td>
             </tr>
         </table>
             <asp:ValidationSummary ID="vsuOfficeInspectionLookUp" ValidationGroup="vgrOfficeInspectionLookUp" runat="server" />
