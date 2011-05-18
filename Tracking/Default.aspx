@@ -553,6 +553,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 <asp:Panel ID="pnlResultsContainer" runat="server" Visible="false" >
 <h3 id="hr3Results"><asp:Image ID="imgExpandCollapseResults" runat="server" /> Results <asp:Label ID="lblExpandCollapseResults" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlResults" CssClass="panel" runat="server">
+<asp:Label ID="lblFilters" runat="server" />
 <asp:GridView ID="gdvTracker" runat="server" AutoGenerateColumns="False" OnRowCommand="gdvTracker_RowCommand" HorizontalAlign="Center" >
     <Columns>
         <asp:TemplateField HeaderText="#" ItemStyle-Width="20" >
