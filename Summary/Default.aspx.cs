@@ -184,8 +184,8 @@ public partial class Summary_Default : System.Web.UI.Page
                                                             D = D
                                                         }
                                                 )
-                                               .Where(temp0 => (((temp0.D.deptName == department) || (temp0.LI.labMgr == labManager)
-                                                 || (temp0.LI.date == validDate)) && (temp0.D.deptNo == userDeptNo)) || (temp0.D.deptNo == userDeptNo))
+                                               .Where(temp0 => ((temp0.D.deptName == department) || (temp0.LI.labMgr == labManager)
+                                                 || (temp0.LI.date == validDate) && (temp0.D.deptNo == userDeptNo)))
                                                .Select(
                                                   temp0 =>
                                                      new
@@ -261,25 +261,16 @@ public partial class Summary_Default : System.Web.UI.Page
                                                                  OJ = OJ
                                                              }
                                                        )
-                                                       .Where(temp2 => (temp2.temp1.temp0.LI.labInsNo == selectedLabInsNo))
+                                                       .Where(temp2 => (temp2.temp1.temp0.LI.labInsNo == 51))
                                                        .SelectMany(
                                                           temp2 => temp2.OJ.DefaultIfEmpty(),
                                                           (temp2, LFU) =>
                                                              new
                                                              {
-                                                                 temp2 = temp2,
-                                                                 LFU = LFU
-                                                             }
-                                                       )
-                                                       .Where(temp3 => (temp3.LFU.labInsNo == selectedLabInsNo))
-                                                       .Select(
-                                                          temp3 =>
-                                                             new
-                                                             {
-                                                                 labInsItem = temp3.temp2.temp1.LII.labInsItem,
-                                                                 checkbox = temp3.temp2.temp1.temp0.LID.checkbox,
-                                                                 comments = temp3.temp2.temp1.temp0.LID.comments,
-                                                                 comment = temp3.LFU.comment
+                                                                 labInsItem = temp2.temp1.LII.labInsItem,
+                                                                 checkbox = temp2.temp1.temp0.LID.checkbox,
+                                                                 comments = temp2.temp1.temp0.LID.comments,
+                                                                 comment = LFU.comment
                                                              }
                                                        );
 

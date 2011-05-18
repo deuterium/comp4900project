@@ -291,6 +291,14 @@ ExpandedImage="../images/collapse.jpg">
                                 </tr>
                                 <tr>
                                     <td class="crsDetails">
+                                        <asp:Label ID="lblCert" runat="server" Text="Certificate Number:"></asp:Label>
+                                    </td>
+                                    <td>
+                                        <asp:TextBox ID="tbxCert" runat="server"></asp:TextBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="crsDetails">
                                         <asp:Label ID="lblresp1" runat="server" Text="Respirator Fit-Testing:"></asp:Label>
                                     </td>
                                     <td>
@@ -303,6 +311,9 @@ ExpandedImage="../images/collapse.jpg">
                                     </td>
                                     <td>
                                         <asp:TextBox ID="tbxDateFit" runat="server"></asp:TextBox>
+                                        <asp:CalendarExtender ID="tbxDateFit_CalendarExtender" runat="server" 
+                                            Enabled="True" TargetControlID="tbxDateFit">
+                                        </asp:CalendarExtender>
                                     </td>
                                 </tr>
                                 <tr>
@@ -338,6 +349,9 @@ ExpandedImage="../images/collapse.jpg">
                                     </td>
                                     <td>
                                         <asp:TextBox ID="tbxSpillDate" runat="server"></asp:TextBox>
+                                        <asp:CalendarExtender ID="tbxSpillDate_CalendarExtender" runat="server" 
+                                            Enabled="True" TargetControlID="tbxSpillDate">
+                                        </asp:CalendarExtender>
                                     </td>
                                 </tr>
                                 <tr>
@@ -375,14 +389,6 @@ ExpandedImage="../images/collapse.jpg">
                                             <asp:ListItem ID="limSigned2" runat="server" Text="Yes" Value="Yes" />
                                             <asp:ListItem ID="limNotSigned2" runat="server" Text="No" Value="No" />
                                         </asp:RadioButtonList>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="radiation">
-                                        <asp:Label ID="lblCert" runat="server" Text="Certificate Number:"></asp:Label>
-                                    </td>
-                                    <td>
-                                        <asp:TextBox ID="tbxCert" runat="server"></asp:TextBox>
                                     </td>
                                 </tr>
                             </table>
@@ -437,13 +443,43 @@ ExpandedImage="../images/collapse.jpg">
                 </asp:Panel>
                 <h4 id="hr4CoursesExpired"><asp:Image ID="imgExpandCollapseCoursesExpired" runat="server" /> Expired: <asp:Label ID="ExpandCollapseCoursesExpired" runat="server" Text=""></asp:Label></h4>
                 <asp:Panel ID="pnlCoursesExpired" CssClass="panel" runat="server">
-                    <asp:GridView ID="grvExpiredCourses" runat="server">
+                    <asp:GridView ID="grvExpiredCourses" runat="server" AutoGenerateColumns="False">
+                        <Columns>
+                            <asp:BoundField DataField="coursename" HeaderText="Training Name" 
+                                SortExpression="coursename" />
+                            <asp:TemplateField HeaderText="Start Date" SortExpression="startdate">
+                                <EditItemTemplate>
+                                    <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("startdate", "{0:M/d/yyy}") %>'></asp:TextBox>
+                                </EditItemTemplate>
+                                <ItemTemplate>
+                                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("startdate", "{0:M/d/yyy}") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="End Date" SortExpression="enddate">
+                                <EditItemTemplate>
+                                    <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("enddate", "{0:M/d/yyy}") %>'></asp:TextBox>
+                                </EditItemTemplate>
+                                <ItemTemplate>
+                                    <asp:Label ID="Label2" runat="server" Text='<%# Bind("enddate", "{0:M/d/yyy}") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                        </Columns>
                     </asp:GridView>
                 </asp:Panel>
                 <h4 id="hr4CoursesCatalog"><asp:Image ID="imgExpandCollapseCoursesCatalog" runat="server" /> Catalog <asp:Label ID="ExpandCollapseCoursesCatalog" runat="server" Text=""></asp:Label></h4>
                 <asp:Panel ID="pnlCoursesCatalog" CssClass="panel" runat="server">
-                    <asp:GridView ID="gdvCoursesCatalog" runat="server" ForeColor="Black">
+                    <asp:GridView ID="gdvCoursesCatalog" runat="server" ForeColor="Black" 
+                        AutoGenerateColumns="False" DataSourceID="EntityDataSource1">
+                        <Columns>
+                            <asp:BoundField DataField="trainingName" HeaderText="trainingName" 
+                                ReadOnly="True" SortExpression="trainingName" />
+                        </Columns>
                     </asp:GridView>
+                    <asp:EntityDataSource ID="EntityDataSource1" runat="server" 
+                        ConnectionString="name=BCCAEntities" DefaultContainerName="BCCAEntities" 
+                        EnableFlattening="False" EntitySetName="TrainingCourses" 
+                        Select="it.[trainingName]">
+                    </asp:EntityDataSource>
                 </asp:Panel>
             </asp:Panel>
         </div>
