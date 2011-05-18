@@ -7,12 +7,14 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server" />
+    <asp:TextBox ID="tbTypeHidden" runat="server" CssClass="hidden" />
+    <asp:TextBox ID="tbNoHidden" runat="server" CssClass="hidden" />
     <div id="divLabOfficeFollowupReport" runat="server" visible="false">
         <div id="divLabOfficeFollowupReportData">
-            <asp:GridView ID="gvwLabFollowup" Width="800px" runat="server" AutoGenerateColumns="False"
-                OnRowDataBound="gvwLabFollowup_RowDataBound">
+            <asp:GridView ID="gvwLabOfficeFollowup" Width="800px" runat="server" AutoGenerateColumns="False"
+                OnRowDataBound="gvwLabOfficeFollowup_RowDataBound">
                 <Columns>
-                    <asp:BoundField DataField="labInsItem" HeaderText="Item" ReadOnly="True" SortExpression="labInsItem" />
+                    <asp:BoundField DataField="insItem" HeaderText="Item" ReadOnly="True" SortExpression="labInsItem" />
                     <asp:BoundField DataField="checkbox" HeaderText="Checked (yes/no)" SortExpression="checkbox" />
                     <asp:BoundField DataField="comments" HeaderText="Comment" SortExpression="comments" />
                     <asp:TemplateField HeaderText="Corrective Action Taken">
@@ -29,39 +31,49 @@
             <h3>
                 Comments
             </h3>
-            <asp:Panel id="pnlLabOfficeFollowupComments" runat="server" CssClass="panelFollowup">
-            <table cellspacing="5" width="600">
-                <tr>
-                    <td rowspan="2">
-                        <asp:TextBox ID="tbLabOfficeFollowupComments" Width="400" Height="100" TextMode="MultiLine"
-                            runat="server">
-                        </asp:TextBox>
-                    </td>
-                    <td>
-                    Followup Submitted:
-                    </td>
-                    <td>
-                    <asp:TextBox ID="tbFollowUpDate" runat="server"></asp:TextBox>
+            <asp:Panel ID="pnlLabOfficeFollowupComments" runat="server" CssClass="panelFollowup">
+                <table cellspacing="5" width="600">
+                    <tr>
+                        <td rowspan="3">
+                            <asp:TextBox ID="tbLabOfficeFollowupComments" Width="400" Height="100" TextMode="MultiLine"
+                                runat="server">
+                            </asp:TextBox>
+                        </td>
+                        <td>
+                            Followup Submitted:
+                        </td>
+                        <td>
+                            <asp:TextBox ID="tbFollowUpDate" runat="server"></asp:TextBox>
                             <asp:CalendarExtender ID="calFollowupDate" runat="server" TargetControlID="tbFollowUpDate"
                                 Format="M/d/yyyy">
                             </asp:CalendarExtender>
-                    </td>
-                </tr>
-                <tr>
-                    <td valign="bottom">
-                        <asp:Button ID="btnLabOfficeFollowupSave" runat="server" Text="Save Comments" 
-                            onclick="btnLabOfficeFollowupSave_Click"  />
-                        <br />
-                        (saves comments in this followup)
-                    </td>
-                    <td valign="bottom">
-                        <asp:Button ID="btnLabOfficeFollowupSubmit" runat="server" 
-                            Text="Submit Followup" onclick="btnLabOfficeFollowupSubmit_Click" />
-                        <br />
-                        (Marks followup as complete)
-                    </td>
-                </tr>
-            </table>
+                            <asp:RequiredFieldValidator ID="rfvFollowUpDate" runat="server" ErrorMessage="Date is required"
+                                ValidationGroup="vgrLabOfficeFollowup" ControlToValidate="tbFollowUpDate">*</asp:RequiredFieldValidator>
+                        </td>
+                        <td rowspan="3">
+                            <asp:ValidationSummary ID="vsmLabOfficeFollowup" ValidationGroup="vgrLabOfficeFollowup"
+                                runat="server" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Submitted by:
+                        </td>
+                        <td>
+                            <asp:TextBox ID="tbSubmittedby" disabled="true" runat="server" OnLoad="tbSubmittedby_Load"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="bottom" colspan="2" align="right">
+                            <asp:Button ID="btnLabOfficeFollowupSubmit" runat="server" Text="Submit Followup"
+                                OnClick="btnLabOfficeFollowupSubmit_Click" />
+                            <asp:ConfirmButtonExtender ID="btnLabOfficeFollowupSubmit_ConfirmButtonExtender"
+                                runat="server" ConfirmText="Are you sure you want to submit this followup?" Enabled="True"
+                                TargetControlID="btnLabOfficeFollowupSubmit" ConfirmOnFormSubmit="false">
+                            </asp:ConfirmButtonExtender>
+                        </td>
+                    </tr>
+                </table>
             </asp:Panel>
         </div>
     </div>
@@ -457,4 +469,21 @@
             </asp:Panel>
         </div>
     </div>
+    <asp:Panel ID="pnlPop" BackColor="White" CssClass="popPanel" runat="server">
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td>
+                    <asp:Label ID="lblPnlPop" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    <asp:Button ID="btnPnlPopClose" runat="server" Text="Close" OnClick="btnPnlPopClose_Click" />
+                </td>
+            </tr>
+        </table>
+    </asp:Panel>
+    <asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
+    <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
+        DropShadow="true" BackgroundCssClass="modalBackground" />
 </asp:Content>

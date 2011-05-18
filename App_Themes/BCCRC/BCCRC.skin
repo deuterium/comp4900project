@@ -39,7 +39,7 @@ Safety Training Database and Website
 
 <asp:ValidationSummary runat="server" ForeColor="Red" />
 
-<asp:GridView CssClass="GridViewStyle" runat="server" >
+<asp:GridView CssClass="GridViewStyle" runat="server" Width="800px" >
     <FooterStyle CssClass="GridViewFooterStyle" />
     <RowStyle CssClass="GridViewRowStyle" />   
     <SelectedRowStyle CssClass="GridViewSelectedRowStyle" />
