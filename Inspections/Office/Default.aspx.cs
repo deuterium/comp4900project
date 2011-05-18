@@ -30,7 +30,7 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
 
         if (!IsPostBack)
         {
-            ddlOfficeDepartment.DataSource = ctx.Departments.Select(D => new { text = D.deptName, value = D.deptNo });
+            ddlOfficeDepartment.DataSource = ctx.Departments.Select(D => new { text = D.deptName, value = D.deptName });
             ddlOfficeDepartment.DataValueField = "value";
             ddlOfficeDepartment.DataTextField = "text";
             ddlOfficeDepartment.DataBind();
