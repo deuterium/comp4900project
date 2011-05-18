@@ -5,8 +5,38 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
 
-<asp:GridView ID="gdvLabInspection" Width="800px" runat="server" AutoGenerateColumns="False"
-    OnRowDataBound="gdvLabInspection_RowDataBound">
+
+<h3 id="hr3Title"><asp:Label ID="lblTitle" runat="server" Text="Viewing Lab Inspection #" Font-Bold="true" Visible="false" /></h3>
+
+<asp:Panel ID="pnlHeader" CssClass="panel" runat="server">
+    <table>
+        <tr>
+            <td><span class="spanBold">Department:</span></td>
+            <td><asp:Label ID="lblDepartment" runat="server" /></td>
+            <td>&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+            <td><span class="spanBold">Supervisor:</span></td>
+            <td><asp:Label ID="lblSupervisor" runat="server" /></td>
+        </tr>
+        <tr>
+            <td><span class="spanBold">Room:</span></td>
+            <td><asp:Label ID="lblRoom" runat="server" /></td>
+            <td>&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+            <td><span class="spanBold">Inspector:</span></td>
+            <td><asp:Label runat="server" ID="lblInspector" /></td>
+        </tr>
+        <tr>
+            <td><span class="spanBold">Lab Manager:</span></td>
+            <td><asp:Label ID="lblManager" runat="server" /></td>
+        </tr>
+        <tr>
+            <td><span class="spanBold">Date of Inspection:</span></td>
+            <td><asp:Label ID="lblInspectionDate" runat="server" /></td>
+        </tr>
+    </table>
+</asp:Panel>
+
+<asp:Panel ID="pnlChecklist" CssClass="panel" runat="server">
+<asp:GridView ID="gdvLabInspection" Width="800px" runat="server" AutoGenerateColumns="False" >
     <Columns>
         <asp:BoundField DataField="labInsItemNo" HeaderText="#" ReadOnly="True" SortExpression="labInsItemNo" />
         <asp:BoundField DataField="labInsItem" HeaderText="Item" ReadOnly="True" SortExpression="labInsItem" />
@@ -23,8 +53,7 @@
     </Columns>
     <EmptyDataTemplate>No report data was found.</EmptyDataTemplate>
 </asp:GridView>
-
-PUT INSPECTION DETAILS ON HERE TOO!!! (e.g. lab manager, date, etc...)
+</asp:Panel>
 
 </asp:Content>
 

@@ -24,17 +24,30 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
     /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        String reqIncidentNo = Request.QueryString["LabInspectionNo"];
-        int incidentNo = 5; // should be -1
+        String reqInspectionNo = Request.QueryString["OfficeInspectionNo"];
+        int inspectionNo = 5; // should be -1
         try {
-            if (reqIncidentNo != null) {
-                incidentNo = Convert.ToInt32(reqIncidentNo);
+            if (reqInspectionNo != null) {
+                inspectionNo = Convert.ToInt32(reqInspectionNo);
             }
         }
         catch (FormatException ex) {
             // do nothing
         }
-        displayLabInspection(incidentNo);
+        displayOfficeInspection(inspectionNo);
+    }
+
+    /// <summary>
+    /// Adjusts the height of a text area so all the content is visible.
+    /// </summary>
+    /// <param name="tbx">The TextBox to adjust.</param>
+    private void adjustTextBoxHeight(TextBox tbx) {
+        int i = tbx.Text.Length;
+        // 30 is the max characters a 250px wide textbox can fit across
+        // 2 is the number of extra lines to add for allowance
+        // because some words may get moved to the next line
+        int rowsize = (i / 30) + 2;
+        tbx.Rows = rowsize;
     }
 
     /// <summary>
@@ -44,7 +57,7 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
     /// Formats the grid view so it displays nicely.
     /// </summary>
     /// <param name="insNo">The id of the Office Inspection to display.</param>
-    protected void displayLabInspection(int insNo) {
+    protected void displayOfficeInspection(int insNo) {
         if (insNo == -1) {
             return;
         }
@@ -78,9 +91,26 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
                             officeInsItemNo = temp1.OII.officeInsItemNo,
                             officeInsItem = temp1.OII.officeInsName,
                             checkbox = temp1.temp0.OID.checkbox,
-                            comments = temp1.temp0.OID.comments
+                            comments = temp1.temp0.OID.comments,
+
+                            department = temp1.temp0.OI.deptName,
+                            area = temp1.temp0.OI.area,
+                            inspector = temp1.temp0.OI.inspector,
+                            inspectionDate = temp1.temp0.OI.insDate
                         }
                     );
+
+        // Populate Header Info
+        var oi = qry.FirstOrDefault();
+        lblDepartment.Text = oi.department;
+        lblOfficeArea.Text = oi.area;
+        lblInspector.Text = oi.inspector;
+        if (oi.inspectionDate != null) {
+            lblInspectionDate.Text = Convert.ToDateTime(oi.inspectionDate).ToString("M/d/yyyy");
+        }
+        pnlHeader.Visible = true;
+        lblTitle.Text += oi.officeInsItemNo;
+        lblTitle.Visible = true;
 
         // Format the data for the Grid View
         // Setup the Data Table
@@ -125,9 +155,10 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
                 row.Cells[2].Visible = false;
                 row.Cells[3].Visible = false;
                 row.Height = 50;
-                row.Font.Bold = true;
                 row.ForeColor = HeaderForeColor;
             }
+
+            adjustTextBoxHeight((TextBox)row.FindControl("tbxComments"));
         }
     }
 

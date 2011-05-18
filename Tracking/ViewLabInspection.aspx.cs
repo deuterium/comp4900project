@@ -24,7 +24,7 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
     /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e) {
         String reqIncidentNo = Request.QueryString["LabInspectionNo"];
-        int incidentNo = -1;
+        int incidentNo = 5; // should be -1
         try {
             if (reqIncidentNo != null) {
                 incidentNo = Convert.ToInt32(reqIncidentNo);
@@ -34,6 +34,19 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
             // do nothing
         }
         displayLabInspection(incidentNo);
+    }
+
+    /// <summary>
+    /// Adjusts the height of a text area so all the content is visible.
+    /// </summary>
+    /// <param name="tbx">The TextBox to adjust.</param>
+    private void adjustTextBoxHeight(TextBox tbx) {
+        int i = tbx.Text.Length;
+        // 30 is the max characters a 250px wide textbox can fit across
+        // 2 is the number of extra lines to add for allowance
+        // because some words may get moved to the next line
+        int rowsize = (i / 30) + 2;
+        tbx.Rows = rowsize;
     }
 
     /// <summary>
@@ -78,8 +91,33 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
                         labInsItem = temp1.LII.labInsItem,
                         checkbox = temp1.temp0.LID.checkbox,
                         comments = temp1.temp0.LID.comments,
+
+                        department = temp1.temp0.LI.deptName,
+                        supervisor = temp1.temp0.LI.supervisor,
+                        room = temp1.temp0.LI.room,
+                        inspector = temp1.temp0.LI.inspector,
+                        manager = temp1.temp0.LI.labMgr,
+                        inspectionDate = temp1.temp0.LI.date
                     }
                 );
+
+        if (qry == null) {
+            return;
+        }
+
+        // Populate Header Info
+        var li = qry.FirstOrDefault();
+        lblDepartment.Text = li.department;
+        lblSupervisor.Text = li.supervisor;
+        lblRoom.Text = li.room;
+        lblInspector.Text = li.inspector;
+        lblManager.Text = li.manager;
+        if (li.inspectionDate != null) {
+            lblInspectionDate.Text = Convert.ToDateTime(li.inspectionDate).ToString("M/d/yyyy");
+        }
+        pnlHeader.Visible = true;
+        lblTitle.Text += li.labInsItemNo;
+        lblTitle.Visible = true;
 
         // Format the data for the Grid View
         // Setup the Data Table
@@ -124,9 +162,10 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
                 row.Cells[2].Visible = false;
                 row.Cells[3].Visible = false;
                 row.Height = 50;
-                row.Font.Bold = true;
                 row.ForeColor = HeaderForeColor;
             }
+
+            adjustTextBoxHeight((TextBox)row.FindControl("tbxComments"));
         }
 
     }

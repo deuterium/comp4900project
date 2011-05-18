@@ -11,11 +11,9 @@ using System.Text;
 using System.Globalization;
 
 /** TO DO:
- * fix time regex (see sample forms) --> make a up/down arrow clock (NumericUpDown)
- * make clear all and clear individual form buttons
- * custom validator for Others in DDL
- * add regex to last 3 sections
- * test really long inputs, restrict input size
+ * Make clear all and clear individual form buttons
+ * Make custom validators (date comparisons, Others in form and DDL)
+ * test really long inputs, restrict input size in code-behind
  * style + validate schedule (last part of follow-up)
  **/
 
@@ -57,17 +55,10 @@ public partial class Reporting_Default : System.Web.UI.Page {
             PopulateEmployersDdl();
             PopulatePositionsDdl();
             PopulateDepartmentsDdl();
-            populateTrackerGridView();
             pnlPop.Style.Value = "display:none;";
-            lblResults.Visible = true;
             
             tsmScriptManager.SetFocus(tbxLastName.ClientID);
         }
-    }
-
-    private void populateTrackerGridView() {
-        gdvTracker.DataSource = ctx.Incidents;
-        gdvTracker.DataBind();
     }
 
     #region Toggle Other TextBox and CheckBox

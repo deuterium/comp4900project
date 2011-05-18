@@ -5,6 +5,28 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
 
+<h3 id="hr3Title"><asp:Label ID="lblTitle" runat="server" Text="Viewing Office Inspection #" Font-Bold="true" Visible="false" /></h3>
+
+<asp:Panel ID="pnlHeader" CssClass="panel" runat="server" Visible="false">
+    <table>
+        <tr>
+            <td><span class="spanBold">Department:</span></span></td>
+            <td><asp:Label ID="lblDepartment" runat="server" /></td>
+            <td>&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+            <td><span class="spanBold">Area:</span></td>
+            <td><asp:Label ID="lblOfficeArea" runat="server" /></td>
+        </tr>
+        <tr>
+            <td><span class="spanBold">Date of Inspection:</span></td>
+            <td><asp:Label ID="lblInspectionDate" runat="server" /></td>
+            <td>&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+            <td><span class="spanBold">Inspector:</span></td>
+            <td><asp:Label ID="lblInspector" runat="server" /></td>
+        </tr>
+    </table>
+</asp:Panel>
+
+<asp:Panel ID="pnlChecklist" CssClass="panel" runat="server">
 <asp:GridView ID="gdvOfficeInspection" runat="server" AutoGenerateColumns="False">
     <Columns>
         <asp:BoundField DataField="officeInsItemNo" HeaderText="#" ReadOnly="True" SortExpression="officeInsItemNo" />
@@ -22,8 +44,7 @@
     </Columns>
     <EmptyDataTemplate>No report data was found.</EmptyDataTemplate>
 </asp:GridView>
-
-PUT INSPECTION DETAILS ON HERE TOO!!! (e.g. lab manager, date, etc...)
+</asp:Panel>
 
 </asp:Content>
 
