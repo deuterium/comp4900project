@@ -12,10 +12,16 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
     #region Class Variables
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
-    // The colour of header text.
+    // The pink colour of the header text.
     public Color HeaderForeColor = ColorTranslator.FromHtml("#d80080");
     #endregion class variables
 
+    /// <summary>
+    /// Loads a lab inspection if the page request contains a valid inspection number.
+    /// Otherwise, shows a "no data found" message.
+    /// </summary>
+    /// <param name="sender">The object that requested the page load.</param>
+    /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e) {
         String reqIncidentNo = Request.QueryString["LabInspectionNo"];
         int incidentNo = -1;
@@ -25,12 +31,24 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
             }
         }
         catch (FormatException ex) {
-            // redirect to error page
+            // do nothing
         }
         displayLabInspection(incidentNo);
     }
 
+    /// <summary>
+    /// Gets the lab inspection out of the database.
+    /// Inserts subheader rows into the lab inspection data.
+    /// Binds the lab inspection to the grid view.
+    /// Formats the grid view so it displays nicely.
+    /// </summary>
+    /// <param name="insNo">The id of the Lab Inspection to display.</param>
     protected void displayLabInspection(int insNo) {
+        if (insNo == -1) {
+            return;
+        }
+
+        // Get the lab inspection from the database
         var qry = ctx.LabInspections
                 .Join(
                     ctx.LabInspectionDetails,
@@ -62,13 +80,16 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
                         comments = temp1.temp0.LID.comments,
                     }
                 );
+
         // Format the data for the Grid View
+        // Setup the Data Table
         DataTable dt = new DataTable();
         dt.Columns.Add(new DataColumn("labInsItemNo", typeof(System.String)));
         dt.Columns.Add(new DataColumn("labInsItem", typeof(System.String)));
         dt.Columns.Add(new DataColumn("checkbox", typeof(System.String)));
         dt.Columns.Add(new DataColumn("comments", typeof(System.String)));
-        // Generate rows for each employee
+        
+        // Put the data in rows, inserting rows for subheaders
         foreach (var result in qry) {
             String subheader = checkForSubheaderStart(result.labInsItemNo);
             if (!subheader.Equals(String.Empty)) {
@@ -84,14 +105,17 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
             dt.Rows.Add(dr);
         }
 
+        // Bind the data to the Grid View
         gdvLabInspection.DataSource = dt;
         gdvLabInspection.DataBind();
 
+        // Set the Grid View column widths
         gdvLabInspection.Columns[0].ItemStyle.Width = 20;
         gdvLabInspection.Columns[1].ItemStyle.Width = 360;
         gdvLabInspection.Columns[2].ItemStyle.Width = 80;
         gdvLabInspection.Columns[3].ItemStyle.Width = 250;
-
+        
+        // Find and format the subheader rows
         foreach (GridViewRow row in gdvLabInspection.Rows) {
             String strChecked = ((Label)row.FindControl("lblChecked")).Text;
             if ((strChecked == null) || (strChecked.Equals(String.Empty))) {
@@ -106,8 +130,13 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
         }
 
     }
-
-    // checks for the first value of a list, meaning it should insert a row above it
+    
+    /// <summary>
+    /// Checks if the lab inspection number is the first one after a subheader
+    /// and if it is, returns the subheader, otherwise returns an empty string.
+    /// </summary>
+    /// <param name="labInsItem">The id of the lab inspection item.</param>
+    /// <returns>A subheader or an empty string.</returns>
     private String checkForSubheaderStart(int labInsItem) {
         String subheader = String.Empty;
         switch (labInsItem) {
@@ -148,6 +177,11 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
         return subheader;
     }
 
+    /// <summary>
+    /// Converts a radio button list value (from the database) to display string.
+    /// </summary>
+    /// <param name="value">The radio button value to convert to a display String.</param>
+    /// <returns>A string: Yes for 1, No for 2, N/A or Unknown for 3.</returns>
     private String convertRadioButtonListValue(int value) {
         String returnValue = String.Empty;
         switch (value) {
@@ -166,25 +200,5 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
                 break;
         }
         return returnValue;
-    }
-
-    /// <summary>
-    /// Changes the bound data in the Lab/Office Gridview to Yes,No,N/A depenind on database value
-    /// </summary>
-    /// <param name="sender">not used in our code</param>
-    /// <param name="e">row in the gridview</param>
-    protected void gdvLabInspection_RowDataBound(object sender, System.Web.UI.WebControls.GridViewRowEventArgs e) {
-        if (e.Row.RowType == DataControlRowType.DataRow) {
-            for (int i = -1; i < gdvLabInspection.Rows.Count; i++) {
-                if (e.Row.Cells[1].Text == "1")
-                    e.Row.Cells[1].Text = "Yes";
-
-                if (e.Row.Cells[1].Text == "2")
-                    e.Row.Cells[1].Text = "No";
-
-                if (e.Row.Cells[1].Text == "3")
-                    e.Row.Cells[1].Text = "N/A";
-            }
-        }
     }
 }
