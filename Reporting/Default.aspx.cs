@@ -17,6 +17,8 @@ using System.Globalization;
  * style + validate schedule (last part of follow-up)
  * Check documentation
  * Add security code, restrict access to certain departments depending on user??
+ * Resizeable text areas
+ * Make the view incident report have labels or things that LOOK like labels
  **/
 
 /// <summary>
