@@ -9,6 +9,7 @@ using AjaxControlToolkit;
 using System.Data.Objects;
 using System.Drawing;
 using System.Data;
+using System.Web.UI;
 
 /**
  * TO DO:
@@ -18,6 +19,7 @@ using System.Data;
  * Add security code, restrict access to certain departments depending on user??
  * Get FollowUpStatus not follow up comments
  * Change buttons to link to department and only show up in the department subheader?
+ * Add what you filtered section
  */
 
 public partial class Tracking_Default : System.Web.UI.Page {
@@ -49,8 +51,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that requested the page load.</param>
     /// <param name="e">The page load event.</param>
-    protected void Page_Load(object sender, EventArgs e)
-    {    
+    protected void Page_Load(object sender, EventArgs e) {
         if (!IsPostBack) {
             pnlPop.Style.Value = "display:none;";
             disableAllTextBoxes();
@@ -112,6 +113,16 @@ public partial class Tracking_Default : System.Web.UI.Page {
         cpeE.ClientState = "true";
     }
 
+    private void addFilter(CheckBox cbx) {
+        pnlFiltersSelected.Controls.Add(cbx);
+        pnlFiltersSelected.Controls.Add(new LiteralControl("<br />"));
+    }
+
+    private void addFilter(RadioButtonList rbl) {
+        pnlFiltersSelected.Controls.Add(rbl);
+        pnlFiltersSelected.Controls.Add(new LiteralControl("<br />"));
+    }
+
     /// <summary>
     /// Gets a list of incident reports that match ONLY the data entered into the form.
     /// Only considers the checkboxes in sections B, C, D, and E of the form.
@@ -122,174 +133,175 @@ public partial class Tracking_Default : System.Web.UI.Page {
                       .Select(r => r);
 
         #region B_NatureOfInjury
-        if (cbx_p1_nature_no.Checked) { reports = reports.Where(r => r.p1_nature_no.Equals("1")); }
-        if (cbx_p1_nature_musculoskeletal.Checked) { reports = reports.Where(r => r.p1_nature_musculoskeletal.Equals("1")); }
-        if (cbx_p1_nature_bruise.Checked) { reports = reports.Where(r => r.p1_nature_bruise.Equals("1")); }
-        if (cbx_p1_nature_burn.Checked) { reports = reports.Where(r => r.p1_nature_burn.Equals("1")); }
-        if (cbx_p1_nature_cut.Checked) { reports = reports.Where(r => r.p1_nature_cut.Equals("1")); }
-        if (cbx_p1_nature_puncture.Checked) { reports = reports.Where(r => r.p1_nature_puncture.Equals("1")); }
-        if (cbx_p1_nature_skinIrritation.Checked) { reports = reports.Where(r => r.p1_nature_skinIrritation.Equals("1")); }
-        if (cbx_p1_nature_skinMucous.Checked) { reports = reports.Where(r => r.p1_nature_skinMucous.Equals("1")); }
-        if (cbx_p1_nature_eye.Checked) { reports = reports.Where(r => r.p1_nature_eye.Equals("1")); }
-        if (cbx_p1_nature_allergic.Checked) { reports = reports.Where(r => r.p1_nature_allergic.Equals("1")); }
-        if (cbx_p1_nature_psychological.Checked) { reports = reports.Where(r => r.p1_nature_psychological.Equals("1")); }
-        if (cbx_p1_nature_respiratory.Checked) { reports = reports.Where(r => r.p1_nature_respiratory.Equals("1")); }
+        if (cbx_p1_nature_no.Checked) { reports = reports.Where(r => r.p1_nature_no.Equals("1")); addFilter(cbx_p1_nature_no); }
+        if (cbx_p1_nature_musculoskeletal.Checked) { reports = reports.Where(r => r.p1_nature_musculoskeletal.Equals("1")); addFilter(cbx_p1_nature_musculoskeletal); }
+        if (cbx_p1_nature_bruise.Checked) { reports = reports.Where(r => r.p1_nature_bruise.Equals("1")); addFilter(cbx_p1_nature_bruise); }
+        if (cbx_p1_nature_burn.Checked) { reports = reports.Where(r => r.p1_nature_burn.Equals("1")); addFilter(cbx_p1_nature_burn); }
+        if (cbx_p1_nature_cut.Checked) { reports = reports.Where(r => r.p1_nature_cut.Equals("1")); addFilter(cbx_p1_nature_cut); }
+        if (cbx_p1_nature_puncture.Checked) { reports = reports.Where(r => r.p1_nature_puncture.Equals("1")); addFilter(cbx_p1_nature_puncture); }
+        if (cbx_p1_nature_skinIrritation.Checked) { reports = reports.Where(r => r.p1_nature_skinIrritation.Equals("1")); addFilter(cbx_p1_nature_skinIrritation); }
+        if (cbx_p1_nature_skinMucous.Checked) { reports = reports.Where(r => r.p1_nature_skinMucous.Equals("1")); addFilter(cbx_p1_nature_skinMucous); }
+        if (cbx_p1_nature_eye.Checked) { reports = reports.Where(r => r.p1_nature_eye.Equals("1")); addFilter(cbx_p1_nature_eye); }
+        if (cbx_p1_nature_allergic.Checked) { reports = reports.Where(r => r.p1_nature_allergic.Equals("1")); addFilter(cbx_p1_nature_allergic); }
+        if (cbx_p1_nature_psychological.Checked) { reports = reports.Where(r => r.p1_nature_psychological.Equals("1")); addFilter(cbx_p1_nature_psychological); }
+        if (cbx_p1_nature_respiratory.Checked) { reports = reports.Where(r => r.p1_nature_respiratory.Equals("1")); addFilter(cbx_p1_nature_respiratory); }
         #endregion B_NatureOfInjury
-
+                
         #region C_AccidentInvestigation
-        if (cbx_p2_activity_no.Checked) { reports = reports.Where(r => r.p2_activity_no.Equals("1")); }
-        if (cbx_p2_activity_repositioning.Checked) { reports = reports.Where(r => r.p2_activity_repositioning.Equals("1")); }
-        if (cbx_p2_activity_transferring.Checked) { reports = reports.Where(r => r.p2_activity_transferring.Equals("1")); }
-        if (cbx_p2_activity_assistedWalking.Checked) { reports = reports.Where(r => r.p2_activity_assistedWalking.Equals("1")); }
-        if (cbx_p2_activity_assistedFloor.Checked) { reports = reports.Where(r => r.p2_activity_assistedFloor.Equals("1")); }
-        if (cbx_p2_activity_fall.Checked) { reports = reports.Where(r => r.p2_activity_fall.Equals("1")); }
-        if (cbx_p2_activity_holding.Checked) { reports = reports.Where(r => r.p2_activity_holding.Equals("1")); }
-        if (cbx_p2_activity_toileting.Checked) { reports = reports.Where(r => r.p2_activity_toileting.Equals("1")); }
+        if (cbx_p2_activity_no.Checked) { reports = reports.Where(r => r.p2_activity_no.Equals("1")); addFilter(cbx_p2_activity_no); }
+        if (cbx_p2_activity_repositioning.Checked) { reports = reports.Where(r => r.p2_activity_repositioning.Equals("1")); addFilter(cbx_p2_activity_repositioning); }
+        if (cbx_p2_activity_transferring.Checked) { reports = reports.Where(r => r.p2_activity_transferring.Equals("1")); addFilter(cbx_p2_activity_transferring); }
+        if (cbx_p2_activity_assistedWalking.Checked) { reports = reports.Where(r => r.p2_activity_assistedWalking.Equals("1")); addFilter(cbx_p2_activity_assistedWalking); }
+        if (cbx_p2_activity_assistedFloor.Checked) { reports = reports.Where(r => r.p2_activity_assistedFloor.Equals("1")); addFilter(cbx_p2_activity_assistedFloor); }
+        if (cbx_p2_activity_fall.Checked) { reports = reports.Where(r => r.p2_activity_fall.Equals("1")); addFilter(cbx_p2_activity_fall); }
+        if (cbx_p2_activity_holding.Checked) { reports = reports.Where(r => r.p2_activity_holding.Equals("1")); addFilter(cbx_p2_activity_holding); }
+        if (cbx_p2_activity_toileting.Checked) { reports = reports.Where(r => r.p2_activity_toileting.Equals("1")); addFilter(cbx_p2_activity_toileting); }
 
-        if (cbx_p2_patient_ceilingLift.Checked) { reports = reports.Where(r => r.p2_patient_ceilingLift.Equals("1")); }
-        if (cbx_p2_patient_sitStandLift.Checked) { reports = reports.Where(r => r.p2_patient_sitStandLift.Equals("1")); }
-        if (cbx_p2_patient_floorLift.Checked) { reports = reports.Where(r => r.p2_patient_floorLift.Equals("1")); }
-        if (cbx_p2_patient_manualLift.Checked) { reports = reports.Where(r => r.p2_patient_manualLift.Equals("1")); }
+        if (cbx_p2_patient_ceilingLift.Checked) { reports = reports.Where(r => r.p2_patient_ceilingLift.Equals("1")); addFilter(cbx_p2_patient_ceilingLift); }
+        if (cbx_p2_patient_sitStandLift.Checked) { reports = reports.Where(r => r.p2_patient_sitStandLift.Equals("1")); addFilter(cbx_p2_patient_sitStandLift); }
+        if (cbx_p2_patient_floorLift.Checked) { reports = reports.Where(r => r.p2_patient_floorLift.Equals("1")); addFilter(cbx_p2_patient_floorLift); }
+        if (cbx_p2_patient_manualLift.Checked) { reports = reports.Where(r => r.p2_patient_manualLift.Equals("1")); addFilter(cbx_p2_patient_manualLift); }
         if (cbx_p2_patient_other.Checked) { reports = reports.Where(r => !(r.p2_patient_otherSpecify.Equals(null))); }
         if (!rbl_p2_patient_adequateAssist.SelectedValue.Equals(String.Empty)) {
             reports = reports.Where(r => r.p2_patient_adequateAssist.Equals(rbl_p2_patient_adequateAssist.SelectedValue));
+            addFilter(rbl_p2_patient_adequateAssist);
         }
 
-        if (cbx_p2_activity_washing.Checked) { reports = reports.Where(r => r.p2_activity_washing.Equals("1")); }
-        if (cbx_p2_activity_dressing.Checked) { reports = reports.Where(r => r.p2_activity_dressing.Equals("1")); }
-        if (cbx_p2_activity_changing.Checked) { reports = reports.Where(r => r.p2_activity_changing.Equals("1")); }
-        if (cbx_p2_activity_feeding.Checked) { reports = reports.Where(r => r.p2_activity_feeding.Equals("1")); }
-        if (cbx_p2_activity_prep.Checked) { reports = reports.Where(r => r.p2_activity_prep.Equals("1")); }
-        if (cbx_p2_activity_dressingChanges.Checked) { reports = reports.Where(r => r.p2_activity_dressingChanges.Equals("1")); }
-        if (cbx_p2_activity_otherPatientCare.Checked) { reports = reports.Where(r => r.p2_activity_otherPatientCare.Equals("1")); }
+        if (cbx_p2_activity_washing.Checked) { reports = reports.Where(r => r.p2_activity_washing.Equals("1")); addFilter(cbx_p2_activity_washing); }
+        if (cbx_p2_activity_dressing.Checked) { reports = reports.Where(r => r.p2_activity_dressing.Equals("1")); addFilter(cbx_p2_activity_dressing); }
+        if (cbx_p2_activity_changing.Checked) { reports = reports.Where(r => r.p2_activity_changing.Equals("1")); addFilter(cbx_p2_activity_changing); }
+        if (cbx_p2_activity_feeding.Checked) { reports = reports.Where(r => r.p2_activity_feeding.Equals("1")); addFilter(cbx_p2_activity_feeding); }
+        if (cbx_p2_activity_prep.Checked) { reports = reports.Where(r => r.p2_activity_prep.Equals("1")); addFilter(cbx_p2_activity_prep); }
+        if (cbx_p2_activity_dressingChanges.Checked) { reports = reports.Where(r => r.p2_activity_dressingChanges.Equals("1")); addFilter(cbx_p2_activity_dressingChanges); }
+        if (cbx_p2_activity_otherPatientCare.Checked) { reports = reports.Where(r => r.p2_activity_otherPatientCare.Equals("1")); addFilter(cbx_p2_activity_otherPatientCare); }
 
-        if (cbx_p2_activity_recapping.Checked) { reports = reports.Where(r => r.p2_activity_recapping.Equals("1")); }
-        if (cbx_p2_activity_puncture.Checked) { reports = reports.Where(r => r.p2_activity_puncture.Equals("1")); }
-        if (cbx_p2_activity_sharpsDisposal.Checked) { reports = reports.Where(r => r.p2_activity_sharpsDisposal.Equals("1")); }
-        if (cbx_p2_activity_otherSharps.Checked) { reports = reports.Where(r => r.p2_activity_otherSharps.Equals("1")); }
+        if (cbx_p2_activity_recapping.Checked) { reports = reports.Where(r => r.p2_activity_recapping.Equals("1")); addFilter(cbx_p2_activity_recapping); }
+        if (cbx_p2_activity_puncture.Checked) { reports = reports.Where(r => r.p2_activity_puncture.Equals("1")); addFilter(cbx_p2_activity_puncture); }
+        if (cbx_p2_activity_sharpsDisposal.Checked) { reports = reports.Where(r => r.p2_activity_sharpsDisposal.Equals("1")); addFilter(cbx_p2_activity_sharpsDisposal); }
+        if (cbx_p2_activity_otherSharps.Checked) { reports = reports.Where(r => r.p2_activity_otherSharps.Equals("1")); addFilter(cbx_p2_activity_otherSharps); }
 
-        //if (tbx_p2_acitvity_material.Checked) { reports = reports.Where(r => r.p2_activity_material.Equals("1")); }
-        if (cbx_p2_activity_lift.Checked) { reports = reports.Where(r => r.p2_activity_lift.Equals("1")); }
-        if (cbx_p2_activity_push.Checked) { reports = reports.Where(r => r.p2_activity_push.Equals("1")); }
-        if (cbx_p2_activity_carry.Checked) { reports = reports.Where(r => r.p2_activity_carry.Equals("1")); }
+        //if (tbx_p2_acitvity_material.Checked) { reports = reports.Where(r => r.p2_activity_material.Equals("1")); addFilter(CBX_HERE_NOW); }
+        if (cbx_p2_activity_lift.Checked) { reports = reports.Where(r => r.p2_activity_lift.Equals("1")); addFilter(cbx_p2_activity_lift); }
+        if (cbx_p2_activity_push.Checked) { reports = reports.Where(r => r.p2_activity_push.Equals("1")); addFilter(cbx_p2_activity_push); }
+        if (cbx_p2_activity_carry.Checked) { reports = reports.Where(r => r.p2_activity_carry.Equals("1")); addFilter(cbx_p2_activity_carry); }
         if (cbx_p2_activity_otherMat.Checked) { reports = reports.Where(r => r.p2_activity_otherMat != null); }
-        if (cbx_p2_activity_driving.Checked) { reports = reports.Where(r => r.p2_activity_driving.Equals("1")); }
+        if (cbx_p2_activity_driving.Checked) { reports = reports.Where(r => r.p2_activity_driving.Equals("1")); addFilter(cbx_p2_activity_driving); }
         if (cbx_p2_activity_otherEquip.Checked) { reports = reports.Where(r => r.p2_activity_otherEquip != null); }
         if (cbx_p2_activity_otherEquipDesc.Checked) { reports = reports.Where(r => r.p2_activity_otherEquipDesc != null); }
-        if (cbx_p2_activity_equipMain.Checked) { reports = reports.Where(r => r.p2_activity_equipMain.Equals("1")); }
-        if (cbx_p2_activity_comp.Checked) { reports = reports.Where(r => r.p2_activity_comp.Equals("1")); }
-        if (cbx_p2_activity_nonComp.Checked) { reports = reports.Where(r => r.p2_activity_nonComp.Equals("1")); }
+        if (cbx_p2_activity_equipMain.Checked) { reports = reports.Where(r => r.p2_activity_equipMain.Equals("1")); addFilter(cbx_p2_activity_equipMain); }
+        if (cbx_p2_activity_comp.Checked) { reports = reports.Where(r => r.p2_activity_comp.Equals("1")); addFilter(cbx_p2_activity_comp); }
+        if (cbx_p2_activity_nonComp.Checked) { reports = reports.Where(r => r.p2_activity_nonComp.Equals("1")); addFilter(cbx_p2_activity_nonComp); }
 
-        if (cbx_p2_activity_walking.Checked) { reports = reports.Where(r => r.p2_activity_walking.Equals("1")); }
-        if (cbx_p2_activity_bending.Checked) { reports = reports.Where(r => r.p2_activity_bending.Equals("1")); }
-        if (cbx_p2_activity_reading.Checked) { reports = reports.Where(r => r.p2_activity_reading.Equals("1")); }
-        if (cbx_p2_activity_spill.Checked) { reports = reports.Where(r => r.p2_activity_spill.Equals("1")); }
-        if (cbx_p2_activity_cleaning.Checked) { reports = reports.Where(r => r.p2_activity_cleaning.Equals("1")); }
+        if (cbx_p2_activity_walking.Checked) { reports = reports.Where(r => r.p2_activity_walking.Equals("1")); addFilter(cbx_p2_activity_walking); }
+        if (cbx_p2_activity_bending.Checked) { reports = reports.Where(r => r.p2_activity_bending.Equals("1")); addFilter(cbx_p2_activity_bending); }
+        if (cbx_p2_activity_reading.Checked) { reports = reports.Where(r => r.p2_activity_reading.Equals("1")); addFilter(cbx_p2_activity_reading); }
+        if (cbx_p2_activity_spill.Checked) { reports = reports.Where(r => r.p2_activity_spill.Equals("1")); addFilter(cbx_p2_activity_spill); }
+        if (cbx_p2_activity_cleaning.Checked) { reports = reports.Where(r => r.p2_activity_cleaning.Equals("1")); addFilter(cbx_p2_activity_cleaning); }
         if (cbx_p2_activity_other.Checked) { reports = reports.Where(r => r.p2_activity_other != null); }
         #endregion C_AccidentInvestigation
 
         #region D_Cause
-        if (cbx_p2_cause_human.Checked) { reports = reports.Where(r => r.p2_cause_human.Equals("1")); }
-        if (cbx_p2_cause_animal.Checked) { reports = reports.Where(r => r.p2_cause_animal.Equals("1")); }
+        if (cbx_p2_cause_human.Checked) { reports = reports.Where(r => r.p2_cause_human.Equals("1")); addFilter(cbx_p2_cause_human); }
+        if (cbx_p2_cause_animal.Checked) { reports = reports.Where(r => r.p2_cause_animal.Equals("1")); addFilter(cbx_p2_cause_animal); }
 
-        if (cbx_p2_cause_needle.Checked) { reports = reports.Where(r => r.p2_cause_needle.Equals("1")); }
-        if (cbx_p2_cause_otherSharps.Checked) { reports = reports.Where(r => r.p2_cause_otherSharps.Equals("1")); }
-        if (cbx_p2_cause_skin.Checked) { reports = reports.Where(r => r.p2_cause_skin.Equals("1")); }
+        if (cbx_p2_cause_needle.Checked) { reports = reports.Where(r => r.p2_cause_needle.Equals("1")); addFilter(cbx_p2_cause_needle); }
+        if (cbx_p2_cause_otherSharps.Checked) { reports = reports.Where(r => r.p2_cause_otherSharps.Equals("1")); addFilter(cbx_p2_cause_otherSharps); }
+        if (cbx_p2_cause_skin.Checked) { reports = reports.Where(r => r.p2_cause_skin.Equals("1")); addFilter(cbx_p2_cause_skin); }
 
-        if (cbx_p2_cause_awkwardPosture.Checked) { reports = reports.Where(r => r.p2_cause_awkwardPosture.Equals("1")); }
-        if (cbx_p2_cause_staticPosture.Checked) { reports = reports.Where(r => r.p2_cause_staticPosture.Equals("1")); }
-        if (cbx_p2_cause_contactStress.Checked) { reports = reports.Where(r => r.p2_cause_contactStress.Equals("1")); }
-        if (cbx_p2_cause_force.Checked) { reports = reports.Where(r => r.p2_cause_force.Equals("1")); }
-        if (cbx_p2_cause_rep.Checked) { reports = reports.Where(r => r.p2_cause_rep.Equals("1")); }
+        if (cbx_p2_cause_awkwardPosture.Checked) { reports = reports.Where(r => r.p2_cause_awkwardPosture.Equals("1")); addFilter(cbx_p2_cause_awkwardPosture); }
+        if (cbx_p2_cause_staticPosture.Checked) { reports = reports.Where(r => r.p2_cause_staticPosture.Equals("1")); addFilter(cbx_p2_cause_staticPosture); }
+        if (cbx_p2_cause_contactStress.Checked) { reports = reports.Where(r => r.p2_cause_contactStress.Equals("1")); addFilter(cbx_p2_cause_contactStress); }
+        if (cbx_p2_cause_force.Checked) { reports = reports.Where(r => r.p2_cause_force.Equals("1")); addFilter(cbx_p2_cause_force); }
+        if (cbx_p2_cause_rep.Checked) { reports = reports.Where(r => r.p2_cause_rep.Equals("1")); addFilter(cbx_p2_cause_rep); }
 
-        if (cbx_p2_cause_motor.Checked) { reports = reports.Where(r => r.p2_cause_motor.Equals("1")); }
-        if (cbx_p2_cause_slip.Checked) { reports = reports.Where(r => r.p2_cause_slip.Equals("1")); }
-        if (cbx_p2_cause_aggression.Checked) { reports = reports.Where(r => r.p2_cause_aggression.Equals("1")); }
-        if (cbx_p2_cause_undetermined.Checked) { reports = reports.Where(r => r.p2_cause_undetermined.Equals("1")); }
-        if (cbx_p2_cause_event.Checked) { reports = reports.Where(r => r.p2_cause_event.Equals("1")); }
-        if (cbx_p2_cause_underEquip.Checked) { reports = reports.Where(r => r.p2_cause_underEquip.Equals("1")); }
-        if (cbx_p2_cause_hit.Checked) { reports = reports.Where(r => r.p2_cause_hit.Equals("1")); }
+        if (cbx_p2_cause_motor.Checked) { reports = reports.Where(r => r.p2_cause_motor.Equals("1")); addFilter(cbx_p2_cause_motor); }
+        if (cbx_p2_cause_slip.Checked) { reports = reports.Where(r => r.p2_cause_slip.Equals("1")); addFilter(cbx_p2_cause_slip); }
+        if (cbx_p2_cause_aggression.Checked) { reports = reports.Where(r => r.p2_cause_aggression.Equals("1")); addFilter(cbx_p2_cause_aggression); }
+        if (cbx_p2_cause_undetermined.Checked) { reports = reports.Where(r => r.p2_cause_undetermined.Equals("1")); addFilter(cbx_p2_cause_undetermined); }
+        if (cbx_p2_cause_event.Checked) { reports = reports.Where(r => r.p2_cause_event.Equals("1")); addFilter(cbx_p2_cause_event); }
+        if (cbx_p2_cause_underEquip.Checked) { reports = reports.Where(r => r.p2_cause_underEquip.Equals("1")); addFilter(cbx_p2_cause_underEquip); }
+        if (cbx_p2_cause_hit.Checked) { reports = reports.Where(r => r.p2_cause_hit.Equals("1")); addFilter(cbx_p2_cause_hit); }
         if (cbx_p2_cause_other.Checked) { reports = reports.Where(r => r.p2_cause_other != null); }
 
-        if (cbx_p2_cause_aggression_verbal.Checked) { reports = reports.Where(r => r.p2_aggression_verbal.Equals("1")); }
-        if (cbx_p2_cause_aggression_biting.Checked) { reports = reports.Where(r => r.p2_aggression_biting.Equals("1")); }
-        if (cbx_p2_cause_aggression_hitting.Checked) { reports = reports.Where(r => r.p2_aggression_hitting.Equals("1")); }
-        if (cbx_p2_cause_aggression_squeezing.Checked) { reports = reports.Where(r => r.p2_aggression_squeezing.Equals("1")); }
-        if (cbx_p2_cause_aggression_assault.Checked) { reports = reports.Where(r => r.p2_aggression_assault.Equals("1")); }
-        if (cbx_p2_cause_aggression_patient.Checked) { reports = reports.Where(r => r.p2_aggression_patient.Equals("1")); }
-        if (cbx_p2_cause_aggression_family.Checked) { reports = reports.Where(r => r.p2_aggression_family.Equals("1")); }
-        if (cbx_p2_cause_aggression_public.Checked) { reports = reports.Where(r => r.p2_aggression_public.Equals("1")); }
-        if (cbx_p2_cause_aggression_worker.Checked) { reports = reports.Where(r => r.p2_aggression_worker.Equals("1")); }
+        if (cbx_p2_cause_aggression_verbal.Checked) { reports = reports.Where(r => r.p2_aggression_verbal.Equals("1")); addFilter(cbx_p2_cause_aggression_verbal); }
+        if (cbx_p2_cause_aggression_biting.Checked) { reports = reports.Where(r => r.p2_aggression_biting.Equals("1")); addFilter(cbx_p2_cause_aggression_biting); }
+        if (cbx_p2_cause_aggression_hitting.Checked) { reports = reports.Where(r => r.p2_aggression_hitting.Equals("1")); addFilter(cbx_p2_cause_aggression_hitting); }
+        if (cbx_p2_cause_aggression_squeezing.Checked) { reports = reports.Where(r => r.p2_aggression_squeezing.Equals("1")); addFilter(cbx_p2_cause_aggression_squeezing); }
+        if (cbx_p2_cause_aggression_assault.Checked) { reports = reports.Where(r => r.p2_aggression_assault.Equals("1")); addFilter(cbx_p2_cause_aggression_assault); }
+        if (cbx_p2_cause_aggression_patient.Checked) { reports = reports.Where(r => r.p2_aggression_patient.Equals("1")); addFilter(cbx_p2_cause_aggression_patient); }
+        if (cbx_p2_cause_aggression_family.Checked) { reports = reports.Where(r => r.p2_aggression_family.Equals("1")); addFilter(cbx_p2_cause_aggression_family); }
+        if (cbx_p2_cause_aggression_public.Checked) { reports = reports.Where(r => r.p2_aggression_public.Equals("1")); addFilter(cbx_p2_cause_aggression_public); }
+        if (cbx_p2_cause_aggression_worker.Checked) { reports = reports.Where(r => r.p2_aggression_worker.Equals("1")); addFilter(cbx_p2_cause_aggression_worker); }
         if (cbx_p2_cause_aggression_other.Checked) { reports = reports.Where(r => r.p2_aggression_other != null); }
 
-        //if (tbx_p2_cause_exposure_chemName.Checked) { reports = reports.Where(r => r.p2_cause_exposure_chemName.Equals("1")); }
-        if (cbx_p2_cause_chemInhalation.Checked) { reports = reports.Where(r => r.p2_cause_chemInhalation.Equals("1")); }
-        if (cbx_p2_cause_chemIngest.Checked) { reports = reports.Where(r => r.p2_cause_chemIngest.Equals("1")); }
-        if (cbx_p2_cause_chemContact.Checked) { reports = reports.Where(r => r.p2_cause_chemContact.Equals("1")); }
-        if (cbx_p2_cause_latex.Checked) { reports = reports.Where(r => r.p2_cause_latex.Equals("1")); }
-        if (cbx_p2_cause_dust.Checked) { reports = reports.Where(r => r.p2_cause_dust.Equals("1")); }
-        if (cbx_p2_cause_disease.Checked) { reports = reports.Where(r => r.p2_cause_disease.Equals("1")); }
-        if (cbx_p2_cause_temp.Checked) { reports = reports.Where(r => r.p2_cause_temp.Equals("1")); }
-        if (cbx_p2_cause_noise.Checked) { reports = reports.Where(r => r.p2_cause_noise.Equals("1")); }
-        if (cbx_p2_cause_radiation.Checked) { reports = reports.Where(r => r.p2_cause_radiation.Equals("1")); }
-        if (cbx_p2_cause_elec.Checked) { reports = reports.Where(r => r.p2_cause_elec.Equals("1")); }
-        if (cbx_p2_cause_air.Checked) { reports = reports.Where(r => r.p2_cause_air.Equals("1")); }
+        //if (tbx_p2_cause_exposure_chemName.Checked) { reports = reports.Where(r => r.p2_cause_exposure_chemName.Equals("1")); addFilter(CBX_HERE_NOW); }
+        if (cbx_p2_cause_chemInhalation.Checked) { reports = reports.Where(r => r.p2_cause_chemInhalation.Equals("1")); addFilter(cbx_p2_cause_chemInhalation); }
+        if (cbx_p2_cause_chemIngest.Checked) { reports = reports.Where(r => r.p2_cause_chemIngest.Equals("1")); addFilter(cbx_p2_cause_chemIngest); }
+        if (cbx_p2_cause_chemContact.Checked) { reports = reports.Where(r => r.p2_cause_chemContact.Equals("1")); addFilter(cbx_p2_cause_chemContact); }
+        if (cbx_p2_cause_latex.Checked) { reports = reports.Where(r => r.p2_cause_latex.Equals("1")); addFilter(cbx_p2_cause_latex); }
+        if (cbx_p2_cause_dust.Checked) { reports = reports.Where(r => r.p2_cause_dust.Equals("1")); addFilter(cbx_p2_cause_dust); }
+        if (cbx_p2_cause_disease.Checked) { reports = reports.Where(r => r.p2_cause_disease.Equals("1")); addFilter(cbx_p2_cause_disease); }
+        if (cbx_p2_cause_temp.Checked) { reports = reports.Where(r => r.p2_cause_temp.Equals("1")); addFilter(cbx_p2_cause_temp); }
+        if (cbx_p2_cause_noise.Checked) { reports = reports.Where(r => r.p2_cause_noise.Equals("1")); addFilter(cbx_p2_cause_noise); }
+        if (cbx_p2_cause_radiation.Checked) { reports = reports.Where(r => r.p2_cause_radiation.Equals("1")); addFilter(cbx_p2_cause_radiation); }
+        if (cbx_p2_cause_elec.Checked) { reports = reports.Where(r => r.p2_cause_elec.Equals("1")); addFilter(cbx_p2_cause_elec); }
+        if (cbx_p2_cause_air.Checked) { reports = reports.Where(r => r.p2_cause_air.Equals("1")); addFilter(cbx_p2_cause_air); }
         #endregion D_Cause
 
         #region E_ContributingFactors
-        if (cbx_p2_factors_malfunction.Checked) { reports = reports.Where(r => r.p2_factors_malfunction.Equals("1")); }
-        if (cbx_p2_factors_improperUse.Checked) { reports = reports.Where(r => r.p2_factors_improperUse.Equals("1")); }
-        if (cbx_p2_factors_signage.Checked) { reports = reports.Where(r => r.p2_factors_signage.Equals("1")); }
-        if (cbx_p2_factors_notAvailable.Checked) { reports = reports.Where(r => r.p2_factors_notAvailable.Equals("1")); }
-        if (cbx_p2_factors_poorDesign.Checked) { reports = reports.Where(r => r.p2_factors_poorDesign.Equals("1")); }
+        if (cbx_p2_factors_malfunction.Checked) { reports = reports.Where(r => r.p2_factors_malfunction.Equals("1")); addFilter(cbx_p2_factors_malfunction); }
+        if (cbx_p2_factors_improperUse.Checked) { reports = reports.Where(r => r.p2_factors_improperUse.Equals("1")); addFilter(cbx_p2_factors_improperUse); }
+        if (cbx_p2_factors_signage.Checked) { reports = reports.Where(r => r.p2_factors_signage.Equals("1")); addFilter(cbx_p2_factors_signage); }
+        if (cbx_p2_factors_notAvailable.Checked) { reports = reports.Where(r => r.p2_factors_notAvailable.Equals("1")); addFilter(cbx_p2_factors_notAvailable); }
+        if (cbx_p2_factors_poorDesign.Checked) { reports = reports.Where(r => r.p2_factors_poorDesign.Equals("1")); addFilter(cbx_p2_factors_poorDesign); }
         if (cbx_p2_factors_otherEquip.Checked) { reports = reports.Where(r => r.p2_factors_otherEquip != null); }
 
-        if (cbx_p2_factors_temp.Checked) { reports = reports.Where(r => r.p2_factors_temp.Equals("1")); }
-        if (cbx_p2_factors_workplace.Checked) { reports = reports.Where(r => r.p2_factors_workplace.Equals("1")); }
-        if (cbx_p2_factors_layout.Checked) { reports = reports.Where(r => r.p2_factors_layout.Equals("1")); }
-        if (cbx_p2_factors_limitedWorkspace.Checked) { reports = reports.Where(r => r.p2_factors_limitedWorkspace.Equals("1")); }
-        if (cbx_p2_factors_slippery.Checked) { reports = reports.Where(r => r.p2_factors_slippery.Equals("1")); }
-        if (cbx_p2_factors_lighting.Checked) { reports = reports.Where(r => r.p2_factors_lighting.Equals("1")); }
-        if (cbx_p2_factors_noise.Checked) { reports = reports.Where(r => r.p2_factors_noise.Equals("1")); }
-        if (cbx_p2_factors_vent.Checked) { reports = reports.Where(r => r.p2_factors_vent.Equals("1")); }
-        if (cbx_p2_factors_storage.Checked) { reports = reports.Where(r => r.p2_factors_storage.Equals("1")); }
+        if (cbx_p2_factors_temp.Checked) { reports = reports.Where(r => r.p2_factors_temp.Equals("1")); addFilter(cbx_p2_factors_temp); }
+        if (cbx_p2_factors_workplace.Checked) { reports = reports.Where(r => r.p2_factors_workplace.Equals("1")); addFilter(cbx_p2_factors_workplace); }
+        if (cbx_p2_factors_layout.Checked) { reports = reports.Where(r => r.p2_factors_layout.Equals("1")); addFilter(cbx_p2_factors_layout); }
+        if (cbx_p2_factors_limitedWorkspace.Checked) { reports = reports.Where(r => r.p2_factors_limitedWorkspace.Equals("1")); addFilter(cbx_p2_factors_limitedWorkspace); }
+        if (cbx_p2_factors_slippery.Checked) { reports = reports.Where(r => r.p2_factors_slippery.Equals("1")); addFilter(cbx_p2_factors_slippery); }
+        if (cbx_p2_factors_lighting.Checked) { reports = reports.Where(r => r.p2_factors_lighting.Equals("1")); addFilter(cbx_p2_factors_lighting); }
+        if (cbx_p2_factors_noise.Checked) { reports = reports.Where(r => r.p2_factors_noise.Equals("1")); addFilter(cbx_p2_factors_noise); }
+        if (cbx_p2_factors_vent.Checked) { reports = reports.Where(r => r.p2_factors_vent.Equals("1")); addFilter(cbx_p2_factors_vent); }
+        if (cbx_p2_factors_storage.Checked) { reports = reports.Where(r => r.p2_factors_storage.Equals("1")); addFilter(cbx_p2_factors_storage); }
         if (cbx_p2_factors_otherEnv.Checked) { reports = reports.Where(r => r.p2_factors_otherEnv != null); }
 
-        if (cbx_p2_factors_assessment.Checked) { reports = reports.Where(r => r.p2_factors_assessment.Equals("1")); }
-        if (cbx_p2_factors_procedure.Checked) { reports = reports.Where(r => r.p2_factors_procedure.Equals("1")); }
-        if (cbx_p2_factors_appropriateEquip.Checked) { reports = reports.Where(r => r.p2_factors_appropriateEquip.Equals("1")); }
-        if (cbx_p2_factors_conduct.Checked) { reports = reports.Where(r => r.p2_factors_conduct.Equals("1")); }
-        if (cbx_p2_factors_extended.Checked) { reports = reports.Where(r => r.p2_factors_extended.Equals("1")); }
-        if (cbx_p2_factors_comm.Checked) { reports = reports.Where(r => r.p2_factors_comm.Equals("1")); }
-        if (cbx_p2_factors_unaccustomed.Checked) { reports = reports.Where(r => r.p2_factors_unaccustomed.Equals("1")); }
+        if (cbx_p2_factors_assessment.Checked) { reports = reports.Where(r => r.p2_factors_assessment.Equals("1")); addFilter(cbx_p2_factors_assessment); }
+        if (cbx_p2_factors_procedure.Checked) { reports = reports.Where(r => r.p2_factors_procedure.Equals("1")); addFilter(cbx_p2_factors_procedure); }
+        if (cbx_p2_factors_appropriateEquip.Checked) { reports = reports.Where(r => r.p2_factors_appropriateEquip.Equals("1")); addFilter(cbx_p2_factors_appropriateEquip); }
+        if (cbx_p2_factors_conduct.Checked) { reports = reports.Where(r => r.p2_factors_conduct.Equals("1")); addFilter(cbx_p2_factors_conduct); }
+        if (cbx_p2_factors_extended.Checked) { reports = reports.Where(r => r.p2_factors_extended.Equals("1")); addFilter(cbx_p2_factors_extended); }
+        if (cbx_p2_factors_comm.Checked) { reports = reports.Where(r => r.p2_factors_comm.Equals("1")); addFilter(cbx_p2_factors_comm); }
+        if (cbx_p2_factors_unaccustomed.Checked) { reports = reports.Where(r => r.p2_factors_unaccustomed.Equals("1")); addFilter(cbx_p2_factors_unaccustomed); }
         if (cbx_p2_factors_otherWorkPractice.Checked) { reports = reports.Where(r => r.p2_factors_otherWorkPractice != null); }
 
-        if (cbx_p2_factors_directions.Checked) { reports = reports.Where(r => r.p2_factors_directions.Equals("1")); }
-        if (cbx_p2_factors_weight.Checked) { reports = reports.Where(r => r.p2_factors_weight.Equals("1")); }
-        if (cbx_p2_factors_aggressive.Checked) { reports = reports.Where(r => r.p2_factors_aggressive.Equals("1")); }
-        if (cbx_p2_factors_patientResistive.Checked) { reports = reports.Where(r => r.p2_factors_patientResistive.Equals("1")); }
-        if (cbx_p2_factors_movement.Checked) { reports = reports.Where(r => r.p2_factors_movement.Equals("1")); }
-        if (cbx_p2_factors_confused.Checked) { reports = reports.Where(r => r.p2_factors_confused.Equals("1")); }
-        if (cbx_p2_factors_influence.Checked) { reports = reports.Where(r => r.p2_factors_influence.Equals("1")); }
-        if (cbx_p2_factors_lang.Checked) { reports = reports.Where(r => r.p2_factors_lang.Equals("1")); }
+        if (cbx_p2_factors_directions.Checked) { reports = reports.Where(r => r.p2_factors_directions.Equals("1")); addFilter(cbx_p2_factors_directions); }
+        if (cbx_p2_factors_weight.Checked) { reports = reports.Where(r => r.p2_factors_weight.Equals("1")); addFilter(cbx_p2_factors_weight); }
+        if (cbx_p2_factors_aggressive.Checked) { reports = reports.Where(r => r.p2_factors_aggressive.Equals("1")); addFilter(cbx_p2_factors_aggressive); }
+        if (cbx_p2_factors_patientResistive.Checked) { reports = reports.Where(r => r.p2_factors_patientResistive.Equals("1")); addFilter(cbx_p2_factors_patientResistive); }
+        if (cbx_p2_factors_movement.Checked) { reports = reports.Where(r => r.p2_factors_movement.Equals("1")); addFilter(cbx_p2_factors_movement); }
+        if (cbx_p2_factors_confused.Checked) { reports = reports.Where(r => r.p2_factors_confused.Equals("1")); addFilter(cbx_p2_factors_confused); }
+        if (cbx_p2_factors_influence.Checked) { reports = reports.Where(r => r.p2_factors_influence.Equals("1")); addFilter(cbx_p2_factors_influence); }
+        if (cbx_p2_factors_lang.Checked) { reports = reports.Where(r => r.p2_factors_lang.Equals("1")); addFilter(cbx_p2_factors_lang); }
         if (cbx_p2_factors_otherPatient.Checked) { reports = reports.Where(r => r.p2_factors_otherPatient != null); }
 
-        if (cbx_p2_factors_alone.Checked) { reports = reports.Where(r => r.p2_factors_alone.Equals("1")); }
-        if (cbx_p2_factors_info.Checked) { reports = reports.Where(r => r.p2_factors_info.Equals("1")); }
-        if (cbx_p2_factors_scheduling.Checked) { reports = reports.Where(r => r.p2_factors_scheduling.Equals("1")); }
-        if (cbx_p2_factors_training.Checked) { reports = reports.Where(r => r.p2_factors_training.Equals("1")); }
-        if (cbx_p2_factors_equip.Checked) { reports = reports.Where(r => r.p2_factors_equip.Equals("1")); }
-        if (cbx_p2_factors_personal.Checked) { reports = reports.Where(r => r.p2_factors_personal.Equals("1")); }
-        if (cbx_p2_factors_safe.Checked) { reports = reports.Where(r => r.p2_factors_safe.Equals("1")); }
-        if (cbx_p2_factors_perceived.Checked) { reports = reports.Where(r => r.p2_factors_perceived.Equals("1")); }
+        if (cbx_p2_factors_alone.Checked) { reports = reports.Where(r => r.p2_factors_alone.Equals("1")); addFilter(cbx_p2_factors_alone); }
+        if (cbx_p2_factors_info.Checked) { reports = reports.Where(r => r.p2_factors_info.Equals("1")); addFilter(cbx_p2_factors_info); }
+        if (cbx_p2_factors_scheduling.Checked) { reports = reports.Where(r => r.p2_factors_scheduling.Equals("1")); addFilter(cbx_p2_factors_scheduling); }
+        if (cbx_p2_factors_training.Checked) { reports = reports.Where(r => r.p2_factors_training.Equals("1")); addFilter(cbx_p2_factors_training); }
+        if (cbx_p2_factors_equip.Checked) { reports = reports.Where(r => r.p2_factors_equip.Equals("1")); addFilter(cbx_p2_factors_equip); }
+        if (cbx_p2_factors_personal.Checked) { reports = reports.Where(r => r.p2_factors_personal.Equals("1")); addFilter(cbx_p2_factors_personal); }
+        if (cbx_p2_factors_safe.Checked) { reports = reports.Where(r => r.p2_factors_safe.Equals("1")); addFilter(cbx_p2_factors_safe); }
+        if (cbx_p2_factors_perceived.Checked) { reports = reports.Where(r => r.p2_factors_perceived.Equals("1")); addFilter(cbx_p2_factors_perceived); }
         if (cbx_p2_factors_otherOrganizational.Checked) { reports = reports.Where(r => r.p2_factors_otherOrganizational != null); }
 
-        if (cbx_p2_factors_inexperienced.Checked) { reports = reports.Where(r => r.p2_factors_inexperienced.Equals("1")); }
-        if (cbx_p2_factors_communication.Checked) { reports = reports.Where(r => r.p2_factors_communication.Equals("1")); }
-        if (cbx_p2_factors_fatigued.Checked) { reports = reports.Where(r => r.p2_factors_fatigued.Equals("1")); }
-        if (cbx_p2_factors_distracted.Checked) { reports = reports.Where(r => r.p2_factors_distracted.Equals("1")); }
-        if (cbx_p2_factors_preexisting.Checked) { reports = reports.Where(r => r.p2_factors_preexisting.Equals("1")); }
-        if (cbx_p2_factors_sick.Checked) { reports = reports.Where(r => r.p2_factors_sick.Equals("1")); }
+        if (cbx_p2_factors_inexperienced.Checked) { reports = reports.Where(r => r.p2_factors_inexperienced.Equals("1")); addFilter(cbx_p2_factors_inexperienced); }
+        if (cbx_p2_factors_communication.Checked) { reports = reports.Where(r => r.p2_factors_communication.Equals("1")); addFilter(cbx_p2_factors_communication); }
+        if (cbx_p2_factors_fatigued.Checked) { reports = reports.Where(r => r.p2_factors_fatigued.Equals("1")); addFilter(cbx_p2_factors_fatigued); }
+        if (cbx_p2_factors_distracted.Checked) { reports = reports.Where(r => r.p2_factors_distracted.Equals("1")); addFilter(cbx_p2_factors_distracted); }
+        if (cbx_p2_factors_preexisting.Checked) { reports = reports.Where(r => r.p2_factors_preexisting.Equals("1")); addFilter(cbx_p2_factors_preexisting); }
+        if (cbx_p2_factors_sick.Checked) { reports = reports.Where(r => r.p2_factors_sick.Equals("1")); addFilter(cbx_p2_factors_sick); }
         if (cbx_p2_factors_otherWorker.Checked) { reports = reports.Where(r => r.p2_factors_otherWorker != null); }
         #endregion E_ContributingFactors
 
@@ -302,16 +314,29 @@ public partial class Tracking_Default : System.Web.UI.Page {
         dt.Columns.Add(new DataColumn("employee", typeof(System.String)));
 
         String prevDeptName = String.Empty;
+        int incidentCount = 0;
 
         // Put the data in rows, inserting rows for subheaders
         foreach (var report in reports) {
-            // if it's the start of a new department, add a subheader row
+            // if it's the start of a new department
+            // add a subtotal row for the previous department
+            // add a subheader row for the new department
             if (!prevDeptName.Equals(report.Employee.deptName)) {
+                // subtotal
+                if (incidentCount != 0) {
+                    DataRow drSubtotal = dt.NewRow();
+                    drSubtotal["incidentNo"] = "Number of Incidents: " + incidentCount;
+                    dt.Rows.Add(drSubtotal);
+                    incidentCount = 0;
+                }
+                // subheader
                 prevDeptName = report.Employee.deptName;
                 DataRow drSubheader = dt.NewRow();
                 drSubheader["incidentNo"] = report.Employee.deptName;
                 dt.Rows.Add(drSubheader);
+
             }
+            incidentCount++;
             DataRow dr = dt.NewRow();
             dr["incidentNo"] = report.incidentNo;
             if (report.p1_dateOfIncident != null) {
@@ -321,6 +346,19 @@ public partial class Tracking_Default : System.Web.UI.Page {
             dr["employee"] = report.Employee.fname + " " + report.Employee.lname;
             dt.Rows.Add(dr);
         }
+
+        // Add last subtotal row
+        if (incidentCount != 0) {
+            DataRow drSubtotal = dt.NewRow();
+            drSubtotal["incidentNo"] = "Subtotal Number of Incidents: " + incidentCount;
+            dt.Rows.Add(drSubtotal);
+            incidentCount = 0;
+        }
+        // Add total
+        DataRow drTotal = dt.NewRow();
+        drTotal["incidentNo"] = "Total Number of Incidents: " + reports.Count();
+        dt.Rows.Add(drTotal);
+        incidentCount = 0;
 
         // Bind the data to the Grid View
         gdvTracker.DataSource = dt;
@@ -336,18 +374,29 @@ public partial class Tracking_Default : System.Web.UI.Page {
         foreach (GridViewRow row in gdvTracker.Rows) {
             String strName = ((Label)row.FindControl("lblEmployeeName")).Text;
             if ((strName == null) || (strName.Equals(String.Empty))) {
-                row.Cells[0].ColumnSpan = gdvTracker.Columns.Count;
                 foreach (TableCell c in row.Cells) {
                     c.Visible = false;
                 }
                 row.Cells[0].Visible = true;
+                row.Cells[0].ColumnSpan = gdvTracker.Columns.Count - 2;
+                String strIncidentNo = ((Label)row.FindControl("lblIncidentNo")).Text;
+                if (!(strIncidentNo.StartsWith("Subtotal") || strIncidentNo.StartsWith("Total"))) {
+                    // Manage buttons
+                    row.Cells[5].Visible = true;
+                    row.Cells[5].ColumnSpan = 2;
+                }
+                else {
+                    row.Cells[0].ColumnSpan = gdvTracker.Columns.Count;
+                }
                 row.Height = 50;
-                row.ForeColor = HeaderForeColor;
+                row.ForeColor = HeaderForeColor;    
+            } else {
+                row.Cells[5].Visible = false;
+                row.Cells[4].ColumnSpan = 2;
+
             }
         }
-
-        //gdvTracker.Columns[gdvTracker.Columns.Count - 1].Visible = false;
-        
+        gdvTracker.HeaderRow.Cells[5].Visible = false;
     }
     #endregion Filter Report
 
@@ -579,10 +628,6 @@ public partial class Tracking_Default : System.Web.UI.Page {
         }
     }
 
-    private void loadInspections() {
-
-    }
-
     private Employee getEmployeeFromIncidentId(int incidentNo) {
         Employee emp = ctx.Incidents
                         .Where(i => i.incidentNo.Equals(incidentNo))
@@ -627,7 +672,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         var total = q.Count();
 
         List<String> courseArray = ctx.TrainingCourses.Select(c => c.trainingName).ToList();
-        
+
         for (int i = 0; i < total; i++) {
             GridView grvCourseLookUp = new GridView();
             String temp = courseArray[i];
@@ -666,7 +711,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
 
             grvCourseLookUp.Caption = "<table width=\"100%\" class=\"gvCaption\"><tr><td>" + temp + "</td></tr></table>";
             grvCourseLookUp.DataBind();
-            
+
             //pnlEmpCoursesContainer.Visible = true;
             //cpeEmployeeCourses.Collapsed = false;
             //cpeEmployeeCourses.ClientState = "false";
