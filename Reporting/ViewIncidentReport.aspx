@@ -103,25 +103,15 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         <table>
             <tr>
                 <td>Position:</td>
-                <td>
-                    <asp:DropDownList TabIndex="102" ID="ddlPositions" runat="server" AutoPostBack="true" ></asp:DropDownList>
-                    <asp:TextBox TabIndex="103" ID="tbxPosition" runat="server" Visible="false" MaxLength="50" ></asp:TextBox>
-
-                </td>
+                <td><asp:TextBox TabIndex="103" ID="tbxPosition" runat="server" MaxLength="50" ></asp:TextBox></td>
             </tr>
             <tr>
                 <td>Employer:</td>
-                <td>
-                    <asp:DropDownList TabIndex="104" ID="ddlEmployers" runat="server"></asp:DropDownList>
-                    <asp:TextBox TabIndex="105" ID="tbxEmployer" runat="server" Visible="false" MaxLength="10" ></asp:TextBox>
-                </td>
+                <td><asp:TextBox TabIndex="105" ID="tbxEmployer" runat="server" MaxLength="10" ></asp:TextBox></td>
             </tr>
             <tr>
                 <td>Department:</td>
-                <td>
-                    <asp:DropDownList TabIndex="106" ID="ddlDepartments" runat="server"></asp:DropDownList>
-                    <asp:TextBox TabIndex="103" ID="tbxDepartment" runat="server" Visible="false"></asp:TextBox>
-                </td>
+                <td><asp:TextBox TabIndex="103" ID="tbxDepartment" runat="server" ></asp:TextBox></td>
             </tr>
         </table>
     </div>

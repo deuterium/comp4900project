@@ -72,6 +72,8 @@ public partial class Summary_Default : System.Web.UI.Page
 
         grvOfficeInspections.Visible = false;
         grvOfficeInspectionResults.Visible = false;
+        followupRow.Visible = false;
+        officefollowUpRow.Visible = false;
 
         if (!IsPostBack)
         {
@@ -135,18 +137,18 @@ public partial class Summary_Default : System.Web.UI.Page
         {
             //Role: Admin/Safety Officer; Sees all reports
             case 0:
-                grvLabInspections.DataSource = ctx.LabInspections
-                                               .Join(
-                                                  ctx.Departments,
-                                                  LI => LI.deptNo,
-                                                  D => (Int32?)(D.deptNo),
-                                                  (LI, D) =>
-                                                     new
-                                                     {
-                                                         LI = LI,
-                                                         D = D
-                                                     }
-                                               )
+                     grvLabInspections.DataSource = ctx.LabInspections
+                                                  .Join(
+                                                    ctx.Departments,
+                                                    LI => LI.deptName,
+                                                    D => D.deptName,
+                                                    (LI, D) =>
+                                                        new
+                                                        {
+                                                            LI = LI,
+                                                            D = D
+                                                        }
+                                                )
                                                .Where(temp0 => ((temp0.D.deptName == department) || (temp0.LI.labMgr == labManager)
                                                  || (temp0.LI.date == validDate)))
                                                .Select(
@@ -171,19 +173,19 @@ public partial class Summary_Default : System.Web.UI.Page
                         // Session Value of logged in users Deptartment Number
                         int userDeptNo = (int)Session["DeptNo"];
                         grvLabInspections.DataSource = ctx.LabInspections
-                                               .Join(
-                                                  ctx.Departments,
-                                                  LI => LI.deptNo,
-                                                  D => (Int32?)(D.deptNo),
-                                                  (LI, D) =>
-                                                     new
-                                                     {
-                                                         LI = LI,
-                                                         D = D
-                                                     }
-                                               )
+                                                  .Join(
+                                                    ctx.Departments,
+                                                    LI => LI.deptName,
+                                                    D => D.deptName,
+                                                    (LI, D) =>
+                                                        new
+                                                        {
+                                                            LI = LI,
+                                                            D = D
+                                                        }
+                                                )
                                                .Where(temp0 => ((temp0.D.deptName == department) || (temp0.LI.labMgr == labManager)
-                                                 || (temp0.LI.date == validDate)) && (temp0.LI.deptNo == userDeptNo))
+                                                 || (temp0.LI.date == validDate) && (temp0.D.deptNo == userDeptNo)))
                                                .Select(
                                                   temp0 =>
                                                      new
@@ -209,8 +211,114 @@ public partial class Summary_Default : System.Web.UI.Page
     }
     #endregion
 
+    protected void btnLabInspectionLookUpAll_Click(object sender, EventArgs e)
+    {
+        // Sets the gridview visibile on lookup of an inspection
+        grvLabInspections.Visible = true;
+
+        department = Convert.ToString(ddlLabDepartment.SelectedValue);
+
+        labManager = Convert.ToString(ddlLabLabManager.SelectedValue);
+        //String labInspectionDate = tbxLabInspectionDate.Text;
+        //String.Format("{0:Mm/dd/yyyy}", labInspectionDate);
+
+        string labInspectionDate = Convert.ToString(tbxLabInspectionDate.Text);
+
+        System.Globalization.DateTimeFormatInfo dateInfo = new System.Globalization.DateTimeFormatInfo();
+        dateInfo.ShortDatePattern = "MM/dd/yyyy";
+        DateTime validDate;
+        if (tbxLabInspectionDate.Text.Length == 0)
+        {
+            validDate = Convert.ToDateTime("01/01/0001");
+        }
+        else
+        {
+            validDate = Convert.ToDateTime(labInspectionDate, dateInfo);
+        }
+        switch (userRole)
+        {
+            //Role: Admin/Safety Officer; Sees all reports
+            case 0:
+                grvLabInspections.DataSource = ctx.LabInspections
+                                             .Join(
+                                               ctx.Departments,
+                                               LI => LI.deptName,
+                                               D => D.deptName,
+                                               (LI, D) =>
+                                                   new
+                                                   {
+                                                       LI = LI,
+                                                       D = D
+                                                   }
+                                           )
+                                          .Where(temp0 => ((temp0.D.deptName == department) || (temp0.LI.labMgr == labManager)
+                                            || (temp0.LI.date == validDate)))
+                                          .Select(
+                                             temp0 =>
+                                                new
+                                                {
+                                                    labInsNo = temp0.LI.labInsNo,
+                                                    deptName = temp0.D.deptName,
+                                                    date = temp0.LI.date,
+                                                    followupDate = temp0.LI.followupDate,
+                                                    inspector = temp0.LI.inspector,
+                                                    labMgr = temp0.LI.labMgr,
+                                                    supervisor = temp0.LI.supervisor,
+                                                    room = temp0.LI.room
+                                                }
+                                          );
+
+                grvLabInspections.DataBind();
+                break;
+
+            case 1:
+                // Session Value of logged in users Deptartment Number
+                int userDeptNo = (int)Session["DeptNo"];
+                grvLabInspections.DataSource = ctx.LabInspections
+                                          .Join(
+                                            ctx.Departments,
+                                            LI => LI.deptName,
+                                            D => D.deptName,
+                                            (LI, D) =>
+                                                new
+                                                {
+                                                    LI = LI,
+                                                    D = D
+                                                }
+                                        )
+                                       .Where(temp0 => (temp0.D.deptNo == userDeptNo))
+                                       .Select(
+                                          temp0 =>
+                                             new
+                                             {
+                                                 labInsNo = temp0.LI.labInsNo,
+                                                 deptName = temp0.D.deptName,
+                                                 date = temp0.LI.date,
+                                                 followupDate = temp0.LI.followupDate,
+                                                 inspector = temp0.LI.inspector,
+                                                 labMgr = temp0.LI.labMgr,
+                                                 supervisor = temp0.LI.supervisor,
+                                                 room = temp0.LI.room
+                                             }
+                                       );
+
+                grvLabInspections.DataBind();
+                break;
+
+            default:
+                throw new System.SystemException("Default case of switch should never be reached");
+        }
+    }
+
     protected void grvLabInspections_SelectedIndexChanged(Object sender, EventArgs e)
     {
+        lblLabFollowUpSubmitter.Text = "";
+        lblLabFollowUpDate.Text = "";
+        lblLabFollowUpStatus.Text = "";
+        tbLabFollowupComments.Text = "";
+        tbLabFollowupComments.Text = "";
+        followupRow.Visible = true;
+
         grvLabInspectionResults.Visible = true;
         grvLabInspections.Visible = true;
         // Get the currently selected row using the SelectedRow property.
@@ -252,30 +360,56 @@ public partial class Summary_Default : System.Web.UI.Page
                                                                  OJ = OJ
                                                              }
                                                        )
-                                                       .Where(temp2 => (temp2.temp1.temp0.LI.labInsNo == selectedLabInsNo))
+                                                       .Where(temp2 => (temp2.temp1.temp0.LI.labInsNo == 51))
                                                        .SelectMany(
                                                           temp2 => temp2.OJ.DefaultIfEmpty(),
                                                           (temp2, LFU) =>
                                                              new
                                                              {
-                                                                 temp2 = temp2,
-                                                                 LFU = LFU
-                                                             }
-                                                       )
-                                                       .Where(temp3 => (temp3.LFU.labInsNo == selectedLabInsNo))
-                                                       .Select(
-                                                          temp3 =>
-                                                             new
-                                                             {
-                                                                 labInsItem = temp3.temp2.temp1.LII.labInsItem,
-                                                                 checkbox = temp3.temp2.temp1.temp0.LID.checkbox,
-                                                                 comments = temp3.temp2.temp1.temp0.LID.comments,
-                                                                 comment = temp3.LFU.comment
+                                                                 labInsItem = temp2.temp1.LII.labInsItem,
+                                                                 checkbox = temp2.temp1.temp0.LID.checkbox,
+                                                                 comments = temp2.temp1.temp0.LID.comments,
+                                                                 comment = LFU.comment
                                                              }
                                                        );
 
         grvLabInspectionResults.DataBind();
 
+        var qryFollowUpSubmitter = ctx.LabInspections.Where(LI => (LI.labInsNo == selectedLabInsNo)).Select(LI => LI.followupSubmitter).FirstOrDefault();
+        if (qryFollowUpSubmitter != null)
+        {
+            lblLabFollowUpSubmitter.Text = Convert.ToString(qryFollowUpSubmitter);
+        }
+
+        var qryFollowUpDate = ctx.LabInspections.Where(LI => (LI.labInsNo == selectedLabInsNo)).Select(LI => LI.followupDate).FirstOrDefault();
+        if (qryFollowUpDate != null)
+        {
+            DateTime temp = Convert.ToDateTime(qryFollowUpDate);
+            lblLabFollowUpDate.Text = temp.ToString("MM/dd/yyyy");
+        }
+
+        var qryFollowUpStatus = ctx.LabInspections.Where(LI => (LI.labInsNo == selectedLabInsNo)).Select(LI => LI.followUpStatus).FirstOrDefault();
+        if (qryFollowUpStatus != null)
+        {
+            if (qryFollowUpStatus == "1")
+            {
+                lblLabFollowUpStatus.Text = "No Follow Up";
+            }
+            else if (qryFollowUpStatus == "0")
+            {
+                lblLabFollowUpStatus.Text = "No Follow Up";
+            }
+            else
+            {
+                lblLabFollowUpStatus.Text = "Follow Up Complete";
+            }
+        }
+
+        var qryFollowUpComment = ctx.LabInspections.Where(LI => (LI.labInsNo == selectedLabInsNo)).Select(LI => LI.followupComment).FirstOrDefault();
+        if (qryFollowUpComment != null)
+        {
+            tbLabFollowupComments.Text = qryFollowUpComment.ToString();
+        }
     }
 
 
@@ -333,8 +467,8 @@ public partial class Summary_Default : System.Web.UI.Page
                         grvOfficeInspections.DataSource = ctx.OfficeInspections
                                                    .Join(
                                                       ctx.Departments,
-                                                      OI => OI.deptNo,
-                                                      D => (Int32?)(D.deptNo),
+                                                      OI => OI.deptName,
+                                                      D => D.deptName,
                                                       (OI, D) =>
                                                          new
                                                          {
@@ -365,8 +499,8 @@ public partial class Summary_Default : System.Web.UI.Page
                         grvOfficeInspections.DataSource = ctx.OfficeInspections
                                                    .Join(
                                                       ctx.Departments,
-                                                      OI => OI.deptNo,
-                                                      D => (Int32?)(D.deptNo),
+                                                      OI => OI.deptName,
+                                                      D => D.deptName,
                                                       (OI, D) =>
                                                          new
                                                          {
@@ -374,7 +508,7 @@ public partial class Summary_Default : System.Web.UI.Page
                                                              D = D
                                                          }
                                                    )
-                                                   .Where(temp0 => ((temp0.D.deptName == department) || (temp0.OI.insDate == validDate)) && (temp0.OI.deptNo == userDeptNo))
+                                                   .Where(temp0 => ((temp0.D.deptName == department) || (temp0.OI.insDate == validDate)) && (temp0.D.deptNo == userDeptNo))
                                                    .Select(
                                                       temp0 =>
                                                          new
@@ -399,18 +533,110 @@ public partial class Summary_Default : System.Web.UI.Page
     }
     #endregion
 
+    protected void btnOfficeInspectionLookUpAll_Click(object sender, EventArgs e)
+    {
+        grvOfficeInspections.Visible = true;
+
+        department = Convert.ToString(ddlOfficeDepartment.SelectedValue);
+
+        string officeInspectionDate = Convert.ToString(tbxOfficeInspectionDate.Text);
+
+        System.Globalization.DateTimeFormatInfo dateInfo = new System.Globalization.DateTimeFormatInfo();
+        dateInfo.ShortDatePattern = "MM/dd/yyyy";
+        DateTime validDate;
+        if (tbxOfficeInspectionDate.Text.Length == 0)
+        {
+            validDate = Convert.ToDateTime("01/01/0001");
+        }
+        else
+        {
+            validDate = Convert.ToDateTime(officeInspectionDate, dateInfo);
+        }
+        switch (userRole)
+        {
+            //Role: Admin/Safety Officer; Sees all reports
+            case 0:
+                grvOfficeInspections.DataSource = ctx.OfficeInspections
+                                           .Join(
+                                              ctx.Departments,
+                                              OI => OI.deptName,
+                                              D => D.deptName,
+                                              (OI, D) =>
+                                                 new
+                                                 {
+                                                     OI = OI,
+                                                     D = D
+                                                 }
+                                           )
+                                           .Where(temp0 => ((temp0.D.deptName == department) || (temp0.OI.insDate == validDate)))
+                                           .Select(
+                                              temp0 =>
+                                                 new
+                                                 {
+                                                     officeInsNo = temp0.OI.officeInsNo,
+                                                     deptName = temp0.D.deptName,
+                                                     insDate = temp0.OI.insDate,
+                                                     inspector = temp0.OI.inspector,
+                                                     area = temp0.OI.area,
+                                                 }
+                                           );
+
+
+
+                grvOfficeInspections.DataBind();
+                break;
+            case 1:
+                // Session Value of logged in users Deptartment Number
+                int userDeptNo = (int)Session["DeptNo"];
+                grvOfficeInspections.DataSource = ctx.OfficeInspections
+                                           .Join(
+                                              ctx.Departments,
+                                              OI => OI.deptName,
+                                              D => D.deptName,
+                                              (OI, D) =>
+                                                 new
+                                                 {
+                                                     OI = OI,
+                                                     D = D
+                                                 }
+                                           )
+                                           .Where(temp0 => (temp0.D.deptNo == userDeptNo))
+                                           .Select(
+                                              temp0 =>
+                                                 new
+                                                 {
+                                                     officeInsNo = temp0.OI.officeInsNo,
+                                                     deptName = temp0.D.deptName,
+                                                     insDate = temp0.OI.insDate,
+                                                     inspector = temp0.OI.inspector,
+                                                     area = temp0.OI.area,
+                                                 }
+                                           );
+
+
+
+                grvOfficeInspections.DataBind();
+                break;
+            default:
+                throw new System.SystemException("Default case of switch should never be reached");
+        }
+    }
+
     protected void grvOfficeInspections_SelectedIndexChanged(Object sender, EventArgs e)
     {
         grvOfficeInspectionResults.Visible = true;
         grvOfficeInspections.Visible = true;
+        officefollowUpRow.Visible = true;
+
+        lblOfficeFollowUpDate.Text = "";
+        lblOfficeFollowUpStatus.Text = "";
+        lblOfficeFollowUpSubmitter.Text = "";
+        tbOfficeFollowUpComment.Text = "";
 
         // Get the currently selected row using the SelectedRow property.
         GridViewRow row = grvOfficeInspections.SelectedRow;
         row.Cells[1].Text.ToString();
         int selectedOfficeInsNo = Convert.ToInt32(row.Cells[1].Text);
-
-        var qry = ctx.LabInspections.Where(LI => (LI.labInsNo == 41)).Select(LI => new { followupDate = LI.followupDate });
-        lblLabFollowUpDate.Text = Convert.ToString(qry);
 
         grvOfficeInspectionResults.DataSource = ctx.OfficeInspections
                                                            .Join(
@@ -446,7 +672,7 @@ public partial class Summary_Default : System.Web.UI.Page
                                                                      OJ = OJ
                                                                  }
                                                            )
-                                                           .Where(temp2 => (temp2.temp1.temp0.OI.officeInsNo == 1))
+                                                           .Where(temp2 => (temp2.temp1.temp0.OI.officeInsNo == selectedOfficeInsNo))
                                                            .SelectMany(
                                                               temp2 => temp2.OJ.DefaultIfEmpty(),
                                                               (temp2, OFU) =>
@@ -462,6 +688,41 @@ public partial class Summary_Default : System.Web.UI.Page
 
         grvOfficeInspectionResults.DataBind();
 
+        var qryFollowUpSubmitter = ctx.OfficeInspections.Where(OI => (OI.officeInsNo == selectedOfficeInsNo)).Select(OI => OI.followupSubmitter).FirstOrDefault();
+        if (qryFollowUpSubmitter != null)
+        {
+            lblOfficeFollowUpSubmitter.Text = Convert.ToString(qryFollowUpSubmitter);
+        }
+
+        var qryFollowUpDate = ctx.OfficeInspections.Where(OI => (OI.officeInsNo == selectedOfficeInsNo)).Select(OI => OI.followupDate).FirstOrDefault(); ;
+        if (qryFollowUpDate != null)
+        {
+            DateTime temp = Convert.ToDateTime(qryFollowUpDate);
+            lblOfficeFollowUpDate.Text = temp.ToString("MM/dd/yyyy");
+        }
+
+        var qryFollowUpStatus = ctx.OfficeInspections.Where(OI => (OI.officeInsNo == selectedOfficeInsNo)).Select(OI => OI.followUpStatus).FirstOrDefault();
+        if (qryFollowUpStatus != null)
+        {
+            if (qryFollowUpStatus == "1")
+            {
+                lblOfficeFollowUpStatus.Text = "No Follow Up";
+            }
+            else if (qryFollowUpStatus == "0")
+            {
+                lblOfficeFollowUpStatus.Text = "No Follow Up";
+            }
+            else
+            {
+                lblOfficeFollowUpStatus.Text = "Follow Up Complete";
+            }
+        }
+
+        var qryFollowUpComment = ctx.OfficeInspections.Where(OI => (OI.officeInsNo == selectedOfficeInsNo)).Select(OI => OI.followupComment).FirstOrDefault();
+        if (qryFollowUpComment != null)
+        {
+            tbOfficeFollowUpComment.Text = qryFollowUpComment.ToString();
+        }
     }
 
 

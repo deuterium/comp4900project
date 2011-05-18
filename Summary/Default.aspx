@@ -7,6 +7,22 @@
         {
             width: 161px;
         }
+        .style4
+        {
+            width: 233px;
+        }
+        .style5
+        {
+            width: 87px;
+        }
+        .style6
+        {
+            width: 139px;
+        }
+        .style7
+        {
+            width: 93px;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
@@ -128,7 +144,8 @@ Summary Page:
             <td>
                 <asp:Button ID="btnLabInspectionLookUp" ValidationGroup="vgrLabInspectionLookUp" 
                     runat="server" Text="Search" onclick="btnLabInspectionLookUp_Click" />
-            </td>
+                <asp:Button ID="btnLabInspectionLookUpAll" runat="server" Text="List All" 
+                    onclick="btnLabInspectionLookUpAll_Click" /></td>
             </tr>
         </table>
             <asp:ValidationSummary ID="vsuLabInspectionLookUp" ValidationGroup="vgrLabInspectionLookUp" runat="server" />
@@ -169,10 +186,45 @@ Summary Page:
                         SortExpression="comment" />
 
                 </Columns>
-
-            </asp:GridView>
-            Follow Up Date:<asp:Label id="lblLabFollowUpDate" runat="server" Text="" />
-            </asp:Panel>
+        </asp:GridView>
+        <table cellspacing="5" width="600" id="followupRow" runat="server">
+                    <tr>
+                        <td rowspan="2">
+                            <asp:TextBox ID="tbLabFollowupComments" ReadOnly="true" Width="400" Height="100" TextMode="MultiLine"
+                                runat="server">
+                            </asp:TextBox>
+                        </td>
+                        <td class="style7">
+                            Followup Date:
+                        </td>
+                        <td class="style4">
+                            <asp:Label ID="lblLabFollowUpDate" runat="server" Text="" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="style7">
+                            Followup by:
+                        </td>
+                        <td class="style4">
+                            <asp:Label ID="lblLabFollowUpSubmitter" runat="server" Text="" />
+                        </td>
+                    </tr>
+                    <caption>
+                        &lt;<tr>
+                            <td class="style5">
+                                
+                            </td>
+                            <td class="style7">
+                                Followup Status:
+                            </td>
+                            <td>
+                                <asp:Label ID="lblLabFollowUpStatus" runat="server" Text="" />
+                            </td>
+                        </tr>
+                    </caption>
+                    </tr>
+                </table>
+        </asp:Panel>
         
         <h3 id="officeInspectionLookUp"><asp:Image ID="imgExpandCollapseOfficeInspectionLookUp" runat="server" /> Office Inspection:</h3>
         <asp:Panel ID="pnlD" CssClass="panel" runat="server">
@@ -209,7 +261,8 @@ Summary Page:
             <td>
                 <asp:Button ID="btnOfficeInspectionLookUp" ValidationGroup="vgrOfficeInspectionLookUp" 
                     runat="server" Text="Search" onclick="btnOfficeInspectionLookUp_Click" />
-            </td>
+                <asp:Button ID="btnOfficeInspectionLookUpAll" runat="server" Text="List All" 
+                    onclick="btnOfficeInspectionLookUpAll_Click" /> </td>
             </tr>
         </table>
             <asp:ValidationSummary ID="vsuOfficeInspectionLookUp" ValidationGroup="vgrOfficeInspectionLookUp" runat="server" />
@@ -244,8 +297,44 @@ Summary Page:
                         SortExpression="comment" />
 
                 </Columns>
-
             </asp:GridView>
+            <table cellspacing="5" width="600" id="officefollowUpRow" runat="server">
+                    <tr>
+                        <td rowspan="2">
+                            <asp:TextBox ID="tbOfficeFollowUpComment" ReadOnly="true" Width="400" Height="100" TextMode="MultiLine"
+                                runat="server">
+                            </asp:TextBox>
+                        </td>
+                        <td class="style7">
+                            Followup Date:
+                        </td>
+                        <td class="style4">
+                            <asp:Label ID="lblOfficeFollowUpDate" runat="server" Text="" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="style7">
+                            Followup by:
+                        </td>
+                        <td class="style4">
+                            <asp:Label ID="lblOfficeFollowUpSubmitter" runat="server" Text="" />
+                        </td>
+                    </tr>
+                    <caption>
+                        &lt;<tr>
+                            <td class="style5">
+                                
+                            </td>
+                            <td class="style7">
+                                Followup Status:
+                            </td>
+                            <td>
+                                <asp:Label ID="lblOfficeFollowUpStatus" runat="server" Text="" />
+                            </td>
+                        </tr>
+                    </caption>
+                    </tr>
+                </table>
         </asp:Panel> 
     </asp:Panel>
 

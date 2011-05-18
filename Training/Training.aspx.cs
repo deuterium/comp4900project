@@ -663,7 +663,6 @@ public partial class Training_Training : System.Web.UI.Page {
                                          coursename = temp1.TC.trainingName,
                                          startdate = temp1.temp0.TT.startDate,
                                          enddate = temp1.temp0.TT.endDate,
-                                         ttNo = temp1.temp0.TT.trainingTakenNo,
                                      }
                                );
 
@@ -921,6 +920,46 @@ public partial class Training_Training : System.Web.UI.Page {
             }
             rblRingIssued.Visible = true;
         }
+        else if (course.trainingName.Equals("ARC Safety Training"))
+        {
+            pnlCrsDetails.Visible = true;
+            lblCourseDate.Visible = true;
+            tbxCourseDate.Visible = true;
+            
+            rblEvaluation.Visible = true;
+            if (training.evaluation != null)
+            {
+                if (training.evaluation.ToString().Equals("1"))
+                {
+                    rblEvaluation.SelectedValue = "Pass";
+                }
+                else
+                {
+                    rblEvaluation.SelectedValue = "Fail";
+                }
+            }
+            
+            lblCert.Visible = true;
+            tbxCert.Visible = true;
+            tbxCert.Text = training.certificateNum;
+        }
+        else if (course.trainingName.Equals("X Ray Machine Training"))
+        {
+            pnlCrsDetails.Visible = true;
+            rblSigned.Visible = true;
+            lblSOPSigned.Visible = true;
+            if (training.SOPsigned != null)
+            {
+                if (training.SOPsigned.ToString().Equals("1"))
+                {
+                    rblSigned.SelectedValue = "Yes";
+                }
+                else
+                {
+                    rblSigned.SelectedValue = "No";
+                }
+            }
+        }
         else
         {
             disableDetails();
@@ -960,9 +999,9 @@ public partial class Training_Training : System.Web.UI.Page {
                     case "System.Web.UI.WebControls.RadioButton":
                         ((RadioButton)c).Checked = false;
                         break;
-                    case "System.Web.UI.WebControls.DropDownList":
-                        ((DropDownList)c).SelectedIndex = 0;
-                        break;
+                    //case "System.Web.UI.WebControls.DropDownList":
+                        //((DropDownList)c).SelectedIndex = 0;
+                        //break;
                 }
             }
         }
@@ -1087,6 +1126,8 @@ public partial class Training_Training : System.Web.UI.Page {
     /// <param name="e"></param>
     protected void btnAddCrs_Click(object sender, EventArgs e)
     {
+        disableDetails();
+        pnlCrsDetails.Visible = false;
         pnlNewCourse.Visible = true;
         PopulateCoursesDdl();
     }
@@ -1098,8 +1139,7 @@ public partial class Training_Training : System.Web.UI.Page {
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void btnAddCrsAction_Click(object sender, EventArgs e)
-    {
-        disableDetails();
+    {   
         int empId = Convert.ToInt32(tbxId.Text);
         
         try
