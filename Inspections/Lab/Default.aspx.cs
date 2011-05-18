@@ -704,6 +704,43 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
         }
     }
 
+    #region Page Clear
+
+    /// <summary>
+    /// resets all controls on the form.
+    /// </summary>
+    /// <param name="parent"></param>
+    private void ResetFormControlValues(Control parent)
+    {
+        foreach (Control c in parent.Controls)
+        {
+            if (c.Controls.Count > 0)
+            {
+                ResetFormControlValues(c);
+            }
+            else
+            {
+                switch (c.GetType().ToString())
+                {
+                    case "System.Web.UI.WebControls.TextBox":
+                        ((TextBox)c).Text = "";
+                        break;
+                    case "System.Web.UI.WebControls.CheckBox":
+                        ((CheckBox)c).Checked = false;
+                        break;
+                    case "System.Web.UI.WebControls.RadioButtonList":
+                        ((RadioButtonList)c).ClearSelection();
+                        break;
+                    case "System.Web.UI.WebControls.DropDownList":
+                        ((DropDownList)c).SelectedIndex = 0;
+                        break;
+                }
+            }
+        }
+    }
+
+    #endregion
+
     /// <summary>
     /// This function takes in the value returned from the RadioButtonList control and converts
     /// it to a value that is standard in our database by using a switch that determines the
@@ -745,5 +782,10 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
         lblPnlPop.ForeColor = color;
         pnlPop.Style.Value = "display:block;";
         mpePop.Show();
+    }
+
+    protected void btnPnlPopClose_Click(object sender, EventArgs e)
+    {
+        ResetFormControlValues(this);
     }
 }
