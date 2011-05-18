@@ -54,6 +54,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// <param name="sender">The object that requested the page load.</param>
     /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e) {
+        ASP.global_asax.Session_Authentication();
         if (!IsPostBack) {
             pnlPop.Style.Value = "display:none;";
             disableAllTextBoxes();
@@ -167,6 +168,14 @@ public partial class Tracking_Default : System.Web.UI.Page {
     private void filterReport(GridView gdv) {
         var reports = ctx.Incidents
                       .Select(r => r);
+
+        // If the user is a Lab Manager, only get incidents from within their Department
+        //if (Session["RoleNo"].Equals(4)) {
+        //    int deptNo = Convert.ToInt32(Session["DeptNo"]);
+        //    reports = ctx.Incidents
+        //              .Where(r => r.submitterDeptNo.Equals(deptNo))
+        //              .Select(r => r);
+        //}
 
         #region B_NatureOfInjury
         if (cbx_p1_nature_no.Checked) { reports = reports.Where(r => r.p1_nature_no.Equals("1")); addFilter(cbx_p1_nature_no); }
@@ -368,7 +377,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
                 // subheader
                 prevDeptName = report.Employee.deptName;
                 DataRow drSubheader = dt.NewRow();
-                drSubheader["incidentNo"] = report.Employee.deptName;
+                drSubheader["incidentNo"] = "Department: " + report.Employee.deptName;
                 dt.Rows.Add(drSubheader);
 
             }
