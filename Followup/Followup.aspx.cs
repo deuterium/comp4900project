@@ -109,6 +109,7 @@ public partial class Followup_Followup : System.Web.UI.Page
     #endregion
 
     #region Incident Followup
+
     #region Disable Form
     /// <summary>
     /// Disabled the parameter CheckBox control.
@@ -372,98 +373,6 @@ public partial class Followup_Followup : System.Web.UI.Page
         disableCheckBox(cbx_p2_factors_otherWorker);
         disableTextBox(tbx_p2_factors_otherWorker);
         #endregion E_ContributingFactors
-
-        #region F_CorrectiveAction
-        disableTextBox(tbx_p2_corrective_person);
-        disableTextBox(tbx_p2_corrective_personDate);
-        disableRadioButtonList(rbl_p2_corrective_maintenance);
-        disableTextBox(tbx_p2_corrective_maintenanceDate);
-        disableRadioButtonList(rbl_p2_corrective_communicated);
-        disableTextBox(tbx_p2_corrective_communicatedDate);
-        disableRadioButtonList(rbl_p2_corrective_time);
-        disableTextBox(tbx_p2_corrective_timeDate);
-        #endregion F_CorrectiveAction
-
-        #region G_FollowUp
-        disableTextBox(tbx_p2_corrective_written);
-        disableTextBox(tbx_p2_corrective_writtenTargetDate);
-        disableTextBox(tbx_p2_corrective_writtenCompletedDate);
-        disableTextBox(tbx_p2_corrective_education);
-        disableTextBox(tbx_p2_corrective_educationTargetDate);
-        disableTextBox(tbx_p2_corrective_educationCompletedDate);
-        disableTextBox(tbx_p2_corrective_equipment);
-        disableTextBox(tbx_p2_corrective_equipmentTargetDate);
-        disableTextBox(tbx_p2_corrective_equipmentCompletedDate);
-        disableTextBox(tbx_p2_corrective_environment);
-        disableTextBox(tbx_p2_corrective_environmentTargetDate);
-        disableTextBox(tbx_p2_corrective_environmentCompletedDate);
-        disableTextBox(tbx_p2_corrective_patient);
-        disableTextBox(tbx_p2_corrective_patientTargetDate);
-        disableTextBox(tbx_p2_corrective_patientCompletedDate);
-        #endregion G_FollowUp
-
-        #region G_ManagersReport
-        disableTextBox(tbx_p2_manager_previous);
-        disableTextBox(tbx_p2_manager_objections);
-        disableTextBox(tbx_p2_manager_alternative);
-        #endregion G_ManagersReport
-
-        #region H_FixedShiftRotation
-
-        #region H_FixedShiftRotation_Week1
-        disableTextBox(tbx_p2_manager_week1_sun);
-        disableTextBox(tbx_p2_manager_week1_mon);
-        disableTextBox(tbx_p2_manager_week1_tue);
-        disableTextBox(tbx_p2_manager_week1_wed);
-        disableTextBox(tbx_p2_manager_week1_thu);
-        disableTextBox(tbx_p2_manager_week1_fri);
-        disableTextBox(tbx_p2_manager_week1_sat);
-        #endregion H_FixedShiftRotation_Week1
-
-        #region H_FixedShiftRotation_Week2
-        disableTextBox(tbx_p2_manager_week2_sun);
-        disableTextBox(tbx_p2_manager_week2_mon);
-        disableTextBox(tbx_p2_manager_week2_tue);
-        disableTextBox(tbx_p2_manager_week2_wed);
-        disableTextBox(tbx_p2_manager_week2_thu);
-        disableTextBox(tbx_p2_manager_week2_fri);
-        disableTextBox(tbx_p2_manager_week2_sat);
-        #endregion H_FixedShiftRotation_Week2
-
-        #endregion H_FixedShiftRotation
-
-        #region watermarks
-        disableWatermark(tweFirstName);
-        disableWatermark(tweLastName);
-        disableWatermark(tweSupervisor);
-        disableWatermark(tweStartDate);
-        disableWatermark(tweEndDate);
-        disableWatermark(tweDateOfIncident);
-        disableWatermark(tweTimeOfIncident);
-        disableWatermark(tweDateReported);
-        disableWatermark(tweTimeReported);
-        disableWatermark(tweWitnessName1);
-        disableWatermark(tweWitnessPhone1);
-        disableWatermark(tweWitnessName2);
-        disableWatermark(tweWitnessPhone2);
-        disableWatermark(tweMedicalGpDate);
-        disableWatermark(tweMedicalErDate);
-        disableWatermark(tweCorrectivePerson);
-        disableWatermark(tweCorrectivePersonDate);
-        disableWatermark(tweCorrectiveMaintebanceDate);
-        disableWatermark(tweCorrectiveCommDate);
-        disableWatermark(tweCorrectiveTimeDate);
-        disableWatermark(tweWrittenTargetDate);
-        disableWatermark(tweWrittenCompletedDate);
-        disableWatermark(tweEducationTargetDate);
-        disableWatermark(tweEducationCompletedDate);
-        disableWatermark(tweEquipmentTargetDate);
-        disableWatermark(tweEquipmentCompletedDate);
-        disableWatermark(tweEnvironmentTargetDate);
-        disableWatermark(tweEnvironmentCompletedDate);
-        disableWatermark(twePatientTargetDate);
-        disableWatermark(twePatientCompletedDate);
-        #endregion watermarks
 
     }
     #endregion Disable Form
@@ -887,6 +796,71 @@ public partial class Followup_Followup : System.Web.UI.Page
     #endregion LoadEmployeeData
 
     #endregion Load Incident Report
+
+    protected void tbxIncidentFollowupSubmitter_Load(object sender, EventArgs e)
+    {
+        tbxIncidentFollowupSubmitter.Text = Session["AuthenticatedUser"].ToString();
+    }
+
+    protected void btnIncidentFollowupSubmit_Click(object sender, EventArgs e)
+    {
+        int insNo = Convert.ToInt32(tbNoHidden.Text);
+        Incident inc = ctx.Incidents.Where(i => i.incidentNo == insNo).Select(i => i).First();
+        //F - 8 items
+        inc.p2_corrective_person = tbx_p2_corrective_person.Text;
+        inc.p2_corrective_personDate = Convert.ToDateTime(tbx_p2_corrective_personDate.Text);
+        inc.p2_corrective_equipment = rbl_p2_corrective_maintenance.SelectedValue;
+        inc.p2_corrective_equipmentCompletedDate = Convert.ToDateTime(tbx_p2_corrective_maintenanceDate.Text);
+        inc.p2_corrective_communicated = rbl_p2_corrective_communicated.SelectedValue;
+        inc.p2_corrective_communicatedDate = Convert.ToDateTime(tbx_p2_corrective_communicatedDate.Text);
+        inc.p2_corrective_time = rbl_p2_corrective_time.SelectedValue;
+        inc.p2_corrective_timeDate = Convert.ToDateTime(tbx_p2_corrective_timeDate.Text);
+        //G - 15 items
+        inc.p2_corrective_written = tbx_p2_corrective_written.Text;
+        inc.p2_corrective_writtenTargetDate = Convert.ToDateTime(tbx_p2_corrective_writtenTargetDate.Text);
+        inc.p2_corrective_writtenCompletedDate = Convert.ToDateTime(tbx_p2_corrective_writtenCompletedDate.Text);
+        inc.p2_corrective_education = tbx_p2_corrective_education.Text;
+        inc.p2_corrective_educationTargetDate = Convert.ToDateTime(tbx_p2_corrective_educationTargetDate.Text);
+        inc.p2_corrective_educationCompletedDate = Convert.ToDateTime(tbx_p2_corrective_educationCompletedDate.Text);
+        inc.p2_corrective_equipment = tbx_p2_corrective_equipment.Text;
+        inc.p2_corrective_equipmentTargetDate = Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text);
+        inc.p2_corrective_equipmentCompletedDate = Convert.ToDateTime(tbx_p2_corrective_environmentCompletedDate.Text);
+        inc.p2_corrective_environment = tbx_p2_corrective_environment.Text;
+        inc.p2_corrective_environmentTargetDate = Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text);
+        inc.p2_corrective_environmentCompletedDate = Convert.ToDateTime(tbx_p2_corrective_environmentCompletedDate.Text);
+        inc.p2_corrective_patient = tbx_p2_corrective_patient.Text;
+        inc.p2_corrective_patientTargetDate = Convert.ToDateTime(tbx_p2_corrective_patientTargetDate.Text);
+        inc.p2_corrective_patientCompletedDate = Convert.ToDateTime(tbx_p2_corrective_patientCompletedDate.Text);
+        //H - 17 items
+        inc.p2_manager_previous = tbx_p2_manager_previous.Text;
+        inc.p2_manager_objections = tbx_p2_manager_objections.Text;
+        inc.p2_manager_alternative = tbx_p2_manager_alternative.Text;
+        inc.p2_manager_week1_sun = Convert.ToDecimal(tbx_p2_manager_week1_sun.Text);
+        inc.p2_manager_week1_mon = Convert.ToDecimal(tbx_p2_manager_week1_mon.Text);
+        inc.p2_manager_week1_tue = Convert.ToDecimal(tbx_p2_manager_week1_tue.Text);
+        inc.p2_manager_week1_wed = Convert.ToDecimal(tbx_p2_manager_week1_wed.Text);
+        inc.p2_manager_week1_thu = Convert.ToDecimal(tbx_p2_manager_week1_thu.Text);
+        inc.p2_manager_week1_fri = Convert.ToDecimal(tbx_p2_manager_week1_fri.Text);
+        inc.p2_manager_week1_sat = Convert.ToDecimal(tbx_p2_manager_week1_sat.Text);
+        inc.p2_manager_week2_sun = Convert.ToDecimal(tbx_p2_manager_week2_sun.Text);
+        inc.p2_manager_week2_mon = Convert.ToDecimal(tbx_p2_manager_week2_mon.Text);
+        inc.p2_manager_week2_tue = Convert.ToDecimal(tbx_p2_manager_week2_tue.Text);
+        inc.p2_manager_week2_wed = Convert.ToDecimal(tbx_p2_manager_week2_wed.Text);
+        inc.p2_manager_week2_thu = Convert.ToDecimal(tbx_p2_manager_week2_thu.Text);
+        inc.p2_manager_week2_fri = Convert.ToDecimal(tbx_p2_manager_week2_fri.Text);
+        inc.p2_manager_week2_sat = Convert.ToDecimal(tbx_p2_manager_week2_sat.Text);
+
+        try
+        {
+            ctx.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            Popup_Overlay(ex.Message, Color.Red);
+            return;
+        }
+        Popup_Overlay("Follow up Submitted.", Color.Green);
+    }
     #endregion
 
     #region Lab & Office Followup
