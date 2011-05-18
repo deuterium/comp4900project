@@ -21,8 +21,6 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__CourseDet__train__41B8C09B", "TrainingCourses", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.TrainingCours), "CourseDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.CourseDetail), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__TrainingC__cours__28ED12D1", "CourseDetails", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.CourseDetail), "TrainingCourseTakenDetail", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.TrainingCourseTakenDetail), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__Incident__submit__2F9A1060", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "Incident", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Incident), true)]
-[assembly: EdmRelationshipAttribute("BCCAModel", "FK__LabInspec__deptN__59C55456", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "LabInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.LabInspection), true)]
-[assembly: EdmRelationshipAttribute("BCCAModel", "FK__OfficeIns__deptN__6FB49575", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "OfficeInspection", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.OfficeInspection), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "fk_deptNo", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(BCCAModel.Department), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.User), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__Incident__empNo__04AFB25B", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Employee), "Incident", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.Incident), true)]
 [assembly: EdmRelationshipAttribute("BCCAModel", "FK__TrainingT__empNo__503BEA1C", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(BCCAModel.Employee), "TrainingTaken", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(BCCAModel.TrainingTaken), true)]
@@ -820,50 +818,6 @@ namespace BCCAModel
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Incident>("BCCAModel.FK__Incident__submit__2F9A1060", "Incident", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__LabInspec__deptN__59C55456", "LabInspection")]
-        public EntityCollection<LabInspection> LabInspections
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<LabInspection>("BCCAModel.FK__LabInspec__deptN__59C55456", "LabInspection");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<LabInspection>("BCCAModel.FK__LabInspec__deptN__59C55456", "LabInspection", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__OfficeIns__deptN__6FB49575", "OfficeInspection")]
-        public EntityCollection<OfficeInspection> OfficeInspections
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<OfficeInspection>("BCCAModel.FK__OfficeIns__deptN__6FB49575", "OfficeInspection");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<OfficeInspection>("BCCAModel.FK__OfficeIns__deptN__6FB49575", "OfficeInspection", value);
                 }
             }
         }
@@ -6517,30 +6471,6 @@ namespace BCCAModel
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Int32> deptNo
-        {
-            get
-            {
-                return _deptNo;
-            }
-            set
-            {
-                OndeptNoChanging(value);
-                ReportPropertyChanging("deptNo");
-                _deptNo = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("deptNo");
-                OndeptNoChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _deptNo;
-        partial void OndeptNoChanging(Nullable<global::System.Int32> value);
-        partial void OndeptNoChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.DateTime date
@@ -6801,48 +6731,34 @@ namespace BCCAModel
         private global::System.String _followupSubmitter;
         partial void OnfollowupSubmitterChanging(global::System.String value);
         partial void OnfollowupSubmitterChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String deptName
+        {
+            get
+            {
+                return _deptName;
+            }
+            set
+            {
+                OndeptNameChanging(value);
+                ReportPropertyChanging("deptName");
+                _deptName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("deptName");
+                OndeptNameChanged();
+            }
+        }
+        private global::System.String _deptName;
+        partial void OndeptNameChanging(global::System.String value);
+        partial void OndeptNameChanged();
 
         #endregion
     
         #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__LabInspec__deptN__59C55456", "Department")]
-        public Department Department
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__LabInspec__deptN__59C55456", "Department").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__LabInspec__deptN__59C55456", "Department").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Department> DepartmentReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__LabInspec__deptN__59C55456", "Department");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Department>("BCCAModel.FK__LabInspec__deptN__59C55456", "Department", value);
-                }
-            }
-        }
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -7587,30 +7503,6 @@ namespace BCCAModel
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Int32> deptNo
-        {
-            get
-            {
-                return _deptNo;
-            }
-            set
-            {
-                OndeptNoChanging(value);
-                ReportPropertyChanging("deptNo");
-                _deptNo = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("deptNo");
-                OndeptNoChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _deptNo;
-        partial void OndeptNoChanging(Nullable<global::System.Int32> value);
-        partial void OndeptNoChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String followUpStatus
@@ -7751,48 +7643,34 @@ namespace BCCAModel
         private global::System.String _followupSubmitter;
         partial void OnfollowupSubmitterChanging(global::System.String value);
         partial void OnfollowupSubmitterChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String deptName
+        {
+            get
+            {
+                return _deptName;
+            }
+            set
+            {
+                OndeptNameChanging(value);
+                ReportPropertyChanging("deptName");
+                _deptName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("deptName");
+                OndeptNameChanged();
+            }
+        }
+        private global::System.String _deptName;
+        partial void OndeptNameChanging(global::System.String value);
+        partial void OndeptNameChanged();
 
         #endregion
     
         #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("BCCAModel", "FK__OfficeIns__deptN__6FB49575", "Department")]
-        public Department Department
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__OfficeIns__deptN__6FB49575", "Department").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__OfficeIns__deptN__6FB49575", "Department").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Department> DepartmentReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Department>("BCCAModel.FK__OfficeIns__deptN__6FB49575", "Department");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Department>("BCCAModel.FK__OfficeIns__deptN__6FB49575", "Department", value);
-                }
-            }
-        }
     
         /// <summary>
         /// No Metadata Documentation available.

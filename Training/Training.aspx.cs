@@ -671,11 +671,22 @@ public partial class Training_Training : System.Web.UI.Page {
         grvExpiredCourses.DataBind();
     }
 
+    /// <summary>
+    /// Triggered when grvValidCourses is edited
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grvValidCourses_RowEditing(object sender, GridViewEditEventArgs e)
     {
         grvValidCourses.EditIndex = e.NewEditIndex;
         BindData();
     }
+
+    /// <summary>
+    /// Triggered when grvValidCourses is updated
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grvValidCourses_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
         var q = Session["query"];
@@ -743,12 +754,23 @@ public partial class Training_Training : System.Web.UI.Page {
 
 
     }
+
+    /// <summary>
+    /// Triggered when grvValidCourses when edit is cancelled
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grvValidCourses_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
     {
         grvValidCourses.EditIndex = -1;
         BindData();
     }
 
+    /// <summary>
+    /// Triggered when grvValidCourses is selectedIndex is changed
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grvValidCourses_SelectedIndexChanged(object sender, EventArgs e)
     {
         GridViewRow row = grvValidCourses.SelectedRow;
