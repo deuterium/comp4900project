@@ -608,7 +608,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <asp:Button ID="btnRowViewOfficeInspections" runat="server" 
                     CommandName="RowViewOfficeInspections" 
                     CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
-                    Text="Office Inpsections" />
+                    Text="Office Inspections" />
             </ItemTemplate>
         </asp:TemplateField>
     </Columns>
@@ -757,7 +757,11 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
     <asp:Panel ID="pnlOfficeInspections" CssClass="panel" runat="server" >
         <asp:GridView ID="gdvOfficeInspections" runat="server" AutoGenerateColumns="False" OnRowCommand="gdvOfficeInspections_RowCommand" >
         <Columns>
-            <asp:BoundField DataField="officeInspectionNo" HeaderText="#" ReadOnly="True" SortExpression="deptName" />
+            <asp:TemplateField HeaderText="#">
+                <ItemTemplate>
+                    <asp:Label ID="lblOfficeInspectionNo" runat="server" Text='<%# Bind("officeInspectionNo") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
             <asp:BoundField DataField="deptName" HeaderText="Department" ReadOnly="True" SortExpression="deptName" />
             <asp:BoundField DataField="inspectionDate" HeaderText="Date" DataFormatString="{0:M/dd/yyyy}" SortExpression="inspectionDate" />
             <asp:BoundField DataField="followup" HeaderText="Follow-up" ReadOnly="True" SortExpression="deptName" />

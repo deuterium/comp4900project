@@ -25,14 +25,14 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
     protected void Page_Load(object sender, EventArgs e)
     {
         String reqInspectionNo = Request.QueryString["OfficeInspectionNo"];
-        int inspectionNo = 5; // should be -1
+        int inspectionNo = -1;
         try {
             if (reqInspectionNo != null) {
                 inspectionNo = Convert.ToInt32(reqInspectionNo);
             }
         }
         catch (FormatException ex) {
-            // do nothing
+            return;
         }
         displayOfficeInspection(inspectionNo);
     }

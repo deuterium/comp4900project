@@ -53,10 +53,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e) {
         ASP.global_asax.Session_Authentication();
-        //Session["AuthenticatedUser"] = String.Empty;
-        //Session["AuthenticationHash"] = String.Empty;
-        //Session["RoleNo"] = String.Empty;
-        //Session["DeptNo"] = String.Empty;
 
         // Only do the initial set up the first time the page loads (and not on post-backs).
         if (!IsPostBack) {
@@ -193,7 +189,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
     #region Employee Info Related
     #region Drop Down Lists
-
     #region Load DropDownLists
 
     /// <summary>
@@ -304,7 +299,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
     }
     #endregion Other Option Textbox Toggle
-
     #endregion DropDownLists
 
     #region Load Employee Data
@@ -863,6 +857,9 @@ public partial class Reporting_Default : System.Web.UI.Page {
             #endregion E_ContributingFactors
 
             followUpStatus = "0",
+            reportSubmitter = Session["AuthenticatedUser"].ToString(),
+            submitterDeptNo = Convert.ToInt32(Session["DeptNo"])
+            
         };
 
         #region A_IncidentInfo_Dates
