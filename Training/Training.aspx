@@ -8,11 +8,11 @@
     {
         width: 100%;
     }
-    .style2
-    {
-        width: 309px;
-    }
-</style>
+        .style2
+        {
+            width: 266px;
+        }
+    </style>
 </asp:Content>
 
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="body">
@@ -35,12 +35,6 @@ ExpandedImage="../images/collapse.jpg">
     <asp:CollapsiblePanelExtender ID="cpeCoursesExpired" runat="server" Collapsed="true"
     CollapseControlID="hr4CoursesExpired" ExpandControlID="hr4CoursesExpired" TargetControlID="pnlCoursesExpired"
     ImageControlID="imgExpandCollapseCoursesExpired" TextLabelID="ExpandCollapseCoursesExpired" CollapsedImage="../images/expand.jpg" 
-    ExpandedImage="../images/collapse.jpg">
-    </asp:CollapsiblePanelExtender>
-
-    <asp:CollapsiblePanelExtender ID="cpeCoursesNotCompleted" runat="server" Collapsed="true"
-    CollapseControlID="hr4CoursesNotCompleted" ExpandControlID="hr4CoursesNotCompleted" TargetControlID="pnlCoursesNotCompleted"
-    ImageControlID="imgExpandCollapseCoursesNotCompleted" TextLabelID="ExpandCollapseCoursesNotCompleted" CollapsedImage="../images/expand.jpg" 
     ExpandedImage="../images/collapse.jpg">
     </asp:CollapsiblePanelExtender>
 
@@ -211,8 +205,14 @@ ExpandedImage="../images/collapse.jpg">
                         <Columns>
                             <asp:CommandField ShowEditButton="True" />
                             <asp:CommandField ShowSelectButton="True" SelectText="Details" />
-                            <asp:BoundField DataField="coursename" HeaderText="Training Name" 
-                                ReadOnly="True" SortExpression="coursename" />
+                            <asp:TemplateField HeaderText="Training Name" SortExpression="coursename">
+                                <EditItemTemplate>
+                                    <asp:Label ID="Label1" runat="server" Text='<%# Eval("coursename") %>'></asp:Label>
+                                </EditItemTemplate>
+                                <ItemTemplate>
+                                    <asp:Label ID="Label2" runat="server" Text='<%# Bind("coursename") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                             <asp:BoundField DataField="ttNo" HeaderText="ttNo" SortExpression="ttNo" 
                                 ReadOnly="True" />
                             <asp:TemplateField HeaderText="Start Date" SortExpression="startDate">
@@ -239,13 +239,14 @@ ExpandedImage="../images/collapse.jpg">
                             </asp:TemplateField>
                         </Columns>
                     </asp:GridView>
-                    
-                    <asp:Panel ID="pnlBioSafety" runat="server" CssClass="panel">
+                    <asp:Button ID="btnAddCrs" runat="server" Text="Add Course" 
+                        onclick="btnAddCrs_Click" />
+                    <asp:Panel ID="pnlCrsDetails" runat="server" CssClass="panel">
                         <div>
-                            <table class="style1">
+                            <table id="tblCrsDetails" class="style1">
                                 <tr>
-                                    <td class="style2">
-                                        <asp:Label ID="lbCourseDate" runat="server" Text="Date of Course:"></asp:Label>
+                                    <td class="crsDetails">
+                                        <asp:Label ID="lblCourseDate" runat="server" Text="Date of Course:"></asp:Label>
                                     </td>
                                     <td>
                                         <asp:TextBox ID="tbxCourseDate" runat="server"></asp:TextBox>
@@ -255,7 +256,7 @@ ExpandedImage="../images/collapse.jpg">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="style2">
+                                    <td class="biosafety">
                                         <asp:Label ID="lblBSCDate" runat="server" Text="Date of BSC Seminar"></asp:Label>
                                     </td>
                                     <td>
@@ -266,7 +267,7 @@ ExpandedImage="../images/collapse.jpg">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="style2">
+                                    <td class="crsDetails">
                                         <asp:Label ID="lblSOPSigned" runat="server" Text="SOP Signed:"></asp:Label>
                                     </td>
                                     <td>
@@ -277,7 +278,7 @@ ExpandedImage="../images/collapse.jpg">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="style2">
+                                    <td class="crsDetails">
                                         <asp:Label ID="lblEval" runat="server" Text="Evaluation:"></asp:Label>
                                     </td>
                                     <td>
@@ -289,14 +290,14 @@ ExpandedImage="../images/collapse.jpg">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="style2">
+                                    <td class="crsDetails">
                                         <asp:Label ID="lblresp1" runat="server" Text="Respirator Fit-Testing:"></asp:Label>
                                     </td>
                                     <td>
                                         &nbsp;</td>
                                 </tr>
                                 <tr>
-                                    <td class="style2">
+                                    <td class="crsDetails">
                                         &nbsp;&nbsp;&nbsp;
                                         <asp:Label ID="lblRespFit" runat="server" Text="Date of fit:"></asp:Label>
                                     </td>
@@ -305,7 +306,7 @@ ExpandedImage="../images/collapse.jpg">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="style2">
+                                    <td class="crsDetails">
                                         &nbsp;&nbsp; &nbsp;<asp:Label ID="lblRespType" runat="server" Text="Type of Respirator:"></asp:Label>
                                     </td>
                                     <td>
@@ -313,7 +314,7 @@ ExpandedImage="../images/collapse.jpg">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="style2">
+                                    <td class="crsDetails">
                                         &nbsp;&nbsp;&nbsp;
                                         <asp:Label ID="lblRespModel" runat="server" Text="Model:"></asp:Label>
                                     </td>
@@ -322,7 +323,7 @@ ExpandedImage="../images/collapse.jpg">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="style2">
+                                    <td class="crsDetails">
                                         &nbsp;&nbsp;&nbsp;
                                         <asp:Label ID="lblRespComment" runat="server" Text="Comments:"></asp:Label>
                                     </td>
@@ -331,7 +332,7 @@ ExpandedImage="../images/collapse.jpg">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="style2">
+                                    <td class="spill">
                                         <asp:Label ID="lblSpillDate" runat="server" 
                                             Text="Date of Spill Clean-up training:"></asp:Label>
                                     </td>
@@ -340,7 +341,7 @@ ExpandedImage="../images/collapse.jpg">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="style2">
+                                    <td class="radiation">
                                         <asp:Label ID="lblDosSubmitted" runat="server" 
                                             Text="Dosimeter request form submitted:"></asp:Label>
                                     </td>
@@ -353,7 +354,7 @@ ExpandedImage="../images/collapse.jpg">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="style2">
+                                    <td class="radiation">
                                         <asp:Label ID="lblDosIssued" runat="server" Text="Dosimeter issued:"></asp:Label>
                                     </td>
                                     <td>
@@ -365,7 +366,7 @@ ExpandedImage="../images/collapse.jpg">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="style2">
+                                    <td class="radiation">
                                         <asp:Label ID="lblRingIssued" runat="server" Text="Ring issued:"></asp:Label>
                                     </td>
                                     <td>
@@ -377,7 +378,7 @@ ExpandedImage="../images/collapse.jpg">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="style2">
+                                    <td class="radiation">
                                         <asp:Label ID="lblCert" runat="server" Text="Certificate Number:"></asp:Label>
                                     </td>
                                     <td>
@@ -385,19 +386,58 @@ ExpandedImage="../images/collapse.jpg">
                                     </td>
                                 </tr>
                             </table>
-                            &nbsp;<asp:Button ID="Button1" runat="server" Text="Save Details" />
+                            &nbsp;<asp:Button ID="btnSaveCrsDetails" runat="server" Text="Save Details" 
+                                onclick="btnSaveCrsDetails_Click" />
                             <br />
                         </div>
+                    </asp:Panel>
+                    <asp:Panel ID="pnlNewCourse" runat="server" CssClass="panel">
+                        <table class="style1">
+                            <tr>
+                                <td class="style2">
+                                    Training Name</td>
+                                <td>
+                                    <asp:DropDownList ID="ddlNewCrs" runat="server">
+                                    </asp:DropDownList>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="style2">
+                                    Start Date</td>
+                                <td>
+                                    <asp:TextBox ID="tbxNewCrsStart" runat="server"></asp:TextBox>
+                                    <asp:CalendarExtender ID="tbxNewCrsStart_CalendarExtender" runat="server" 
+                                        Enabled="True" TargetControlID="tbxNewCrsStart">
+                                    </asp:CalendarExtender>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="style2">
+                                    End Date</td>
+                                <td>
+                                    <asp:TextBox ID="tbxNewCrsEnd" runat="server"></asp:TextBox>
+                                    <asp:CalendarExtender ID="tbxNewCrsEnd_CalendarExtender" runat="server" 
+                                        Enabled="True" TargetControlID="tbxNewCrsEnd">
+                                    </asp:CalendarExtender>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="style2">
+                                    <asp:Button ID="btnAddCrsAction" runat="server" onclick="btnAddCrsAction_Click" 
+                                        Text="Add" />
+                                    <asp:Button ID="btnCancelAddCrs" runat="server" onclick="btnCancelAddCrs_Click" 
+                                        Text="Cancel" />
+                                </td>
+                                <td>
+                                    &nbsp;</td>
+                            </tr>
+                        </table>
                     </asp:Panel>
                     
                 </asp:Panel>
                 <h4 id="hr4CoursesExpired"><asp:Image ID="imgExpandCollapseCoursesExpired" runat="server" /> Expired: <asp:Label ID="ExpandCollapseCoursesExpired" runat="server" Text=""></asp:Label></h4>
                 <asp:Panel ID="pnlCoursesExpired" CssClass="panel" runat="server">
-                </asp:Panel>
-                <h4 id="hr4CoursesNotCompleted"><asp:Image ID="imgExpandCollapseCoursesNotCompleted" runat="server" /> Not Completed: <asp:Label ID="ExpandCollapseCoursesNoteCompleted" runat="server" Text=""></asp:Label></h4>
-                <asp:Panel ID="pnlCoursesNotCompleted" CssClass="panel" runat="server">
-                    <asp:GridView ID="gdvCoursesNotCompleted" runat="server" ForeColor="Red" 
-                        ClientIDMode="AutoID">
+                    <asp:GridView ID="grvExpiredCourses" runat="server">
                     </asp:GridView>
                 </asp:Panel>
                 <h4 id="hr4CoursesCatalog"><asp:Image ID="imgExpandCollapseCoursesCatalog" runat="server" /> Catalog <asp:Label ID="ExpandCollapseCoursesCatalog" runat="server" Text=""></asp:Label></h4>
