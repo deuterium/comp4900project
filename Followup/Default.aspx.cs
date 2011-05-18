@@ -139,10 +139,7 @@ public partial class Followup_Default : System.Web.UI.Page
                     {
                         insNo = l.labInsNo,
                         insDate = l.date,
-                        insLoc = (ctx.Departments
-                            .Where(d => d.deptNo == l.deptNo)
-                            .Select(d => d.deptName)
-                            .FirstOrDefault() + " - ") + l.room,
+                        insLoc = (l.deptName + " - ") + l.room,
                         insMgr = l.labMgr,
                         insSubmitter = l.reportSubmitter
                     })
@@ -153,17 +150,15 @@ public partial class Followup_Default : System.Web.UI.Page
             //Role: Lab Manager; Sees all corrseponding reports to their lab
             case 1:
                 int? userDeptNo = (int?)Session["DeptNo"];
+                string userDept = ctx.Departments.Where(d => d.deptNo == userDeptNo).Select(d => d.deptName).First();
                 var query = ctx.LabInspections
                     .Where(l => ((l.followUpStatus == "0") || (l.followUpStatus == "1"))
-                        && (l.deptNo == userDeptNo))
+                        && (l.deptName == userDept))
                     .Select(l => new
                     {
                         insNo = l.labInsNo,
                         insDate = l.date,
-                        insLoc = (ctx.Departments
-                            .Where(d => d.deptNo == l.deptNo)
-                            .Select(d => d.deptName)
-                            .FirstOrDefault() + " - ") + l.room,
+                        insLoc = (l.deptName + " - ") + l.room,
                         insMgr = l.labMgr,
                         insSubmitter = l.reportSubmitter
                     })
@@ -211,10 +206,7 @@ public partial class Followup_Default : System.Web.UI.Page
                     {
                         insNo = o.officeInsNo,
                         insDate = o.insDate,
-                        insLoc = (ctx.Departments
-                            .Where(d => d.deptNo == o.deptNo)
-                            .Select(d => d.deptName)
-                            .FirstOrDefault() + " - ") + o.area,
+                        insLoc = (o.deptName + " - ") + o.area,
                         insIpt = o.inspector,
                         insSubmitter = o.reportSubmitter
                     })
@@ -223,19 +215,17 @@ public partial class Followup_Default : System.Web.UI.Page
                 lblFollowupOfficeInspectionCount.Text = qry.Count().ToString();
                 break;
             //Role: Lab Manager; Sees all corrseponding reports to their lab
-            case 1:
+            case 1: 
                 int? userDeptNo = (int?)Session["DeptNo"];
+                string userDept = ctx.Departments.Where(d => d.deptNo == userDeptNo).Select(d => d.deptName).First();
                 var query = ctx.OfficeInspections
                     .Where(o => ((o.followUpStatus == "0") || (o.followUpStatus == "1"))
-                        && (o.deptNo == userDeptNo))
+                        && (o.deptName == userDept))
                     .Select(o => new
                     {
                         insNo = o.officeInsNo,
                         insDate = o.insDate,
-                        insLoc = (ctx.Departments
-                            .Where(d => d.deptNo == o.deptNo)
-                            .Select(d => d.deptName)
-                            .FirstOrDefault() + " - ") + o.area,
+                        insLoc = (o.deptName + " - ") + o.area,
                         insIpt = o.inspector,
                         insSubmitter = o.reportSubmitter
                     })

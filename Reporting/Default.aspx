@@ -205,13 +205,6 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
             Text="Update  Employee" onclick="btnUpdateEmployee_Click" />
         <asp:Button TabIndex="1112" ID="btnCreateReport" runat="server" 
             Text="Create Report" onclick="btnCreateReport_Click" />
-        <asp:Button TabIndex="1112" ID="btnLoadReport" runat="server" 
-            Text="Load Report" onclick="btnLoadReport_Click" />
-        <asp:Button TabIndex="1112" ID="btnFilterReport" runat="server" 
-            Text="Filter Reports" onclick="btnFilterReport_Click" />
-        <p><asp:Label ID="lblResults" runat="server" Text="" Visible="false" ></asp:Label></p>
-        
-        
         <asp:ValidationSummary ID="vsyEmployeeInfo" runat="server" ValidationGroup="vgpEmpInfo" DisplayMode="BulletList" />
     </div>
 </asp:Panel>
@@ -1151,57 +1144,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 
 </asp:Panel>
 
-<asp:GridView ID="gdvTracker" runat="server" AutoGenerateColumns="False" OnRowCommand="gdvTracker_RowCommand" >
-    <Columns>
-        <asp:TemplateField HeaderText="Incident No.">
-            <ItemTemplate>
-                <asp:Label ID="lblIncidentNo" runat="server" Text='<%# Bind("incidentNo") %>'></asp:Label>
-            </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField>
-            <ItemTemplate>
-                <asp:Button ID="btnRowViewReport" runat="server" 
-                    CommandName="RowViewReport" 
-                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
-                    Text="View Report" />
-            </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField>
-            <ItemTemplate>
-                <asp:Button ID="btnRowViewEmployees" runat="server" 
-                    CommandName="RowViewEmployees" 
-                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
-                    Text="View Employees" />
-            </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField>
-            <ItemTemplate>
-                <asp:Button ID="btnRowViewCourses" runat="server" 
-                    CommandName="RowViewCourses" 
-                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
-                    Text="View Courses" />
-            </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField>
-            <ItemTemplate>
-                <asp:Button ID="btnRowViewLabInspections" runat="server" 
-                    CommandName="RowViewLabInspections" 
-                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
-                    Text="View Lab Inspections" />
-            </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField>
-            <ItemTemplate>
-                <asp:Button ID="btnRowViewOfficeInspections" runat="server" 
-                    CommandName="RowViewOfficeInspections" 
-                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
-                    Text="View Office Inpsections" />
-            </ItemTemplate>
-        </asp:TemplateField>
-    </Columns>
-    <EmptyDataTemplate>No incident reports found.</EmptyDataTemplate>
-</asp:GridView>
-
+<div id="divPop" visible="false">
 <asp:Panel ID="pnlPop" BackColor="White" Width="400px" Height="100px" CssClass="popPanel" runat="server">
     <table width="100%" cellpadding="5">
         <tr>
@@ -1220,6 +1163,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 <asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
 <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
     DropShadow="true" BackgroundCssClass="modalBackground" />
+</div>
 
 </div>
 

@@ -570,3 +570,10 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     background: #e8f7fb; 
     border: 1px solid #dbeff5;
 }
+
+/* Tracking.aspx */
+.trackingInspectionComments
+{
+    width: 250px;
+    max-width: 250px;
+}
