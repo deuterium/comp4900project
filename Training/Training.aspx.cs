@@ -53,7 +53,8 @@ public partial class Training_Training : System.Web.UI.Page {
             pnlPop.Style.Value = "display:none;";
             lblResults.Visible = true;
             tsmScriptManager.SetFocus(tbxLastName.ClientID);
-            pnlBioSafety.Visible = false;
+            pnlCrsDetails.Visible = false;
+            pnlNewCourse.Visible = false;
         }
     }
 
@@ -99,6 +100,18 @@ public partial class Training_Training : System.Web.UI.Page {
         ddlDepartments.DataBind();
         ddlDepartments.Items.Insert(ddlDepartments.Items.Count, otherOption);
         ddlDepartments.Items.Insert(0, noOptionSpecified);
+    }
+
+    /// <summary>
+    /// Populates the new Courses dropdown list.
+    /// Loads course names from the database
+    /// </summary>
+    private void PopulateCoursesDdl()
+    {
+        ddlNewCrs.DataSource = ctx.TrainingCourses;
+        ddlNewCrs.DataTextField = "trainingName";
+        ddlNewCrs.DataValueField = "trainingNo";
+        ddlNewCrs.DataBind();
     }
 
     #endregion Load DropDownLists
@@ -292,6 +305,7 @@ public partial class Training_Training : System.Web.UI.Page {
             Popup_Overlay("There was more than one employee with that first and last name.", FailColour);
         }
         populateValidCourses();
+        populateExpiredCourses();
     }
 
     /// <summary>
@@ -556,6 +570,7 @@ public partial class Training_Training : System.Web.UI.Page {
     }
     #endregion
 
+    #region gridview methods
     /// <summary>
     /// When the Get Employee button is clicke, this function is called to 
     /// populate all valid courses taken
@@ -602,116 +617,82 @@ public partial class Training_Training : System.Web.UI.Page {
         BindData();
     }
 
+    /// <summary>
+    /// Binds the grvValidCourses
+    /// </summary>
     private void BindData()
     {
         grvValidCourses.DataSource = Session["query"];
         grvValidCourses.DataBind();
     }
 
+    /// <summary>
+    /// Populates the expired courses gridview
+    /// </summary>
     private void populateExpiredCourses()
     {
-        //int month = Convert.ToInt32(tbxMonthsRange.Text);
         DateTime currentDate = DateTime.Now;
-        int empNo = Convert.ToInt32(tbxId.Text);
-        //var q = from x in ctx.TrainingCourses
-        //        select x;
-        //var total = q.Count();
+        var q = ctx.Employees.Where(e => e.empNo == 6)
+                               .Join(
+                                  ctx.TrainingTakens,
+                                  emp => emp.empNo,
+                                  TT => TT.empNo,
+                                  (emp, TT) =>
+                                     new
+                                     {
+                                         emp = emp,
+                                         TT = TT
+                                     }
+                               )
+                               .Join(
+                                  ctx.TrainingCourses,
+                                  temp0 => temp0.TT.trainingNo,
+                                  TC => TC.trainingNo,
+                                  (temp0, TC) =>
+                                     new
+                                     {
+                                         temp0 = temp0,
+                                         TC = TC
+                                     }
+                               )
+                               .Where(temp1 => (currentDate > temp1.temp0.TT.endDate))
+                               .Select(
+                                  temp1 =>
+                                     new
+                                     {
+                                         coursename = temp1.TC.trainingName,
+                                         startdate = temp1.temp0.TT.startDate,
+                                         enddate = temp1.temp0.TT.endDate,
+                                         ttNo = temp1.temp0.TT.trainingTakenNo,
+                                     }
+                               );
 
-        //List<String> courseArray = ctx.TrainingCourses.Select(c => c.trainingName).ToList();
-
-        GridView grvExpiringCourseLookUp = new GridView();
-        grvExpiringCourseLookUp.DataSource = ctx.Employees.Where(e => e.empNo == empNo)
-                                        .Join(
-                                            ctx.TrainingTakens,
-                                            emp => emp.empNo,
-                                            TT => TT.empNo,
-                                            (emp, TT) =>
-                                                new
-                                                {
-                                                    emp = emp,
-                                                    TT = TT
-                                                }
-                                        )
-                                        .Join(
-                                            ctx.TrainingCourses,
-                                            temp0 => temp0.TT.trainingNo,
-                                            TC => TC.trainingNo,
-                                            (temp0, TC) =>
-                                                new
-                                                {
-                                                    temp0 = temp0,
-                                                    TC = TC
-                                                }
-                                        )
-                                        .Where(temp1 => ((currentDate) > temp1.temp0.TT.endDate))
-                                        .Select(
-                                            temp1 =>
-                                                new
-                                                {
-                                                    trainingName = temp1.TC.trainingName,
-                                                    lname = temp1.temp0.emp.lname,
-                                                    fname = temp1.temp0.emp.fname,
-                                                    endDate = temp1.temp0.TT.endDate
-                                                }
-                                        );
-        pnlCoursesExpired.Controls.Add(grvExpiringCourseLookUp);
-        grvExpiringCourseLookUp.Caption = "<table width=\"100%\" class=\"gvCaption\"><tr><td>Expiring Courses</td></tr></table>";
-        grvExpiringCourseLookUp.DataBind();
-    }
-   
-
-    #region clearPage
-    protected void btnClear_Click(object sender, EventArgs e)
-    {
-        ResetFormControlValues(this);
+        grvExpiredCourses.DataSource = q;
+        grvExpiredCourses.DataBind();
     }
 
     /// <summary>
-    /// resets all controls on the form.
+    /// Triggered when grvValidCourses is edited
     /// </summary>
-    /// <param name="parent"></param>
-    private void ResetFormControlValues(Control parent)
-    {
-        foreach (Control c in parent.Controls)
-        {
-            if (c.Controls.Count > 0)
-            {
-                ResetFormControlValues(c);
-            }
-            else
-            {
-                switch (c.GetType().ToString())
-                {
-                    case "System.Web.UI.WebControls.TextBox":
-                        ((TextBox)c).Text = "";
-                        break;
-                    case "System.Web.UI.WebControls.CheckBox":
-                        ((CheckBox)c).Checked = false;
-                        break;
-                    case "System.Web.UI.WebControls.RadioButton":
-                        ((RadioButton)c).Checked = false;
-                        break;
-                    case "System.Web.UI.WebControls.DropDownList":
-                        ((DropDownList)c).SelectedIndex = 0;
-                        break;
-                }
-            }
-        }
-    }
-
-    #endregion 
-
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grvValidCourses_RowEditing(object sender, GridViewEditEventArgs e)
     {
         grvValidCourses.EditIndex = e.NewEditIndex;
         BindData();
     }
+
+    /// <summary>
+    /// Triggered when grvValidCourses is updated
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grvValidCourses_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
         var q = Session["query"];
 
         GridViewRow row = grvValidCourses.Rows[e.RowIndex];
-        
+
         int empNo = Convert.ToInt32(tbxId.Text);
         int ttNo = Convert.ToInt32(grvValidCourses.Rows[e.RowIndex].Cells[3].Text);
         //String ttNoTeest = grvValidCourses.Rows[e.RowIndex].Cells[3].Text;
@@ -725,8 +706,6 @@ public partial class Training_Training : System.Web.UI.Page {
             if (!(e.NewValues["startDate"].Equals(String.Empty)))
             {
                 String strStart = e.NewValues["startDate"].ToString();
-                Object temp = e.NewValues["startDate"];
-                Object temp2 = training.startDate;
                 try
                 {
                     System.Globalization.CultureInfo enUS = new System.Globalization.CultureInfo("en-US");
@@ -772,15 +751,262 @@ public partial class Training_Training : System.Web.UI.Page {
             Popup_Overlay("An error has occured while updating this training. Please try again." + ex.StackTrace.ToString(), FailColour);
             return;
         }
-            
+
 
     }
+
+    /// <summary>
+    /// Triggered when grvValidCourses when edit is cancelled
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grvValidCourses_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
     {
         grvValidCourses.EditIndex = -1;
         BindData();
     }
+
+    /// <summary>
+    /// Triggered when grvValidCourses is selectedIndex is changed
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grvValidCourses_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        GridViewRow row = grvValidCourses.SelectedRow;
+        //String name = Convert.ToString(row.Cells[1].Text);
+        int ttNo = Convert.ToInt32(row.Cells[3].Text);
+
+        TrainingTaken training = ctx.TrainingTakens
+                       .Where(tt => tt.trainingTakenNo == ttNo)
+                       .Select(tt => tt).FirstOrDefault();
+
+        TrainingCours course = ctx.TrainingCourses
+            .Where(c => c.trainingNo == training.trainingNo)
+            .Select(c => c).FirstOrDefault();
+
+        disableDetails();
+        if (course.trainingName.Equals("Biosafety Training") || course.trainingName.Equals("Chem Safety Training")
+            || course.trainingName.Equals("Cyto. Safety Training"))
+        {
+            pnlCrsDetails.Visible = true;
+            lblresp1.Visible = true;
+            lblRespType.Visible = true;
+            lblCourseDate.Visible = true;
+            tbxCourseDate.Visible = true;
+            //tbxCourseDate.Text = training.courseDate
+            if (course.trainingName.Equals("Biosafety Training"))
+            {
+                tbxBSCDate.Visible = true;
+                lblBSCDate.Visible = true;
+                tbxBSCDate.Text = Convert.ToString(training.biosafety_BSCSeminar);
+            }
+            rblSigned.Visible = true;
+            lblSOPSigned.Visible = true;
+            if (training.SOPsigned != null)
+            {
+                if (training.SOPsigned.ToString().Equals("1"))
+                {
+                    rblSigned.SelectedValue = "Yes";
+                }
+                else
+                {
+                    rblSigned.SelectedValue = "No";
+                }
+            }
+            lblEval.Visible = true;
+            rblEvaluation.Visible = true;
+            if (training.evaluation != null)
+            {
+                if (training.evaluation.ToString().Equals("1"))
+                {
+                    rblEvaluation.SelectedValue = "Pass";
+                }
+                else
+                {
+                    rblEvaluation.SelectedValue = "Fail";
+                }
+            }
+            lblRespFit.Visible = true;
+            tbxDateFit.Visible = true;
+            tbxDateFit.Text = Convert.ToString(training.respiratorDate);
+            if (!(course.trainingName.Equals("Cyto. Safety Training")))
+            {
+                lblSpillDate.Visible = true;
+                tbxSpillDate.Visible = true;
+                tbxSpillDate.Text = Convert.ToString(training.spillCleanupPracticalDate);
+            }
+            lblRespFit.Visible = true;
+            tbxRespType.Visible = true;
+            tbxRespType.Text = training.respiratorType;
+            lblRespModel.Visible = true;
+            tbxRespModel.Visible = true;
+            tbxRespModel.Text = training.respiratorModel;
+            lblRespComment.Visible = true;
+            tbxRespComment.Visible = true;
+            tbxRespComment.Text = training.respiratorComments;
+            lblCert.Visible = true;
+            tbxCert.Visible = true;
+            tbxCert.Text = training.certificateNum;
+        }
+        else if (course.trainingName.Equals("Radiation Safety Training"))
+        {
+            pnlCrsDetails.Visible = true;
+            rblSigned.Visible = true;
+            lblSOPSigned.Visible = true;
+            if (training.SOPsigned != null)
+            {
+                if (training.SOPsigned.ToString().Equals("1"))
+                {
+                    rblSigned.SelectedValue = "Yes";
+                }
+                else
+                {
+                    rblSigned.SelectedValue = "No";
+                }
+            }
+            lblEval.Visible = true;
+            rblEvaluation.Visible = true;
+            if (training.evaluation != null)
+            {
+                if (training.evaluation.ToString().Equals("1"))
+                {
+                    rblEvaluation.SelectedValue = "Pass";
+                }
+                else
+                {
+                    rblEvaluation.SelectedValue = "Fail";
+                }
+            }
+            lblCert.Visible = true;
+            tbxCert.Visible = true;
+            tbxCert.Text = training.certificateNum;
+            lblDosIssued.Visible = true;
+            lblDosSubmitted.Visible = true;
+            lblRingIssued.Visible = true;
+            rblDosIssued.Visible = true;
+            if (training.radiation_dosimeterIssued != null)
+            {
+                if (Convert.ToString(training.radiation_dosimeterIssued).Equals("1"))
+                {
+                    rblDosIssued.SelectedValue = "Yes";
+                }
+                else
+                {
+                    rblDosIssued.SelectedValue = "No";
+                }
+            }
+            if (training.radiation_dosimeterSubmitted != null)
+            {
+                if (Convert.ToString(training.radiation_dosimeterSubmitted).Equals("1"))
+                {
+                    rblDosSubmitted.SelectedValue = "Yes";
+                }
+                else
+                {
+                    rblDosSubmitted.SelectedValue = "No";
+                }
+            }
+            rblDosSubmitted.Visible = true;
+            if (training.radiation_ringIssued != null)
+            {
+                if (Convert.ToString(training.radiation_ringIssued).Equals("1"))
+                {
+                    rblRingIssued.SelectedValue = "Yes";
+                }
+                else
+                {
+                    rblRingIssued.SelectedValue = "No";
+                }
+            }
+            rblRingIssued.Visible = true;
+        }
+        else
+        {
+            disableDetails();
+            pnlCrsDetails.Visible = false;
+        }
+    }
+    #endregion
+
+    #region clearPage
+    protected void btnClear_Click(object sender, EventArgs e)
+    {
+        ResetFormControlValues(this);
+    }
+
+    /// <summary>
+    /// resets all controls on the form.
+    /// </summary>
+    /// <param name="parent"></param>
+    private void ResetFormControlValues(Control parent)
+    {
+        foreach (Control c in parent.Controls)
+        {
+            if (c.Controls.Count > 0)
+            {
+                ResetFormControlValues(c);
+            }
+            else
+            {
+                switch (c.GetType().ToString())
+                {
+                    case "System.Web.UI.WebControls.TextBox":
+                        ((TextBox)c).Text = "";
+                        break;
+                    case "System.Web.UI.WebControls.CheckBox":
+                        ((CheckBox)c).Checked = false;
+                        break;
+                    case "System.Web.UI.WebControls.RadioButton":
+                        ((RadioButton)c).Checked = false;
+                        break;
+                    case "System.Web.UI.WebControls.DropDownList":
+                        ((DropDownList)c).SelectedIndex = 0;
+                        break;
+                }
+            }
+        }
+    }
+
+    #endregion 
+
+    
+
+    protected void disableDetails()
+    {
+        tbxBSCDate.Visible = false;
+        lblBSCDate.Visible = false;
+        lblDosIssued.Visible = false;
+        lblDosSubmitted.Visible = false;
+        lblRingIssued.Visible = false;
+        rblDosIssued.Visible = false;
+        rblDosSubmitted.Visible = false;
+        rblRingIssued.Visible = false;
+        lblSOPSigned.Visible = false;
+        rblSigned.Visible = false;
+        lblEval.Visible = false;
+        rblEvaluation.Visible = false;
+        lblRespFit.Visible = false;
+        tbxDateFit.Visible = false;
+        lblSpillDate.Visible = false;
+        tbxSpillDate.Visible = false;
+        lblresp1.Visible = false;
+        lblRespType.Visible = false;
+        lblRespComment.Visible = false;
+        tbxRespComment.Visible = false;
+        lblRespFit.Visible = false;
+        tbxRespType.Visible = false;
+        lblRespModel.Visible = false;
+        tbxRespModel.Visible = false;
+    }
+
+    
+    /// <summary>
+    /// Saves course detail changes to the database
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSaveCrsDetails_Click(object sender, EventArgs e)
     {
         GridViewRow row = grvValidCourses.SelectedRow;
         String name = row.Cells[2].Text.ToString();
@@ -790,39 +1016,134 @@ public partial class Training_Training : System.Web.UI.Page {
                        .Where(tt => tt.trainingTakenNo == ttNo)
                        .Select(tt => tt).FirstOrDefault();
 
-        if (name.Equals("Biosafety Training") || name.Equals("Chem Safety Training")
-            || name.Equals("Cyto. Safety Training"))
-        {
-            pnlBioSafety.Visible = true;
-            lblDosIssued.Visible = false;
-            lblDosSubmitted.Visible = false;
-            lblRingIssued.Visible = false;
-            rblDosIssued.Visible = false;
-            rblDosSubmitted.Visible = false;
-            rblRingIssued.Visible = false;
+        TrainingCours course = ctx.TrainingCourses
+            .Where(c => c.trainingNo == training.trainingNo)
+            .Select(c => c).FirstOrDefault();
 
-            //tbxCourseDate.Text = training.courseDate
-            if (name.Equals("Biosafety Training")) {
-                tbxBSCDate.Text = Convert.ToString(training.biosafety_BSCSeminar);
+        try
+        {
+            System.Globalization.CultureInfo enUS = new System.Globalization.CultureInfo("en-US");
+            if (!(tbxCourseDate.Text.Equals("")))
+            {
+                DateTime crsDate = Convert.ToDateTime(Convert.ToDateTime(tbxCourseDate.Text, enUS));
+                training.courseDate = crsDate;
             }
-            if (training.SOPsigned.ToString().Equals("1")) {
-                rblSigned.SelectedValue = "Yes";
-            } else {
-                rblSigned.SelectedValue = "No";
+
+            training.evaluation = (rblEvaluation.SelectedValue.Equals("Pass")) ? "1" : "0";
+            training.certificateNum = tbxCert.Text;
+
+            if (course.trainingName.Equals("Biosafety Training") || course.trainingName.Equals("Chem Safety Training")
+            || course.trainingName.Equals("Cyto. Safety Training"))
+            {
+                if (course.trainingName.Equals("Biosafety Training") && (!tbxBSCDate.Text.Equals("")))
+                {
+                    DateTime BSCDate = Convert.ToDateTime(Convert.ToDateTime(tbxBSCDate.Text, enUS));
+                    training.biosafety_BSCSeminar = BSCDate;
+                }
+                training.SOPsigned = (rblSigned.SelectedValue.Equals("Yes")) ? "1" : "0";
+                training.evaluation = (rblEvaluation.SelectedValue.Equals("Yes")) ? "1" : "0";
+                if (!(tbxSpillDate.Text.Equals("")))
+                {
+                    DateTime spillDate = Convert.ToDateTime(Convert.ToDateTime(tbxSpillDate.Text, enUS));
+                    training.spillCleanupPracticalDate = spillDate;
+                }
+                if (!(tbxDateFit.Text.Equals("")))
+                {
+                    DateTime dateFit = Convert.ToDateTime(Convert.ToDateTime(tbxDateFit.Text, enUS));
+                    training.respiratorDate = dateFit;
+                }
+                training.respiratorType = (tbxRespType.Text.Equals("")) ? null : tbxRespType.Text;
+                training.respiratorModel = (tbxRespModel.Text.Equals("")) ? null : tbxRespModel.Text;
+                training.respiratorComments = (tbxRespComment.Text.Equals("")) ? null : tbxRespComment.Text;
+                training.certificateNum = (tbxCert.Text.Equals("")) ? null : tbxCert.Text;
             }
-            if (training.evaluation.ToString().Equals("1")) {
-                rblEvaluation.SelectedValue = "Pass";
-            } else {
-                rblEvaluation.SelectedValue = "Fail";
+            else if (course.trainingName.Equals("Radiation Safety Training"))
+            {
+                training.radiation_dosimeterSubmitted = (rblDosSubmitted.SelectedValue.Equals("Yes")) ? "1" : "0";
+                training.radiation_dosimeterIssued = (rblDosIssued.SelectedValue.Equals("Yes")) ? "1" : "0";
+                training.radiation_ringIssued = (rblRingIssued.SelectedValue.Equals("Yes")) ? "1" : "0";
             }
-            tbxDateFit.Text = Convert.ToString(training.respiratorDate);
-            if (!(name.Equals("Cyto. Safety Training"))) {
-                tbxSpillDate.Text = Convert.ToString(training.spillCleanupPracticalDate);
+            else if (course.trainingName.Equals("Cs Unit Training"))
+            {
+                training.SOPsigned = (rblSigned.SelectedValue.Equals("Yes")) ? "1" : "0";
             }
-            tbxRespType.Text = training.respiratorType;
-            tbxRespModel.Text = training.respiratorModel;
-            tbxRespComment.Text = training.respiratorComments;
-            tbxCert.Text = training.certificateNum;
+            ctx.DetectChanges();
+            ctx.SaveChanges();
+            Popup_Overlay("Details successfully updated.", SuccessColour);
+            return;
+        }
+        catch (Exception ex)
+        {
+            Popup_Overlay("An error has occured while updating details. Please try again." + ex.StackTrace.ToString(), FailColour);
+            return;
         }
     }
+    #region addd new course to training taken
+    /// <summary>
+    /// Unhides the panel to add new courses
+    /// Populates the courses dropdown list
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnAddCrs_Click(object sender, EventArgs e)
+    {
+        pnlNewCourse.Visible = true;
+        PopulateCoursesDdl();
+    }
+
+    /// <summary>
+    /// Creates a new training to add to training taken.
+    /// Updates gridview
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnAddCrsAction_Click(object sender, EventArgs e)
+    {
+        disableDetails();
+        int empId = Convert.ToInt32(tbxId.Text);
+        
+        try
+        {
+            System.Globalization.CultureInfo enUS = new System.Globalization.CultureInfo("en-US");
+            DateTime newStartDate = Convert.ToDateTime(Convert.ToDateTime(tbxNewCrsStart.Text, enUS));
+            DateTime newEndDate = Convert.ToDateTime(Convert.ToDateTime(tbxNewCrsEnd.Text, enUS));
+
+            TrainingTaken tt = new TrainingTaken
+            {
+                empNo = empId,
+                trainingNo = Convert.ToInt32(ddlNewCrs.SelectedValue),
+                startDate = newStartDate,
+                endDate = newEndDate,
+            };
+            ctx.AddToTrainingTakens(tt);
+            ctx.SaveChanges();
+            BindData();
+            tbxNewCrsEnd.Text = "";
+            tbxNewCrsStart.Text = "";
+            ddlNewCrs.SelectedIndex = 0;
+            pnlNewCourse.Visible = false;
+            Popup_Overlay("Training successfully created.", SuccessColour);
+            return;
+        }
+        catch (Exception ex)
+        {
+            Popup_Overlay(ex.Message, FailColour);
+            return;
+        }
+    }
+
+    /// <summary>
+    /// Hides the panel to add new courses.
+    /// Clears new courses textboxes.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnCancelAddCrs_Click(object sender, EventArgs e)
+    {
+        tbxNewCrsEnd.Text = "";
+        tbxNewCrsStart.Text = "";
+        ddlNewCrs.SelectedIndex = 0;
+        pnlNewCourse.Visible = false;
+    }
+    #endregion
 }
