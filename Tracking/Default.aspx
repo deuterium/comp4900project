@@ -553,7 +553,14 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 <asp:Panel ID="pnlResultsContainer" runat="server" Visible="false" >
 <h3 id="hr3Results"><asp:Image ID="imgExpandCollapseResults" runat="server" /> Results <asp:Label ID="lblExpandCollapseResults" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlResults" CssClass="panel" runat="server">
-<asp:Label ID="lblFilters" runat="server" />
+
+<asp:Panel ID="pnlFiltersSelected" runat="server">
+    <asp:Label ID="lblFilters" runat="server" Text="The filters you selected were:" Font-Bold="true" />
+    <br />
+</asp:Panel>
+
+<br />
+
 <asp:GridView ID="gdvTracker" runat="server" AutoGenerateColumns="False" OnRowCommand="gdvTracker_RowCommand" HorizontalAlign="Center" >
     <Columns>
         <asp:TemplateField HeaderText="#" ItemStyle-Width="20" >
@@ -576,7 +583,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                 <asp:Label ID="lblEmployeeName" runat="server" Text='<%# Bind("employee") %>'></asp:Label>
             </ItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="Click to View" ItemStyle-Width="455"  ItemStyle-HorizontalAlign="Center" >
+        <asp:TemplateField HeaderText="Click to View" ItemStyle-Width="250"  ItemStyle-HorizontalAlign="Center" >
             <ItemTemplate>
                 <asp:Button ID="btnRowViewReport" runat="server" 
                     CommandName="RowViewReport" 
@@ -590,6 +597,10 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     CommandName="RowViewCourses"
                     CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
                     Text="Courses" />
+            </ItemTemplate>    
+        </asp:TemplateField>
+        <asp:TemplateField HeaderText="" ItemStyle-Width="0"  ItemStyle-HorizontalAlign="Center" >
+            <ItemTemplate>
                 <asp:Button ID="btnRowViewLabInspections" runat="server" 
                     CommandName="RowViewLabInspections" 
                     CommandArgument="<%# ((GridViewRow) Container).RowIndex %>"
