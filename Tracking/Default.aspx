@@ -544,10 +544,11 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         </table>
     </div>
 </asp:Panel>
-</asp:Panel>
 
 <asp:Button TabIndex="1112" ID="btnFilterReport" runat="server" 
     Text="Filter Reports" onclick="btnFilterReport_Click" />
+
+</asp:Panel>
 
 <asp:Panel ID="pnlResultsContainer" runat="server" Visible="false" >
 <h3 id="hr3Results"><asp:Image ID="imgExpandCollapseResults" runat="server" /> Results <asp:Label ID="lblExpandCollapseResults" runat="server" Text=""></asp:Label></h3>

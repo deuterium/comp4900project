@@ -84,7 +84,6 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// <param name="cbx">The CheckBox to disable.</param>
     private void disableCheckBox(CheckBox cbx) {
         cbx.Enabled = false;
-        cbx.ForeColor = Color.Black;
         //cbx.BackColor = DisabledColor;
     }
     /// <summary>
