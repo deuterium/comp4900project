@@ -149,7 +149,8 @@ public partial class Followup_Default : System.Web.UI.Page
                 break;
             //Role: Lab Manager; Sees all corrseponding reports to their lab
             case 1:
-                string userDept = ctx.Departments.Where(d => d.deptNo == (int?)Session["DeptNo"]).Select(d => d.deptName).First();
+                int? userDeptNo = (int?)Session["DeptNo"];
+                string userDept = ctx.Departments.Where(d => d.deptNo == userDeptNo).Select(d => d.deptName).First();
                 var query = ctx.LabInspections
                     .Where(l => ((l.followUpStatus == "0") || (l.followUpStatus == "1"))
                         && (l.deptName == userDept))
@@ -214,8 +215,9 @@ public partial class Followup_Default : System.Web.UI.Page
                 lblFollowupOfficeInspectionCount.Text = qry.Count().ToString();
                 break;
             //Role: Lab Manager; Sees all corrseponding reports to their lab
-            case 1:
-                string userDept = ctx.Departments.Where(d => d.deptNo == (int?)Session["DeptNo"]).Select(d=>d.deptName).First();
+            case 1: 
+                int? userDeptNo = (int?)Session["DeptNo"];
+                string userDept = ctx.Departments.Where(d => d.deptNo == userDeptNo).Select(d => d.deptName).First();
                 var query = ctx.OfficeInspections
                     .Where(o => ((o.followUpStatus == "0") || (o.followUpStatus == "1"))
                         && (o.deptName == userDept))
