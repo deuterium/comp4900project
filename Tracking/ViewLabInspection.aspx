@@ -24,43 +24,7 @@
     <EmptyDataTemplate>No report data was found.</EmptyDataTemplate>
 </asp:GridView>
 
-<%--
-<asp:GridView ID="grvLabInspections" Width="790px" runat="server" AutoGenerateColumns="False"
-    autogenerateselectbutton="True" DataKeyNames="labInsNo" onselectedindexchanged="grvLabInspections_SelectedIndexChanged">
-    <Columns>
-        <asp:BoundField DataField="labInsNo" HeaderText="Inspection" ReadOnly="True" 
-            SortExpression="labInsNo" />
-        <asp:BoundField DataField="deptName" HeaderText="Department" 
-            SortExpression="deptName" />
-        <asp:BoundField DataField="date" HeaderText="Date" DataFormatString="{0:M/dd/yyyy}" SortExpression="date" />
-        <asp:BoundField DataField="followupDate" HeaderText="Followup" 
-            SortExpression="followupDate" />
-        <asp:BoundField DataField="inspector" HeaderText="Inspector" 
-            SortExpression="inspector" />
-        <asp:BoundField DataField="labMgr" HeaderText="Lab Manager" 
-            SortExpression="labMgr" />
-        <asp:BoundField DataField="supervisor" HeaderText="Supervisor" 
-            SortExpression="supervisor" />
-        <asp:BoundField DataField="room" HeaderText="Room" 
-            SortExpression="room" />
-    </Columns>
-    <EmptyDataTemplate>No results were found.</EmptyDataTemplate>
-</asp:GridView> 
-
-
-<asp:GridView ID="grvLabInspectionResults" runat="server" AutoGenerateColumns="false"
-DataKeyNames="labInsItem" Width="790px" OnRowDataBound="grvLabInspectionResults_DataBinding">
-    <Columns>
-        <asp:BoundField DataField="labInsItem" HeaderText="Item" ReadOnly="True" 
-            SortExpression="labInsItem" />
-        <asp:BoundField DataField="checkbox" HeaderText="Checked (yes/no)" 
-            SortExpression="checkbox" />
-        <asp:BoundField DataField="comments" HeaderText="Comment" 
-            SortExpression="comments" />
-        <asp:BoundField DataField="comment" HeaderText="Corrective Action"
-            SortExpression="comment" />
-    </Columns>
-</asp:GridView>--%>
+PUT INSPECTION DETAILS ON HERE TOO!!! (e.g. lab manager, date, etc...)
 
 </asp:Content>
 

@@ -17,41 +17,51 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
     #endregion class variables
 
     protected void Page_Load(object sender, EventArgs e) {
-        Populate_Lab_Followup(41);
+        String reqIncidentNo = Request.QueryString["LabInspectionNo"];
+        int incidentNo = -1;
+        try {
+            if (reqIncidentNo != null) {
+                incidentNo = Convert.ToInt32(reqIncidentNo);
+            }
+        }
+        catch (FormatException ex) {
+            // redirect to error page
+        }
+        displayLabInspection(incidentNo);
     }
 
-    protected void Populate_Lab_Followup(int insNo) {
-        var qry =               ctx.LabInspections
-                                  .Join(
-                                     ctx.LabInspectionDetails,
-                                     LI => LI.labInsNo,
-                                     LID => LID.labInsNo,
-                                     (LI, LID) =>
-                                        new {
-                                            LI = LI,
-                                            LID = LID
-                                        }
-                                  )
-                                  .Join(
-                                     ctx.LabInspectionItems,
-                                     temp0 => temp0.LID.labItemNo,
-                                     LII => (Int32?)(LII.labInsItemNo),
-                                     (temp0, LII) =>
-                                        new {
-                                            temp0 = temp0,
-                                            LII = LII
-                                        }
-                                  )
-                                  .Where(temp1 => (temp1.temp0.LI.labInsNo == insNo))
-                                  .Select(
-                                     temp1 =>
-                                        new {
-                                            labInsItemNo = temp1.LII.labInsItemNo,
-                                            labInsItem = temp1.LII.labInsItem,
-                                            checkbox = temp1.temp0.LID.checkbox,
-                                            comments = temp1.temp0.LID.comments,
-                                        }
-                                  );
+    protected void displayLabInspection(int insNo) {
+        var qry = ctx.LabInspections
+                .Join(
+                    ctx.LabInspectionDetails,
+                    LI => LI.labInsNo,
+                    LID => LID.labInsNo,
+                    (LI, LID) =>
+                    new {
+                        LI = LI,
+                        LID = LID
+                    }
+                )
+                .Join(
+                    ctx.LabInspectionItems,
+                    temp0 => temp0.LID.labItemNo,
+                    LII => (Int32?)(LII.labInsItemNo),
+                    (temp0, LII) =>
+                    new {
+                        temp0 = temp0,
+                        LII = LII
+                    }
+                )
+                .Where(temp1 => (temp1.temp0.LI.labInsNo == insNo))
+                .Select(
+                    temp1 =>
+                    new {
+                        labInsItemNo = temp1.LII.labInsItemNo,
+                        labInsItem = temp1.LII.labInsItem,
+                        checkbox = temp1.temp0.LID.checkbox,
+                        comments = temp1.temp0.LID.comments,
+                    }
+                );
         // Format the data for the Grid View
         DataTable dt = new DataTable();
         dt.Columns.Add(new DataColumn("labInsItemNo", typeof(System.String)));
