@@ -442,8 +442,18 @@ ExpandedImage="../images/collapse.jpg">
                 </asp:Panel>
                 <h4 id="hr4CoursesCatalog"><asp:Image ID="imgExpandCollapseCoursesCatalog" runat="server" /> Catalog <asp:Label ID="ExpandCollapseCoursesCatalog" runat="server" Text=""></asp:Label></h4>
                 <asp:Panel ID="pnlCoursesCatalog" CssClass="panel" runat="server">
-                    <asp:GridView ID="gdvCoursesCatalog" runat="server" ForeColor="Black">
+                    <asp:GridView ID="gdvCoursesCatalog" runat="server" ForeColor="Black" 
+                        AutoGenerateColumns="False" DataSourceID="EntityDataSource1">
+                        <Columns>
+                            <asp:BoundField DataField="trainingName" HeaderText="trainingName" 
+                                ReadOnly="True" SortExpression="trainingName" />
+                        </Columns>
                     </asp:GridView>
+                    <asp:EntityDataSource ID="EntityDataSource1" runat="server" 
+                        ConnectionString="name=BCCAEntities" DefaultContainerName="BCCAEntities" 
+                        EnableFlattening="False" EntitySetName="TrainingCourses" 
+                        Select="it.[trainingName]">
+                    </asp:EntityDataSource>
                 </asp:Panel>
             </asp:Panel>
         </div>

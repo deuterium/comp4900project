@@ -663,7 +663,6 @@ public partial class Training_Training : System.Web.UI.Page {
                                          coursename = temp1.TC.trainingName,
                                          startdate = temp1.temp0.TT.startDate,
                                          enddate = temp1.temp0.TT.endDate,
-                                         ttNo = temp1.temp0.TT.trainingTakenNo,
                                      }
                                );
 
@@ -960,9 +959,9 @@ public partial class Training_Training : System.Web.UI.Page {
                     case "System.Web.UI.WebControls.RadioButton":
                         ((RadioButton)c).Checked = false;
                         break;
-                    case "System.Web.UI.WebControls.DropDownList":
-                        ((DropDownList)c).SelectedIndex = 0;
-                        break;
+                    //case "System.Web.UI.WebControls.DropDownList":
+                        //((DropDownList)c).SelectedIndex = 0;
+                        //break;
                 }
             }
         }
@@ -1099,7 +1098,9 @@ public partial class Training_Training : System.Web.UI.Page {
     /// <param name="e"></param>
     protected void btnAddCrsAction_Click(object sender, EventArgs e)
     {
+        pnlCrsDetails.Visible = false;
         disableDetails();
+        
         int empId = Convert.ToInt32(tbxId.Text);
         
         try
