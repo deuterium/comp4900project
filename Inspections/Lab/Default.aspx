@@ -150,7 +150,6 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     <h3 id="labB"><asp:Image ID="imgExpandCollapseB" runat="server" /> 
     B. Emergency & Information Material <asp:Label ID="ExpandCollapseB" runat="server" Text="" />
     </h3>
-    <asp:ValidationSummary ID="ValidationSummary1" runat="server" ValidationGroup="vgpLabB" HeaderText="*" DisplayMode="SingleParagraph" />
     <asp:Panel ID="pnlB" CssClass="panel" runat="server">
     <table>
         <tr>

@@ -8,10 +8,17 @@ using System.Web.UI.WebControls;
 using AjaxControlToolkit;
 using System.Data.Objects;
 using System.Drawing;
+using System.Data;
 
 /**
  * TO DO:
- * Documentation
+ * Finish documentation
+ * Fix panels (scrollbars)
+ * Stop button from disappearing
+ * Add security code, restrict access to certain departments depending on user??
+ * Get FollowUpStatus not follow up comments
+ * Change buttons to link to department and only show up in the department subheader?
+ * Add what you filtered section
  */
 
 public partial class Tracking_Default : System.Web.UI.Page {
@@ -32,6 +39,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     public static List<String> employers = new List<String> {
         noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
     };
+    // The pink colour of the header text.
+    public Color HeaderForeColor = ColorTranslator.FromHtml("#d80080");
     #endregion Class Variables
 
     /// <summary>
@@ -73,11 +82,6 @@ public partial class Tracking_Default : System.Web.UI.Page {
         // do nothing
     }
     #endregion
-
-
-    // Search -> find all incident reports
-    // For each incident report, view report or view department or view employees involved or view courses of employee
-    // view department: view employees in department, view training
 
     #region Filter Report
     /// <summary>
@@ -290,8 +294,87 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (cbx_p2_factors_otherWorker.Checked) { reports = reports.Where(r => r.p2_factors_otherWorker != null); }
         #endregion E_ContributingFactors
 
-        gdv.DataSource = reports;
-        gdv.DataBind();
+        // Format the data for the Grid View
+        // Setup the Data Table
+        DataTable dt = new DataTable();
+        dt.Columns.Add(new DataColumn("incidentNo", typeof(System.String)));
+        dt.Columns.Add(new DataColumn("date", typeof(System.String)));
+        dt.Columns.Add(new DataColumn("submitter", typeof(System.String)));
+        dt.Columns.Add(new DataColumn("employee", typeof(System.String)));
+
+        String prevDeptName = String.Empty;
+        int incidentCount = 0;
+
+        // Put the data in rows, inserting rows for subheaders
+        foreach (var report in reports) {
+            // if it's the start of a new department
+            // add a subtotal row for the previous department
+            // add a subheader row for the new department
+            if (!prevDeptName.Equals(report.Employee.deptName)) {
+                // subtotal
+                if (incidentCount != 0) {
+                    DataRow drSubtotal = dt.NewRow();
+                    drSubtotal["incidentNo"] = "Number of Incidents: " + incidentCount;
+                    dt.Rows.Add(drSubtotal);
+                    incidentCount = 0;
+                }
+                // subheader
+                prevDeptName = report.Employee.deptName;
+                DataRow drSubheader = dt.NewRow();
+                drSubheader["incidentNo"] = report.Employee.deptName;
+                dt.Rows.Add(drSubheader);
+                
+            }
+            incidentCount++;
+            DataRow dr = dt.NewRow();
+            dr["incidentNo"] = report.incidentNo;
+            if (report.p1_dateOfIncident != null) {
+                dr["date"] = Convert.ToDateTime(report.p1_dateOfIncident).ToString("M/d/yyyy");
+            }
+            dr["submitter"] = report.reportSubmitter;
+            dr["employee"] = report.Employee.fname + " " + report.Employee.lname;
+            dt.Rows.Add(dr);
+        }
+
+        // Add last subtotal row
+        if (incidentCount != 0) {
+            DataRow drSubtotal = dt.NewRow();
+            drSubtotal["incidentNo"] = "Subtotal Number of Incidents: " + incidentCount;
+            dt.Rows.Add(drSubtotal);
+            incidentCount = 0;
+        }
+        // Add total
+        DataRow drTotal = dt.NewRow();
+        drTotal["incidentNo"] = "Total Number of Incidents: " + reports.Count();
+        dt.Rows.Add(drTotal);
+        incidentCount = 0;
+
+        // Bind the data to the Grid View
+        gdvTracker.DataSource = dt;
+        gdvTracker.DataBind();
+
+        // Set the Grid View column widths
+        //gdvTracker.Columns[0].ItemStyle.Width = 20;
+        //gdvTracker.Columns[1].ItemStyle.Width = 360;
+        //gdvTracker.Columns[2].ItemStyle.Width = 80;
+        //gdvTracker.Columns[3].ItemStyle.Width = 450;
+
+        // Find and format the subheader rows
+        foreach (GridViewRow row in gdvTracker.Rows) {
+            String strName = ((Label)row.FindControl("lblEmployeeName")).Text;
+            if ((strName == null) || (strName.Equals(String.Empty))) {
+                row.Cells[0].ColumnSpan = gdvTracker.Columns.Count;
+                foreach (TableCell c in row.Cells) {
+                    c.Visible = false;
+                }
+                row.Cells[0].Visible = true;
+                row.Height = 50;
+                row.ForeColor = HeaderForeColor;
+            }
+        }
+
+        //gdvTracker.Columns[gdvTracker.Columns.Count - 1].Visible = false;
+        
     }
     #endregion Filter Report
 
@@ -513,10 +596,10 @@ public partial class Tracking_Default : System.Web.UI.Page {
                 loadCourses(getEmployeeFromIncidentId(incidentNo));
                 break;
             case "RowViewLabInspections":
-                // code here
+                loadLabInspections(incidentNo);
                 break;
             case "RowViewOfficeInspections":
-                // code here
+                loadOfficeInspections(incidentNo);
                 break;
             default:
                 throw new System.SystemException("Default case of switch should never be reached");
@@ -654,4 +737,81 @@ public partial class Tracking_Default : System.Web.UI.Page {
         return value;
     }
     #endregion Look Up Employee Info
+
+    protected void gdvLabInspections_RowCommand(object sender, GridViewCommandEventArgs e) {
+        // Get the row that called the event
+        int index = Convert.ToInt32(e.CommandArgument);
+        GridViewRow row = gdvLabInspections.Rows[index];
+        // Get the Lab Inspection No
+        String strLabInspectionNo = String.Empty;
+        Label lbl = (Label)row.FindControl("lblLabInspectionNo");
+        if (lbl != null) {
+            strLabInspectionNo = lbl.Text;
+        }
+        // Find out which button was clicked, take appropriate action
+        if (e.CommandName.Equals("RowViewLabInspection")) {
+            Response.Redirect("~/Tracking/ViewLabInspection.aspx?LabInspectionNo=" + strLabInspectionNo);
+        }
+    }
+
+    private void loadLabInspections(int incidentNo) {
+        var qry = from l in ctx.LabInspections
+                  join i in ctx.Incidents on l.deptName equals i.Employee.deptName
+                  where (i.incidentNo.Equals(incidentNo))
+                  select new {
+                      labInspectionNo = l.labInsNo,
+                      deptName = l.deptName,
+                      inspectionDate = l.date,
+                      followup = l.followupComment,
+                      inspector = l.inspector,
+                      labManager = l.labMgr,
+                      supervisor = l.supervisor,
+                      room = l.room
+                  };
+
+        gdvLabInspections.DataSource = qry;
+        gdvLabInspections.DataBind();
+
+        pnlLabInspectionsContainer.Visible = true;
+        cpeLabInspections.Collapsed = false;
+        cpeLabInspections.ClientState = "false";
+    }
+
+    protected void gdvOfficeInspections_RowCommand(object sender, GridViewCommandEventArgs e) {
+        // Get the row that called the event
+        int index = Convert.ToInt32(e.CommandArgument);
+        GridViewRow row = gdvOfficeInspections.Rows[index];
+        // Get the Office Inspection No
+        String strOfficeInspectionNo = String.Empty;
+        Label lbl = (Label)row.FindControl("lblOfficeInspectionNo");
+        if (lbl != null) {
+            strOfficeInspectionNo = lbl.Text;
+        }
+        // Find out which button was clicked, take appropriate action
+        if (e.CommandName.Equals("RowViewOfficeInspection")) {
+            Response.Redirect("~/Tracking/ViewOfficeInspection.aspx?OfficeInspectionNo=" + strOfficeInspectionNo);
+        }
+    }
+
+    private void loadOfficeInspections(int incidentNo) {
+        var qry = from l in ctx.OfficeInspections
+                  join i in ctx.Incidents on l.deptName equals i.Employee.deptName
+                  where (i.incidentNo.Equals(incidentNo))
+                  select new {
+                      officeInspectionNo = l.officeInsNo,
+                      deptName = l.deptName,
+                      inspectionDate = l.insDate,
+                      followup = l.followupComment,
+                      inspector = l.inspector,
+                      area = l.area
+                  };
+
+        gdvOfficeInspections.DataSource = qry;
+        gdvOfficeInspections.DataBind();
+
+        pnlOfficeInspectionsContainer.Visible = true;
+        cpeOfficeInspections.Collapsed = false;
+        cpeOfficeInspections.ClientState = "false";
+    }
+
 }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    

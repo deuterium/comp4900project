@@ -17,7 +17,13 @@ public partial class Followup_Followup : System.Web.UI.Page
     BCCAEntities ctx = new BCCAEntities();
 
     /// <summary>
-    /// TODO:
+    /// When this page is visited for the first time, it should have been forwarded from
+    /// Followup/Default.aspx, so it tries to load some page level variables under the
+    /// PreviousPage directive. If it cannot do this, the user gets forwarded back to
+    /// Followup/Default.aspx
+    /// 
+    /// If the page view is valid, then depending on what type of report is forwarded to 
+    /// this page does it populate the previous report with followup information below.
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
@@ -27,7 +33,9 @@ public partial class Followup_Followup : System.Web.UI.Page
         {
             try
             {
+                //Store Report/Inspection Type (going to be one of the switch items)
                 tbTypeHidden.Text = PreviousPage.followupType;
+                //Store Report/Inspection Number
                 tbNoHidden.Text = PreviousPage.followupNo;
                 switch (tbTypeHidden.Text)
                 {
@@ -88,9 +96,10 @@ public partial class Followup_Followup : System.Web.UI.Page
 
     #region Lab & Office Followup
     /// <summary>
-    /// 
+    /// Populates the gridview on the page with the corresponding Lab insNo's
+    /// submitted inspection data.
     /// </summary>
-    /// <param name="insNo"></param>
+    /// <param name="insNo">lab inspection id</param>
     protected void Populate_Lab_Followup(int insNo)
     {
         gvwLabOfficeFollowup.DataSource = ctx.LabInspections
@@ -127,6 +136,7 @@ public partial class Followup_Followup : System.Web.UI.Page
                                         }
                                   );
         gvwLabOfficeFollowup.DataBind();
+        //Set column widths
         gvwLabOfficeFollowup.Columns[0].ItemStyle.Width = 220;
         gvwLabOfficeFollowup.Columns[1].ItemStyle.Width = 80;
         gvwLabOfficeFollowup.Columns[2].ItemStyle.Width = 250;
@@ -135,9 +145,10 @@ public partial class Followup_Followup : System.Web.UI.Page
     }
 
     /// <summary>
-    /// 
+    /// Populates the gridview on the page with the corresponding Office insNo's
+    /// submitted inspection data.
     /// </summary>
-    /// <param name="insNo"></param>
+    /// <param name="insNo">office inspection id</param>
     protected void Populate_Office_Followup(int insNo)
     {
         gvwLabOfficeFollowup.DataSource = ctx.OfficeInspections
@@ -174,6 +185,7 @@ public partial class Followup_Followup : System.Web.UI.Page
                                         }
                                   );
         gvwLabOfficeFollowup.DataBind();
+        //sets column widths
         gvwLabOfficeFollowup.Columns[0].ItemStyle.Width = 220;
         gvwLabOfficeFollowup.Columns[1].ItemStyle.Width = 80;
         gvwLabOfficeFollowup.Columns[2].ItemStyle.Width = 250;
@@ -181,10 +193,11 @@ public partial class Followup_Followup : System.Web.UI.Page
     }
 
     /// <summary>
-    /// 
+    /// When the Lab/Office Inspection followup is loaded, automatically fills
+    /// in the Followup submitter and defaults the date to current date.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void tbSubmittedby_Load(object sender, EventArgs e)
     {
         tbSubmittedby.Text = Session["AuthenticatedUser"].ToString();
@@ -215,7 +228,8 @@ public partial class Followup_Followup : System.Web.UI.Page
     }
 
     /// <summary>
-    /// 
+    /// Button click method for Lab/Office Followup section, calls corresponding
+    /// DB addition functions depending on if Lab or Office Inspection.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -235,7 +249,9 @@ public partial class Followup_Followup : System.Web.UI.Page
     }
 
     /// <summary>
-    /// 
+    /// Iterates through the user provided "Corrective Action Taken" comments and
+    /// saves them to the database into the corrseponding Lab Inspection tables for 
+    /// the number stored in the hidden textbox.
     /// </summary>
     protected void Submit_Lab_Followup()
     {
@@ -278,7 +294,9 @@ public partial class Followup_Followup : System.Web.UI.Page
     }
 
     /// <summary>
-    /// 
+    /// Iterates through the user provided "Corrective Action Taken" comments and
+    /// saves them to the database into the corrseponding Office Inspection tables for 
+    /// the number stored in the hidden textbox.
     /// </summary>
     protected void Submit_Office_Followup()
     {
@@ -321,4 +339,3 @@ public partial class Followup_Followup : System.Web.UI.Page
     }
     #endregion
 }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       

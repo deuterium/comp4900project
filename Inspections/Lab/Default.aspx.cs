@@ -35,7 +35,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ddlLabLabManager.DataTextField = "text";
             ddlLabLabManager.DataBind();
 
-            ddlLabDepartment.DataSource = ctx.Departments.Select(D => new { text = D.deptName, value = D.deptNo });
+            ddlLabDepartment.DataSource = ctx.Departments.Select(D => new { text = D.deptName, value = D.deptName });
             ddlLabDepartment.DataValueField = "value";
             ddlLabDepartment.DataTextField = "text";
             ddlLabDepartment.DataBind();
@@ -89,7 +89,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 followUpStatus = "0",
                 reportSubmitter = Session["AuthenticatedUser"].ToString(),
                 comments = tbxCommentLabComments.Text,
-                deptNo = Convert.ToInt32(ddlLabDepartment.SelectedValue)
+                deptName = ddlLabDepartment.SelectedItem.Text
             };
 
             //Try-catch for saving the LabInspection object into the database.
