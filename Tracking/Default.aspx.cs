@@ -42,6 +42,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     };
     // The pink colour of the header text.
     public Color HeaderForeColor = ColorTranslator.FromHtml("#d80080");
+    // The back colour of header rows.
+    public Color HeaderBackColor = ColorTranslator.FromHtml("#F778A1");
     #endregion Class Variables
 
     /// <summary>
@@ -374,6 +376,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         foreach (GridViewRow row in gdvTracker.Rows) {
             String strName = ((Label)row.FindControl("lblEmployeeName")).Text;
             if ((strName == null) || (strName.Equals(String.Empty))) {
+                row.ForeColor = HeaderForeColor;
                 foreach (TableCell c in row.Cells) {
                     c.Visible = false;
                 }
@@ -387,13 +390,11 @@ public partial class Tracking_Default : System.Web.UI.Page {
                 }
                 else {
                     row.Cells[0].ColumnSpan = gdvTracker.Columns.Count;
+                    row.Height = 50;
                 }
-                row.Height = 50;
-                row.ForeColor = HeaderForeColor;    
             } else {
                 row.Cells[5].Visible = false;
                 row.Cells[4].ColumnSpan = 2;
-
             }
         }
         gdvTracker.HeaderRow.Cells[5].Visible = false;
