@@ -626,11 +626,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     }
     #endregion Disable Form
 
-    protected void gdvTracker_RowCommand(object sender, GridViewCommandEventArgs e) {
-        // Get the row that called the event
-        int index = Convert.ToInt32(e.CommandArgument);
+    private int GetIncidentIdFromRow(int index) {
         GridViewRow row = gdvTracker.Rows[index];
-        // Get the Incident No
         String strIncidentNo = ((Label)row.FindControl("lblIncidentNo")).Text;
         int incidentNo = -1;
         try {
@@ -638,25 +635,30 @@ public partial class Tracking_Default : System.Web.UI.Page {
         }
         catch (FormatException ex) {
             Popup_Overlay("An unexpected error has occured. Please refresh the page and try again.", FailColour);
-            return;
         }
+        return incidentNo;
+    }
 
+    protected void gdvTracker_RowCommand(object sender, GridViewCommandEventArgs e) {
+        // Get the row that called the event
+        int index = Convert.ToInt32(e.CommandArgument);
         // Find out which button was clicked, take appropriate action
         switch (e.CommandName) {
             case "RowViewReport":
-                Response.Redirect("~/Reporting/ViewIncidentReport.aspx?IncidentNo=" + strIncidentNo);
+
+                Response.Redirect("~/Reporting/ViewIncidentReport.aspx?IncidentNo=" + GetIncidentIdFromRow(index));
                 break;
             case "RowViewEmployee":
-                loadEmployee(getEmployeeFromIncidentId(incidentNo));
+                loadEmployee(getEmployeeFromIncidentId(GetIncidentIdFromRow(index)));
                 break;
             case "RowViewCourses":
-                loadCourses(getEmployeeFromIncidentId(incidentNo));
+                loadCourses(getEmployeeFromIncidentId(GetIncidentIdFromRow(index)));
                 break;
             case "RowViewLabInspections":
-                loadLabInspections(incidentNo);
+                loadLabInspections(GetIncidentIdFromRow(index + 1)); // subheader rows don't have incident numbers
                 break;
             case "RowViewOfficeInspections":
-                loadOfficeInspections(incidentNo);
+                loadOfficeInspections(GetIncidentIdFromRow(index + 1)); // subheader rows don't have incident numbers
                 break;
             default:
                 throw new System.SystemException("Default case of switch should never be reached");
@@ -819,7 +821,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
                       labInspectionNo = l.labInsNo,
                       deptName = l.deptName,
                       inspectionDate = l.date,
-                      followup = l.followupComment,
+                      followup = l.followUpStatus.Equals("1") ? "Yes" : "No",
                       inspector = l.inspector,
                       labManager = l.labMgr,
                       supervisor = l.supervisor,

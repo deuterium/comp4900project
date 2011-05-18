@@ -732,7 +732,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     <asp:Label ID="lblInspectionDate" runat="server" Text='<%# Eval("inspectionDate", "{0:M/d/yyyy}") %>'></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:BoundField DataField="followup" HeaderText="Followed-Up?" ReadOnly="True" SortExpression="followup" />
+            <asp:BoundField DataField="followup" HeaderText="Follow-Up" ReadOnly="True" SortExpression="followup" />
             <asp:BoundField DataField="inspector" HeaderText="Inspector" ReadOnly="True" SortExpression="inspector" />
             <asp:BoundField DataField="labManager" HeaderText="Lab Manager" ReadOnly="True" SortExpression="labManager" />
             <asp:BoundField DataField="supervisor" HeaderText="Supervisor" ReadOnly="True" SortExpression="supervisor" />
