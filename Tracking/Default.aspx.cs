@@ -12,10 +12,12 @@ using System.Data;
 
 /**
  * TO DO:
- * 
  * Finish documentation
  * Fix panels (scrollbars)
- * 
+ * Stop button from disappearing
+ * Add security code, restrict access to certain departments depending on user??
+ * Get FollowUpStatus not follow up comments
+ * Change buttons to link to department and only show up in the department subheader?
  */
 
 public partial class Tracking_Default : System.Web.UI.Page {
