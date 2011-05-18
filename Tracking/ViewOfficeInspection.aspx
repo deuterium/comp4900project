@@ -1,16 +1,30 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ViewOfficeInspection.aspx.cs" Inherits="Tracking_ViewOfficeInspection" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+</asp:Content>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-    <div>
-    
-    </div>
-    </form>
-</body>
-</html>
+<asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
+
+<asp:GridView ID="gdvOfficeInspection" runat="server" AutoGenerateColumns="False">
+    <Columns>
+        <asp:BoundField DataField="officeInsItemNo" HeaderText="#" ReadOnly="True" SortExpression="officeInsItemNo" />
+        <asp:BoundField DataField="officeInsItem" HeaderText="Item" ReadOnly="True" SortExpression="officeInsItem" />
+        <asp:TemplateField HeaderText="Checked (yes/no)" ItemStyle-HorizontalAlign="Center" >
+            <ItemTemplate>
+                <asp:Label ID="lblChecked" runat="server" Text='<%# Bind("checkbox") %>' />
+            </ItemTemplate>
+        </asp:TemplateField>
+        <asp:TemplateField HeaderText="Comments" ItemStyle-HorizontalAlign="Center">
+            <ItemTemplate>
+                <asp:TextBox ID="tbxComments" CssClass="trackingInspectionComments" runat="server" Text='<%# Bind("comments") %>' TextMode="MultiLine" ReadOnly="true" />
+            </ItemTemplate>
+        </asp:TemplateField>
+    </Columns>
+    <EmptyDataTemplate>No report data was found.</EmptyDataTemplate>
+</asp:GridView>
+
+PUT INSPECTION DETAILS ON HERE TOO!!! (e.g. lab manager, date, etc...)
+
+</asp:Content>
+
+
