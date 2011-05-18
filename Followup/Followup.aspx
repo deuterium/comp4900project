@@ -14,7 +14,7 @@
             <asp:GridView ID="gvwLabOfficeFollowup" Width="800px" runat="server" AutoGenerateColumns="False"
                 OnRowDataBound="gvwLabOfficeFollowup_RowDataBound">
                 <Columns>
-                    <asp:BoundField DataField="insItem" HeaderText="Item" ReadOnly="True" SortExpression="labInsItem" />
+                    <asp:BoundField DataField="insItem" HeaderText="Item" ReadOnly="True" SortExpression="insItem" />
                     <asp:BoundField DataField="checkbox" HeaderText="Checked (yes/no)" SortExpression="checkbox" />
                     <asp:BoundField DataField="comments" HeaderText="Comment" SortExpression="comments" />
                     <asp:TemplateField HeaderText="Corrective Action Taken">

@@ -925,7 +925,7 @@ public partial class Followup_Followup : System.Web.UI.Page
                                      temp1 =>
                                         new
                                         {
-                                            labInsItem = temp1.LII.labInsItem,
+                                            insItem = temp1.LII.labInsItem,
                                             checkbox = temp1.temp0.LID.checkbox,
                                             comments = temp1.temp0.LID.comments
                                         }
