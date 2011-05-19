@@ -78,8 +78,8 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         WatermarkCssClass="watermarked" WatermarkText="Required field"></asp:TextBoxWatermarkExtender>
                     <asp:RequiredFieldValidator ID="rfvFirstName" runat="server" ValidationGroup="vgpGetEmp" 
                         ControlToValidate="tbxFirstName" ErrorMessage="First name is required."></asp:RequiredFieldValidator>  
-                    <asp:CustomValidator ID="cmvEmployeeExists" runat="server" ValidationGroup="vpgGetEmpFromDb"
-                        ErrorMessage="Employee not found." OnServerValidate="cmvEmployeeExists_ServerValidate"></asp:CustomValidator>
+                    <asp:CustomValidator ID="cmvFindEmpInDb" runat="server" ValidationGroup="vpgGetEmpFromDb"
+                        ErrorMessage="Employee not found." OnServerValidate="cmvFindEmpInDb_ServerValidate"></asp:CustomValidator>
                     <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpGetEmp" 
                         ControlToValidate="tbxFirstName" ErrorMessage="First name can only contain letters."
                         ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
@@ -178,8 +178,8 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpCreateEmp"
                         ControlToValidate="tbxEndDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="End date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-                    <asp:CustomValidator ID="cmvDates" runat="server" ValidationGroup="vgpCreateEmp"
-                        ErrorMessage="End date must come after start date." OnServerValidate="cmvDates_ServerValidate"></asp:CustomValidator>
+                    <asp:CustomValidator ID="cmvEmpDates" runat="server" ValidationGroup="vgpCreateEmp"
+                        ErrorMessage="End date must be later than start date." OnServerValidate="cmvEmpDates_ServerValidate"></asp:CustomValidator>
                 </td>
             </tr>
         </table>

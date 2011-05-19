@@ -1016,6 +1016,12 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
     #endregion Create New Incident Report
 
+    /// <summary>
+    /// In Section A - Action Following, if the Medical Aid (GP / Clinic) checkbox is checked,
+    /// then the associated date becomes required. If it's unchecked, the date is not required.
+    /// </summary>
+    /// <param name="sender">The control that triggered the event.</param>
+    /// <param name="e">The event properties.</param>
     protected void cbx_p1_action_medicalGP_CheckChanged(object sender, EventArgs e) {
         if (cbx_p1_action_medicalGP.Checked) {
             rfvMedicalAidGpDate.Enabled = true;
@@ -1024,6 +1030,13 @@ public partial class Reporting_Default : System.Web.UI.Page {
             rfvMedicalAidGpDate.Enabled = false;
         }
     }
+
+    /// <summary>
+    /// In Section A - Action Following, if the Medical Aid (ER) checkbox is checked,
+    /// then the associated date becomes required. If it's unchecked, the date is not required.
+    /// </summary>
+    /// <param name="sender">The control that triggered the event.</param>
+    /// <param name="e">The event properties.</param>
     protected void cbx_p1_action_medicalER_CheckChanged(object sender, EventArgs e) {
         if (cbx_p1_action_medicalER.Checked) {
             rfvMedicalAidErDate.Enabled = true;
@@ -1032,6 +1045,13 @@ public partial class Reporting_Default : System.Web.UI.Page {
             rfvMedicalAidErDate.Enabled = false;
         }
     }
+
+    /// <summary>
+    /// Checks if at least one of the Action Following checkboxes in the Incident/Acident Information
+    /// section is found. Validates true if at least one is checked and validates false if none are checked.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
     protected void cmvActionFollowing_ServerValidate(object source, ServerValidateEventArgs args) {
         args.IsValid = (cbx_p1_action_report.Checked
                             || cbx_p1_action_firstAid.Checked
@@ -1040,7 +1060,14 @@ public partial class Reporting_Default : System.Web.UI.Page {
                             || cbx_p1_action_medicalER.Checked);
     }
 
-    protected void cmvEmployeeExists_ServerValidate(object source, ServerValidateEventArgs args) {
+    /// <summary>
+    /// Checks if the first and last name are found in the database.
+    /// If the first and last name are found, the employee can be fetched and validates true.
+    /// If zero or more than one matching employee is found, validates false.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvFindEmpInDb_ServerValidate(object source, ServerValidateEventArgs args) {
         args.IsValid = false;
         String first = tbxFirstName.Text;
         String last = tbxLastName.Text;
@@ -1052,16 +1079,24 @@ public partial class Reporting_Default : System.Web.UI.Page {
         if ((qry != null) && (qry.Count() == 1)) {
             args.IsValid = true;
         } else if ((qry != null) && (qry.Count() <= 0)) {
-            cmvEmployeeExists.ErrorMessage = "No employee with that first and last name found.";
+            cmvFindEmpInDb.ErrorMessage = "No employee with that first and last name found.";
             return;
         }
         else {
-            cmvEmployeeExists.ErrorMessage = "There was more than one employee with that first and last name.";
+            cmvFindEmpInDb.ErrorMessage = "There was more than one employee with that first and last name.";
             return;
         }
     }
 
-    protected void cmvDates_ServerValidate(object source, ServerValidateEventArgs args) {
+    /// <summary>
+    /// Gets the employee's start and end dates from the form.
+    /// If one or both dates are null, validates true (nothing to compare).
+    /// If both dates are specified, compares them as dates, and validates 
+    /// false if the end date is before the start date.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvEmpDates_ServerValidate(object source, ServerValidateEventArgs args) {
         args.IsValid = false;
         String strStartDate = tbxStartDate.Text;
         String strEndDate = tbxEndDate.Text;
@@ -1069,17 +1104,16 @@ public partial class Reporting_Default : System.Web.UI.Page {
             args.IsValid = true;
             return;
         }
-        if (strEndDate == null && strEndDate.Equals(String.Empty)) {
+        if (strEndDate == null || strEndDate.Equals(String.Empty)) {
             args.IsValid = true;
             return;
         }
         DateTime startDate = Convert.ToDateTime(strStartDate);
         DateTime endDate = Convert.ToDateTime(strEndDate);
-        if (startDate.CompareTo(endDate) > 0) {
-            args.IsValid = true;
+        if (endDate.CompareTo(startDate) < 0) {
+            args.IsValid = false;
             return;
         }
     }
     
-
 }
