@@ -98,12 +98,16 @@ ImageControlID="imgExpandCollapseIncidentG" CollapsedImage="../images/expand.jpg
 CollapseControlID="incidentH" ExpandControlID="incidentH" TargetControlID="pnlIncidentH"
 ImageControlID="imgExpandCollapseIncidentH" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
+
+<asp:CollapsiblePanelExtender ID="cpeEmpInfo" runat="server" Collapsed="false" Enabled="true"
+CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
+</asp:CollapsiblePanelExtender>
 Summary Page:
 
 <h3 id="inspectionLookUp"><asp:Image ID="imgExpandCollapseInspectionLookUp" runat="server" /> Inspection Lookup:</h3>
-    <asp:Panel ID="pnlA" CssClass="panel" runat="server">
+    <asp:Panel ID="pnlA" CssClass="parentPanel" runat="server">
         <h3 id="labInspectionLookUp"><asp:Image ID="imgExpandCollapseLabInspectionLookUp" runat="server" /> Lab Inspection:</h3>
-        <asp:Panel ID="pnlC" CssClass="panel" runat="server">
+        <asp:Panel ID="pnlC" CssClass="childPanel" runat="server">
             <table>
             <tr id="departmentRowLab" runat="server">
                 <td>
@@ -227,7 +231,7 @@ Summary Page:
         </asp:Panel>
         
         <h3 id="officeInspectionLookUp"><asp:Image ID="imgExpandCollapseOfficeInspectionLookUp" runat="server" /> Office Inspection:</h3>
-        <asp:Panel ID="pnlD" CssClass="panel" runat="server">
+        <asp:Panel ID="pnlD" CssClass="childPanel" runat="server">
                     <table>
             <tr id="departmentRowOffice" runat="server">
                 <td>
@@ -375,7 +379,7 @@ Summary Page:
     </asp:Panel>
 
     <h3 id="incident"><asp:Image ID="imgExpandCollapseIncident" runat="server" /> Incident Lookup:</h3>
-<asp:Panel ID="pnlF" CssClass="panel" runat="server">
+<asp:Panel ID="pnlF" CssClass="parentPanel" runat="server">
 <asp:GridView ID="gdvTracker" Width="800px" runat="server" AutoGenerateColumns="False" 
     OnSelectedIndexChanged="gdvTracker_SelectedIndexChanged" OnRowCommand="gdvTracker_RowCommand" >
     <Columns>
@@ -417,7 +421,7 @@ Summary Page:
     <EmptyDataTemplate>No incident reports found.</EmptyDataTemplate>
 </asp:GridView>
 <h3 id="incidentEmployee">Employee Information</h3>
-<asp:Panel ID="pnlEmployeeInfo" CssClass="panel" runat="server">
+<asp:Panel ID="pnlEmployeeInfo" CssClass="childPanel" runat="server">
     <div id="divEmpInfoLeftPanel" >
         <table>
             <tr>
@@ -564,7 +568,7 @@ Summary Page:
 </asp:Panel>
 
 <h3 id="incidentA"><asp:Image ID="imgExpandCollapseIncidentA" runat="server" /> A. Incident/Accident Information <asp:Label ID="ExpandCollapseIncidentA" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlIncidentA" CssClass="panel" runat="server">
+<asp:Panel ID="pnlIncidentA" CssClass="childPanel" runat="server">
     <div id="divATopPanel">
         <table>
             <tr>
@@ -724,7 +728,7 @@ Summary Page:
 </asp:Panel>
 
 <h3 id="incidentB"><asp:Image ID="imgExpandCollapseIncidentB" runat="server" /> B. Nature of Injury <asp:Label ID="ExpandCollapseIncidentB" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlIncidentB" CssClass="panel" runat="server">
+<asp:Panel ID="pnlIncidentB" CssClass="childPanel" runat="server">
     <h4>Nature of Injury</h4>
     <div id="divBLeftPanel">
         <table>
@@ -749,7 +753,7 @@ Summary Page:
 </asp:Panel>
 
 <h3 id="incidentC"><asp:Image ID="imgExpandCollapseIncidentC" runat="server" /> C. Accident Investigation <asp:Label ID="ExpandCollapseIncidentC" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlIncidentC" CssClass="panel" runat="server">
+<asp:Panel ID="pnlIncidentC" CssClass="childPanel" runat="server">
     <div id="divCLeftPanel">
         <table>
             <tr><td><asp:CheckBox TabIndex="125" ID="cbx_p2_activity_no" Text="No Injury" runat="server" /></td></tr>
@@ -905,7 +909,7 @@ Summary Page:
 </asp:Panel>
 
 <h3 id="incidentD"><asp:Image ID="imgExpandCollapseIncidentD" runat="server" /> D. Cause <asp:Label ID="ExpandCollapseIncidentD" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlIncidentD" CssClass="panel" runat="server">
+<asp:Panel ID="pnlIncidentD" CssClass="childPanel" runat="server">
     <div id="divDLeftPanel">
         <h4>Bite</h4>
         <table>
@@ -1002,7 +1006,7 @@ Summary Page:
 </asp:Panel>
 
 <h3 id="incidentE"><asp:Image ID="imgExpandCollapseIncidentE" runat="server"/> E. Contributing Factors <asp:Label ID="ExpandCollapseIncidentE" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlIncidentE" CssClass="panel" runat="server">
+<asp:Panel ID="pnlIncidentE" CssClass="childPanel" runat="server">
     <div id="divELeftPanel" >
         <h4>Equipment / Device</h4>
         <table>
@@ -1144,7 +1148,7 @@ Summary Page:
 </asp:Panel>
 
 <h3 id="incidentF"><asp:Image ID="imgExpandCollapseIncidentF" runat="server" /> F. Corrective Action <asp:Label ID="ExpandCollapseIncidentF" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlIncidentF" CssClass="panel" runat="server">
+<asp:Panel ID="pnlIncidentF" CssClass="childPanel" runat="server">
 <table>
     <tr>
         <td>
@@ -1246,7 +1250,7 @@ Summary Page:
 </asp:Panel>
 
 <h3 id="incidentG"><asp:Image ID="imgExpandCollapseIncidentG" runat="server" /> G. Relavant Corrective Actions and Follow Up <asp:Label ID="ExpandCollapseIncidentG" runat="server" Text=""></asp:Label></h3>    
-<asp:Panel ID="pnlIncidentG" CssClass="panel" runat="server">
+<asp:Panel ID="pnlIncidentG" CssClass="childPanel" runat="server">
 <p>Full descriptions and target completion dates for corrective actions are required.</p>
 <table>
     <tr>
@@ -1416,7 +1420,7 @@ Summary Page:
 </asp:Panel>
 
 <h3 id="incidentH"><asp:Image ID="imgExpandCollapseIncidentH" runat="server" /> H. Managers Report <asp:Label ID="ExpandCollapseIncidentH" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlIncidentH" CssClass="panel" runat="server">
+<asp:Panel ID="pnlIncidentH" CssClass="childPanel" runat="server">
 <table>
     <tr><td>Do you know of any previous pain/disability in the area of the worker's present injury? If YES, please explain.</td></tr>
     <tr><td><asp:TextBox TabIndex="177" ID="tbx_p2_manager_previous" runat="server" CssClass="commentBoxReporting" TextMode="MultiLine" Width="770px" ></asp:TextBox></td></tr>

@@ -506,7 +506,7 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 {
     display: inline;
     float: left;
-    padding: 0px; /* different from panel */
+    padding: 10px; /* different from panel */
     width: 810px; /* different from panel */
     margin: 0; 
     background: #e8f7fb; 
