@@ -54,7 +54,14 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// <param name="sender">The object that requested the page load.</param>
     /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e) {
+        // Verifiy user
+        Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
+        
+        if (!(Session["RoleNo"].Equals(1) || Session["RoleNo"].Equals(3))) {
+            pnlAllContent.Visible = false;
+            lblUnauthorizedMsg.Visible = true;
+        }
         if (!IsPostBack) {
             pnlPop.Style.Value = "display:none;";
             disableAllTextBoxes();
@@ -654,7 +661,6 @@ public partial class Tracking_Default : System.Web.UI.Page {
         // Find out which button was clicked, take appropriate action
         switch (e.CommandName) {
             case "RowViewReport":
-
                 Response.Redirect("~/Reporting/ViewIncidentReport.aspx?IncidentNo=" + GetIncidentIdFromRow(index));
                 break;
             case "RowViewEmployee":

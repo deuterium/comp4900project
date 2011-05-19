@@ -79,6 +79,10 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 
 </div>
 
+<asp:Label ID="lblUnauthorizedMsg" runat="server" Text="Only Safety Officer and Administrators can access this page. Please visit another page." Visible="false" />
+
+<asp:Panel ID="pnlAllContent" runat="server" >
+
 <h3 id="hr3Filters"><asp:Image ID="imgExpandCollapseFilters" runat="server" /> Incident Form Filters <asp:Label ID="lblExpandCollapseFilters" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlFilters" CssClass="parentPanel" runat="server">
 <h3 id="hr3A"><asp:Image ID="imgExpandCollapseA" runat="server" /> A. Incident/Accident Information <asp:Label ID="ExpandCollapseA" runat="server" Text=""></asp:Label></h3>
@@ -802,5 +806,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
     DropShadow="true" BackgroundCssClass="modalBackground" />
 </div>
+
+</asp:Panel>
 
 </asp:Content>
