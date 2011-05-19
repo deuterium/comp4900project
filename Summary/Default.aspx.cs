@@ -18,9 +18,16 @@ using System.Drawing;
 /// </summary>
 public partial class Summary_Default : System.Web.UI.Page
 {
+    // Static level entity context
     static BCCAEntities ctx = new BCCAEntities();
+
+    // Departments var for drop down lists.
     private string department;
+
+    // Lab Manager var for drop down lists.
     private string labManager;
+
+    // Holds the user role for switch cases to see if a user is admin, lab manager, etc.
     private int userRole;
 
     // Text colour for failure messages
@@ -214,6 +221,11 @@ public partial class Summary_Default : System.Web.UI.Page
     }
     #endregion
 
+    /// <summary>
+    /// Handles the search of ALL Lab Inspections.
+    /// </summary>
+    /// <param name="sender">Not used</param>
+    /// <param name="e">Not used</param>
     protected void btnLabInspectionLookUpAll_Click(object sender, EventArgs e)
     {
         // Sets the gridview visibile on lookup of an inspection
@@ -311,6 +323,12 @@ public partial class Summary_Default : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// Keeps track of which Lab Inspection is selected for bring up
+    /// more information in the Lab Inspection Results Grid view.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grvLabInspections_SelectedIndexChanged(Object sender, EventArgs e)
     {
         lblLabFollowUpSubmitter.Text = "";
@@ -407,19 +425,24 @@ public partial class Summary_Default : System.Web.UI.Page
 
         grvLabInspectionResults.DataBind();
 
+        
         var qryFollowUpSubmitter = ctx.LabInspections.Where(LI => (LI.labInsNo == selectedLabInsNo)).Select(LI => LI.followupSubmitter).FirstOrDefault();
+        
+        // Check for null values.
         if (qryFollowUpSubmitter != null)
         {
             lblLabFollowUpSubmitter.Text = Convert.ToString(qryFollowUpSubmitter);
         }
 
         var qryFollowUpDate = ctx.LabInspections.Where(LI => (LI.labInsNo == selectedLabInsNo)).Select(LI => LI.followupDate).FirstOrDefault();
+        // Checks for null values.
         if (qryFollowUpDate != null)
         {
             DateTime temp = Convert.ToDateTime(qryFollowUpDate);
             lblLabFollowUpDate.Text = temp.ToString("MM/dd/yyyy");
         }
 
+        // Converts the int value in the DB to a string. Used for checking if a follow up is complete or not.
         var qryFollowUpStatus = ctx.LabInspections.Where(LI => (LI.labInsNo == selectedLabInsNo)).Select(LI => LI.followUpStatus).FirstOrDefault();
         if (qryFollowUpStatus != null)
         {
@@ -444,7 +467,12 @@ public partial class Summary_Default : System.Web.UI.Page
         }
     }
 
-
+    /// <summary>
+    /// This method populates one of the column fields on the fly.
+    /// It changes any 1, 2, 3 to their appropriate values.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grvLabInspectionResults_DataBinding(object sender, GridViewRowEventArgs e)
     {
         
@@ -525,6 +553,7 @@ public partial class Summary_Default : System.Web.UI.Page
 
         grvOfficeInspections.DataBind();
                 break;
+            // Role: Lab Manager; See reports in their lab.
             case 1:
                         // Session Value of logged in users Deptartment Number
                         int userDeptNo = (int)Session["DeptNo"];
@@ -565,6 +594,11 @@ public partial class Summary_Default : System.Web.UI.Page
     }
     #endregion
 
+    /// <summary>
+    /// Handles the look up of ALL Office Inspections.
+    /// </summary>
+    /// <param name="sender">Not used</param>
+    /// <param name="e">Not used.</param>
     protected void btnOfficeInspectionLookUpAll_Click(object sender, EventArgs e)
     {
         grvOfficeInspections.Visible = true;
@@ -575,6 +609,7 @@ public partial class Summary_Default : System.Web.UI.Page
 
         System.Globalization.DateTimeFormatInfo dateInfo = new System.Globalization.DateTimeFormatInfo();
         dateInfo.ShortDatePattern = "MM/dd/yyyy";
+        
         DateTime validDate;
         if (tbxOfficeInspectionDate.Text.Length == 0)
         {
@@ -616,6 +651,7 @@ public partial class Summary_Default : System.Web.UI.Page
 
                 grvOfficeInspections.DataBind();
                 break;
+            // Role: Lab manager; See all reports in their Department.
             case 1:
                 // Session Value of logged in users Deptartment Number
                 int userDeptNo = (int)Session["DeptNo"];
@@ -653,6 +689,13 @@ public partial class Summary_Default : System.Web.UI.Page
         }
     }
 
+
+    /// <summary>
+    /// Builds the gridview of the selected Office Inspection with more details
+    /// as well as a follow up at the end. 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grvOfficeInspections_SelectedIndexChanged(Object sender, EventArgs e)
     {
         grvOfficeInspectionResults.Visible = true;
@@ -787,7 +830,12 @@ public partial class Summary_Default : System.Web.UI.Page
         }
     }
 
-
+    /// <summary>
+    /// This method populates one of the column fields on the fly.
+    /// It changes any 1, 2, 3 to their appropriate values.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grvOfficeInspectionResults_DataBinding(object sender, GridViewRowEventArgs e)
     {
 
@@ -930,6 +978,13 @@ public partial class Summary_Default : System.Web.UI.Page
         grvExpiringCourseLookUp.DataBind();
     }
     #endregion
+
+    /// <summary>
+    /// Redirects users to a new page that shows
+    /// statistics of the website such as total employees.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnStatistics_Click(object sender, EventArgs e)
     {
         Response.Redirect("Statistics.aspx");
