@@ -33,7 +33,7 @@ public partial class Summary_Default : System.Web.UI.Page
     public static String noOptionSpecified = String.Empty;
     // List of static, pre-defined employers a user can select
     public static List<String> employers = new List<String> {
-        noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
+        noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH"
     };
 
     /// <summary>
@@ -77,17 +77,17 @@ public partial class Summary_Default : System.Web.UI.Page
 
         if (!IsPostBack)
         {
-            ddlLabLabManager.DataSource = ctx.LabInspections.Select(l => new { text = l.labMgr, value = l.labMgr }).Distinct();
+            ddlLabLabManager.DataSource = ctx.LabInspections.Select(l => new { text = l.labMgr, value = l.labMgr }).OrderBy(l => l).Distinct();
             ddlLabLabManager.DataValueField = "value";
             ddlLabLabManager.DataTextField  = "text";
             ddlLabLabManager.DataBind();
 
-            ddlLabDepartment.DataSource = ctx.Departments.Select(D => new { text = D.deptName, value = D.deptName });
+            ddlLabDepartment.DataSource = ctx.Departments.Select(D => new { text = D.deptName, value = D.deptName }).OrderBy(D => D);
             ddlLabDepartment.DataValueField = "value";
             ddlLabDepartment.DataTextField = "text";
             ddlLabDepartment.DataBind();
 
-            ddlOfficeDepartment.DataSource = ctx.Departments.Select(D => new { text = D.deptName, value = D.deptName });
+            ddlOfficeDepartment.DataSource = ctx.Departments.Select(D => new { text = D.deptName, value = D.deptName }).OrderBy(D => D);
             ddlOfficeDepartment.DataValueField = "value";
             ddlOfficeDepartment.DataTextField = "text";
             ddlOfficeDepartment.DataBind();
@@ -857,7 +857,7 @@ public partial class Summary_Default : System.Web.UI.Page
                                          lastname = temp1.temp0.emp.lname,
                                          firstname = temp1.temp0.emp.fname,
                                          startdate = temp1.temp0.TT.startDate,
-                                         enddate = temp1.temp0.TT.endDate
+                                         expirydate = temp1.temp0.TT.endDate
                                      }
                                );
             grvPanelValidCourses.Controls.Add(grvCourseLookUp);
@@ -916,9 +916,9 @@ public partial class Summary_Default : System.Web.UI.Page
                                                 new
                                                 {
                                                     trainingName = temp1.TC.trainingName,
-                                                    lname = temp1.temp0.emp.lname,
-                                                    fname = temp1.temp0.emp.fname,
-                                                    endDate = temp1.temp0.TT.endDate
+                                                    lastname = temp1.temp0.emp.lname,
+                                                    firstname = temp1.temp0.emp.fname,
+                                                    expirydate = temp1.temp0.TT.endDate
                                                 }
                                         );
         grvPanelExpiringCourses.Controls.Add(grvExpiringCourseLookUp);
@@ -1069,8 +1069,9 @@ public partial class Summary_Default : System.Web.UI.Page
     /// Populates the employers drop down list.
     /// </summary>
     private void PopulateEmployersDdl() {
-        ddlEmployers.DataSource = employers;
+        ddlEmployers.DataSource = employers.OrderBy(e => e.ToString());
         ddlEmployers.DataBind();
+        ddlEmployers.Items.Insert(ddlEmployers.Items.Count, otherOption);
     }
 
     /// <summary>
@@ -1080,7 +1081,7 @@ public partial class Summary_Default : System.Web.UI.Page
     /// Adds the "other" option to the end of the list.
     /// </summary>
     private void PopulatePositionsDdl() {
-        ddlPositions.DataSource = ctx.Positions;
+        ddlPositions.DataSource = ctx.Positions.OrderBy(p => p.posName);
         ddlPositions.DataValueField = "posName";
         ddlPositions.DataBind();
         ddlPositions.Items.Insert(ddlPositions.Items.Count, otherOption);
@@ -1094,7 +1095,7 @@ public partial class Summary_Default : System.Web.UI.Page
     /// Adds the "other" option to the end of the list.
     /// </summary>
     private void PopulateDepartmentsDdl() {
-        ddlDepartments.DataSource = ctx.Departments;
+        ddlDepartments.DataSource = ctx.Departments.OrderBy(d => d.deptName);
         ddlDepartments.DataValueField = "deptName";
         ddlDepartments.DataBind();
         ddlDepartments.Items.Insert(ddlDepartments.Items.Count, otherOption);
