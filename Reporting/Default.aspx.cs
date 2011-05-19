@@ -1042,4 +1042,24 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
     }
 
+    protected void cmvDates_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strStartDate = tbxStartDate.Text;
+        String strEndDate = tbxEndDate.Text;
+        if (strStartDate == null || strStartDate.Equals(String.Empty)) {
+            return;
+        }
+        if (strEndDate == null && strEndDate.Equals(String.Empty)) {
+            args.IsValid = true;
+            return;
+        }
+        DateTime startDate = Convert.ToDateTime(strStartDate);
+        DateTime endDate = Convert.ToDateTime(strEndDate);
+        if (startDate.CompareTo(endDate) > 0) {
+            args.IsValid = true;
+            return;
+        }
+    }
+    
+
 }

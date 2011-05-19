@@ -178,6 +178,8 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpCreateEmp"
                         ControlToValidate="tbxEndDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="End date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                    <asp:CustomValidator ID="cmvDates" runat="server" ValidationGroup="vgpCreateEmp"
+                        ErrorMessage="End date must come after start date." OnServerValidate="cmvDates_ServerValidate"></asp:CustomValidator>
                 </td>
             </tr>
         </table>
