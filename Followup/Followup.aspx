@@ -65,15 +65,14 @@
                     </tr>
                     <tr>
                         <td>
-                            <asp:Button ID="btnLabOfficeFollowupSave" runat="server" Text="Save Followup" 
-                                onclick="btnLabOfficeFollowupSave_Click" />
+                            <asp:Button ID="btnLabOfficeFollowupSave" runat="server" Text="Save Followup" OnClick="btnLabOfficeFollowupSave_Click" />
                         </td>
                         <td align="right">
                             <asp:Button ID="btnLabOfficeFollowupSubmit" runat="server" Text="Submit Followup"
                                 OnClick="btnLabOfficeFollowupSubmit_Click" />
                             <asp:ConfirmButtonExtender ID="btnLabOfficeFollowupSubmit_ConfirmButtonExtender"
-                                runat="server" ConfirmText="Are you sure you want to submit this followup? This will mark it as complete and remove from Followup page" Enabled="True"
-                                TargetControlID="btnLabOfficeFollowupSubmit" ConfirmOnFormSubmit="false">
+                                runat="server" ConfirmText="Are you sure you want to submit this followup? This will mark it as complete and remove from Followup page"
+                                Enabled="True" TargetControlID="btnLabOfficeFollowupSubmit" ConfirmOnFormSubmit="false">
                             </asp:ConfirmButtonExtender>
                         </td>
                     </tr>
@@ -1705,21 +1704,20 @@
             </asp:Panel>
         </div>
         <div align="right">
-        <table cellspacing="5">
-            <tr>
-                <td>
-                    Submitted by:
-                </td>
-                <td>
-                    <asp:TextBox ID="tbxIncidentFollowupSubmitter" disabled="true" runat="server" 
-                        OnLoad="tbxIncidentFollowupSubmitter_Load"></asp:TextBox>
-                </td>
-                <td>
-                    <asp:Button ID="btnIncidentFollowupSubmit" runat="server" 
-                        Text="Submit Followup" onclick="btnIncidentFollowupSubmit_Click" />
-                </td>
-            </tr>
-        </table>
+            <table cellspacing="5">
+                <tr>
+                    <td>
+                        Submitted by:
+                    </td>
+                    <td>
+                        <asp:TextBox ID="tbxIncidentFollowupSubmitter" disabled="true" runat="server" OnLoad="tbxIncidentFollowupSubmitter_Load"></asp:TextBox>
+                    </td>
+                    <td>
+                        <asp:Button ID="btnIncidentFollowupSubmit" runat="server" Text="Submit Followup"
+                            OnClick="btnIncidentFollowupSubmit_Click" />
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
     <asp:Panel ID="pnlPop" BackColor="White" CssClass="popPanel" runat="server">
