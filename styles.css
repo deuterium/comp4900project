@@ -363,7 +363,7 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     width: 267px;
 }
 
-#divEmpInfoButtons
+.summariesAndButtons
 {
     display: inline;
     float: left;

@@ -645,8 +645,12 @@ public partial class Reporting_Default : System.Web.UI.Page {
         Page.Validate("vgpFCorrective");
         Page.Validate("vgpGRelevant");
         Page.Validate("vgpHManagers");
+        if (ValidateActionFollowingIncident()) {
+            Popup_Overlay("You must select at least one action following checkbox in section A: Incident/Accident Information.", FailColour);
+            return;
+        }
 
-        if (Page.IsValid) {
+        if (Page.IsValid && ValidateActionFollowingIncident()) {
             Incident report = createReport();
             try {
                 ctx.AddToIncidents(report);
@@ -654,7 +658,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
                 Popup_Overlay("Report successfully created.", SuccessColour);
             }
             catch (Exception ex) {
-                Popup_Overlay("An error has occured while creating your report. Please try again." + ex.StackTrace.ToString(), FailColour);
+                Popup_Overlay("An error has occured while creating your report. Please try again.", FailColour);
                 return;
             }
         }
@@ -942,4 +946,29 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
     }
     #endregion Create New Incident Report
+
+    private Boolean ValidateActionFollowingIncident() {
+        return (cbx_p1_action_report.Checked
+                || cbx_p1_action_firstAid.Checked
+                || cbx_p1_action_medicalGP.Checked
+                || cbx_p1_action_lostTime.Checked
+                || cbx_p1_action_medicalER.Checked);
+    }
+
+    protected void cbx_p1_action_medicalGP_CheckChanged(object sender, EventArgs e) {
+        if (cbx_p1_action_medicalGP.Checked) {
+            rfvMedicalAidGpDate.Enabled = true;
+        }
+        else {
+            rfvMedicalAidGpDate.Enabled = false;
+        }
+    }
+    protected void cbx_p1_action_medicalER_CheckChanged(object sender, EventArgs e) {
+        if (cbx_p1_action_medicalER.Checked) {
+            rfvMedicalAidErDate.Enabled = true;
+        }
+        else {
+            rfvMedicalAidErDate.Enabled = false;
+        }
+    }
 }
