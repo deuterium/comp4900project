@@ -240,7 +240,7 @@ ExpandedImage="../images/collapse.jpg">
                         </Columns>
                     </asp:GridView>
                     <asp:Button ID="btnAddCrs" runat="server" Text="Add Course" 
-                        onclick="btnAddCrs_Click" />
+                        onclick="btnAddCrs_Click" Visible="False" />
                     <asp:Panel ID="pnlCrsDetails" runat="server" CssClass="panel">
                         <div>
                             <table id="tblCrsDetails" class="style1">

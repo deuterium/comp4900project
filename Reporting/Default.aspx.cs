@@ -42,7 +42,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     public static String noOptionSpecified = String.Empty;
     // List of static, pre-defined employers a user can select
     public static List<String> employers = new List<String> {
-        noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
+        noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH"
     };
     #endregion class variables
 
@@ -54,6 +54,8 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="sender">The object that requested the page load.</param>
     /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e) {
+        // Verifiy user
+        Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
 
         // Only do the initial set up the first time the page loads (and not on post-backs).
@@ -62,9 +64,8 @@ public partial class Reporting_Default : System.Web.UI.Page {
             PopulatePositionsDdl();
             PopulateDepartmentsDdl();
             pnlPop.Style.Value = "display:none;";
-            
-            tsmScriptManager.SetFocus(tbxLastName.ClientID);
         }
+        lblInvalidActionFollowing.Visible = false;
     }
 
     #region Toggle Other TextBox and CheckBox
@@ -197,8 +198,9 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Populates the employers drop down list.
     /// </summary>
     private void PopulateEmployersDdl() {
-        ddlEmployers.DataSource = employers;
+        ddlEmployers.DataSource = employers.OrderBy(e => e.ToString());
         ddlEmployers.DataBind();
+        ddlEmployers.Items.Insert(ddlEmployers.Items.Count, otherOption);
     }
 
     /// <summary>
@@ -208,7 +210,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Adds the "other" option to the end of the list.
     /// </summary>
     private void PopulatePositionsDdl() {
-        ddlPositions.DataSource = ctx.Positions;
+        ddlPositions.DataSource = ctx.Positions.OrderBy(p => p.posName);
         ddlPositions.DataValueField = "posName";
         ddlPositions.DataBind();
         ddlPositions.Items.Insert(ddlPositions.Items.Count, otherOption);
@@ -216,17 +218,25 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
 
     /// <summary>
-    /// Populates the departments drop down list.
+    /// Populates the departments drop down list in the employee info panel and the report info panel.
     /// Loads departments from the database.
     /// Adds the "no selection" option to the front of the list.
     /// Adds the "other" option to the end of the list.
     /// </summary>
     private void PopulateDepartmentsDdl() {
-        ddlDepartments.DataSource = ctx.Departments;
+        // Employee Info Departments DDL
+        ddlDepartments.DataSource = ctx.Departments.OrderBy(d => d.deptName);
         ddlDepartments.DataValueField = "deptName";
         ddlDepartments.DataBind();
         ddlDepartments.Items.Insert(ddlDepartments.Items.Count, otherOption);
         ddlDepartments.Items.Insert(0, noOptionSpecified);
+        // Report Info Departments DDL
+        ddlReportDepts.DataSource = ctx.Departments.OrderBy(d => d.deptName);
+        ddlReportDepts.DataTextField = "deptName";
+        ddlReportDepts.DataValueField = "deptNo";
+        ddlReportDepts.DataBind();
+        ddlReportDepts.Items.Insert(ddlReportDepts.Items.Count, otherOption);
+        ddlReportDepts.Items.Insert(0, noOptionSpecified);
     }
 
     #endregion Load DropDownLists
@@ -260,6 +270,16 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="e">The index changed event.</param>
     protected void ddlDepartments_SelectedIndexChanged(object sender, EventArgs e) {
         CheckDepartmentSelection();
+    }
+
+    /// <summary>
+    /// Calls CheckReportDepartmentSelection(), which displays a textbox if the "Other (specify)"
+    /// option is selected and hides the textbox if any other option is selected
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The index changed event.</param>
+    protected void ddlReportDepts_SelectedIndexChanged(object sender, EventArgs e) {
+        CheckReportDepartmentSelection();
     }
 
     /// <summary>
@@ -300,6 +320,19 @@ public partial class Reporting_Default : System.Web.UI.Page {
             tbxDepartment.Visible = false;
         }
     }
+
+    /// <summary>
+    /// Displays a textbox if the "Other (specify)" option of the departments drop down list is selected.
+    /// Hides the textbox if any other option is selected
+    /// </summary>
+    private void CheckReportDepartmentSelection() {
+        if (ddlReportDepts.SelectedValue.Equals(otherOption)) {
+            tbxReportDept.Visible = true;
+        }
+        else {
+            tbxReportDept.Visible = false;
+        }
+    }
     #endregion Other Option Textbox Toggle
     #endregion DropDownLists
 
@@ -308,7 +341,8 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Uses the employee's first and last name to get the rest employee's information from the database.
     /// Populates the Header form with this data.
     /// </summary>
-    private void getEmployeeData() {
+    /// <returns>Returns the employee on success, null on failure.</returns>
+    private Employee getEmployeeData() {
         String first = tbxFirstName.Text;
         String last = tbxLastName.Text;
         Employee emp = null;
@@ -381,20 +415,24 @@ public partial class Reporting_Default : System.Web.UI.Page {
             tbxRoom.Text = emp.room;
 
             if (emp.startDate != null) {
-                tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy");
+                tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy", new CultureInfo("en-CA"));
             }
 
             if (emp.endDate != null) {
-                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy");
+                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy", new CultureInfo("en-CA"));
             }
 
         }
         else if ((qry != null) && (qry.Count() <= 0)) {
             Popup_Overlay("No employee with that first and last name found.", FailColour);
+            return null;
         }
         else {
             Popup_Overlay("There was more than one employee with that first and last name.", FailColour);
+            return null;
         }
+
+        return emp;
     }
 
     /// <summary>
@@ -404,6 +442,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The index changed event.</param>
     protected void btnGetEmployee_Click(object sender, EventArgs e) {
+        Page.Validate("vgpGetEmp");
+        if (!Page.IsValid) {
+            return;
+        }
+        
         getEmployeeData();
     }
     #endregion LoadEmployeeData
@@ -415,6 +458,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The index changed event.</param>
     protected void btnCreateEmployee_Click(object sender, EventArgs e) {
+        Page.Validate("vgpGetEmp");
+        Page.Validate("vgpCreateEmp");
+        if (!Page.IsValid) {
+            return;
+        }
         createEmployee();
     }
 
@@ -638,7 +686,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The button click event.</param>
     protected void btnCreateReport_Click(object sender, EventArgs e) {
-        Page.Validate("vgpEmpInfo");
+        Page.Validate("vgpGetEmp");
         Page.Validate("vgpPanelA");
         Page.Validate("vgpFCorrective");
         Page.Validate("vgpGRelevant");
@@ -652,9 +700,15 @@ public partial class Reporting_Default : System.Web.UI.Page {
                 Popup_Overlay("Report successfully created.", SuccessColour);
             }
             catch (Exception ex) {
-                Popup_Overlay("An error has occured while creating your report. Please try again." + ex.StackTrace.ToString(), FailColour);
+                Popup_Overlay("An error has occured while creating your report. Please try again.", FailColour);
                 return;
             }
+        }
+        else {
+            cpeEmpInfo.ClientState = "false";
+            cpeEmpInfo.Collapsed = false;
+            cpeA.ClientState = "false";
+            cpeA.Collapsed = false;
         }
     }
 
@@ -665,18 +719,24 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// </summary>
     /// <returns>the newly created Incident report</returns>
     private Incident createReport() {
-        getEmployeeData();
-        int empId = Convert.ToInt32(tbxId.Text);
+        Employee emp = getEmployeeData();
+        // If employee not found, see if you can create one.
+        if (emp == null) {
+            Page.Validate("vgpCreateEmp");
+            if (Page.IsValid) {
+                createEmployee();
+            }
+            else {
+                return null;
+            }
+        }
 
-        DateTime dateOfIncident = Convert.ToDateTime(tbx_p1_dateOfIncident.Text + " " + tbx_p1_timeOfIncident.Text);
-        DateTime dateReported = Convert.ToDateTime(tbx_p1_dateReported.Text + " " + tbx_p1_timeReported.Text);
+        int empId = Convert.ToInt32(tbxId.Text);
 
         Incident report = new Incident {
 
             #region A_IncidentInfo
             empNo = empId,
-            p1_dateOfIncident = dateOfIncident,
-            p1_dateReported = dateReported,
             p1_incidentDesc = convertTextBox(tbx_p1_incidentDesc),
             p1_witnessName1 = convertTextBox(tbx_p1_witnessName1),
             p1_witnessPhone1 = convertTextBox(tbx_p1_witnessPhone1),
@@ -860,10 +920,47 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
             followUpStatus = "0",
             reportSubmitter = Session["AuthenticatedUser"].ToString(),
-            submitterDeptNo = Convert.ToInt32(Session["DeptNo"])
             
         };
 
+        if ((Session["DeptNo"] == null) || Session["DeptNo"].Equals(String.Empty)) {    // for admin account
+            report.submitterDeptNo = null;
+        }
+        else {
+            report.submitterDeptNo = Convert.ToInt32(Session["DeptNo"]);
+        }
+
+        #region Report Info Dates and Department
+        #region Dates
+        String strDateOfIncident = tbx_p1_dateOfIncident.Text;
+        String strTimeOfIncident = tbx_p1_timeOfIncident.Text;
+        String strDateReported = tbx_p1_dateReported.Text;
+        String strTimeReported = tbx_p1_timeReported.Text;
+
+        if (!(strDateOfIncident.Equals(String.Empty) && strTimeOfIncident.Equals(String.Empty))) {
+            report.p1_dateOfIncident = Convert.ToDateTime(strDateOfIncident + " " + strTimeOfIncident);
+        }
+        else {
+            return null;
+        }
+
+        if (!(strDateReported.Equals(String.Empty) && strTimeReported.Equals(String.Empty))) {
+            report.p1_dateReported = Convert.ToDateTime(strDateReported + " " + strTimeReported);
+        }
+        else {
+            return null;
+        }
+        #endregion Dates
+        #region Department
+        if (ddlReportDepts.SelectedValue.Equals(otherOption)
+                || (ddlReportDepts.SelectedValue.Equals(noOptionSpecified))) {
+            report.deptNo = null;
+        } else {
+            emp.deptName = ddlReportDepts.SelectedValue;
+        }
+        #endregion Department
+        #endregion Report Info Dates and Department
+    
         #region A_IncidentInfo_Dates
         if (!tbx_p1_action_medicalER_date.Text.Equals(String.Empty)) {
             DateTime dateMedicalER = Convert.ToDateTime(tbx_p1_action_medicalER_date.Text);
@@ -940,4 +1037,71 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
     }
     #endregion Create New Incident Report
+
+    protected void cbx_p1_action_medicalGP_CheckChanged(object sender, EventArgs e) {
+        if (cbx_p1_action_medicalGP.Checked) {
+            rfvMedicalAidGpDate.Enabled = true;
+        }
+        else {
+            rfvMedicalAidGpDate.Enabled = false;
+        }
+    }
+    protected void cbx_p1_action_medicalER_CheckChanged(object sender, EventArgs e) {
+        if (cbx_p1_action_medicalER.Checked) {
+            rfvMedicalAidErDate.Enabled = true;
+        }
+        else {
+            rfvMedicalAidErDate.Enabled = false;
+        }
+    }
+    protected void cmvActionFollowing_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = (cbx_p1_action_report.Checked
+                            || cbx_p1_action_firstAid.Checked
+                            || cbx_p1_action_medicalGP.Checked
+                            || cbx_p1_action_lostTime.Checked
+                            || cbx_p1_action_medicalER.Checked);
+    }
+
+    protected void cmvEmployeeExists_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String first = tbxFirstName.Text;
+        String last = tbxLastName.Text;
+        Employee emp = null;
+
+        var qry = ctx.Employees
+                  .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
+                  .Select(e => e);
+
+        if ((qry != null) && (qry.Count() == 1)) {
+            args.IsValid = true;
+        } else if ((qry != null) && (qry.Count() <= 0)) {
+            cmvEmployeeName.ErrorMessage = "No employee with that first and last name found.";
+            return;
+        }
+        else {
+            cmvEmployeeName.ErrorMessage = "There was more than one employee with that first and last name.";
+            return;
+        }
+    }
+
+    protected void cmvDates_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strStartDate = tbxStartDate.Text;
+        String strEndDate = tbxEndDate.Text;
+        if (strStartDate == null || strStartDate.Equals(String.Empty)) {
+            return;
+        }
+        if (strEndDate == null && strEndDate.Equals(String.Empty)) {
+            args.IsValid = true;
+            return;
+        }
+        DateTime startDate = Convert.ToDateTime(strStartDate);
+        DateTime endDate = Convert.ToDateTime(strEndDate);
+        if (startDate.CompareTo(endDate) > 0) {
+            args.IsValid = true;
+            return;
+        }
+    }
+    
+
 }

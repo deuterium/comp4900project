@@ -63,9 +63,9 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:TextBox TabIndex="100" ID="tbxLastName" runat="server" ClientID="tbxLastNameClient" MaxLength="20" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweLastName" runat="server" TargetControlID="tbxLastName"
                         WatermarkCssClass="watermarked" WatermarkText="Required field"></asp:TextBoxWatermarkExtender>
-                    <asp:RequiredFieldValidator ID="rfvLastName" runat="server" ValidationGroup="vgpEmpInfo"
+                    <asp:RequiredFieldValidator ID="rfvLastName" runat="server" ValidationGroup="vgpGetEmp" 
                         ControlToValidate="tbxLastName" ErrorMessage="Last name is required."></asp:RequiredFieldValidator>
-                    <asp:RegularExpressionValidator ID="revLastName" runat="server" ValidationGroup="vgpEmpInfo"
+                    <asp:RegularExpressionValidator ID="revLastName" runat="server" ValidationGroup="vgpGetEmp" 
                         ControlToValidate="tbxLastName" ErrorMessage="Last name can only contain letters."
                         ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
                 </td>
@@ -76,9 +76,11 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:TextBox TabIndex="101" ID="tbxFirstName" runat="server" MaxLength="20" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweFirstName" runat="server" TargetControlID="tbxFirstName"
                         WatermarkCssClass="watermarked" WatermarkText="Required field"></asp:TextBoxWatermarkExtender>
-                    <asp:RequiredFieldValidator ID="rfvFirstName" runat="server" ValidationGroup="vgpEmpInfo"
+                    <asp:RequiredFieldValidator ID="rfvFirstName" runat="server" ValidationGroup="vgpGetEmp" 
                         ControlToValidate="tbxFirstName" ErrorMessage="First name is required."></asp:RequiredFieldValidator>  
-                    <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpEmpInfo"
+                    <asp:CustomValidator ID="cmvEmployeeName" runat="server" ValidationGroup="vgpGetEmp"
+                        ErrorMessage="Employee not found." OnServerValidate="cmvEmployeeExists_ServerValidate"></asp:CustomValidator>
+                    <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpGetEmp" 
                         ControlToValidate="tbxFirstName" ErrorMessage="First name can only contain letters."
                         ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
                 </td>
@@ -145,7 +147,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:TextBox TabIndex="108" ID="tbxSupervisor" runat="server" MaxLength="50" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweSupervisor" runat="server" TargetControlID="tbxSupervisor"
                         WatermarkCssClass="watermarked" WatermarkText="First Last"></asp:TextBoxWatermarkExtender>
-                    <asp:RegularExpressionValidator ID="revSupervisor" runat="server" ValidationGroup="vgpEmpInfo"
+                    <asp:RegularExpressionValidator ID="revSupervisor" runat="server" ValidationGroup="vgpCreateEmp"
                         ControlToValidate="tbxSupervisor" ErrorMessage="Supervisor must have a first and last name separated by a space."
                         ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
                 </td>
@@ -158,9 +160,11 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="M/d/yyyy" >
                     </asp:CalendarExtender>
-                    <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpEmpInfo"
+                    <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpCreateEmp"
                         ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Start date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                    <asp:RequiredFieldValidator ID="rfvStartDate" runat="server" ValidationGroup="vgpCreateEmp"
+                        ControlToValidate="tbxStartDate" ErrorMessage="Start date is required."></asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
@@ -171,27 +175,27 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="M/d/yyyy" >
                     </asp:CalendarExtender>
-                    <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpEmpInfo"
+                    <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpCreateEmp"
                         ControlToValidate="tbxEndDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="End date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-<%--                    <asp:CompareValidator ID="cpvStartEndDates" runat="server" ValidationGroup="vgpEmpInfo"
-                        ControlToValidate="tbxEndDate" ControlToCompare="tbxStartDate" Operator="GreaterThan" Type="Date"
-                        ErrorMessage="End date must be later than start date." ></asp:CompareValidator>--%>
+                    <asp:CustomValidator ID="cmvDates" runat="server" ValidationGroup="vgpCreateEmp"
+                        ErrorMessage="End date must come after start date." OnServerValidate="cmvDates_ServerValidate"></asp:CustomValidator>
                 </td>
             </tr>
         </table>
     </div>
 
-    <div id="divEmpInfoButtons" >
-        <asp:Button TabIndex="111" ID="btnGetEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
+    <div id="divEmpInfoButtons" class="summariesAndButtons" >
+        <asp:Button TabIndex="111" ID="btnGetEmployee" runat="server"
             Text="Get Employee" onclick="btnGetEmployee_Click" />
-        <asp:Button TabIndex="111" ID="btnCreateEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
+        <asp:Button TabIndex="111" ID="btnCreateEmployee" runat="server"
             Text="Create Employee" onclick="btnCreateEmployee_Click" />
-        <asp:Button TabIndex="1112" ID="btnUpdateEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
+        <asp:Button TabIndex="1112" ID="btnUpdateEmployee" runat="server"
             Text="Update  Employee" onclick="btnUpdateEmployee_Click" />
         <asp:Button TabIndex="1112" ID="btnCreateReport" runat="server" 
             Text="Create Report" onclick="btnCreateReport_Click" />
-        <asp:ValidationSummary ID="vsyEmployeeInfo" runat="server" ValidationGroup="vgpEmpInfo" DisplayMode="BulletList" />
+        <asp:ValidationSummary ID="vsyGetEmp" ValidationGroup="vgpGetEmp" runat="server" DisplayMode="BulletList" />
+        <asp:ValidationSummary ID="vsyCreateEmp" ValidationGroup="vgpCreateEmp" runat="server" DisplayMode="BulletList" />
     </div>
 </asp:Panel>
 
@@ -259,10 +263,6 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:RegularExpressionValidator ID="revDateReported" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_dateReported" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Date reported must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-                    <%--<asp:CompareValidator ID="cpvDateReported" runat="server" ValidationGroup="vgpPanelA"
-                        ControlToValidate="tbx_p1_dateReported" ControlToCompare="tbx_p1_dateOfIncident"
-                        Type="Date" Operator="GreaterThanEqual"
-                        ErrorMessage="Date reported must be the on or later than the date of the incident."></asp:CompareValidator>--%>
                 </td>
                 <td colspan="2" ><span class="spanBold" >Witness 2:</span></td>
             </tr>
@@ -277,6 +277,9 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:RegularExpressionValidator ID="revTimeReported" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_timeReported" ValidationExpression="^((([01]?[0-9]{1}|[2]{1}[0-3]{1}){1}(:[0-5]{1}[0-9]{1}){1})|(([0]?[0-9]{1}|[1]{1}[012]{1}){1}(:[0-5]{1}[0-9]{1})? ?(am|AM|pm|PM){1}))$" 
                         ErrorMessage="Time reported must be in one of the following formats: H pm, H:MM AM, HH:MM"></asp:RegularExpressionValidator>
+                    <%--<asp:CustomValidator ID="cmvDate" runat="server" ValidationGroup="vgpPanelA"
+                        ErrorMessage="You must select at least one Action Following checkbox." 
+                        OnServerValidate="cmvActionFollowing_ServerValidate"></asp:CustomValidator>--%>
                 </td>
                 <td>Name:</td>
                 <td>
@@ -297,26 +300,51 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         ErrorMessage="Phone number for witness 2 must be in format '###-###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
                 </td>
             </tr>
+            <tr>
+                <td>Department of Incident:</td>
+                <td>
+                    <asp:DropDownList TabIndex="112" ID="ddlReportDepts" runat="server" OnSelectedIndexChanged="ddlReportDepts_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
+                    <asp:UpdatePanel ID="uplReportDepts" runat="server">
+                        <ContentTemplate>
+                            <asp:TextBox TabIndex="112" ID="tbxReportDept" runat="server" Visible="false"></asp:TextBox>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="ddlReportDepts" EventName="SelectedIndexChanged" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </td>
+            </tr>
         </table>
         <br />
     </div>
 
     <div id="divABottomPanel">
-        <h4>Incident Description:</h4>
+        <span class="spanBold" >Incident Description:</span>
+        <asp:RequiredFieldValidator ID="rfvIncidentDesc" runat="server" ValidationGroup="vgpPanelA"
+            ControlToValidate="tbx_p1_incidentDesc" ErrorMessage="Incident description is required."></asp:RequiredFieldValidator>
+        <%--<asp:RegularExpressionValidator ID="revIncidentDesc" runat="server" ControlToValidate="tbx_p1_incidentDesc" ValidationGroup="vgpPanelA"
+            ValidationExpression=".{50}" ErrorMessage="The incident description must be at least 50 characters. Please be more descriptive!"></asp:RegularExpressionValidator>--%>
+        <br />
         <table>
             <tr>
-                <td><asp:TextBox TabIndex="116" ID="tbx_p1_incidentDesc" runat="server" CssClass="commentBoxReporting" TextMode="MultiLine" Width="770px" MaxLength="255" ></asp:TextBox></td>
+                <td>
+                    <asp:TextBox TabIndex="116" ID="tbx_p1_incidentDesc" CssClass="resizeableTextArea" runat="server" TextMode="MultiLine" ></asp:TextBox>
+                </td>
             </tr>
         </table>
-        <h4>Action Following Incident:</h4>
+        <br />
+        <span class="spanBold">Action Following Incident:</span>
+        <asp:CustomValidator ID="cmvActionFollowing" runat="server" ValidationGroup="vgpPanelA"
+            ErrorMessage="You must select at least one Action Following checkbox." 
+            OnServerValidate="cmvActionFollowing_ServerValidate"></asp:CustomValidator>
         <table>
             <tr>
 	            <td><asp:CheckBox ID="cbx_p1_action_report" Text="Report Only" runat="server" /></td>
 	            <td><asp:CheckBox ID="cbx_p1_action_firstAid" Text="First Aid" runat="server" /></td>
-	            <td><asp:CheckBox ID="cbx_p1_action_medicalGP" Text="Medical Aid (GP / Clinic)" runat="server" /></td>
+	            <td><asp:CheckBox ID="cbx_p1_action_medicalGP" Text="Medical Aid (GP / Clinic)" runat="server" OnCheckedChanged="cbx_p1_action_medicalGP_CheckChanged" /></td>
 	            <td>Date:</td>
 	            <td>
-                    <asp:TextBox ID="tbx_p1_action_medicalGP_date" runat="server" MaxLength="10" ></asp:TextBox>
+                    <asp:TextBox ID="tbx_p1_action_medicalGP_date" runat="server" MaxLength="10" Width="150px" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date"
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date" Format="M/d/yyyy" >
@@ -324,14 +352,16 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:RegularExpressionValidator ID="revMedicalGpDate" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_action_medicalGP_date" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Medical Aid (GP / Clinic) date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                    <asp:RequiredFieldValidator ID="rfvMedicalAidGpDate" runat="server" ValidationGroup="vgpPanelA" Enabled="false"
+                        ControlToValidate="tbx_p1_action_medicalGP_date" ErrorMessage="Date is required for Medical Aid (GP / Clinic)."></asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
 	            <td colspan="2" ><asp:CheckBox ID="cbx_p1_action_lostTime" Text="Lost time (missed/will miss next scheduled shift due to injury)" runat="server" /></td>
-	            <td><asp:CheckBox ID="cbx_p1_action_medicalER" Text="Medical Aid (ER)" runat="server" /></td>
+	            <td><asp:CheckBox ID="cbx_p1_action_medicalER" Text="Medical Aid (ER)" runat="server" OnCheckedChanged="cbx_p1_action_medicalER_CheckChanged"/></td>
 	            <td>Date:</td>
 	            <td>
-                    <asp:TextBox ID="tbx_p1_action_medicalER_date" runat="server" MaxLength="10" ></asp:TextBox>
+                    <asp:TextBox ID="tbx_p1_action_medicalER_date" runat="server" MaxLength="10" Width="150px" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date"
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date" Format="M/d/yyyy" >
@@ -339,6 +369,8 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:RegularExpressionValidator ID="revMedicalErDate" runat="server" ValidationGroup="vgpPanelA"
                         ControlToValidate="tbx_p1_action_medicalER_date" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Medical Aid (ER) date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                    <asp:RequiredFieldValidator ID="rfvMedicalAidErDate" runat="server" ValidationGroup="vgpPanelA" Enabled="false"
+                        ControlToValidate="tbx_p1_action_medicalER_date" ErrorMessage="Date is required for Medical Aid (ER)."></asp:RequiredFieldValidator>
                 </td>
             </tr>
         </table>
@@ -348,8 +380,12 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
         ControlToValidate="tbxMedicalAidDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
         ErrorMessage="Medical Aid date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
     --%>
-    <asp:ValidationSummary ID="vsyPanelA" runat="server" ValidationGroup="vgpPanelA"
-        DisplayMode="BulletList" />
+    <div id="div1" class="summariesAndButtons" >
+        <asp:ValidationSummary ID="vsyPanelA" runat="server" ValidationGroup="vgpPanelA"
+            DisplayMode="BulletList" />
+        <asp:Label ID="lblInvalidActionFollowing" runat="server" ForeColor="Red"
+            Text="You must select at least one Action Following checkbox." Visible="false"></asp:Label>
+    </div>
 
 </asp:Panel>
 
