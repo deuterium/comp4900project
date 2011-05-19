@@ -178,15 +178,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     private void filterReport(GridView gdv) {
         var reports = ctx.Incidents
+                      .OrderBy(r => r.submitterDeptNo)
                       .Select(r => r);
-
-        // If the user is a Lab Manager, only get incidents from within their Department
-        //if (Session["RoleNo"].Equals(4)) {
-        //    int deptNo = Convert.ToInt32(Session["DeptNo"]);
-        //    reports = ctx.Incidents
-        //              .Where(r => r.submitterDeptNo.Equals(deptNo))
-        //              .Select(r => r);
-        //}
 
         #region B_NatureOfInjury
         if (cbx_p1_nature_no.Checked) { reports = reports.Where(r => r.p1_nature_no.Equals("1")); addFilter(cbx_p1_nature_no); }
@@ -369,7 +362,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         dt.Columns.Add(new DataColumn("submitter", typeof(System.String)));
         dt.Columns.Add(new DataColumn("employee", typeof(System.String)));
 
-        String prevDeptName = String.Empty;
+        int prevDeptNo = -1;
         int incidentCount = 0;
 
         // Put the data in rows, inserting rows for subheaders
@@ -377,7 +370,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
             // if it's the start of a new department
             // add a subtotal row for the previous department
             // add a subheader row for the new department
-            if (!prevDeptName.Equals(report.Employee.deptName)) {
+            if (!prevDeptNo.Equals(report.submitterDeptNo)) {
                 // subtotal
                 if (incidentCount != 0) {
                     DataRow drSubtotal = dt.NewRow();
@@ -386,10 +379,20 @@ public partial class Tracking_Default : System.Web.UI.Page {
                     incidentCount = 0;
                 }
                 // subheader
-                prevDeptName = report.Employee.deptName;
-                DataRow drSubheader = dt.NewRow();
-                drSubheader["incidentNo"] = "Department: " + report.Employee.deptName;
-                dt.Rows.Add(drSubheader);
+                if (report.submitterDeptNo != null) {
+                    String dept = ctx.Departments
+                                  .Where(d => d.deptNo == report.submitterDeptNo)
+                                  .Select(d => d.deptName).FirstOrDefault();
+                    DataRow drSubheader = dt.NewRow();
+                    drSubheader["incidentNo"] = "Department: " + dept;
+                    dt.Rows.Add(drSubheader);
+                }
+                else {
+                    DataRow drSubheader = dt.NewRow();
+                    drSubheader["incidentNo"] = "Department: Other";
+                    dt.Rows.Add(drSubheader);
+                }
+                
 
             }
             incidentCount++;
@@ -406,7 +409,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         // Add last subtotal row
         if (incidentCount != 0) {
             DataRow drSubtotal = dt.NewRow();
-            drSubtotal["incidentNo"] = "Subtotal Number of Incidents: " + incidentCount;
+            drSubtotal["incidentNo"] = "Number of Incidents: " + incidentCount;
             dt.Rows.Add(drSubtotal);
             incidentCount = 0;
         }
@@ -426,10 +429,11 @@ public partial class Tracking_Default : System.Web.UI.Page {
         //gdvTracker.Columns[2].ItemStyle.Width = 80;
         //gdvTracker.Columns[3].ItemStyle.Width = 450;
 
-        // Find and format the subheader rows
+        // Find and format the subheader and subtotal rows
         foreach (GridViewRow row in gdvTracker.Rows) {
             String strName = ((Label)row.FindControl("lblEmployeeName")).Text;
             if ((strName == null) || (strName.Equals(String.Empty))) {
+                // common formatting
                 row.ForeColor = HeaderForeColor;
                 foreach (TableCell c in row.Cells) {
                     c.Visible = false;
@@ -437,11 +441,14 @@ public partial class Tracking_Default : System.Web.UI.Page {
                 row.Cells[0].Visible = true;
                 row.Cells[0].ColumnSpan = gdvTracker.Columns.Count - 2;
                 String strIncidentNo = ((Label)row.FindControl("lblIncidentNo")).Text;
-                if (!(strIncidentNo.StartsWith("Subtotal") || strIncidentNo.StartsWith("Total"))) {
-                    // Manage buttons
+
+                // subheader dept row formatting (make view inspection/lab buttons visible)
+                if (!(strIncidentNo.StartsWith("Number") || strIncidentNo.StartsWith("Total"))) {
                     row.Cells[5].Visible = true;
                     row.Cells[5].ColumnSpan = 2;
+                    row.Font.Bold = true;
                 }
+                // subtotal row formatting 
                 else {
                     row.Cells[0].ColumnSpan = gdvTracker.Columns.Count;
                     row.Height = 50;
@@ -452,6 +459,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
             }
         }
         gdvTracker.HeaderRow.Cells[5].Visible = false;
+        //gdvTracker.Rows[gdvTracker.Rows.Count - 1].Font.Bold = true;
     }
     #endregion Filter Report
 
