@@ -821,7 +821,7 @@ public partial class Summary_Default : System.Web.UI.Page
         var q = from x in ctx.TrainingCourses
                 select x;
         var total = q.Count();
-
+        DateTime currentDate = DateTime.Now;
         List<String> courseArray = ctx.TrainingCourses.Select(c => c.trainingName).ToList();
 
 
@@ -852,7 +852,7 @@ public partial class Summary_Default : System.Web.UI.Page
                                          TC = TC
                                      }
                                )
-                               .Where(temp1 => (temp1.TC.trainingName == temp))
+                               .Where(temp1 => (temp1.TC.trainingName == temp) && (temp1.temp0.emp.endDate > (currentDate)))
                                .Select(
                                   temp1 =>
                                      new
@@ -882,7 +882,8 @@ public partial class Summary_Default : System.Web.UI.Page
     protected void btnExpiringCourses_Click(object sender, EventArgs e)
     {
         int month = Convert.ToInt32(tbxMonthsRange.Text);
-        DateTime currentDate = DateTime.Now.AddMonths(month);
+        DateTime currentDate = DateTime.Now;
+        DateTime currentDateMonths = DateTime.Now.AddMonths(month);
         //var q = from x in ctx.TrainingCourses
         //        select x;
         //var total = q.Count();
@@ -913,7 +914,7 @@ public partial class Summary_Default : System.Web.UI.Page
                                                     TC = TC
                                                 }
                                         )
-                                        .Where(temp1 => ((currentDate) > temp1.temp0.TT.endDate))
+                                        .Where(temp1 => (((currentDateMonths) > temp1.temp0.TT.endDate) && (temp1.temp0.emp.endDate > (currentDate))))
                                         .Select(
                                             temp1 =>
                                                 new
