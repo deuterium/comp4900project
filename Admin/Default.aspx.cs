@@ -326,7 +326,7 @@ public partial class Admin_Default : System.Web.UI.Page
         {
             deptName = d.deptName,
             deptNo = d.deptNo
-        });
+        }).OrderBy(a => a.deptName);
         lbDropDowns.DataTextField = "deptName";
         lbDropDowns.DataValueField = "deptNo";
         lbDropDowns.DataBind();
@@ -452,8 +452,9 @@ public partial class Admin_Default : System.Web.UI.Page
     /// <summary>
     /// Me gusta
     /// </summary>
-    protected void ಠ_ಠ() { 
-    
+    protected void ಠ_ಠ()
+    {
+
     }
 
     #endregion
