@@ -58,10 +58,12 @@ ExpandedImage="../images/collapse.jpg">
             <tr>
                 <td>Last name:</td>
                 <td>
-                    <asp:TextBox TabIndex="100" ID="tbxLastName" runat="server" ClientID="tbxLastNameClient" ></asp:TextBox>
-                    <asp:RequiredFieldValidator ID="rfvLastName" runat="server" ValidationGroup="vgpEmpInfo"
+                    <asp:TextBox TabIndex="100" ID="tbxLastName" runat="server" ClientID="tbxLastNameClient" MaxLength="20" ></asp:TextBox>
+                    <asp:TextBoxWatermarkExtender ID="tweLastName" runat="server" TargetControlID="tbxLastName"
+                        WatermarkCssClass="watermarked" WatermarkText="Required field"></asp:TextBoxWatermarkExtender>
+                    <asp:RequiredFieldValidator ID="rfvLastName" runat="server" ValidationGroup="vgpGetEmp" 
                         ControlToValidate="tbxLastName" ErrorMessage="Last name is required."></asp:RequiredFieldValidator>
-                    <asp:RegularExpressionValidator ID="revLastName" runat="server" ValidationGroup="vgpEmpInfo"
+                    <asp:RegularExpressionValidator ID="revLastName" runat="server" ValidationGroup="vgpGetEmp" 
                         ControlToValidate="tbxLastName" ErrorMessage="Last name can only contain letters."
                         ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
                 </td>
@@ -69,10 +71,14 @@ ExpandedImage="../images/collapse.jpg">
             <tr>
                 <td>First name:</td>
                 <td>
-                    <asp:TextBox TabIndex="101" ID="tbxFirstName" runat="server" ></asp:TextBox>
-                    <asp:RequiredFieldValidator ID="rfvFirstName" runat="server" ValidationGroup="vgpEmpInfo"
+                    <asp:TextBox TabIndex="101" ID="tbxFirstName" runat="server" MaxLength="20" ></asp:TextBox>
+                    <asp:TextBoxWatermarkExtender ID="tweFirstName" runat="server" TargetControlID="tbxFirstName"
+                        WatermarkCssClass="watermarked" WatermarkText="Required field"></asp:TextBoxWatermarkExtender>
+                    <asp:RequiredFieldValidator ID="rfvFirstName" runat="server" ValidationGroup="vgpGetEmp" 
                         ControlToValidate="tbxFirstName" ErrorMessage="First name is required."></asp:RequiredFieldValidator>  
-                    <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpEmpInfo"
+                    <asp:CustomValidator ID="cmvEmployeeExists" runat="server" ValidationGroup="vpgGetEmpFromDb"
+                        ErrorMessage="Employee not found." OnServerValidate="cmvEmployeeExists_ServerValidate"></asp:CustomValidator>
+                    <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpGetEmp" 
                         ControlToValidate="tbxFirstName" ErrorMessage="First name can only contain letters."
                         ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
                 </td>
@@ -88,7 +94,7 @@ ExpandedImage="../images/collapse.jpg">
                     <asp:DropDownList TabIndex="102" ID="ddlPositions" runat="server" OnSelectedIndexChanged="ddlPositions_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
                     <asp:UpdatePanel ID="uplPosition" runat="server">
                         <ContentTemplate>
-                            <asp:TextBox TabIndex="103" ID="tbxPosition" runat="server" Visible="false"></asp:TextBox>
+                            <asp:TextBox TabIndex="103" ID="tbxPosition" runat="server" Visible="false" MaxLength="50" ></asp:TextBox>
                         </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="ddlPositions" EventName="SelectedIndexChanged" />
@@ -102,7 +108,7 @@ ExpandedImage="../images/collapse.jpg">
                     <asp:DropDownList TabIndex="104" ID="ddlEmployers" runat="server" OnSelectedIndexChanged="ddlEmployers_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
                     <asp:UpdatePanel ID="uplEmployer" runat="server">
                         <ContentTemplate>
-                            <asp:TextBox TabIndex="105" ID="tbxEmployer" runat="server" Visible="false"></asp:TextBox>
+                            <asp:TextBox TabIndex="105" ID="tbxEmployer" runat="server" Visible="false" MaxLength="10" ></asp:TextBox>
                         </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="ddlEmployers" EventName="SelectedIndexChanged" />
@@ -131,13 +137,15 @@ ExpandedImage="../images/collapse.jpg">
         <table>
             <tr>
                 <td>Room:</td>
-                <td><asp:TextBox TabIndex="107" ID="tbxRoom" runat="server" ></asp:TextBox></td>
+                <td><asp:TextBox TabIndex="107" ID="tbxRoom" runat="server" MaxLength="50" ></asp:TextBox></td>
             </tr>
             <tr>
                 <td>Supervisor:</td>
                 <td>
-                    <asp:TextBox TabIndex="108" ID="tbxSupervisor" runat="server" ></asp:TextBox>
-                    <asp:RegularExpressionValidator ID="revSupervisor" runat="server" ValidationGroup="vgpEmpInfo"
+                    <asp:TextBox TabIndex="108" ID="tbxSupervisor" runat="server" MaxLength="50" ></asp:TextBox>
+                    <asp:TextBoxWatermarkExtender ID="tweSupervisor" runat="server" TargetControlID="tbxSupervisor"
+                        WatermarkCssClass="watermarked" WatermarkText="First Last"></asp:TextBoxWatermarkExtender>
+                    <asp:RegularExpressionValidator ID="revSupervisor" runat="server" ValidationGroup="vgpCreateEmp"
                         ControlToValidate="tbxSupervisor" ErrorMessage="Supervisor must have a first and last name separated by a space."
                         ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
                 </td>
@@ -150,42 +158,43 @@ ExpandedImage="../images/collapse.jpg">
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="M/d/yyyy" >
                     </asp:CalendarExtender>
-                    <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpEmpInfo"
+                    <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpCreateEmp"
                         ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Start date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                    <asp:RequiredFieldValidator ID="rfvStartDate" runat="server" ValidationGroup="vgpCreateEmp"
+                        ControlToValidate="tbxStartDate" ErrorMessage="Start date is required."></asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
                 <td>End date:</td>
                 <td>
-                    <asp:TextBox TabIndex="110" ID="tbxEndDate" runat="server"></asp:TextBox>
+                    <asp:TextBox TabIndex="110" ID="tbxEndDate" runat="server" MaxLength="10" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="twxEndDate" runat="server" TargetControlID="tbxEndDate"
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="M/d/yyyy" >
                     </asp:CalendarExtender>
-                    <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpEmpInfo"
+                    <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpCreateEmp"
                         ControlToValidate="tbxEndDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="End date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-<%--                    <asp:CompareValidator ID="cpvStartEndDates" runat="server" ValidationGroup="vgpEmpInfo"
-                        ControlToValidate="tbxEndDate" ControlToCompare="tbxStartDate" Operator="GreaterThan" Type="Date"
-                        ErrorMessage="End date must be later than start date." ></asp:CompareValidator>--%>
+                    <asp:CustomValidator ID="cmvDates" runat="server" ValidationGroup="vgpCreateEmp"
+                        ErrorMessage="End date must come after start date." OnServerValidate="cmvDates_ServerValidate"></asp:CustomValidator>
                 </td>
             </tr>
         </table>
     </div>
 
-    <div id="divEmpInfoButtons" >
-        <asp:Button TabIndex="111" ID="btnGetEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
+    <div id="divEmpInfoButtons" class="summariesAndButtons" >
+        <asp:Button TabIndex="111" ID="btnGetEmployee" runat="server"
             Text="Get Employee" onclick="btnGetEmployee_Click" />
-        <asp:Button TabIndex="111" ID="btnCreateEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
+        <asp:Button TabIndex="111" ID="btnCreateEmployee" runat="server"
             Text="Create Employee" onclick="btnCreateEmployee_Click" />
-        <asp:Button TabIndex="1112" ID="btnUpdateEmployee" runat="server" ValidationGroup="vgpEmpInfo" 
+        <asp:Button TabIndex="1112" ID="btnUpdateEmployee" runat="server"
             Text="Update  Employee" onclick="btnUpdateEmployee_Click" />
         <asp:Button TabIndex="1112" ID="btnClear" runat="server" 
             Text="Clear" onclick="btnClear_Click" />
-        <p><asp:Label ID="lblResults" runat="server" Text="" Visible="false" ></asp:Label></p>
-
-        <asp:ValidationSummary ID="vsyEmployeeInfo" runat="server" ValidationGroup="vgpEmpInfo" DisplayMode="BulletList" />
+        <asp:ValidationSummary ID="vsyGetEmp" ValidationGroup="vgpGetEmp" runat="server" DisplayMode="BulletList" />
+        <asp:ValidationSummary ID="vsyGetEmpFromDb" ValidationGroup="vpgGetEmpFromDb" runat="server" DisplayMode="BulletList" />
+        <asp:ValidationSummary ID="vsyCreateEmp" ValidationGroup="vgpCreateEmp" runat="server" DisplayMode="BulletList" />
     </div>
 </asp:Panel>
 
@@ -213,9 +222,9 @@ ExpandedImage="../images/collapse.jpg">
                                     <asp:Label ID="Label2" runat="server" Text='<%# Bind("coursename") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:BoundField DataField="ttNo" HeaderText="ttNo" SortExpression="ttNo" 
+                            <asp:BoundField DataField="ttNo" HeaderText="#" SortExpression="ttNo" 
                                 ReadOnly="True" />
-                            <asp:TemplateField HeaderText="Start Date" SortExpression="startDate">
+                            <asp:TemplateField HeaderText="Date" SortExpression="startDate">
                                 <EditItemTemplate>
                                     <asp:TextBox ID="TextBox3" runat="server" Text='<%# Bind("startDate", "{0:M/d/yyyy}") %>'></asp:TextBox>
                                     <asp:CalendarExtender ID="TextBox3_CalendarExtender" runat="server" 
@@ -226,7 +235,7 @@ ExpandedImage="../images/collapse.jpg">
                                     <asp:Label ID="Label3" runat="server" Text='<%# Bind("startDate", "{0:M/d/yyyy}") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="End Date" SortExpression="endDate">
+                            <asp:TemplateField HeaderText="Expiry Date" SortExpression="endDate">
                                 <EditItemTemplate>
                                     <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("endDate", "{0:M/d/yyy}") %>'></asp:TextBox>
                                     <asp:CalendarExtender ID="TextBox1_CalendarExtender" runat="server" 
@@ -447,7 +456,7 @@ ExpandedImage="../images/collapse.jpg">
                         <Columns>
                             <asp:BoundField DataField="coursename" HeaderText="Training Name" 
                                 SortExpression="coursename" />
-                            <asp:TemplateField HeaderText="Start Date" SortExpression="startdate">
+                            <asp:TemplateField HeaderText="Date" SortExpression="startdate">
                                 <EditItemTemplate>
                                     <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("startdate", "{0:M/d/yyy}") %>'></asp:TextBox>
                                 </EditItemTemplate>
@@ -455,7 +464,7 @@ ExpandedImage="../images/collapse.jpg">
                                     <asp:Label ID="Label1" runat="server" Text='<%# Bind("startdate", "{0:M/d/yyy}") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="End Date" SortExpression="enddate">
+                            <asp:TemplateField HeaderText="Expiry Date" SortExpression="enddate">
                                 <EditItemTemplate>
                                     <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("enddate", "{0:M/d/yyy}") %>'></asp:TextBox>
                                 </EditItemTemplate>
