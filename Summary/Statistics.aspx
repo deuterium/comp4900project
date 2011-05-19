@@ -46,16 +46,23 @@
             </tr>
             <tr>
                 <td class="style1">
-                    Total Departments</td>
+                    Total Departments:</td>
                 <td>
                     <asp:Label ID="lblDepartments" runat="server" Text=""></asp:Label>
                 </td>
             </tr>
             <tr>
                 <td class="style1">
-                    Total Employees</td>
+                    Total Employees:</td>
                 <td>
                     <asp:Label ID="lblEmployeeRecords" runat="server" Text=""></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td class="style1">
+                    Total Follups Still Needed:</td>
+                <td>
+                    <asp:Label ID="lblFollowUpNeeded" runat="server" Text=""></asp:Label>
                 </td>
             </tr>
             </table>
