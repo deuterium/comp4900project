@@ -506,9 +506,10 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 {
     display: inline;
     float: left;
-    padding: 0px; 
-    width: 810px; 
+    padding: 0px; /* different from panel */
+    width: 810px; /* different from panel */
     margin: 0; 
+    background: #e8f7fb; 
     border: 1px solid #dbeff5;
 }
 
