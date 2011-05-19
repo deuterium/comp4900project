@@ -346,21 +346,21 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 {
     display: inline;
     float: left;
-    width: 270px;
+    width: 277px;
 }
 
 #divEmpInfoMiddlePanel
 {
     display: inline;
     float: left;
-    width: 263px;
+    width: 258px;
 }
 
 #divEmpInfoRightPanel
 {
     display: inline;
     float: left;
-    width: 267px;
+    width: 265px;
 }
 
 .summariesAndButtons
@@ -451,11 +451,11 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     padding-left: 10px;
 }
 
-.commentBoxReporting 
+.resizeableTextArea
 {
     height: 100px;
-    width: 500px;
-    resize: none;
+    width: 790px;
+    max-width: 790px;
 }
 
 /* Training.aspx */

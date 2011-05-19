@@ -65,6 +65,10 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (!IsPostBack) {
             pnlPop.Style.Value = "display:none;";
             disableAllTextBoxes();
+            cpeFilters.Collapsed = false;
+            cpeFilters.ClientState = "false";
+            cpeA.Collapsed = false;
+            cpeA.ClientState = "false";
         }
     }
 

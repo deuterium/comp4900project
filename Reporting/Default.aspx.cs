@@ -64,9 +64,8 @@ public partial class Reporting_Default : System.Web.UI.Page {
             PopulatePositionsDdl();
             PopulateDepartmentsDdl();
             pnlPop.Style.Value = "display:none;";
-            
-            tsmScriptManager.SetFocus(tbxLastName.ClientID);
         }
+        lblInvalidActionFollowing.Visible = false;
     }
 
     #region Toggle Other TextBox and CheckBox
@@ -310,7 +309,8 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Uses the employee's first and last name to get the rest employee's information from the database.
     /// Populates the Header form with this data.
     /// </summary>
-    private void getEmployeeData() {
+    /// <returns>Returns the employee on success, null on failure.</returns>
+    private Employee getEmployeeData() {
         String first = tbxFirstName.Text;
         String last = tbxLastName.Text;
         Employee emp = null;
@@ -383,20 +383,24 @@ public partial class Reporting_Default : System.Web.UI.Page {
             tbxRoom.Text = emp.room;
 
             if (emp.startDate != null) {
-                tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy");
+                tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy", new CultureInfo("en-CA"));
             }
 
             if (emp.endDate != null) {
-                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy");
+                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy", new CultureInfo("en-CA"));
             }
 
         }
         else if ((qry != null) && (qry.Count() <= 0)) {
             Popup_Overlay("No employee with that first and last name found.", FailColour);
+            return null;
         }
         else {
             Popup_Overlay("There was more than one employee with that first and last name.", FailColour);
+            return null;
         }
+
+        return emp;
     }
 
     /// <summary>
@@ -655,12 +659,8 @@ public partial class Reporting_Default : System.Web.UI.Page {
         Page.Validate("vgpFCorrective");
         Page.Validate("vgpGRelevant");
         Page.Validate("vgpHManagers");
-        if (!ValidateActionFollowingIncident()) {
-            Popup_Overlay("You must select at least one action following checkbox in section A: Incident/Accident Information.", FailColour);
-            return;
-        }
 
-        if (Page.IsValid && ValidateActionFollowingIncident()) {
+        if (Page.IsValid) {
             Incident report = createReport();
             try {
                 ctx.AddToIncidents(report);
@@ -672,6 +672,12 @@ public partial class Reporting_Default : System.Web.UI.Page {
                 return;
             }
         }
+        else {
+            cpeEmpInfo.ClientState = "false";
+            cpeEmpInfo.Collapsed = false;
+            cpeA.ClientState = "false";
+            cpeA.Collapsed = false;
+        }
     }
 
     /// <summary>
@@ -681,18 +687,24 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// </summary>
     /// <returns>the newly created Incident report</returns>
     private Incident createReport() {
-        getEmployeeData();
+        Employee emp = getEmployeeData();
+        // If employee not found, see if you can create one.
+        if (emp == null) {
+            Page.Validate("vgpCreateEmp");
+            if (Page.IsValid) {
+                createEmployee();
+            }
+            else {
+                return null;
+            }
+        }
+
         int empId = Convert.ToInt32(tbxId.Text);
-
-        DateTime dateOfIncident = Convert.ToDateTime(tbx_p1_dateOfIncident.Text + " " + tbx_p1_timeOfIncident.Text);
-        DateTime dateReported = Convert.ToDateTime(tbx_p1_dateReported.Text + " " + tbx_p1_timeReported.Text);
-
+        
         Incident report = new Incident {
 
             #region A_IncidentInfo
             empNo = empId,
-            p1_dateOfIncident = dateOfIncident,
-            p1_dateReported = dateReported,
             p1_incidentDesc = convertTextBox(tbx_p1_incidentDesc),
             p1_witnessName1 = convertTextBox(tbx_p1_witnessName1),
             p1_witnessPhone1 = convertTextBox(tbx_p1_witnessPhone1),
@@ -876,9 +888,36 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
             followUpStatus = "0",
             reportSubmitter = Session["AuthenticatedUser"].ToString(),
-            submitterDeptNo = Convert.ToInt32(Session["DeptNo"])
             
         };
+
+        if ((Session["DeptNo"] == null) || Session["DeptNo"].Equals(String.Empty)) {    // for admin account
+            report.submitterDeptNo = null;
+        }
+        else {
+            report.submitterDeptNo = Convert.ToInt32(Session["DeptNo"]);
+        }
+
+        #region Employee Info Dates
+        String strDateOfIncident = tbx_p1_dateOfIncident.Text;
+        String strTimeOfIncident = tbx_p1_timeOfIncident.Text;
+        String strDateReported = tbx_p1_dateReported.Text;
+        String strTimeReported = tbx_p1_timeReported.Text;
+
+        if (!(strDateOfIncident.Equals(String.Empty) && strTimeOfIncident.Equals(String.Empty))) {
+            report.p1_dateOfIncident = Convert.ToDateTime(strDateOfIncident + " " + strTimeOfIncident);
+        }
+        else {
+            return null;
+        }
+
+        if (!(strDateReported.Equals(String.Empty) && strTimeReported.Equals(String.Empty))) {
+            report.p1_dateReported = Convert.ToDateTime(strDateReported + " " + strTimeReported);
+        }
+        else {
+            return null;
+        }
+        #endregion Employee Info Dates
 
         #region A_IncidentInfo_Dates
         if (!tbx_p1_action_medicalER_date.Text.Equals(String.Empty)) {
@@ -957,14 +996,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
     #endregion Create New Incident Report
 
-    private Boolean ValidateActionFollowingIncident() {
-        return (cbx_p1_action_report.Checked
-                || cbx_p1_action_firstAid.Checked
-                || cbx_p1_action_medicalGP.Checked
-                || cbx_p1_action_lostTime.Checked
-                || cbx_p1_action_medicalER.Checked);
-    }
-
     protected void cbx_p1_action_medicalGP_CheckChanged(object sender, EventArgs e) {
         if (cbx_p1_action_medicalGP.Checked) {
             rfvMedicalAidGpDate.Enabled = true;
@@ -981,4 +1012,34 @@ public partial class Reporting_Default : System.Web.UI.Page {
             rfvMedicalAidErDate.Enabled = false;
         }
     }
+    protected void cmvActionFollowing_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = (cbx_p1_action_report.Checked
+                            || cbx_p1_action_firstAid.Checked
+                            || cbx_p1_action_medicalGP.Checked
+                            || cbx_p1_action_lostTime.Checked
+                            || cbx_p1_action_medicalER.Checked);
+    }
+
+    protected void cmvEmployeeExists_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String first = tbxFirstName.Text;
+        String last = tbxLastName.Text;
+        Employee emp = null;
+
+        var qry = ctx.Employees
+                  .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
+                  .Select(e => e);
+
+        if ((qry != null) && (qry.Count() == 1)) {
+            args.IsValid = true;
+        } else if ((qry != null) && (qry.Count() <= 0)) {
+            cmvEmployeeName.ErrorMessage = "No employee with that first and last name found.";
+            return;
+        }
+        else {
+            cmvEmployeeName.ErrorMessage = "There was more than one employee with that first and last name.";
+            return;
+        }
+    }
+
 }
