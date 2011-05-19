@@ -406,6 +406,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The index changed event.</param>
     protected void btnGetEmployee_Click(object sender, EventArgs e) {
+        Page.Validate("vgpGetEmp");
+        if (!Page.IsValid) {
+            return;
+        }
+        
         getEmployeeData();
     }
     #endregion LoadEmployeeData
@@ -417,6 +422,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The index changed event.</param>
     protected void btnCreateEmployee_Click(object sender, EventArgs e) {
+        Page.Validate("vgpGetEmp");
+        Page.Validate("vgpCreateEmp");
+        if (!Page.IsValid) {
+            return;
+        }
         createEmployee();
     }
 
@@ -640,12 +650,12 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The button click event.</param>
     protected void btnCreateReport_Click(object sender, EventArgs e) {
-        Page.Validate("vgpEmpInfo");
+        Page.Validate("vgpGetEmp");
         Page.Validate("vgpPanelA");
         Page.Validate("vgpFCorrective");
         Page.Validate("vgpGRelevant");
         Page.Validate("vgpHManagers");
-        if (ValidateActionFollowingIncident()) {
+        if (!ValidateActionFollowingIncident()) {
             Popup_Overlay("You must select at least one action following checkbox in section A: Incident/Accident Information.", FailColour);
             return;
         }

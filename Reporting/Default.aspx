@@ -182,11 +182,11 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
     </div>
 
     <div id="divEmpInfoButtons" class="summariesAndButtons" >
-        <asp:Button TabIndex="111" ID="btnGetEmployee" runat="server" ValidationGroup="vgpGetEmp" 
+        <asp:Button TabIndex="111" ID="btnGetEmployee" runat="server"
             Text="Get Employee" onclick="btnGetEmployee_Click" />
-        <asp:Button TabIndex="111" ID="btnCreateEmployee" runat="server" ValidationGroup="vgpCreateEmp" 
+        <asp:Button TabIndex="111" ID="btnCreateEmployee" runat="server"
             Text="Create Employee" onclick="btnCreateEmployee_Click" />
-        <asp:Button TabIndex="1112" ID="btnUpdateEmployee" runat="server" ValidationGroup="vgpCreateEmp" 
+        <asp:Button TabIndex="1112" ID="btnUpdateEmployee" runat="server"
             Text="Update  Employee" onclick="btnUpdateEmployee_Click" />
         <asp:Button TabIndex="1112" ID="btnCreateReport" runat="server" 
             Text="Create Report" onclick="btnCreateReport_Click" />
@@ -302,11 +302,12 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
     </div>
 
     <div id="divABottomPanel">
-        <h4>Incident Description:</h4>
+        <span class="spanBold" >Incident Description:</span>
         <asp:RequiredFieldValidator ID="rfvIncidentDesc" runat="server" ValidationGroup="vgpPanelA"
             ControlToValidate="tbx_p1_incidentDesc" ErrorMessage="Incident description is required."></asp:RequiredFieldValidator>
         <asp:RegularExpressionValidator ID="revIncidentDesc" runat="server" ControlToValidate="tbx_p1_incidentDesc"
             ValidationExpression=".{50}" ErrorMessage="The incident description must be at least 50 characters. Please be more descriptive!"></asp:RegularExpressionValidator>
+        <br />
         <table>
             <tr>
                 <td>
@@ -322,7 +323,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
 	            <td><asp:CheckBox ID="cbx_p1_action_medicalGP" Text="Medical Aid (GP / Clinic)" runat="server" OnCheckedChanged="cbx_p1_action_medicalGP_CheckChanged" /></td>
 	            <td>Date:</td>
 	            <td>
-                    <asp:TextBox ID="tbx_p1_action_medicalGP_date" runat="server" MaxLength="10" ></asp:TextBox>
+                    <asp:TextBox ID="tbx_p1_action_medicalGP_date" runat="server" MaxLength="10" Width="50px" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date"
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date" Format="M/d/yyyy" >
@@ -339,7 +340,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
 	            <td><asp:CheckBox ID="cbx_p1_action_medicalER" Text="Medical Aid (ER)" runat="server"  OnCheckedChanged="cbx_p1_action_medicalER_CheckChanged"/></td>
 	            <td>Date:</td>
 	            <td>
-                    <asp:TextBox ID="tbx_p1_action_medicalER_date" runat="server" MaxLength="10" ></asp:TextBox>
+                    <asp:TextBox ID="tbx_p1_action_medicalER_date" runat="server" MaxLength="10" Width="50px" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date"
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date" Format="M/d/yyyy" >
