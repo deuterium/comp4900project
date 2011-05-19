@@ -911,6 +911,24 @@ public partial class Followup_Followup : System.Web.UI.Page
         gvwLabOfficeFollowup.Columns[2].ItemStyle.Width = 250;
         gvwLabOfficeFollowup.Columns[3].ItemStyle.Width = 250;
 
+        //Fills in saved infomoration if report is saved and not submitted
+        if (ctx.LabInspections.Where(LI => LI.labInsNo == insNo).Select(LI => LI.followUpStatus).First() == "1")
+        {
+            foreach (GridViewRow r in gvwLabOfficeFollowup.Rows)
+            {
+                //Decodes &codes;
+                string insItem = Server.HtmlDecode(r.Cells[0].Text);
+                int insItemNo = ctx.LabInspectionItems
+                        .Where(lii => lii.labInsItem == insItem)
+                        .Select(lii => lii.labInsItemNo).First();
+                ((TextBox)r.Cells[3].FindControl("tbCorrectiveAction")).Text
+                    = ctx.LabFollowUps
+                        .Where(LFU => (LFU.labInsNo == insNo) && (LFU.labInsItemNo == insItemNo))
+                        .Select(LFU => LFU.comment)
+                        .First();
+                tbLabOfficeFollowupComments.Text = ctx.LabInspections.Where(LI => LI.labInsNo == insNo).Select(LI => LI.followupComment).First();
+            }
+        }
     }
 
     /// <summary>
@@ -959,6 +977,25 @@ public partial class Followup_Followup : System.Web.UI.Page
         gvwLabOfficeFollowup.Columns[1].ItemStyle.Width = 80;
         gvwLabOfficeFollowup.Columns[2].ItemStyle.Width = 250;
         gvwLabOfficeFollowup.Columns[3].ItemStyle.Width = 250;
+
+        //Fills in saved infomoration if report is saved and not submitted
+        if (ctx.OfficeInspections.Where(OI => OI.officeInsNo == insNo).Select(OI => OI.followUpStatus).First() == "1")
+        {
+            foreach (GridViewRow r in gvwLabOfficeFollowup.Rows)
+            {
+                //Decodes &codes;
+                string insItem = Server.HtmlDecode(r.Cells[0].Text);
+                int insItemNo = ctx.OfficeInspectionItems
+                        .Where(oii => oii.officeInsName == insItem)
+                        .Select(oii => oii.officeInsItemNo).First();
+                ((TextBox)r.Cells[3].FindControl("tbCorrectiveAction")).Text
+                    = ctx.OfficeFollowUps
+                        .Where(OFU => (OFU.officeInsNo == insNo) && (OFU.officeInsItemNo == insItemNo))
+                        .Select(OFU => OFU.comment)
+                        .First();
+                tbLabOfficeFollowupComments.Text = ctx.OfficeInspections.Where(OI => OI.officeInsNo == insNo).Select(OI => OI.followupComment).First();
+            }
+        }
     }
 
     /// <summary>
@@ -999,9 +1036,10 @@ public partial class Followup_Followup : System.Web.UI.Page
     /// <summary>
     /// Button click method for Lab/Office Followup section, calls corresponding
     /// DB addition functions depending on if Lab or Office Inspection.
+    /// Determines which SUBMIT method should be called.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void btnLabOfficeFollowupSubmit_Click(object sender, EventArgs e)
     {
         switch (tbTypeHidden.Text)
@@ -1018,9 +1056,32 @@ public partial class Followup_Followup : System.Web.UI.Page
     }
 
     /// <summary>
+    /// Button click method for Lab/Office Followup section, calls corresponding
+    /// DB addition functions depending on if Lab or Office Inspection.
+    /// Determines which SAVE method should be called.
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
+    protected void btnLabOfficeFollowupSave_Click(object sender, EventArgs e)
+    {
+        switch (tbTypeHidden.Text)
+        {
+            case "Lab":
+                Save_Lab_Followup();
+                break;
+            case "Office":
+                Save_Office_Followup();
+                break;
+            default:
+                throw new System.SystemException("Default case of switch should never be reached");
+        }
+    }
+
+    /// <summary>
     /// Iterates through the user provided "Corrective Action Taken" comments and
     /// saves them to the database into the corrseponding Lab Inspection tables for 
     /// the number stored in the hidden textbox.
+    /// SUBMITS the Lab Followup
     /// </summary>
     protected void Submit_Lab_Followup()
     {
@@ -1066,26 +1127,27 @@ public partial class Followup_Followup : System.Web.UI.Page
     /// Iterates through the user provided "Corrective Action Taken" comments and
     /// saves them to the database into the corrseponding Office Inspection tables for 
     /// the number stored in the hidden textbox.
+    /// SUBMITS the Office Followup
     /// </summary>
     protected void Submit_Office_Followup()
     {
         int insNo = Convert.ToInt32(tbNoHidden.Text);
-        foreach (GridViewRow r in gvwLabOfficeFollowup.Rows)
-        {
-            //Decodes &codes;
-            string insItem = Server.HtmlDecode(r.Cells[0].Text);
-
-            int insItemNo = ctx.OfficeInspectionItems
-                    .Where(oii => oii.officeInsName == insItem)
-                    .Select(oii => oii.officeInsItemNo).First();
-            string insComment = ((TextBox)r.Cells[3].FindControl("tbCorrectiveAction")).Text;
-            ctx.AddToOfficeFollowUps(new OfficeFollowUp()
+            foreach (GridViewRow r in gvwLabOfficeFollowup.Rows)
             {
-                officeInsNo = insNo,
-                officeInsItemNo = insItemNo,
-                comment = insComment
-            });
-        }
+                //Decodes &codes;
+                string insItem = Server.HtmlDecode(r.Cells[0].Text);
+
+                int insItemNo = ctx.OfficeInspectionItems
+                        .Where(oii => oii.officeInsName == insItem)
+                        .Select(oii => oii.officeInsItemNo).First();
+                string insComment = ((TextBox)r.Cells[3].FindControl("tbCorrectiveAction")).Text;
+                ctx.AddToOfficeFollowUps(new OfficeFollowUp()
+                {
+                    officeInsNo = insNo,
+                    officeInsItemNo = insItemNo,
+                    comment = insComment
+                });
+            }
 
         OfficeInspection offIns = ctx.OfficeInspections
             .Where(oi => oi.officeInsNo == insNo)
@@ -1105,6 +1167,150 @@ public partial class Followup_Followup : System.Web.UI.Page
             return;
         }
         Popup_Overlay("Follow up Submitted.", Color.Green);
+    }
+
+    /// <summary>
+    /// Iterates through the user provided "Corrective Action Taken" comments and
+    /// saves them to the database into the corrseponding Lab Inspection tables for 
+    /// the number stored in the hidden textbox.
+    /// SAVES the Lab Followup
+    /// </summary>
+    protected void Save_Lab_Followup()
+    {
+        int insNo = Convert.ToInt32(tbNoHidden.Text);
+
+        if (ctx.LabFollowUps.Where(LFU => LFU.labInsNo == insNo).Select(LFU => LFU).Count() == 0)
+        {
+            foreach (GridViewRow r in gvwLabOfficeFollowup.Rows)
+            {
+                //Decodes &codes;
+                string insItem = Server.HtmlDecode(r.Cells[0].Text);
+
+                int insItemNo = ctx.LabInspectionItems
+                        .Where(lii => lii.labInsItem == insItem)
+                        .Select(lii => lii.labInsItemNo).First();
+                string insComment = ((TextBox)r.Cells[3].FindControl("tbCorrectiveAction")).Text;
+                ctx.AddToLabFollowUps(new LabFollowUp()
+                {
+                    labInsNo = insNo,
+                    labInsItemNo = insItemNo,
+                    comment = insComment
+                });
+            }
+        }
+        else
+        {
+            foreach (GridViewRow r in gvwLabOfficeFollowup.Rows)
+            {
+                //Decodes &codes;
+                string insItem = Server.HtmlDecode(r.Cells[0].Text);
+
+                int insItemNo = ctx.LabInspectionItems
+                        .Where(lii => lii.labInsItem == insItem)
+                        .Select(lii => lii.labInsItemNo).First();
+                string insComment = ((TextBox)r.Cells[3].FindControl("tbCorrectiveAction")).Text;
+                LabFollowUp lfu = ctx.LabFollowUps.Where(LFU => (LFU.labInsNo == insNo) && (LFU.labInsItemNo == insItemNo)).Select(LFU => LFU).First();
+                lfu.comment = insComment;
+                try
+                {
+                    ctx.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    Popup_Overlay(ex.Message, Color.Red);
+                    return;
+                }
+            }
+        }
+
+        LabInspection labIns = ctx.LabInspections
+            .Where(li => li.labInsNo == insNo)
+            .Select(li => li).First();
+        labIns.followupComment = tbLabOfficeFollowupComments.Text;
+        labIns.followUpStatus = "1";
+
+        try
+        {
+            ctx.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            Popup_Overlay(ex.Message, Color.Red);
+            return;
+        }
+        Popup_Overlay("Follow up has been saved.", Color.Green);
+    }
+
+    /// <summary>
+    /// Iterates through the user provided "Corrective Action Taken" comments and
+    /// saves them to the database into the corrseponding Office Inspection tables for 
+    /// the number stored in the hidden textbox.
+    /// SAVES the Office Followup
+    /// </summary>
+    protected void Save_Office_Followup()
+    {
+        int insNo = Convert.ToInt32(tbNoHidden.Text);
+
+        if (ctx.OfficeFollowUps.Where(OFU => OFU.officeInsNo == insNo).Select(OFU => OFU).Count() == 0)
+        {
+            foreach (GridViewRow r in gvwLabOfficeFollowup.Rows)
+        {
+            //Decodes &codes;
+            string insItem = Server.HtmlDecode(r.Cells[0].Text);
+
+            int insItemNo = ctx.OfficeInspectionItems
+                    .Where(oii => oii.officeInsName == insItem)
+                    .Select(oii => oii.officeInsItemNo).First();
+            string insComment = ((TextBox)r.Cells[3].FindControl("tbCorrectiveAction")).Text;
+            ctx.AddToOfficeFollowUps(new OfficeFollowUp()
+            {
+                officeInsNo = insNo,
+                officeInsItemNo = insItemNo,
+                comment = insComment
+            });
+        }
+        }
+        else
+        {
+            foreach (GridViewRow r in gvwLabOfficeFollowup.Rows)
+            {
+                //Decodes &codes;
+                string insItem = Server.HtmlDecode(r.Cells[0].Text);
+
+                int insItemNo = ctx.OfficeInspectionItems
+                        .Where(oii => oii.officeInsName == insItem)
+                        .Select(oii => oii.officeInsItemNo).First();
+                string insComment = ((TextBox)r.Cells[3].FindControl("tbCorrectiveAction")).Text;
+                OfficeFollowUp ofu = ctx.OfficeFollowUps.Where(OFU => (OFU.officeInsNo == insNo) && (OFU.officeInsItemNo == insItemNo)).Select(OFU => OFU).First();
+                ofu.comment = insComment;
+                try
+                {
+                    ctx.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    Popup_Overlay(ex.Message, Color.Red);
+                    return;
+                }
+            }
+        }
+
+        OfficeInspection offIns = ctx.OfficeInspections
+            .Where(oi => oi.officeInsNo == insNo)
+            .Select(oi => oi).First();
+        offIns.followupComment = tbLabOfficeFollowupComments.Text;
+        offIns.followUpStatus = "1";
+
+        try
+        {
+            ctx.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            Popup_Overlay(ex.Message, Color.Red);
+            return;
+        }
+        Popup_Overlay("Follow up has been saved.", Color.Green);
     }
     #endregion
 }

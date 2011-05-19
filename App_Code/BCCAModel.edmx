@@ -19,7 +19,6 @@
           <EntitySet Name="OfficeInspectionItems" EntityType="BCCAModel.Store.OfficeInspectionItems" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Position" EntityType="BCCAModel.Store.Position" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Role" EntityType="BCCAModel.Store.Role" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="sysdiagrams" EntityType="BCCAModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TrainingCourses" EntityType="BCCAModel.Store.TrainingCourses" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TrainingTaken" EntityType="BCCAModel.Store.TrainingTaken" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Users" EntityType="BCCAModel.Store.Users" store:Type="Tables" Schema="dbo" />
@@ -88,8 +87,8 @@
             <PropertyRef Name="empNo" />
           </Key>
           <Property Name="empNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="lname" Type="varchar" Nullable="false" MaxLength="20" />
-          <Property Name="fname" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="lname" Type="varchar" MaxLength="50" />
+          <Property Name="fname" Type="varchar" MaxLength="50" />
           <Property Name="employer" Type="varchar" MaxLength="10" />
           <Property Name="startDate" Type="datetime" Nullable="false" />
           <Property Name="endDate" Type="datetime" />
@@ -108,9 +107,9 @@
           <Property Name="p1_dateOfIncident" Type="datetime" />
           <Property Name="p1_dateReported" Type="smalldatetime" />
           <Property Name="p1_incidentDesc" Type="varchar(max)" />
-          <Property Name="p1_witnessName1" Type="varchar" MaxLength="20" />
+          <Property Name="p1_witnessName1" Type="varchar" MaxLength="50" />
           <Property Name="p1_witnessPhone1" Type="varchar" MaxLength="12" />
-          <Property Name="p1_witnessName2" Type="varchar" MaxLength="20" />
+          <Property Name="p1_witnessName2" Type="varchar" MaxLength="50" />
           <Property Name="p1_witnessPhone2" Type="varchar" MaxLength="12" />
           <Property Name="p1_nature_no" Type="char" MaxLength="1" />
           <Property Name="p1_nature_musculoskeletal" Type="char" MaxLength="1" />
@@ -410,16 +409,6 @@
           <Property Name="roleNo" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="role" Type="varchar" MaxLength="30" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="TrainingCourses">
           <Key>
             <PropertyRef Name="trainingNo" />
@@ -637,7 +626,6 @@
           <EntitySet Name="OfficeInspectionItems" EntityType="BCCAModel.OfficeInspectionItem" />
           <EntitySet Name="Positions" EntityType="BCCAModel.Position" />
           <EntitySet Name="Roles" EntityType="BCCAModel.Role" />
-          <EntitySet Name="sysdiagrams" EntityType="BCCAModel.sysdiagram" />
           <EntitySet Name="TrainingCourses" EntityType="BCCAModel.TrainingCours" />
           <EntitySet Name="TrainingTakens" EntityType="BCCAModel.TrainingTaken" />
           <EntitySet Name="Users" EntityType="BCCAModel.User" />
@@ -709,8 +697,8 @@
             <PropertyRef Name="empNo" />
           </Key>
           <Property Name="empNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="lname" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
-          <Property Name="fname" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="lname" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="fname" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="employer" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
           <Property Name="startDate" Type="DateTime" Nullable="false" />
           <Property Name="endDate" Type="DateTime" />
@@ -731,9 +719,9 @@
           <Property Name="p1_dateOfIncident" Type="DateTime" />
           <Property Name="p1_dateReported" Type="DateTime" />
           <Property Name="p1_incidentDesc" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-          <Property Name="p1_witnessName1" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="p1_witnessName1" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="p1_witnessPhone1" Type="String" MaxLength="12" Unicode="false" FixedLength="false" />
-          <Property Name="p1_witnessName2" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="p1_witnessName2" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="p1_witnessPhone2" Type="String" MaxLength="12" Unicode="false" FixedLength="false" />
           <Property Name="p1_nature_no" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
           <Property Name="p1_nature_musculoskeletal" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
@@ -1048,16 +1036,6 @@
           <Property Name="roleNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="role1" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="Users" Relationship="BCCAModel.FK__Users__roleNo__7849DB76" FromRole="Role" ToRole="Users" />
-        </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="TrainingCours">
           <Key>
@@ -1563,13 +1541,6 @@
             <ScalarProperty Name="roleNo" ColumnName="roleNo" />
             <ScalarProperty Name="role1" ColumnName="role" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams"><EntityTypeMapping TypeName="BCCAModel.sysdiagram"><MappingFragment StoreEntitySet="sysdiagrams">
-            <ScalarProperty Name="name" ColumnName="name" />
-            <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-            <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-            <ScalarProperty Name="version" ColumnName="version" />
-            <ScalarProperty Name="definition" ColumnName="definition" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="TrainingCourses"><EntityTypeMapping TypeName="BCCAModel.TrainingCours"><MappingFragment StoreEntitySet="TrainingCourses">
             <ScalarProperty Name="trainingNo" ColumnName="trainingNo" />
             <ScalarProperty Name="monthsValid" ColumnName="monthsValid" />
@@ -1637,7 +1608,6 @@
         <EntityTypeShape EntityType="BCCAModel.OfficeInspectionItem" Width="1.5" PointX="0.75" PointY="0.75" Height="1.4033821614583353" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.Position" Width="1.5" PointX="10.75" PointY="0.75" Height="1.4033821614583317" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.Role" Width="1.5" PointX="3.75" PointY="1.375" Height="1.5956835937500031" IsExpanded="true" />
-        <EntityTypeShape EntityType="BCCAModel.sysdiagram" Width="1.5" PointX="10.75" PointY="3.75" Height="1.9802864583333388" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.TrainingCours" Width="1.5" PointX="3.75" PointY="47.25" Height="1.7879850260416674" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.TrainingTaken" Width="1.5" PointX="6" PointY="17.625" Height="5.057109374999996" IsExpanded="true" />
         <EntityTypeShape EntityType="BCCAModel.User" Width="1.5" PointX="6" PointY="24" Height="2.3648893229166674" IsExpanded="true" />
@@ -1712,10 +1682,10 @@
         <AssociationConnector Association="BCCAModel.FK__Users__roleNo__7849DB76" ManuallyRouted="false">
           <ConnectorPoint PointX="5.25" PointY="2.1728417968750016" />
           <ConnectorPoint PointX="5.625" PointY="2.1728417968750016" />
-          <ConnectorPoint PointX="5.625" PointY="23.624999999602636" />
-          <ConnectorPoint PointX="5.729166666666667" PointY="23.624999999602636" />
-          <ConnectorPoint PointX="5.895833333333333" PointY="23.624999999602636" />
-          <ConnectorPoint PointX="6.75" PointY="23.624999999602636" />
+          <ConnectorPoint PointX="5.625" PointY="23.625" />
+          <ConnectorPoint PointX="5.729166666666667" PointY="23.625" />
+          <ConnectorPoint PointX="5.895833333333333" PointY="23.625" />
+          <ConnectorPoint PointX="6.75" PointY="23.625" />
           <ConnectorPoint PointX="6.75" PointY="24" />
         </AssociationConnector>
         <AssociationConnector Association="BCCAModel.FK__TrainingT__train__51300E55" ManuallyRouted="false">
