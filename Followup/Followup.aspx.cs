@@ -157,11 +157,9 @@ public partial class Followup_Followup : System.Web.UI.Page
                         .Where(LFU => (LFU.labInsNo == insNo) && (LFU.labInsItemNo == insItemNo))
                         .Select(LFU => LFU.comment)
                         .First();
-                tbLabOfficeFollowupComments.Text = ctx.LabInspections.Where(LI => LI.labInsNo == insNo).Select(LI => LI.comments).First();
-
+                tbLabOfficeFollowupComments.Text = ctx.LabInspections.Where(LI => LI.labInsNo == insNo).Select(LI => LI.followupComment).First();
             }
         }
-
     }
 
     /// <summary>
@@ -483,7 +481,10 @@ public partial class Followup_Followup : System.Web.UI.Page
     protected void Save_Office_Followup()
     {
         int insNo = Convert.ToInt32(tbNoHidden.Text);
-        foreach (GridViewRow r in gvwLabOfficeFollowup.Rows)
+
+        if (ctx.OfficeFollowUps.Where(OFU => OFU.officeInsNo == insNo).Select(OFU => OFU).Count() == 0)
+        {
+            foreach (GridViewRow r in gvwLabOfficeFollowup.Rows)
         {
             //Decodes &codes;
             string insItem = Server.HtmlDecode(r.Cells[0].Text);
@@ -498,6 +499,31 @@ public partial class Followup_Followup : System.Web.UI.Page
                 officeInsItemNo = insItemNo,
                 comment = insComment
             });
+        }
+        }
+        else
+        {
+            foreach (GridViewRow r in gvwLabOfficeFollowup.Rows)
+            {
+                //Decodes &codes;
+                string insItem = Server.HtmlDecode(r.Cells[0].Text);
+
+                int insItemNo = ctx.OfficeInspectionItems
+                        .Where(oii => oii.officeInsName == insItem)
+                        .Select(oii => oii.officeInsItemNo).First();
+                string insComment = ((TextBox)r.Cells[3].FindControl("tbCorrectiveAction")).Text;
+                OfficeFollowUp ofu = ctx.OfficeFollowUps.Where(OFU => (OFU.officeInsNo == insNo) && (OFU.officeInsItemNo == insItemNo)).Select(OFU => OFU).First();
+                ofu.comment = insComment;
+                try
+                {
+                    ctx.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    Popup_Overlay(ex.Message, Color.Red);
+                    return;
+                }
+            }
         }
 
         OfficeInspection offIns = ctx.OfficeInspections
