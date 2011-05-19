@@ -615,6 +615,7 @@ public partial class Training_Training : System.Web.UI.Page {
         grvValidCourses.DataSource = q;
         Session["query"] = q;
         BindData();
+        btnAddCrs.Visible = true;
     }
 
     /// <summary>
@@ -972,6 +973,11 @@ public partial class Training_Training : System.Web.UI.Page {
     protected void btnClear_Click(object sender, EventArgs e)
     {
         ResetFormControlValues(this);
+        btnAddCrs.Visible = false;
+        grvValidCourses.DataSource = null;
+        grvValidCourses.DataBind();
+        grvExpiredCourses.DataSource = null;
+        grvExpiredCourses.DataBind();
     }
 
     /// <summary>
@@ -1008,8 +1014,6 @@ public partial class Training_Training : System.Web.UI.Page {
     }
 
     #endregion 
-
-    
 
     protected void disableDetails()
     {
