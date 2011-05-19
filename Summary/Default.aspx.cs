@@ -43,8 +43,11 @@ public partial class Summary_Default : System.Web.UI.Page
     /// <param name="e">not used in our code</param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        //Authentication Check
+        //Authentication Check      
+        Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
+        Session["AfterLoginRedirectUrl"] = null;
+
         //Session["RoleNo"].ToString();
         //Session["DeptNo"].ToString();    THESE GET Stuff
         BCCAEntities ctx = new BCCAEntities();

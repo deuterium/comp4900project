@@ -60,7 +60,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
             <tr>
                 <td>Last name:</td>
                 <td>
-                    <asp:TextBox TabIndex="100" ID="tbxLastName" runat="server" ClientID="tbxLastNameClient" MaxLength="20" ></asp:TextBox>
+                    <asp:TextBox TabIndex="100" ID="tbxLastName" runat="server" ClientID="tbxLastNameClient" MaxLength="50" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweLastName" runat="server" TargetControlID="tbxLastName"
                         WatermarkCssClass="watermarked" WatermarkText="Required field"></asp:TextBoxWatermarkExtender>
                     <asp:RequiredFieldValidator ID="rfvLastName" runat="server" ValidationGroup="vgpGetEmp" 
@@ -73,12 +73,12 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
             <tr>
                 <td>First name:</td>
                 <td>
-                    <asp:TextBox TabIndex="101" ID="tbxFirstName" runat="server" MaxLength="20" ></asp:TextBox>
+                    <asp:TextBox TabIndex="101" ID="tbxFirstName" runat="server" MaxLength="50" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweFirstName" runat="server" TargetControlID="tbxFirstName"
                         WatermarkCssClass="watermarked" WatermarkText="Required field"></asp:TextBoxWatermarkExtender>
                     <asp:RequiredFieldValidator ID="rfvFirstName" runat="server" ValidationGroup="vgpGetEmp" 
                         ControlToValidate="tbxFirstName" ErrorMessage="First name is required."></asp:RequiredFieldValidator>  
-                    <asp:CustomValidator ID="cmvEmployeeName" runat="server" ValidationGroup="vgpGetEmp"
+                    <asp:CustomValidator ID="cmvEmployeeExists" runat="server" ValidationGroup="vpgGetEmpFromDb"
                         ErrorMessage="Employee not found." OnServerValidate="cmvEmployeeExists_ServerValidate"></asp:CustomValidator>
                     <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpGetEmp" 
                         ControlToValidate="tbxFirstName" ErrorMessage="First name can only contain letters."
@@ -124,7 +124,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:DropDownList TabIndex="106" ID="ddlDepartments" runat="server" OnSelectedIndexChanged="ddlDepartments_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
                     <asp:UpdatePanel ID="uplDepartment" runat="server">
                         <ContentTemplate>
-                            <asp:TextBox TabIndex="103" ID="tbxDepartment" runat="server" Visible="false"></asp:TextBox>
+                            <asp:TextBox TabIndex="103" ID="tbxDepartment" runat="server" Visible="false" MaxLength="50" ></asp:TextBox>
                         </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="ddlDepartments" EventName="SelectedIndexChanged" />
@@ -195,6 +195,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
         <asp:Button TabIndex="1112" ID="btnCreateReport" runat="server" 
             Text="Create Report" onclick="btnCreateReport_Click" />
         <asp:ValidationSummary ID="vsyGetEmp" ValidationGroup="vgpGetEmp" runat="server" DisplayMode="BulletList" />
+        <asp:ValidationSummary ID="vsyGetEmpFromDb" ValidationGroup="vpgGetEmpFromDb" runat="server" DisplayMode="BulletList" />
         <asp:ValidationSummary ID="vsyCreateEmp" ValidationGroup="vgpCreateEmp" runat="server" DisplayMode="BulletList" />
     </div>
 </asp:Panel>
@@ -233,7 +234,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                 </td>
                 <td>Name:</td>
                 <td>
-                    <asp:TextBox TabIndex="117" ID="tbx_p1_witnessName1" runat="server" MaxLength="20" ></asp:TextBox>
+                    <asp:TextBox TabIndex="117" ID="tbx_p1_witnessName1" runat="server" MaxLength="50" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweWitnessName1" runat="server" TargetControlID="tbx_p1_witnessName1"
                         WatermarkCssClass="watermarked" WatermarkText="First Last"></asp:TextBoxWatermarkExtender>
                     <asp:RegularExpressionValidator ID="revWitnessName1" runat="server" ValidationGroup="vgpPanelA"
@@ -283,7 +284,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                 </td>
                 <td>Name:</td>
                 <td>
-                    <asp:TextBox TabIndex="119" ID="tbx_p1_witnessName2" runat="server" MaxLength="20" ></asp:TextBox>
+                    <asp:TextBox TabIndex="119" ID="tbx_p1_witnessName2" runat="server" MaxLength="50" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweWitnessName2" runat="server" TargetControlID="tbx_p1_witnessName2"
                         WatermarkCssClass="watermarked" WatermarkText="First Last"></asp:TextBoxWatermarkExtender>
                     <asp:RegularExpressionValidator ID="rexWitnessName2" runat="server" ValidationGroup="vgpEmpInfo"
@@ -303,15 +304,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
             <tr>
                 <td>Department of Incident:</td>
                 <td>
-                    <asp:DropDownList TabIndex="112" ID="ddlReportDepts" runat="server" OnSelectedIndexChanged="ddlReportDepts_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
-                    <asp:UpdatePanel ID="uplReportDepts" runat="server">
-                        <ContentTemplate>
-                            <asp:TextBox TabIndex="112" ID="tbxReportDept" runat="server" Visible="false"></asp:TextBox>
-                        </ContentTemplate>
-                        <Triggers>
-                            <asp:AsyncPostBackTrigger ControlID="ddlReportDepts" EventName="SelectedIndexChanged" />
-                        </Triggers>
-                    </asp:UpdatePanel>
+                    <asp:DropDownList TabIndex="112" ID="ddlReportDepts" runat="server" ></asp:DropDownList>
                 </td>
             </tr>
         </table>
@@ -328,7 +321,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
         <table>
             <tr>
                 <td>
-                    <asp:TextBox TabIndex="116" ID="tbx_p1_incidentDesc" CssClass="resizeableTextArea" runat="server" TextMode="MultiLine" ></asp:TextBox>
+                    <asp:TextBox TabIndex="116" ID="tbx_p1_incidentDesc" CssClass="resizeableTextArea" runat="server" TextMode="MultiLine" MaxLength="8000" ></asp:TextBox>
                 </td>
             </tr>
         </table>
@@ -443,7 +436,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                 <asp:UpdatePanel ID="uplPatientOther" runat="server">
                     <ContentTemplate>
                         <asp:CheckBox TabIndex="128" ID="cbx_p2_patient_other" Text="Other: " runat="server" AutoPostBack="true" />
-                        <asp:TextBox TabIndex="128" ID="tbx_p2_patient_otherSpecify" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_patient_otherSpecify_OnTextChanged" ></asp:TextBox>
+                        <asp:TextBox TabIndex="128" ID="tbx_p2_patient_otherSpecify" runat="server" MaxLength="8000" AutoPostBack="true" OnTextChanged="tbx_p2_patient_otherSpecify_OnTextChanged" ></asp:TextBox>
                     </ContentTemplate>
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="tbx_p2_patient_otherSpecify" EventName="TextChanged" />
@@ -460,10 +453,11 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
             </td></tr>
             <tr><td>How many employees involved in activity at time of incident?</td></tr>
             <tr><td>
-                <asp:TextBox TabIndex="132" ID="tbx_p1_numEmployeesInvolved" runat="server" ></asp:TextBox>
+                <asp:TextBox TabIndex="132" ID="tbx_p1_numEmployeesInvolved" runat="server" MaxLength="10" ></asp:TextBox>
                 <asp:CompareValidator ID="cpvEmployeesInvolved" runat="server" ValidationGroup="vgpCInvestigation"
                     ControlToValidate="tbx_p1_numEmployeesInvolved" Type="Integer" Operator="DataTypeCheck"
-                    ErrorMessage="The number of employees involved must be a whole number." ></asp:CompareValidator>
+                    ErrorMessage="The number of employees involved must be number." ></asp:CompareValidator>
+                <%-- CHECK FOR GREATHER THAN 0 --%>
             </td></tr>
         </table>
   
@@ -479,7 +473,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                  <asp:UpdatePanel ID="uplOtherPatientCare" runat="server">
                     <ContentTemplate>
                         <asp:CheckBox TabIndex="132" ID="cbx_p2_activity_otherPatientCare" Text="Other: " runat="server" AutoPostBack="true" />
-                        <asp:TextBox TabIndex="132" ID="tbx_p2_activity_otherPatientCare" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_activity_otherPatientCare_OnTextChanged" ></asp:TextBox>
+                        <asp:TextBox TabIndex="132" ID="tbx_p2_activity_otherPatientCare" runat="server" MaxLength="8000" AutoPostBack="true" OnTextChanged="tbx_p2_activity_otherPatientCare_OnTextChanged" ></asp:TextBox>
                     </ContentTemplate>
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="tbx_p2_activity_otherPatientCare" EventName="TextChanged" />
@@ -510,7 +504,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                 <asp:UpdatePanel ID="uplOtherMat" runat="server">
                     <ContentTemplate>
                         <asp:CheckBox TabIndex="134" ID="cbx_p2_activity_otherMat" Text="Other Material Description: " runat="server" AutoPostBack="true" />
-                        <asp:TextBox TabIndex="134" ID="tbx_p2_activity_otherMat" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_activity_otherMat_OnTextChanged" ></asp:TextBox>
+                        <asp:TextBox TabIndex="134" ID="tbx_p2_activity_otherMat" runat="server" AutoPostBack="true"  MaxLength="50" OnTextChanged="tbx_p2_activity_otherMat_OnTextChanged" ></asp:TextBox>
                     </ContentTemplate>
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="tbx_p2_activity_otherMat" EventName="TextChanged" />
@@ -522,7 +516,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                 <asp:UpdatePanel ID="uplOtherEquip" runat="server">
                     <ContentTemplate>
                         <asp:CheckBox TabIndex="134" ID="cbx_p2_activity_otherEquip" Text="Equipment Operation - Other: " runat="server" AutoPostBack="true"/>
-                        <asp:TextBox TabIndex="134" ID="tbx_p2_activity_otherEquip" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_activity_otherEquip_OnTextChanged" ></asp:TextBox>
+                        <asp:TextBox TabIndex="134" ID="tbx_p2_activity_otherEquip" runat="server" AutoPostBack="true"  MaxLength="8000" OnTextChanged="tbx_p2_activity_otherEquip_OnTextChanged" ></asp:TextBox>
                     </ContentTemplate>
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="tbx_p2_activity_otherEquip" EventName="TextChanged" />
@@ -533,7 +527,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                 <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                     <ContentTemplate>
                         <asp:CheckBox TabIndex="134" ID="cbx_p2_activity_otherEquipDesc" Text="Other Equipment Description: " runat="server" AutoPostBack="true" />
-                        <asp:TextBox TabIndex="134" ID="tbx_p2_activity_otherEquipDesc" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_activity_otherEquipDesc_OnTextChanged" ></asp:TextBox>
+                        <asp:TextBox TabIndex="134" ID="tbx_p2_activity_otherEquipDesc" runat="server" AutoPostBack="true" MaxLength="8000" OnTextChanged="tbx_p2_activity_otherEquipDesc_OnTextChanged" ></asp:TextBox>
                     </ContentTemplate>
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="tbx_p2_activity_otherEquipDesc" EventName="TextChanged" />
@@ -556,7 +550,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                 <asp:UpdatePanel ID="uplActivityOther" runat="server">
                     <ContentTemplate>
                         <asp:CheckBox TabIndex="135" ID="cbx_p2_activity_other" Text="Other: " runat="server" AutoPostBack="true" />
-                        <asp:TextBox TabIndex="135" ID="tbx_p2_activity_other" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_activity_other_OnTextChanged" ></asp:TextBox>
+                        <asp:TextBox TabIndex="135" ID="tbx_p2_activity_other" runat="server" AutoPostBack="true" MaxLength="8000" OnTextChanged="tbx_p2_activity_other_OnTextChanged" ></asp:TextBox>
                     </ContentTemplate>
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="tbx_p2_activity_other" EventName="TextChanged" />
@@ -608,7 +602,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                 <asp:UpdatePanel ID="uplCauseOther" runat="server">
                     <ContentTemplate>
                         <asp:CheckBox TabIndex="139" ID="cbx_p2_cause_other" Text="Other: " runat="server" AutoPostBack="true" />
-                        <asp:TextBox TabIndex="139" ID="tbx_p2_cause_other" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_cause_other_OnTextChanged" ></asp:TextBox>
+                        <asp:TextBox TabIndex="139" ID="tbx_p2_cause_other" runat="server" AutoPostBack="true" MaxLength="8000" OnTextChanged="tbx_p2_cause_other_OnTextChanged" ></asp:TextBox>
                     </ContentTemplate>
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="tbx_p2_cause_other" EventName="TextChanged" />
@@ -638,7 +632,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                 <asp:UpdatePanel ID="uplAgressionOther" runat="server">
                     <ContentTemplate>
                        <asp:CheckBox TabIndex="141" ID="cbx_p2_cause_aggression_other" Text="Other: " runat="server" AutoPostBack="true" />
-                       <asp:TextBox TabIndex="141" ID="tbx_p2_cause_aggression_other" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_cause_aggression_other_OnTextChanged" ></asp:TextBox>
+                       <asp:TextBox TabIndex="141" ID="tbx_p2_cause_aggression_other" runat="server" MaxLength="8000" AutoPostBack="true" OnTextChanged="tbx_p2_cause_aggression_other_OnTextChanged" ></asp:TextBox>
                     </ContentTemplate>
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="tbx_p2_cause_aggression_other" EventName="TextChanged" />
@@ -681,7 +675,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                 <asp:UpdatePanel ID="uplFactorsOtherEquip" runat="server">
                     <ContentTemplate>
                         <asp:CheckBox TabIndex="143" ID="cbx_p2_factors_otherEquip" Text="Other: " runat="server" AutoPostBack="true" />
-                        <asp:TextBox TabIndex="143" ID="tbx_p2_factors_otherEquip" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherEquip_OnTextChanged" ></asp:TextBox>
+                        <asp:TextBox TabIndex="143" ID="tbx_p2_factors_otherEquip" runat="server" MaxLength="8000" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherEquip_OnTextChanged" ></asp:TextBox>
                     </ContentTemplate>
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="tbx_p2_factors_otherEquip" EventName="TextChanged" />
@@ -704,7 +698,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
             <tr><td>
                 <asp:UpdatePanel ID="uplOtherEnv" runat="server">
                     <ContentTemplate>
-                        <asp:CheckBox TabIndex="144" ID="cbx_p2_factors_otherEnv" Text="Other: " runat="server" AutoPostBack="true" />
+                        <asp:CheckBox TabIndex="144" ID="cbx_p2_factors_otherEnv" Text="Other: " runat="server" MaxLength="8000" AutoPostBack="true" />
                         <asp:TextBox TabIndex="144" ID="tbx_p2_factors_otherEnv" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherEnv_OnTextChanged" ></asp:TextBox>
                     </ContentTemplate>
                     <Triggers>
@@ -729,7 +723,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                 <asp:UpdatePanel ID="uplOtherWorkPractice" runat="server">
                     <ContentTemplate>
                         <asp:CheckBox TabIndex="145" ID="cbx_p2_factors_otherWorkPractice" Text="Other: " runat="server" AutoPostBack="true" />
-                        <asp:TextBox TabIndex="145" ID="tbx_p2_factors_otherWorkPractice" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherWorkPractice_OnTextChanged" ></asp:TextBox>
+                        <asp:TextBox TabIndex="145" ID="tbx_p2_factors_otherWorkPractice" runat="server" MaxLength="8000" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherWorkPractice_OnTextChanged" ></asp:TextBox>
                     </ContentTemplate>
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="tbx_p2_factors_otherWorkPractice" EventName="TextChanged" />
@@ -752,7 +746,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                 <asp:UpdatePanel ID="uplOtherPatient" runat="server">
                     <ContentTemplate>
                         <asp:CheckBox TabIndex="146" ID="cbx_p2_factors_otherPatient" Text="Other: " runat="server" AutoPostBack="true" />
-                        <asp:TextBox TabIndex="146" ID="tbx_p2_factors_otherPatient" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherPatient_OnTextChanged" ></asp:TextBox>
+                        <asp:TextBox TabIndex="146" ID="tbx_p2_factors_otherPatient" runat="server" MaxLength="8000" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherPatient_OnTextChanged" ></asp:TextBox>
                     </ContentTemplate>
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="tbx_p2_factors_otherPatient" EventName="TextChanged" />
@@ -777,7 +771,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                 <asp:UpdatePanel ID="uplOtherOrganizational" runat="server">
                     <ContentTemplate>
                         <asp:CheckBox TabIndex="147" ID="cbx_p2_factors_otherOrganizational" Text="Other: " runat="server" AutoPostBack="true" />
-                        <asp:TextBox TabIndex="147" ID="tbx_p2_factors_otherOrganizational" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherOrganizational_OnTextChanged" ></asp:TextBox>
+                        <asp:TextBox TabIndex="147" ID="tbx_p2_factors_otherOrganizational" runat="server" MaxLength="8000" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherOrganizational_OnTextChanged" ></asp:TextBox>
                     </ContentTemplate>
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="tbx_p2_factors_otherOrganizational" EventName="TextChanged" />
@@ -798,7 +792,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                 <asp:UpdatePanel ID="uplOtherWorker" runat="server">
                     <ContentTemplate>
                         <asp:CheckBox TabIndex="148" ID="cbx_p2_factors_otherWorker" Text="Other: " runat="server" AutoPostBack="true" />
-                        <asp:TextBox TabIndex="148" ID="tbx_p2_factors_otherWorker" runat="server" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherWorker_OnTextChanged" ></asp:TextBox>
+                        <asp:TextBox TabIndex="148" ID="tbx_p2_factors_otherWorker" runat="server" MaxLength="8000" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherWorker_OnTextChanged" ></asp:TextBox>
                     </ContentTemplate>
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="tbx_p2_factors_otherWorker" EventName="TextChanged" />
