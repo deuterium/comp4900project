@@ -95,9 +95,15 @@ public partial class Login : System.Web.UI.Page
                 ex.ToString();
                 Session["DeptNo"] = "";
             }
-            
 
-            Response.Redirect("Default.aspx");
+            Object redirectUrl = Session["AfterLoginRedirectUrl"];
+            if ((redirectUrl == null)) {
+                Response.Redirect("Default.aspx");
+            }
+            else {
+                Session["AfterLoginRedirectUrl"] = null;
+                Response.Redirect(redirectUrl.ToString());
+            }
         }
         //Authentication Failure
         else

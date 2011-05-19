@@ -17,6 +17,8 @@ using System.Globalization;
  * style + validate schedule (last part of follow-up)
  * Check documentation
  * Add security code, restrict access to certain departments depending on user??
+ * Resizeable text areas
+ * Make the view incident report have labels or things that LOOK like labels
  **/
 
 /// <summary>
@@ -52,15 +54,18 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="sender">The object that requested the page load.</param>
     /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e) {
+        // Verifiy user
+        Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
+        ASP.global_asax.Session_Authentication();
+
         // Only do the initial set up the first time the page loads (and not on post-backs).
         if (!IsPostBack) {
             PopulateEmployersDdl();
             PopulatePositionsDdl();
             PopulateDepartmentsDdl();
             pnlPop.Style.Value = "display:none;";
-            
-            tsmScriptManager.SetFocus(tbxLastName.ClientID);
         }
+        lblInvalidActionFollowing.Visible = false;
     }
 
     #region Toggle Other TextBox and CheckBox
@@ -187,7 +192,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
     #region Employee Info Related
     #region Drop Down Lists
-
     #region Load DropDownLists
 
     /// <summary>
@@ -298,7 +302,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
     }
     #endregion Other Option Textbox Toggle
-
     #endregion DropDownLists
 
     #region Load Employee Data
@@ -306,7 +309,8 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Uses the employee's first and last name to get the rest employee's information from the database.
     /// Populates the Header form with this data.
     /// </summary>
-    private void getEmployeeData() {
+    /// <returns>Returns the employee on success, null on failure.</returns>
+    private Employee getEmployeeData() {
         String first = tbxFirstName.Text;
         String last = tbxLastName.Text;
         Employee emp = null;
@@ -379,20 +383,24 @@ public partial class Reporting_Default : System.Web.UI.Page {
             tbxRoom.Text = emp.room;
 
             if (emp.startDate != null) {
-                tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy");
+                tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy", new CultureInfo("en-CA"));
             }
 
             if (emp.endDate != null) {
-                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy");
+                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy", new CultureInfo("en-CA"));
             }
 
         }
         else if ((qry != null) && (qry.Count() <= 0)) {
             Popup_Overlay("No employee with that first and last name found.", FailColour);
+            return null;
         }
         else {
             Popup_Overlay("There was more than one employee with that first and last name.", FailColour);
+            return null;
         }
+
+        return emp;
     }
 
     /// <summary>
@@ -402,6 +410,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The index changed event.</param>
     protected void btnGetEmployee_Click(object sender, EventArgs e) {
+        Page.Validate("vgpGetEmp");
+        if (!Page.IsValid) {
+            return;
+        }
+        
         getEmployeeData();
     }
     #endregion LoadEmployeeData
@@ -413,6 +426,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The index changed event.</param>
     protected void btnCreateEmployee_Click(object sender, EventArgs e) {
+        Page.Validate("vgpGetEmp");
+        Page.Validate("vgpCreateEmp");
+        if (!Page.IsValid) {
+            return;
+        }
         createEmployee();
     }
 
@@ -636,7 +654,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The button click event.</param>
     protected void btnCreateReport_Click(object sender, EventArgs e) {
-        Page.Validate("vgpEmpInfo");
+        Page.Validate("vgpGetEmp");
         Page.Validate("vgpPanelA");
         Page.Validate("vgpFCorrective");
         Page.Validate("vgpGRelevant");
@@ -650,9 +668,15 @@ public partial class Reporting_Default : System.Web.UI.Page {
                 Popup_Overlay("Report successfully created.", SuccessColour);
             }
             catch (Exception ex) {
-                Popup_Overlay("An error has occured while creating your report. Please try again." + ex.StackTrace.ToString(), FailColour);
+                Popup_Overlay("An error has occured while creating your report. Please try again.", FailColour);
                 return;
             }
+        }
+        else {
+            cpeEmpInfo.ClientState = "false";
+            cpeEmpInfo.Collapsed = false;
+            cpeA.ClientState = "false";
+            cpeA.Collapsed = false;
         }
     }
 
@@ -663,18 +687,24 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// </summary>
     /// <returns>the newly created Incident report</returns>
     private Incident createReport() {
-        getEmployeeData();
+        Employee emp = getEmployeeData();
+        // If employee not found, see if you can create one.
+        if (emp == null) {
+            Page.Validate("vgpCreateEmp");
+            if (Page.IsValid) {
+                createEmployee();
+            }
+            else {
+                return null;
+            }
+        }
+
         int empId = Convert.ToInt32(tbxId.Text);
-
-        DateTime dateOfIncident = Convert.ToDateTime(tbx_p1_dateOfIncident.Text + " " + tbx_p1_timeOfIncident.Text);
-        DateTime dateReported = Convert.ToDateTime(tbx_p1_dateReported.Text + " " + tbx_p1_timeReported.Text);
-
+        
         Incident report = new Incident {
 
             #region A_IncidentInfo
             empNo = empId,
-            p1_dateOfIncident = dateOfIncident,
-            p1_dateReported = dateReported,
             p1_incidentDesc = convertTextBox(tbx_p1_incidentDesc),
             p1_witnessName1 = convertTextBox(tbx_p1_witnessName1),
             p1_witnessPhone1 = convertTextBox(tbx_p1_witnessPhone1),
@@ -856,29 +886,38 @@ public partial class Reporting_Default : System.Web.UI.Page {
             p2_factors_otherWorker = convertTextBox(tbx_p2_factors_otherWorker),
             #endregion E_ContributingFactors
 
-            #region F_CorrectiveAction
-            p2_corrective_person = convertTextBox(tbx_p2_corrective_person),
-            p2_corrective_maintenance = convertRadioButtonList(rbl_p2_corrective_maintenance),
-            p2_corrective_communicated = convertRadioButtonList(rbl_p2_corrective_communicated),
-            p2_corrective_time = convertRadioButtonList(rbl_p2_corrective_time),
-            #endregion F_CorrectiveAction
-
-            #region G_FollowUp
-            p2_corrective_written = convertTextBox(tbx_p2_corrective_written),
-            p2_corrective_education = convertTextBox(tbx_p2_corrective_education),
-            p2_corrective_equipment = convertTextBox(tbx_p2_corrective_equipment),
-            p2_corrective_environment = convertTextBox(tbx_p2_corrective_environment),
-            p2_corrective_patient = convertTextBox(tbx_p2_corrective_patient),
-            #endregion G_FollowUp
-
-            #region G_ManagersReport
-            p2_manager_previous = convertTextBox(tbx_p2_manager_previous),
-            p2_manager_objections = convertTextBox(tbx_p2_manager_objections),
-            p2_manager_alternative = convertTextBox(tbx_p2_manager_alternative),
-            #endregion G_ManagersReport
-
             followUpStatus = "0",
+            reportSubmitter = Session["AuthenticatedUser"].ToString(),
+            
         };
+
+        if ((Session["DeptNo"] == null) || Session["DeptNo"].Equals(String.Empty)) {    // for admin account
+            report.submitterDeptNo = null;
+        }
+        else {
+            report.submitterDeptNo = Convert.ToInt32(Session["DeptNo"]);
+        }
+
+        #region Employee Info Dates
+        String strDateOfIncident = tbx_p1_dateOfIncident.Text;
+        String strTimeOfIncident = tbx_p1_timeOfIncident.Text;
+        String strDateReported = tbx_p1_dateReported.Text;
+        String strTimeReported = tbx_p1_timeReported.Text;
+
+        if (!(strDateOfIncident.Equals(String.Empty) && strTimeOfIncident.Equals(String.Empty))) {
+            report.p1_dateOfIncident = Convert.ToDateTime(strDateOfIncident + " " + strTimeOfIncident);
+        }
+        else {
+            return null;
+        }
+
+        if (!(strDateReported.Equals(String.Empty) && strTimeReported.Equals(String.Empty))) {
+            report.p1_dateReported = Convert.ToDateTime(strDateReported + " " + strTimeReported);
+        }
+        else {
+            return null;
+        }
+        #endregion Employee Info Dates
 
         #region A_IncidentInfo_Dates
         if (!tbx_p1_action_medicalER_date.Text.Equals(String.Empty)) {
@@ -903,166 +942,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
             }
         }
         #endregion C_AccidentInvestigation_PatientHandling
-
-        #region F_CorrectiveAction_Dates
-        if (!tbx_p2_corrective_personDate.Text.Equals(String.Empty)) {
-            DateTime dateCorrectivePerson = Convert.ToDateTime(tbx_p2_corrective_personDate.Text);
-            report.p2_corrective_personDate = dateCorrectivePerson;
-        }
-
-        if (!tbx_p2_corrective_maintenanceDate.Text.Equals(String.Empty)) {
-            DateTime dateMaintenance = Convert.ToDateTime(tbx_p2_corrective_maintenanceDate.Text);
-            report.p2_corrective_maintenanceDate = dateMaintenance;
-        }
-
-        if (!tbx_p2_corrective_communicatedDate.Text.Equals(String.Empty)) {
-            DateTime dateCommunicated = Convert.ToDateTime(tbx_p2_corrective_communicatedDate.Text);
-            report.p2_corrective_communicatedDate = dateCommunicated;
-        }
-
-        if (!tbx_p2_corrective_timeDate.Text.Equals(String.Empty)) {
-            DateTime dateTimeLoss = Convert.ToDateTime(tbx_p2_corrective_timeDate.Text);
-            report.p2_corrective_timeDate = dateTimeLoss;
-        }
-        #endregion F_CorrectiveAction_Dates
-
-        #region G_FollowUp_Dates
-
-        #region G_FollowUp_Dates_Target
-
-        if (!tbx_p2_corrective_writtenTargetDate.Text.Equals(String.Empty)) {
-            DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenTargetDate.Text);
-            report.p2_corrective_writtenTargetDate = writtenDate;
-        }
-
-        if (!tbx_p2_corrective_educationTargetDate.Text.Equals(String.Empty)) {
-            DateTime educationDate = Convert.ToDateTime(tbx_p2_corrective_educationTargetDate.Text);
-            report.p2_corrective_educationTargetDate = educationDate;
-        }
-
-        if (!tbx_p2_corrective_equipmentTargetDate.Text.Equals(String.Empty)) {
-            DateTime equipmentDate = Convert.ToDateTime(tbx_p2_corrective_equipmentTargetDate.Text);
-            report.p2_corrective_equipmentTargetDate = equipmentDate;
-        }
-
-        if (!tbx_p2_corrective_environmentTargetDate.Text.Equals(String.Empty)) {
-            DateTime environmentDate = Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text);
-            report.p2_corrective_environmentTargetDate = environmentDate;
-        }
-
-        if (!tbx_p2_corrective_patientTargetDate.Text.Equals(String.Empty)) {
-            DateTime patientDate = Convert.ToDateTime(tbx_p2_corrective_patientTargetDate.Text);
-            report.p2_corrective_patientTargetDate = patientDate;
-        }
-
-        #endregion G_FollowUp_Dates_Target
-
-        #region G_FollowUp_Dates_Completed
-
-        if (!tbx_p2_corrective_writtenCompletedDate.Text.Equals(String.Empty)) {
-            DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenCompletedDate.Text);
-            report.p2_corrective_writtenCompletedDate = writtenDate;
-        }
-
-        if (!tbx_p2_corrective_educationCompletedDate.Text.Equals(String.Empty)) {
-            DateTime educationDate = Convert.ToDateTime(tbx_p2_corrective_educationCompletedDate.Text);
-            report.p2_corrective_educationCompletedDate = educationDate;
-        }
-
-        if (!tbx_p2_corrective_equipmentCompletedDate.Text.Equals(String.Empty)) {
-            DateTime equipmentDate = Convert.ToDateTime(tbx_p2_corrective_equipmentCompletedDate.Text);
-            report.p2_corrective_equipmentCompletedDate = equipmentDate;
-        }
-
-        if (!tbx_p2_corrective_environmentCompletedDate.Text.Equals(String.Empty)) {
-            DateTime environmentDate = Convert.ToDateTime(tbx_p2_corrective_environmentCompletedDate.Text);
-            report.p2_corrective_environmentCompletedDate = environmentDate;
-        }
-
-        if (!tbx_p2_corrective_patientCompletedDate.Text.Equals(String.Empty)) {
-            DateTime patientDate = Convert.ToDateTime(tbx_p2_corrective_patientCompletedDate.Text);
-            report.p2_corrective_patientCompletedDate = patientDate;
-        }
-
-        #endregion G_FollowUp_Dates_Completed
-
-        #endregion G_FollowUp_Dates
-
-        #region H_FixedShiftRotation
-        #region H_FixedShiftRotation_Week1
-        if (!tbx_p2_manager_week1_sun.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sun.Text);
-            report.p2_manager_week1_sun = d;
-        }
-
-        if (!tbx_p2_manager_week1_mon.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_mon.Text);
-            report.p2_manager_week1_mon = d;
-        }
-
-        if (!tbx_p2_manager_week1_tue.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_tue.Text);
-            report.p2_manager_week1_tue = d;
-        }
-
-        if (!tbx_p2_manager_week1_wed.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_wed.Text);
-            report.p2_manager_week1_wed = d;
-        }
-
-        if (!tbx_p2_manager_week1_thu.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_thu.Text);
-            report.p2_manager_week1_thu = d;
-        }
-
-        if (!tbx_p2_manager_week1_fri.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_fri.Text);
-            report.p2_manager_week1_fri = d;
-        }
-
-        if (!tbx_p2_manager_week1_sat.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sat.Text);
-            report.p2_manager_week1_sat = d;
-        }
-        #endregion H_FixedShiftRotation_Week1
-
-        #region H_FixedShiftRotation_Week2
-        if (!tbx_p2_manager_week2_sun.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_sun.Text);
-            report.p2_manager_week2_sun = d;
-        }
-
-        if (!tbx_p2_manager_week2_mon.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_mon.Text);
-            report.p2_manager_week2_mon = d;
-        }
-
-        if (!tbx_p2_manager_week2_tue.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_tue.Text);
-            report.p2_manager_week2_tue = d;
-        }
-
-        if (!tbx_p2_manager_week2_wed.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_wed.Text);
-            report.p2_manager_week2_wed = d;
-        }
-
-        if (!tbx_p2_manager_week2_thu.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_thu.Text);
-            report.p2_manager_week2_thu = d;
-        }
-
-        if (!tbx_p2_manager_week2_fri.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_fri.Text);
-            report.p2_manager_week2_fri = d;
-        }
-
-        if (!tbx_p2_manager_week2_sat.Text.Equals(String.Empty)) {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_sat.Text);
-            report.p2_manager_week2_sat = d;
-        }
-        #endregion H_FixedShiftRotation_Week2
-        #endregion H_FixedShiftRotation
 
         return report;
     }
@@ -1116,4 +995,51 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
     }
     #endregion Create New Incident Report
+
+    protected void cbx_p1_action_medicalGP_CheckChanged(object sender, EventArgs e) {
+        if (cbx_p1_action_medicalGP.Checked) {
+            rfvMedicalAidGpDate.Enabled = true;
+        }
+        else {
+            rfvMedicalAidGpDate.Enabled = false;
+        }
+    }
+    protected void cbx_p1_action_medicalER_CheckChanged(object sender, EventArgs e) {
+        if (cbx_p1_action_medicalER.Checked) {
+            rfvMedicalAidErDate.Enabled = true;
+        }
+        else {
+            rfvMedicalAidErDate.Enabled = false;
+        }
+    }
+    protected void cmvActionFollowing_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = (cbx_p1_action_report.Checked
+                            || cbx_p1_action_firstAid.Checked
+                            || cbx_p1_action_medicalGP.Checked
+                            || cbx_p1_action_lostTime.Checked
+                            || cbx_p1_action_medicalER.Checked);
+    }
+
+    protected void cmvEmployeeExists_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String first = tbxFirstName.Text;
+        String last = tbxLastName.Text;
+        Employee emp = null;
+
+        var qry = ctx.Employees
+                  .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
+                  .Select(e => e);
+
+        if ((qry != null) && (qry.Count() == 1)) {
+            args.IsValid = true;
+        } else if ((qry != null) && (qry.Count() <= 0)) {
+            cmvEmployeeName.ErrorMessage = "No employee with that first and last name found.";
+            return;
+        }
+        else {
+            cmvEmployeeName.ErrorMessage = "There was more than one employee with that first and last name.";
+            return;
+        }
+    }
+
 }

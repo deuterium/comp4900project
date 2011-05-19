@@ -24,15 +24,19 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
     /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e)
     {
+        // Verifiy user
+        Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
+        ASP.global_asax.Session_Authentication();
+
         String reqInspectionNo = Request.QueryString["OfficeInspectionNo"];
-        int inspectionNo = 5; // should be -1
+        int inspectionNo = -1;
         try {
             if (reqInspectionNo != null) {
                 inspectionNo = Convert.ToInt32(reqInspectionNo);
             }
         }
         catch (FormatException ex) {
-            // do nothing
+            return;
         }
         displayOfficeInspection(inspectionNo);
     }
@@ -180,25 +184,25 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
             case 16: // Are surfaces level and even
                 subheader = "Support and Structure";
                 break;
-            case 21: // Are switch panels free of clutter and accessible
+            case 20: // Are switch panels free of clutter and accessible
                 subheader = "Electrical";
                 break;
-            case 25: // Does there appear to be adequate ventilation (may have to ask staff to find out about complaints)
+            case 24: // Does there appear to be adequate ventilation (may have to ask staff to find out about complaints)
                 subheader = "Ventilation, Illumination, Noise";
                 break;
-            case 28: // Are safety procedures in place and known to staff
+            case 27: // Are safety procedures in place and known to staff
                 subheader = "Work Practices Section";
                 break;
-            case 32: // Is personal protective equipment required for any specific work
+            case 30: // Is personal protective equipment required for any specific work
                 subheader = "Personal Protective Equipment";
                 break;
-            case 35: // Are staff trained in proper lift techniques
+            case 33: // Are staff trained in proper lift techniques
                 subheader = "Strain, Sprain, Overexertion";
                 break;
-            case 39: // Are Material Safety Data Sheets (MSDS) accessible for staff (via a binder or on-line link to OHSAH)
+            case 37: // Are Material Safety Data Sheets (MSDS) accessible for staff (via a binder or on-line link to OHSAH)
                 subheader = "WHMIS / Hazardous Materials";
                 break;
-            case 44: // Do staff know what to do in the event of an evacuation alarm
+            case 42: // Do staff know what to do in the event of an evacuation alarm
                 subheader = "Fire Safety and Emergency Response";
                 break;            
             default:
