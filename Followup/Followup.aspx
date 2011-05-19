@@ -64,11 +64,15 @@
                         </td>
                     </tr>
                     <tr>
-                        <td valign="bottom" colspan="2" align="right">
+                        <td>
+                            <asp:Button ID="btnLabOfficeFollowupSave" runat="server" Text="Save Followup" 
+                                onclick="btnLabOfficeFollowupSave_Click" />
+                        </td>
+                        <td align="right">
                             <asp:Button ID="btnLabOfficeFollowupSubmit" runat="server" Text="Submit Followup"
                                 OnClick="btnLabOfficeFollowupSubmit_Click" />
                             <asp:ConfirmButtonExtender ID="btnLabOfficeFollowupSubmit_ConfirmButtonExtender"
-                                runat="server" ConfirmText="Are you sure you want to submit this followup?" Enabled="True"
+                                runat="server" ConfirmText="Are you sure you want to submit this followup? This will mark it as complete and remove from Followup page" Enabled="True"
                                 TargetControlID="btnLabOfficeFollowupSubmit" ConfirmOnFormSubmit="false">
                             </asp:ConfirmButtonExtender>
                         </td>
