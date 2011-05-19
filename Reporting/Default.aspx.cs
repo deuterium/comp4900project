@@ -57,6 +57,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
         // Verifiy user
         Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
+        Session["AfterLoginRedirectUrl"] = null;
 
         // Only do the initial set up the first time the page loads (and not on post-backs).
         if (!IsPostBack) {

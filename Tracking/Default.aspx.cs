@@ -57,7 +57,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
         // Verifiy user
         Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
-        
+        Session["AfterLoginRedirectUrl"] = null;
+
         if (!(Session["RoleNo"].Equals(1) || Session["RoleNo"].Equals(3))) {
             pnlAllContent.Visible = false;
             lblUnauthorizedMsg.Visible = true;
