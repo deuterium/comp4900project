@@ -42,7 +42,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     public static String noOptionSpecified = String.Empty;
     // List of static, pre-defined employers a user can select
     public static List<String> employers = new List<String> {
-        noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
+        noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH"
     };
     #endregion class variables
 
@@ -198,8 +198,9 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Populates the employers drop down list.
     /// </summary>
     private void PopulateEmployersDdl() {
-        ddlEmployers.DataSource = employers;
+        ddlEmployers.DataSource = employers.OrderBy(e => e.ToString());
         ddlEmployers.DataBind();
+        ddlEmployers.Items.Insert(ddlEmployers.Items.Count, otherOption);
     }
 
     /// <summary>
@@ -209,7 +210,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Adds the "other" option to the end of the list.
     /// </summary>
     private void PopulatePositionsDdl() {
-        ddlPositions.DataSource = ctx.Positions;
+        ddlPositions.DataSource = ctx.Positions.OrderBy(p => p.posName);
         ddlPositions.DataValueField = "posName";
         ddlPositions.DataBind();
         ddlPositions.Items.Insert(ddlPositions.Items.Count, otherOption);
@@ -217,17 +218,25 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
 
     /// <summary>
-    /// Populates the departments drop down list.
+    /// Populates the departments drop down list in the employee info panel and the report info panel.
     /// Loads departments from the database.
     /// Adds the "no selection" option to the front of the list.
     /// Adds the "other" option to the end of the list.
     /// </summary>
     private void PopulateDepartmentsDdl() {
-        ddlDepartments.DataSource = ctx.Departments;
+        // Employee Info Departments DDL
+        ddlDepartments.DataSource = ctx.Departments.OrderBy(d => d.deptName);
         ddlDepartments.DataValueField = "deptName";
         ddlDepartments.DataBind();
         ddlDepartments.Items.Insert(ddlDepartments.Items.Count, otherOption);
         ddlDepartments.Items.Insert(0, noOptionSpecified);
+        // Report Info Departments DDL
+        ddlReportDepts.DataSource = ctx.Departments.OrderBy(d => d.deptName);
+        ddlReportDepts.DataTextField = "deptName";
+        ddlReportDepts.DataValueField = "deptNo";
+        ddlReportDepts.DataBind();
+        ddlReportDepts.Items.Insert(ddlReportDepts.Items.Count, otherOption);
+        ddlReportDepts.Items.Insert(0, noOptionSpecified);
     }
 
     #endregion Load DropDownLists
@@ -261,6 +270,16 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="e">The index changed event.</param>
     protected void ddlDepartments_SelectedIndexChanged(object sender, EventArgs e) {
         CheckDepartmentSelection();
+    }
+
+    /// <summary>
+    /// Calls CheckReportDepartmentSelection(), which displays a textbox if the "Other (specify)"
+    /// option is selected and hides the textbox if any other option is selected
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The index changed event.</param>
+    protected void ddlReportDepts_SelectedIndexChanged(object sender, EventArgs e) {
+        CheckReportDepartmentSelection();
     }
 
     /// <summary>
@@ -299,6 +318,19 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
         else {
             tbxDepartment.Visible = false;
+        }
+    }
+
+    /// <summary>
+    /// Displays a textbox if the "Other (specify)" option of the departments drop down list is selected.
+    /// Hides the textbox if any other option is selected
+    /// </summary>
+    private void CheckReportDepartmentSelection() {
+        if (ddlReportDepts.SelectedValue.Equals(otherOption)) {
+            tbxReportDept.Visible = true;
+        }
+        else {
+            tbxReportDept.Visible = false;
         }
     }
     #endregion Other Option Textbox Toggle
@@ -700,7 +732,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
 
         int empId = Convert.ToInt32(tbxId.Text);
-        
+
         Incident report = new Incident {
 
             #region A_IncidentInfo
@@ -898,7 +930,8 @@ public partial class Reporting_Default : System.Web.UI.Page {
             report.submitterDeptNo = Convert.ToInt32(Session["DeptNo"]);
         }
 
-        #region Employee Info Dates
+        #region Report Info Dates and Department
+        #region Dates
         String strDateOfIncident = tbx_p1_dateOfIncident.Text;
         String strTimeOfIncident = tbx_p1_timeOfIncident.Text;
         String strDateReported = tbx_p1_dateReported.Text;
@@ -917,8 +950,17 @@ public partial class Reporting_Default : System.Web.UI.Page {
         else {
             return null;
         }
-        #endregion Employee Info Dates
-
+        #endregion Dates
+        #region Department
+        if (ddlReportDepts.SelectedValue.Equals(otherOption)
+                || (ddlReportDepts.SelectedValue.Equals(noOptionSpecified))) {
+            report.deptNo = null;
+        } else {
+            emp.deptName = ddlReportDepts.SelectedValue;
+        }
+        #endregion Department
+        #endregion Report Info Dates and Department
+    
         #region A_IncidentInfo_Dates
         if (!tbx_p1_action_medicalER_date.Text.Equals(String.Empty)) {
             DateTime dateMedicalER = Convert.ToDateTime(tbx_p1_action_medicalER_date.Text);

@@ -361,44 +361,24 @@ public partial class Tracking_Default : System.Web.UI.Page {
         dt.Columns.Add(new DataColumn("submitter", typeof(System.String)));
         dt.Columns.Add(new DataColumn("employee", typeof(System.String)));
 
-        int prevDeptNo = -1;
-        int incidentCount = 0;
-
         var depts = ctx.Departments
                     .Select(d => d.deptNo);
 
-        foreach (int deptNo in depts) {
-            var deptReports = reports.Where(r => r.submitterDeptNo.Equals(deptNo));
-            // Put the data in rows, inserting rows for subheaders
+        foreach (int deptNumber in depts) {
+            var deptReports = from d in ctx.Departments
+                              join r in reports on d.deptNo equals r.deptNo
+                              where r.deptNo == deptNumber
+                              select r;
+            
+            // Subheader row
+            String deptName = (from d in ctx.Departments
+                               where d.deptNo == deptNumber
+                               select d.deptName).FirstOrDefault();
+            DataRow drSubheader = dt.NewRow();
+            drSubheader["incidentNo"] = "Department: " + deptName;
+            dt.Rows.Add(drSubheader);
+            // Put the data in rows
             foreach (var report in deptReports) {
-                // if it's the start of a new department
-                // add a subtotal row for the previous department
-                // add a subheader row for the new department
-                if (!prevDeptNo.Equals(report.submitterDeptNo)) {
-                    // subtotal
-                    if (incidentCount != 0) {
-                        DataRow drSubtotal = dt.NewRow();
-                        drSubtotal["incidentNo"] = "Number of Incidents: " + incidentCount;
-                        dt.Rows.Add(drSubtotal);
-                        incidentCount = 0;
-                    }
-                    // subheader
-                    if (report.submitterDeptNo != null) {
-                        String dept = ctx.Departments
-                                      .Where(d => d.deptNo == report.submitterDeptNo)
-                                      .Select(d => d.deptName).FirstOrDefault();
-                        DataRow drSubheader = dt.NewRow();
-                        drSubheader["incidentNo"] = "Department: " + dept;
-                        dt.Rows.Add(drSubheader);
-                    }
-                    else {
-                        DataRow drSubheader = dt.NewRow();
-                        drSubheader["incidentNo"] = "Department: Other";
-                        dt.Rows.Add(drSubheader);
-                    }
-                }
-
-                incidentCount++;
                 DataRow dr = dt.NewRow();
                 dr["incidentNo"] = report.incidentNo;
                 if (report.p1_dateOfIncident != null) {
@@ -408,49 +388,22 @@ public partial class Tracking_Default : System.Web.UI.Page {
                 dr["employee"] = report.Employee.fname + " " + report.Employee.lname;
                 dt.Rows.Add(dr);
             }
-            // Add last subtotal row
-            if (incidentCount != 0) {
-                DataRow drSubtotal = dt.NewRow();
-                drSubtotal["incidentNo"] = "Number of Incidents: " + incidentCount;
-                dt.Rows.Add(drSubtotal);
-                incidentCount = 0;
-            }
+            // Add subtotal row
+            DataRow drSubtotal = dt.NewRow();
+            drSubtotal["incidentNo"] = "Number of Incidents: " + deptReports.Count();
+            dt.Rows.Add(drSubtotal);
         }
 
         #region other depts
         // Get the other depts that were NOT in the dept table
         var otherDeptReports = reports
-                               .Where(r => r.submitterDeptNo == null);
-
+                               .Where(r => r.deptNo == null);
+        
+        // Subheader row
+        DataRow drSubheaderOther = dt.NewRow();
+        drSubheaderOther["incidentNo"] = "Department: Other";
+        dt.Rows.Add(drSubheaderOther);
         foreach (var report in otherDeptReports) {
-            // if it's the start of a new department
-            // add a subtotal row for the previous department
-            // add a subheader row for the new department
-            if (!prevDeptNo.Equals(report.submitterDeptNo)) {
-                // subtotal
-                if (incidentCount != 0) {
-                    DataRow drSubtotal = dt.NewRow();
-                    drSubtotal["incidentNo"] = "Number of Incidents: " + incidentCount;
-                    dt.Rows.Add(drSubtotal);
-                    incidentCount = 0;
-                }
-                // subheader
-                if (report.submitterDeptNo != null) {
-                    String dept = ctx.Departments
-                                  .Where(d => d.deptNo == report.submitterDeptNo)
-                                  .Select(d => d.deptName).FirstOrDefault();
-                    DataRow drSubheader = dt.NewRow();
-                    drSubheader["incidentNo"] = "Department: " + dept;
-                    dt.Rows.Add(drSubheader);
-                }
-                else {
-                    DataRow drSubheader = dt.NewRow();
-                    drSubheader["incidentNo"] = "Department: Other";
-                    dt.Rows.Add(drSubheader);
-                }
-            }
-
-            incidentCount++;
             DataRow dr = dt.NewRow();
             dr["incidentNo"] = report.incidentNo;
             if (report.p1_dateOfIncident != null) {
@@ -460,20 +413,16 @@ public partial class Tracking_Default : System.Web.UI.Page {
             dr["employee"] = report.Employee.fname + " " + report.Employee.lname;
             dt.Rows.Add(dr);
         }
-        // Add last subtotal row
-        if (incidentCount != 0) {
-            DataRow drSubtotal = dt.NewRow();
-            drSubtotal["incidentNo"] = "Number of Incidents: " + incidentCount;
-            dt.Rows.Add(drSubtotal);
-            incidentCount = 0;
-        }
+        // Add subtotal row
+        DataRow drSubtotalOther = dt.NewRow();
+        drSubtotalOther["incidentNo"] = "Number of Incidents: " + otherDeptReports.Count();
+        dt.Rows.Add(drSubtotalOther);
         #endregion other depts
 
         // Add total row
         DataRow drTotal = dt.NewRow();
         drTotal["incidentNo"] = "Total Number of Incidents: " + reports.Count();
         dt.Rows.Add(drTotal);
-        incidentCount = 0;
 
         // Bind the data to the Grid View
         gdvTracker.DataSource = dt;

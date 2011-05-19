@@ -740,7 +740,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 
 </asp:Panel>
 
-<h3 id="hr3G"><asp:Image ID="imgExpandCollapseG" runat="server" /> G. Relavant Corrective Actions and Follow Up <asp:Label ID="ExpandCollapseG" runat="server" Text=""></asp:Label></h3>    
+<h3 id="hr3G"><asp:Image ID="imgExpandCollapseG" runat="server" /> G. Relevant Corrective Actions and Follow Up <asp:Label ID="ExpandCollapseG" runat="server" Text=""></asp:Label></h3>    
 <asp:Panel ID="pnlG" CssClass="panel" runat="server">
 <p>Full descriptions and target completion dates for corrective actions are required.</p>
 <table>

@@ -180,7 +180,7 @@
             </asp:Panel>
             <h3 id="hr3G">
                 <asp:Image ID="imgExpandCollapseG" runat="server" />
-                G. Relavant Corrective Actions and Follow Up
+                G. Relevant Corrective Actions and Follow Up
                 <asp:Label ID="ExpandCollapseG" runat="server" Text=""></asp:Label></h3>
             <asp:Panel ID="pnlG" CssClass="panel" runat="server">
                 <p>
@@ -350,8 +350,8 @@
                     </tr>
                     <tr>
                         <td>
-                            <asp:TextBox TabIndex="177" ID="tbx_p2_manager_previous" runat="server" CssClass="commentBoxReporting"
-                                TextMode="MultiLine" Width="770px"></asp:TextBox>
+                            <asp:TextBox TabIndex="177" ID="tbx_p2_manager_previous" runat="server" CssClass="resizeableTextArea"
+                                TextMode="MultiLine"></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
@@ -361,8 +361,8 @@
                     </tr>
                     <tr>
                         <td>
-                            <asp:TextBox TabIndex="178" ID="tbx_p2_manager_objections" runat="server" CssClass="commentBoxReporting"
-                                TextMode="MultiLine" Width="770px"></asp:TextBox>
+                            <asp:TextBox TabIndex="178" ID="tbx_p2_manager_objections" runat="server" CssClass="resizeableTextArea"
+                                TextMode="MultiLine"></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
@@ -372,8 +372,8 @@
                     </tr>
                     <tr>
                         <td>
-                            <asp:TextBox TabIndex="179" ID="tbx_p2_manager_alternative" runat="server" CssClass="commentBoxReporting"
-                                TextMode="MultiLine" Width="770px"></asp:TextBox>
+                            <asp:TextBox TabIndex="179" ID="tbx_p2_manager_alternative" runat="server" CssClass="resizeableTextArea"
+                                TextMode="MultiLine"></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
