@@ -78,7 +78,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         WatermarkCssClass="watermarked" WatermarkText="Required field"></asp:TextBoxWatermarkExtender>
                     <asp:RequiredFieldValidator ID="rfvFirstName" runat="server" ValidationGroup="vgpGetEmp" 
                         ControlToValidate="tbxFirstName" ErrorMessage="First name is required."></asp:RequiredFieldValidator>  
-                    <asp:CustomValidator ID="cmvEmployeeName" runat="server" ValidationGroup="vgpGetEmp"
+                    <asp:CustomValidator ID="cmvEmployeeExists" runat="server" ValidationGroup="vpgGetEmpFromDb"
                         ErrorMessage="Employee not found." OnServerValidate="cmvEmployeeExists_ServerValidate"></asp:CustomValidator>
                     <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpGetEmp" 
                         ControlToValidate="tbxFirstName" ErrorMessage="First name can only contain letters."
@@ -195,6 +195,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
         <asp:Button TabIndex="1112" ID="btnCreateReport" runat="server" 
             Text="Create Report" onclick="btnCreateReport_Click" />
         <asp:ValidationSummary ID="vsyGetEmp" ValidationGroup="vgpGetEmp" runat="server" DisplayMode="BulletList" />
+        <asp:ValidationSummary ID="vsyGetEmpFromDb" ValidationGroup="vpgGetEmpFromDb" runat="server" DisplayMode="BulletList" />
         <asp:ValidationSummary ID="vsyCreateEmp" ValidationGroup="vgpCreateEmp" runat="server" DisplayMode="BulletList" />
     </div>
 </asp:Panel>
@@ -303,15 +304,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
             <tr>
                 <td>Department of Incident:</td>
                 <td>
-                    <asp:DropDownList TabIndex="112" ID="ddlReportDepts" runat="server" OnSelectedIndexChanged="ddlReportDepts_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
-                    <asp:UpdatePanel ID="uplReportDepts" runat="server">
-                        <ContentTemplate>
-                            <asp:TextBox TabIndex="112" ID="tbxReportDept" runat="server" Visible="false"></asp:TextBox>
-                        </ContentTemplate>
-                        <Triggers>
-                            <asp:AsyncPostBackTrigger ControlID="ddlReportDepts" EventName="SelectedIndexChanged" />
-                        </Triggers>
-                    </asp:UpdatePanel>
+                    <asp:DropDownList TabIndex="112" ID="ddlReportDepts" runat="server" ></asp:DropDownList>
                 </td>
             </tr>
         </table>

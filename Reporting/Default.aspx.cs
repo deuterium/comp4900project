@@ -235,8 +235,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
         ddlReportDepts.DataTextField = "deptName";
         ddlReportDepts.DataValueField = "deptNo";
         ddlReportDepts.DataBind();
-        ddlReportDepts.Items.Insert(ddlReportDepts.Items.Count, otherOption);
-        ddlReportDepts.Items.Insert(0, noOptionSpecified);
+        ddlReportDepts.Items.Insert(ddlReportDepts.Items.Count, "Other");
     }
 
     #endregion Load DropDownLists
@@ -270,16 +269,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="e">The index changed event.</param>
     protected void ddlDepartments_SelectedIndexChanged(object sender, EventArgs e) {
         CheckDepartmentSelection();
-    }
-
-    /// <summary>
-    /// Calls CheckReportDepartmentSelection(), which displays a textbox if the "Other (specify)"
-    /// option is selected and hides the textbox if any other option is selected
-    /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void ddlReportDepts_SelectedIndexChanged(object sender, EventArgs e) {
-        CheckReportDepartmentSelection();
     }
 
     /// <summary>
@@ -318,19 +307,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
         else {
             tbxDepartment.Visible = false;
-        }
-    }
-
-    /// <summary>
-    /// Displays a textbox if the "Other (specify)" option of the departments drop down list is selected.
-    /// Hides the textbox if any other option is selected
-    /// </summary>
-    private void CheckReportDepartmentSelection() {
-        if (ddlReportDepts.SelectedValue.Equals(otherOption)) {
-            tbxReportDept.Visible = true;
-        }
-        else {
-            tbxReportDept.Visible = false;
         }
     }
     #endregion Other Option Textbox Toggle
@@ -443,6 +419,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="e">The index changed event.</param>
     protected void btnGetEmployee_Click(object sender, EventArgs e) {
         Page.Validate("vgpGetEmp");
+        Page.Validate("vpgGetEmpFromDb");
         if (!Page.IsValid) {
             return;
         }
@@ -952,11 +929,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
         #endregion Dates
         #region Department
-        if (ddlReportDepts.SelectedValue.Equals(otherOption)
-                || (ddlReportDepts.SelectedValue.Equals(noOptionSpecified))) {
+        if (ddlReportDepts.SelectedValue.Equals("Other")) {
             report.deptNo = null;
         } else {
-            emp.deptName = ddlReportDepts.SelectedValue;
+            int deptNo = Convert.ToInt32(ddlReportDepts.SelectedValue);
+            report.deptNo = deptNo;
         }
         #endregion Department
         #endregion Report Info Dates and Department
@@ -1066,8 +1043,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
         args.IsValid = false;
         String first = tbxFirstName.Text;
         String last = tbxLastName.Text;
-        Employee emp = null;
-
+        
         var qry = ctx.Employees
                   .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
                   .Select(e => e);
@@ -1075,11 +1051,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
         if ((qry != null) && (qry.Count() == 1)) {
             args.IsValid = true;
         } else if ((qry != null) && (qry.Count() <= 0)) {
-            cmvEmployeeName.ErrorMessage = "No employee with that first and last name found.";
+            cmvEmployeeExists.ErrorMessage = "No employee with that first and last name found.";
             return;
         }
         else {
-            cmvEmployeeName.ErrorMessage = "There was more than one employee with that first and last name.";
+            cmvEmployeeExists.ErrorMessage = "There was more than one employee with that first and last name.";
             return;
         }
     }
@@ -1089,6 +1065,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
         String strStartDate = tbxStartDate.Text;
         String strEndDate = tbxEndDate.Text;
         if (strStartDate == null || strStartDate.Equals(String.Empty)) {
+            args.IsValid = true;
             return;
         }
         if (strEndDate == null && strEndDate.Equals(String.Empty)) {
