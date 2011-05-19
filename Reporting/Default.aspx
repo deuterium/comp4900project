@@ -300,6 +300,20 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         ErrorMessage="Phone number for witness 2 must be in format '###-###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
                 </td>
             </tr>
+            <tr>
+                <td>Department of Incident:</td>
+                <td>
+                    <asp:DropDownList TabIndex="112" ID="ddlReportDepts" runat="server" OnSelectedIndexChanged="ddlReportDepts_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
+                    <asp:UpdatePanel ID="uplReportDepts" runat="server">
+                        <ContentTemplate>
+                            <asp:TextBox TabIndex="112" ID="tbxReportDept" runat="server" Visible="false"></asp:TextBox>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="ddlReportDepts" EventName="SelectedIndexChanged" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </td>
+            </tr>
         </table>
         <br />
     </div>

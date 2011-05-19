@@ -338,6 +338,14 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 
 /* Reporting.aspx */
 
+
+.commentBoxReporting 
+{
+    height: 100px;
+    width: 500px;
+    max-width: 500px
+}
+
 .spanBold {
     font-weight: bold;
 }
@@ -454,8 +462,8 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 .resizeableTextArea
 {
     height: 100px;
-    width: 790px;
-    max-width: 790px;
+    width: 785px;
+    max-width: 785px;
 }
 
 /* Training.aspx */
