@@ -1,6 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Inspections_Office_Office" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
+
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="head"></asp:Content>
 
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="body">
@@ -81,7 +82,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
 
 <div>
 
-    <h3 id="workA"><asp:Image ID="imgExpandCollapseA" runat="server" />Inspection Information</h3>
+    <h3 id="workA"><asp:Image ID="imgExpandCollapseA" runat="server" />Inspection Information
+    <asp:Label ID="ExpandCollapseA" runat="server" Text="" /></h3>
     <asp:Panel ID="pnlA" CssClass="panel" runat="server">
         <p>This form is to be used by departments to conduct monthly workplace safety inspections. The intent is to document the process, 
             identify concerns or issues that require corrective action, delegate responsibility for addressing the issue and following up 
@@ -149,7 +151,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
         </table>
     </div>
 
-    <h3 id="workB"><asp:Image ID="imgExpandCollapseB" runat="server" /> 1. General Safety</h3>
+    <h3 id="workB"><asp:Image ID="imgExpandCollapseB" runat="server" /> 1. General Safety 
+    <asp:Label ID="ExpandCollapseB" runat="server" Text="" /></h3>
     <asp:Panel ID="pnlB" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -373,7 +376,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <h3 id="workC"><asp:Image ID="imgExpandCollapseC" runat="server" /> 2. Work Areas</h3>
+    <h3 id="workC"><asp:Image ID="imgExpandCollapseC" runat="server" /> 2. Work Areas
+    <asp:Label ID="ExpandCollapseC" runat="server" Text="" /></h3>
     <asp:Panel ID="pnlC" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -531,7 +535,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <h3 id="workD"><asp:Image ID="imgExpandCollapseD" runat="server" /> 3. Support and Structure</h3>
+    <h3 id="workD"><asp:Image ID="imgExpandCollapseD" runat="server" /> 3. Support and Structure
+    <asp:Label ID="ExpandCollapseD" runat="server" Text="" /></h3>
     <asp:Panel ID="pnlD" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -645,7 +650,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <h3 id="workE"><asp:Image ID="imgExpandCollapseE" runat="server" /> 4. Electrical</h3>
+    <h3 id="workE"><asp:Image ID="imgExpandCollapseE" runat="server" /> 4. Electrical
+    <asp:Label ID="ExpandCollapseE" runat="server" Text="" /></h3>
     <asp:Panel ID="pnlE" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -759,7 +765,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <h3 id="workF"><asp:Image ID="imgExpandCollapseF" runat="server" /> 5. Ventilation, Illumination, Noise</h3>
+    <h3 id="workF"><asp:Image ID="imgExpandCollapseF" runat="server" /> 5. Ventilation, Illumination, Noise
+    <asp:Label ID="ExpandCollapseF" runat="server" Text="" /></h3>
     <asp:Panel ID="pnlF" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -852,7 +859,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <h3 id="workG"><asp:Image ID="imgExpandCollapseG" runat="server" /> 6. Work Practices Section</h3>
+    <h3 id="workG"><asp:Image ID="imgExpandCollapseG" runat="server" /> 6. Work Practices Section
+    <asp:Label ID="ExpandCollapseG" runat="server" Text="" /></h3>
     <asp:Panel ID="pnlG" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -944,7 +952,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <h3 id="workH"><asp:Image ID="imgExpandCollapseH" runat="server" /> 7. Personal Protective Equipment</h3>
+    <h3 id="workH"><asp:Image ID="imgExpandCollapseH" runat="server" /> 7. Personal Protective Equipment
+    <asp:Label ID="ExpandCollapseH" runat="server" Text="" /></h3>
     <asp:Panel ID="pnlH" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -1037,7 +1046,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <h3 id="workI"><asp:Image ID="imgExpandCollapseI" runat="server" /> 8. Strain, Sprain, Overexertion</h3>
+    <h3 id="workI"><asp:Image ID="imgExpandCollapseI" runat="server" /> 8. Strain, Sprain, Overexertion
+    <asp:Label ID="ExpandCollapseI" runat="server" Text="" /></h3>
     <asp:Panel ID="pnlI" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -1151,7 +1161,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <h3 id="workJ"><asp:Image ID="imgExpandCollapseJ" runat="server" /> 9. WHMIS / Hazardous Materials</h3>
+    <h3 id="workJ"><asp:Image ID="imgExpandCollapseJ" runat="server" /> 9. WHMIS / Hazardous Materials
+    <asp:Label ID="ExpandCollapseJ" runat="server" Text="" /></h3>
     <asp:Panel ID="pnlJ" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -1290,7 +1301,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <h3 id="workK"><asp:Image ID="imgExpandCollapseK" runat="server" /> 10. Fire Safety and Emergency Response</h3>
+    <h3 id="workK"><asp:Image ID="imgExpandCollapseK" runat="server" /> 10. Fire Safety and Emergency Response
+    <asp:Label ID="ExpandCollapseK" runat="server" Text="" /></h3>
     <asp:Panel ID="pnlK" CssClass="panel" runat="server">
     <table>
         <tr>
@@ -1426,7 +1438,8 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
     </table>
     </asp:Panel>
 
-    <h3 id="workL"><asp:Image ID="imgExpandCollapseL" runat="server" /> 11. Comments</h3>
+    <h3 id="workL"><asp:Image ID="imgExpandCollapseL" runat="server" /> 11. Comments
+    <asp:Label ID="ExpandCollapseL" runat="server" Text="" /></h3>
     <asp:Panel ID="pnlL" CssClass="panel" runat="server">
         <asp:TextBox TextMode="MultiLine" Wrap="true" Width="795px" Height="200px" ID="tbxCommentOfficeComments" runat="server"></asp:TextBox>
     </asp:Panel>
