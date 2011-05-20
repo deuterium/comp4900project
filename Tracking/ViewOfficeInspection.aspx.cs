@@ -39,17 +39,36 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
         displayOfficeInspection(inspectionNo);
     }
 
-    /// <summary>
-    /// Adjusts the height of a text area so all the content is visible.
-    /// </summary>
-    /// <param name="tbx">The TextBox to adjust.</param>
-    private void adjustTextBoxHeight(TextBox tbx) {
-        int i = tbx.Text.Length;
-        // 30 is the max characters a 250px wide textbox can fit across
-        // 2 is the number of extra lines to add for allowance
-        // because some words may get moved to the next line
-        int rowsize = (i / 30) + 2;
-        tbx.Rows = rowsize;
+    ///// <summary>
+    ///// Adjusts the height of a text area so all the content is visible.
+    ///// </summary>
+    ///// <param name="tbx">The TextBox to adjust.</param>
+    //private void adjustTextBoxHeight(TextBox tbx) {
+    //    int i = tbx.Text.Length;
+    //    // 30 is the max characters a 250px wide textbox can fit across
+    //    // 2 is the number of extra lines to add for allowance
+    //    // because some words may get moved to the next line
+    //    int rowsize = (i / 30) + 2;
+    //    tbx.Rows = rowsize;
+    //}
+
+    private String convertFollowUpStatus(String statusNo) {
+        String status = "Unknown";
+        switch (status) {
+            case "1" :
+                status = "Not Started";
+                break;
+            case "2" :
+                status = "In Progress";
+                break;
+            case "3" :
+                status = "Complete";
+                break;
+            default :
+                status = "Unknown";
+                break;
+        }
+        return status;
     }
 
     /// <summary>
@@ -59,68 +78,146 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
     /// Formats the grid view so it displays nicely.
     /// </summary>
     /// <param name="insNo">The id of the Office Inspection to display.</param>
-    protected void displayOfficeInspection(int insNo) {
-        if (insNo == -1) {
+    protected void displayOfficeInspection(int selectedOfficeInsNo) {
+        if (selectedOfficeInsNo == -1) {
             return;
         }
 
         // Get the office inspection from the database
-        var qry = ctx.OfficeInspections
-                    .Join(
-                        ctx.OfficeInspectionDetails,
-                        OI => OI.officeInsNo,
-                        OID => OID.officeInsNo,
-                        (OI, OID) =>
-                        new {
-                            OI = OI,
+        var qry = ctx.OfficeInspectionItems
+                    .Join (
+                        ctx.OfficeInspectionDetails, 
+                        OII => 
+                            new  
+                            {
+                            officeInsItemNo = OII.officeInsItemNo
+                            }, 
+                        OID => 
+                            new  
+                            {
+                            officeInsItemNo = (Int32)(OID.officeInsItemNo)
+                            }, 
+                        (OII, OID) => 
+                            new  
+                            {
+                            OII = OII, 
                             OID = OID
-                        }
+                            }
                     )
-                    .Join(
-                        ctx.OfficeInspectionItems,
-                        temp0 => temp0.OID.officeInsItemNo,
-                        OII => (Int32?)(OII.officeInsItemNo),
-                        (temp0, OII) =>
-                        new {
-                            temp0 = temp0,
-                            OII = OII
-                        }
+                    .Join (
+                        ctx.OfficeInspections, 
+                        temp0 => temp0.OID.officeInsNo, 
+                        OI => (Int32?)(OI.officeInsNo), 
+                        (temp0, OI) => 
+                            new  
+                            {
+                            temp0 = temp0, 
+                            OI = OI
+                            }
                     )
-                    .Where(temp1 => (temp1.temp0.OI.officeInsNo == insNo))
-                    .Select(
-                        temp1 =>
-                        new {
-                            officeInsItemNo = temp1.OII.officeInsItemNo,
-                            officeInsItem = temp1.OII.officeInsName,
-                            checkbox = temp1.temp0.OID.checkbox,
-                            comments = temp1.temp0.OID.comments,
-
-                            department = temp1.temp0.OI.deptName,
-                            area = temp1.temp0.OI.area,
-                            inspector = temp1.temp0.OI.inspector,
-                            inspectionDate = temp1.temp0.OI.insDate
-                        }
+                    .GroupJoin (
+                        ctx.OfficeFollowUps, 
+                        temp1 => 
+                            new  
+                            {
+                            officeInsItemNo = temp1.temp0.OII.officeInsItemNo, 
+                            officeInsNo = temp1.OI.officeInsNo
+                            }, 
+                        OFU => 
+                            new  
+                            {
+                            officeInsItemNo = (Int32)(OFU.officeInsItemNo), 
+                            officeInsNo = OFU.officeInsNo
+                            }, 
+                        (temp1, officefollowup_join) => 
+                            new  
+                            {
+                            temp1 = temp1, 
+                            officefollowup_join = officefollowup_join
+                            }
+                    )
+                    .SelectMany (
+                        temp2 => temp2.officefollowup_join.DefaultIfEmpty (), 
+                        (temp2, OFU) => 
+                            new  
+                            {
+                            temp2 = temp2, 
+                            OFU = OFU
+                            }
+                    )
+                    .Where (
+                        temp3 =>
+                            (((temp3.OFU.officeInsNo == selectedOfficeInsNo) && (temp3.temp2.temp1.OI.officeInsNo == selectedOfficeInsNo)) ||
+                                (((Int32?)(temp3.OFU.officeInsNo) == null) && (temp3.temp2.temp1.OI.officeInsNo == selectedOfficeInsNo))
+                            )
+                    )
+                    .Select (
+                        temp3 => 
+                            new {
+                                officeInsItemNo = temp3.temp2.temp1.temp0.OII.officeInsItemNo,
+                                officeInsItemName = temp3.temp2.temp1.temp0.OII.officeInsName, 
+                                checkbox = temp3.temp2.temp1.temp0.OID.checkbox, 
+                                itemComment = temp3.temp2.temp1.temp0.OID.comments,
+                                itemFollowUpComment = temp3.OFU.comment,
+                            }
                     );
 
-        // Populate Header Info
-        var oi = qry.FirstOrDefault();
-        lblDepartment.Text = oi.department;
-        lblOfficeArea.Text = oi.area;
-        lblInspector.Text = oi.inspector;
-        if (oi.inspectionDate != null) {
-            lblInspectionDate.Text = Convert.ToDateTime(oi.inspectionDate).ToString("M/d/yyyy");
+                    //    temp1 =>
+                    //    new {
+                    //        officeInsItemNo = temp1.OII.officeInsItemNo,
+                    //        officeInsItem = temp1.OII.officeInsName,
+                    //        checkbox = temp1.temp0.OID.checkbox,
+                    //        comments = temp1.temp0.OID.comments,
+                            
+                    //        department = temp1.temp0.OI.deptName,
+                    //        area = temp1.temp0.OI.area,
+                    //        inspector = temp1.temp0.OI.inspector,
+                    //        inspectionDate = temp1.temp0.OI.insDate,
+                    //        inspectionComment = temp1.temp0.OI.comments,
+                    //        followUpDate = temp1.temp0.OI.followupDate,
+                    //        followUpSubmitter = temp1.temp0.OI.followupSubmitter,
+                    //        followUpStatus = temp1.temp0.OI.followUpStatus,
+                    //        followUpcomment = temp1.temp0.OI.followupComment,
+                    //    }
+                    //);
+
+        var inspection = ctx.OfficeInspections
+                        .Where(oi => oi.officeInsNo.Equals(selectedOfficeInsNo))
+                        .Select(oi => oi).FirstOrDefault();
+
+        // Populate Header Info and Comment Boxes
+        lblDepartment.Text = inspection.deptName;
+        lblOfficeArea.Text = inspection.area;
+        lblInspector.Text = inspection.inspector;
+        if (inspection.insDate != null) {
+            lblInspectionDate.Text = Convert.ToDateTime(inspection.insDate).ToString("M/d/yyyy");
         }
+        if (inspection.followupDate != null) {
+            lblFollowUpDate.Text = Convert.ToDateTime(inspection.followupDate).ToString("M/d/yyyy");
+        }
+        lblFollowUpStatus.Text = convertFollowUpStatus(inspection.followUpStatus);
+        if (!inspection.followupSubmitter.Equals(String.Empty)) {
+            lblFollowUpSubmitter.Text = inspection.followupSubmitter;
+        }
+        if (!inspection.comments.Equals(String.Empty)) {
+            lblInspectionComment.Text = inspection.comments;
+        }
+        if (!inspection.followupComment.Equals(String.Empty)) {
+            lblFollowUpComment.Text = inspection.followupComment;
+        }
+
         pnlHeader.Visible = true;
-        lblTitle.Text += oi.officeInsItemNo;
+        lblTitle.Text += inspection.officeInsNo;
         lblTitle.Visible = true;
 
         // Format the data for the Grid View
         // Setup the Data Table
         DataTable dt = new DataTable();
         dt.Columns.Add(new DataColumn("officeInsItemNo", typeof(System.String)));
-        dt.Columns.Add(new DataColumn("officeInsItem", typeof(System.String)));
+        dt.Columns.Add(new DataColumn("officeInsItemName", typeof(System.String)));
         dt.Columns.Add(new DataColumn("checkbox", typeof(System.String)));
-        dt.Columns.Add(new DataColumn("comments", typeof(System.String)));
+        dt.Columns.Add(new DataColumn("inspectionComment", typeof(System.String)));
+        dt.Columns.Add(new DataColumn("followUpComment", typeof(System.String)));
         
         // Put the data in rows, inserting rows for subheaders
         foreach (var result in qry) {
@@ -132,9 +229,10 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
             }
             DataRow dr = dt.NewRow();
             dr["officeInsItemNo"] = result.officeInsItemNo;
-            dr["officeInsItem"] = result.officeInsItem;
+            dr["officeInsItemName"] = result.officeInsItemName;
             dr["checkbox"] = convertRadioButtonListValue(result.checkbox);
-            dr["comments"] = result.comments;
+            dr["inspectionComment"] = result.itemComment;
+            dr["followUpComment"] = result.itemFollowUpComment;
             dt.Rows.Add(dr);
         }
 
@@ -143,10 +241,11 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
         gdvOfficeInspection.DataBind();
 
         // Set the Grid View column widths
-        gdvOfficeInspection.Columns[0].ItemStyle.Width = 20;
+        gdvOfficeInspection.Columns[0].ItemStyle.Width = 15;
         gdvOfficeInspection.Columns[1].ItemStyle.Width = 360;
-        gdvOfficeInspection.Columns[2].ItemStyle.Width = 80;
-        gdvOfficeInspection.Columns[3].ItemStyle.Width = 250;
+        gdvOfficeInspection.Columns[2].ItemStyle.Width = 50;
+        gdvOfficeInspection.Columns[3].ItemStyle.Width = 175;
+        gdvOfficeInspection.Columns[4].ItemStyle.Width = 175;
 
         // Find and format the subheader rows
         foreach (GridViewRow row in gdvOfficeInspection.Rows) {
@@ -156,11 +255,10 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
                 row.Cells[1].Visible = false;
                 row.Cells[2].Visible = false;
                 row.Cells[3].Visible = false;
-                row.Height = 50;
+                row.Cells[4].Visible = false;
                 row.ForeColor = HeaderForeColor;
             }
-
-            adjustTextBoxHeight((TextBox)row.FindControl("tbxComments"));
+            //adjustTextBoxHeight((TextBox)row.FindControl("tbxComments"));
         }
     }
 

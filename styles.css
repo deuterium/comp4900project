@@ -729,3 +729,19 @@ h3
     width: 250px;
     max-width: 250px;
 }
+
+/* ViewOfficeInspection.aspx */
+
+#divViewOiLeft
+{
+    display: inline;
+    float: left;
+    width: 375px;
+}
+
+#divViewOiRight
+{
+    display: inline;
+    float: left;
+    width: 375px;
+}

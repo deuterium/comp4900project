@@ -61,6 +61,14 @@ public partial class Tracking_Default : System.Web.UI.Page {
         ASP.global_asax.Session_Authentication();
         Session["AfterLoginRedirectUrl"] = null;
 
+        //Lab managers should no be on this page, if they go here they are forwarded away
+        int roleNo = (int)Session["RoleNo"];
+        string role = ctx.Roles.Where(r => r.roleNo == roleNo).Select(r => r.role1).First();
+        if (role == "Lab Manager")
+        {
+            Response.Redirect("~/Default.aspx");
+        }
+
         if (!(Session["RoleNo"].Equals(1) || Session["RoleNo"].Equals(3))) {
             pnlAllContent.Visible = false;
             lblUnauthorizedMsg.Visible = true;
@@ -861,7 +869,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
 
     private void loadLabInspections(int incidentNo) {
         var qry = from l in ctx.LabInspections
-                  join i in ctx.Incidents on l.deptName equals i.Employee.deptName
+                  join i in ctx.Incidents on l.deptName equals i.Department.deptName
                   where (i.incidentNo.Equals(incidentNo))
                   select new {
                       labInspectionNo = l.labInsNo,
@@ -900,7 +908,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
 
     private void loadOfficeInspections(int incidentNo) {
         var qry = from l in ctx.OfficeInspections
-                  join i in ctx.Incidents on l.deptName equals i.Employee.deptName
+                  join i in ctx.Incidents on l.deptName equals i.Department.deptName
                   where (i.incidentNo.Equals(incidentNo))
                   select new {
                       officeInspectionNo = l.officeInsNo,

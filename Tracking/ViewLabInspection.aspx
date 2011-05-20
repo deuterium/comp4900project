@@ -36,7 +36,7 @@
 </asp:Panel>
 
 <asp:Panel ID="pnlChecklist" CssClass="panel" runat="server">
-<asp:GridView ID="gdvLabInspection" Width="800px" runat="server" AutoGenerateColumns="False" >
+<asp:GridView ID="gdvLabInspection" runat="server" AutoGenerateColumns="False" CellPadding="10" >
     <Columns>
         <asp:BoundField DataField="labInsItemNo" HeaderText="#" ReadOnly="True" SortExpression="labInsItemNo" />
         <asp:BoundField DataField="labInsItem" HeaderText="Item" ReadOnly="True" SortExpression="labInsItem" />
@@ -47,11 +47,11 @@
         </asp:TemplateField>
         <asp:TemplateField HeaderText="Comments" ItemStyle-HorizontalAlign="Center">
             <ItemTemplate>
-                <asp:TextBox ID="tbxComments" CssClass="trackingInspectionComments" runat="server" Text='<%# Bind("comments") %>' TextMode="MultiLine" ReadOnly="true" />
+                <asp:Label ID="lblComments" runat="server" Text='<%# Bind("comments") %>' />
             </ItemTemplate>
         </asp:TemplateField>
     </Columns>
-    <EmptyDataTemplate>No report data was found.</EmptyDataTemplate>
+    <EmptyDataTemplate>No inspection data found.</EmptyDataTemplate>
 </asp:GridView>
 </asp:Panel>
 

@@ -1,61 +1,63 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
     <link href="styles.css" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/ico" href="images/favicon.ico" />
-    </script>
-    <title></title>
-    <asp:ContentPlaceHolder id="head" runat="server">
+    </script> <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
     <div id="main">
-	<div id="maincontent">
-	    <div id="top">
-            <a href="~/Default.aspx" runat="server"><img class="logo" src="~/images/template/logo.gif" alt="BCCRC" runat="server" /></a>
-			<a href="Default.aspx"></a>
-            <div id="divUserLoginDetails" class="userLoginDetailsPanel" runat="server" visible="false">
-                Welcome 
-                <asp:Label ID="lblUserName" runat="server" />
-                <br />
-                You are a 
-                <asp:Label ID="lblUserRole" runat="server" />
-                <br />
-                There are 
-                <asp:Label ID="lblFollowupNum" runat="server" /> 
-                Follow ups
-                <br />
-                <asp:LinkButton ID="lbnLogout" runat="server" onclick="lbnLogout_Click">Logout</asp:LinkButton>
+        <div id="maincontent">
+            <div id="top">
+                <a href="~/Default.aspx" runat="server">
+                    <img class="logo" src="~/images/template/logo.gif" alt="BCCRC" runat="server" /></a>
+                <a href="Default.aspx"></a>
+                <div id="divUserLoginDetails" class="userLoginDetailsPanel" runat="server" visible="false">
+                    Welcome
+                    <asp:Label ID="lblUserName" runat="server" />
+                    <br />
+                    You are a
+                    <asp:Label ID="lblUserRole" runat="server" />
+                    <br />
+                    There are
+                    <asp:Label ID="lblFollowupNum" runat="server" />
+                    Follow ups
+                    <br />
+                    <asp:LinkButton ID="lbnLogout" runat="server" OnClick="lbnLogout_Click">Logout</asp:LinkButton>
+                </div>
+                <div class="topblockcolour green">
+                </div>
             </div>
-			<div class="topblockcolour green"></div>	
-	    </div>
-		<div class="clear"></div>
-		<div class="middleblockcolour green"></div>
-		<div id="bars">
-            <img src="images/template/bars.gif" runat="server" alt="" />
-            <div class="invertedshiftdown">
-                <asp:SiteMapDataSource runat="server" ID="siteMapDataSource" ShowStartingNode="false" />
-                <asp:Menu ID="masterMenu" runat="server" Orientation="Horizontal" DataSourceID="siteMapDataSource" StaticDisplayLevels="2" />
+            <div class="clear">
+            </div>
+            <div class="middleblockcolour green">
+            </div>
+            <div id="bars">
+                <img src="images/template/bars.gif" runat="server" alt="" />
+                <div class="invertedshiftdown">
+                    <asp:SiteMapDataSource ID="sdsAdmin" runat="server" ShowStartingNode="false" SiteMapProvider="AdminSiteMap" />
+                    <asp:SiteMapDataSource ID="sdsRegular" runat="server" ShowStartingNode="false" SiteMapProvider="RegularSiteMap" />
+                    <asp:Menu ID="masterMenuRegular" runat="server" Orientation="Horizontal" DataSourceID="sdsRegular"
+                        StaticDisplayLevels="2" />
+                    <asp:Menu ID="masterMenuAdmin" runat="server" Orientation="Horizontal" DataSourceID="sdsAdmin"
+                        StaticDisplayLevels="2" visible ="false"/>
+                </div>
+            </div>
+            <div id="content" runat="server">
+                <div id="textbox">
+                    <asp:ContentPlaceHolder ID="body" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
             </div>
         </div>
-
-		<div id="content" runat="server">
-            <div id="textbox">
-                <asp:ContentPlaceHolder ID="body" runat="server">
-                </asp:ContentPlaceHolder>
-            </div>
-	    </div>
-		
-
-	</div>
-		<ul id="footer">
-			<li>&copy; 2011 BCCRC</li>
-		</ul>	
-
+        <ul id="footer">
+            <li>&copy; 2011 BCCRC</li>
+        </ul>
     </div>
     </form>
 </body>

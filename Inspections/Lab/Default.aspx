@@ -82,20 +82,38 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                     Department: 
                 </td>
                 <td>
-                    <asp:DropDownList runat="server" ID="ddlLabDepartment"></asp:DropDownList>
+                    <asp:DropDownList runat="server" ID="ddlLabDepartment" AutoPostBack="true" 
+                        OnSelectedIndexChanged="ddlDepartments_SelectedIndexChanged"></asp:DropDownList>
+                        <asp:UpdatePanel ID="uplDepartment" runat="server">
+                            <ContentTemplate>
+                                <asp:TextBox ID="tbxDepartment" runat="server" Visible="false"></asp:TextBox>
+                            </ContentTemplate>
+                            <Triggers>
+                                <asp:AsyncPostBackTrigger ControlID="ddlLabDepartment" EventName="SelectedIndexChanged" />
+                            </Triggers>
+                        </asp:UpdatePanel>
                     <asp:RequiredFieldValidator ControlToValidate="ddlLabDepartment" ValidationGroup="vgpLabA" runat="server" 
                         ID="rfvDepart" ErrorMessage="Department is required" ForeColor="Red">*</asp:RequiredFieldValidator>
                 </td>
                 <td>
-                    &nbsp&nbsp&nbsp&nbsp&nbsp
+                    &nbsp&nbsp
                 </td>
                 <td>
-                    Supervisor: 
+                    Lab Manager:&nbsp
                 </td>
                 <td>
-                    <asp:TextBox runat="server" ID="tbxLabSupervisor"></asp:TextBox>
-                    <asp:RequiredFieldValidator ControlToValidate="tbxLabSupervisor" ValidationGroup="vgpLabA" runat="server" 
-                        ID="rfvSup" ErrorMessage="Supervisor is required" ForeColor="Red">*</asp:RequiredFieldValidator>
+                    <asp:DropDownList runat="server" ID="ddlLabLabManager" AutoPostBack="true" 
+                        OnSelectedIndexChanged="ddlLabLabManager_SelectedIndexChanged"></asp:DropDownList>
+                        <asp:UpdatePanel ID="uplLabManager" runat="server">
+                            <ContentTemplate>
+                                <asp:TextBox ID="tbxLabLabManager" runat="server" Visible="false"></asp:TextBox>
+                            </ContentTemplate>
+                            <Triggers>
+                                <asp:AsyncPostBackTrigger ControlID="ddlLabLabManager" EventName="SelectedIndexChanged" />
+                            </Triggers>
+                        </asp:UpdatePanel>
+                    <asp:RequiredFieldValidator ControlToValidate="ddlLabLabManager" ValidationGroup="vgpLabA" runat="server" 
+                        ID="rfvLabMan" ErrorMessage="Lab Manager is required" ForeColor="Red">*</asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
@@ -108,7 +126,7 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                         ID="rfvRoom" ErrorMessage="Room is required" ForeColor="Red">*</asp:RequiredFieldValidator>
                 </td>
                 <td>
-                    &nbsp&nbsp&nbsp&nbsp&nbsp
+                    &nbsp&nbsp
                 </td>
                 <td>
                     Inspectors: 
@@ -121,12 +139,12 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
             </tr>
             <tr>
                 <td>
-                    Lab Manager:
+                    Supervisor: 
                 </td>
                 <td>
-                    <asp:DropDownList runat="server" ID="ddlLabLabManager"></asp:DropDownList>
-                    <asp:RequiredFieldValidator ControlToValidate="ddlLabLabManager" ValidationGroup="vgpLabA" runat="server" 
-                        ID="rfvLabMan" ErrorMessage="Lab Manager is required" ForeColor="Red">*</asp:RequiredFieldValidator>
+                    <asp:TextBox runat="server" ID="tbxLabSupervisor"></asp:TextBox>
+                    <asp:RequiredFieldValidator ControlToValidate="tbxLabSupervisor" ValidationGroup="vgpLabA" runat="server" 
+                        ID="rfvSup" ErrorMessage="Supervisor is required" ForeColor="Red">*</asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
