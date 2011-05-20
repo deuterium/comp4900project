@@ -39,16 +39,16 @@ public partial class Reporting_Default : System.Web.UI.Page {
     // Text value of DropDowns for the other option, selecting this option causes a textbox to appear for custom data entry
     public static String otherOption = "Other (specifiy)";
     // Text value of DropDowns for the none specified option (null value in db)
-    public static String noOptionSpecified = String.Empty;
+    public static String noOptionSpecified = "Choose an option...";
     // List of static, pre-defined employers a user can select
     public static List<String> employers = new List<String> {
-        noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH"
+        "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH"
     };
     #endregion class variables
 
     /// <summary>
     /// Sets up the dynamic elements when the page loads for the first time.
-    /// Populates the Employer, Position, and Department drop down lists.
+    /// Populates the drop down lists.
     /// Hides Popup panel on page load.
     /// </summary>
     /// <param name="sender">The object that requested the page load.</param>
@@ -59,17 +59,48 @@ public partial class Reporting_Default : System.Web.UI.Page {
         ASP.global_asax.Session_Authentication();
         Session["AfterLoginRedirectUrl"] = null;
 
-        // Only do the initial set up the first time the page loads (and not on post-backs).
         if (!IsPostBack) {
             PopulateEmployersDdl();
             PopulatePositionsDdl();
             PopulateDepartmentsDdl();
+            PopulateReportDeptsDdl();
             pnlPop.Style.Value = "display:none;";
         }
-        lblInvalidActionFollowing.Visible = false;
     }
 
+    #region Page Popup
+    /// <summary>
+    /// Calls the show method of the modal popup AJAX panel.
+    /// Shows a confirmation page overlay with a message.
+    /// </summary>
+    /// <param name="msg">Message displayed on confirmation overlay</param>
+    /// <param name="color">Color for the message to be</param>
+    protected void Popup_Overlay(string msg, Color color) {
+        lblPnlPop.Text = msg;
+        lblPnlPop.ForeColor = color;
+        pnlPop.Style.Value = "display:block;";
+        mpePop.Show();
+    }
+
+    /// <summary>
+    /// Clears username and password textboxes when the overlay is closed.
+    /// If user is in edit user mode, the listbox is also updated.
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
+    protected void btnPnlPopClose_Click(object sender, EventArgs e) {
+        // do nothing
+    }
+    #endregion
+
     #region Toggle Other TextBox and CheckBox
+    /// <summary>
+    /// Creates a toggle between a TextBox and a CheckBox.
+    /// If the TextBox contains text, the CheckBox is Checked.
+    /// If the TextBox is empty, the CheckBox is Unchecked.
+    /// </summary>
+    /// <param name="tbx">The TextBox corresponding to the CheckBox.</param>
+    /// <param name="cbx">The CheckBox to check/uncheck.</param>
     private void toggleOther(TextBox tbx, CheckBox cbx) {
         if (!tbx.Text.Equals(String.Empty)) {
             cbx.Checked = true;
@@ -81,7 +112,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The text changed event.</param>
+    /// <param name="e">The event properties.</param>
     protected void tbx_p2_patient_otherSpecify_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_patient_otherSpecify, cbx_p2_patient_other);
     }
@@ -89,7 +120,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The text changed event.</param>
+    /// <param name="e">The event properties.</param>
     protected void tbx_p2_activity_otherPatientCare_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_activity_otherPatientCare, cbx_p2_activity_otherPatientCare);
     }
@@ -97,7 +128,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The text changed event.</param>
+    /// <param name="e">The event properties.</param>
     protected void tbx_p2_activity_otherMat_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_activity_otherMat, cbx_p2_activity_otherMat);
     }
@@ -105,7 +136,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The text changed event.</param>
+    /// <param name="e">The event properties.</param>
     protected void tbx_p2_activity_otherEquip_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_activity_otherEquip, cbx_p2_activity_otherEquip);
     }
@@ -113,7 +144,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The text changed event.</param>
+    /// <param name="e">The event properties.</param>
     protected void tbx_p2_activity_otherEquipDesc_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_activity_otherEquipDesc, cbx_p2_activity_otherEquipDesc);
     }
@@ -121,7 +152,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The text changed event.</param>
+    /// <param name="e">The event properties.</param>
     protected void tbx_p2_activity_other_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_activity_other, cbx_p2_activity_other);
     }
@@ -129,7 +160,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The text changed event.</param>
+    /// <param name="e">The event properties.</param>
     protected void tbx_p2_cause_other_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_cause_other, cbx_p2_cause_other);
     }
@@ -137,7 +168,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The text changed event.</param>
+    /// <param name="e">The event properties.</param>
     protected void tbx_p2_cause_aggression_other_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_cause_aggression_other, cbx_p2_cause_aggression_other);
     }
@@ -145,7 +176,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The text changed event.</param>
+    /// <param name="e">The event properties.</param>
     protected void tbx_p2_factors_otherEquip_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherEquip, cbx_p2_factors_otherEquip);
     }
@@ -153,7 +184,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The text changed event.</param>
+    /// <param name="e">The event properties.</param>
     protected void tbx_p2_factors_otherEnv_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherEnv, cbx_p2_factors_otherEnv);
     }
@@ -161,7 +192,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The text changed event.</param>
+    /// <param name="e">The event properties.</param>
     protected void tbx_p2_factors_otherWorkPractice_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherWorkPractice, cbx_p2_factors_otherWorkPractice);
     }
@@ -169,7 +200,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The text changed event.</param>
+    /// <param name="e">The event properties.</param>
     protected void tbx_p2_factors_otherPatient_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherPatient, cbx_p2_factors_otherPatient);
     }
@@ -177,7 +208,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The text changed event.</param>
+    /// <param name="e">The event properties.</param>
     protected void tbx_p2_factors_otherOrganizational_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherOrganizational, cbx_p2_factors_otherOrganizational);
     }
@@ -185,7 +216,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The text changed event.</param>
+    /// <param name="e">The event properties.</param>
     protected void tbx_p2_factors_otherWorker_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherWorker, cbx_p2_factors_otherWorker);
     }
@@ -194,14 +225,17 @@ public partial class Reporting_Default : System.Web.UI.Page {
     #region Employee Info Related
     #region Drop Down Lists
     #region Load DropDownLists
-
     /// <summary>
     /// Populates the employers drop down list.
+    /// Uses the employers in the class variable.
+    /// Adds the "no selection" option to the front of the list.
+    /// Adds the "other" option to the end of the list.
     /// </summary>
     private void PopulateEmployersDdl() {
         ddlEmployers.DataSource = employers.OrderBy(e => e.ToString());
         ddlEmployers.DataBind();
         ddlEmployers.Items.Insert(ddlEmployers.Items.Count, otherOption);
+        ddlPositions.Items.Insert(0, noOptionSpecified);
     }
 
     /// <summary>
@@ -219,247 +253,307 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
 
     /// <summary>
-    /// Populates the departments drop down list in the employee info panel and the report info panel.
+    /// Populates the departments drop down list in the employee info panel.
     /// Loads departments from the database.
     /// Adds the "no selection" option to the front of the list.
     /// Adds the "other" option to the end of the list.
     /// </summary>
     private void PopulateDepartmentsDdl() {
-        // Employee Info Departments DDL
         ddlDepartments.DataSource = ctx.Departments.OrderBy(d => d.deptName);
         ddlDepartments.DataValueField = "deptName";
         ddlDepartments.DataBind();
         ddlDepartments.Items.Insert(ddlDepartments.Items.Count, otherOption);
         ddlDepartments.Items.Insert(0, noOptionSpecified);
-        // Report Info Departments DDL
-        ddlReportDepts.DataSource = ctx.Departments.OrderBy(d => d.deptName);
-        ddlReportDepts.DataTextField = "deptName";
-        ddlReportDepts.DataValueField = "deptNo";
-        ddlReportDepts.DataBind();
-        ddlReportDepts.Items.Insert(ddlReportDepts.Items.Count, "Other");
     }
-
     #endregion Load DropDownLists
 
     #region Other Option Textbox Toggle
     /// <summary>
-    /// Calls CheckPositionSelection(), which displays a textbox if the "Other (specify)" option is selected
-    /// and hides the textbox if any other option is selected
+    /// If the "Other (specify)" option is selected, shows a TextBox.
+    /// Hides the textbox if any other option is selected
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
+    /// <param name="e">The event properties.</param>
     protected void ddlPositions_SelectedIndexChanged(object sender, EventArgs e) {
-        CheckPositionSelection();
+        CheckDdlSelection(ddlPositions, tbxPosition);
     }
 
     /// <summary>
-    /// Calls CheckEmployeeSelection(), which displays a textbox if the "Other (specify)" option is selected
-    /// and hides the textbox if any other option is selected
+    /// If the "Other (specify)" option is selected, shows a TextBox.
+    /// Hides the textbox if any other option is selected
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
+    /// <param name="e">The event properties.</param>
     protected void ddlEmployers_SelectedIndexChanged(object sender, EventArgs e) {
-        CheckEmployeeSelection();
+        CheckDdlSelection(ddlEmployers, tbxEmployer);
     }
 
     /// <summary>
-    /// Calls CheckDepartmentSelection(), which displays a textbox if the "Other (specify)" option is selected
-    /// and hides the textbox if any other option is selected
+    /// If the "Other (specify)" option is selected, shows a TextBox.
+    /// Hides the textbox if any other option is selected
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
+    /// <param name="e">The event properties.</param>
     protected void ddlDepartments_SelectedIndexChanged(object sender, EventArgs e) {
-        CheckDepartmentSelection();
+        CheckDdlSelection(ddlDepartments, tbxDepartment);
     }
 
     /// <summary>
-    /// Displays a textbox if the "Other (specify)" option of the positions drop down list is selected.
-    /// Hides the textbox if any other option is selected
+    /// If the "Other (specify)" option is selected of the Drop Down List.
+    /// If the other option is selected, shows the Text Box.
+    /// If any other option is selected, hides the Text Box.
     /// </summary>
-    private void CheckPositionSelection() {
-        if (ddlPositions.SelectedValue.Equals(otherOption)) {
-            tbxPosition.Visible = true;
+    private void CheckDdlSelection(DropDownList ddl, TextBox tbx) {
+        if (ddl.SelectedValue.Equals(otherOption)) {
+            tbx.Visible = true;
         }
         else {
-            tbxPosition.Visible = false;
-        }
-    }
-
-    /// <summary>
-    /// Displays a textbox if the "Other (specify)" option of the employee drop down list is selected.
-    /// Hides the textbox if any other option is selected
-    /// </summary>
-    private void CheckEmployeeSelection() {
-        if (ddlEmployers.SelectedValue.Equals(otherOption)) {
-            tbxEmployer.Visible = true;
-        }
-        else {
-            tbxEmployer.Visible = false;
-        }
-    }
-
-    /// <summary>
-    /// Displays a textbox if the "Other (specify)" option of the departments drop down list is selected.
-    /// Hides the textbox if any other option is selected
-    /// </summary>
-    private void CheckDepartmentSelection() {
-        if (ddlDepartments.SelectedValue.Equals(otherOption)) {
-            tbxDepartment.Visible = true;
-        }
-        else {
-            tbxDepartment.Visible = false;
+            tbx.Visible = false;
         }
     }
     #endregion Other Option Textbox Toggle
     #endregion DropDownLists
 
-    #region Load Employee Data
+    #region Load Employee
     /// <summary>
-    /// Uses the employee's first and last name to get the rest employee's information from the database.
-    /// Populates the Header form with this data.
+    /// Calls getEmployeeData() to get an employee from the database and populate the form with that employee's data.
+    /// Displays a pop-up with a success or fail message.
     /// </summary>
-    /// <returns>Returns the employee on success, null on failure.</returns>
-    private Employee getEmployeeData() {
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnGetEmployee_Click(object sender, EventArgs e) {
+        Employee result = loadEmployee();
+        if (result == null) {
+            Popup_Overlay("An error has occured while getting this employee. Please try again.", FailColour);
+        }
+    }
+    
+    /// <summary>
+    /// Checks if the first and last name are found in the database.
+    /// If the first and last name are found, the employee can be fetched and validates true.
+    /// If zero or more than one matching employee is found, validates false.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The validate event properties.</param>
+    protected void cmvGetEmpFromDb_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
         String first = tbxFirstName.Text;
         String last = tbxLastName.Text;
-        Employee emp = null;
 
         var qry = ctx.Employees
                   .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
                   .Select(e => e);
 
         if ((qry != null) && (qry.Count() == 1)) {
-            emp = qry.FirstOrDefault();
-
-            tbxId.Text = emp.empNo.ToString();
-            tbxFirstName.Text = emp.fname.ToString();
-            tbxLastName.Text = emp.lname.ToString();
-
-            // Position DDL
-            var position = ctx.Positions
-                           .Where(p => p.posName.Equals(emp.position))
-                           .Select(p => p).FirstOrDefault();
-
-            if (emp.position == null) {
-                ddlPositions.SelectedIndex = 0;
-            }
-            else if (position != null) {
-                ddlPositions.SelectedValue = position.posName;
-            }
-            else {
-                ddlPositions.SelectedValue = otherOption;
-                tbxPosition.Text = emp.position;
-            }
-            CheckPositionSelection();
-
-            // Employer DDL
-            if (emp.employer == null) {
-                ddlEmployers.SelectedIndex = 0;
-            }
-            else if (employers.Contains(emp.employer)) {
-                ddlEmployers.SelectedValue = emp.employer;
-            }
-            else {
-                ddlEmployers.SelectedValue = otherOption;
-                tbxEmployer.Text = emp.employer;
-            }
-            CheckEmployeeSelection();
-
-            // Department DDL
-            var department = ctx.Departments
-                            .Where(d => d.deptName.Equals(emp.deptName))
-                            .Select(d => d).FirstOrDefault();
-
-            if (emp.deptName == null) {
-                ddlDepartments.SelectedIndex = 0;
-            }
-            else if (department != null) {
-                ddlDepartments.SelectedValue = department.deptName;
-            }
-            else {
-                ddlDepartments.SelectedValue = otherOption;
-                tbxDepartment.Text = emp.deptName;
-            }
-            CheckDepartmentSelection();
-
-            if (emp.supervisor == null) {
-                tbxSupervisor.Text = String.Empty;
-            }
-            else {
-                tbxSupervisor.Text = emp.supervisor;
-            }
-
-            tbxRoom.Text = emp.room;
-
-            if (emp.startDate != null) {
-                tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy", new CultureInfo("en-CA"));
-            }
-
-            if (emp.endDate != null) {
-                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy", new CultureInfo("en-CA"));
-            }
-
+            args.IsValid = true;
         }
         else if ((qry != null) && (qry.Count() <= 0)) {
-            Popup_Overlay("No employee with that first and last name found.", FailColour);
-            return null;
+            cmvGetEmpFromDb.ErrorMessage = "No employee with that first and last name found.";
+            return;
         }
         else {
-            Popup_Overlay("There was more than one employee with that first and last name.", FailColour);
-            return null;
+            cmvGetEmpFromDb.ErrorMessage = "There was more than one employee with that first and last name.";
+            return;
         }
-
-        return emp;
     }
 
     /// <summary>
-    /// Calls getEmployeeData(), which fetches the employee from the database using the employee's first and last name
-    /// then populates the rest of the form with the employee's information.
+    /// Checks if the form data is valid.
+    /// Uses the employee's first and last name to get the rest of the employee's information from the database.
+    /// Populates the Employee Info form with the data.
     /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void btnGetEmployee_Click(object sender, EventArgs e) {
+    /// <returns>Returns the employee on success, null on failure.</returns>
+    private Employee loadEmployee() {
+        // Check page
         Page.Validate("vgpGetEmp");
         Page.Validate("vpgGetEmpFromDb");
         if (!Page.IsValid) {
-            return;
+            return null;
         }
-        
-        getEmployeeData();
+
+        // Get employee
+        String first = tbxFirstName.Text;
+        String last = tbxLastName.Text;
+        Employee emp = null;
+        var qry = ctx.Employees
+                  .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
+                  .Select(e => e);
+        if (qry == null || qry.Count() == 0) {
+            // Unexpected error
+            return null;
+        }
+
+        #region Populate Form
+        // Populate form with employee data
+        emp = qry.FirstOrDefault();
+
+        tbxId.Text = emp.empNo.ToString();
+        tbxFirstName.Text = emp.fname.ToString();
+        tbxLastName.Text = emp.lname.ToString();
+
+        // Position DDL
+        var position = ctx.Positions
+                        .Where(p => p.posName.Equals(emp.position))
+                        .Select(p => p).FirstOrDefault();
+
+        if (emp.position == null) {
+            ddlPositions.SelectedIndex = 0;
+        }
+        else if (position != null) {
+            ddlPositions.SelectedValue = position.posName;
+        }
+        else {
+            ddlPositions.SelectedValue = otherOption;
+            tbxPosition.Text = emp.position;
+        }
+        CheckDdlSelection(ddlPositions, tbxPosition);
+
+        // Employer DDL
+        if (emp.employer == null) {
+            ddlEmployers.SelectedIndex = 0;
+        }
+        else if (employers.Contains(emp.employer)) {
+            ddlEmployers.SelectedValue = emp.employer;
+        }
+        else {
+            ddlEmployers.SelectedValue = otherOption;
+            tbxEmployer.Text = emp.employer;
+        }
+        CheckDdlSelection(ddlEmployers, tbxEmployer);
+
+        // Department DDL
+        var department = ctx.Departments
+                        .Where(d => d.deptName.Equals(emp.deptName))
+                        .Select(d => d).FirstOrDefault();
+
+        if (emp.deptName == null) {
+            ddlDepartments.SelectedIndex = 0;
+        }
+        else if (department != null) {
+            ddlDepartments.SelectedValue = department.deptName;
+        }
+        else {
+            ddlDepartments.SelectedValue = otherOption;
+            tbxDepartment.Text = emp.deptName;
+        }
+        CheckDdlSelection(ddlDepartments, tbxDepartment);
+
+        if (emp.supervisor == null) {
+            tbxSupervisor.Text = String.Empty;
+        }
+        else {
+            tbxSupervisor.Text = emp.supervisor;
+        }
+
+        tbxRoom.Text = emp.room;
+
+        if (emp.startDate != null) {
+            tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy", new CultureInfo("en-CA"));
+        }
+
+        if (emp.endDate != null) {
+            tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy", new CultureInfo("en-CA"));
+        }
+        #endregion Populate Form
+
+        return emp;
     }
     #endregion LoadEmployeeData
 
     #region Create Employee
     /// <summary>
-    /// Calls the create Employee method, which creates and saves an Employee into the database.
+    /// Checks if the first and last name are found in the database.
+    /// If the first and last name are found, the employee already exists and 
+    /// a new employee with the same name cannot be created and the validation returns false.
+    /// If zero or more than one matching employee is found, the validation returns true.
     /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void btnCreateEmployee_Click(object sender, EventArgs e) {
-        Page.Validate("vgpGetEmp");
-        Page.Validate("vgpCreateEmp");
-        if (!Page.IsValid) {
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The validate event properties.</param>
+    protected void cmvCheckEmpExists_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String first = tbxFirstName.Text;
+        String last = tbxLastName.Text;
+
+        var qry = ctx.Employees
+                  .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
+                  .Select(e => e);
+
+        // If the employee exists, you can't create an employee
+        if ((qry != null) && (qry.Count() == 1)) {
+            args.IsValid = false;
             return;
         }
-        createEmployee();
+
+        args.IsValid = true;
     }
 
     /// <summary>
-    /// Creates a new Employee object (using the form fields) and saves it in the database.
-    /// Returns the new Employeeon success, null on failure.
-    /// Displays a pop-up with a success or fail message.
-    /// The new employee cannot have the same first and last name of an existing employee.
+    /// Gets the employee's start and end dates from the form.
+    /// If one or both dates are null, validates true (nothing to compare).
+    /// If both dates are specified, compares them as dates, and validates 
+    /// false if the end date is before the start date.
     /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvEmpDates_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strStartDate = tbxStartDate.Text;
+        String strEndDate = tbxEndDate.Text;
+        if (strStartDate == null || strStartDate.Equals(String.Empty)) {
+            args.IsValid = true;
+            return;
+        }
+        if (strEndDate == null || strEndDate.Equals(String.Empty)) {
+            args.IsValid = true;
+            return;
+        }
+        DateTime startDate = Convert.ToDateTime(strStartDate);
+        DateTime endDate = Convert.ToDateTime(strEndDate);
+        if (endDate.CompareTo(startDate) < 0) {
+            args.IsValid = false;
+            return;
+        }
+    }
+
+    /// <summary>
+    /// Calls the create Employee method, which creates and saves an Employee into the database.
+    /// Displays a pop-up with a success or fail message.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnCreateEmployee_Click(object sender, EventArgs e) {
+        Employee result = createEmployee();
+        if (result != null) {
+            Popup_Overlay("Employee successfully created.", SuccessColour);
+        } else {
+            Popup_Overlay("An error has occured while creating this employee. Please try again.", FailColour);
+        }
+    }
+
+    /// <summary>
+    /// Checks if the form data is valid (includes if the first/last name is already in use).
+    /// Creates a new Employee object (using the form fields).
+    /// Saves the new Employee to the database.
+    /// </summary>
+    /// <returns>Returns the employee on success, null on failure.</returns>
     private Employee createEmployee() {
+        // Check page
+        Page.Validate("vgpGetEmp");
+        Page.Validate("vgpCreateEmp");
+        if (!Page.IsValid) {
+            return null;
+        }
+
         Employee emp = ctx.Employees
                        .Where(et => et.fname.Equals(tbxFirstName.Text) && et.lname.Equals(tbxLastName.Text))
                        .Select(et => et).FirstOrDefault();
 
         if (emp != null) {
-            Popup_Overlay("An employee with that first and last name already exists. Please change either the first or the last name.", FailColour);
+            // Unexpected error.
             return null;
         }
-        
+
+        // Create employee
         emp = new Employee {
             fname = tbxFirstName.Text,
             lname = tbxLastName.Text,
@@ -514,61 +608,61 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
         #endregion department
         
+        // Save employee
         try {
             ctx.AddToEmployees(emp);
             ctx.SaveChanges();
             tbxId.Text = emp.empNo.ToString();
-            Popup_Overlay("Employee successfully created.", SuccessColour);
             return emp;
         }
         catch (Exception ex) {
-            Popup_Overlay("An error has occured while creating this employee. Please try again." + ex.StackTrace.ToString(), FailColour);
             return null;
         }
-
     }
     #endregion Create Employee
 
     #region Update Employee
     /// <summary>
     /// Calls the update Employee method, which updates the employee's info in database to match the form.
+    /// Displays a pop-up with a success or fail message.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
+    /// <param name="e">The click event properties.</param>
     protected void btnUpdateEmployee_Click(object sender, EventArgs e) {
-        updateEmployee();
+        Employee result = updateEmployee();
+        if (result != null) {
+            Popup_Overlay("Employee successfully updated.", SuccessColour);
+        }
+        else {
+            Popup_Overlay("An error has occured while updating this employee. Please try again.", FailColour);
+        }
     }
-
     /// <summary>
-    /// Updates an employee object (using the form fields) and saves the changes to the database.
-    /// Returns the new Employeeon success, null on failure.
-    /// Displays a pop-up with a success or fail message.
-    /// The new employee cannot have the same first and last name of an existing employee.
-    /// The ID cannot be changed.
+    /// Checks if the form data is valid (includes if the first/last name is already in use).
+    /// Updates the Employee object's fields.
+    /// Saves the updated Employee to the database.
+    /// Note: the ID cannot be changed.
     /// </summary>
+    /// <returns>Returns the employee on success, null on failure.</returns>
     private Employee updateEmployee() {
+        // Check page
+        Page.Validate("vgpCreateEmp");
+        if (!Page.IsValid) {
+            return null;
+        }
+
         int empId = Convert.ToInt32(tbxId.Text);
 
         Employee emp = ctx.Employees
                        .Where(et => et.empNo.Equals(empId))
                        .Select(et => et).FirstOrDefault();
-
+        
         if (emp == null) {
-            Popup_Overlay("Error updating employee. Please try again.", FailColour);
+            // Unexpected error.
             return null;
         }
 
-        Employee otherEmp = ctx.Employees
-                            .Where(et => et.fname.Equals(tbxFirstName.Text)
-                                && et.lname.Equals(tbxLastName.Text)
-                                && !(et.empNo.Equals(emp.empNo)))
-                            .Select(et => et).FirstOrDefault();
-
-        if (otherEmp != null) {
-            Popup_Overlay("An employee with that first and last name already exists. Please change either the first or the last name.", FailColour);
-            return null;
-        }
-
+        // Update employee
         if (!tbxStartDate.Text.Equals(String.Empty)) {
             emp.startDate = Convert.ToDateTime(tbxStartDate.Text);
         }
@@ -617,45 +711,33 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
         #endregion department
 
+        // Save employee
         try {
             ctx.SaveChanges();
-            Popup_Overlay("Employee successfully updated.", SuccessColour);
             return emp;
         }
         catch (Exception ex) {
-            Popup_Overlay("An error has occured while updatin this employee. Please try again." + ex.StackTrace.ToString(), FailColour);
             return null;
         }
     }
     #endregion Update Employee
     #endregion EmployeeInfoRelated
 
-    #region Page Popup
-    /// <summary>
-    /// Calls the show method of the modal popup AJAX panel.
-    /// Shows a confirmation page overlay with a message.
-    /// </summary>
-    /// <param name="msg">Message displayed on confirmation overlay</param>
-    /// <param name="color">Color for the message to be</param>
-    protected void Popup_Overlay(string msg, Color color) {
-        lblPnlPop.Text = msg;
-        lblPnlPop.ForeColor = color;
-        pnlPop.Style.Value = "display:block;";
-        mpePop.Show();
-    }
-
-    /// <summary>
-    /// Clears username and password textboxes when the overlay is closed.
-    /// If user is in edit user mode, the listbox is also updated.
-    /// </summary>
-    /// <param name="sender">not used in our code</param>
-    /// <param name="e">not used in our code</param>
-    protected void btnPnlPopClose_Click(object sender, EventArgs e) {
-        // do nothing
-    }
-    #endregion
-
     #region Create New Incident Report
+    /// <summary>
+    /// Populates the departments drop down list in the report info panel.
+    /// Loads departments from the database.
+    /// Does not add the "no selection" option to the front of the list, as the field is required.
+    /// Adds the "other" option to the end of the list.
+    /// </summary>
+    private void PopulateReportDeptsDdl() {
+        ddlReportDepts.DataSource = ctx.Departments.OrderBy(d => d.deptName);
+        ddlReportDepts.DataTextField = "deptName";
+        ddlReportDepts.DataValueField = "deptNo";
+        ddlReportDepts.DataBind();
+        ddlReportDepts.Items.Insert(ddlReportDepts.Items.Count, "Other");
+    }
+
     /// <summary>
     /// Calls the create report method, which creates an Incident report using the form.
     /// This method then saves that report in the database.
@@ -664,12 +746,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The button click event.</param>
     protected void btnCreateReport_Click(object sender, EventArgs e) {
-        Page.Validate("vgpGetEmp");
-        Page.Validate("vgpPanelA");
-        Page.Validate("vgpFCorrective");
-        Page.Validate("vgpGRelevant");
-        Page.Validate("vgpHManagers");
-
         if (Page.IsValid) {
             Incident report = createReport();
             try {
@@ -697,24 +773,34 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// </summary>
     /// <returns>the newly created Incident report</returns>
     private Incident createReport() {
-        Employee emp = getEmployeeData();
-        // If employee not found, see if you can create one.
+        // Check page
+        Page.Validate("vgpGetEmp");
+        Page.Validate("vpgGetEmpFromDb"); 
+        Page.Validate("vgpPanelA");
+        Page.Validate("vgpFCorrective");
+        Page.Validate("vgpGRelevant");
+        Page.Validate("vgpHManagers");
+        if (!Page.IsValid) {
+            return null;
+        }
+
+        Employee emp = loadEmployee();
+        // If employee not found, try to create one.
         if (emp == null) {
             Page.Validate("vgpCreateEmp");
             if (Page.IsValid) {
-                createEmployee();
+                emp = createEmployee();
             }
             else {
                 return null;
             }
         }
 
-        int empId = Convert.ToInt32(tbxId.Text);
-
+        // Create the report
         Incident report = new Incident {
 
             #region A_IncidentInfo
-            empNo = empId,
+            empNo = emp.empNo,
             p1_incidentDesc = convertTextBox(tbx_p1_incidentDesc),
             p1_witnessName1 = convertTextBox(tbx_p1_witnessName1),
             p1_witnessPhone1 = convertTextBox(tbx_p1_witnessPhone1),
@@ -901,6 +987,8 @@ public partial class Reporting_Default : System.Web.UI.Page {
             
         };
 
+
+        // Continue creating the report
         if ((Session["DeptNo"] == null) || Session["DeptNo"].Equals(String.Empty)) {    // for admin account
             report.submitterDeptNo = null;
         }
@@ -929,6 +1017,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
             return null;
         }
         #endregion Dates
+
         #region Department
         if (ddlReportDepts.SelectedValue.Equals("Other")) {
             report.deptNo = null;
@@ -953,13 +1042,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
         #region C_AccidentInvestigation_PatientHandling
         if (!tbx_p1_numEmployeesInvolved.Text.Equals(String.Empty)) {
-            try {
-                report.p1_numEmployeesInvolved = Convert.ToInt32(tbx_p1_numEmployeesInvolved.Text);
-            }
-            catch (FormatException) {
-                Popup_Overlay("Report not created. The number of employees involved (in Patient Handling of Section C) must be a number.", FailColour);
-                return null;
-            }
+            report.p1_numEmployeesInvolved = Convert.ToInt32(tbx_p1_numEmployeesInvolved.Text);
         }
         #endregion C_AccidentInvestigation_PatientHandling
 
@@ -967,13 +1050,16 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
 
     /// <summary>
-    /// Converts a radio button list into a String value that the database can accept.
-    /// If no value is selected returns null.
-    /// Otherwise, returns the value as a String ("1" for yes, "2" for no).
+    /// Converts a CheckBox into a String value that the database can accept.
+    /// Returns null if the CheckBox is null.
+    /// Otherwise, returns the checked value as a String ("1" for yes, "2" for no).
     /// </summary>
     /// <param name="cbx">The CheckBox to convert.</param>
-    /// <returns>String: 1 for yes/checked, 2 for no/unchecked.</returns>
+    /// <returns>"1" for checked, "2" for unchecked, or Null if the CheckBox is null.</returns>
     private String convertCheckBox(CheckBox cbx) {
+        if (cbx == null) {
+            return null;
+        }
         if (!cbx.Checked) {
             return "2";
         }
@@ -981,12 +1067,13 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
 
     /// <summary>
-    /// Converts a radio button list into a String value that the  database can accept.
-    /// If no value is selected returns null.
-    /// Otherwise, returns the value as a String ("1" for yes, "2" for no, "3" for unknown).
+    /// Converts a Radio Button List into a String value that the database can accept.
+    /// If the Radio Button List is null or no value is selected, returns null.
+    /// Otherwise, returns the selected value as a String.
+    /// The values should be "1" for Yes, "2" for No, "3" for Unknown or N/A.
     /// </summary>
     /// <param name="rbl">The radio button list to convert.</param>
-    /// <returns>Returns a string: 1 for yes, 2 for no, 3 for N/A or Unknown, null for no value selected.</returns>
+    /// <returns>String for the Radio Button List's selected value or Null for no value selected.</returns>
     private String convertRadioButtonList(RadioButtonList rbl) {
         if ((rbl == null) || rbl.SelectedValue.Equals(String.Empty)) {
             return null;
@@ -997,12 +1084,12 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
 
     /// <summary>
-    /// Converts a textbox into a String value that the database can accept.
-    /// If the textbox is null or empty, returns null.
-    /// Otherwise, returns the text in the textbox.
+    /// Converts a Text Box into a String value that the database can accept.
+    /// If the Text Box is null or empty, returns null.
+    /// Otherwise, returns the text in the Text Box.
     /// </summary>
-    /// <param name="tbx">The textbox to convert.</param>
-    /// <returns>Null: for null or empty textbox otherwise returns the textbox's text as a String.</returns>
+    /// <param name="tbx">The Text Box with a value to convert.</param>
+    /// <returns>The Text Box's text as a String or Null for a null or empty Text Box.</returns>
     private String convertTextBox(TextBox tbx) {
         if (tbx == null) {
             return null;
@@ -1051,69 +1138,13 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// section is found. Validates true if at least one is checked and validates false if none are checked.
     /// </summary>
     /// <param name="source">The validator control.</param>
-    /// <param name="args">The event properties.</param>
+    /// <param name="args">The validate event properties.</param>
     protected void cmvActionFollowing_ServerValidate(object source, ServerValidateEventArgs args) {
         args.IsValid = (cbx_p1_action_report.Checked
                             || cbx_p1_action_firstAid.Checked
                             || cbx_p1_action_medicalGP.Checked
                             || cbx_p1_action_lostTime.Checked
                             || cbx_p1_action_medicalER.Checked);
-    }
-
-    /// <summary>
-    /// Checks if the first and last name are found in the database.
-    /// If the first and last name are found, the employee can be fetched and validates true.
-    /// If zero or more than one matching employee is found, validates false.
-    /// </summary>
-    /// <param name="source">The validator control.</param>
-    /// <param name="args">The event properties.</param>
-    protected void cmvFindEmpInDb_ServerValidate(object source, ServerValidateEventArgs args) {
-        args.IsValid = false;
-        String first = tbxFirstName.Text;
-        String last = tbxLastName.Text;
-        
-        var qry = ctx.Employees
-                  .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
-                  .Select(e => e);
-
-        if ((qry != null) && (qry.Count() == 1)) {
-            args.IsValid = true;
-        } else if ((qry != null) && (qry.Count() <= 0)) {
-            cmvFindEmpInDb.ErrorMessage = "No employee with that first and last name found.";
-            return;
-        }
-        else {
-            cmvFindEmpInDb.ErrorMessage = "There was more than one employee with that first and last name.";
-            return;
-        }
-    }
-
-    /// <summary>
-    /// Gets the employee's start and end dates from the form.
-    /// If one or both dates are null, validates true (nothing to compare).
-    /// If both dates are specified, compares them as dates, and validates 
-    /// false if the end date is before the start date.
-    /// </summary>
-    /// <param name="source">The validator control.</param>
-    /// <param name="args">The event properties.</param>
-    protected void cmvEmpDates_ServerValidate(object source, ServerValidateEventArgs args) {
-        args.IsValid = false;
-        String strStartDate = tbxStartDate.Text;
-        String strEndDate = tbxEndDate.Text;
-        if (strStartDate == null || strStartDate.Equals(String.Empty)) {
-            args.IsValid = true;
-            return;
-        }
-        if (strEndDate == null || strEndDate.Equals(String.Empty)) {
-            args.IsValid = true;
-            return;
-        }
-        DateTime startDate = Convert.ToDateTime(strStartDate);
-        DateTime endDate = Convert.ToDateTime(strEndDate);
-        if (endDate.CompareTo(startDate) < 0) {
-            args.IsValid = false;
-            return;
-        }
     }
     
 }
