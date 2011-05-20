@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using BCCAModel;
+using System.Text.RegularExpressions;
 
 /** TO DO:
  * Make clear all and clear individual form buttons
@@ -31,8 +32,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
     BCCAEntities ctx = new BCCAEntities();
     // The date format to use for displaying and converting dates
     public static String dateFormat = "M/d/yyyy";
-    // The time format to use for displaying and converting times
-    public static String timeFormat = "h:mm tt";
     // The locale to use when displaying and converting dates/times
     public static CultureInfo locale = new CultureInfo("en-CA");
     // Text colour for failure messages
@@ -504,22 +503,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="source">The validator control.</param>
     /// <param name="args">The event properties.</param>
     protected void cmvEmpDates_ServerValidate(object source, ServerValidateEventArgs args) {
-        
-        
-        // testing code
-        DateTime d = DateTime.ParseExact("11/29/2011 7:00 pm", "M/d/yyyy h:mm tt", locale);
-        DateTime d2 = DateTime.ParseExact("11/29/2011 7:00 PM", "M/d/yyyy h:mm tt", locale);
-        DateTime d3 = DateTime.ParseExact("11/29/2011 7:00 am", "M/d/yyyy h:mm tt", locale);
-        DateTime d4 = DateTime.ParseExact("11/29/2011 7:00 AM", "M/d/yyyy h:mm tt", locale);
-        DateTime d5 = DateTime.ParseExact("11/29/2011 12:00 AM", "M/d/yyyy h:mm tt", locale);
-        DateTime d55 = DateTime.ParseExact("11/29/2011 1:59 AM", "M/d/yyyy h:mm tt", locale);
-        //DateTime d6 = DateTime.ParseExact("11/29/2011 13:00", "M/d/yyyy h:mm tt", locale);
-        //DateTime d7 = DateTime.ParseExact("11/29/2011 1:00", "M/d/yyyy h:mm tt", locale);
-        DateTime d6 = DateTime.ParseExact("11/29/2011 13:00", "M/d/yyyy HH:mm", locale);
-        DateTime d7 = DateTime.ParseExact("11/29/2011 1:00", "M/d/yyyy H:mm", locale);
-
-        // end testing
-
         args.IsValid = false;
         String strStartDate = tbxStartDate.Text;
         String strEndDate = tbxEndDate.Text;
@@ -1055,16 +1038,24 @@ public partial class Reporting_Default : System.Web.UI.Page {
         String strTimeReported = tbx_p1_timeReported.Text;
 
         if (!(strDateOfIncident.Equals(String.Empty) && strTimeOfIncident.Equals(String.Empty))) {
+            String timeFormat = getTimeFormat(strTimeOfIncident);
+            if (timeFormat == null) {
+                return null; // Error
+            }
             report.p1_dateOfIncident = DateTime.ParseExact(strDateOfIncident + " " + strTimeOfIncident,
-                dateFormat + " HH:MM tt", locale);
+                dateFormat + " " + timeFormat, locale);
         }
         else {
             return null;
         }
 
         if (!(strDateReported.Equals(String.Empty) && strTimeReported.Equals(String.Empty))) {
-            report.p1_dateOfIncident = DateTime.ParseExact(strDateReported + " " + strTimeReported,
-                dateFormat + " HH:MM tt", locale);
+            String timeFormat = getTimeFormat(strTimeReported);
+            if (timeFormat == null) {
+                return null; // Error
+            }
+            report.p1_dateReported = DateTime.ParseExact(strDateReported + " " + strTimeReported,
+                dateFormat + " " + timeFormat, locale);
         }
         else {
             return null;
@@ -1187,6 +1178,33 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
 
     /// <summary>
+    /// Gets the time format that needs to be used to convert the String parameter, time,
+    /// to a DateTime.
+    /// Returns the time format for converting the string or Null if no time format found.
+    /// </summary>
+    /// <param name="time">The string time value with an unknown format.</param>
+    /// <returns>The time format for converting the string or Null if no time format found.</returns>
+    private String getTimeFormat(String time) {
+        String timeFormat1 = "h tt"; // for 12 am to 12 PM
+        String pattern1 = "^(([1-9]{1})|([01]{1}[012])){1} {1}(am|AM|pm|PM){1}$";
+        String timeFormat2 = "h:mm tt"; // for 12:00 am to 12:00 PM
+        String pattern2 = "^(([0]?[1-9]{1})|([1]{1}[012]{1})){1}:{1}[0-5]{1}[0-9]{1} {1}(am|AM|pm|PM){1}$";
+        String timeFormat3 = "H:mm"; // for 0:00 to 23:59
+        String pattern3 = "^(([0]?[1-9]{1})|([01]{1}[0-9]{1})|([2]{1}[0123])){1}:{1}[0-5]{1}[0-9]{1}$";
+
+        if (Regex.IsMatch(time, pattern1)) {
+            return timeFormat1;
+        }
+        else if (Regex.IsMatch(time, pattern2)) {
+            return timeFormat2;
+        }
+        else if (Regex.IsMatch(time, pattern3)) {
+            return timeFormat3;
+        }
+        return null;
+    }
+
+    /// <summary>
     /// Checks if at least one of the Action Following checkboxes in the Incident/Acident Information
     /// section is found. Validates true if at least one is checked and validates false if none are checked.
     /// </summary>
@@ -1215,18 +1233,29 @@ public partial class Reporting_Default : System.Web.UI.Page {
         DateTime dateReported;
         args.IsValid = false;
 
-        if (strDateOfIncident.Equals(String.Empty) && strTimeOfIncident.Equals(String.Empty)) {
+        // if either date/time is empty, don't bother comparing
+        if (strDateOfIncident.Equals(String.Empty) || strTimeOfIncident.Equals(String.Empty)) {
             args.IsValid = true;
             return;
         }
-        //DateTime now = DateTime.ParseExact("5/19/2011 01:00", "h:mm tt", locale);
+        
+        if (strDateReported.Equals(String.Empty) || strTimeReported.Equals(String.Empty)) {
+            args.IsValid = true;
+            return;
+        }
 
-        dateOfIncident = DateTime.ParseExact(strDateOfIncident + " " + strTimeOfIncident, dateFormat + " h:mm tt", locale);
-        if (strDateReported.Equals(String.Empty) && strTimeReported.Equals(String.Empty)) {
-            args.IsValid = true;
-            return;
+        String timeFormat1 = getTimeFormat(strTimeOfIncident);
+        if (timeFormat1 == null) {
+            return; // Error
         }
-        dateReported = DateTime.ParseExact(strDateReported + " " + strTimeReported, dateFormat + " HH:MM tt", locale);
+        dateOfIncident = DateTime.ParseExact(strDateOfIncident + " " + strTimeOfIncident, dateFormat + " " + timeFormat1, locale);
+
+        String timeFormat2 = getTimeFormat(strDateReported);
+        if (timeFormat2 == null) {
+            return; // Error
+        }
+        dateReported = DateTime.ParseExact(strDateReported + " " + strTimeReported, dateFormat + " " + timeFormat2, locale);
+        
         if (dateReported.CompareTo(dateOfIncident) < 0) {
             args.IsValid = false;
             return;

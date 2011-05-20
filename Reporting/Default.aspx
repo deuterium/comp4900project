@@ -234,7 +234,8 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:RequiredFieldValidator ID="rfvTimeOfIncident" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_timeOfIncident" ErrorMessage="Time of incident is required."></asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="revTimeOfIncident" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
-                        ControlToValidate="tbx_p1_timeOfIncident" ValidationExpression="^((([01]?[0-9]{1}|[2]{1}[0-3]{1}){1}(:[0-5]{1}[0-9]{1}){1})|(([0]?[0-9]{1}|[1]{1}[012]{1}){1}(:[0-5]{1}[0-9]{1})? ?(am|AM|pm|PM){1}))$" 
+                        ControlToValidate="tbx_p1_timeOfIncident"
+                        ValidationExpression="^(((([1-9]{1})|([01]{1}[012])){1} {1}(am|AM|pm|PM){1}){1}|((([0]?[1-9]{1})|([1]{1}[012]{1})){1}:{1}[0-5]{1}[0-9]{1} {1}(am|AM|pm|PM){1}){1}|((([0]?[1-9]{1})|([01]{1}[0-9]{1})|([2]{1}[0123])){1}:{1}[0-5]{1}[0-9]{1}$){1})$" 
                         ErrorMessage="Time of incident must be in one of the following formats: H pm, H:MM AM, HH:MM"></asp:RegularExpressionValidator>
                 </td>
                 <td>Name:</td>
@@ -281,8 +282,9 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:RequiredFieldValidator ID="rfvTimeReported" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_timeReported" ErrorMessage="Time reported is required."></asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="revTimeReported" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
-                        ControlToValidate="tbx_p1_timeReported" ValidationExpression="^((([01]?[0-9]{1}|[2]{1}[0-3]{1}){1}(:[0-5]{1}[0-9]{1}){1})|(([0]?[0-9]{1}|[1]{1}[012]{1}){1}(:[0-5]{1}[0-9]{1})? ?(am|AM|pm|PM){1}))$" 
-                        ErrorMessage="Time reported must be in one of the following formats: H pm, H:MM AM, HH:MM"></asp:RegularExpressionValidator>
+                        ControlToValidate="tbx_p1_timeReported"
+                        ValidationExpression="^(((([1-9]{1})|([01]{1}[012])){1} {1}(am|AM|pm|PM){1}){1}|((([0]?[1-9]{1})|([1]{1}[012]{1})){1}:{1}[0-5]{1}[0-9]{1} {1}(am|AM|pm|PM){1}){1}|((([0]?[1-9]{1})|([01]{1}[0-9]{1})|([2]{1}[0123])){1}:{1}[0-5]{1}[0-9]{1}$){1})$"
+                        ErrorMessage="Time reported must be in one of the following formats: 7 am, 7:30 pm, or 23:59."></asp:RegularExpressionValidator>
                     <asp:CustomValidator ID="cmvReportDate" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ErrorMessage="The date/time reported must be later than the date/time the incident occured." 
                         OnServerValidate="cmvReportDate_ServerValidate"></asp:CustomValidator>
