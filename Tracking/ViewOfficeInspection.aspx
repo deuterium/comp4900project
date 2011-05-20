@@ -56,7 +56,7 @@
                     <asp:Label ID="lblChecked" runat="server" Text='<%# Bind("checkbox") %>' />
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="Comments" >
+            <asp:TemplateField HeaderText="Inspection Comments" >
                 <ItemTemplate>
                     <asp:Label ID="lblInspectionComments" runat="server" Text='<%# Bind("inspectionComment") %>' />
                 </ItemTemplate>
@@ -74,9 +74,9 @@
 <asp:Panel ID="pnlComments" CssClass="panel" runat="server">
     <table cellpadding="10" >
         <tr><td><span class="spanBold">Inspection Comment:</span></td></tr>
-        <tr><td><asp:Label ID="lblInspectionComment" runat="server" Width="799px" BackColor="White" ></asp:Label></td></tr>
+        <tr><td><asp:Label ID="lblInspectionComment" runat="server" Width="785px" BackColor="White" ></asp:Label></td></tr>
         <tr><td><span class="spanBold">Follow Up Comment:</span></td></tr>
-        <tr><td><asp:Label ID="lblFollowUpComment" runat="server" Width="799px" BackColor="White" ></asp:Label></td></tr>
+        <tr><td><asp:Label ID="lblFollowUpComment" runat="server" Width="785px" BackColor="White" ></asp:Label></td></tr>
     </table>
 </asp:Panel>
 

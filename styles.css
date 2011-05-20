@@ -745,3 +745,20 @@ h3
     float: left;
     width: 375px;
 }
+
+/* ViewLabInspection.aspx */
+
+#divViewLiLeft
+{
+    display: inline;
+    float: left;
+    width: 375px;
+}
+
+#divViewLiRight
+{
+    display: inline;
+    float: left;
+    width: 375px;
+}
+
