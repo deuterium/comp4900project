@@ -38,18 +38,18 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
         displayLabInspection(incidentNo);
     }
 
-    /// <summary>
-    /// Adjusts the height of a text area so all the content is visible.
-    /// </summary>
-    /// <param name="tbx">The TextBox to adjust.</param>
-    private void adjustTextBoxHeight(TextBox tbx) {
-        int i = tbx.Text.Length;
-        // 30 is the max characters a 250px wide textbox can fit across
-        // 2 is the number of extra lines to add for allowance
-        // because some words may get moved to the next line
-        int rowsize = (i / 30) + 2;
-        tbx.Rows = rowsize;
-    }
+    ///// <summary>
+    ///// Adjusts the height of a text area so all the content is visible.
+    ///// </summary>
+    ///// <param name="tbx">The TextBox to adjust.</param>
+    //private void adjustTextBoxHeight(TextBox tbx) {
+    //    int i = tbx.Text.Length;
+    //    // 30 is the max characters a 250px wide textbox can fit across
+    //    // 2 is the number of extra lines to add for allowance
+    //    // because some words may get moved to the next line
+    //    int rowsize = (i / 30) + 2;
+    //    tbx.Rows = rowsize;
+    //}
 
     /// <summary>
     /// Gets the lab inspection out of the database.
@@ -163,11 +163,10 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
                 row.Cells[1].Visible = false;
                 row.Cells[2].Visible = false;
                 row.Cells[3].Visible = false;
-                row.Height = 50;
                 row.ForeColor = HeaderForeColor;
             }
 
-            adjustTextBoxHeight((TextBox)row.FindControl("tbxComments"));
+            //adjustTextBoxHeight((TextBox)row.FindControl("tbxComments"));
         }
 
     }

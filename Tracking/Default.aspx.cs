@@ -861,7 +861,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
 
     private void loadLabInspections(int incidentNo) {
         var qry = from l in ctx.LabInspections
-                  join i in ctx.Incidents on l.deptName equals i.Employee.deptName
+                  join i in ctx.Incidents on l.deptName equals i.Department.deptName
                   where (i.incidentNo.Equals(incidentNo))
                   select new {
                       labInspectionNo = l.labInsNo,
@@ -900,7 +900,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
 
     private void loadOfficeInspections(int incidentNo) {
         var qry = from l in ctx.OfficeInspections
-                  join i in ctx.Incidents on l.deptName equals i.Employee.deptName
+                  join i in ctx.Incidents on l.deptName equals i.Department.deptName
                   where (i.incidentNo.Equals(incidentNo))
                   select new {
                       officeInspectionNo = l.officeInsNo,

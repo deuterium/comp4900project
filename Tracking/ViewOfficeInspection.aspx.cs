@@ -39,17 +39,36 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
         displayOfficeInspection(inspectionNo);
     }
 
-    /// <summary>
-    /// Adjusts the height of a text area so all the content is visible.
-    /// </summary>
-    /// <param name="tbx">The TextBox to adjust.</param>
-    private void adjustTextBoxHeight(TextBox tbx) {
-        int i = tbx.Text.Length;
-        // 30 is the max characters a 250px wide textbox can fit across
-        // 2 is the number of extra lines to add for allowance
-        // because some words may get moved to the next line
-        int rowsize = (i / 30) + 2;
-        tbx.Rows = rowsize;
+    ///// <summary>
+    ///// Adjusts the height of a text area so all the content is visible.
+    ///// </summary>
+    ///// <param name="tbx">The TextBox to adjust.</param>
+    //private void adjustTextBoxHeight(TextBox tbx) {
+    //    int i = tbx.Text.Length;
+    //    // 30 is the max characters a 250px wide textbox can fit across
+    //    // 2 is the number of extra lines to add for allowance
+    //    // because some words may get moved to the next line
+    //    int rowsize = (i / 30) + 2;
+    //    tbx.Rows = rowsize;
+    //}
+
+    private String convertFollowUpStatus(String statusNo) {
+        String status = "Unknown";
+        switch (status) {
+            case "1" :
+                status = "Not Started";
+                break;
+            case "2" :
+                status = "In Progress";
+                break;
+            case "3" :
+                status = "Complete";
+                break;
+            default :
+                status = "Unknown";
+                break;
+        }
+        return status;
     }
 
     /// <summary>
@@ -94,15 +113,20 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
                             officeInsItem = temp1.OII.officeInsName,
                             checkbox = temp1.temp0.OID.checkbox,
                             comments = temp1.temp0.OID.comments,
-
+                            
                             department = temp1.temp0.OI.deptName,
                             area = temp1.temp0.OI.area,
                             inspector = temp1.temp0.OI.inspector,
-                            inspectionDate = temp1.temp0.OI.insDate
+                            inspectionDate = temp1.temp0.OI.insDate,
+                            inspectionComment = temp1.temp0.OI.comments,
+                            followUpDate = temp1.temp0.OI.followupDate,
+                            followUpSubmitter = temp1.temp0.OI.followupSubmitter,
+                            followUpStatus = temp1.temp0.OI.followUpStatus,
+                            followUpcomment = temp1.temp0.OI.followupComment,
                         }
                     );
 
-        // Populate Header Info
+        // Populate Header Info and Comment Boxes
         var oi = qry.FirstOrDefault();
         lblDepartment.Text = oi.department;
         lblOfficeArea.Text = oi.area;
@@ -110,6 +134,20 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
         if (oi.inspectionDate != null) {
             lblInspectionDate.Text = Convert.ToDateTime(oi.inspectionDate).ToString("M/d/yyyy");
         }
+        if (oi.followUpDate != null) {
+            lblFollowUpDate.Text = Convert.ToDateTime(oi.followUpDate).ToString("M/d/yyyy");
+        }
+        lblFollowUpStatus.Text = convertFollowUpStatus(oi.followUpStatus);
+        if (!oi.followUpSubmitter.Equals(String.Empty)) {
+            lblFollowUpSubmitter.Text = oi.followUpSubmitter;
+        }
+        if (!oi.inspectionComment.Equals(String.Empty)) {
+            lblInspectionComment.Text = oi.inspectionComment;
+        }
+        if (!oi.followUpcomment.Equals(String.Empty)) {
+            lblFollowUpComment.Text = oi.followUpcomment;
+        }
+
         pnlHeader.Visible = true;
         lblTitle.Text += oi.officeInsItemNo;
         lblTitle.Visible = true;
@@ -156,11 +194,9 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
                 row.Cells[1].Visible = false;
                 row.Cells[2].Visible = false;
                 row.Cells[3].Visible = false;
-                row.Height = 50;
                 row.ForeColor = HeaderForeColor;
             }
-
-            adjustTextBoxHeight((TextBox)row.FindControl("tbxComments"));
+            //adjustTextBoxHeight((TextBox)row.FindControl("tbxComments"));
         }
     }
 
