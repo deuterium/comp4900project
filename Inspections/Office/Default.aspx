@@ -129,12 +129,12 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                 <td>
                     <asp:TextBox ID="tbxOfficeInspectionDate" runat="server"></asp:TextBox>
                     <asp:CalendarExtender ID="cexOfficeInspectionDate" runat="server" TargetControlID="tbxOfficeInspectionDate" 
-                        Format="MM/dd/yyyy"></asp:CalendarExtender>
+                        Format="M/d/yyyy"></asp:CalendarExtender>
                     <asp:RequiredFieldValidator ControlToValidate="tbxOfficeInspectionDate" ValidationGroup="vgpOfficeA" runat="server" 
                         ID="rfvCalendar" ErrorMessage="Date of Inspection is required" ForeColor="Red">*</asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="revLabInspectionDate" runat="server" ValidationGroup="vgpOfficeA"
                         ControlToValidate="tbxOfficeInspectionDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                        ErrorMessage="Date of Inspection must be 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                        ErrorMessage="Date of Inspection must be 'M/D/YYYY'"></asp:RegularExpressionValidator>
                 </td>
                 <td>
                     &nbsp&nbsp&nbsp&nbsp&nbsp
