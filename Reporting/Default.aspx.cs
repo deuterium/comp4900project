@@ -46,6 +46,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     public static List<String> employers = new List<String> {
         "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH"
     };
+    public static String reportErrorMsg = String.Empty;
     #endregion class variables
 
     /// <summary>
@@ -788,7 +789,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
                 Popup_Overlay("Report successfully created.", SuccessColour);
             }
             catch (Exception ex) {
-                Popup_Overlay("An error has occured while creating your report. Please try again.", FailColour);
+                if (reportErrorMsg.Equals(String.Empty)) {
+                    reportErrorMsg = "An error has occured while creating your report. Please try again.";
+                }
+                Popup_Overlay(reportErrorMsg, FailColour);
+                reportErrorMsg = String.Empty;
                 return;
             }
         }
@@ -815,19 +820,14 @@ public partial class Reporting_Default : System.Web.UI.Page {
         Page.Validate("vgpGRelevant");
         Page.Validate("vgpHManagers");
         if (!Page.IsValid) {
+            reportErrorMsg = "Invalid input.";
             return null;
         }
 
         Employee emp = loadEmployee();
-        // If employee not found, try to create one.
         if (emp == null) {
-            Page.Validate("vgpCreateEmp");
-            if (Page.IsValid) {
-                emp = createEmployee();
-            }
-            else {
-                return null;
-            }
+            reportErrorMsg = "Unable to find employee.";
+            return null;
         }
 
         // Create the report
@@ -1020,8 +1020,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
             reportSubmitter = Session["AuthenticatedUser"].ToString(),
             
         };
-
-
+        
         // Continue creating the report
         if ((Session["DeptNo"] == null) || Session["DeptNo"].Equals(String.Empty)) {    // for admin account
             report.submitterDeptNo = null;
@@ -1040,6 +1039,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
         if (!(strDateOfIncident.Equals(String.Empty) && strTimeOfIncident.Equals(String.Empty))) {
             String timeFormat = getTimeFormat(strTimeOfIncident);
             if (timeFormat == null) {
+                reportErrorMsg = "Time of incident is invalid.";
                 return null; // Error
             }
             report.p1_dateOfIncident = DateTime.ParseExact(strDateOfIncident + " " + strTimeOfIncident,
@@ -1052,12 +1052,14 @@ public partial class Reporting_Default : System.Web.UI.Page {
         if (!(strDateReported.Equals(String.Empty) && strTimeReported.Equals(String.Empty))) {
             String timeFormat = getTimeFormat(strTimeReported);
             if (timeFormat == null) {
+                reportErrorMsg = "Time reported is invalid.";
                 return null; // Error
             }
             report.p1_dateReported = DateTime.ParseExact(strDateReported + " " + strTimeReported,
                 dateFormat + " " + timeFormat, locale);
         }
         else {
+            reportErrorMsg = "Date or time of incident is required.";
             return null;
         }
         #endregion Dates
@@ -1246,20 +1248,20 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
         String timeFormat1 = getTimeFormat(strTimeOfIncident);
         if (timeFormat1 == null) {
-            return; // Error
+            return; // Error, not valid
         }
         dateOfIncident = DateTime.ParseExact(strDateOfIncident + " " + strTimeOfIncident, dateFormat + " " + timeFormat1, locale);
 
-        String timeFormat2 = getTimeFormat(strDateReported);
+        String timeFormat2 = getTimeFormat(strTimeReported);
         if (timeFormat2 == null) {
-            return; // Error
+            return; // Error, not valid
         }
         dateReported = DateTime.ParseExact(strDateReported + " " + strTimeReported, dateFormat + " " + timeFormat2, locale);
-        
+
         if (dateReported.CompareTo(dateOfIncident) < 0) {
-            args.IsValid = false;
             return;
         }
+        args.IsValid = true;
     }
 
     /// <summary>
