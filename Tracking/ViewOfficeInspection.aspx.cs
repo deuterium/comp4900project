@@ -30,6 +30,10 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
         Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
         Session["AfterLoginRedirectUrl"] = null;
+        
+        if (!IsPostBack) {
+            hideAllPanels();
+        }
 
         String reqInspectionNo = Request.QueryString["OfficeInspectionNo"];
         int inspectionNo = -1;
@@ -39,9 +43,48 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
             }
         }
         catch (FormatException ex) {
+            ex.ToString();
+            setUserMsg("Invalid inspection number given.");
             return;
         }
         displayOfficeInspection(inspectionNo);
+    }
+
+    /// <summary>
+    /// Shows a message for the user on the page.
+    /// This is intended to be used for errors.
+    /// If a null message parameter is given, the message is hidden.
+    /// </summary>
+    /// <param name="msg"></param>
+    private void setUserMsg(String msg) {
+        if (msg == null) {
+            lblUserMsg.Visible = false;
+            return;
+        }
+        lblUserMsg.Visible = true;
+        lblUserMsg.Text = msg;
+    }
+
+    /// <summary>
+    /// Hides all the panels on the page.
+    /// Shows the user message.
+    /// </summary>
+    private void hideAllPanels() {
+        pnlHeader.Visible = false;
+        pnlChecklist.Visible = false;
+        pnlComments.Visible = false;
+        lblUserMsg.Visible = true;
+    }
+
+    /// <summary>
+    /// Shows all the panels on the page.
+    /// Hides the user message.
+    /// </summary>
+    private void showAllPanels() {
+        pnlHeader.Visible = true;
+        pnlChecklist.Visible = true;
+        pnlComments.Visible = true;
+        lblUserMsg.Visible = false;
     }
 
     /// <summary>
@@ -80,7 +123,24 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
     /// <param name="insNo">The id of the Office Inspection to display.</param>
     protected void displayOfficeInspection(int selectedOfficeInsNo) {
         if (selectedOfficeInsNo == -1) {
+            setUserMsg("No inspection number given.");
             return;
+        }
+
+        var inspection = ctx.OfficeInspections
+                        .Where(oi => oi.officeInsNo.Equals(selectedOfficeInsNo))
+                        .Select(oi => oi).FirstOrDefault();
+
+        if (inspection == null) {
+            setUserMsg("No inspection with that inspection number found.");
+            return;
+        }
+
+        if (Session["RoleNo"].Equals(4)) {
+            if (!Session["DeptNo"].Equals(inspection.deptName)) {
+                setUserMsg("Only safety officers and administrators can view inspections from other departments.");
+                return;
+            }
         }
 
         #region Giant Query
@@ -164,10 +224,6 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
                             }
                     );
         #endregion Giant Query
-
-        var inspection = ctx.OfficeInspections
-                        .Where(oi => oi.officeInsNo.Equals(selectedOfficeInsNo))
-                        .Select(oi => oi).FirstOrDefault();
 
         // Populate Header Info and Comment Boxes
         lblDepartment.Text = inspection.deptName;
