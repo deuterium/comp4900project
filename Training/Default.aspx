@@ -11,24 +11,28 @@
 </asp:ToolkitScriptManager>
 
 <asp:CollapsiblePanelExtender ID="cpeCourses" runat="server" Collapsed="true"
-CollapseControlID="hr3Courses" ExpandControlID="hr3Courses" TargetControlID="pnlCourses"
+CollapseControlID="hr3Courses" ExpandControlID="hr3Courses" TargetControlID="pnlCourses" 
+CollapsedText="(Show Details)" ExpandedText="(Hide Details)"
 ImageControlID="imgExpandCollapseCourses" TextLabelID="ExpandCollapseCourses" CollapsedImage="../images/expand.jpg" 
 ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeCoursesCompleted" runat="server" Collapsed="true"
+CollapsedText="(Show Details)" ExpandedText="(Hide Details)"
 CollapseControlID="hr3CoursesCompleted" ExpandControlID="hr3CoursesCompleted" TargetControlID="pnlCoursesCompleted"
 ImageControlID="imgExpandCollapseCoursesCompleted" TextLabelID="ExpandCollapseCoursesCompleted" CollapsedImage="../images/expand.jpg" 
 ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeCoursesExpired" runat="server" Collapsed="true"
+CollapsedText="(Show Details)" ExpandedText="(Hide Details)"
 CollapseControlID="hr3CoursesExpired" ExpandControlID="hr3CoursesExpired" TargetControlID="pnlCoursesExpired"
 ImageControlID="imgExpandCollapseCoursesExpired" TextLabelID="ExpandCollapseCoursesExpired" CollapsedImage="../images/expand.jpg" 
 ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeCoursesCatalog" runat="server" Collapsed="true"
+CollapsedText="(Show Details)" ExpandedText="(Hide Details)"
 CollapseControlID="hr3CoursesCatalog" ExpandControlID="hr3CoursesCatalog" TargetControlID="pnlCoursesCatalog"
 ImageControlID="imgExpandCollapseCoursesCatalog" TextLabelID="ExpandCollapseCoursesCatalog" CollapsedImage="../images/expand.jpg" 
 ExpandedImage="../images/collapse.jpg">
