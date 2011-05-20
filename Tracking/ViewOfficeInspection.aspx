@@ -13,6 +13,7 @@
             <tr>
                 <td><span class="spanBold">Department:</span></td>
                 <td><asp:Label ID="lblDepartment" runat="server" /></td>
+            </tr>
             <tr>
                 <td><span class="spanBold">Area:</span></td>
                 <td><asp:Label ID="lblOfficeArea" runat="server" /></td>
