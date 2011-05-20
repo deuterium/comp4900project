@@ -35,9 +35,11 @@ public partial class MasterPage : System.Web.UI.MasterPage
             switch (lblUserRole.Text)
             {
                 case "Administrator":
+                    Admin_Menu();
                     Followup_Count(0);
                     break;
                 case "Safety Officer":
+                    Admin_Menu();
                     Followup_Count(0);
                     break;
                 case "Lab Manager":
@@ -104,5 +106,11 @@ public partial class MasterPage : System.Web.UI.MasterPage
         Session.Contents.RemoveAll();
         Session.Abandon();
         Response.Redirect("~/Default.aspx");
+    }
+
+    protected void Admin_Menu()
+    {
+        masterMenuAdmin.Visible = true;
+        masterMenuRegular.Visible = false;
     }
 }
