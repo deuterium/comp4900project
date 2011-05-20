@@ -10,6 +10,7 @@ using System.Data.Objects;
 using System.Drawing;
 using System.Data;
 using System.Web.UI;
+using System.Globalization;
 
 /**
  * TO DO:
@@ -363,6 +364,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         dt.Columns.Add(new DataColumn("employee", typeof(System.String)));
 
         var depts = ctx.Departments
+                    .OrderBy(d => d.deptName)
                     .Select(d => d.deptNo);
 
         foreach (int deptNumber in depts) {
@@ -707,29 +709,39 @@ public partial class Tracking_Default : System.Web.UI.Page {
 
     #region Look Up Courses
 
+    private string ConvertDateToString(Object date) {
+        if (date.Equals(DateTime.MinValue)) {
+            return String.Empty;
+        }
+        return ((DateTime)date).ToString("M/d/yyyy", new CultureInfo("en-CA"));
+    }
+
     private void loadCourses(Employee employee) {
         if (employee == null) {
             return;
         }
         var qry = ctx.TrainingTakens
+                  .OrderByDescending(tt => tt.startDate)
                   .Select(tt => new {
                       courseName = tt.TrainingCours.trainingName,
                       status = (tt.completed == 1) ? "Complete" : "Incomplete",
-                      completionDate = DateTime.Now,
-                      expirationDate = EntityFunctions.AddMonths(DateTime.Now, (int)tt.TrainingCours.monthsValid),
+                      completionDate = tt.startDate,
+                      expirationDate = tt.endDate,
                       required = "Yes"
                   });
         gdvEmpCourses.DataSource = qry;
         gdvEmpCourses.DataBind();
+        
         foreach (GridViewRow row in gdvEmpCourses.Rows) {
-            String strExpirationDate = ((Label)row.FindControl("lblExpirationDate")).Text;
+            String strExpirationDate = ((Label)row.FindControl("lblExpirationDate")).Text;    
             if ((strExpirationDate != null) && (!strExpirationDate.Equals(String.Empty))) {
                 DateTime expirationDate = Convert.ToDateTime(strExpirationDate);
-                if (expirationDate >= DateTime.Now) {
+                if (expirationDate.CompareTo(DateTime.Now) <= 0) {
                     row.ForeColor = Color.Red;
                 }
             }
         }
+
         pnlEmpCoursesContainer.Visible = true;
         cpeEmployeeCourses.Collapsed = false;
         cpeEmployeeCourses.ClientState = "false";

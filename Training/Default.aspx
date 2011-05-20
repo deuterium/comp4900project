@@ -3,16 +3,6 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="head">
-    <style type="text/css">
-    .style1
-    {
-        width: 100%;
-    }
-        .style2
-        {
-            width: 266px;
-        }
-    </style>
 </asp:Content>
 
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="body">
@@ -26,23 +16,27 @@ ImageControlID="imgExpandCollapseCourses" TextLabelID="ExpandCollapseCourses" Co
 ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
-    <asp:CollapsiblePanelExtender ID="cpeCoursesCompleted" runat="server" Collapsed="true"
-    CollapseControlID="hr4CoursesCompleted" ExpandControlID="hr4CoursesCompleted" TargetControlID="pnlCoursesCompleted"
-    ImageControlID="imgExpandCollapseCoursesCompleted" TextLabelID="ExpandCollapseCoursesCompleted" CollapsedImage="../images/expand.jpg" 
-    ExpandedImage="../images/collapse.jpg">
-    </asp:CollapsiblePanelExtender>
+<asp:CollapsiblePanelExtender ID="cpeCoursesCompleted" runat="server" Collapsed="true"
+CollapseControlID="hr3CoursesCompleted" ExpandControlID="hr3CoursesCompleted" TargetControlID="pnlCoursesCompleted"
+ImageControlID="imgExpandCollapseCoursesCompleted" TextLabelID="ExpandCollapseCoursesCompleted" CollapsedImage="../images/expand.jpg" 
+ExpandedImage="../images/collapse.jpg">
+</asp:CollapsiblePanelExtender>
 
-    <asp:CollapsiblePanelExtender ID="cpeCoursesExpired" runat="server" Collapsed="true"
-    CollapseControlID="hr4CoursesExpired" ExpandControlID="hr4CoursesExpired" TargetControlID="pnlCoursesExpired"
-    ImageControlID="imgExpandCollapseCoursesExpired" TextLabelID="ExpandCollapseCoursesExpired" CollapsedImage="../images/expand.jpg" 
-    ExpandedImage="../images/collapse.jpg">
-    </asp:CollapsiblePanelExtender>
+<asp:CollapsiblePanelExtender ID="cpeCoursesExpired" runat="server" Collapsed="true"
+CollapseControlID="hr3CoursesExpired" ExpandControlID="hr3CoursesExpired" TargetControlID="pnlCoursesExpired"
+ImageControlID="imgExpandCollapseCoursesExpired" TextLabelID="ExpandCollapseCoursesExpired" CollapsedImage="../images/expand.jpg" 
+ExpandedImage="../images/collapse.jpg">
+</asp:CollapsiblePanelExtender>
 
-    <asp:CollapsiblePanelExtender ID="cpeCoursesCatalog" runat="server" Collapsed="true"
-    CollapseControlID="hr4CoursesCatalog" ExpandControlID="hr4CoursesCatalog" TargetControlID="pnlCoursesCatalog"
-    ImageControlID="imgExpandCollapseCoursesCatalog" TextLabelID="ExpandCollapseCoursesCatalog" CollapsedImage="../images/expand.jpg" 
-    ExpandedImage="../images/collapse.jpg">
-    </asp:CollapsiblePanelExtender>
+<asp:CollapsiblePanelExtender ID="cpeCoursesCatalog" runat="server" Collapsed="true"
+CollapseControlID="hr3CoursesCatalog" ExpandControlID="hr3CoursesCatalog" TargetControlID="pnlCoursesCatalog"
+ImageControlID="imgExpandCollapseCoursesCatalog" TextLabelID="ExpandCollapseCoursesCatalog" CollapsedImage="../images/expand.jpg" 
+ExpandedImage="../images/collapse.jpg">
+</asp:CollapsiblePanelExtender>
+
+<asp:CollapsiblePanelExtender ID="cpeEmpInfo" runat="server" Collapsed="false" Enabled="true"
+CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
+</asp:CollapsiblePanelExtender>
 
         <div id="divContent">
         <div id="divReportInfo">
@@ -202,9 +196,9 @@ ExpandedImage="../images/collapse.jpg">
 
         <div id="divCourses">
             <h3 id="hr3Courses"><asp:Image ID="imgExpandCollapseCourses" runat="server" /> Courses <asp:Label ID="ExpandCollapseCourses" runat="server" Text=""></asp:Label></h3>
-            <asp:Panel ID="pnlCourses" CssClass="panel" runat="server">
-                <h4 id="hr4CoursesCompleted"><asp:Image ID="imgExpandCollapseCoursesCompleted" runat="server" /> Valid: <asp:Label ID="ExpandCollapseCoursesCompleted" runat="server" Text=""></asp:Label></h4>
-                <asp:Panel ID="pnlCoursesCompleted" CssClass="panel" runat="server">
+            <asp:Panel ID="pnlCourses" CssClass="parentPanel" runat="server">
+                <h3 id="hr3CoursesCompleted"><asp:Image ID="imgExpandCollapseCoursesCompleted" runat="server" /> Valid: <asp:Label ID="ExpandCollapseCoursesCompleted" runat="server" Text=""></asp:Label></h3>
+                <asp:Panel ID="pnlCoursesCompleted" CssClass="childPanel" runat="server">
                     
                     <asp:GridView ID="grvValidCourses" runat="server" 
                         onrowcancelingedit="grvValidCourses_RowCancelingEdit" 
@@ -250,9 +244,9 @@ ExpandedImage="../images/collapse.jpg">
                     </asp:GridView>
                     <asp:Button ID="btnAddCrs" runat="server" Text="Add Course" 
                         onclick="btnAddCrs_Click" Visible="False" />
-                    <asp:Panel ID="pnlCrsDetails" runat="server" CssClass="panel">
+                    <asp:Panel ID="pnlCrsDetails" runat="server" CssClass="childPanel">
                         <div>
-                            <table id="tblCrsDetails" class="style1">
+                            <table id="tblCrsDetails">
                                 <tr>
                                     <td class="crsDetails">
                                         <asp:Label ID="lblCourseDate" runat="server" Text="Date of Course:"></asp:Label>
@@ -406,10 +400,10 @@ ExpandedImage="../images/collapse.jpg">
                             <br />
                         </div>
                     </asp:Panel>
-                    <asp:Panel ID="pnlNewCourse" runat="server" CssClass="panel">
-                        <table class="style1">
+                    <asp:Panel ID="pnlNewCourse" runat="server" CssClass="childPanel">
+                        <table>
                             <tr>
-                                <td class="style2">
+                                <td>
                                     Training Name</td>
                                 <td>
                                     <asp:DropDownList ID="ddlNewCrs" runat="server">
@@ -417,7 +411,7 @@ ExpandedImage="../images/collapse.jpg">
                                 </td>
                             </tr>
                             <tr>
-                                <td class="style2">
+                                <td>
                                     Start Date</td>
                                 <td>
                                     <asp:TextBox ID="tbxNewCrsStart" runat="server"></asp:TextBox>
@@ -427,7 +421,7 @@ ExpandedImage="../images/collapse.jpg">
                                 </td>
                             </tr>
                             <tr>
-                                <td class="style2">
+                                <td>
                                     End Date</td>
                                 <td>
                                     <asp:TextBox ID="tbxNewCrsEnd" runat="server"></asp:TextBox>
@@ -450,8 +444,8 @@ ExpandedImage="../images/collapse.jpg">
                     </asp:Panel>
                     
                 </asp:Panel>
-                <h4 id="hr4CoursesExpired"><asp:Image ID="imgExpandCollapseCoursesExpired" runat="server" /> Expired: <asp:Label ID="ExpandCollapseCoursesExpired" runat="server" Text=""></asp:Label></h4>
-                <asp:Panel ID="pnlCoursesExpired" CssClass="panel" runat="server">
+                <h3 id="hr3CoursesExpired"><asp:Image ID="imgExpandCollapseCoursesExpired" runat="server" /> Expired: <asp:Label ID="ExpandCollapseCoursesExpired" runat="server" Text=""></asp:Label></h3>
+                <asp:Panel ID="pnlCoursesExpired" CssClass="childPanel" runat="server">
                     <asp:GridView ID="grvExpiredCourses" runat="server" AutoGenerateColumns="False">
                         <Columns>
                             <asp:BoundField DataField="coursename" HeaderText="Training Name" 
@@ -475,8 +469,8 @@ ExpandedImage="../images/collapse.jpg">
                         </Columns>
                     </asp:GridView>
                 </asp:Panel>
-                <h4 id="hr4CoursesCatalog"><asp:Image ID="imgExpandCollapseCoursesCatalog" runat="server" /> Catalog <asp:Label ID="ExpandCollapseCoursesCatalog" runat="server" Text=""></asp:Label></h4>
-                <asp:Panel ID="pnlCoursesCatalog" CssClass="panel" runat="server">
+                <h3 id="hr3CoursesCatalog"><asp:Image ID="imgExpandCollapseCoursesCatalog" runat="server" /> Catalog <asp:Label ID="ExpandCollapseCoursesCatalog" runat="server" Text=""></asp:Label></h3>
+                <asp:Panel ID="pnlCoursesCatalog" CssClass="childPanel" runat="server">
                     <asp:GridView ID="gdvCoursesCatalog" runat="server" ForeColor="Black" 
                         AutoGenerateColumns="False" DataSourceID="EntityDataSource1">
                         <Columns>

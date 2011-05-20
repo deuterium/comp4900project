@@ -703,7 +703,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
                     <asp:Label ID="lblCompletionDate" runat="server" Text='<%# Eval("completionDate", "{0:M/d/yyyy}") %>'></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="Expiration Date">
+            <asp:TemplateField HeaderText="Expiry Date">
                 <ItemTemplate>
                     <asp:Label ID="lblExpirationDate" runat="server" Text='<%# Eval("expirationDate", "{0:M/d/yyyy}") %>'></asp:Label>
                 </ItemTemplate>
