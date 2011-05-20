@@ -5,6 +5,8 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
 
+<asp:Label ID="lblUserMsg" runat="server" />
+
 <h3 id="hr3Title"><asp:Label ID="lblTitle" runat="server" Text="Viewing Office Inspection #" Font-Bold="true" Visible="false" /></h3>
 
 <asp:Panel ID="pnlHeader" CssClass="panel" runat="server" Visible="false">
