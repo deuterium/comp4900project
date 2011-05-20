@@ -5,7 +5,7 @@
 <head id="Head1" runat="server">
     <link href="styles.css" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/ico" href="images/favicon.ico" />
-    </script> <title></title>
+    <title>BCCRC Safety Database</title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -17,21 +17,24 @@
                 <a href="~/Default.aspx" runat="server">
                     <img class="logo" src="~/images/template/logo.gif" alt="BCCRC" runat="server" /></a>
                 <a href="Default.aspx"></a>
+                <div class="topblockcolour green">
+                </div>
                 <div id="divUserLoginDetails" class="userLoginDetailsPanel" runat="server" visible="false">
                     Welcome
                     <asp:Label ID="lblUserName" runat="server" />
                     <br />
-                    You are a
+                    You are
                     <asp:Label ID="lblUserRole" runat="server" />
                     <br />
                     There are
                     <asp:Label ID="lblFollowupNum" runat="server" />
                     Follow ups
                     <br />
+                    <asp:LinkButton ID="lbnHelp" runat="server">Help</asp:LinkButton>
+                    &nbsp;|&nbsp;
                     <asp:LinkButton ID="lbnLogout" runat="server" OnClick="lbnLogout_Click">Logout</asp:LinkButton>
                 </div>
-                <div class="topblockcolour green">
-                </div>
+                
             </div>
             <div class="clear">
             </div>
