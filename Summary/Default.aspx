@@ -29,74 +29,74 @@
     <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
 </asp:ToolkitScriptManager>
 
-<asp:CollapsiblePanelExtender ID="cpeA" runat="server" Collapsed="true"
-CollapseControlID="inspectionLookUp" ExpandControlID="inspectionLookUp" TargetControlID="pnlA"
-ImageControlID="imgExpandCollapseInspectionLookUp" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+<asp:CollapsiblePanelExtender ID="cpeA" runat="server" Collapsed="true" 
+CollapseControlID="inspectionLookUp" ExpandControlID="inspectionLookUp" TargetControlID="pnlA" TextLabelID="ExpandCollapseInspectionLookUp" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseInspectionLookUp" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeB" runat="server" Collapsed="true"
-CollapseControlID="courseLookUp" ExpandControlID="courseLookUp" TargetControlID="pnlB"
-ImageControlID="imgExpandCollapseCourseLookUp" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+CollapseControlID="courseLookUp" ExpandControlID="courseLookUp" TargetControlID="pnlB" TextLabelID="ExpandCollapseCourseLookUp" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseCourseLookUp" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeC" runat="server" Collapsed="true"
-CollapseControlID="labInspectionLookUp" ExpandControlID="labInspectionLookUp" TargetControlID="pnlC"
-ImageControlID="imgExpandCollapseLabInspectionLookUp" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+CollapseControlID="labInspectionLookUp" ExpandControlID="labInspectionLookUp" TargetControlID="pnlC" TextLabelID="ExpandCollapseLabInspection" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseLabInspectionLookUp" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeD" runat="server" Collapsed="true"
-CollapseControlID="officeInspectionLookUp" ExpandControlID="officeInspectionLookUp" TargetControlID="pnlD"
-ImageControlID="imgExpandCollapseOfficeInspectionLookUp" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+CollapseControlID="officeInspectionLookUp" ExpandControlID="officeInspectionLookUp" TargetControlID="pnlD" TextLabelID="ExpandCollapseOfficeInspection" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseOfficeInspectionLookUp" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeE" runat="server" Collapsed="true"
-CollapseControlID="statistics" ExpandControlID="statistics" TargetControlID="pnlE"
-ImageControlID="imgExpandCollapseStatistics" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+CollapseControlID="statistics" ExpandControlID="statistics" TargetControlID="pnlE" TextLabelID="ExpandCollapseStatistics" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseStatistics" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeF" runat="server" Collapsed="true"
-CollapseControlID="incident" ExpandControlID="incident" TargetControlID="pnlF"
-ImageControlID="imgExpandCollapseIncident" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+CollapseControlID="incident" ExpandControlID="incident" TargetControlID="pnlF" TextLabelID="ExpandCollapseIncident" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseIncident" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeG" runat="server" Collapsed="true"
-CollapseControlID="incidentA" ExpandControlID="incidentA" TargetControlID="pnlIncidentA"
-ImageControlID="imgExpandCollapseIncidentA" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+CollapseControlID="incidentA" ExpandControlID="incidentA" TargetControlID="pnlIncidentA" TextLabelID="ExpandCollapseIncidentA" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseIncidentA" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeH" runat="server" Collapsed="true"
-CollapseControlID="incidentB" ExpandControlID="incidentB" TargetControlID="pnlIncidentB"
-ImageControlID="imgExpandCollapseIncidentB" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+CollapseControlID="incidentB" ExpandControlID="incidentB" TargetControlID="pnlIncidentB" TextLabelID="ExpandCollapseIncidentB" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseIncidentB" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeI" runat="server" Collapsed="true"
-CollapseControlID="incidentC" ExpandControlID="incidentC" TargetControlID="pnlIncidentC"
-ImageControlID="imgExpandCollapseIncidentC" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+CollapseControlID="incidentC" ExpandControlID="incidentC" TargetControlID="pnlIncidentC" TextLabelID="ExpandCollapseIncidentC" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseIncidentC" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeJ" runat="server" Collapsed="true"
-CollapseControlID="incidentD" ExpandControlID="incidentD" TargetControlID="pnlIncidentD"
-ImageControlID="imgExpandCollapseIncidentD" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+CollapseControlID="incidentD" ExpandControlID="incidentD" TargetControlID="pnlIncidentD" TextLabelID="ExpandCollapseIncidentD" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseIncidentD" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeK" runat="server" Collapsed="true"
-CollapseControlID="incidentC" ExpandControlID="incidentE" TargetControlID="pnlIncidentE"
-ImageControlID="imgExpandCollapseIncidentE" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+CollapseControlID="incidentC" ExpandControlID="incidentE" TargetControlID="pnlIncidentE" TextLabelID="ExpandCollapseIncidentE" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseIncidentE" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeL" runat="server" Collapsed="true"
-CollapseControlID="incidentF" ExpandControlID="incidentF" TargetControlID="pnlIncidentF"
-ImageControlID="imgExpandCollapseIncidentF" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+CollapseControlID="incidentF" ExpandControlID="incidentF" TargetControlID="pnlIncidentF" TextLabelID="ExpandCollapseIncidentF" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseIncidentF" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeM" runat="server" Collapsed="true"
-CollapseControlID="incidentG" ExpandControlID="incidentG" TargetControlID="pnlIncidentG"
-ImageControlID="imgExpandCollapseIncidentG" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+CollapseControlID="incidentG" ExpandControlID="incidentG" TargetControlID="pnlIncidentG" TextLabelID="ExpandCollapseIncidentG" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseIncidentG" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeN" runat="server" Collapsed="true"
-CollapseControlID="incidentH" ExpandControlID="incidentH" TargetControlID="pnlIncidentH"
-ImageControlID="imgExpandCollapseIncidentH" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+CollapseControlID="incidentH" ExpandControlID="incidentH" TargetControlID="pnlIncidentH" TextLabelID="ExpandCollapseIncidentH" CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseIncidentH" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeEmpInfo" runat="server" Collapsed="false" Enabled="true"
@@ -104,9 +104,9 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
 </asp:CollapsiblePanelExtender>
 Summary Page:
 
-<h3 id="inspectionLookUp"><asp:Image ID="imgExpandCollapseInspectionLookUp" runat="server" /> Inspection Lookup:</h3>
+<h3 id="inspectionLookUp"><asp:Image ID="imgExpandCollapseInspectionLookUp" runat="server" /> Inspection Lookup:  <asp:Label ID="ExpandCollapseInspectionLookUp" runat="server" Text="" /></h3>
     <asp:Panel ID="pnlA" CssClass="parentPanel" runat="server">
-        <h3 id="labInspectionLookUp"><asp:Image ID="imgExpandCollapseLabInspectionLookUp" runat="server" /> Lab Inspection:</h3>
+        <h3 id="labInspectionLookUp"><asp:Image ID="imgExpandCollapseLabInspectionLookUp" runat="server" /> Lab Inspection:  <asp:Label ID="ExpandCollapseLabInspection" runat="server" Text="" /></h3>
         <asp:Panel ID="pnlC" CssClass="childPanel" runat="server">
             <table>
             <tr id="departmentRowLab" runat="server">
@@ -230,7 +230,7 @@ Summary Page:
                 </table>
         </asp:Panel>
         
-        <h3 id="officeInspectionLookUp"><asp:Image ID="imgExpandCollapseOfficeInspectionLookUp" runat="server" /> Office Inspection:</h3>
+        <h3 id="officeInspectionLookUp"><asp:Image ID="imgExpandCollapseOfficeInspectionLookUp" runat="server" /> Office Inspection:  <asp:Label ID="ExpandCollapseOfficeInspection" runat="server" Text="" /></h3>
         <asp:Panel ID="pnlD" CssClass="childPanel" runat="server">
                     <table>
             <tr id="departmentRowOffice" runat="server">
@@ -342,7 +342,7 @@ Summary Page:
         </asp:Panel> 
     </asp:Panel>
 
-    <h3 id="courseLookUp"><asp:Image ID="imgExpandCollapseCourseLookUp" runat="server" /> Course Lookup:</h3>
+    <h3 id="courseLookUp"><asp:Image ID="imgExpandCollapseCourseLookUp" runat="server" /> Course Lookup:  <asp:Label ID="ExpandCollapseCourseLookUp" runat="server" Text="" /></h3>
     <asp:Panel ID="pnlB" CssClass="panel" runat="server">
         <asp:Button ID="btnValidCourses" ValidationGroup="vgrCourseLookUp" 
             runat="server" Text="List all Valid Courses" 
@@ -372,13 +372,13 @@ Summary Page:
     </div>
     </asp:Panel>
 
-    <h3 id="statistics"><asp:Image ID="imgExpandCollapseStatistics" runat="server" /> Statistics:</h3>
+    <h3 id="statistics"><asp:Image ID="imgExpandCollapseStatistics" runat="server" /> Statistics: <asp:Label ID="ExpandCollapseStatistics" runat="server" Text="" /></h3>
     <asp:Panel ID="pnlE" CssClass="panel" runat="server">
         <asp:Button ID="btnStatistics" runat="server" Text="Statistics Lookup" 
             onclick="btnStatistics_Click" />
     </asp:Panel>
 
-    <h3 id="incident"><asp:Image ID="imgExpandCollapseIncident" runat="server" /> Incident Lookup:</h3>
+    <h3 id="incident"><asp:Image ID="imgExpandCollapseIncident" runat="server" /> Incident Lookup:  <asp:Label ID="ExpandCollapseIncident" runat="server" Text="" /></h3>
 <asp:Panel ID="pnlF" CssClass="parentPanel" runat="server">
 <asp:GridView ID="gdvTracker" Width="800px" runat="server" AutoGenerateColumns="False" 
     OnSelectedIndexChanged="gdvTracker_SelectedIndexChanged" OnRowCommand="gdvTracker_RowCommand" >
