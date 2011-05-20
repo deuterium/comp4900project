@@ -202,7 +202,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
             <h3 id="hr3Courses"><asp:Image ID="imgExpandCollapseCourses" runat="server" /> Courses <asp:Label ID="ExpandCollapseCourses" runat="server" Text=""></asp:Label></h3>
             <asp:Panel ID="pnlCourses" CssClass="parentPanel" runat="server">
                 <h3 id="hr3CoursesCompleted"><asp:Image ID="imgExpandCollapseCoursesCompleted" runat="server" /> Valid: <asp:Label ID="ExpandCollapseCoursesCompleted" runat="server" Text=""></asp:Label></h3>
-                <asp:Panel ID="pnlCoursesCompleted" Width="600" runat="server">
+                <asp:Panel ID="pnlCoursesCompleted" Width="790px" runat="server">
                     
                     <asp:GridView ID="grvValidCourses" runat="server" Width="790px"
                         onrowcancelingedit="grvValidCourses_RowCancelingEdit" 
@@ -404,7 +404,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                             <br />
                         </div>
                     </asp:Panel>
-                    <asp:Panel ID="pnlNewCourse" runat="server" CssClass="childPanel">
+                    <asp:Panel ID="pnlNewCourse" runat="server" Width="600">
                         <table>
                             <tr>
                                 <td>

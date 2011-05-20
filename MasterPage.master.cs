@@ -31,19 +31,19 @@ public partial class MasterPage : System.Web.UI.MasterPage
             divUserLoginDetails.Visible = true;
             lblUserName.Text = Session["AuthenticatedUser"].ToString();
             int roleNo = (int)Session["RoleNo"];
-            lblUserRole.Text = ctx.Roles.Where(r => r.roleNo == roleNo).Select(r => r.role1).First();
-            switch (lblUserRole.Text)
+            string roleName = ctx.Roles.Where(r => r.roleNo == roleNo).Select(r => r.role1).First();
+            switch (roleName)
             {
                 case "Administrator":
                     Admin_Menu();
-                    Followup_Count(0);
+                    Followup_Count(0, roleName);
                     break;
                 case "Safety Officer":
                     Admin_Menu();
-                    Followup_Count(0);
+                    Followup_Count(0, roleName);
                     break;
                 case "Lab Manager":
-                    Followup_Count(1);
+                    Followup_Count(1, roleName);
                     break;
                 default:
                     throw new System.SystemException("Default case of switch should never be reached");
@@ -57,7 +57,8 @@ public partial class MasterPage : System.Web.UI.MasterPage
     /// 1 - Lab Manager - Sets total of only Reports/Inspections needing followup from their department
     /// </summary>
     /// <param name="mode">mode to count follow ups</param>
-    protected void Followup_Count(int mode)
+    /// <param name="roleName">name of current user's role</param>
+    protected void Followup_Count(int mode, string roleName)
     {
         switch (mode)
         {
@@ -74,6 +75,13 @@ public partial class MasterPage : System.Web.UI.MasterPage
                         .Where(o => ((o.followUpStatus == "0") || (o.followUpStatus == "1")))
                         .Select(o => o.officeInsNo).Count())).ToString();
                 lblFollowupNum.ForeColor = System.Drawing.Color.Red;
+                if (!IsPostBack)
+                {
+                    if (roleName == "Administrator")
+                        lblUserRole.Text += "an " + roleName;
+                    else
+                        lblUserRole.Text += "a " + roleName;
+                }
                 break;
             //LabManagers - Counts Followups only for their lab
             case 1:
@@ -90,6 +98,10 @@ public partial class MasterPage : System.Web.UI.MasterPage
                         .Where(o => (((o.followUpStatus == "0") || (o.followUpStatus == "1"))) && (o.deptName == userDept))
                         .Select(o => o.officeInsNo).Count())).ToString();
                 lblFollowupNum.ForeColor = System.Drawing.Color.Red;
+                if (!IsPostBack)
+                {
+                    lblUserRole.Text += "a " + roleName;
+                }
                 break;
             default:
                 throw new System.SystemException("Default case of switch should never be reached");
@@ -108,6 +120,10 @@ public partial class MasterPage : System.Web.UI.MasterPage
         Response.Redirect("~/Default.aspx");
     }
 
+    /// <summary>
+    /// Shows the Admin version of the menu - includes
+    /// Tracking, Training and Admin pages.
+    /// </summary>
     protected void Admin_Menu()
     {
         masterMenuAdmin.Visible = true;

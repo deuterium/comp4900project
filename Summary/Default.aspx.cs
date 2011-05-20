@@ -11,8 +11,8 @@ using System.Globalization;
 ///Summary/Default.aspx.cs
 ///BCCA Cancer Research Centre
 ///Safety Training Database and Website
-///Author: BCIT COMP4900 2011
-///Kalen Wessel - kalen.wessel@gmail.com
+///Author: Kalen Wessel - kalen.wessel@gmail.com
+///BCIT COMP4900 2011
 /// </summary>
 public partial class Summary_Default : System.Web.UI.Page
 {
@@ -90,7 +90,10 @@ public partial class Summary_Default : System.Web.UI.Page
         grvOfficeInspectionResults.Visible = false;
         followupRow.Visible = false;
         officefollowUpRow.Visible = false;
+        tblLabInspectionComment.Visible = false;
         tbOfficeInspectionComment.Visible = false;
+
+        tblOfficeInspectionComment.Visible = false;
         tbLabInspectionComment.Visible = false;
 
         if (!IsPostBack)
@@ -346,6 +349,7 @@ public partial class Summary_Default : System.Web.UI.Page
         tbLabFollowupComments.Text = "";
         followupRow.Visible = true;
         tbLabInspectionComment.Visible = true;
+        tblLabInspectionComment.Visible = true;
 
         grvLabInspectionResults.Visible = true;
         grvLabInspections.Visible = true;
@@ -713,6 +717,7 @@ public partial class Summary_Default : System.Web.UI.Page
         grvOfficeInspections.Visible = true;
         officefollowUpRow.Visible = true;
         tbOfficeInspectionComment.Visible = true;
+        tblOfficeInspectionComment.Visible = true;
 
         lblOfficeFollowUpDate.Text = "";
         lblOfficeFollowUpStatus.Text = "";

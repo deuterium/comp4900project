@@ -94,9 +94,9 @@ a:hover
 
 .userLoginDetailsPanel
 {
-    padding-top: 25px;
-    padding-left: 370px;
-    float: left;
+    padding-top: 30px;
+    padding-right: 40px;
+    float: right;
     text-align: right;
 }
 
