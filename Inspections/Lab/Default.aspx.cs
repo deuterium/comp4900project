@@ -15,6 +15,10 @@ using BCCAModel;
 public partial class Inspections_Lab_Lab : System.Web.UI.Page
 {
     BCCAEntities ctx = new BCCAEntities();
+    // Text value of DropDowns for the other option, selecting this option causes a textbox to appear for custom data entry
+    public static String otherOption = "Other (specify)";
+    // Text value of DropDowns for the none specified option (null value in db)
+    public static String noOptionSpecified = "Choose an option...";
 
     /// <summary>
     /// Code that is executed when the page is originally loaded. In this case, the code will populate
@@ -35,11 +39,51 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
             ddlLabLabManager.DataValueField = "value";
             ddlLabLabManager.DataTextField = "text";
             ddlLabLabManager.DataBind();
-
+            ddlLabLabManager.Items.Insert(ddlLabLabManager.Items.Count, otherOption);
+            ddlLabLabManager.Items.Insert(0, noOptionSpecified);
+            
             ddlLabDepartment.DataSource = ctx.Departments.Select(D => new { text = D.deptName, value = D.deptName });
             ddlLabDepartment.DataValueField = "value";
             ddlLabDepartment.DataTextField = "text";
             ddlLabDepartment.DataBind();
+            ddlLabDepartment.Items.Insert(ddlLabDepartment.Items.Count, otherOption);
+            ddlLabDepartment.Items.Insert(0, noOptionSpecified);
+        }
+    }
+
+    /// <summary>
+    /// Displays a textbox if the "Other (specify)" option is selected
+    /// and hides the textbox if any other option is selected
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The index changed event.</param>
+    protected void ddlDepartments_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (ddlLabDepartment.SelectedValue.Equals(otherOption))
+        {
+            tbxDepartment.Visible = true;
+        }
+        else
+        {
+            tbxDepartment.Visible = false;
+        }
+    }
+
+    /// <summary>
+    /// Displays a textbox if the "Other (specify)" option is selected
+    /// and hides the textbox if any other option is selected
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The index changed event.</param>
+    protected void ddlLabLabManager_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (ddlLabLabManager.SelectedValue.Equals(otherOption))
+        {
+            tbxLabLabManager.Visible = true;
+        }
+        else
+        {
+            tbxLabLabManager.Visible = false;
         }
     }
 
