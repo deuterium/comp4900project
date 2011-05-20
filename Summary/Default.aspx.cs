@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using BCCAModel;
+using System.Globalization;
 
 /// <summary>
 ///Summary/Default.aspx.cs
@@ -15,6 +16,12 @@ using BCCAModel;
 /// </summary>
 public partial class Summary_Default : System.Web.UI.Page
 {
+
+    // The date format to use for displaying and converting dates
+    public static String dateFormat = "M/d/yyyy";
+    // The locale to use when displaying and converting dates/times
+    public static CultureInfo locale = new CultureInfo("en-CA");
+
     // Static level entity context
     static BCCAEntities ctx = new BCCAEntities();
 
@@ -68,6 +75,8 @@ public partial class Summary_Default : System.Web.UI.Page
             case "Lab Manager":
                 departmentRowLab.Visible = false;
                 departmentRowOffice.Visible = false;
+                divStats.Visible = false;
+                divCourseLookUp.Visible = false;
                 userRole = 1;
                 break;
             default:
@@ -81,6 +90,8 @@ public partial class Summary_Default : System.Web.UI.Page
         grvOfficeInspectionResults.Visible = false;
         followupRow.Visible = false;
         officefollowUpRow.Visible = false;
+        tbOfficeInspectionComment.Visible = false;
+        tbLabInspectionComment.Visible = false;
 
         if (!IsPostBack)
         {
@@ -334,6 +345,7 @@ public partial class Summary_Default : System.Web.UI.Page
         tbLabFollowupComments.Text = "";
         tbLabFollowupComments.Text = "";
         followupRow.Visible = true;
+        tbLabInspectionComment.Visible = true;
 
         grvLabInspectionResults.Visible = true;
         grvLabInspections.Visible = true;
@@ -421,6 +433,8 @@ public partial class Summary_Default : System.Web.UI.Page
                                                    );
 
         grvLabInspectionResults.DataBind();
+
+        tbLabInspectionComment.Text = Convert.ToString(ctx.LabInspections.Where(LI => (LI.labInsNo == selectedLabInsNo)).Select(LI => LI.comments).FirstOrDefault());
 
         
         var qryFollowUpSubmitter = ctx.LabInspections.Where(LI => (LI.labInsNo == selectedLabInsNo)).Select(LI => LI.followupSubmitter).FirstOrDefault();
@@ -698,6 +712,7 @@ public partial class Summary_Default : System.Web.UI.Page
         grvOfficeInspectionResults.Visible = true;
         grvOfficeInspections.Visible = true;
         officefollowUpRow.Visible = true;
+        tbOfficeInspectionComment.Visible = true;
 
         lblOfficeFollowUpDate.Text = "";
         lblOfficeFollowUpStatus.Text = "";
@@ -790,13 +805,16 @@ public partial class Summary_Default : System.Web.UI.Page
 
         grvOfficeInspectionResults.DataBind();
 
+        tbOfficeInspectionComment.Text = Convert.ToString(ctx.OfficeInspections.Where(OI => (OI.officeInsNo == selectedOfficeInsNo)).Select(OI => OI.comments).FirstOrDefault());
+
+
         var qryFollowUpSubmitter = ctx.OfficeInspections.Where(OI => (OI.officeInsNo == selectedOfficeInsNo)).Select(OI => OI.followupSubmitter).FirstOrDefault();
         if (qryFollowUpSubmitter != null)
         {
             lblOfficeFollowUpSubmitter.Text = Convert.ToString(qryFollowUpSubmitter);
         }
 
-        var qryFollowUpDate = ctx.OfficeInspections.Where(OI => (OI.officeInsNo == selectedOfficeInsNo)).Select(OI => OI.followupDate).FirstOrDefault(); ;
+        var qryFollowUpDate = ctx.OfficeInspections.Where(OI => (OI.officeInsNo == selectedOfficeInsNo)).Select(OI => OI.followupDate).FirstOrDefault();
         if (qryFollowUpDate != null)
         {
             DateTime temp = Convert.ToDateTime(qryFollowUpDate);
