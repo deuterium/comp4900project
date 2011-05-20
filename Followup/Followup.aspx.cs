@@ -32,7 +32,9 @@ public partial class Followup_Followup : System.Web.UI.Page
     public static List<String> employers = new List<String> {
         noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
     };
-    //Date Format override
+    // The date format to use for displaying and converting dates
+    public static String dateFormat = "M/d/yyyy";
+    // The locale to use when displaying and converting dates/times
     public static CultureInfo locale = new CultureInfo("en-CA");
 
     /// <summary>
@@ -656,6 +658,8 @@ public partial class Followup_Followup : System.Web.UI.Page
 
         #endregion H_FixedShiftRotation
 
+        lblIncidentTitle.Text = "Viewing Incident Report #" + tbNoHidden.Text;
+        lblIncidentTitle.Visible = true;
         return report;
     }
 
@@ -846,29 +850,29 @@ public partial class Followup_Followup : System.Web.UI.Page
         Incident inc = ctx.Incidents.Where(i => i.incidentNo == insNo).Select(i => i).First();
         //F - 8 items
         inc.p2_corrective_person = tbx_p2_corrective_person.Text;
-        inc.p2_corrective_personDate = (tbx_p2_corrective_personDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_personDate.Text, locale));
+        inc.p2_corrective_personDate = (tbx_p2_corrective_personDate.Text.Count() == 0 ? (DateTime?)null : DateTime.ParseExact(tbx_p2_corrective_personDate.Text, dateFormat, locale));
         inc.p2_corrective_maintenance = rbl_p2_corrective_maintenance.SelectedValue;
-        inc.p2_corrective_maintenanceDate = (tbx_p2_corrective_maintenanceDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_maintenanceDate.Text, locale));
+        inc.p2_corrective_maintenanceDate = (tbx_p2_corrective_maintenanceDate.Text.Count() == 0 ? (DateTime?)null : DateTime.ParseExact(tbx_p2_corrective_maintenanceDate.Text, dateFormat, locale));
         inc.p2_corrective_communicated = rbl_p2_corrective_communicated.SelectedValue;
-        inc.p2_corrective_communicatedDate = (tbx_p2_corrective_communicatedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_communicatedDate.Text, locale));
+        inc.p2_corrective_communicatedDate = (tbx_p2_corrective_communicatedDate.Text.Count() == 0 ? (DateTime?)null : DateTime.ParseExact(tbx_p2_corrective_communicatedDate.Text, dateFormat, locale));
         inc.p2_corrective_time = rbl_p2_corrective_time.SelectedValue;
-        inc.p2_corrective_timeDate = (tbx_p2_corrective_timeDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_timeDate.Text, locale));
+        inc.p2_corrective_timeDate = (tbx_p2_corrective_timeDate.Text.Count() == 0 ? (DateTime?)null : DateTime.ParseExact(tbx_p2_corrective_timeDate.Text, dateFormat, locale));
         //G - 15 items
         inc.p2_corrective_written = tbx_p2_corrective_written.Text;
-        inc.p2_corrective_writtenTargetDate = (tbx_p2_corrective_writtenTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_writtenTargetDate.Text, locale));
-        inc.p2_corrective_writtenCompletedDate = (tbx_p2_corrective_writtenCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_writtenCompletedDate.Text, locale));
+        inc.p2_corrective_writtenTargetDate = (tbx_p2_corrective_writtenTargetDate.Text.Count() == 0 ? (DateTime?)null : DateTime.ParseExact(tbx_p2_corrective_writtenTargetDate.Text, dateFormat, locale));
+        inc.p2_corrective_writtenCompletedDate = (tbx_p2_corrective_writtenCompletedDate.Text.Count() == 0 ? (DateTime?)null : DateTime.ParseExact(tbx_p2_corrective_writtenCompletedDate.Text, dateFormat, locale));
         inc.p2_corrective_education = tbx_p2_corrective_education.Text;
-        inc.p2_corrective_educationTargetDate = (tbx_p2_corrective_educationTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_educationTargetDate.Text, locale));
-        inc.p2_corrective_educationCompletedDate = (tbx_p2_corrective_educationCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_educationCompletedDate.Text, locale));
+        inc.p2_corrective_educationTargetDate = (tbx_p2_corrective_educationTargetDate.Text.Count() == 0 ? (DateTime?)null : DateTime.ParseExact(tbx_p2_corrective_educationTargetDate.Text, dateFormat, locale));
+        inc.p2_corrective_educationCompletedDate = (tbx_p2_corrective_educationCompletedDate.Text.Count() == 0 ? (DateTime?)null : DateTime.ParseExact(tbx_p2_corrective_educationCompletedDate.Text, dateFormat, locale));
         inc.p2_corrective_equipment = tbx_p2_corrective_equipment.Text;
-        inc.p2_corrective_equipmentTargetDate = (tbx_p2_corrective_equipmentTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_equipmentTargetDate.Text, locale));
-        inc.p2_corrective_equipmentCompletedDate = (tbx_p2_corrective_equipmentCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_equipmentCompletedDate.Text, locale));
+        inc.p2_corrective_equipmentTargetDate = (tbx_p2_corrective_equipmentTargetDate.Text.Count() == 0 ? (DateTime?)null : DateTime.ParseExact(tbx_p2_corrective_equipmentTargetDate.Text, dateFormat, locale));
+        inc.p2_corrective_equipmentCompletedDate = (tbx_p2_corrective_equipmentCompletedDate.Text.Count() == 0 ? (DateTime?)null : DateTime.ParseExact(tbx_p2_corrective_equipmentCompletedDate.Text, dateFormat, locale));
         inc.p2_corrective_environment = tbx_p2_corrective_environment.Text;
-        inc.p2_corrective_environmentTargetDate = (tbx_p2_corrective_environmentTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text, locale));
-        inc.p2_corrective_environmentCompletedDate = (tbx_p2_corrective_environmentCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_environmentCompletedDate.Text, locale));
+        inc.p2_corrective_environmentTargetDate = (tbx_p2_corrective_environmentTargetDate.Text.Count() == 0 ? (DateTime?)null : DateTime.ParseExact(tbx_p2_corrective_environmentTargetDate.Text, dateFormat, locale));
+        inc.p2_corrective_environmentCompletedDate = (tbx_p2_corrective_environmentCompletedDate.Text.Count() == 0 ? (DateTime?)null : DateTime.ParseExact(tbx_p2_corrective_environmentCompletedDate.Text, dateFormat, locale));
         inc.p2_corrective_patient = tbx_p2_corrective_patient.Text;
-        inc.p2_corrective_patientTargetDate = (tbx_p2_corrective_patientTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_patientTargetDate.Text, locale));
-        inc.p2_corrective_patientCompletedDate = (tbx_p2_corrective_patientCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_patientCompletedDate.Text, locale));
+        inc.p2_corrective_patientTargetDate = (tbx_p2_corrective_patientTargetDate.Text.Count() == 0 ? (DateTime?)null : DateTime.ParseExact(tbx_p2_corrective_patientTargetDate.Text, dateFormat, locale));
+        inc.p2_corrective_patientCompletedDate = (tbx_p2_corrective_patientCompletedDate.Text.Count() == 0 ? (DateTime?)null : DateTime.ParseExact(tbx_p2_corrective_patientCompletedDate.Text, dateFormat, locale));
 
         //H - 17 items
         inc.p2_manager_previous = tbx_p2_manager_previous.Text;
@@ -934,7 +938,7 @@ public partial class Followup_Followup : System.Web.UI.Page
     /// <param name="insNo">lab inspection id</param>
     protected void Populate_Lab_Followup(int insNo)
     {
-        gvwLabOfficeFollowup.DataSource = ctx.LabInspections
+        var li = ctx.LabInspections
                                   .Join(
                                      ctx.LabInspectionDetails,
                                      LI => LI.labInsNo,
@@ -962,17 +966,45 @@ public partial class Followup_Followup : System.Web.UI.Page
                                      temp1 =>
                                         new
                                         {
+                                            //report items
                                             insItem = temp1.LII.labInsItem,
                                             checkbox = temp1.temp0.LID.checkbox,
-                                            comments = temp1.temp0.LID.comments
+                                            comments = temp1.temp0.LID.comments,
+                                            reportComments = temp1.temp0.LI.comments,
+                                            //header info
+                                            department = temp1.temp0.LI.deptName,
+                                            supervisor = temp1.temp0.LI.supervisor,
+                                            room = temp1.temp0.LI.room,
+                                            inspector = temp1.temp0.LI.inspector,
+                                            manager = temp1.temp0.LI.labMgr,
+                                            inspectionDate = temp1.temp0.LI.date
                                         }
                                   );
+        gvwLabOfficeFollowup.DataSource = li;
         gvwLabOfficeFollowup.DataBind();
         //Set column widths
         gvwLabOfficeFollowup.Columns[0].ItemStyle.Width = 220;
         gvwLabOfficeFollowup.Columns[1].ItemStyle.Width = 80;
         gvwLabOfficeFollowup.Columns[2].ItemStyle.Width = 250;
         gvwLabOfficeFollowup.Columns[3].ItemStyle.Width = 250;
+
+        // Populate Header Info
+        var q = li.First();
+        lblLabDepartment.Text = q.department;
+        lblLabSupervisor.Text = q.supervisor;
+        lblLabRoom.Text = q.room;
+        lblLabInspector.Text = q.inspector;
+        lblLabManager.Text = q.manager;
+        if (q.inspectionDate != null)
+        {
+            lblLabInspectionDate.Text = Convert.ToDateTime(q.inspectionDate).ToString("M/d/yyyy");
+        }
+        lblTitle.Text = "Viewing Lab Inspection #" + tbNoHidden.Text;
+        pnlLabHeader.Visible = true;
+        lblTitle.Visible = true;
+
+        tbxCommentLabOfficeComments.Text = q.reportComments;
+        tbxCommentLabOfficeComments.Enabled = false;
 
         //Fills in saved infomoration if report is saved and not submitted
         if (ctx.LabInspections.Where(LI => LI.labInsNo == insNo).Select(LI => LI.followUpStatus).First() == "1")
@@ -1001,7 +1033,7 @@ public partial class Followup_Followup : System.Web.UI.Page
     /// <param name="insNo">office inspection id</param>
     protected void Populate_Office_Followup(int insNo)
     {
-        gvwLabOfficeFollowup.DataSource = ctx.OfficeInspections
+        var qry = ctx.OfficeInspections
                                   .Join(
                                      ctx.OfficeInspectionDetails,
                                      OI => OI.officeInsNo,
@@ -1031,15 +1063,37 @@ public partial class Followup_Followup : System.Web.UI.Page
                                         {
                                             insItem = temp1.OII.officeInsName,
                                             checkbox = temp1.temp0.OID.checkbox,
-                                            comments = temp1.temp0.OID.comments
+                                            comments = temp1.temp0.OID.comments,
+                                            department = temp1.temp0.OI.deptName,
+                                            area = temp1.temp0.OI.area,
+                                            insDate = temp1.temp0.OI.insDate,
+                                            inspector = temp1.temp0.OI.inspector,
+                                            reportComments = temp1.temp0.OI.comments
                                         }
                                   );
+        gvwLabOfficeFollowup.DataSource = qry;
         gvwLabOfficeFollowup.DataBind();
         //sets column widths
         gvwLabOfficeFollowup.Columns[0].ItemStyle.Width = 220;
         gvwLabOfficeFollowup.Columns[1].ItemStyle.Width = 80;
         gvwLabOfficeFollowup.Columns[2].ItemStyle.Width = 250;
         gvwLabOfficeFollowup.Columns[3].ItemStyle.Width = 250;
+
+        //Fills Header info
+        var qOI = qry.First();
+        lblOfficeDepartment.Text = qOI.department;
+        lblOfficeArea.Text = qOI.area;
+        if (qOI.insDate != null)
+        {
+            lblOfficeInspectionDate.Text = Convert.ToDateTime(qOI.insDate).ToString("M/d/yyyy");
+        }
+        lblOfficeInspector.Text = qOI.inspector;
+        lblTitle.Text = "Viewing Office Inspection #" + tbNoHidden.Text;
+        pnlOfficeHeader.Visible = true;
+        lblTitle.Visible = true;
+
+        tbxCommentLabOfficeComments.Text = qOI.reportComments;
+        tbxCommentLabOfficeComments.Enabled = false;
 
         //Fills in saved infomoration if report is saved and not submitted
         if (ctx.OfficeInspections.Where(OI => OI.officeInsNo == insNo).Select(OI => OI.followUpStatus).First() == "1")
@@ -1171,7 +1225,7 @@ public partial class Followup_Followup : System.Web.UI.Page
             .Select(li => li).First();
         labIns.followupComment = tbLabOfficeFollowupComments.Text;
         labIns.followupSubmitter = tbSubmittedby.Text;
-        labIns.followupDate = Convert.ToDateTime(tbFollowUpDate.Text, locale);
+        labIns.followupDate = DateTime.ParseExact(tbFollowUpDate.Text, dateFormat, locale);
         //Followup Submitted
         labIns.followUpStatus = "2";
 
@@ -1218,7 +1272,7 @@ public partial class Followup_Followup : System.Web.UI.Page
             .Select(oi => oi).First();
         offIns.followupComment = tbLabOfficeFollowupComments.Text;
         offIns.followupSubmitter = tbSubmittedby.Text;
-        offIns.followupDate = Convert.ToDateTime(tbFollowUpDate.Text, locale);
+        offIns.followupDate = DateTime.ParseExact(tbFollowUpDate.Text, dateFormat, locale);
         //Followup Submitted
         offIns.followUpStatus = "2";
 
