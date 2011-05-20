@@ -81,7 +81,7 @@
                                         Username:
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="tbUsername" runat="server" Width="110" />
+                                        <asp:TextBox ID="tbUsername" runat="server" Width="110" MaxLength="80" />
                                         <asp:TextBox ID="tbUsernameID" runat="server" CssClass="hidden" />
                                         <asp:RequiredFieldValidator ID="rfvUsername" runat="server" ErrorMessage="Username required"
                                             ValidationGroup="vgrUserNew" ControlToValidate="tbUsername" Display="Static">*</asp:RequiredFieldValidator>
@@ -176,7 +176,7 @@
                             <asp:RequiredFieldValidator ID="rfvDropDownsDelete" runat="server" ErrorMessage="Selection of item needed to delete"
                                 ControlToValidate="lbDropDowns" ValidationGroup="vgrDropDownsDelete" Display="Dynamic" />
                             <br />
-                            <asp:ListBox ID="lbDropDowns" runat="server" Width="180" Height="120" ValidationGroup="vgrDropDownsDelete"
+                            <asp:ListBox ID="lbDropDowns" runat="server" Width="250" Height="300" ValidationGroup="vgrDropDownsDelete"
                                 OnLoad="lbDropDowns_Load" />
                         </td>
                         <td>
@@ -214,42 +214,50 @@
                 and Training form of this web application.
             </asp:Panel>
             <asp:Panel ID="pnlCourses" CssClass="panel" runat="server">
-                <div id="divManageCoursesTop" >
+                <div id="divManageCoursesTop">
                     <table>
                         <tr>
-                            <td>Selection Mode:</td>
+                            <td>
+                                Selection Mode:
+                            </td>
                             <td>
                                 <asp:RadioButtonList ID="rblCourseMode" runat="server" OnSelectedIndexChanged="rblCourseMode_SelectedIndexChanged"
                                     AutoPostBack="true" RepeatDirection="Horizontal">
-                                    <asp:ListItem Text="Create" Value="Create" />
+                                    <asp:ListItem Text="Create" Value="Create" Selected="True" />
                                     <asp:ListItem Text="Edit" Value="Edit" />
                                 </asp:RadioButtonList>
                             </td>
                         </tr>
                     </table>
                 </div>
-                <div id="divManageCoursesLeft" >
+                <div id="divManageCoursesLeft">
                     <span class="spanBold">Courses in System:</span>
                     <br />
                     <br />
-                    <asp:ListBox ID="lbxAllCourses" runat="server" Width="300" Height="350" OnLoad="lbxAllCourses_Load"
+                    <asp:ListBox ID="lbxAllCourses" runat="server" Width="250" Height="300" OnLoad="lbxAllCourses_Load"
                         OnSelectedIndexChanged="lbxAllCourses_SelectedIndexChanged" AutoPostBack="true" />
                 </div>
-                <asp:UpdatePanel ID="uplCourseInfo" runat="server">
-                    <ContentTemplate>
-                
-                <div id="divManageCoursesRight" >
+                <div id="divManageCoursesRight">
                     <table>
-                        <tr><td><span class="spanBold">Course Name:</span></td></tr>
-                        <tr><td>
-                            <asp:TextBox ID="tbxCourseName" runat="server" MaxLength="255" Width="300" ></asp:TextBox>
-                            <asp:RequiredFieldValidator ID="rfvCourseName" runat="server" ControlToValidate="tbxCourseName" 
-                                ErrorMessage="Course name is required."></asp:RequiredFieldValidator>
-                            <asp:RegularExpressionValidator ID="revCourseName" runat="server" ControlToValidate="tbxCourseName" 
-                                ValidationExpression="^[A-Za-z,'\.0-9]+$"
-                                ErrorMessage="Course name can only contain letters, periods, commas, apostrophes, and numbers."></asp:RegularExpressionValidator>
-                        </td></tr>
-                        <tr><td><span class="spanBold">Months Valid:</span></td></tr>
+                        <tr>
+                            <td>
+                                <span class="spanBold">Course Name:</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <asp:TextBox ID="tbxCourseName" runat="server" MaxLength="255" Width="200"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="rfvCourseName" runat="server" ControlToValidate="tbxCourseName"
+                                    ErrorMessage="Course name is required."></asp:RequiredFieldValidator>
+                                <asp:RegularExpressionValidator ID="revCourseName" runat="server" ControlToValidate="tbxCourseName"
+                                    ValidationExpression="^[A-Za-z,'\.0-9]+$" ErrorMessage="Course name can only contain letters, periods, commas, apostrophes, and numbers."></asp:RegularExpressionValidator>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="spanBold">Months Valid:</span>
+                            </td>
+                        </tr>
                         <tr>
                             <td>
                                 <asp:CheckBox ID="cbxNeverExpires" runat="server" Text="Never expires" AutoPostBack="true"
@@ -258,40 +266,31 @@
                         </tr>
                         <tr>
                             <td>
-                                <asp:UpdatePanel ID="uplMonthsValid" runat="server">
-                                    <ContentTemplate>
-                                        <asp:TextBox ID="tbxMonthsValid" runat="server" Text="1" MaxLength="3" ></asp:TextBox>
-                                        <asp:FilteredTextBoxExtender ID="fteMonthsValid" runat="server"
-                                            TargetControlID="tbxMonthsValid" ValidChars="0123456789" />
-                                        <asp:NumericUpDownExtender ID="nexMonthsValid" runat="server" TargetControlID="tbxMonthsValid" 
-                                            Width="100" Maximum="999" Minimum="1" />
-                                    </ContentTemplate>
-                                    <Triggers>
-                                        <asp:AsyncPostBackTrigger ControlID="cbxNeverExpires" EventName="CheckedChanged" />
-                                    </Triggers>
-                                </asp:UpdatePanel>
+                                <asp:TextBox ID="tbxMonthsValid" runat="server" Text="1" MaxLength="3"></asp:TextBox>
+                                <asp:FilteredTextBoxExtender ID="fteMonthsValid" runat="server" TargetControlID="tbxMonthsValid"
+                                    ValidChars="0123456789" />
+                                <asp:NumericUpDownExtender ID="nexMonthsValid" runat="server" TargetControlID="tbxMonthsValid"
+                                    Width="100" Maximum="999" Minimum="1" />
                             </td>
                         </tr>
-                        <tr><td><br /><br /></td></tr>
                         <tr>
                             <td>
-                                <asp:Button ID="btnSubmitCourse" runat="server" Text="Add" /> <!-- toggle -->
-                                <asp:Button ID="btnDeleteCourse" runat="server" Text="Delete" Visible="false" /> <!-- confirm -->
-                                <asp:Button ID="btnCancelCourse" runat="server" Text="Cancel" 
-                                    onclick="btnCancelCourse_Click" /> <!-- clear form -->
+                                <br />
+                                <br />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <asp:Button ID="btnSubmitCourse" runat="server" Text="Add" />
+                                <!-- toggle -->
+                                <asp:Button ID="btnDeleteCourse" runat="server" Text="Delete" Visible="false" />
+                                <!-- confirm -->
+                                <asp:Button ID="btnCancelCourse" runat="server" Text="Cancel" OnClick="btnCancelCourse_Click" />
+                                <!-- clear form -->
                             </td>
                         </tr>
                     </table>
                 </div>
-                </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="lbxAllCourses" EventName="SelectedIndexChanged" />
-                        <asp:AsyncPostBackTrigger ControlID="rblCourseMode" EventName="SelectedIndexChanged" />
-                        <asp:AsyncPostBackTrigger ControlID="btnCancelCourse" EventName="Click" />
-                        <asp:AsyncPostBackTrigger ControlID="btnSubmitCourse" EventName="Click" />
-                        <asp:AsyncPostBackTrigger ControlID="btnDeleteCourse" EventName="Click" />
-                    </Triggers>
-                </asp:UpdatePanel>
             </asp:Panel>
         </div>
         <asp:Panel ID="pnlPop" BackColor="White" CssClass="popPanel" runat="server">

@@ -464,14 +464,19 @@ public partial class Admin_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
-    protected void lbxAllCourses_Load(object sender, EventArgs e) {
-        Load_AllCourses();
+    protected void lbxAllCourses_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            Load_AllCourses();
+        }
     }
 
     /// <summary>
     /// Loads all the courses from the database and binds the information to the List Box.
     /// </summary>
-    protected void Load_AllCourses() {
+    protected void Load_AllCourses()
+    {
         var qry = ctx.TrainingCourses
                   .OrderBy(tc => tc.trainingName)
                   .Select(tc => tc);
@@ -482,15 +487,19 @@ public partial class Admin_Default : System.Web.UI.Page
         lbxAllCourses.DataBind();
     }
 
-    protected void lbxAllCourses_SelectedIndexChanged(object sender, EventArgs e) {
+    protected void lbxAllCourses_SelectedIndexChanged(object sender, EventArgs e)
+    {
         getCourse();
     }
 
-    private void getCourse() {
-        if (lbxAllCourses.SelectedValue == null) {
+    private void getCourse()
+    {
+        if (lbxAllCourses.SelectedValue == null)
+        {
             return;
         }
-        if (lbxAllCourses.SelectedValue.Equals(String.Empty)) {
+        if (lbxAllCourses.SelectedValue.Equals(String.Empty))
+        {
             return;
         }
 
@@ -498,7 +507,8 @@ public partial class Admin_Default : System.Web.UI.Page
         TrainingCours course = ctx.TrainingCourses
                                .Where(c => (c.trainingNo == courseId))
                                .Select(c => c).FirstOrDefault();
-        if (course == null) {
+        if (course == null)
+        {
             Popup_Overlay("An unexpected error occured. Unable to select course.", Color.Red);
             return;
         }
@@ -509,21 +519,26 @@ public partial class Admin_Default : System.Web.UI.Page
         tbxMonthsValid.Text = course.monthsValid.ToString();
     }
 
-    private void createCourse() {
+    private void createCourse()
+    {
         TrainingCours tc = new TrainingCours();
-        tc.trainingName = tbxCourseName.Text; 
-        if (tbxMonthsValid.Text.Equals(String.Empty)) {
+        tc.trainingName = tbxCourseName.Text;
+        if (tbxMonthsValid.Text.Equals(String.Empty))
+        {
             tc.monthsValid = null;
         }
-        else {
+        else
+        {
             tc.monthsValid = Convert.ToDecimal(tbxMonthsValid.Text);
         }
 
-        try {
+        try
+        {
             ctx.AddToTrainingCourses(tc);
             ctx.SaveChanges();
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             Popup_Overlay("An error occured while adding your course. Please try again.", Color.Red);
             return;
         }
@@ -531,22 +546,27 @@ public partial class Admin_Default : System.Web.UI.Page
         lbxAllCourses.DataBind();
     }
 
-    private void updateCourse() {
+    private void updateCourse()
+    {
 
         TrainingCours tc = new TrainingCours();
         tc.trainingName = tbxCourseName.Text;
-        if (tbxMonthsValid.Text.Equals(String.Empty)) {
+        if (tbxMonthsValid.Text.Equals(String.Empty))
+        {
             tc.monthsValid = null;
         }
-        else {
+        else
+        {
             tc.monthsValid = Convert.ToDecimal(tbxMonthsValid.Text);
         }
 
-        try {
+        try
+        {
             ctx.AddToTrainingCourses(tc);
             ctx.SaveChanges();
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             Popup_Overlay("An error occured while adding your course. Please try again.", Color.Red);
             return;
         }
@@ -554,44 +574,45 @@ public partial class Admin_Default : System.Web.UI.Page
         lbxAllCourses.DataBind();
     }
 
-    protected void rblCourseMode_SelectedIndexChanged(object sender, EventArgs e) {
+    protected void rblCourseMode_SelectedIndexChanged(object sender, EventArgs e)
+    {
         switchCourseMode(rblCourseMode.SelectedValue);
     }
 
-    private void switchCourseMode(String mode) {
-        if (mode.Equals("Create")) {
+    private void switchCourseMode(String mode)
+    {
+        if (mode.Equals("Create"))
+        {
             btnDeleteCourse.Visible = false;
             btnSubmitCourse.Text = "Add";
         }
-        else {
+        else
+        {
             btnDeleteCourse.Visible = true;
             btnSubmitCourse.Text = "Save";
         }
     }
 
-    protected void cbxNeverExpires_CheckChanged(object sender, EventArgs e) {
-        if (cbxNeverExpires.Checked) {
+    protected void cbxNeverExpires_CheckChanged(object sender, EventArgs e)
+    {
+        if (cbxNeverExpires.Checked)
+        {
             nexMonthsValid.Enabled = false;
             tbxMonthsValid.Visible = false;
         }
-        else {
+        else
+        {
             nexMonthsValid.Enabled = true;
             tbxMonthsValid.Visible = true;
         }
     }
-    #endregion Course Management
 
-    /// <summary>
-    /// Me gusta.
-    /// </summary>
-    protected void ಠ_ಠ() {
-
-    }
-
-    protected void btnCancelCourse_Click(object sender, EventArgs e) {
+    protected void btnCancelCourse_Click(object sender, EventArgs e)
+    {
         lbxAllCourses.SelectedValue = String.Empty;
         cbxNeverExpires.Checked = false;
         tbxCourseName.Text = String.Empty;
         tbxMonthsValid.Text = "1";
     }
+    #endregion Course Management
 }
