@@ -47,21 +47,23 @@
 <asp:Panel ID="pnlChecklist" CssClass="panel" runat="server">
 <asp:GridView ID="gdvOfficeInspection" runat="server" AutoGenerateColumns="False" CellPadding="10" >
     <Columns>
-        <asp:BoundField DataField="officeInsItemNo" HeaderText="#" ReadOnly="True" SortExpression="officeInsItemNo" />
-        <asp:BoundField DataField="officeInsItem" HeaderText="Item" ReadOnly="True" SortExpression="officeInsItem" />
-        <asp:TemplateField HeaderText="Checked (yes/no)" ItemStyle-HorizontalAlign="Center" >
+        <asp:BoundField DataField="officeInsItemNo" HeaderText="#" ReadOnly="True"
+            SortExpression="officeInsItemNo" />
+        <asp:BoundField DataField="officeInsItemName" HeaderText="Item" ReadOnly="True"
+            SortExpression="officeInsItem" />
+        <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Center" >
             <ItemTemplate>
                 <asp:Label ID="lblChecked" runat="server" Text='<%# Bind("checkbox") %>' />
             </ItemTemplate>
         </asp:TemplateField>
         <asp:TemplateField HeaderText="Comments" >
             <ItemTemplate>
-                <asp:Label ID="lblInspectionComments" runat="server" Text='<%# Bind("comments") %>' />
+                <asp:Label ID="lblInspectionComments" runat="server" Text='<%# Bind("inspectionComment") %>' />
             </ItemTemplate>
         </asp:TemplateField>
         <asp:TemplateField HeaderText="Follow Up Comments" >
             <ItemTemplate>
-                <asp:Label ID="lblFollowUpComments" runat="server" Text='<%# Bind("comments") %>' />
+                <asp:Label ID="lblFollowUpComments" runat="server" Text='<%# Bind("followUpComment") %>' />
             </ItemTemplate>
         </asp:TemplateField>
     </Columns>
