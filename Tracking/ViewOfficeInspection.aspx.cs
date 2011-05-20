@@ -43,6 +43,7 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
             }
         }
         catch (FormatException ex) {
+            ex.ToString();
             setUserMsg("Invalid inspection number given.");
             return;
         }

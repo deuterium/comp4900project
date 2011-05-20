@@ -187,7 +187,7 @@ Summary Page:
 
                 </Columns>
         </asp:GridView>
-                    <table cellspacing="5" width="600" id="Table2" runat="server">
+                    <table cellspacing="5" width="600" id="tblLabInspectionComment" runat="server" >
                     <tr>
                         <td>Lab Inspection Comment</td>
                     </tr>
@@ -313,7 +313,7 @@ Summary Page:
 
                 </Columns>
             </asp:GridView>
-            <table cellspacing="5" width="600" id="Table1" runat="server">
+            <table cellspacing="5" width="600" id="tblOfficeInspectionComment" runat="server">
                     <tr>
                         <td>Office Inspection Comment</td>
                     </tr>

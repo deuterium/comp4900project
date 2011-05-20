@@ -46,6 +46,7 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
             }
         }
         catch (FormatException ex) {
+            ex.ToString();
             setUserMsg("Invalid inspection number given.");
             return;
         }
