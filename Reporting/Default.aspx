@@ -197,6 +197,8 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
             Text="Update  Employee" onclick="btnUpdateEmployee_Click" />
         <asp:Button TabIndex="1112" ID="btnCreateReport" runat="server" 
             Text="Create Report" onclick="btnCreateReport_Click" />
+        <asp:Button TabIndex="1112" ID="btnClear" runat="server" 
+            Text="Clear" onclick="btnClear_Click" />
         <asp:ValidationSummary ID="vsyGetEmp" ValidationGroup="vgpGetEmp" runat="server" DisplayMode="BulletList" />
         <asp:ValidationSummary ID="vsyGetEmpFromDb" ValidationGroup="vpgGetEmpFromDb" runat="server" DisplayMode="BulletList" />
         <asp:ValidationSummary ID="vsyCreateEmp" ValidationGroup="vgpCreateEmp" runat="server" DisplayMode="BulletList" />

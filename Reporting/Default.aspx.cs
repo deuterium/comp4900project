@@ -452,11 +452,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
         tbxRoom.Text = emp.room;
 
         if (emp.startDate != null) {
-            tbxStartDate.Text = Convert.ToDateTime(emp.startDate, locale).ToString(dateFormat, locale);
+            tbxStartDate.Text = emp.startDate.ToString(dateFormat, locale);
         }
 
         if (emp.endDate != null) {
-            tbxEndDate.Text = Convert.ToDateTime(emp.endDate, locale).ToString(dateFormat, locale);
+            tbxEndDate.Text = ((DateTime)emp.endDate).ToString(dateFormat, locale);
         }
         #endregion Populate Form
 
@@ -511,10 +511,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
             args.IsValid = true;
             return;
         }
-        DateTime startDate = Convert.ToDateTime(strStartDate, locale);
-        DateTime endDate = Convert.ToDateTime(strEndDate, locale);
-        if (endDate.CompareTo(startDate) < 0) {
-            args.IsValid = false;
+        DateTime startDate = DateTime.ParseExact(strStartDate, dateFormat, locale);
+        DateTime endDate = DateTime.ParseExact(strEndDate, dateFormat, locale);
+
+        if (endDate.CompareTo(startDate) > 0) {
+            args.IsValid = true;
             return;
         }
     }
@@ -567,11 +568,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
         #region dates
         if (!tbxStartDate.Text.Equals(String.Empty)) {
-            DateTime formStartDate = Convert.ToDateTime(tbxStartDate.Text, locale);
+            DateTime formStartDate = DateTime.ParseExact(tbxStartDate.Text, dateFormat, locale);
             emp.startDate = formStartDate;
         }
         if (!tbxEndDate.Text.Equals(String.Empty)) {
-            DateTime formEndDate = Convert.ToDateTime(tbxEndDate.Text, locale);
+            DateTime formEndDate = DateTime.ParseExact(tbxEndDate.Text, dateFormat, locale);
             emp.endDate = formEndDate;
         }
         #endregion dates
@@ -668,10 +669,10 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
         // Update employee
         if (!tbxStartDate.Text.Equals(String.Empty)) {
-            emp.startDate = Convert.ToDateTime(tbxStartDate.Text, locale);
+            emp.startDate = DateTime.ParseExact(tbxStartDate.Text, dateFormat, locale);
         }
         if (!tbxEndDate.Text.Equals(String.Empty)) {
-            emp.endDate = Convert.ToDateTime(tbxEndDate.Text, locale);
+            emp.endDate = DateTime.ParseExact(tbxEndDate.Text, dateFormat, locale);
         }
 
         emp.fname = tbxFirstName.Text;
@@ -1008,14 +1009,16 @@ public partial class Reporting_Default : System.Web.UI.Page {
         String strTimeReported = tbx_p1_timeReported.Text;
 
         if (!(strDateOfIncident.Equals(String.Empty) && strTimeOfIncident.Equals(String.Empty))) {
-            report.p1_dateOfIncident = Convert.ToDateTime(strDateOfIncident + " " + strTimeOfIncident, locale);
+            report.p1_dateOfIncident = DateTime.ParseExact(strDateOfIncident + " " + strTimeOfIncident,
+                dateFormat + " HH:MM tt", locale);
         }
         else {
             return null;
         }
 
         if (!(strDateReported.Equals(String.Empty) && strTimeReported.Equals(String.Empty))) {
-            report.p1_dateReported = Convert.ToDateTime(strDateReported + " " + strTimeReported, locale);
+            report.p1_dateOfIncident = DateTime.ParseExact(strDateReported + " " + strTimeReported,
+                dateFormat + " HH:MM tt", locale);
         }
         else {
             return null;
@@ -1034,12 +1037,12 @@ public partial class Reporting_Default : System.Web.UI.Page {
     
         #region A_IncidentInfo_Dates
         if (!tbx_p1_action_medicalER_date.Text.Equals(String.Empty)) {
-            DateTime dateMedicalER = Convert.ToDateTime(tbx_p1_action_medicalER_date.Text, locale);
+            DateTime dateMedicalER = DateTime.ParseExact(tbx_p1_action_medicalER_date.Text, dateFormat, locale);
             report.p1_action_medicalER_date = dateMedicalER;
         }
 
         if (!tbx_p1_action_medicalGP_date.Text.Equals(String.Empty)) {
-            DateTime dateMedicalGP = Convert.ToDateTime(tbx_p1_action_medicalGP_date.Text, locale);
+            DateTime dateMedicalGP = DateTime.ParseExact(tbx_p1_action_medicalGP_date.Text, dateFormat, locale);
             report.p1_action_medicalGP_date = dateMedicalGP;
         }
         #endregion A_IncidentInfo_Dates
@@ -1170,17 +1173,44 @@ public partial class Reporting_Default : System.Web.UI.Page {
             args.IsValid = true;
             return;
         }
-        dateOfIncident = Convert.ToDateTime(strDateOfIncident + " " + strTimeOfIncident, locale);
+        dateOfIncident = DateTime.ParseExact(strDateOfIncident + " " + strTimeOfIncident, dateFormat + " HH:MM tt", locale);
         if (strDateReported.Equals(String.Empty) && strTimeReported.Equals(String.Empty)) {
             args.IsValid = true;
             return;
         }
-        dateReported = Convert.ToDateTime(strDateReported + " " + strTimeReported, locale);
+        dateReported = DateTime.ParseExact(strDateReported + " " + strTimeReported, dateFormat + " HH:MM tt", locale);
         if (dateReported.CompareTo(dateOfIncident) < 0) {
             args.IsValid = false;
             return;
         }
     }
-    
-    
+
+    /// <summary>
+    /// Clears the Employee Information form.
+    /// </summary>
+    /// <param name="sender">The control that triggered the event.</param>
+    /// <param name="e">The event properties.</param>
+    protected void btnClear_Click(object sender, EventArgs e) {
+        #region Employee Info
+        tbxId.Text = String.Empty;
+        tbxFirstName.Text = String.Empty;
+        tbxLastName.Text = String.Empty;
+
+        ddlPositions.SelectedIndex = 0;
+        tbxPosition.Text = String.Empty;
+        ddlEmployers.SelectedIndex = 0;
+        CheckDdlSelection(ddlPositions, tbxPosition);
+        tbxEmployer.Text = String.Empty;
+        CheckDdlSelection(ddlEmployers, tbxEmployer);
+        ddlDepartments.SelectedIndex = 0;
+        tbxDepartment.Text = String.Empty;
+        CheckDdlSelection(ddlDepartments, tbxDepartment);
+
+        tbxSupervisor.Text = String.Empty;
+        tbxRoom.Text = String.Empty;
+        tbxStartDate.Text =
+        tbxEndDate.Text = String.Empty;
+        #endregion Employee Info
+    }
+
 }
