@@ -829,6 +829,11 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
         mpePop.Show();
     }
 
+    /// <summary>
+    /// This method resets the application's form after the data has been successfully input into the database.
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void btnPnlPopClose_Click(object sender, EventArgs e)
     {
         ResetFormControlValues(this);
