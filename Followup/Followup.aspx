@@ -11,6 +11,96 @@
     <asp:TextBox ID="tbNoHidden" runat="server" CssClass="hidden" />
     <div id="divLabOfficeFollowupReport" runat="server" visible="false">
         <div id="divLabOfficeFollowupReportData">
+            <h3 id="hr3Title">
+                <asp:Label ID="lblTitle" runat="server" Font-Bold="true" Visible="false" /></h3>
+            <asp:Panel ID="pnlLabHeader" CssClass="panel" runat="server" Visible="false">
+                <table>
+                    <tr>
+                        <td>
+                            <span class="spanBold">Department:</span>
+                        </td>
+                        <td>
+                            <asp:Label ID="lblLabDepartment" runat="server" />
+                        </td>
+                        <td>
+                            &nbsp&nbsp&nbsp&nbsp&nbsp
+                        </td>
+                        <td>
+                            <span class="spanBold">Supervisor:</span>
+                        </td>
+                        <td>
+                            <asp:Label ID="lblLabSupervisor" runat="server" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="spanBold">Room:</span>
+                        </td>
+                        <td>
+                            <asp:Label ID="lblLabRoom" runat="server" />
+                        </td>
+                        <td>
+                            &nbsp&nbsp&nbsp&nbsp&nbsp
+                        </td>
+                        <td>
+                            <span class="spanBold">Inspector:</span>
+                        </td>
+                        <td>
+                            <asp:Label runat="server" ID="lblLabInspector" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="spanBold">Lab Manager:</span>
+                        </td>
+                        <td>
+                            <asp:Label ID="lblLabManager" runat="server" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="spanBold">Date of Inspection:</span>
+                        </td>
+                        <td>
+                            <asp:Label ID="lblLabInspectionDate" runat="server" />
+                        </td>
+                    </tr>
+                </table>
+            </asp:Panel>
+            <asp:Panel ID="pnlOfficeHeader" CssClass="panel" runat="server" Visible="false">
+                <div id="divViewOiLeft">
+                    <table>
+                        <tr>
+                            <td>
+                                <span class="spanBold">Department:</span>
+                            </td>
+                            <td>
+                                <asp:Label ID="lblOfficeDepartment" runat="server" />
+                            </td>
+                            <td>
+                                <span class="spanBold">Date of Inspection:</span>
+                            </td>
+                            <td>
+                                <asp:Label ID="lblOfficeInspectionDate" runat="server" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="spanBold">Area:</span>
+                            </td>
+                            <td>
+                                <asp:Label ID="lblOfficeArea" runat="server" />
+                            </td>
+                            <td>
+                                <span class="spanBold">Inspector:</span>
+                            </td>
+                            <td>
+                                <asp:Label ID="lblOfficeInspector" runat="server" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </asp:Panel>
             <asp:GridView ID="gvwLabOfficeFollowup" Width="800px" runat="server" AutoGenerateColumns="False"
                 OnRowDataBound="gvwLabOfficeFollowup_RowDataBound">
                 <Columns>
@@ -26,10 +116,17 @@
                 <EmptyDataTemplate>
                     No report data was found.</EmptyDataTemplate>
             </asp:GridView>
+            <h3>
+                Inspection Comments
+            </h3>
+            <asp:Panel ID="pnlLabOfficeComments" CssClass="panel" runat="server">
+                <asp:TextBox TextMode="MultiLine" Wrap="true" Width="795px" Height="200px" ID="tbxCommentLabOfficeComments"
+                    runat="server"></asp:TextBox>
+            </asp:Panel>
         </div>
         <div id="divLabOfficeFollowup">
             <h3>
-                Comments
+                Follow up Comments
             </h3>
             <asp:Panel ID="pnlLabOfficeFollowupComments" runat="server" CssClass="panelFollowup">
                 <table cellspacing="5" width="600">
@@ -82,6 +179,8 @@
     </div>
     <div id="divFollowupIncidentReport" runat="server" visible="false">
         <div id="divFollowupIncidentReportData">
+            <h3 id="h1">
+                <asp:Label ID="lblIncidentTitle" runat="server" Font-Bold="true" Visible="false" /></h3>
             <h3 id="hr3EmployeeInfo">
                 Employee Information</h3>
             <asp:Panel ID="pnlEmployeeInfo" CssClass="panel" runat="server">
@@ -1713,17 +1812,17 @@
                         <asp:TextBox ID="tbxIncidentFollowupSubmitter" disabled="true" runat="server" OnLoad="tbxIncidentFollowupSubmitter_Load"></asp:TextBox>
                     </td>
                     <td>
-                         <asp:Button ID="btnIncidentFollowupSave" runat="server" Text="Save Followup" 
-                             width="130" onclick="btnIncidentFollowupSave_Click" />
+                        <asp:Button ID="btnIncidentFollowupSave" runat="server" Text="Save Followup" Width="130"
+                            OnClick="btnIncidentFollowupSave_Click" />
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="right">
                         <asp:Button ID="btnIncidentFollowupSubmit" runat="server" Text="Submit Followup"
-                            OnClick="btnIncidentFollowupSubmit_Click" width="130" />
-                        <asp:ConfirmButtonExtender ID="btnIncidentFollowupSubmit_ConfirmButtonExtender" 
-                            runat="server" ConfirmText="Are you sure you want to submit this followup? This will mark it as complete and remove from Follow up page" Enabled="True" 
-                            TargetControlID="btnIncidentFollowupSubmit" ConfirmOnFormSubmit="false">
+                            OnClick="btnIncidentFollowupSubmit_Click" Width="130" />
+                        <asp:ConfirmButtonExtender ID="btnIncidentFollowupSubmit_ConfirmButtonExtender" runat="server"
+                            ConfirmText="Are you sure you want to submit this followup? This will mark it as complete and remove from Follow up page"
+                            Enabled="True" TargetControlID="btnIncidentFollowupSubmit" ConfirmOnFormSubmit="false">
                         </asp:ConfirmButtonExtender>
                     </td>
                 </tr>

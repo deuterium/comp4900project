@@ -13,66 +13,88 @@
 <div ID="divCollapsiblePanelExtenders" visible="false">
 <asp:CollapsiblePanelExtender ID="cpeFilters" runat="server" Collapsed="false"
 CollapseControlID="hr3Filters" ExpandControlID="hr3Filters" TargetControlID="pnlFilters"
+CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)"
 ImageControlID="imgExpandCollapseFilters" TextLabelID="lblExpandCollapseFilters" 
 CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeA" runat="server" Collapsed="false"
 CollapseControlID="hr3A" ExpandControlID="hr3A" TargetControlID="pnlA"
+CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)"
 ImageControlID="imgExpandCollapseA" TextLabelID="ExpandCollapseA" 
 CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeB" runat="server" Collapsed="true"
 CollapseControlID="hr3B" ExpandControlID="hr3B" TargetControlID="pnlB"
+CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)"
 ImageControlID="imgExpandCollapseB" TextLabelID="ExpandCollapseB" 
 CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeC" runat="server" Collapsed="true"
 CollapseControlID="hr3C" ExpandControlID="hr3C" TargetControlID="pnlC"
+CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)"
 ImageControlID="imgExpandCollapseC" TextLabelID="ExpandCollapseC" 
 CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeD" runat="server" Collapsed="true"
 CollapseControlID="hr3D" ExpandControlID="hr3D" TargetControlID="pnlD"
+CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)"
 ImageControlID="imgExpandCollapseD" TextLabelID="ExpandCollapseD" 
 CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeE" runat="server" Collapsed="true"
 CollapseControlID="hr3E" ExpandControlID="hr3E" TargetControlID="pnlE"
+CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)"
 ImageControlID="imgExpandCollapseE" TextLabelID="ExpandCollapseE" 
 CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeResults" runat="server" Collapsed="true"
 CollapseControlID="hr3Results" ExpandControlID="hr3Results" TargetControlID="pnlResults"
-ImageControlID="imgExpandCollapseResults" TextLabelID="lblExpandCollapseResults" 
+ImageControlID="imgExpandCollapseResults" TextLabelID="lblExpandCollapseResults"
+CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)"
 CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeEmpInfo" runat="server" Collapsed="true"
 CollapseControlID="hr3EmpInfo" ExpandControlID="hr3EmpInfo" TargetControlID="pnlEmployeeInfo"
+CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)"
 ImageControlID="imgExpandCollapseEmpInfo" TextLabelID="lblExpandCollapseEmpInfo" 
 CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeEmployeeCourses" runat="server" Collapsed="true"
 CollapseControlID="hr3EmpCourses" ExpandControlID="hr3EmpCourses" TargetControlID="pnlEmployeeCourses"
+CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)"
 ImageControlID="imgExpandCollapseEmpCourses" TextLabelID="ExpandCollapseEmpCourses" 
 CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeLabInspections" runat="server" Collapsed="true"
 CollapseControlID="hr3LabInspections" ExpandControlID="hr3LabInspections" TargetControlID="pnlLabInspections"
+CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)"
 ImageControlID="imgExpandCollapseLabInspections" TextLabelID="lblExpandCollapseLabInspections" 
 CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeOfficeInspections" runat="server" Collapsed="true"
 CollapseControlID="hr3OfficeInspections" ExpandControlID="hr3OfficeInspections" TargetControlID="pnlOfficeInspections"
+CollapsedText="(Show Details)"
+ExpandedText="(Hide Details)"
 ImageControlID="imgExpandCollapseOfficeInspections" TextLabelID="lblExpandCollapseOfficeInspections" 
 CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
@@ -808,5 +830,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </div>
 
 </asp:Panel>
+
+<div>&nbsp;</div>
 
 </asp:Content>

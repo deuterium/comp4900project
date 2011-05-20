@@ -5,6 +5,8 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
 
+<asp:Label ID="lblUserMsg" runat="server" />
+
 <h3 id="hr3Title"><asp:Label ID="lblTitle" runat="server" Text="Viewing Office Inspection #" Font-Bold="true" Visible="false" /></h3>
 
 <asp:Panel ID="pnlHeader" CssClass="panel" runat="server" Visible="false">
@@ -13,6 +15,7 @@
             <tr>
                 <td><span class="spanBold">Department:</span></td>
                 <td><asp:Label ID="lblDepartment" runat="server" /></td>
+            </tr>
             <tr>
                 <td><span class="spanBold">Area:</span></td>
                 <td><asp:Label ID="lblOfficeArea" runat="server" /></td>
