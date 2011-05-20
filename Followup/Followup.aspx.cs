@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Linq;
-using BCCAModel;
-using System.Web.UI.WebControls;
-using System.Drawing;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
+using System.Linq;
+using System.Web.UI.WebControls;
 using AjaxControlToolkit;
+using BCCAModel;
 
 /// <summary>
 ///Followup/Followup.aspx.cs
@@ -31,6 +32,8 @@ public partial class Followup_Followup : System.Web.UI.Page
     public static List<String> employers = new List<String> {
         noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
     };
+    //Date Format override
+    public static CultureInfo locale = new CultureInfo("en-CA");
 
     /// <summary>
     /// When this page is visited for the first time, it should have been forwarded from
@@ -797,50 +800,75 @@ public partial class Followup_Followup : System.Web.UI.Page
 
     #endregion Load Incident Report
 
+    #region Incident Followup
+    /// <summary>
+    /// Loads logged in user's name into followup Submitter text box
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void tbxIncidentFollowupSubmitter_Load(object sender, EventArgs e)
     {
         tbxIncidentFollowupSubmitter.Text = Session["AuthenticatedUser"].ToString();
     }
 
+    /// <summary>
+    /// Sets the mode of the Report_Followup_Changes function to 0 when user clicks Incident folowup save button.
+    /// 0 being the param to indicate save mode.
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void btnIncidentFollowupSave_Click(object sender, EventArgs e)
     {
         Report_Followup_Changes(0);
     }
 
+    /// <summary>
+    /// Sets the mode of the Report_Followup_Changes function to 1 when user clicks Incident folowup submit button.
+    /// 1 being the param to indicate save mode.
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void btnIncidentFollowupSubmit_Click(object sender, EventArgs e)
     {
         Report_Followup_Changes(1);
     }
 
+    /// <summary>
+    /// Updates the Incident Report's followup information. Saves or Submits the followup depening on the mode passed from
+    /// different buttons.
+    /// 0 - Saves the Incident Followup
+    /// 1 - Submits the Incident Followup
+    /// </summary>
+    /// <param name="mode">update mode for the incident followup</param>
     protected void Report_Followup_Changes(int mode)
     {
         int insNo = Convert.ToInt32(tbNoHidden.Text);
         Incident inc = ctx.Incidents.Where(i => i.incidentNo == insNo).Select(i => i).First();
         //F - 8 items
         inc.p2_corrective_person = tbx_p2_corrective_person.Text;
-        inc.p2_corrective_personDate = (tbx_p2_corrective_personDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_personDate.Text));
+        inc.p2_corrective_personDate = (tbx_p2_corrective_personDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_personDate.Text, locale));
         inc.p2_corrective_maintenance = rbl_p2_corrective_maintenance.SelectedValue;
-        inc.p2_corrective_maintenanceDate = (tbx_p2_corrective_maintenanceDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_maintenanceDate.Text));
+        inc.p2_corrective_maintenanceDate = (tbx_p2_corrective_maintenanceDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_maintenanceDate.Text, locale));
         inc.p2_corrective_communicated = rbl_p2_corrective_communicated.SelectedValue;
-        inc.p2_corrective_communicatedDate = (tbx_p2_corrective_communicatedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_communicatedDate.Text));
+        inc.p2_corrective_communicatedDate = (tbx_p2_corrective_communicatedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_communicatedDate.Text, locale));
         inc.p2_corrective_time = rbl_p2_corrective_time.SelectedValue;
-        inc.p2_corrective_timeDate = (tbx_p2_corrective_timeDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_timeDate.Text));
+        inc.p2_corrective_timeDate = (tbx_p2_corrective_timeDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_timeDate.Text, locale));
         //G - 15 items
         inc.p2_corrective_written = tbx_p2_corrective_written.Text;
-        inc.p2_corrective_writtenTargetDate = (tbx_p2_corrective_writtenTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_writtenTargetDate.Text));
-        inc.p2_corrective_writtenCompletedDate = (tbx_p2_corrective_writtenCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_writtenCompletedDate.Text));
+        inc.p2_corrective_writtenTargetDate = (tbx_p2_corrective_writtenTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_writtenTargetDate.Text, locale));
+        inc.p2_corrective_writtenCompletedDate = (tbx_p2_corrective_writtenCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_writtenCompletedDate.Text, locale));
         inc.p2_corrective_education = tbx_p2_corrective_education.Text;
-        inc.p2_corrective_educationTargetDate = (tbx_p2_corrective_educationTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_educationTargetDate.Text));
-        inc.p2_corrective_educationCompletedDate = (tbx_p2_corrective_educationCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_educationCompletedDate.Text));
+        inc.p2_corrective_educationTargetDate = (tbx_p2_corrective_educationTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_educationTargetDate.Text, locale));
+        inc.p2_corrective_educationCompletedDate = (tbx_p2_corrective_educationCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_educationCompletedDate.Text, locale));
         inc.p2_corrective_equipment = tbx_p2_corrective_equipment.Text;
-        inc.p2_corrective_equipmentTargetDate = (tbx_p2_corrective_equipmentTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_equipmentTargetDate.Text));
-        inc.p2_corrective_equipmentCompletedDate = (tbx_p2_corrective_equipmentCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_equipmentCompletedDate.Text));
+        inc.p2_corrective_equipmentTargetDate = (tbx_p2_corrective_equipmentTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_equipmentTargetDate.Text, locale));
+        inc.p2_corrective_equipmentCompletedDate = (tbx_p2_corrective_equipmentCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_equipmentCompletedDate.Text, locale));
         inc.p2_corrective_environment = tbx_p2_corrective_environment.Text;
-        inc.p2_corrective_environmentTargetDate = (tbx_p2_corrective_environmentTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text));
-        inc.p2_corrective_environmentCompletedDate = (tbx_p2_corrective_environmentCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_environmentCompletedDate.Text));
+        inc.p2_corrective_environmentTargetDate = (tbx_p2_corrective_environmentTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text, locale));
+        inc.p2_corrective_environmentCompletedDate = (tbx_p2_corrective_environmentCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_environmentCompletedDate.Text, locale));
         inc.p2_corrective_patient = tbx_p2_corrective_patient.Text;
-        inc.p2_corrective_patientTargetDate = (tbx_p2_corrective_patientTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_patientTargetDate.Text));
-        inc.p2_corrective_patientCompletedDate = (tbx_p2_corrective_patientCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_patientCompletedDate.Text));
+        inc.p2_corrective_patientTargetDate = (tbx_p2_corrective_patientTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_patientTargetDate.Text, locale));
+        inc.p2_corrective_patientCompletedDate = (tbx_p2_corrective_patientCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_patientCompletedDate.Text, locale));
 
         //H - 17 items
         inc.p2_manager_previous = tbx_p2_manager_previous.Text;
@@ -894,7 +922,9 @@ public partial class Followup_Followup : System.Web.UI.Page
                 throw new System.SystemException("Default case of switch should never be reached");
         }
     }
-    #endregion
+    #endregion Incident Followup
+
+    #endregion Incident Followup
 
     #region Lab & Office Followup
     /// <summary>
@@ -1141,7 +1171,7 @@ public partial class Followup_Followup : System.Web.UI.Page
             .Select(li => li).First();
         labIns.followupComment = tbLabOfficeFollowupComments.Text;
         labIns.followupSubmitter = tbSubmittedby.Text;
-        labIns.followupDate = Convert.ToDateTime(tbFollowUpDate.Text);
+        labIns.followupDate = Convert.ToDateTime(tbFollowUpDate.Text, locale);
         //Followup Submitted
         labIns.followUpStatus = "2";
 
@@ -1188,7 +1218,7 @@ public partial class Followup_Followup : System.Web.UI.Page
             .Select(oi => oi).First();
         offIns.followupComment = tbLabOfficeFollowupComments.Text;
         offIns.followupSubmitter = tbSubmittedby.Text;
-        offIns.followupDate = Convert.ToDateTime(tbFollowUpDate.Text);
+        offIns.followupDate = Convert.ToDateTime(tbFollowUpDate.Text, locale);
         //Followup Submitted
         offIns.followUpStatus = "2";
 
@@ -1349,5 +1379,5 @@ public partial class Followup_Followup : System.Web.UI.Page
         }
         Popup_Overlay("Follow up Saved.", Color.Green);
     }
-    #endregion
+    #endregion Lab & Office Followup
 }

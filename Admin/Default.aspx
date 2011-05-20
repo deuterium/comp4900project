@@ -28,13 +28,11 @@
     <asp:EntityDataSource ID="edsRoles" runat="server" ConnectionString="name=BCCAEntities"
         DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="Roles" />
     <asp:EntityDataSource ID="edsDepartments" runat="server" ConnectionString="name=BCCAEntities"
-        DefaultContainerName="BCCAEntities" EnableFlattening="False" 
-        EntitySetName="Departments" OrderBy="it.deptName" 
-        Select="it.[deptNo], it.[deptName]" />
+        DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="Departments"
+        OrderBy="it.deptName" Select="it.[deptNo], it.[deptName]" />
     <asp:EntityDataSource ID="edsUsers" runat="server" ConnectionString="name=BCCAEntities"
         DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="Users"
-        Select="it.[userNo], it.[userName]" EntityTypeFilter="User" 
-        OrderBy="it.userName">
+        Select="it.[userNo], it.[userName]" OrderBy="it.userName">
     </asp:EntityDataSource>
     <div id="divContent">
         <div id="divUsers">

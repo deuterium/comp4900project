@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using BCCAModel;
-using System.Drawing;
-using System.Data;
 
 public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
     #region Class Variables
@@ -24,9 +21,10 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
     /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        // Verifiy user
+        //Check User Authentication
         Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
+        Session["AfterLoginRedirectUrl"] = null;
 
         String reqInspectionNo = Request.QueryString["OfficeInspectionNo"];
         int inspectionNo = -1;

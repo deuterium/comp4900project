@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.Drawing;
+using System.Linq;
+using System.Web.UI.WebControls;
 using AjaxControlToolkit;
 using BCCAModel;
 
@@ -36,9 +34,10 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// <param name="sender">The object that requested the page load.</param>
     /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e) {
-        // Verifiy user
+        //Check User Authentication
         Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
+        Session["AfterLoginRedirectUrl"] = null;
 
         // Only do the initial set up the first time the page loads (and not on post-backs).
         if (!IsPostBack) {

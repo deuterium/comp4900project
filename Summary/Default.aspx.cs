@@ -1,13 +1,10 @@
 ﻿﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using BCCAModel;
-using System.Data;
-using System.Globalization;
-using System.Drawing;
 
 /// <summary>
 ///Summary/Default.aspx.cs
@@ -50,7 +47,7 @@ public partial class Summary_Default : System.Web.UI.Page
     /// <param name="e">not used in our code</param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        //Authentication Check      
+        //Check User Authentication
         Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
         Session["AfterLoginRedirectUrl"] = null;

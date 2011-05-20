@@ -22,6 +22,11 @@ public partial class Admin_Default : System.Web.UI.Page
     /// <param name="e">not used in our code</param>
     protected void Page_Load(object sender, EventArgs e)
     {
+        //Check User Authentication
+        Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
+        ASP.global_asax.Session_Authentication();
+        Session["AfterLoginRedirectUrl"] = null;
+
         pnlPop.Style.Value = "display:none;";
     }
 
@@ -342,7 +347,8 @@ public partial class Admin_Default : System.Web.UI.Page
         {
             positionName = p.posName,
             positionNo = p.posNo
-        });
+        })
+        .OrderBy(p => p.positionName);
         lbDropDowns.DataTextField = "positionName";
         lbDropDowns.DataValueField = "positionNo";
         lbDropDowns.DataBind();

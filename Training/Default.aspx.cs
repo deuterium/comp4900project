@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using BCCAModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Globalization;
 
 /// <summary>
 /// Training/Default.aspx.cs
@@ -45,7 +42,7 @@ public partial class Training_Default : System.Web.UI.Page {
     /// <param name="sender">The object that requested the page load.</param>
     /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e) {
-        // Verifiy user
+        //Check User Authentication
         Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
         Session["AfterLoginRedirectUrl"] = null;
