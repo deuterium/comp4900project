@@ -45,33 +45,33 @@
 </asp:Panel>
 
 <asp:Panel ID="pnlChecklist" CssClass="panel" runat="server">
-<asp:GridView ID="gdvOfficeInspection" runat="server" AutoGenerateColumns="False" CellPadding="10" >
-    <Columns>
-        <asp:BoundField DataField="officeInsItemNo" HeaderText="#" ReadOnly="True"
-            SortExpression="officeInsItemNo" />
-        <asp:BoundField DataField="officeInsItemName" HeaderText="Item" ReadOnly="True"
-            SortExpression="officeInsItem" />
-        <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Center" >
-            <ItemTemplate>
-                <asp:Label ID="lblChecked" runat="server" Text='<%# Bind("checkbox") %>' />
-            </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField HeaderText="Comments" >
-            <ItemTemplate>
-                <asp:Label ID="lblInspectionComments" runat="server" Text='<%# Bind("inspectionComment") %>' />
-            </ItemTemplate>
-        </asp:TemplateField>
-        <asp:TemplateField HeaderText="Follow Up Comments" >
-            <ItemTemplate>
-                <asp:Label ID="lblFollowUpComments" runat="server" Text='<%# Bind("followUpComment") %>' />
-            </ItemTemplate>
-        </asp:TemplateField>
-    </Columns>
-    <EmptyDataTemplate>No inspection data found.</EmptyDataTemplate>
-</asp:GridView>
+    <asp:GridView ID="gdvOfficeInspection" runat="server" AutoGenerateColumns="False" CellPadding="10" >
+        <Columns>
+            <asp:BoundField DataField="officeInsItemNo" HeaderText="#" ReadOnly="True"
+                SortExpression="officeInsItemNo" />
+            <asp:BoundField DataField="officeInsItemName" HeaderText="Item" ReadOnly="True"
+                SortExpression="officeInsItem" />
+            <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Center" >
+                <ItemTemplate>
+                    <asp:Label ID="lblChecked" runat="server" Text='<%# Bind("checkbox") %>' />
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Comments" >
+                <ItemTemplate>
+                    <asp:Label ID="lblInspectionComments" runat="server" Text='<%# Bind("inspectionComment") %>' />
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Follow Up Comments" >
+                <ItemTemplate>
+                    <asp:Label ID="lblFollowUpComments" runat="server" Text='<%# Bind("followUpComment") %>' />
+                </ItemTemplate>
+            </asp:TemplateField>
+        </Columns>
+        <EmptyDataTemplate>No inspection data found.</EmptyDataTemplate>
+    </asp:GridView>
 </asp:Panel>
 
-<asp:Panel ID="Panel1" CssClass="panel" runat="server">
+<asp:Panel ID="pnlComments" CssClass="panel" runat="server">
     <table cellpadding="10" >
         <tr><td><span class="spanBold">Inspection Comment:</span></td></tr>
         <tr><td><asp:Label ID="lblInspectionComment" runat="server" Width="799px" BackColor="White" ></asp:Label></td></tr>
@@ -79,6 +79,8 @@
         <tr><td><asp:Label ID="lblFollowUpComment" runat="server" Width="799px" BackColor="White" ></asp:Label></td></tr>
     </table>
 </asp:Panel>
+
+<div>&nbsp;</div>
 
 </asp:Content>
 
