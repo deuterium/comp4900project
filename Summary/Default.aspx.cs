@@ -11,8 +11,8 @@ using System.Globalization;
 ///Summary/Default.aspx.cs
 ///BCCA Cancer Research Centre
 ///Safety Training Database and Website
-///Author: BCIT COMP4900 2011
-///Kalen Wessel - kalen.wessel@gmail.com
+///Author: Kalen Wessel - kalen.wessel@gmail.com
+///BCIT COMP4900 2011
 /// </summary>
 public partial class Summary_Default : System.Web.UI.Page
 {
