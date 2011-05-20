@@ -31,7 +31,10 @@ public partial class Followup_Default : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         //Check User Authentication
+        Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
+        Session["AfterLoginRedirectUrl"] = null;
+
         //Gets reports based on user role
         int? userRoleNo = (int?)Session["RoleNo"];
         switch (ctx.Roles.Where(r => r.roleNo == userRoleNo).Select(r => r.role1).First())
