@@ -204,7 +204,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                 <h3 id="hr3CoursesCompleted"><asp:Image ID="imgExpandCollapseCoursesCompleted" runat="server" /> Valid: <asp:Label ID="ExpandCollapseCoursesCompleted" runat="server" Text=""></asp:Label></h3>
                 <asp:Panel ID="pnlCoursesCompleted" Width="600" runat="server">
                     
-                    <asp:GridView ID="grvValidCourses" runat="server" Width="790"
+                    <asp:GridView ID="grvValidCourses" runat="server" Width="790px"
                         onrowcancelingedit="grvValidCourses_RowCancelingEdit" 
                         onrowediting="grvValidCourses_RowEditing" 
                         onrowupdating="grvValidCourses_RowUpdating" AutoGenerateColumns="False" 
@@ -222,7 +222,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                             </asp:TemplateField>
                             <asp:BoundField DataField="ttNo" HeaderText="#" SortExpression="ttNo" 
                                 ReadOnly="True" />
-                            <asp:TemplateField HeaderText="Date" SortExpression="startDate">
+                            <asp:TemplateField HeaderText="Course Date" SortExpression="startDate">
                                 <EditItemTemplate>
                                     <asp:TextBox ID="TextBox3" runat="server" Text='<%# Bind("startDate", "{0:M/d/yyyy}") %>'></asp:TextBox>
                                     <asp:CalendarExtender ID="TextBox3_CalendarExtender" runat="server" 
@@ -416,7 +416,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                             </tr>
                             <tr>
                                 <td>
-                                    Start Date</td>
+                                    Course Date</td>
                                 <td>
                                     <asp:TextBox ID="tbxNewCrsStart" runat="server"></asp:TextBox>
                                     <asp:CalendarExtender ID="tbxNewCrsStart_CalendarExtender" runat="server" 
@@ -454,7 +454,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         <Columns>
                             <asp:BoundField DataField="coursename" HeaderText="Training Name" 
                                 SortExpression="coursename" />
-                            <asp:TemplateField HeaderText="Date" SortExpression="startdate">
+                            <asp:TemplateField HeaderText="Course Date" SortExpression="startdate">
                                 <EditItemTemplate>
                                     <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("startdate", "{0:M/d/yyy}") %>'></asp:TextBox>
                                 </EditItemTemplate>
@@ -473,7 +473,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         </Columns>
                     </asp:GridView>
                 </asp:Panel>
-                <h3 id="hr3CoursesCatalog"><asp:Image ID="imgExpandCollapseCoursesCatalog" runat="server" /> Catalog <asp:Label ID="ExpandCollapseCoursesCatalog" runat="server" Text=""></asp:Label></h3>
+                <h3 id="hr3CoursesCatalog"><asp:Image ID="imgExpandCollapseCoursesCatalog" runat="server" /> Catalogue <asp:Label ID="ExpandCollapseCoursesCatalog" runat="server" Text=""></asp:Label></h3>
                 <asp:Panel ID="pnlCoursesCatalog" CssClass="childPanel" runat="server">
                     <asp:GridView ID="gdvCoursesCatalog" runat="server" ForeColor="Black" Width="300"
                         AutoGenerateColumns="False" DataSourceID="EntityDataSource1">
