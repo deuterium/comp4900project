@@ -394,7 +394,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
                 DataRow dr = dt.NewRow();
                 dr["incidentNo"] = report.incidentNo;
                 if (report.p1_dateOfIncident != null) {
-                    dr["date"] = Convert.ToDateTime(report.p1_dateOfIncident).ToString(dateFormat, locale);
+                    dr["date"] = Convert.ToDateTime(report.p1_dateOfIncident, locale).ToString(dateFormat, locale);
                 }
                 dr["submitter"] = report.reportSubmitter;
                 dr["employee"] = report.Employee.fname + " " + report.Employee.lname;
@@ -419,7 +419,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
             DataRow dr = dt.NewRow();
             dr["incidentNo"] = report.incidentNo;
             if (report.p1_dateOfIncident != null) {
-                dr["date"] = Convert.ToDateTime(report.p1_dateOfIncident).ToString(dateFormat, locale);
+                dr["date"] = Convert.ToDateTime(report.p1_dateOfIncident, locale).ToString(dateFormat, locale);
             }
             dr["submitter"] = report.reportSubmitter;
             dr["employee"] = report.Employee.fname + " " + report.Employee.lname;
@@ -722,7 +722,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (date.Equals(DateTime.MinValue)) {
             return String.Empty;
         }
-        return ((DateTime)date).ToString(dateFormat, locale);
+        return Convert.ToDateTime(date, locale).ToString(dateFormat, locale);
     }
 
     private void loadCourses(Employee employee) {
@@ -744,7 +744,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         foreach (GridViewRow row in gdvEmpCourses.Rows) {
             String strExpirationDate = ((Label)row.FindControl("lblExpirationDate")).Text;    
             if ((strExpirationDate != null) && (!strExpirationDate.Equals(String.Empty))) {
-                DateTime expirationDate = Convert.ToDateTime(strExpirationDate);
+                DateTime expirationDate = DateTime.ParseExact(strExpirationDate, dateFormat, locale);
                 if (expirationDate.CompareTo(DateTime.Now) <= 0) {
                     row.ForeColor = Color.Red;
                 }
@@ -824,11 +824,11 @@ public partial class Tracking_Default : System.Web.UI.Page {
             lblRoom.Text = convertToTextBoxValue(emp.room);
 
             if (emp.startDate != null) {
-                lblStartDate.Text = Convert.ToDateTime(emp.startDate).ToString(dateFormat, locale);
+                lblStartDate.Text = Convert.ToDateTime(emp.startDate, locale).ToString(dateFormat, locale);
             }
 
             if (emp.endDate != null) {
-                lblEndDate.Text = Convert.ToDateTime(emp.endDate).ToString(dateFormat, locale);
+                lblEndDate.Text = Convert.ToDateTime(emp.endDate, locale).ToString(dateFormat, locale);
             }
         }
         pnlEmpInfoContainer.Visible = true;

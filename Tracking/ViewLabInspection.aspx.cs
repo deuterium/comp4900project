@@ -4,11 +4,16 @@ using System.Drawing;
 using System.Linq;
 using System.Web.UI.WebControls;
 using BCCAModel;
+using System.Globalization;
 
 public partial class Tracking_ViewLabInspection : System.Web.UI.Page {  
     #region Class Variables
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
+    // The date format to use for displaying and converting dates
+    public static String dateFormat = "M/d/yyyy";
+    // The locale to use when displaying and converting dates/times
+    public static CultureInfo locale = new CultureInfo("en-CA");
     // The pink colour of the header text.
     public Color HeaderForeColor = ColorTranslator.FromHtml("#d80080");
     #endregion class variables
@@ -26,7 +31,7 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
         Session["AfterLoginRedirectUrl"] = null;
         
         String reqIncidentNo = Request.QueryString["LabInspectionNo"];
-        int incidentNo = 5; // should be -1
+        int incidentNo = -1;
         try {
             if (reqIncidentNo != null) {
                 incidentNo = Convert.ToInt32(reqIncidentNo);
@@ -34,22 +39,37 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
         }
         catch (FormatException ex) {
             // do nothing
+            return;
         }
         displayLabInspection(incidentNo);
     }
-
-    ///// <summary>
-    ///// Adjusts the height of a text area so all the content is visible.
-    ///// </summary>
-    ///// <param name="tbx">The TextBox to adjust.</param>
-    //private void adjustTextBoxHeight(TextBox tbx) {
-    //    int i = tbx.Text.Length;
-    //    // 30 is the max characters a 250px wide textbox can fit across
-    //    // 2 is the number of extra lines to add for allowance
-    //    // because some words may get moved to the next line
-    //    int rowsize = (i / 30) + 2;
-    //    tbx.Rows = rowsize;
-    //}
+    
+    /// <summary>
+    /// Converts the follow up status code into a string for display.
+    /// </summary>
+    /// <param name="statusNo">A string that holds a number representing the follow up status (1, 2, or 3).</param>
+    /// <returns>1 as "Not Started", 2 as "In Progress", 3 as "Complete", and "Unknown" for errors</returns>
+    private String convertFollowUpStatus(String statusNo) {
+        String status = "Unknown";
+        if (statusNo == null) {
+            return status;
+        }
+        switch (statusNo) {
+            case "1":
+                status = "Not Started";
+                break;
+            case "2":
+                status = "In Progress";
+                break;
+            case "3":
+                status = "Complete";
+                break;
+            default:
+                status = "Unknown";
+                break;
+        }
+        return status;
+    }
 
     /// <summary>
     /// Gets the lab inspection out of the database.
@@ -58,77 +78,127 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
     /// Formats the grid view so it displays nicely.
     /// </summary>
     /// <param name="insNo">The id of the Lab Inspection to display.</param>
-    protected void displayLabInspection(int insNo) {
-        if (insNo == -1) {
+    protected void displayLabInspection(int selectedLabInsNo) {
+        if (selectedLabInsNo == -1) {
             return;
         }
 
+        #region Giant Query
         // Get the lab inspection from the database
-        var qry = ctx.LabInspections
-                .Join(
-                    ctx.LabInspectionDetails,
-                    LI => LI.labInsNo,
-                    LID => LID.labInsNo,
-                    (LI, LID) =>
-                    new {
-                        LI = LI,
-                        LID = LID
-                    }
-                )
-                .Join(
-                    ctx.LabInspectionItems,
-                    temp0 => temp0.LID.labItemNo,
-                    LII => (Int32?)(LII.labInsItemNo),
-                    (temp0, LII) =>
-                    new {
-                        temp0 = temp0,
-                        LII = LII
-                    }
-                )
-                .Where(temp1 => (temp1.temp0.LI.labInsNo == insNo))
-                .Select(
-                    temp1 =>
-                    new {
-                        labInsItemNo = temp1.LII.labInsItemNo,
-                        labInsItem = temp1.LII.labInsItem,
-                        checkbox = temp1.temp0.LID.checkbox,
-                        comments = temp1.temp0.LID.comments,
-
-                        department = temp1.temp0.LI.deptName,
-                        supervisor = temp1.temp0.LI.supervisor,
-                        room = temp1.temp0.LI.room,
-                        inspector = temp1.temp0.LI.inspector,
-                        manager = temp1.temp0.LI.labMgr,
-                        inspectionDate = temp1.temp0.LI.date
-                    }
-                );
+        var qry = ctx.LabInspectionItems
+                    .Join(
+                        ctx.LabInspectionDetails,
+                        LII =>
+                            new {
+                                labInsItemNo = LII.labInsItemNo
+                            },
+                        LID =>
+                            new {
+                                labInsItemNo = (Int32)(LID.labItemNo)
+                            },
+                        (LII, LID) =>
+                            new {
+                                LII = LII,
+                                LID = LID
+                            }
+                    )
+                    .Join(
+                        ctx.LabInspections,
+                        temp0 => temp0.LID.labInsNo,
+                        LI => LI.labInsNo,
+                        (temp0, LI) =>
+                            new {
+                                temp0 = temp0,
+                                LI = LI
+                            }
+                    )
+                    .GroupJoin(
+                        ctx.LabFollowUps,
+                        temp1 =>
+                            new {
+                                labInsItemNo = temp1.temp0.LII.labInsItemNo,
+                                labInsNo = temp1.LI.labInsNo
+                            },
+                        LFU =>
+                            new {
+                                labInsItemNo = (Int32)(LFU.labInsItemNo),
+                                labInsNo = LFU.labInsNo
+                            },
+                        (temp1, labfollowup_join) =>
+                            new {
+                                temp1 = temp1,
+                                labfollowup_join = labfollowup_join
+                            }
+                    )
+                    .SelectMany(
+                        temp2 => temp2.labfollowup_join.DefaultIfEmpty(),
+                        (temp2, LFU) =>
+                            new {
+                                temp2 = temp2,
+                                LFU = LFU
+                            }
+                    )
+                    .Where(
+                        temp3 =>
+                            (((temp3.LFU.labInsNo == selectedLabInsNo) && (temp3.temp2.temp1.LI.labInsNo == selectedLabInsNo)) ||
+                                (((Int32?)(temp3.LFU.labInsNo) == null) && (temp3.temp2.temp1.LI.labInsNo == selectedLabInsNo))
+                            )
+                    )
+                    .Select(
+                        temp3 =>
+                            new {
+                                labInsItemNo = temp3.temp2.temp1.temp0.LII.labInsItemNo,
+                                labInsItemName = temp3.temp2.temp1.temp0.LII.labInsItem,
+                                checkbox = temp3.temp2.temp1.temp0.LID.checkbox,
+                                itemComment = temp3.temp2.temp1.temp0.LID.comments,
+                                itemFollowUpComment = temp3.LFU.comment,
+                            }
+                    );
+        #endregion Giant Query
 
         if (qry == null) {
             return;
         }
 
+        var inspection = ctx.LabInspections
+                        .Where(li => li.labInsNo.Equals(selectedLabInsNo))
+                        .Select(li => li).FirstOrDefault();
+
         // Populate Header Info
-        var li = qry.FirstOrDefault();
-        lblDepartment.Text = li.department;
-        lblSupervisor.Text = li.supervisor;
-        lblRoom.Text = li.room;
-        lblInspector.Text = li.inspector;
-        lblManager.Text = li.manager;
-        if (li.inspectionDate != null) {
-            lblInspectionDate.Text = Convert.ToDateTime(li.inspectionDate).ToString("M/d/yyyy");
+        lblDepartment.Text = inspection.deptName;
+        lblSupervisor.Text = inspection.supervisor;
+        lblRoom.Text = inspection.room;
+        lblInspector.Text = inspection.inspector;
+        lblManager.Text = inspection.labMgr;
+        if (inspection.date != null) {
+            lblInspectionDate.Text = Convert.ToDateTime(inspection.date).ToString(dateFormat, locale);
         }
+        lblFollowUpStatus.Text = convertFollowUpStatus(inspection.followUpStatus);
+        if (inspection.followupSubmitter != null) {
+            lblFollowUpSubmitter.Text = inspection.followupSubmitter;
+        }
+        lblInspectionComment.Text = "No comment.";        
+        if (inspection.comments != null) {
+            lblInspectionComment.Text = inspection.comments;
+        }
+        lblFollowUpComment.Text = "No comment.";
+        if (inspection.followupComment != null) {
+            lblFollowUpComment.Text = inspection.followupComment;
+        }
+
         pnlHeader.Visible = true;
-        lblTitle.Text += li.labInsItemNo;
+        lblTitle.Text += inspection.labInsNo;
         lblTitle.Visible = true;
 
         // Format the data for the Grid View
         // Setup the Data Table
         DataTable dt = new DataTable();
         dt.Columns.Add(new DataColumn("labInsItemNo", typeof(System.String)));
-        dt.Columns.Add(new DataColumn("labInsItem", typeof(System.String)));
+        dt.Columns.Add(new DataColumn("labInsItemName", typeof(System.String)));
         dt.Columns.Add(new DataColumn("checkbox", typeof(System.String)));
-        dt.Columns.Add(new DataColumn("comments", typeof(System.String)));
-        
+        dt.Columns.Add(new DataColumn("inspectionComment", typeof(System.String)));
+        dt.Columns.Add(new DataColumn("followUpComment", typeof(System.String)));
+
         // Put the data in rows, inserting rows for subheaders
         foreach (var result in qry) {
             String subheader = checkForSubheaderStart(result.labInsItemNo);
@@ -139,9 +209,10 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
             }
             DataRow dr = dt.NewRow();
             dr["labInsItemNo"] = result.labInsItemNo;
-            dr["labInsItem"] = result.labInsItem;
+            dr["labInsItemName"] = result.labInsItemName;
             dr["checkbox"] = convertRadioButtonListValue(result.checkbox);
-            dr["comments"] = result.comments;
+            dr["inspectionComment"] = result.itemComment;
+            dr["followUpComment"] = result.itemFollowUpComment;
             dt.Rows.Add(dr);
         }
 
@@ -150,10 +221,11 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
         gdvLabInspection.DataBind();
 
         // Set the Grid View column widths
-        gdvLabInspection.Columns[0].ItemStyle.Width = 20;
+        gdvLabInspection.Columns[0].ItemStyle.Width = 15;
         gdvLabInspection.Columns[1].ItemStyle.Width = 360;
-        gdvLabInspection.Columns[2].ItemStyle.Width = 80;
-        gdvLabInspection.Columns[3].ItemStyle.Width = 250;
+        gdvLabInspection.Columns[2].ItemStyle.Width = 50;
+        gdvLabInspection.Columns[3].ItemStyle.Width = 175;
+        gdvLabInspection.Columns[4].ItemStyle.Width = 175;
         
         // Find and format the subheader rows
         foreach (GridViewRow row in gdvLabInspection.Rows) {
@@ -163,10 +235,9 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
                 row.Cells[1].Visible = false;
                 row.Cells[2].Visible = false;
                 row.Cells[3].Visible = false;
+                row.Cells[4].Visible = false;
                 row.ForeColor = HeaderForeColor;
             }
-
-            //adjustTextBoxHeight((TextBox)row.FindControl("tbxComments"));
         }
 
     }

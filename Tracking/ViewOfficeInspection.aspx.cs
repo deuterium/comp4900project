@@ -4,11 +4,16 @@ using System.Drawing;
 using System.Linq;
 using System.Web.UI.WebControls;
 using BCCAModel;
+using System.Globalization;
 
 public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
     #region Class Variables
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
+    // The date format to use for displaying and converting dates
+    public static String dateFormat = "M/d/yyyy";
+    // The locale to use when displaying and converting dates/times
+    public static CultureInfo locale = new CultureInfo("en-CA");
     // The pink colour of the header text.
     public Color HeaderForeColor = ColorTranslator.FromHtml("#d80080");
     #endregion class variables
@@ -39,32 +44,27 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
         displayOfficeInspection(inspectionNo);
     }
 
-    ///// <summary>
-    ///// Adjusts the height of a text area so all the content is visible.
-    ///// </summary>
-    ///// <param name="tbx">The TextBox to adjust.</param>
-    //private void adjustTextBoxHeight(TextBox tbx) {
-    //    int i = tbx.Text.Length;
-    //    // 30 is the max characters a 250px wide textbox can fit across
-    //    // 2 is the number of extra lines to add for allowance
-    //    // because some words may get moved to the next line
-    //    int rowsize = (i / 30) + 2;
-    //    tbx.Rows = rowsize;
-    //}
-
+    /// <summary>
+    /// Converts the follow up status code into a string for display.
+    /// </summary>
+    /// <param name="statusNo">A string that holds a number representing the follow up status (1, 2, or 3).</param>
+    /// <returns>1 as "Not Started", 2 as "In Progress", 3 as "Complete", and "Unknown" for errors</returns>
     private String convertFollowUpStatus(String statusNo) {
         String status = "Unknown";
-        switch (status) {
-            case "1" :
+        if (statusNo == null) {
+            return status;
+        }
+        switch (statusNo) {
+            case "1":
                 status = "Not Started";
                 break;
-            case "2" :
+            case "2":
                 status = "In Progress";
                 break;
-            case "3" :
+            case "3":
                 status = "Complete";
                 break;
-            default :
+            default:
                 status = "Unknown";
                 break;
         }
@@ -83,7 +83,9 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
             return;
         }
 
+        #region Giant Query
         // Get the office inspection from the database
+        // Note: the query was converted from SQL to Lambda in LinqPad
         var qry = ctx.OfficeInspectionItems
                     .Join (
                         ctx.OfficeInspectionDetails, 
@@ -161,25 +163,7 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
                                 itemFollowUpComment = temp3.OFU.comment,
                             }
                     );
-
-                    //    temp1 =>
-                    //    new {
-                    //        officeInsItemNo = temp1.OII.officeInsItemNo,
-                    //        officeInsItem = temp1.OII.officeInsName,
-                    //        checkbox = temp1.temp0.OID.checkbox,
-                    //        comments = temp1.temp0.OID.comments,
-                            
-                    //        department = temp1.temp0.OI.deptName,
-                    //        area = temp1.temp0.OI.area,
-                    //        inspector = temp1.temp0.OI.inspector,
-                    //        inspectionDate = temp1.temp0.OI.insDate,
-                    //        inspectionComment = temp1.temp0.OI.comments,
-                    //        followUpDate = temp1.temp0.OI.followupDate,
-                    //        followUpSubmitter = temp1.temp0.OI.followupSubmitter,
-                    //        followUpStatus = temp1.temp0.OI.followUpStatus,
-                    //        followUpcomment = temp1.temp0.OI.followupComment,
-                    //    }
-                    //);
+        #endregion Giant Query
 
         var inspection = ctx.OfficeInspections
                         .Where(oi => oi.officeInsNo.Equals(selectedOfficeInsNo))
@@ -190,19 +174,21 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
         lblOfficeArea.Text = inspection.area;
         lblInspector.Text = inspection.inspector;
         if (inspection.insDate != null) {
-            lblInspectionDate.Text = Convert.ToDateTime(inspection.insDate).ToString("M/d/yyyy");
+            lblInspectionDate.Text = Convert.ToDateTime(inspection.insDate, locale).ToString(dateFormat, locale);
         }
         if (inspection.followupDate != null) {
-            lblFollowUpDate.Text = Convert.ToDateTime(inspection.followupDate).ToString("M/d/yyyy");
+            lblFollowUpDate.Text = Convert.ToDateTime(inspection.followupDate, locale).ToString(dateFormat, locale);
         }
         lblFollowUpStatus.Text = convertFollowUpStatus(inspection.followUpStatus);
-        if (!inspection.followupSubmitter.Equals(String.Empty)) {
+        if (inspection.followupSubmitter != null) {
             lblFollowUpSubmitter.Text = inspection.followupSubmitter;
         }
-        if (!inspection.comments.Equals(String.Empty)) {
+        lblInspectionComment.Text = "No comment.";
+        if (inspection.comments != null) {
             lblInspectionComment.Text = inspection.comments;
         }
-        if (!inspection.followupComment.Equals(String.Empty)) {
+        lblFollowUpComment.Text = "No comment.";
+        if (inspection.followupComment != null) {
             lblFollowUpComment.Text = inspection.followupComment;
         }
 
@@ -258,7 +244,6 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
                 row.Cells[4].Visible = false;
                 row.ForeColor = HeaderForeColor;
             }
-            //adjustTextBoxHeight((TextBox)row.FindControl("tbxComments"));
         }
     }
 

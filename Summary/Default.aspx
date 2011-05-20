@@ -15,10 +15,6 @@
         {
             width: 87px;
         }
-        .style6
-        {
-            width: 139px;
-        }
         .style7
         {
             width: 93px;
@@ -95,7 +91,7 @@ ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseIncidentG" Collap
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeN" runat="server" Collapsed="true"
-CollapseControlID="incidentH" ExpandControlID="incidentH" TargetControlID="pnlIncidentH" TextLabelID="ExpandCollapseIncidentH" CollapsedText="(Show Details)"
+CollapseControlID="incidentH" ExpandControlID="incidentH" TargetControlID="pnlIncidentH" TextLabelID="ExpandCollapseH" CollapsedText="(Show Details)"
 ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseIncidentH" CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
@@ -191,11 +187,29 @@ Summary Page:
 
                 </Columns>
         </asp:GridView>
+                    <table cellspacing="5" width="600" id="Table2" runat="server">
+                    <tr>
+                        <td>Lab Inspection Comment</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:TextBox ID="tbLabInspectionComment" ReadOnly="true" Width="790" 
+                                Height="100" TextMode="MultiLine"
+                                runat="server">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </asp:TextBox>
+                        </td>
+                    </tr>
+            </table>
         <table cellspacing="5" width="600" id="followupRow" runat="server">
+                    <tr>
+                    <td>Follow Up Information</td>
+                    </tr>
                     <tr>
                         <td rowspan="2">
                             <asp:TextBox ID="tbLabFollowupComments" ReadOnly="true" Width="400" Height="100" TextMode="MultiLine"
                                 runat="server">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             </asp:TextBox>
                         </td>
                         <td class="style7">
@@ -213,8 +227,7 @@ Summary Page:
                             <asp:Label ID="lblLabFollowUpSubmitter" runat="server" Text="" />
                         </td>
                     </tr>
-                    <caption>
-                        &lt;<tr>
+                        <tr>
                             <td class="style5">
                                 
                             </td>
@@ -225,8 +238,6 @@ Summary Page:
                                 <asp:Label ID="lblLabFollowUpStatus" runat="server" Text="" />
                             </td>
                         </tr>
-                    </caption>
-                    </tr>
                 </table>
         </asp:Panel>
         
@@ -302,11 +313,29 @@ Summary Page:
 
                 </Columns>
             </asp:GridView>
+            <table cellspacing="5" width="600" id="Table1" runat="server">
+                    <tr>
+                        <td>Office Inspection Comment</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:TextBox ID="tbOfficeInspectionComment" ReadOnly="true" Width="790" 
+                                Height="100" TextMode="MultiLine"
+                                runat="server">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </asp:TextBox>
+                        </td>
+                    </tr>
+            </table>
             <table cellspacing="5" width="600" id="officefollowUpRow" runat="server">
+                    <tr>
+                        <td>Follow Up Information</td>
+                    </tr>
                     <tr>
                         <td rowspan="2">
                             <asp:TextBox ID="tbOfficeFollowUpComment" ReadOnly="true" Width="400" Height="100" TextMode="MultiLine"
                                 runat="server">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             </asp:TextBox>
                         </td>
                         <td class="style7">
@@ -324,8 +353,7 @@ Summary Page:
                             <asp:Label ID="lblOfficeFollowUpSubmitter" runat="server" Text="" />
                         </td>
                     </tr>
-                    <caption>
-                        &lt;<tr>
+                       <tr>
                             <td class="style5">
                                 
                             </td>
@@ -336,12 +364,11 @@ Summary Page:
                                 <asp:Label ID="lblOfficeFollowUpStatus" runat="server" Text="" />
                             </td>
                         </tr>
-                    </caption>
-                    </tr>
                 </table>
         </asp:Panel> 
     </asp:Panel>
 
+    <div id="divCourseLookUp" runat="server">
     <h3 id="courseLookUp"><asp:Image ID="imgExpandCollapseCourseLookUp" runat="server" /> Course Lookup:  <asp:Label ID="ExpandCollapseCourseLookUp" runat="server" Text="" /></h3>
     <asp:Panel ID="pnlB" CssClass="panel" runat="server">
         <asp:Button ID="btnValidCourses" ValidationGroup="vgrCourseLookUp" 
@@ -371,12 +398,15 @@ Summary Page:
         <asp:Panel ID="grvPanelExpiringCourses" runat="server"></asp:Panel>
     </div>
     </asp:Panel>
+    </div>
 
-    <h3 id="statistics"><asp:Image ID="imgExpandCollapseStatistics" runat="server" /> Statistics: <asp:Label ID="ExpandCollapseStatistics" runat="server" Text="" /></h3>
-    <asp:Panel ID="pnlE" CssClass="panel" runat="server">
-        <asp:Button ID="btnStatistics" runat="server" Text="Statistics Lookup" 
-            onclick="btnStatistics_Click" />
-    </asp:Panel>
+    <div id="divStats" runat="server">
+        <h3 id="statistics"><asp:Image ID="imgExpandCollapseStatistics" runat="server" /> Statistics: <asp:Label ID="ExpandCollapseStatistics" runat="server" Text="" /></h3>
+        <asp:Panel ID="pnlE" CssClass="panel" runat="server">
+            <asp:Button ID="btnStatistics" runat="server" Text="Statistics Lookup" 
+                onclick="btnStatistics_Click" />
+        </asp:Panel>
+    </div>
 
     <h3 id="incident"><asp:Image ID="imgExpandCollapseIncident" runat="server" /> Incident Lookup:  <asp:Label ID="ExpandCollapseIncident" runat="server" Text="" /></h3>
 <asp:Panel ID="pnlF" CssClass="parentPanel" runat="server">
