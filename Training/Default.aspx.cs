@@ -47,6 +47,14 @@ public partial class Training_Default : System.Web.UI.Page {
         ASP.global_asax.Session_Authentication();
         Session["AfterLoginRedirectUrl"] = null;
 
+        //Lab managers should no be on this page, if they go here they are forwarded away
+        int roleNo = (int)Session["RoleNo"];
+        string role = ctx.Roles.Where(r => r.roleNo == roleNo).Select(r => r.role1).First();
+        if (role == "Lab Manager")
+        {
+            Response.Redirect("~/Default.aspx");
+        }
+
         if (!IsPostBack)
         {
             PopulateEmployersDdl();
