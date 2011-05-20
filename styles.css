@@ -14,6 +14,14 @@ a img
     border: none
 }
 
+pre
+{
+    color:#66645c; 
+    font-family: Verdana,Arial,Helvetica,sans-serif; 
+    font-size: 12px; 
+    line-height: 18px;  
+}
+
 a 
 {
     color: #d80080; 
