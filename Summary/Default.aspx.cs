@@ -90,7 +90,10 @@ public partial class Summary_Default : System.Web.UI.Page
         grvOfficeInspectionResults.Visible = false;
         followupRow.Visible = false;
         officefollowUpRow.Visible = false;
+        tblLabInspectionComment.Visible = false;
         tbOfficeInspectionComment.Visible = false;
+
+        tblOfficeInspectionComment.Visible = false;
         tbLabInspectionComment.Visible = false;
 
         if (!IsPostBack)
@@ -346,6 +349,7 @@ public partial class Summary_Default : System.Web.UI.Page
         tbLabFollowupComments.Text = "";
         followupRow.Visible = true;
         tbLabInspectionComment.Visible = true;
+        tblLabInspectionComment.Visible = true;
 
         grvLabInspectionResults.Visible = true;
         grvLabInspections.Visible = true;
@@ -713,6 +717,7 @@ public partial class Summary_Default : System.Web.UI.Page
         grvOfficeInspections.Visible = true;
         officefollowUpRow.Visible = true;
         tbOfficeInspectionComment.Visible = true;
+        tblOfficeInspectionComment.Visible = true;
 
         lblOfficeFollowUpDate.Text = "";
         lblOfficeFollowUpStatus.Text = "";
