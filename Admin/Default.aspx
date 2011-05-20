@@ -247,10 +247,8 @@
                         <tr>
                             <td>
                                 <asp:TextBox ID="tbxCourseName" runat="server" MaxLength="255" Width="200"></asp:TextBox>
-                                <asp:RequiredFieldValidator ID="rfvCourseName" runat="server" ControlToValidate="tbxCourseName"
-                                    ErrorMessage="Course name is required."></asp:RequiredFieldValidator>
-                                <asp:RegularExpressionValidator ID="revCourseName" runat="server" ControlToValidate="tbxCourseName"
-                                    ValidationExpression="^[A-Za-z,'\.0-9]+$" ErrorMessage="Course name can only contain letters, periods, commas, apostrophes, and numbers."></asp:RegularExpressionValidator>
+                                <asp:RequiredFieldValidator ID="rfvCourseName" runat="server"  ValidationGroup="vgpCourses"
+                                    ControlToValidate="tbxCourseName" ErrorMessage="Course name is required."></asp:RequiredFieldValidator>
                             </td>
                         </tr>
                         <tr>
@@ -281,12 +279,21 @@
                         </tr>
                         <tr>
                             <td>
-                                <asp:Button ID="btnSubmitCourse" runat="server" Text="Add" />
+                                <asp:Button ID="btnSubmitCourse" runat="server" Text="Add" 
+                                    ValidationGroup="vgpCourses" onclick="btnSubmitCourse_Click" />
                                 <!-- toggle -->
-                                <asp:Button ID="btnDeleteCourse" runat="server" Text="Delete" Visible="false" />
+                                <asp:Button ID="btnDeleteCourse" OnClick="btnDeleteCourse_Click" runat="server" Text="Delete" Visible="false" />
+                                <asp:ConfirmButtonExtender ID="btnDeleteCourse_ConfirmButtonExtender" 
+                                    runat="server" ConfirmText="Are you sure you want to permanently delete this course?" Enabled="True" TargetControlID="btnDeleteCourse" ConfirmOnFormSubmit="false">
+                                </asp:ConfirmButtonExtender>
                                 <!-- confirm -->
                                 <asp:Button ID="btnCancelCourse" runat="server" Text="Cancel" OnClick="btnCancelCourse_Click" />
                                 <!-- clear form -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <asp:ValidationSummary ID="vsyCourses" ValidationGroup="vgpCourses" runat="server" DisplayMode="BulletList" ></asp:ValidationSummary>
                             </td>
                         </tr>
                     </table>

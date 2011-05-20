@@ -36,11 +36,6 @@ public partial class Admin_Default : System.Web.UI.Page
         }
 
         pnlPop.Style.Value = "display:none;";
-
-        //if (!IsPostBack) {
-        //    rblCourseMode.SelectedValue = "Create";
-        //    switchCourseMode("Create");
-        //}
     }
 
     #region Page Popup
@@ -477,6 +472,7 @@ public partial class Admin_Default : System.Web.UI.Page
         if (!IsPostBack)
         {
             Load_AllCourses();
+            switchCourseMode("Create");
         }
     }
 
@@ -502,19 +498,8 @@ public partial class Admin_Default : System.Web.UI.Page
 
     private void getCourse()
     {
-        if (lbxAllCourses.SelectedValue == null)
-        {
-            return;
-        }
-        if (lbxAllCourses.SelectedValue.Equals(String.Empty))
-        {
-            return;
-        }
+        TrainingCours course = getSelectedCourse();
 
-        int courseId = Convert.ToInt32(lbxAllCourses.SelectedValue);
-        TrainingCours course = ctx.TrainingCourses
-                               .Where(c => (c.trainingNo == courseId))
-                               .Select(c => c).FirstOrDefault();
         if (course == null)
         {
             Popup_Overlay("An unexpected error occured. Unable to select course.", Color.Red);
@@ -522,7 +507,6 @@ public partial class Admin_Default : System.Web.UI.Page
         }
 
         switchCourseMode("Edit");
-        lbxAllCourses.SelectedValue = courseId.ToString();
         tbxCourseName.Text = course.trainingName;
         tbxMonthsValid.Text = course.monthsValid.ToString();
     }
@@ -540,46 +524,37 @@ public partial class Admin_Default : System.Web.UI.Page
             tc.monthsValid = Convert.ToDecimal(tbxMonthsValid.Text);
         }
 
-        try
-        {
+        try {
             ctx.AddToTrainingCourses(tc);
             ctx.SaveChanges();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             Popup_Overlay("An error occured while adding your course. Please try again.", Color.Red);
             return;
         }
         Popup_Overlay("Course succesfully added.", Color.Green);
-        lbxAllCourses.DataBind();
     }
 
     private void updateCourse()
     {
+        var course = ctx.TrainingCourses
+                     .Where(tc => tc.trainingNo.Equals(lbxAllCourses.SelectedValue)).FirstOrDefault();
 
-        TrainingCours tc = new TrainingCours();
-        tc.trainingName = tbxCourseName.Text;
-        if (tbxMonthsValid.Text.Equals(String.Empty))
-        {
-            tc.monthsValid = null;
-        }
-        else
-        {
-            tc.monthsValid = Convert.ToDecimal(tbxMonthsValid.Text);
+        if (course == null) {
+            Popup_Overlay("Could not find course. Course changes not saved.", Color.Red);
         }
 
-        try
-        {
-            ctx.AddToTrainingCourses(tc);
+        course.trainingName = tbxCourseName.Text;
+        course.monthsValid = Convert.ToDecimal(tbxMonthsValid.Text);
+
+        try {
             ctx.SaveChanges();
         }
-        catch (Exception ex)
-        {
-            Popup_Overlay("An error occured while adding your course. Please try again.", Color.Red);
+        catch (Exception ex) {
+            Popup_Overlay("An error occured while saving your course. Please try again.", Color.Red);
             return;
         }
-        Popup_Overlay("Course succesfully added.", Color.Green);
-        lbxAllCourses.DataBind();
+        Popup_Overlay("Course succesfully saved.", Color.Green);
     }
 
     protected void rblCourseMode_SelectedIndexChanged(object sender, EventArgs e)
@@ -591,11 +566,15 @@ public partial class Admin_Default : System.Web.UI.Page
     {
         if (mode.Equals("Create"))
         {
+            clearForm();
+            rblCourseMode.SelectedValue = mode;
+            lbxAllCourses.ClearSelection();
             btnDeleteCourse.Visible = false;
             btnSubmitCourse.Text = "Add";
         }
         else
         {
+            rblCourseMode.SelectedValue = mode;
             btnDeleteCourse.Visible = true;
             btnSubmitCourse.Text = "Save";
         }
@@ -615,12 +594,46 @@ public partial class Admin_Default : System.Web.UI.Page
         }
     }
 
-    protected void btnCancelCourse_Click(object sender, EventArgs e)
-    {
-        lbxAllCourses.SelectedValue = String.Empty;
+    private void clearForm() {
+        lbxAllCourses.ClearSelection();
         cbxNeverExpires.Checked = false;
         tbxCourseName.Text = String.Empty;
         tbxMonthsValid.Text = "1";
     }
+
+    protected void btnCancelCourse_Click(object sender, EventArgs e)
+    {
+        clearForm();
+    }
+
+    protected void btnDeleteCourse_Click(object sender, EventArgs e) {
+        // do nothing
+    }
     #endregion Course Management
+
+    protected void btnSubmitCourse_Click(object sender, EventArgs e) {
+        if (rblCourseMode.SelectedValue.Equals("Create")) {
+            createCourse();
+        }
+        else if (rblCourseMode.SelectedValue.Equals("Edit")) {
+            updateCourse();
+        }
+
+        lbxAllCourses.DataBind();
+    }
+
+    private TrainingCours getSelectedCourse() {
+        if (lbxAllCourses.SelectedValue == null) {
+            return null;
+        }
+        if (lbxAllCourses.SelectedValue.Equals(String.Empty)) {
+            return null;
+        }
+
+        int courseId = Convert.ToInt32(lbxAllCourses.SelectedValue);
+        TrainingCours course = ctx.TrainingCourses
+                               .Where(c => (c.trainingNo == courseId))
+                               .Select(c => c).FirstOrDefault();
+        return course;
+    }
 }
