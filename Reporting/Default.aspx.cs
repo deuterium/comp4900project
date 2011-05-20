@@ -726,6 +726,32 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
     }
     #endregion Update Employee
+
+    #region Clear Employee
+    /// <summary>
+    /// Clears the Employee Information form.
+    /// </summary>
+    private void clearEmployeeInfo() {
+        tbxId.Text = String.Empty;
+        tbxFirstName.Text = String.Empty;
+        tbxLastName.Text = String.Empty;
+
+        ddlPositions.SelectedIndex = 0;
+        tbxPosition.Text = String.Empty;
+        ddlEmployers.SelectedIndex = 0;
+        CheckDdlSelection(ddlPositions, tbxPosition);
+        tbxEmployer.Text = String.Empty;
+        CheckDdlSelection(ddlEmployers, tbxEmployer);
+        ddlDepartments.SelectedIndex = 0;
+        tbxDepartment.Text = String.Empty;
+        CheckDdlSelection(ddlDepartments, tbxDepartment);
+
+        tbxSupervisor.Text = String.Empty;
+        tbxRoom.Text = String.Empty;
+        tbxStartDate.Text =
+        tbxEndDate.Text = String.Empty;
+    }
+    #endregion Clear Employee
     #endregion EmployeeInfoRelated
 
     #region Create New Incident Report
@@ -1173,7 +1199,9 @@ public partial class Reporting_Default : System.Web.UI.Page {
             args.IsValid = true;
             return;
         }
-        dateOfIncident = DateTime.ParseExact(strDateOfIncident + " " + strTimeOfIncident, dateFormat + " HH:MM tt", locale);
+        DateTime now = DateTime.ParseExact("5/19/2011 01:00", "h:mm tt", locale);
+
+        dateOfIncident = DateTime.ParseExact(strDateOfIncident + " " + strTimeOfIncident, dateFormat + " h:mm tt", locale);
         if (strDateReported.Equals(String.Empty) && strTimeReported.Equals(String.Empty)) {
             args.IsValid = true;
             return;
@@ -1186,31 +1214,12 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
 
     /// <summary>
-    /// Clears the Employee Information form.
+    /// Clears the Employee Information form and the Report Information form.
     /// </summary>
     /// <param name="sender">The control that triggered the event.</param>
     /// <param name="e">The event properties.</param>
     protected void btnClear_Click(object sender, EventArgs e) {
-        #region Employee Info
-        tbxId.Text = String.Empty;
-        tbxFirstName.Text = String.Empty;
-        tbxLastName.Text = String.Empty;
-
-        ddlPositions.SelectedIndex = 0;
-        tbxPosition.Text = String.Empty;
-        ddlEmployers.SelectedIndex = 0;
-        CheckDdlSelection(ddlPositions, tbxPosition);
-        tbxEmployer.Text = String.Empty;
-        CheckDdlSelection(ddlEmployers, tbxEmployer);
-        ddlDepartments.SelectedIndex = 0;
-        tbxDepartment.Text = String.Empty;
-        CheckDdlSelection(ddlDepartments, tbxDepartment);
-
-        tbxSupervisor.Text = String.Empty;
-        tbxRoom.Text = String.Empty;
-        tbxStartDate.Text =
-        tbxEndDate.Text = String.Empty;
-        #endregion Employee Info
+        clearEmployeeInfo();
     }
 
 }
