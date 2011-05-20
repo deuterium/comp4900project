@@ -1199,7 +1199,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
             args.IsValid = true;
             return;
         }
-        DateTime now = DateTime.ParseExact("5/19/2011 01:00", "h:mm tt", locale);
+        //DateTime now = DateTime.ParseExact("5/19/2011 01:00", "h:mm tt", locale);
 
         dateOfIncident = DateTime.ParseExact(strDateOfIncident + " " + strTimeOfIncident, dateFormat + " h:mm tt", locale);
         if (strDateReported.Equals(String.Empty) && strTimeReported.Equals(String.Empty)) {
