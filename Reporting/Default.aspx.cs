@@ -236,7 +236,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
         ddlEmployers.DataSource = employers.OrderBy(e => e.ToString());
         ddlEmployers.DataBind();
         ddlEmployers.Items.Insert(ddlEmployers.Items.Count, otherOption);
-        ddlPositions.Items.Insert(0, noOptionSpecified);
+        ddlEmployers.Items.Insert(0, noOptionSpecified);
     }
 
     /// <summary>
@@ -449,11 +449,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
         tbxRoom.Text = emp.room;
 
         if (emp.startDate != null) {
-            tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString(dateFormat, locale);
+            tbxStartDate.Text = Convert.ToDateTime(emp.startDate, locale).ToString(dateFormat, locale);
         }
 
         if (emp.endDate != null) {
-            tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString(dateFormat, locale);
+            tbxEndDate.Text = Convert.ToDateTime(emp.endDate, locale).ToString(dateFormat, locale);
         }
         #endregion Populate Form
 
@@ -508,8 +508,8 @@ public partial class Reporting_Default : System.Web.UI.Page {
             args.IsValid = true;
             return;
         }
-        DateTime startDate = Convert.ToDateTime(strStartDate);
-        DateTime endDate = Convert.ToDateTime(strEndDate);
+        DateTime startDate = Convert.ToDateTime(strStartDate, locale);
+        DateTime endDate = Convert.ToDateTime(strEndDate, locale);
         if (endDate.CompareTo(startDate) < 0) {
             args.IsValid = false;
             return;
@@ -564,11 +564,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
         #region dates
         if (!tbxStartDate.Text.Equals(String.Empty)) {
-            DateTime formStartDate = Convert.ToDateTime(tbxStartDate.Text);
+            DateTime formStartDate = Convert.ToDateTime(tbxStartDate.Text, locale);
             emp.startDate = formStartDate;
         }
         if (!tbxEndDate.Text.Equals(String.Empty)) {
-            DateTime formEndDate = Convert.ToDateTime(tbxEndDate.Text);
+            DateTime formEndDate = Convert.ToDateTime(tbxEndDate.Text, locale);
             emp.endDate = formEndDate;
         }
         #endregion dates
@@ -665,10 +665,10 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
         // Update employee
         if (!tbxStartDate.Text.Equals(String.Empty)) {
-            emp.startDate = Convert.ToDateTime(tbxStartDate.Text);
+            emp.startDate = Convert.ToDateTime(tbxStartDate.Text, locale);
         }
         if (!tbxEndDate.Text.Equals(String.Empty)) {
-            emp.endDate = Convert.ToDateTime(tbxEndDate.Text);
+            emp.endDate = Convert.ToDateTime(tbxEndDate.Text, locale);
         }
 
         emp.fname = tbxFirstName.Text;
@@ -1005,14 +1005,14 @@ public partial class Reporting_Default : System.Web.UI.Page {
         String strTimeReported = tbx_p1_timeReported.Text;
 
         if (!(strDateOfIncident.Equals(String.Empty) && strTimeOfIncident.Equals(String.Empty))) {
-            report.p1_dateOfIncident = Convert.ToDateTime(strDateOfIncident + " " + strTimeOfIncident);
+            report.p1_dateOfIncident = Convert.ToDateTime(strDateOfIncident + " " + strTimeOfIncident, locale);
         }
         else {
             return null;
         }
 
         if (!(strDateReported.Equals(String.Empty) && strTimeReported.Equals(String.Empty))) {
-            report.p1_dateReported = Convert.ToDateTime(strDateReported + " " + strTimeReported);
+            report.p1_dateReported = Convert.ToDateTime(strDateReported + " " + strTimeReported, locale);
         }
         else {
             return null;
@@ -1031,12 +1031,12 @@ public partial class Reporting_Default : System.Web.UI.Page {
     
         #region A_IncidentInfo_Dates
         if (!tbx_p1_action_medicalER_date.Text.Equals(String.Empty)) {
-            DateTime dateMedicalER = Convert.ToDateTime(tbx_p1_action_medicalER_date.Text);
+            DateTime dateMedicalER = Convert.ToDateTime(tbx_p1_action_medicalER_date.Text, locale);
             report.p1_action_medicalER_date = dateMedicalER;
         }
 
         if (!tbx_p1_action_medicalGP_date.Text.Equals(String.Empty)) {
-            DateTime dateMedicalGP = Convert.ToDateTime(tbx_p1_action_medicalGP_date.Text);
+            DateTime dateMedicalGP = Convert.ToDateTime(tbx_p1_action_medicalGP_date.Text, locale);
             report.p1_action_medicalGP_date = dateMedicalGP;
         }
         #endregion A_IncidentInfo_Dates
@@ -1147,5 +1147,37 @@ public partial class Reporting_Default : System.Web.UI.Page {
                             || cbx_p1_action_lostTime.Checked
                             || cbx_p1_action_medicalER.Checked);
     }
+
+    /// <summary>
+    /// Checks if the date/time of the report is later than the date/time of the incident
+    /// and if it is, validates true. Otherwise, validates false.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The validate event properties.</param>
+    protected void cmvReportDate_ServerValidate(object source, ServerValidateEventArgs args) {
+        String strDateOfIncident = tbx_p1_dateOfIncident.Text;
+        String strTimeOfIncident = tbx_p1_timeOfIncident.Text;
+        String strDateReported = tbx_p1_dateReported.Text;
+        String strTimeReported = tbx_p1_timeReported.Text;
+        DateTime dateOfIncident;
+        DateTime dateReported;
+        args.IsValid = false;
+
+        if (strDateOfIncident.Equals(String.Empty) && strTimeOfIncident.Equals(String.Empty)) {
+            args.IsValid = true;
+            return;
+        }
+        dateOfIncident = Convert.ToDateTime(strDateOfIncident + " " + strTimeOfIncident, locale);
+        if (strDateReported.Equals(String.Empty) && strTimeReported.Equals(String.Empty)) {
+            args.IsValid = true;
+            return;
+        }
+        dateReported = Convert.ToDateTime(strDateReported + " " + strTimeReported, locale);
+        if (dateReported.CompareTo(dateOfIncident) < 0) {
+            args.IsValid = false;
+            return;
+        }
+    }
+    
     
 }
