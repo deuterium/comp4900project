@@ -71,7 +71,7 @@
                             <asp:Button ID="btnLabOfficeFollowupSubmit" runat="server" Text="Submit Followup"
                                 OnClick="btnLabOfficeFollowupSubmit_Click" />
                             <asp:ConfirmButtonExtender ID="btnLabOfficeFollowupSubmit_ConfirmButtonExtender"
-                                runat="server" ConfirmText="Are you sure you want to submit this followup? This will mark it as complete and remove from Followup page"
+                                runat="server" ConfirmText="Are you sure you want to submit this followup? This will mark it as complete and remove from Follow up page"
                                 Enabled="True" TargetControlID="btnLabOfficeFollowupSubmit" ConfirmOnFormSubmit="false">
                             </asp:ConfirmButtonExtender>
                         </td>
@@ -1713,8 +1713,18 @@
                         <asp:TextBox ID="tbxIncidentFollowupSubmitter" disabled="true" runat="server" OnLoad="tbxIncidentFollowupSubmitter_Load"></asp:TextBox>
                     </td>
                     <td>
+                         <asp:Button ID="btnIncidentFollowupSave" runat="server" Text="Save Followup" 
+                             width="130" onclick="btnIncidentFollowupSave_Click" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="right">
                         <asp:Button ID="btnIncidentFollowupSubmit" runat="server" Text="Submit Followup"
-                            OnClick="btnIncidentFollowupSubmit_Click" />
+                            OnClick="btnIncidentFollowupSubmit_Click" width="130" />
+                        <asp:ConfirmButtonExtender ID="btnIncidentFollowupSubmit_ConfirmButtonExtender" 
+                            runat="server" ConfirmText="Are you sure you want to submit this followup? This will mark it as complete and remove from Follow up page" Enabled="True" 
+                            TargetControlID="btnIncidentFollowupSubmit" ConfirmOnFormSubmit="false">
+                        </asp:ConfirmButtonExtender>
                     </td>
                 </tr>
             </table>

@@ -78,8 +78,11 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         WatermarkCssClass="watermarked" WatermarkText="Required field"></asp:TextBoxWatermarkExtender>
                     <asp:RequiredFieldValidator ID="rfvFirstName" runat="server" ValidationGroup="vgpGetEmp" 
                         ControlToValidate="tbxFirstName" ErrorMessage="First name is required."></asp:RequiredFieldValidator>  
-                    <asp:CustomValidator ID="cmvFindEmpInDb" runat="server" ValidationGroup="vpgGetEmpFromDb"
-                        ErrorMessage="Employee not found." OnServerValidate="cmvFindEmpInDb_ServerValidate"></asp:CustomValidator>
+                    <asp:CustomValidator ID="cmvGetEmpFromDb" runat="server" ValidationGroup="vpgGetEmpFromDb"
+                        ErrorMessage="Employee not found in database." OnServerValidate="cmvGetEmpFromDb_ServerValidate"></asp:CustomValidator>
+                    <asp:CustomValidator ID="cmvCheckEmpExists" runat="server" ValidationGroup="vpgCreateEmp"
+                        ErrorMessage="An employee with that first and last name already exists. Please change either the name and try again."
+                        OnServerValidate="cmvCheckEmpExists_ServerValidate"></asp:CustomValidator>
                     <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpGetEmp" 
                         ControlToValidate="tbxFirstName" ErrorMessage="First name can only contain letters."
                         ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
@@ -376,8 +379,6 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
     <div id="div1" class="summariesAndButtons" >
         <asp:ValidationSummary ID="vsyPanelA" runat="server" ValidationGroup="vgpPanelA"
             DisplayMode="BulletList" />
-        <asp:Label ID="lblInvalidActionFollowing" runat="server" ForeColor="Red"
-            Text="You must select at least one Action Following checkbox." Visible="false"></asp:Label>
     </div>
 
 </asp:Panel>

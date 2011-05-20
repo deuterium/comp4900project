@@ -802,64 +802,97 @@ public partial class Followup_Followup : System.Web.UI.Page
         tbxIncidentFollowupSubmitter.Text = Session["AuthenticatedUser"].ToString();
     }
 
+    protected void btnIncidentFollowupSave_Click(object sender, EventArgs e)
+    {
+        Report_Followup_Changes(0);
+    }
+
     protected void btnIncidentFollowupSubmit_Click(object sender, EventArgs e)
+    {
+        Report_Followup_Changes(1);
+    }
+
+    protected void Report_Followup_Changes(int mode)
     {
         int insNo = Convert.ToInt32(tbNoHidden.Text);
         Incident inc = ctx.Incidents.Where(i => i.incidentNo == insNo).Select(i => i).First();
         //F - 8 items
         inc.p2_corrective_person = tbx_p2_corrective_person.Text;
-        inc.p2_corrective_personDate = Convert.ToDateTime(tbx_p2_corrective_personDate.Text);
-        inc.p2_corrective_equipment = rbl_p2_corrective_maintenance.SelectedValue;
-        inc.p2_corrective_equipmentCompletedDate = Convert.ToDateTime(tbx_p2_corrective_maintenanceDate.Text);
+        inc.p2_corrective_personDate = (tbx_p2_corrective_personDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_personDate.Text));
+        inc.p2_corrective_maintenance = rbl_p2_corrective_maintenance.SelectedValue;
+        inc.p2_corrective_maintenanceDate = (tbx_p2_corrective_maintenanceDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_maintenanceDate.Text));
         inc.p2_corrective_communicated = rbl_p2_corrective_communicated.SelectedValue;
-        inc.p2_corrective_communicatedDate = Convert.ToDateTime(tbx_p2_corrective_communicatedDate.Text);
+        inc.p2_corrective_communicatedDate = (tbx_p2_corrective_communicatedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_communicatedDate.Text));
         inc.p2_corrective_time = rbl_p2_corrective_time.SelectedValue;
-        inc.p2_corrective_timeDate = Convert.ToDateTime(tbx_p2_corrective_timeDate.Text);
+        inc.p2_corrective_timeDate = (tbx_p2_corrective_timeDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_timeDate.Text));
         //G - 15 items
         inc.p2_corrective_written = tbx_p2_corrective_written.Text;
-        inc.p2_corrective_writtenTargetDate = Convert.ToDateTime(tbx_p2_corrective_writtenTargetDate.Text);
-        inc.p2_corrective_writtenCompletedDate = Convert.ToDateTime(tbx_p2_corrective_writtenCompletedDate.Text);
+        inc.p2_corrective_writtenTargetDate = (tbx_p2_corrective_writtenTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_writtenTargetDate.Text));
+        inc.p2_corrective_writtenCompletedDate = (tbx_p2_corrective_writtenCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_writtenCompletedDate.Text));
         inc.p2_corrective_education = tbx_p2_corrective_education.Text;
-        inc.p2_corrective_educationTargetDate = Convert.ToDateTime(tbx_p2_corrective_educationTargetDate.Text);
-        inc.p2_corrective_educationCompletedDate = Convert.ToDateTime(tbx_p2_corrective_educationCompletedDate.Text);
+        inc.p2_corrective_educationTargetDate = (tbx_p2_corrective_educationTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_educationTargetDate.Text));
+        inc.p2_corrective_educationCompletedDate = (tbx_p2_corrective_educationCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_educationCompletedDate.Text));
         inc.p2_corrective_equipment = tbx_p2_corrective_equipment.Text;
-        inc.p2_corrective_equipmentTargetDate = Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text);
-        inc.p2_corrective_equipmentCompletedDate = Convert.ToDateTime(tbx_p2_corrective_environmentCompletedDate.Text);
+        inc.p2_corrective_equipmentTargetDate = (tbx_p2_corrective_equipmentTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_equipmentTargetDate.Text));
+        inc.p2_corrective_equipmentCompletedDate = (tbx_p2_corrective_equipmentCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_equipmentCompletedDate.Text));
         inc.p2_corrective_environment = tbx_p2_corrective_environment.Text;
-        inc.p2_corrective_environmentTargetDate = Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text);
-        inc.p2_corrective_environmentCompletedDate = Convert.ToDateTime(tbx_p2_corrective_environmentCompletedDate.Text);
+        inc.p2_corrective_environmentTargetDate = (tbx_p2_corrective_environmentTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text));
+        inc.p2_corrective_environmentCompletedDate = (tbx_p2_corrective_environmentCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_environmentCompletedDate.Text));
         inc.p2_corrective_patient = tbx_p2_corrective_patient.Text;
-        inc.p2_corrective_patientTargetDate = Convert.ToDateTime(tbx_p2_corrective_patientTargetDate.Text);
-        inc.p2_corrective_patientCompletedDate = Convert.ToDateTime(tbx_p2_corrective_patientCompletedDate.Text);
+        inc.p2_corrective_patientTargetDate = (tbx_p2_corrective_patientTargetDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_patientTargetDate.Text));
+        inc.p2_corrective_patientCompletedDate = (tbx_p2_corrective_patientCompletedDate.Text.Count() == 0 ? (DateTime?)null : Convert.ToDateTime(tbx_p2_corrective_patientCompletedDate.Text));
+
         //H - 17 items
         inc.p2_manager_previous = tbx_p2_manager_previous.Text;
         inc.p2_manager_objections = tbx_p2_manager_objections.Text;
         inc.p2_manager_alternative = tbx_p2_manager_alternative.Text;
-        inc.p2_manager_week1_sun = Convert.ToDecimal(tbx_p2_manager_week1_sun.Text);
-        inc.p2_manager_week1_mon = Convert.ToDecimal(tbx_p2_manager_week1_mon.Text);
-        inc.p2_manager_week1_tue = Convert.ToDecimal(tbx_p2_manager_week1_tue.Text);
-        inc.p2_manager_week1_wed = Convert.ToDecimal(tbx_p2_manager_week1_wed.Text);
-        inc.p2_manager_week1_thu = Convert.ToDecimal(tbx_p2_manager_week1_thu.Text);
-        inc.p2_manager_week1_fri = Convert.ToDecimal(tbx_p2_manager_week1_fri.Text);
-        inc.p2_manager_week1_sat = Convert.ToDecimal(tbx_p2_manager_week1_sat.Text);
-        inc.p2_manager_week2_sun = Convert.ToDecimal(tbx_p2_manager_week2_sun.Text);
-        inc.p2_manager_week2_mon = Convert.ToDecimal(tbx_p2_manager_week2_mon.Text);
-        inc.p2_manager_week2_tue = Convert.ToDecimal(tbx_p2_manager_week2_tue.Text);
-        inc.p2_manager_week2_wed = Convert.ToDecimal(tbx_p2_manager_week2_wed.Text);
-        inc.p2_manager_week2_thu = Convert.ToDecimal(tbx_p2_manager_week2_thu.Text);
-        inc.p2_manager_week2_fri = Convert.ToDecimal(tbx_p2_manager_week2_fri.Text);
-        inc.p2_manager_week2_sat = Convert.ToDecimal(tbx_p2_manager_week2_sat.Text);
-
-        try
+        inc.p2_manager_week1_sun = (tbx_p2_manager_week1_sun.Text.Count() == 0 ? (decimal?)null : Convert.ToDecimal(tbx_p2_manager_week1_sun.Text));
+        inc.p2_manager_week1_mon = (tbx_p2_manager_week1_mon.Text.Count() == 0 ? (decimal?)null : Convert.ToDecimal(tbx_p2_manager_week1_mon.Text));
+        inc.p2_manager_week1_tue = (tbx_p2_manager_week1_tue.Text.Count() == 0 ? (decimal?)null : Convert.ToDecimal(tbx_p2_manager_week1_tue.Text));
+        inc.p2_manager_week1_wed = (tbx_p2_manager_week1_wed.Text.Count() == 0 ? (decimal?)null : Convert.ToDecimal(tbx_p2_manager_week1_wed.Text));
+        inc.p2_manager_week1_thu = (tbx_p2_manager_week1_thu.Text.Count() == 0 ? (decimal?)null : Convert.ToDecimal(tbx_p2_manager_week1_thu.Text));
+        inc.p2_manager_week1_fri = (tbx_p2_manager_week1_fri.Text.Count() == 0 ? (decimal?)null : Convert.ToDecimal(tbx_p2_manager_week1_fri.Text));
+        inc.p2_manager_week1_sat = (tbx_p2_manager_week1_sat.Text.Count() == 0 ? (decimal?)null : Convert.ToDecimal(tbx_p2_manager_week1_sat.Text));
+        inc.p2_manager_week2_sun = (tbx_p2_manager_week2_sun.Text.Count() == 0 ? (decimal?)null : Convert.ToDecimal(tbx_p2_manager_week2_sun.Text));
+        inc.p2_manager_week2_mon = (tbx_p2_manager_week2_mon.Text.Count() == 0 ? (decimal?)null : Convert.ToDecimal(tbx_p2_manager_week2_mon.Text));
+        inc.p2_manager_week2_tue = (tbx_p2_manager_week2_tue.Text.Count() == 0 ? (decimal?)null : Convert.ToDecimal(tbx_p2_manager_week2_tue.Text));
+        inc.p2_manager_week2_wed = (tbx_p2_manager_week2_wed.Text.Count() == 0 ? (decimal?)null : Convert.ToDecimal(tbx_p2_manager_week2_wed.Text));
+        inc.p2_manager_week2_thu = (tbx_p2_manager_week2_thu.Text.Count() == 0 ? (decimal?)null : Convert.ToDecimal(tbx_p2_manager_week2_thu.Text));
+        inc.p2_manager_week2_fri = (tbx_p2_manager_week2_fri.Text.Count() == 0 ? (decimal?)null : Convert.ToDecimal(tbx_p2_manager_week2_fri.Text));
+        inc.p2_manager_week2_sat = (tbx_p2_manager_week2_sat.Text.Count() == 0 ? (decimal?)null : Convert.ToDecimal(tbx_p2_manager_week2_sat.Text));
+        switch (mode)
         {
-            ctx.SaveChanges();
+            case 0:
+                //Followup Saved
+                inc.followUpStatus = "1";
+                try
+                {
+                    ctx.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    Popup_Overlay(ex.Message, Color.Red);
+                    return;
+                }
+                Popup_Overlay("Follow up Saved.", Color.Green);
+                break;
+            case 1:
+                //Followup Submitted
+                inc.followUpStatus = "2";
+                try
+                {
+                    ctx.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    Popup_Overlay(ex.Message, Color.Red);
+                    return;
+                }
+                Popup_Overlay("Follow up Submitted.", Color.Green);
+                break;
+            default:
+                throw new System.SystemException("Default case of switch should never be reached");
         }
-        catch (Exception ex)
-        {
-            Popup_Overlay(ex.Message, Color.Red);
-            return;
-        }
-        Popup_Overlay("Follow up Submitted.", Color.Green);
     }
     #endregion
 
@@ -1109,6 +1142,7 @@ public partial class Followup_Followup : System.Web.UI.Page
         labIns.followupComment = tbLabOfficeFollowupComments.Text;
         labIns.followupSubmitter = tbSubmittedby.Text;
         labIns.followupDate = Convert.ToDateTime(tbFollowUpDate.Text);
+        //Followup Submitted
         labIns.followUpStatus = "2";
 
         try
@@ -1132,22 +1166,22 @@ public partial class Followup_Followup : System.Web.UI.Page
     protected void Submit_Office_Followup()
     {
         int insNo = Convert.ToInt32(tbNoHidden.Text);
-            foreach (GridViewRow r in gvwLabOfficeFollowup.Rows)
-            {
-                //Decodes &codes;
-                string insItem = Server.HtmlDecode(r.Cells[0].Text);
+        foreach (GridViewRow r in gvwLabOfficeFollowup.Rows)
+        {
+            //Decodes &codes;
+            string insItem = Server.HtmlDecode(r.Cells[0].Text);
 
-                int insItemNo = ctx.OfficeInspectionItems
-                        .Where(oii => oii.officeInsName == insItem)
-                        .Select(oii => oii.officeInsItemNo).First();
-                string insComment = ((TextBox)r.Cells[3].FindControl("tbCorrectiveAction")).Text;
-                ctx.AddToOfficeFollowUps(new OfficeFollowUp()
-                {
-                    officeInsNo = insNo,
-                    officeInsItemNo = insItemNo,
-                    comment = insComment
-                });
-            }
+            int insItemNo = ctx.OfficeInspectionItems
+                    .Where(oii => oii.officeInsName == insItem)
+                    .Select(oii => oii.officeInsItemNo).First();
+            string insComment = ((TextBox)r.Cells[3].FindControl("tbCorrectiveAction")).Text;
+            ctx.AddToOfficeFollowUps(new OfficeFollowUp()
+            {
+                officeInsNo = insNo,
+                officeInsItemNo = insItemNo,
+                comment = insComment
+            });
+        }
 
         OfficeInspection offIns = ctx.OfficeInspections
             .Where(oi => oi.officeInsNo == insNo)
@@ -1155,6 +1189,7 @@ public partial class Followup_Followup : System.Web.UI.Page
         offIns.followupComment = tbLabOfficeFollowupComments.Text;
         offIns.followupSubmitter = tbSubmittedby.Text;
         offIns.followupDate = Convert.ToDateTime(tbFollowUpDate.Text);
+        //Followup Submitted
         offIns.followUpStatus = "2";
 
         try
@@ -1227,6 +1262,7 @@ public partial class Followup_Followup : System.Web.UI.Page
             .Where(li => li.labInsNo == insNo)
             .Select(li => li).First();
         labIns.followupComment = tbLabOfficeFollowupComments.Text;
+        //Followup Saved
         labIns.followUpStatus = "1";
 
         try
@@ -1238,7 +1274,7 @@ public partial class Followup_Followup : System.Web.UI.Page
             Popup_Overlay(ex.Message, Color.Red);
             return;
         }
-        Popup_Overlay("Follow up has been saved.", Color.Green);
+        Popup_Overlay("Follow up Saved.", Color.Green);
     }
 
     /// <summary>
@@ -1254,21 +1290,21 @@ public partial class Followup_Followup : System.Web.UI.Page
         if (ctx.OfficeFollowUps.Where(OFU => OFU.officeInsNo == insNo).Select(OFU => OFU).Count() == 0)
         {
             foreach (GridViewRow r in gvwLabOfficeFollowup.Rows)
-        {
-            //Decodes &codes;
-            string insItem = Server.HtmlDecode(r.Cells[0].Text);
-
-            int insItemNo = ctx.OfficeInspectionItems
-                    .Where(oii => oii.officeInsName == insItem)
-                    .Select(oii => oii.officeInsItemNo).First();
-            string insComment = ((TextBox)r.Cells[3].FindControl("tbCorrectiveAction")).Text;
-            ctx.AddToOfficeFollowUps(new OfficeFollowUp()
             {
-                officeInsNo = insNo,
-                officeInsItemNo = insItemNo,
-                comment = insComment
-            });
-        }
+                //Decodes &codes;
+                string insItem = Server.HtmlDecode(r.Cells[0].Text);
+
+                int insItemNo = ctx.OfficeInspectionItems
+                        .Where(oii => oii.officeInsName == insItem)
+                        .Select(oii => oii.officeInsItemNo).First();
+                string insComment = ((TextBox)r.Cells[3].FindControl("tbCorrectiveAction")).Text;
+                ctx.AddToOfficeFollowUps(new OfficeFollowUp()
+                {
+                    officeInsNo = insNo,
+                    officeInsItemNo = insItemNo,
+                    comment = insComment
+                });
+            }
         }
         else
         {
@@ -1299,6 +1335,7 @@ public partial class Followup_Followup : System.Web.UI.Page
             .Where(oi => oi.officeInsNo == insNo)
             .Select(oi => oi).First();
         offIns.followupComment = tbLabOfficeFollowupComments.Text;
+        //Followup Saved
         offIns.followUpStatus = "1";
 
         try
@@ -1310,7 +1347,7 @@ public partial class Followup_Followup : System.Web.UI.Page
             Popup_Overlay(ex.Message, Color.Red);
             return;
         }
-        Popup_Overlay("Follow up has been saved.", Color.Green);
+        Popup_Overlay("Follow up Saved.", Color.Green);
     }
     #endregion
 }
