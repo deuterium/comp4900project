@@ -671,8 +671,9 @@ public partial class Training_Default : System.Web.UI.Page {
     /// populate all valid courses taken
     /// </summary>
     private void populateValidCourses() {
+        int id = Convert.ToInt32(tbxId.Text);
         DateTime currentDate = DateTime.Now;
-        var q = ctx.Employees.Where(e => e.empNo == 6)
+        var q = ctx.Employees.Where(e => e.empNo == id)
                                .Join(
                                   ctx.TrainingTakens,
                                   emp => emp.empNo,
@@ -728,7 +729,8 @@ public partial class Training_Default : System.Web.UI.Page {
     private void populateExpiredCourses()
     {
         DateTime currentDate = DateTime.Now;
-        var q = ctx.Employees.Where(e => e.empNo == 6)
+        int id = Convert.ToInt32(tbxId.Text);
+        var q = ctx.Employees.Where(e => e.empNo == id)
                                .Join(
                                   ctx.TrainingTakens,
                                   emp => emp.empNo,
