@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Linq;
-using BCCAModel;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
-using System.Linq.Expressions;
+using System.Globalization;
+using System.Linq;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using AjaxControlToolkit;
-using System.Data.Objects;
-using System.Drawing;
-using System.Data;
-using System.Web.UI;
+using BCCAModel;
 
 /**
  * TO DO:
@@ -28,6 +26,10 @@ public partial class Tracking_Default : System.Web.UI.Page {
     public Color DisabledColor = ColorTranslator.FromHtml("#E6E6E6");
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
+    // The date format to use for displaying dates
+    public static String dateFormat = "M/d/yyyy";
+    // The locale to use when converting dates
+    public static CultureInfo locale = new CultureInfo("en-CA");
     // Text colour for failure messages
     public static Color FailColour = Color.Red;
     // Text colour for success messages
@@ -54,9 +56,22 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// <param name="sender">The object that requested the page load.</param>
     /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e) {
+        //Check User Authentication
+        Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
+        ASP.global_asax.Session_Authentication();
+        Session["AfterLoginRedirectUrl"] = null;
+
+        if (!(Session["RoleNo"].Equals(1) || Session["RoleNo"].Equals(3))) {
+            pnlAllContent.Visible = false;
+            lblUnauthorizedMsg.Visible = true;
+        }
         if (!IsPostBack) {
             pnlPop.Style.Value = "display:none;";
             disableAllTextBoxes();
+            cpeFilters.Collapsed = false;
+            cpeFilters.ClientState = "false";
+            cpeA.Collapsed = false;
+            cpeA.ClientState = "false";
         }
     }
 
@@ -116,12 +131,46 @@ public partial class Tracking_Default : System.Web.UI.Page {
     }
 
     private void addFilter(CheckBox cbx) {
-        pnlFiltersSelected.Controls.Add(cbx);
+        lblFilters.Text = "The filters you selected were:";
+        
+        CheckBox cbxClone = new CheckBox();
+        cbxClone.Checked = cbx.Checked;
+        cbxClone.Text = cbx.Text;
+        
+        pnlFiltersSelected.Controls.Add(cbxClone);
         pnlFiltersSelected.Controls.Add(new LiteralControl("<br />"));
     }
 
-    private void addFilter(RadioButtonList rbl) {
-        pnlFiltersSelected.Controls.Add(rbl);
+    private void addFilter(CheckBox cbx, String additionalInfo) {
+        lblFilters.Text = "The filters you selected were:";
+        
+        CheckBox cbxClone = new CheckBox();
+        cbxClone.Checked = cbx.Checked;
+        cbxClone.Text = cbx.Text;
+        
+        Label lblAdditionalInfo = new Label();
+        lblAdditionalInfo.Text = additionalInfo;
+
+        pnlFiltersSelected.Controls.Add(cbxClone);
+        pnlFiltersSelected.Controls.Add(lblAdditionalInfo);
+        pnlFiltersSelected.Controls.Add(new LiteralControl("<br />"));
+    }
+
+    private void addFilter(RadioButtonList rbl, String text) {
+        lblFilters.Text = "The filters you selected were:";
+        
+        RadioButtonList rblClone = new RadioButtonList();
+        foreach (ListItem li in rbl.Items) {
+            rblClone.Items.Add(li);
+        }
+        rblClone.SelectedValue = rbl.SelectedValue;
+        rblClone.RepeatDirection = rbl.RepeatDirection;
+        
+        Label lblAdditionalInfo = new Label();
+        lblAdditionalInfo.Text = text;
+
+        pnlFiltersSelected.Controls.Add(lblAdditionalInfo); 
+        pnlFiltersSelected.Controls.Add(rblClone);
         pnlFiltersSelected.Controls.Add(new LiteralControl("<br />"));
     }
 
@@ -163,10 +212,10 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (cbx_p2_patient_sitStandLift.Checked) { reports = reports.Where(r => r.p2_patient_sitStandLift.Equals("1")); addFilter(cbx_p2_patient_sitStandLift); }
         if (cbx_p2_patient_floorLift.Checked) { reports = reports.Where(r => r.p2_patient_floorLift.Equals("1")); addFilter(cbx_p2_patient_floorLift); }
         if (cbx_p2_patient_manualLift.Checked) { reports = reports.Where(r => r.p2_patient_manualLift.Equals("1")); addFilter(cbx_p2_patient_manualLift); }
-        if (cbx_p2_patient_other.Checked) { reports = reports.Where(r => !(r.p2_patient_otherSpecify.Equals(null))); }
+        if (cbx_p2_patient_other.Checked) { reports = reports.Where(r => !(r.p2_patient_otherSpecify.Equals(null))); addFilter(cbx_p2_patient_other, " (Incident/Accident Information, Patient Handling Details)"); }
         if (!rbl_p2_patient_adequateAssist.SelectedValue.Equals(String.Empty)) {
             reports = reports.Where(r => r.p2_patient_adequateAssist.Equals(rbl_p2_patient_adequateAssist.SelectedValue));
-            addFilter(rbl_p2_patient_adequateAssist);
+            addFilter(rbl_p2_patient_adequateAssist, "Was adaquate assistance available?");
         }
 
         if (cbx_p2_activity_washing.Checked) { reports = reports.Where(r => r.p2_activity_washing.Equals("1")); addFilter(cbx_p2_activity_washing); }
@@ -175,7 +224,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (cbx_p2_activity_feeding.Checked) { reports = reports.Where(r => r.p2_activity_feeding.Equals("1")); addFilter(cbx_p2_activity_feeding); }
         if (cbx_p2_activity_prep.Checked) { reports = reports.Where(r => r.p2_activity_prep.Equals("1")); addFilter(cbx_p2_activity_prep); }
         if (cbx_p2_activity_dressingChanges.Checked) { reports = reports.Where(r => r.p2_activity_dressingChanges.Equals("1")); addFilter(cbx_p2_activity_dressingChanges); }
-        if (cbx_p2_activity_otherPatientCare.Checked) { reports = reports.Where(r => r.p2_activity_otherPatientCare.Equals("1")); addFilter(cbx_p2_activity_otherPatientCare); }
+        if (cbx_p2_activity_otherPatientCare.Checked) { reports = reports.Where(r => r.p2_activity_otherPatientCare.Equals("1")); addFilter(cbx_p2_activity_otherPatientCare, " (Incident/Accident Information, Patient Care)"); }
 
         if (cbx_p2_activity_recapping.Checked) { reports = reports.Where(r => r.p2_activity_recapping.Equals("1")); addFilter(cbx_p2_activity_recapping); }
         if (cbx_p2_activity_puncture.Checked) { reports = reports.Where(r => r.p2_activity_puncture.Equals("1")); addFilter(cbx_p2_activity_puncture); }
@@ -186,10 +235,10 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (cbx_p2_activity_lift.Checked) { reports = reports.Where(r => r.p2_activity_lift.Equals("1")); addFilter(cbx_p2_activity_lift); }
         if (cbx_p2_activity_push.Checked) { reports = reports.Where(r => r.p2_activity_push.Equals("1")); addFilter(cbx_p2_activity_push); }
         if (cbx_p2_activity_carry.Checked) { reports = reports.Where(r => r.p2_activity_carry.Equals("1")); addFilter(cbx_p2_activity_carry); }
-        if (cbx_p2_activity_otherMat.Checked) { reports = reports.Where(r => r.p2_activity_otherMat != null); }
+        if (cbx_p2_activity_otherMat.Checked) { reports = reports.Where(r => r.p2_activity_otherMat != null); addFilter(cbx_p2_activity_otherMat); }
         if (cbx_p2_activity_driving.Checked) { reports = reports.Where(r => r.p2_activity_driving.Equals("1")); addFilter(cbx_p2_activity_driving); }
-        if (cbx_p2_activity_otherEquip.Checked) { reports = reports.Where(r => r.p2_activity_otherEquip != null); }
-        if (cbx_p2_activity_otherEquipDesc.Checked) { reports = reports.Where(r => r.p2_activity_otherEquipDesc != null); }
+        if (cbx_p2_activity_otherEquip.Checked) { reports = reports.Where(r => r.p2_activity_otherEquip != null); addFilter(cbx_p2_activity_otherEquip); }
+        if (cbx_p2_activity_otherEquipDesc.Checked) { reports = reports.Where(r => r.p2_activity_otherEquipDesc != null); addFilter(cbx_p2_activity_otherEquipDesc); }
         if (cbx_p2_activity_equipMain.Checked) { reports = reports.Where(r => r.p2_activity_equipMain.Equals("1")); addFilter(cbx_p2_activity_equipMain); }
         if (cbx_p2_activity_comp.Checked) { reports = reports.Where(r => r.p2_activity_comp.Equals("1")); addFilter(cbx_p2_activity_comp); }
         if (cbx_p2_activity_nonComp.Checked) { reports = reports.Where(r => r.p2_activity_nonComp.Equals("1")); addFilter(cbx_p2_activity_nonComp); }
@@ -199,7 +248,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (cbx_p2_activity_reading.Checked) { reports = reports.Where(r => r.p2_activity_reading.Equals("1")); addFilter(cbx_p2_activity_reading); }
         if (cbx_p2_activity_spill.Checked) { reports = reports.Where(r => r.p2_activity_spill.Equals("1")); addFilter(cbx_p2_activity_spill); }
         if (cbx_p2_activity_cleaning.Checked) { reports = reports.Where(r => r.p2_activity_cleaning.Equals("1")); addFilter(cbx_p2_activity_cleaning); }
-        if (cbx_p2_activity_other.Checked) { reports = reports.Where(r => r.p2_activity_other != null); }
+        if (cbx_p2_activity_other.Checked) { reports = reports.Where(r => r.p2_activity_other != null); addFilter(cbx_p2_activity_other, "(Incident/Accident Information, Other)"); }
         #endregion C_AccidentInvestigation
 
         #region D_Cause
@@ -223,8 +272,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (cbx_p2_cause_event.Checked) { reports = reports.Where(r => r.p2_cause_event.Equals("1")); addFilter(cbx_p2_cause_event); }
         if (cbx_p2_cause_underEquip.Checked) { reports = reports.Where(r => r.p2_cause_underEquip.Equals("1")); addFilter(cbx_p2_cause_underEquip); }
         if (cbx_p2_cause_hit.Checked) { reports = reports.Where(r => r.p2_cause_hit.Equals("1")); addFilter(cbx_p2_cause_hit); }
-        if (cbx_p2_cause_other.Checked) { reports = reports.Where(r => r.p2_cause_other != null); }
-
+        if (cbx_p2_cause_other.Checked) { reports = reports.Where(r => r.p2_cause_other != null); addFilter(cbx_p2_cause_other, "(Cause, Other)"); }
+        
         if (cbx_p2_cause_aggression_verbal.Checked) { reports = reports.Where(r => r.p2_aggression_verbal.Equals("1")); addFilter(cbx_p2_cause_aggression_verbal); }
         if (cbx_p2_cause_aggression_biting.Checked) { reports = reports.Where(r => r.p2_aggression_biting.Equals("1")); addFilter(cbx_p2_cause_aggression_biting); }
         if (cbx_p2_cause_aggression_hitting.Checked) { reports = reports.Where(r => r.p2_aggression_hitting.Equals("1")); addFilter(cbx_p2_cause_aggression_hitting); }
@@ -234,7 +283,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (cbx_p2_cause_aggression_family.Checked) { reports = reports.Where(r => r.p2_aggression_family.Equals("1")); addFilter(cbx_p2_cause_aggression_family); }
         if (cbx_p2_cause_aggression_public.Checked) { reports = reports.Where(r => r.p2_aggression_public.Equals("1")); addFilter(cbx_p2_cause_aggression_public); }
         if (cbx_p2_cause_aggression_worker.Checked) { reports = reports.Where(r => r.p2_aggression_worker.Equals("1")); addFilter(cbx_p2_cause_aggression_worker); }
-        if (cbx_p2_cause_aggression_other.Checked) { reports = reports.Where(r => r.p2_aggression_other != null); }
+        if (cbx_p2_cause_aggression_other.Checked) { reports = reports.Where(r => r.p2_aggression_other != null); addFilter(cbx_p2_cause_other, "(Cause, Workplace Aggression Details)"); }
 
         //if (tbx_p2_cause_exposure_chemName.Checked) { reports = reports.Where(r => r.p2_cause_exposure_chemName.Equals("1")); addFilter(CBX_HERE_NOW); }
         if (cbx_p2_cause_chemInhalation.Checked) { reports = reports.Where(r => r.p2_cause_chemInhalation.Equals("1")); addFilter(cbx_p2_cause_chemInhalation); }
@@ -256,7 +305,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (cbx_p2_factors_signage.Checked) { reports = reports.Where(r => r.p2_factors_signage.Equals("1")); addFilter(cbx_p2_factors_signage); }
         if (cbx_p2_factors_notAvailable.Checked) { reports = reports.Where(r => r.p2_factors_notAvailable.Equals("1")); addFilter(cbx_p2_factors_notAvailable); }
         if (cbx_p2_factors_poorDesign.Checked) { reports = reports.Where(r => r.p2_factors_poorDesign.Equals("1")); addFilter(cbx_p2_factors_poorDesign); }
-        if (cbx_p2_factors_otherEquip.Checked) { reports = reports.Where(r => r.p2_factors_otherEquip != null); }
+        if (cbx_p2_factors_otherEquip.Checked) { reports = reports.Where(r => r.p2_factors_otherEquip != null); addFilter(cbx_p2_factors_otherEquip, "(Equipment/Device, Other)"); }
 
         if (cbx_p2_factors_temp.Checked) { reports = reports.Where(r => r.p2_factors_temp.Equals("1")); addFilter(cbx_p2_factors_temp); }
         if (cbx_p2_factors_workplace.Checked) { reports = reports.Where(r => r.p2_factors_workplace.Equals("1")); addFilter(cbx_p2_factors_workplace); }
@@ -267,7 +316,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (cbx_p2_factors_noise.Checked) { reports = reports.Where(r => r.p2_factors_noise.Equals("1")); addFilter(cbx_p2_factors_noise); }
         if (cbx_p2_factors_vent.Checked) { reports = reports.Where(r => r.p2_factors_vent.Equals("1")); addFilter(cbx_p2_factors_vent); }
         if (cbx_p2_factors_storage.Checked) { reports = reports.Where(r => r.p2_factors_storage.Equals("1")); addFilter(cbx_p2_factors_storage); }
-        if (cbx_p2_factors_otherEnv.Checked) { reports = reports.Where(r => r.p2_factors_otherEnv != null); }
+        if (cbx_p2_factors_otherEnv.Checked) { reports = reports.Where(r => r.p2_factors_otherEnv != null); addFilter(cbx_p2_factors_otherEnv, "(Environment, Other)"); }
 
         if (cbx_p2_factors_assessment.Checked) { reports = reports.Where(r => r.p2_factors_assessment.Equals("1")); addFilter(cbx_p2_factors_assessment); }
         if (cbx_p2_factors_procedure.Checked) { reports = reports.Where(r => r.p2_factors_procedure.Equals("1")); addFilter(cbx_p2_factors_procedure); }
@@ -276,7 +325,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (cbx_p2_factors_extended.Checked) { reports = reports.Where(r => r.p2_factors_extended.Equals("1")); addFilter(cbx_p2_factors_extended); }
         if (cbx_p2_factors_comm.Checked) { reports = reports.Where(r => r.p2_factors_comm.Equals("1")); addFilter(cbx_p2_factors_comm); }
         if (cbx_p2_factors_unaccustomed.Checked) { reports = reports.Where(r => r.p2_factors_unaccustomed.Equals("1")); addFilter(cbx_p2_factors_unaccustomed); }
-        if (cbx_p2_factors_otherWorkPractice.Checked) { reports = reports.Where(r => r.p2_factors_otherWorkPractice != null); }
+        if (cbx_p2_factors_otherWorkPractice.Checked) { reports = reports.Where(r => r.p2_factors_otherWorkPractice != null); addFilter(cbx_p2_factors_otherWorkPractice, "(Work Practice, Other)"); }
 
         if (cbx_p2_factors_directions.Checked) { reports = reports.Where(r => r.p2_factors_directions.Equals("1")); addFilter(cbx_p2_factors_directions); }
         if (cbx_p2_factors_weight.Checked) { reports = reports.Where(r => r.p2_factors_weight.Equals("1")); addFilter(cbx_p2_factors_weight); }
@@ -286,7 +335,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (cbx_p2_factors_confused.Checked) { reports = reports.Where(r => r.p2_factors_confused.Equals("1")); addFilter(cbx_p2_factors_confused); }
         if (cbx_p2_factors_influence.Checked) { reports = reports.Where(r => r.p2_factors_influence.Equals("1")); addFilter(cbx_p2_factors_influence); }
         if (cbx_p2_factors_lang.Checked) { reports = reports.Where(r => r.p2_factors_lang.Equals("1")); addFilter(cbx_p2_factors_lang); }
-        if (cbx_p2_factors_otherPatient.Checked) { reports = reports.Where(r => r.p2_factors_otherPatient != null); }
+        if (cbx_p2_factors_otherPatient.Checked) { reports = reports.Where(r => r.p2_factors_otherPatient != null); addFilter(cbx_p2_factors_otherPatient, "(Patient Related Factors, Other)"); }
 
         if (cbx_p2_factors_alone.Checked) { reports = reports.Where(r => r.p2_factors_alone.Equals("1")); addFilter(cbx_p2_factors_alone); }
         if (cbx_p2_factors_info.Checked) { reports = reports.Where(r => r.p2_factors_info.Equals("1")); addFilter(cbx_p2_factors_info); }
@@ -296,7 +345,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (cbx_p2_factors_personal.Checked) { reports = reports.Where(r => r.p2_factors_personal.Equals("1")); addFilter(cbx_p2_factors_personal); }
         if (cbx_p2_factors_safe.Checked) { reports = reports.Where(r => r.p2_factors_safe.Equals("1")); addFilter(cbx_p2_factors_safe); }
         if (cbx_p2_factors_perceived.Checked) { reports = reports.Where(r => r.p2_factors_perceived.Equals("1")); addFilter(cbx_p2_factors_perceived); }
-        if (cbx_p2_factors_otherOrganizational.Checked) { reports = reports.Where(r => r.p2_factors_otherOrganizational != null); }
+        if (cbx_p2_factors_otherOrganizational.Checked) { reports = reports.Where(r => r.p2_factors_otherOrganizational != null); addFilter(cbx_p2_factors_otherOrganizational, "(Organizational/Administrative, Other)"); }
 
         if (cbx_p2_factors_inexperienced.Checked) { reports = reports.Where(r => r.p2_factors_inexperienced.Equals("1")); addFilter(cbx_p2_factors_inexperienced); }
         if (cbx_p2_factors_communication.Checked) { reports = reports.Where(r => r.p2_factors_communication.Equals("1")); addFilter(cbx_p2_factors_communication); }
@@ -304,7 +353,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (cbx_p2_factors_distracted.Checked) { reports = reports.Where(r => r.p2_factors_distracted.Equals("1")); addFilter(cbx_p2_factors_distracted); }
         if (cbx_p2_factors_preexisting.Checked) { reports = reports.Where(r => r.p2_factors_preexisting.Equals("1")); addFilter(cbx_p2_factors_preexisting); }
         if (cbx_p2_factors_sick.Checked) { reports = reports.Where(r => r.p2_factors_sick.Equals("1")); addFilter(cbx_p2_factors_sick); }
-        if (cbx_p2_factors_otherWorker.Checked) { reports = reports.Where(r => r.p2_factors_otherWorker != null); }
+        if (cbx_p2_factors_otherWorker.Checked) { reports = reports.Where(r => r.p2_factors_otherWorker != null); addFilter(cbx_p2_factors_otherOrganizational, "(Worker, Other)"); }
         #endregion E_ContributingFactors
 
         // Format the data for the Grid View
@@ -315,52 +364,69 @@ public partial class Tracking_Default : System.Web.UI.Page {
         dt.Columns.Add(new DataColumn("submitter", typeof(System.String)));
         dt.Columns.Add(new DataColumn("employee", typeof(System.String)));
 
-        String prevDeptName = String.Empty;
-        int incidentCount = 0;
+        var depts = ctx.Departments
+                    .OrderBy(d => d.deptName)
+                    .Select(d => d.deptNo);
 
-        // Put the data in rows, inserting rows for subheaders
-        foreach (var report in reports) {
-            // if it's the start of a new department
-            // add a subtotal row for the previous department
-            // add a subheader row for the new department
-            if (!prevDeptName.Equals(report.Employee.deptName)) {
-                // subtotal
-                if (incidentCount != 0) {
-                    DataRow drSubtotal = dt.NewRow();
-                    drSubtotal["incidentNo"] = "Number of Incidents: " + incidentCount;
-                    dt.Rows.Add(drSubtotal);
-                    incidentCount = 0;
+        foreach (int deptNumber in depts) {
+            var deptReports = from d in ctx.Departments
+                              join r in reports on d.deptNo equals r.deptNo
+                              where r.deptNo == deptNumber
+                              select r;
+            
+            // Subheader row
+            String deptName = (from d in ctx.Departments
+                               where d.deptNo == deptNumber
+                               select d.deptName).FirstOrDefault();
+            DataRow drSubheader = dt.NewRow();
+            drSubheader["incidentNo"] = "Department: " + deptName;
+            dt.Rows.Add(drSubheader);
+            // Put the data in rows
+            foreach (var report in deptReports) {
+                DataRow dr = dt.NewRow();
+                dr["incidentNo"] = report.incidentNo;
+                if (report.p1_dateOfIncident != null) {
+                    dr["date"] = Convert.ToDateTime(report.p1_dateOfIncident).ToString(dateFormat, locale);
                 }
-                // subheader
-                prevDeptName = report.Employee.deptName;
-                DataRow drSubheader = dt.NewRow();
-                drSubheader["incidentNo"] = report.Employee.deptName;
-                dt.Rows.Add(drSubheader);
-
+                dr["submitter"] = report.reportSubmitter;
+                dr["employee"] = report.Employee.fname + " " + report.Employee.lname;
+                dt.Rows.Add(dr);
             }
-            incidentCount++;
+            // Add subtotal row
+            DataRow drSubtotal = dt.NewRow();
+            drSubtotal["incidentNo"] = "Number of Incidents: " + deptReports.Count();
+            dt.Rows.Add(drSubtotal);
+        }
+
+        #region other depts
+        // Get the other depts that were NOT in the dept table
+        var otherDeptReports = reports
+                               .Where(r => r.deptNo == null);
+        
+        // Subheader row
+        DataRow drSubheaderOther = dt.NewRow();
+        drSubheaderOther["incidentNo"] = "Department: Other";
+        dt.Rows.Add(drSubheaderOther);
+        foreach (var report in otherDeptReports) {
             DataRow dr = dt.NewRow();
             dr["incidentNo"] = report.incidentNo;
             if (report.p1_dateOfIncident != null) {
-                dr["date"] = Convert.ToDateTime(report.p1_dateOfIncident).ToString("M/d/yyyy");
+                dr["date"] = Convert.ToDateTime(report.p1_dateOfIncident).ToString(dateFormat, locale);
             }
             dr["submitter"] = report.reportSubmitter;
             dr["employee"] = report.Employee.fname + " " + report.Employee.lname;
             dt.Rows.Add(dr);
         }
+        // Add subtotal row
+        DataRow drSubtotalOther = dt.NewRow();
+        drSubtotalOther["incidentNo"] = "Number of Incidents: " + otherDeptReports.Count();
+        dt.Rows.Add(drSubtotalOther);
+        #endregion other depts
 
-        // Add last subtotal row
-        if (incidentCount != 0) {
-            DataRow drSubtotal = dt.NewRow();
-            drSubtotal["incidentNo"] = "Subtotal Number of Incidents: " + incidentCount;
-            dt.Rows.Add(drSubtotal);
-            incidentCount = 0;
-        }
-        // Add total
+        // Add total row
         DataRow drTotal = dt.NewRow();
         drTotal["incidentNo"] = "Total Number of Incidents: " + reports.Count();
         dt.Rows.Add(drTotal);
-        incidentCount = 0;
 
         // Bind the data to the Grid View
         gdvTracker.DataSource = dt;
@@ -372,10 +438,11 @@ public partial class Tracking_Default : System.Web.UI.Page {
         //gdvTracker.Columns[2].ItemStyle.Width = 80;
         //gdvTracker.Columns[3].ItemStyle.Width = 450;
 
-        // Find and format the subheader rows
+        // Find and format the subheader and subtotal rows
         foreach (GridViewRow row in gdvTracker.Rows) {
             String strName = ((Label)row.FindControl("lblEmployeeName")).Text;
             if ((strName == null) || (strName.Equals(String.Empty))) {
+                // common formatting
                 row.ForeColor = HeaderForeColor;
                 foreach (TableCell c in row.Cells) {
                     c.Visible = false;
@@ -383,11 +450,14 @@ public partial class Tracking_Default : System.Web.UI.Page {
                 row.Cells[0].Visible = true;
                 row.Cells[0].ColumnSpan = gdvTracker.Columns.Count - 2;
                 String strIncidentNo = ((Label)row.FindControl("lblIncidentNo")).Text;
-                if (!(strIncidentNo.StartsWith("Subtotal") || strIncidentNo.StartsWith("Total"))) {
-                    // Manage buttons
+
+                // subheader dept row formatting (make view inspection/lab buttons visible)
+                if (!(strIncidentNo.StartsWith("Number") || strIncidentNo.StartsWith("Total"))) {
                     row.Cells[5].Visible = true;
                     row.Cells[5].ColumnSpan = 2;
+                    row.Font.Bold = true;
                 }
+                // subtotal row formatting 
                 else {
                     row.Cells[0].ColumnSpan = gdvTracker.Columns.Count;
                     row.Height = 50;
@@ -398,6 +468,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
             }
         }
         gdvTracker.HeaderRow.Cells[5].Visible = false;
+        //gdvTracker.Rows[gdvTracker.Rows.Count - 1].Font.Bold = true;
     }
     #endregion Filter Report
 
@@ -592,11 +663,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     }
     #endregion Disable Form
 
-    protected void gdvTracker_RowCommand(object sender, GridViewCommandEventArgs e) {
-        // Get the row that called the event
-        int index = Convert.ToInt32(e.CommandArgument);
+    private int GetIncidentIdFromRow(int index) {
         GridViewRow row = gdvTracker.Rows[index];
-        // Get the Incident No
         String strIncidentNo = ((Label)row.FindControl("lblIncidentNo")).Text;
         int incidentNo = -1;
         try {
@@ -604,25 +672,29 @@ public partial class Tracking_Default : System.Web.UI.Page {
         }
         catch (FormatException ex) {
             Popup_Overlay("An unexpected error has occured. Please refresh the page and try again.", FailColour);
-            return;
         }
+        return incidentNo;
+    }
 
+    protected void gdvTracker_RowCommand(object sender, GridViewCommandEventArgs e) {
+        // Get the row that called the event
+        int index = Convert.ToInt32(e.CommandArgument);
         // Find out which button was clicked, take appropriate action
         switch (e.CommandName) {
             case "RowViewReport":
-                Response.Redirect("~/Reporting/ViewIncidentReport.aspx?IncidentNo=" + strIncidentNo);
+                Response.Redirect("~/Reporting/ViewIncidentReport.aspx?IncidentNo=" + GetIncidentIdFromRow(index));
                 break;
             case "RowViewEmployee":
-                loadEmployee(getEmployeeFromIncidentId(incidentNo));
+                loadEmployee(getEmployeeFromIncidentId(GetIncidentIdFromRow(index)));
                 break;
             case "RowViewCourses":
-                loadCourses(getEmployeeFromIncidentId(incidentNo));
+                loadCourses(getEmployeeFromIncidentId(GetIncidentIdFromRow(index)));
                 break;
             case "RowViewLabInspections":
-                loadLabInspections(incidentNo);
+                loadLabInspections(GetIncidentIdFromRow(index + 1)); // subheader rows don't have incident numbers
                 break;
             case "RowViewOfficeInspections":
-                loadOfficeInspections(incidentNo);
+                loadOfficeInspections(GetIncidentIdFromRow(index + 1)); // subheader rows don't have incident numbers
                 break;
             default:
                 throw new System.SystemException("Default case of switch should never be reached");
@@ -638,29 +710,39 @@ public partial class Tracking_Default : System.Web.UI.Page {
 
     #region Look Up Courses
 
+    private string ConvertDateToString(Object date) {
+        if (date.Equals(DateTime.MinValue)) {
+            return String.Empty;
+        }
+        return ((DateTime)date).ToString(dateFormat, locale);
+    }
+
     private void loadCourses(Employee employee) {
         if (employee == null) {
             return;
         }
         var qry = ctx.TrainingTakens
+                  .OrderByDescending(tt => tt.startDate)
                   .Select(tt => new {
                       courseName = tt.TrainingCours.trainingName,
                       status = (tt.completed == 1) ? "Complete" : "Incomplete",
-                      completionDate = DateTime.Now,
-                      expirationDate = EntityFunctions.AddMonths(DateTime.Now, (int)tt.TrainingCours.monthsValid),
+                      completionDate = tt.startDate,
+                      expirationDate = tt.endDate,
                       required = "Yes"
                   });
         gdvEmpCourses.DataSource = qry;
         gdvEmpCourses.DataBind();
+        
         foreach (GridViewRow row in gdvEmpCourses.Rows) {
-            String strExpirationDate = ((Label)row.FindControl("lblExpirationDate")).Text;
+            String strExpirationDate = ((Label)row.FindControl("lblExpirationDate")).Text;    
             if ((strExpirationDate != null) && (!strExpirationDate.Equals(String.Empty))) {
                 DateTime expirationDate = Convert.ToDateTime(strExpirationDate);
-                if (expirationDate >= DateTime.Now) {
+                if (expirationDate.CompareTo(DateTime.Now) <= 0) {
                     row.ForeColor = Color.Red;
                 }
             }
         }
+
         pnlEmpCoursesContainer.Visible = true;
         cpeEmployeeCourses.Collapsed = false;
         cpeEmployeeCourses.ClientState = "false";
@@ -734,11 +816,11 @@ public partial class Tracking_Default : System.Web.UI.Page {
             lblRoom.Text = convertToTextBoxValue(emp.room);
 
             if (emp.startDate != null) {
-                lblStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy");
+                lblStartDate.Text = Convert.ToDateTime(emp.startDate).ToString(dateFormat, locale);
             }
 
             if (emp.endDate != null) {
-                lblEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy");
+                lblEndDate.Text = Convert.ToDateTime(emp.endDate).ToString(dateFormat, locale);
             }
         }
         pnlEmpInfoContainer.Visible = true;
@@ -785,7 +867,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
                       labInspectionNo = l.labInsNo,
                       deptName = l.deptName,
                       inspectionDate = l.date,
-                      followup = l.followupComment,
+                      followup = l.followUpStatus.Equals("1") ? "Yes" : "No",
                       inspector = l.inspector,
                       labManager = l.labMgr,
                       supervisor = l.supervisor,

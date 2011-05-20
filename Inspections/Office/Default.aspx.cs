@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using BCCAModel;
-using System.Drawing;
 
 /// <summary>
 ///Office.aspx.cs
@@ -26,7 +24,10 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
     /// <param name="e">not used in our code</param>
     protected void Page_Load(object sender, EventArgs e)
     {
+        //Check User Authentication
+        Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
+        Session["AfterLoginRedirectUrl"] = null;
 
         if (!IsPostBack)
         {

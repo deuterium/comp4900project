@@ -1,112 +1,129 @@
-body  
+body
 {
-    background-color: #343026; 
+    background-color: #343026;
+    color: #66645c;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    line-height: 18px;
+    margin: 0;
+    padding: 0;
+}
+
+a img
+{
+    border: none;
+}
+
+pre
+{
     color:#66645c; 
     font-family: Verdana,Arial,Helvetica,sans-serif; 
     font-size: 12px; 
-    line-height: 18px; 
-    margin: 0; 
-    padding: 0; 
+    line-height: 18px;  
 }
 
-a img  
+a
 {
-    border: none
-}
-
-a 
-{
-    color: #d80080; 
+    color: #d80080;
     text-decoration: none;
 }
 
-a:hover 
+a:hover
 {
     color: #920057;
 }
 
-.clear 
+.clear
 {
     clear: both;
 }
 
-.nav 
+.nav
 {
     width: 92%;
 }
 
 
-#main  
+#main
 {
-    width: 980px; 
-    margin-left: auto; 
-    margin-right: auto; 
-    padding-top: 20px; 
+    width: 980px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 20px;
 }
 
-#tabs  
+#tabs
 {
-    width:34px; 
-    float:left; 
+    width: 34px;
+    float: left;
     padding-top: 160px;
 }
 
-#maincontent  
+#maincontent
 {
-    width:946px; 
-    background: url(images/template/topleft_curve.gif) no-repeat; 
-    background-color: #fff; 
+    width: 946px;
+    background: url(images/template/topleft_curve.gif) no-repeat;
+    background-color: #fff;
     float: right;
 }
 
-.logo  
+.logo
 {
     padding-left: 50px;
     float: left;
 }
 
-.topblockcolour  
+.topblockcolour
 {
-    width:69px; 
-    height: 132px; 
+    width: 69px;
+    height: 132px;
     float: right;
 }
 
-.contactdetails  
+.contactdetails
 {
     float: right;
 }
 
-.middleblockcolour 
-{ 
-    width: 69px; 
+.middleblockcolour
+{
+    width: 69px;
     height: 60px;
     float: right;
 }
-	
-#bars  
+
+.userLoginDetailsPanel
+{
+    padding-top: 25px;
+    padding-left: 370px;
+    float: left;
+    text-align: right;
+}
+
+#bars
 {
     text-align: right;
 }
 
-.watermarked {
+.watermarked
+{
     color: #A9A9A9;
 }
 
 /* This is for extending the page. Use textbox for content */
 
-#content   
+#content
 {
     background: url(images/template/bkg_green.gif) repeat-y;
     min-height: 800px;
-    height:100%;
-    width: 946px; 
+    height: 100%;
+    width: 946px;
     position: relative;
 }
 
 /* This is the real content div */
 
-#textbox 
+#textbox
 {
     padding-bottom: 20px;
     padding-top: 5px;
@@ -117,44 +134,123 @@ a:hover
     position: relative;
 }
 
-	
-#leftcontent { width: 430px; padding: 35px 0 0 40px;  }
-.h1 { padding-bottom: 10px;}
-h1, h2 { position: absolute; left:-954em;}
-.h2 { padding-top: 10px; padding-bottom:10px;}
-	
-	
-#rightcontent { float: right; text-align: right; vertical-align: bottom;}
-	
-ul#footer { clear: both; list-style-type: none; padding-top: 5px; margin-left: 35px; padding-bottom: 10px;}
-ul#footer li a {color:#66645c; text-decoration: none;}
-ul#footer li a:hover { color: #d6d6d4;}
-	
-	
-	
-.blue, .bluelong {background-color: #3cb4ca;}
-.pink, .pinklong {background-color: #d80080;}
-.green, .greenlong {background-color: #89c123;}
-	
-.greenlink {color: #89c123;}
-.greenlink:hover {color: #5d8a0b;}
-	
-	
-#footer .credit { margin-left: 160px; background: none;}
-#footer .last { background: none;}
 
-textarea { width:200px;}
+#leftcontent
+{
+    width: 430px;
+    padding: 35px 0 0 40px;
+}
+.h1
+{
+    padding-bottom: 10px;
+}
+h1, h2
+{
+    position: absolute;
+    left: -954em;
+}
+.h2
+{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 
 
-.greenbullets {margin-bottom: 20px;}
+#rightcontent
+{
+    float: right;
+    text-align: right;
+    vertical-align: bottom;
+}
 
-#content .credit {margin-top: 5px; display: block; width: 400px; padding-top: 5px; color: #3cb4ca; }
-h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font-weight: normal; padding-bottom: 5px;}
+ul#footer
+{
+    clear: both;
+    list-style-type: none;
+    padding-top: 5px;
+    margin-left: 35px;
+    padding-bottom: 10px;
+}
+ul#footer li a
+{
+    color: #66645c;
+    text-decoration: none;
+}
+ul#footer li a:hover
+{
+    color: #d6d6d4;
+}
+
+
+
+.blue, .bluelong
+{
+    background-color: #3cb4ca;
+}
+.pink, .pinklong
+{
+    background-color: #d80080;
+}
+.green, .greenlong
+{
+    background-color: #89c123;
+}
+
+.greenlink
+{
+    color: #89c123;
+}
+.greenlink:hover
+{
+    color: #5d8a0b;
+}
+
+
+#footer .credit
+{
+    margin-left: 160px;
+    background: none;
+}
+#footer .last
+{
+    background: none;
+}
+
+textarea
+{
+    width: 200px;
+}
+
+
+.greenbullets
+{
+    margin-bottom: 20px;
+}
+
+#content .credit
+{
+    margin-top: 5px;
+    display: block;
+    width: 400px;
+    padding-top: 5px;
+    color: #3cb4ca;
+}
+h3
+{
+    color: #d80080;
+    font-family: Georgia, "Times New Roman" , Times, serif;
+    font-weight: normal;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
 
 
 /* Menu Styling */
 
-.space { margin-top:4em }
+.space
+{
+    margin-top: 4em;
+}
 .invertedshiftdown
 {
     text-align: right;
@@ -168,7 +264,7 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 
 .invertedshiftdown ul
 {
-    margin:0;
+    margin: 0;
     margin-left: 40px; /*margin between first menu item and left browser edge*/
     padding: 0;
     list-style: none;
@@ -179,7 +275,7 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     display: inline;
     margin: 0 8px 0 0;
     padding: 0;
-    text-transform:uppercase;
+    text-transform: uppercase;
 }
 
 .invertedshiftdown a
@@ -191,11 +287,7 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     text-decoration: none;
     margin: 0 1px 0 0; /*Margin between each menu item*/
     padding: 5px 10px 9px 10px; /*Padding within each menu item*/
-    background-color: white; /*Default menu color*/
-
-    /*BELOW 4 LINES add rounded bottom corners to each menu item.
-    ONLY WORKS IN FIREFOX AND FUTURE CSS3 CAPABLE BROWSERS
-    REMOVE IF DESIRED*/
+    background-color: white; /*Default menu color*/ /*BELOW 4 LINES add rounded bottom corners to each menu item.     ONLY WORKS IN FIREFOX AND FUTURE CSS3 CAPABLE BROWSERS     REMOVE IF DESIRED*/
     -moz-border-radius-bottomleft: 5px;
     border-bottom-left-radius: 5px;
     -moz-border-radius-bottomright: 5px;
@@ -211,7 +303,7 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 }
 
 .invertedshiftdown .current a /** currently selected menu item **/
-{ 
+{
     background-color: #89c123; /*Red color theme*/
     padding-top: 9px; /*Flip default padding-top value with padding-bottom */
     padding-bottom: 5px; /*Flip default padding-bottom value with padding-top*/
@@ -229,7 +321,7 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 /* Grid View Styling */
 
 .GridViewStyle
-{   
+{
     border-right: 2px solid #A7A6AA;
     border-bottom: 2px solid #A7A6AA;
     border-left: 2px solid white;
@@ -300,15 +392,15 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 /* Gridview Header */
 .gvCaption
 {
-    text-align:left;
-    font-weight:bold;
-    color: #d80080; 
+    text-align: left;
+    font-weight: bold;
+    color: #d80080;
     text-decoration: none;
 }
 
 /* Gridview Container */
 
-#grvContainer 
+#grvContainer
 {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -316,13 +408,13 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 
 /* Login.aspx */
 
-#divLogin 
+#divLogin
 {
     padding-left: 400px;
-    padding: 10px; 
-    width: 230px; 
-    margin: 0; 
-    background: #e8f7fb; 
+    padding: 10px;
+    width: 230px;
+    margin: 0;
+    background: #e8f7fb;
     border: 1px solid #dbeff5;
 }
 
@@ -331,14 +423,23 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     width: 75px;
 }
 
-.tblLogin 
+.tblLogin
 {
-    width: 100px;   
+    width: 100px;
 }
 
 /* Reporting.aspx */
 
-.spanBold {
+
+.commentBoxReporting
+{
+    height: 100px;
+    width: 500px;
+    max-width: 500px;
+}
+
+.spanBold
+{
     font-weight: bold;
 }
 
@@ -346,24 +447,24 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 {
     display: inline;
     float: left;
-    width: 270px;
+    width: 275px;
 }
 
 #divEmpInfoMiddlePanel
 {
     display: inline;
     float: left;
-    width: 263px;
+    width: 260px;
 }
 
 #divEmpInfoRightPanel
 {
     display: inline;
     float: left;
-    width: 267px;
+    width: 265px;
 }
 
-#divEmpInfoButtons
+.summariesAndButtons
 {
     display: inline;
     float: left;
@@ -371,13 +472,15 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     padding-top: 10px;
 }
 
-#divATopPanel {
+#divATopPanel
+{
     display: inline;
     float: left;
     width: 800px;
 }
 
-#divABottomPanel {
+#divABottomPanel
+{
     display: inline;
     float: left;
     width: 800px;
@@ -397,7 +500,7 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     width: 400px;
 }
 
-#divCLeftPanel 
+#divCLeftPanel
 {
     display: inline;
     float: left;
@@ -405,57 +508,57 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     padding-left: 10px;
 }
 
-#divCRightPanel 
+#divCRightPanel
 {
     display: inline;
-    float: left;  
+    float: left;
     width: 395px;
 }
 
 
-#divDLeftPanel 
+#divDLeftPanel
 {
     display: inline;
     float: left;
     width: 400px;
 }
 
-#divDRightPanel 
+#divDRightPanel
 {
     display: inline;
-    float: left;  
+    float: left;
     width: 400px;
 }
 
 
-#divELeftPanel 
+#divELeftPanel
 {
     display: inline;
     float: left;
     width: 240px;
 }
 
-#divEMiddlePanel 
+#divEMiddlePanel
 {
     display: inline;
-    float: left;  
+    float: left;
     width: 267px;
     padding-left: 10px;
 }
 
-#divERightPanel 
+#divERightPanel
 {
     display: inline;
-    float: left;  
+    float: left;
     width: 270px;
     padding-left: 10px;
 }
 
-.commentBoxReporting 
+.resizeableTextArea
 {
     height: 100px;
-    width: 500px;
-    resize: none;
+    width: 785px;
+    max-width: 785px;
 }
 
 /* Training.aspx */
@@ -465,44 +568,67 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     width: 100px;
 }
 
-.RecordHeader 
+.RecordHeader
 {
-    padding-top:10px;
+    padding-top: 10px;
     height: 158px;
     width: 800px;
-    height:65px;
-    margin:0 auto;
-    clear:both;
+    height: 65px;
+    margin: 0 auto;
+    clear: both;
 }
 .RecordHeader div
 {
-    float:left;
-    display:block;
-    margin:0 6px;
+    float: left;
+    display: block;
+    margin: 0 6px;
 }
 
 /* Collapsible Forms Panel Styling */
 
-.panel 
+.panel
 {
     display: inline;
     float: left;
-    padding: 10px; 
-    width: 800px; 
-    margin: 0; 
-    background: #e8f7fb; 
+    padding: 10px;
+    width: 800px;
+    margin: 0;
+    background: #e8f7fb;
     border: 1px solid #dbeff5;
 }
 
-.headerPanel 
+.parentPanel
+{
+    display: inline;
+    float: left;
+    padding: 5px;
+    width: 805px;
+    margin: 0;
+    background: #e8f7fb;
+    border: 1px solid #dbeff5;
+}
+
+.childPanel
+{
+    display: inline;
+    float: left;
+    padding-left: 0px;
+    padding-right: 0px;
+    width: 795px;
+    margin: 0;
+    background: #e8f7fb;
+    border: 1px solid #dbeff5;
+}
+
+.headerPanel
 {
     padding-bottom: 10px;
     margin-bottom: 10px;
     display: inline;
     float: left;
-    padding: 10px; 
-    width: 800px; 
-    background: #e8f7fb; 
+    padding: 10px;
+    width: 800px;
+    background: #e8f7fb;
     border: 1px solid #dbeff5;
 }
 
@@ -517,17 +643,17 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 .tblItem
 {
     width: 400px;
-    padding-left:5px;
-    padding-right:5px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .tblComment
 {
     width: 200px;
-    padding-left:5px;
-    padding-right:5px;
-    display:table;
-    text-align:center;
+    padding-left: 5px;
+    padding-right: 5px;
+    display: table;
+    text-align: center;
 }
 
 .tblYesNoNA
@@ -537,13 +663,14 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 }
 
 /* Administration */
-.modalBackground {
-	background-color:Gray;
-	filter:alpha(opacity=70);
-	opacity:0.7;
+.modalBackground
+{
+    background-color: Gray;
+    filter: alpha(opacity=70);
+    opacity: 0.7;
 }
 
-.hidden 
+.hidden
 {
     display: none;
 }
@@ -554,9 +681,33 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     min-height: 80px;
 }
 
+#divManageCoursesTop {
+    display: inline;
+    float: left;
+    width: 780px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#divManageCoursesLeft
+{
+    display: inline;
+    float: left;
+    padding: 10px;
+    width: 325px;
+}
+
+#divManageCoursesRight
+{
+    display: inline;
+    float: left;
+    padding-top: 50px;
+    width: 450px;
+}
+
 /* Summary */
 
-#divExpiringCourses 
+#divExpiringCourses
 {
     padding-top: 10px;
 }
@@ -564,11 +715,11 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 /* Followup */
 .panelFollowup
 {
-    padding: 10px; 
-    width: 800px; 
-    margin: 0; 
-    background: #e8f7fb; 
-    border: 1px solid #dbeff5;
+    padding: 10px;
+    width: 800px;
+    margin: 0;
+    background: #FFFF99;
+    border: 1px solid #CCFFCC;
 }
 
 /* Tracking.aspx */

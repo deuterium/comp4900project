@@ -18,6 +18,19 @@
 	    <div id="top">
             <a href="~/Default.aspx" runat="server"><img class="logo" src="~/images/template/logo.gif" alt="BCCRC" runat="server" /></a>
 			<a href="Default.aspx"></a>
+            <div id="divUserLoginDetails" class="userLoginDetailsPanel" runat="server" visible="false">
+                Welcome 
+                <asp:Label ID="lblUserName" runat="server" />
+                <br />
+                You are a 
+                <asp:Label ID="lblUserRole" runat="server" />
+                <br />
+                There are 
+                <asp:Label ID="lblFollowupNum" runat="server" /> 
+                Follow ups
+                <br />
+                <asp:LinkButton ID="lbnLogout" runat="server" onclick="lbnLogout_Click">Logout</asp:LinkButton>
+            </div>
 			<div class="topblockcolour green"></div>	
 	    </div>
 		<div class="clear"></div>

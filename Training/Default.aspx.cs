@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using BCCAModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Globalization;
 
 /// <summary>
 /// Training/Default.aspx.cs
@@ -21,7 +18,7 @@ using System.Globalization;
 /// Lindsay Fester - lindsay.m.fester@gmail.com
 /// Michael Anderson - anderson.michael23@gmail.com
 /// </summary>
-public partial class Training_Training : System.Web.UI.Page {
+public partial class Training_Default : System.Web.UI.Page {
     
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
@@ -45,22 +42,38 @@ public partial class Training_Training : System.Web.UI.Page {
     /// <param name="sender">The object that requested the page load.</param>
     /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e) {
+        //Check User Authentication
+        Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
+        ASP.global_asax.Session_Authentication();
+        Session["AfterLoginRedirectUrl"] = null;
+
         if (!IsPostBack)
         {
             PopulateEmployersDdl();
             PopulatePositionsDdl();
             PopulateDepartmentsDdl();
             pnlPop.Style.Value = "display:none;";
-            lblResults.Visible = true;
             tsmScriptManager.SetFocus(tbxLastName.ClientID);
             pnlCrsDetails.Visible = false;
             pnlNewCourse.Visible = false;
         }
     }
 
+    #region Toggle Other TextBox and CheckBox
+    private void toggleOther(TextBox tbx, CheckBox cbx)
+    {
+        if (!tbx.Text.Equals(String.Empty))
+        {
+            cbx.Checked = true;
+            return;
+        }
+        cbx.Checked = false;
+    }
+    
+    #endregion Toggle Other TextBox and CheckBox
+
     #region Employee Info Related
     #region Drop Down Lists
-
     #region Load DropDownLists
 
     /// <summary>
@@ -68,8 +81,9 @@ public partial class Training_Training : System.Web.UI.Page {
     /// </summary>
     private void PopulateEmployersDdl()
     {
-        ddlEmployers.DataSource = employers;
+        ddlEmployers.DataSource = employers.OrderBy(e => e.ToString());
         ddlEmployers.DataBind();
+        ddlEmployers.Items.Insert(ddlEmployers.Items.Count, otherOption);
     }
 
     /// <summary>
@@ -80,7 +94,7 @@ public partial class Training_Training : System.Web.UI.Page {
     /// </summary>
     private void PopulatePositionsDdl()
     {
-        ddlPositions.DataSource = ctx.Positions;
+        ddlPositions.DataSource = ctx.Positions.OrderBy(p => p.posName);
         ddlPositions.DataValueField = "posName";
         ddlPositions.DataBind();
         ddlPositions.Items.Insert(ddlPositions.Items.Count, otherOption);
@@ -88,29 +102,28 @@ public partial class Training_Training : System.Web.UI.Page {
     }
 
     /// <summary>
-    /// Populates the departments drop down list.
+    /// Populates the departments drop down list in the employee info panel and the report info panel.
     /// Loads departments from the database.
     /// Adds the "no selection" option to the front of the list.
     /// Adds the "other" option to the end of the list.
     /// </summary>
     private void PopulateDepartmentsDdl()
     {
-        ddlDepartments.DataSource = ctx.Departments;
+        // Employee Info Departments DDL
+        ddlDepartments.DataSource = ctx.Departments.OrderBy(d => d.deptName);
         ddlDepartments.DataValueField = "deptName";
         ddlDepartments.DataBind();
         ddlDepartments.Items.Insert(ddlDepartments.Items.Count, otherOption);
         ddlDepartments.Items.Insert(0, noOptionSpecified);
     }
-
     /// <summary>
-    /// Populates the new Courses dropdown list.
-    /// Loads course names from the database
+    /// Populates the courses dropdown list when user clicks the "Add Course" button.
     /// </summary>
     private void PopulateCoursesDdl()
     {
-        ddlNewCrs.DataSource = ctx.TrainingCourses;
-        ddlNewCrs.DataTextField = "trainingName";
+        ddlNewCrs.DataSource = ctx.TrainingCourses.OrderBy(c => c.trainingName);
         ddlNewCrs.DataValueField = "trainingNo";
+        ddlNewCrs.DataTextField = "trainingName";
         ddlNewCrs.DataBind();
     }
 
@@ -198,7 +211,6 @@ public partial class Training_Training : System.Web.UI.Page {
         }
     }
     #endregion Other Option Textbox Toggle
-
     #endregion DropDownLists
 
     #region Load Employee Data
@@ -206,7 +218,8 @@ public partial class Training_Training : System.Web.UI.Page {
     /// Uses the employee's first and last name to get the rest employee's information from the database.
     /// Populates the Header form with this data.
     /// </summary>
-    private void getEmployeeData()
+    /// <returns>Returns the employee on success, null on failure.</returns>
+    private Employee getEmployeeData()
     {
         String first = tbxFirstName.Text;
         String last = tbxLastName.Text;
@@ -261,20 +274,23 @@ public partial class Training_Training : System.Web.UI.Page {
             CheckEmployeeSelection();
 
             // Department DDL
-            //var department = ctx.Departments
-            //                .Where(d => d.deptName.Equals(emp.deptName))
-            //                .Select(d => d).FirstOrDefault();
+            var department = ctx.Departments
+                            .Where(d => d.deptName.Equals(emp.deptName))
+                            .Select(d => d).FirstOrDefault();
 
-            //if (emp.deptName == null) {
-            //    ddlDepartments.SelectedIndex = 0;
-            //}
-            //else if (department != null) {
-            //    ddlDepartments.SelectedValue = department.deptName;
-            //}
-            //else {
-            //    ddlDepartments.SelectedValue = otherOption;
-            //    tbxDepartment.Text = emp.deptName;
-            //}
+            if (emp.deptName == null)
+            {
+                ddlDepartments.SelectedIndex = 0;
+            }
+            else if (department != null)
+            {
+                ddlDepartments.SelectedValue = department.deptName;
+            }
+            else
+            {
+                ddlDepartments.SelectedValue = otherOption;
+                tbxDepartment.Text = emp.deptName;
+            }
             CheckDepartmentSelection();
 
             if (emp.supervisor == null)
@@ -288,24 +304,30 @@ public partial class Training_Training : System.Web.UI.Page {
 
             tbxRoom.Text = emp.room;
 
-            tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy");
+            if (emp.startDate != null)
+            {
+                tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy", new CultureInfo("en-CA"));
+            }
 
             if (emp.endDate != null)
             {
-                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy");
+                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy", new CultureInfo("en-CA"));
             }
 
         }
         else if ((qry != null) && (qry.Count() <= 0))
         {
             Popup_Overlay("No employee with that first and last name found.", FailColour);
+            return null;
         }
         else
         {
             Popup_Overlay("There was more than one employee with that first and last name.", FailColour);
+            return null;
         }
         populateValidCourses();
         populateExpiredCourses();
+        return emp;
     }
 
     /// <summary>
@@ -316,6 +338,13 @@ public partial class Training_Training : System.Web.UI.Page {
     /// <param name="e">The index changed event.</param>
     protected void btnGetEmployee_Click(object sender, EventArgs e)
     {
+        Page.Validate("vgpGetEmp");
+        Page.Validate("vpgGetEmpFromDb");
+        if (!Page.IsValid)
+        {
+            return;
+        }
+
         getEmployeeData();
     }
     #endregion LoadEmployeeData
@@ -328,6 +357,12 @@ public partial class Training_Training : System.Web.UI.Page {
     /// <param name="e">The index changed event.</param>
     protected void btnCreateEmployee_Click(object sender, EventArgs e)
     {
+        Page.Validate("vgpGetEmp");
+        Page.Validate("vgpCreateEmp");
+        if (!Page.IsValid)
+        {
+            return;
+        }
         createEmployee();
     }
 
@@ -476,15 +511,19 @@ public partial class Training_Training : System.Web.UI.Page {
             return null;
         }
 
-        DateTime formStartDate = Convert.ToDateTime(tbxStartDate.Text);
-        DateTime formEndDate = Convert.ToDateTime(tbxEndDate.Text);
+        if (!tbxStartDate.Text.Equals(String.Empty))
+        {
+            emp.startDate = Convert.ToDateTime(tbxStartDate.Text);
+        }
+        if (!tbxEndDate.Text.Equals(String.Empty))
+        {
+            emp.endDate = Convert.ToDateTime(tbxEndDate.Text);
+        }
 
         emp.fname = tbxFirstName.Text;
         emp.lname = tbxLastName.Text;
         emp.room = tbxRoom.Text;
         emp.supervisor = tbxSupervisor.Text;
-        emp.startDate = formStartDate;
-        emp.endDate = formEndDate;
 
         #region position
         if (ddlPositions.SelectedValue.Equals(otherOption))
@@ -517,15 +556,18 @@ public partial class Training_Training : System.Web.UI.Page {
         #endregion employer
 
         #region department
-        //if (ddlDepartments.SelectedValue.Equals(otherOption)) {
-        //    emp.deptName = tbxDepartment.Text;
-        //}
-        //else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
-        //    emp.deptName = null;
-        //}
-        //else {
-        //    emp.deptName = ddlDepartments.SelectedValue;
-        //}
+        if (ddlDepartments.SelectedValue.Equals(otherOption))
+        {
+            emp.deptName = tbxDepartment.Text;
+        }
+        else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified))
+        {
+            emp.deptName = null;
+        }
+        else
+        {
+            emp.deptName = ddlDepartments.SelectedValue;
+        }
         #endregion department
 
         try
@@ -536,12 +578,62 @@ public partial class Training_Training : System.Web.UI.Page {
         }
         catch (Exception ex)
         {
-            Popup_Overlay("An error has occured while updating this employee. Please try again." + ex.StackTrace.ToString(), FailColour);
+            Popup_Overlay("An error has occured while updatin this employee. Please try again." + ex.StackTrace.ToString(), FailColour);
             return null;
         }
     }
     #endregion Update Employee
     #endregion EmployeeInfoRelated
+
+    protected void cmvEmployeeExists_ServerValidate(object source, ServerValidateEventArgs args)
+    {
+        args.IsValid = false;
+        String first = tbxFirstName.Text;
+        String last = tbxLastName.Text;
+
+        var qry = ctx.Employees
+                  .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
+                  .Select(e => e);
+
+        if ((qry != null) && (qry.Count() == 1))
+        {
+            args.IsValid = true;
+        }
+        else if ((qry != null) && (qry.Count() <= 0))
+        {
+            cmvEmployeeExists.ErrorMessage = "No employee with that first and last name found.";
+            return;
+        }
+        else
+        {
+            cmvEmployeeExists.ErrorMessage = "There was more than one employee with that first and last name.";
+            return;
+        }
+    }
+
+    protected void cmvDates_ServerValidate(object source, ServerValidateEventArgs args)
+    {
+        args.IsValid = false;
+        String strStartDate = tbxStartDate.Text;
+        String strEndDate = tbxEndDate.Text;
+        if (strStartDate == null || strStartDate.Equals(String.Empty))
+        {
+            args.IsValid = true;
+            return;
+        }
+        if (strEndDate == null && strEndDate.Equals(String.Empty))
+        {
+            args.IsValid = true;
+            return;
+        }
+        DateTime startDate = Convert.ToDateTime(strStartDate);
+        DateTime endDate = Convert.ToDateTime(strEndDate);
+        if (startDate.CompareTo(endDate) > 0)
+        {
+            args.IsValid = true;
+            return;
+        }
+    }
 
     #region Page Popup
     /// <summary>
@@ -576,8 +668,9 @@ public partial class Training_Training : System.Web.UI.Page {
     /// populate all valid courses taken
     /// </summary>
     private void populateValidCourses() {
+        int id = Convert.ToInt32(tbxId.Text);
         DateTime currentDate = DateTime.Now;
-        var q = ctx.Employees.Where(e => e.empNo == 6)
+        var q = ctx.Employees.Where(e => e.empNo == id)
                                .Join(
                                   ctx.TrainingTakens,
                                   emp => emp.empNo,
@@ -615,6 +708,7 @@ public partial class Training_Training : System.Web.UI.Page {
         grvValidCourses.DataSource = q;
         Session["query"] = q;
         BindData();
+        btnAddCrs.Visible = true;
     }
 
     /// <summary>
@@ -632,7 +726,8 @@ public partial class Training_Training : System.Web.UI.Page {
     private void populateExpiredCourses()
     {
         DateTime currentDate = DateTime.Now;
-        var q = ctx.Employees.Where(e => e.empNo == 6)
+        int id = Convert.ToInt32(tbxId.Text);
+        var q = ctx.Employees.Where(e => e.empNo == id)
                                .Join(
                                   ctx.TrainingTakens,
                                   emp => emp.empNo,
@@ -772,6 +867,8 @@ public partial class Training_Training : System.Web.UI.Page {
     /// <param name="e"></param>
     protected void grvValidCourses_SelectedIndexChanged(object sender, EventArgs e)
     {
+        pnlNewCourse.Visible = false;
+        disableDetails();
         GridViewRow row = grvValidCourses.SelectedRow;
         //String name = Convert.ToString(row.Cells[1].Text);
         int ttNo = Convert.ToInt32(row.Cells[3].Text);
@@ -784,16 +881,17 @@ public partial class Training_Training : System.Web.UI.Page {
             .Where(c => c.trainingNo == training.trainingNo)
             .Select(c => c).FirstOrDefault();
 
-        disableDetails();
+        pnlCrsDetails.Visible = true;
+        lblCourseDate.Visible = true;
+        tbxCourseDate.Visible = true;
+        tbxCourseDate.Text = Convert.ToString(training.courseDate);
+
         if (course.trainingName.Equals("Biosafety Training") || course.trainingName.Equals("Chem Safety Training")
             || course.trainingName.Equals("Cyto. Safety Training"))
-        {
-            pnlCrsDetails.Visible = true;
+        {         
             lblresp1.Visible = true;
             lblRespType.Visible = true;
-            lblCourseDate.Visible = true;
-            tbxCourseDate.Visible = true;
-            //tbxCourseDate.Text = training.courseDate
+            
             if (course.trainingName.Equals("Biosafety Training"))
             {
                 tbxBSCDate.Visible = true;
@@ -923,8 +1021,6 @@ public partial class Training_Training : System.Web.UI.Page {
         else if (course.trainingName.Equals("ARC Safety Training"))
         {
             pnlCrsDetails.Visible = true;
-            lblCourseDate.Visible = true;
-            tbxCourseDate.Visible = true;
             
             rblEvaluation.Visible = true;
             if (training.evaluation != null)
@@ -962,8 +1058,6 @@ public partial class Training_Training : System.Web.UI.Page {
         }
         else
         {
-            disableDetails();
-            pnlCrsDetails.Visible = false;
         }
     }
     #endregion
@@ -972,6 +1066,11 @@ public partial class Training_Training : System.Web.UI.Page {
     protected void btnClear_Click(object sender, EventArgs e)
     {
         ResetFormControlValues(this);
+        btnAddCrs.Visible = false;
+        grvValidCourses.DataSource = null;
+        grvValidCourses.DataBind();
+        grvExpiredCourses.DataSource = null;
+        grvExpiredCourses.DataBind();
     }
 
     /// <summary>
@@ -1009,8 +1108,6 @@ public partial class Training_Training : System.Web.UI.Page {
 
     #endregion 
 
-    
-
     protected void disableDetails()
     {
         tbxBSCDate.Visible = false;
@@ -1037,6 +1134,8 @@ public partial class Training_Training : System.Web.UI.Page {
         tbxRespType.Visible = false;
         lblRespModel.Visible = false;
         tbxRespModel.Visible = false;
+        lblCert.Visible = false;
+        tbxCert.Visible = false;
     }
 
     
@@ -1045,6 +1144,75 @@ public partial class Training_Training : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
+    
+    #region Course-related
+    /// <summary>
+    /// Unhides the panel to add new courses
+    /// Populates the courses dropdown list
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnAddCrs_Click(object sender, EventArgs e)
+    {
+        disableDetails();
+        pnlCrsDetails.Visible = false;
+        pnlNewCourse.Visible = true;
+        PopulateCoursesDdl();
+    }
+
+    /// <summary>
+    /// Creates a new training to add to training taken.
+    /// Updates gridview
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnAddCrsAction_Click(object sender, EventArgs e)
+    {   
+        int empId = Convert.ToInt32(tbxId.Text);
+        
+        try
+        {
+            System.Globalization.CultureInfo enUS = new System.Globalization.CultureInfo("en-US");
+            DateTime newStartDate = Convert.ToDateTime(Convert.ToDateTime(tbxNewCrsStart.Text, enUS));
+            DateTime newEndDate = Convert.ToDateTime(Convert.ToDateTime(tbxNewCrsEnd.Text, enUS));
+
+            TrainingTaken tt = new TrainingTaken
+            {
+                empNo = empId,
+                trainingNo = Convert.ToInt32(ddlNewCrs.SelectedValue),
+                startDate = newStartDate,
+                endDate = newEndDate,
+            };
+            ctx.AddToTrainingTakens(tt);
+            ctx.SaveChanges();
+            BindData();
+            tbxNewCrsEnd.Text = "";
+            tbxNewCrsStart.Text = "";
+            ddlNewCrs.SelectedIndex = 0;
+            pnlNewCourse.Visible = false;
+            Popup_Overlay("Training successfully created.", SuccessColour);
+            return;
+        }
+        catch (Exception ex)
+        {
+            Popup_Overlay(ex.Message, FailColour);
+            return;
+        }
+    }
+
+    /// <summary>
+    /// Hides the panel to add new courses.
+    /// Clears new courses textboxes.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnCancelAddCrs_Click(object sender, EventArgs e)
+    {
+        tbxNewCrsEnd.Text = "";
+        tbxNewCrsStart.Text = "";
+        ddlNewCrs.SelectedIndex = 0;
+        pnlNewCourse.Visible = false;
+    }
     protected void btnSaveCrsDetails_Click(object sender, EventArgs e)
     {
         GridViewRow row = grvValidCourses.SelectedRow;
@@ -1116,74 +1284,6 @@ public partial class Training_Training : System.Web.UI.Page {
             Popup_Overlay("An error has occured while updating details. Please try again." + ex.StackTrace.ToString(), FailColour);
             return;
         }
-    }
-    #region addd new course to training taken
-    /// <summary>
-    /// Unhides the panel to add new courses
-    /// Populates the courses dropdown list
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btnAddCrs_Click(object sender, EventArgs e)
-    {
-        disableDetails();
-        pnlCrsDetails.Visible = false;
-        pnlNewCourse.Visible = true;
-        PopulateCoursesDdl();
-    }
-
-    /// <summary>
-    /// Creates a new training to add to training taken.
-    /// Updates gridview
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btnAddCrsAction_Click(object sender, EventArgs e)
-    {   
-        int empId = Convert.ToInt32(tbxId.Text);
-        
-        try
-        {
-            System.Globalization.CultureInfo enUS = new System.Globalization.CultureInfo("en-US");
-            DateTime newStartDate = Convert.ToDateTime(Convert.ToDateTime(tbxNewCrsStart.Text, enUS));
-            DateTime newEndDate = Convert.ToDateTime(Convert.ToDateTime(tbxNewCrsEnd.Text, enUS));
-
-            TrainingTaken tt = new TrainingTaken
-            {
-                empNo = empId,
-                trainingNo = Convert.ToInt32(ddlNewCrs.SelectedValue),
-                startDate = newStartDate,
-                endDate = newEndDate,
-            };
-            ctx.AddToTrainingTakens(tt);
-            ctx.SaveChanges();
-            BindData();
-            tbxNewCrsEnd.Text = "";
-            tbxNewCrsStart.Text = "";
-            ddlNewCrs.SelectedIndex = 0;
-            pnlNewCourse.Visible = false;
-            Popup_Overlay("Training successfully created.", SuccessColour);
-            return;
-        }
-        catch (Exception ex)
-        {
-            Popup_Overlay(ex.Message, FailColour);
-            return;
-        }
-    }
-
-    /// <summary>
-    /// Hides the panel to add new courses.
-    /// Clears new courses textboxes.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btnCancelAddCrs_Click(object sender, EventArgs e)
-    {
-        tbxNewCrsEnd.Text = "";
-        tbxNewCrsStart.Text = "";
-        ddlNewCrs.SelectedIndex = 0;
-        pnlNewCourse.Visible = false;
     }
     #endregion
 }

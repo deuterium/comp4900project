@@ -28,10 +28,11 @@
     <asp:EntityDataSource ID="edsRoles" runat="server" ConnectionString="name=BCCAEntities"
         DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="Roles" />
     <asp:EntityDataSource ID="edsDepartments" runat="server" ConnectionString="name=BCCAEntities"
-        DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="Departments" />
+        DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="Departments"
+        OrderBy="it.deptName" Select="it.[deptNo], it.[deptName]" />
     <asp:EntityDataSource ID="edsUsers" runat="server" ConnectionString="name=BCCAEntities"
         DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="Users"
-        Select="it.[userNo], it.[userName]">
+        Select="it.[userNo], it.[userName]" OrderBy="it.userName">
     </asp:EntityDataSource>
     <div id="divContent">
         <div id="divUsers">
@@ -213,6 +214,84 @@
                 and Training form of this web application.
             </asp:Panel>
             <asp:Panel ID="pnlCourses" CssClass="panel" runat="server">
+                <div id="divManageCoursesTop" >
+                    <table>
+                        <tr>
+                            <td>Selection Mode:</td>
+                            <td>
+                                <asp:RadioButtonList ID="rblCourseMode" runat="server" OnSelectedIndexChanged="rblCourseMode_SelectedIndexChanged"
+                                    AutoPostBack="true" RepeatDirection="Horizontal">
+                                    <asp:ListItem Text="Create" Value="Create" />
+                                    <asp:ListItem Text="Edit" Value="Edit" />
+                                </asp:RadioButtonList>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="divManageCoursesLeft" >
+                    <span class="spanBold">Courses in System:</span>
+                    <br />
+                    <br />
+                    <asp:ListBox ID="lbxAllCourses" runat="server" Width="300" Height="350" OnLoad="lbxAllCourses_Load"
+                        OnSelectedIndexChanged="lbxAllCourses_SelectedIndexChanged" AutoPostBack="true" />
+                </div>
+                <asp:UpdatePanel ID="uplCourseInfo" runat="server">
+                    <ContentTemplate>
+                
+                <div id="divManageCoursesRight" >
+                    <table>
+                        <tr><td><span class="spanBold">Course Name:</span></td></tr>
+                        <tr><td>
+                            <asp:TextBox ID="tbxCourseName" runat="server" MaxLength="255" Width="300" ></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="rfvCourseName" runat="server" ControlToValidate="tbxCourseName" 
+                                ErrorMessage="Course name is required."></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="revCourseName" runat="server" ControlToValidate="tbxCourseName" 
+                                ValidationExpression="^[A-Za-z,'\.0-9]+$"
+                                ErrorMessage="Course name can only contain letters, periods, commas, apostrophes, and numbers."></asp:RegularExpressionValidator>
+                        </td></tr>
+                        <tr><td><span class="spanBold">Months Valid:</span></td></tr>
+                        <tr>
+                            <td>
+                                <asp:CheckBox ID="cbxNeverExpires" runat="server" Text="Never expires" AutoPostBack="true"
+                                    OnCheckedChanged="cbxNeverExpires_CheckChanged" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <asp:UpdatePanel ID="uplMonthsValid" runat="server">
+                                    <ContentTemplate>
+                                        <asp:TextBox ID="tbxMonthsValid" runat="server" Text="1" MaxLength="3" ></asp:TextBox>
+                                        <asp:FilteredTextBoxExtender ID="fteMonthsValid" runat="server"
+                                            TargetControlID="tbxMonthsValid" ValidChars="0123456789" />
+                                        <asp:NumericUpDownExtender ID="nexMonthsValid" runat="server" TargetControlID="tbxMonthsValid" 
+                                            Width="100" Maximum="999" Minimum="1" />
+                                    </ContentTemplate>
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="cbxNeverExpires" EventName="CheckedChanged" />
+                                    </Triggers>
+                                </asp:UpdatePanel>
+                            </td>
+                        </tr>
+                        <tr><td><br /><br /></td></tr>
+                        <tr>
+                            <td>
+                                <asp:Button ID="btnSubmitCourse" runat="server" Text="Add" /> <!-- toggle -->
+                                <asp:Button ID="btnDeleteCourse" runat="server" Text="Delete" Visible="false" /> <!-- confirm -->
+                                <asp:Button ID="btnCancelCourse" runat="server" Text="Cancel" 
+                                    onclick="btnCancelCourse_Click" /> <!-- clear form -->
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="lbxAllCourses" EventName="SelectedIndexChanged" />
+                        <asp:AsyncPostBackTrigger ControlID="rblCourseMode" EventName="SelectedIndexChanged" />
+                        <asp:AsyncPostBackTrigger ControlID="btnCancelCourse" EventName="Click" />
+                        <asp:AsyncPostBackTrigger ControlID="btnSubmitCourse" EventName="Click" />
+                        <asp:AsyncPostBackTrigger ControlID="btnDeleteCourse" EventName="Click" />
+                    </Triggers>
+                </asp:UpdatePanel>
             </asp:Panel>
         </div>
         <asp:Panel ID="pnlPop" BackColor="White" CssClass="popPanel" runat="server">
