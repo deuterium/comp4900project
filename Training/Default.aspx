@@ -431,7 +431,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                                 </td>
                             </tr>
                             <tr>
-                                <td class="style2">
+                                <td>
                                     <asp:Button ID="btnAddCrsAction" runat="server" onclick="btnAddCrsAction_Click" 
                                         Text="Add" />
                                     <asp:Button ID="btnCancelAddCrs" runat="server" onclick="btnCancelAddCrs_Click" 

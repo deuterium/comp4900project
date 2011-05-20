@@ -681,6 +681,30 @@ h3
     min-height: 80px;
 }
 
+#divManageCoursesTop {
+    display: inline;
+    float: left;
+    width: 780px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#divManageCoursesLeft
+{
+    display: inline;
+    float: left;
+    padding: 10px;
+    width: 325px;
+}
+
+#divManageCoursesRight
+{
+    display: inline;
+    float: left;
+    padding-top: 50px;
+    width: 450px;
+}
+
 /* Summary */
 
 #divExpiringCourses

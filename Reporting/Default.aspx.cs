@@ -29,9 +29,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
     #region Class Variables
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
-    // The date format to use for displaying dates
+    // The date format to use for displaying and converting dates
     public static String dateFormat = "M/d/yyyy";
-    // The locale to use when converting dates
+    // The time format to use for displaying and converting times
+    public static String timeFormat = "h:mm tt";
+    // The locale to use when displaying and converting dates/times
     public static CultureInfo locale = new CultureInfo("en-CA");
     // Text colour for failure messages
     public static Color FailColour = Color.Red;
@@ -348,6 +350,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
         String first = tbxFirstName.Text;
         String last = tbxLastName.Text;
 
+        if (first.Equals(String.Empty) || last.Equals(String.Empty)) {
+            args.IsValid = true;
+            return;
+        }
+
         var qry = ctx.Employees
                   .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
                   .Select(e => e);
@@ -497,6 +504,22 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="source">The validator control.</param>
     /// <param name="args">The event properties.</param>
     protected void cmvEmpDates_ServerValidate(object source, ServerValidateEventArgs args) {
+        
+        
+        // testing code
+        DateTime d = DateTime.ParseExact("11/29/2011 7:00 pm", "M/d/yyyy h:mm tt", locale);
+        DateTime d2 = DateTime.ParseExact("11/29/2011 7:00 PM", "M/d/yyyy h:mm tt", locale);
+        DateTime d3 = DateTime.ParseExact("11/29/2011 7:00 am", "M/d/yyyy h:mm tt", locale);
+        DateTime d4 = DateTime.ParseExact("11/29/2011 7:00 AM", "M/d/yyyy h:mm tt", locale);
+        DateTime d5 = DateTime.ParseExact("11/29/2011 12:00 AM", "M/d/yyyy h:mm tt", locale);
+        DateTime d55 = DateTime.ParseExact("11/29/2011 1:59 AM", "M/d/yyyy h:mm tt", locale);
+        //DateTime d6 = DateTime.ParseExact("11/29/2011 13:00", "M/d/yyyy h:mm tt", locale);
+        //DateTime d7 = DateTime.ParseExact("11/29/2011 1:00", "M/d/yyyy h:mm tt", locale);
+        DateTime d6 = DateTime.ParseExact("11/29/2011 13:00", "M/d/yyyy HH:mm", locale);
+        DateTime d7 = DateTime.ParseExact("11/29/2011 1:00", "M/d/yyyy H:mm", locale);
+
+        // end testing
+
         args.IsValid = false;
         String strStartDate = tbxStartDate.Text;
         String strEndDate = tbxEndDate.Text;
