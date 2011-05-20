@@ -22,24 +22,24 @@ Safety Training Database and Website
 
 --%>
 
-<asp:CompareValidator runat="server" Text="*" ForeColor="Red">
+<asp:CompareValidator runat="server" Text="*" ForeColor="Red" Display="Dynamic" >
 </asp:CompareValidator>
 
-<asp:CustomValidator runat="server" Text="*" ForeColor="Red">
+<asp:CustomValidator runat="server" Text="*" ForeColor="Red" Display="Dynamic" >
 </asp:CustomValidator>
 
-<asp:RangeValidator runat="server" Text="*" ForeColor="Red">
+<asp:RangeValidator runat="server" Text="*" ForeColor="Red" Display="Dynamic" >
 </asp:RangeValidator>
 
-<asp:RegularExpressionValidator runat="server" Text="*" ForeColor="Red">
+<asp:RegularExpressionValidator runat="server" Text="*" ForeColor="Red" Display="Dynamic" >
 </asp:RegularExpressionValidator>
 
-<asp:RequiredFieldValidator runat="server" Text="*" ForeColor="Red">
+<asp:RequiredFieldValidator runat="server" Text="*" ForeColor="Red" Display="Dynamic" >
 </asp:RequiredFieldValidator>
 
-<asp:ValidationSummary runat="server" ForeColor="Red" />
+<asp:ValidationSummary runat="server" ForeColor="Red"  Display="Dynamic" />
 
-<asp:GridView CssClass="GridViewStyle" runat="server" Width="800px" >
+<asp:GridView CssClass="GridViewStyle" runat="server" Width="799" >
     <FooterStyle CssClass="GridViewFooterStyle" />
     <RowStyle CssClass="GridViewRowStyle" />   
     <SelectedRowStyle CssClass="GridViewSelectedRowStyle" />

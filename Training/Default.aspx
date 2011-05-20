@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="body">
 
-    <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
+<asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
 </asp:ToolkitScriptManager>
 
 <asp:CollapsiblePanelExtender ID="cpeCourses" runat="server" Collapsed="true"
@@ -198,9 +198,9 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
             <h3 id="hr3Courses"><asp:Image ID="imgExpandCollapseCourses" runat="server" /> Courses <asp:Label ID="ExpandCollapseCourses" runat="server" Text=""></asp:Label></h3>
             <asp:Panel ID="pnlCourses" CssClass="parentPanel" runat="server">
                 <h3 id="hr3CoursesCompleted"><asp:Image ID="imgExpandCollapseCoursesCompleted" runat="server" /> Valid: <asp:Label ID="ExpandCollapseCoursesCompleted" runat="server" Text=""></asp:Label></h3>
-                <asp:Panel ID="pnlCoursesCompleted" CssClass="childPanel" runat="server">
+                <asp:Panel ID="pnlCoursesCompleted" Width="600" runat="server">
                     
-                    <asp:GridView ID="grvValidCourses" runat="server" 
+                    <asp:GridView ID="grvValidCourses" runat="server" Width="790"
                         onrowcancelingedit="grvValidCourses_RowCancelingEdit" 
                         onrowediting="grvValidCourses_RowEditing" 
                         onrowupdating="grvValidCourses_RowUpdating" AutoGenerateColumns="False" 
@@ -244,7 +244,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     </asp:GridView>
                     <asp:Button ID="btnAddCrs" runat="server" Text="Add Course" 
                         onclick="btnAddCrs_Click" Visible="False" />
-                    <asp:Panel ID="pnlCrsDetails" runat="server" CssClass="childPanel">
+                    <asp:Panel ID="pnlCrsDetails" runat="server" Width="600">
                         <div>
                             <table id="tblCrsDetails">
                                 <tr>
@@ -471,7 +471,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                 </asp:Panel>
                 <h3 id="hr3CoursesCatalog"><asp:Image ID="imgExpandCollapseCoursesCatalog" runat="server" /> Catalog <asp:Label ID="ExpandCollapseCoursesCatalog" runat="server" Text=""></asp:Label></h3>
                 <asp:Panel ID="pnlCoursesCatalog" CssClass="childPanel" runat="server">
-                    <asp:GridView ID="gdvCoursesCatalog" runat="server" ForeColor="Black" 
+                    <asp:GridView ID="gdvCoursesCatalog" runat="server" ForeColor="Black" Width="300"
                         AutoGenerateColumns="False" DataSourceID="EntityDataSource1">
                         <Columns>
                             <asp:BoundField DataField="trainingName" HeaderText="trainingName" 

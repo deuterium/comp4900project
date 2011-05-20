@@ -29,6 +29,10 @@ public partial class Tracking_Default : System.Web.UI.Page {
     public Color DisabledColor = ColorTranslator.FromHtml("#E6E6E6");
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
+    // The date format to use for displaying dates
+    public static String dateFormat = "M/d/yyyy";
+    // The locale to use when converting dates
+    public static CultureInfo locale = new CultureInfo("en-CA");
     // Text colour for failure messages
     public static Color FailColour = Color.Red;
     // Text colour for success messages
@@ -385,7 +389,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
                 DataRow dr = dt.NewRow();
                 dr["incidentNo"] = report.incidentNo;
                 if (report.p1_dateOfIncident != null) {
-                    dr["date"] = Convert.ToDateTime(report.p1_dateOfIncident).ToString("M/d/yyyy");
+                    dr["date"] = Convert.ToDateTime(report.p1_dateOfIncident).ToString(dateFormat, locale);
                 }
                 dr["submitter"] = report.reportSubmitter;
                 dr["employee"] = report.Employee.fname + " " + report.Employee.lname;
@@ -410,7 +414,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
             DataRow dr = dt.NewRow();
             dr["incidentNo"] = report.incidentNo;
             if (report.p1_dateOfIncident != null) {
-                dr["date"] = Convert.ToDateTime(report.p1_dateOfIncident).ToString("M/d/yyyy");
+                dr["date"] = Convert.ToDateTime(report.p1_dateOfIncident).ToString(dateFormat, locale);
             }
             dr["submitter"] = report.reportSubmitter;
             dr["employee"] = report.Employee.fname + " " + report.Employee.lname;
@@ -713,7 +717,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (date.Equals(DateTime.MinValue)) {
             return String.Empty;
         }
-        return ((DateTime)date).ToString("M/d/yyyy", new CultureInfo("en-CA"));
+        return ((DateTime)date).ToString(dateFormat, locale);
     }
 
     private void loadCourses(Employee employee) {
@@ -815,11 +819,11 @@ public partial class Tracking_Default : System.Web.UI.Page {
             lblRoom.Text = convertToTextBoxValue(emp.room);
 
             if (emp.startDate != null) {
-                lblStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy");
+                lblStartDate.Text = Convert.ToDateTime(emp.startDate).ToString(dateFormat, locale);
             }
 
             if (emp.endDate != null) {
-                lblEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy");
+                lblEndDate.Text = Convert.ToDateTime(emp.endDate).ToString(dateFormat, locale);
             }
         }
         pnlEmpInfoContainer.Visible = true;

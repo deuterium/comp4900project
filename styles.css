@@ -354,14 +354,14 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 {
     display: inline;
     float: left;
-    width: 277px;
+    width: 275px;
 }
 
 #divEmpInfoMiddlePanel
 {
     display: inline;
     float: left;
-    width: 258px;
+    width: 260px;
 }
 
 #divEmpInfoRightPanel
@@ -506,8 +506,8 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
 {
     display: inline;
     float: left;
-    padding: 10px; /* different from panel */
-    width: 810px; /* different from panel */
+    padding: 5px;
+    width: 805px;
     margin: 0; 
     background: #e8f7fb; 
     border: 1px solid #dbeff5;
@@ -518,7 +518,8 @@ h3 { color: #d80080; font-family: Georgia, "Times New Roman", Times, serif; font
     display: inline;
     float: left;
     padding-left: 0px;
-    width: 800px; 
+    padding-right: 0px;
+    width: 795px;
     margin: 0; 
     background: #e8f7fb; 
     border: 1px solid #dbeff5;

@@ -32,6 +32,10 @@ public partial class Reporting_Default : System.Web.UI.Page {
     #region Class Variables
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
+    // The date format to use for displaying dates
+    public static String dateFormat = "M/d/yyyy";
+    // The locale to use when converting dates
+    public static CultureInfo locale = new CultureInfo("en-CA");
     // Text colour for failure messages
     public static Color FailColour = Color.Red;
     // Text colour for success messages
@@ -448,11 +452,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
         tbxRoom.Text = emp.room;
 
         if (emp.startDate != null) {
-            tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy", new CultureInfo("en-CA"));
+            tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString(dateFormat, locale);
         }
 
         if (emp.endDate != null) {
-            tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy", new CultureInfo("en-CA"));
+            tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString(dateFormat, locale);
         }
         #endregion Populate Form
 
