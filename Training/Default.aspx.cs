@@ -33,8 +33,11 @@ public partial class Training_Default : System.Web.UI.Page {
     // List of pre-defined employers a user can select
     public static List<String> employers = new List<String> {
         noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
-    };  
-
+    };
+    // The date format to use for displaying and converting dates
+    public static String dateFormat = "M/d/yyyy";
+    // The locale to use when displaying and converting dates/times
+    public static CultureInfo locale = new CultureInfo("en-CA");
     /// <summary>
     /// Populate the Drop Down Lists (emplyoers, departments, positions).
     /// Add OtherOption to end of each Drop Down List.
@@ -521,11 +524,13 @@ public partial class Training_Default : System.Web.UI.Page {
 
         if (!tbxStartDate.Text.Equals(String.Empty))
         {
-            emp.startDate = Convert.ToDateTime(tbxStartDate.Text);
+            emp.startDate = DateTime.ParseExact(tbxStartDate.Text, dateFormat, locale);
+            //emp.startDate = Convert.ToDateTime(tbxStartDate.Text);
         }
         if (!tbxEndDate.Text.Equals(String.Empty))
         {
-            emp.endDate = Convert.ToDateTime(tbxEndDate.Text);
+            emp.endDate = DateTime.ParseExact(tbxEndDate.Text, dateFormat, locale);
+            //emp.endDate = Convert.ToDateTime(tbxEndDate.Text);
         }
 
         emp.fname = tbxFirstName.Text;
@@ -810,8 +815,7 @@ public partial class Training_Default : System.Web.UI.Page {
                 String strStart = e.NewValues["startDate"].ToString();
                 try
                 {
-                    System.Globalization.CultureInfo enUS = new System.Globalization.CultureInfo("en-US");
-                    training.startDate = Convert.ToDateTime(Convert.ToDateTime(strStart, enUS));
+                    training.startDate = DateTime.ParseExact(strStart, dateFormat, locale);
                 }
                 catch (Exception ex)
                 {
@@ -828,8 +832,7 @@ public partial class Training_Default : System.Web.UI.Page {
                 String strEnd = e.NewValues["endDate"].ToString();
                 try
                 {
-                    System.Globalization.CultureInfo enUS = new System.Globalization.CultureInfo("en-US");
-                    training.endDate = Convert.ToDateTime(Convert.ToDateTime(strEnd, enUS));
+                    training.endDate = DateTime.ParseExact(strEnd, dateFormat, locale);
                 }
                 catch (Exception ex)
                 {
@@ -892,7 +895,14 @@ public partial class Training_Default : System.Web.UI.Page {
         pnlCrsDetails.Visible = true;
         lblCourseDate.Visible = true;
         tbxCourseDate.Visible = true;
-        tbxCourseDate.Text = Convert.ToString(training.courseDate);
+        if (training.courseDate != null)
+        {
+            tbxCourseDate.Text = Convert.ToDateTime(training.courseDate).ToString(dateFormat, locale);
+        }
+        else
+        {
+            tbxCourseDate.Text = "";
+        }
 
         if (course.trainingName.Equals("Biosafety Training") || course.trainingName.Equals("Chem Safety Training")
             || course.trainingName.Equals("Cyto. Safety Training"))
@@ -904,10 +914,11 @@ public partial class Training_Default : System.Web.UI.Page {
             {
                 tbxBSCDate.Visible = true;
                 lblBSCDate.Visible = true;
-                tbxBSCDate.Text = Convert.ToString(training.biosafety_BSCSeminar);
+                tbxBSCDate.Text = Convert.ToDateTime(training.biosafety_BSCSeminar).ToString(dateFormat, locale);
             }
             rblSigned.Visible = true;
             lblSOPSigned.Visible = true;
+            rblSigned.ClearSelection();
             if (training.SOPsigned != null)
             {
                 if (training.SOPsigned.ToString().Equals("1"))
@@ -921,6 +932,7 @@ public partial class Training_Default : System.Web.UI.Page {
             }
             lblEval.Visible = true;
             rblEvaluation.Visible = true;
+            rblEvaluation.ClearSelection();
             if (training.evaluation != null)
             {
                 if (training.evaluation.ToString().Equals("1"))
@@ -934,12 +946,19 @@ public partial class Training_Default : System.Web.UI.Page {
             }
             lblRespFit.Visible = true;
             tbxDateFit.Visible = true;
-            tbxDateFit.Text = Convert.ToString(training.respiratorDate);
+            if (training.respiratorDate != null)
+            {
+                tbxDateFit.Text = Convert.ToDateTime(training.respiratorDate).ToString(dateFormat, locale);
+            }
+
             if (!(course.trainingName.Equals("Cyto. Safety Training")))
             {
                 lblSpillDate.Visible = true;
                 tbxSpillDate.Visible = true;
-                tbxSpillDate.Text = Convert.ToString(training.spillCleanupPracticalDate);
+                if (training.spillCleanupPracticalDate != null)
+                {
+                    tbxSpillDate.Text = Convert.ToDateTime(training.spillCleanupPracticalDate).ToString(dateFormat, locale);
+                }
             }
             lblRespFit.Visible = true;
             tbxRespType.Visible = true;
@@ -959,6 +978,7 @@ public partial class Training_Default : System.Web.UI.Page {
             pnlCrsDetails.Visible = true;
             rblSigned.Visible = true;
             lblSOPSigned.Visible = true;
+            rblSigned.ClearSelection();
             if (training.SOPsigned != null)
             {
                 if (training.SOPsigned.ToString().Equals("1"))
@@ -972,6 +992,7 @@ public partial class Training_Default : System.Web.UI.Page {
             }
             lblEval.Visible = true;
             rblEvaluation.Visible = true;
+            rblEvaluation.ClearSelection();
             if (training.evaluation != null)
             {
                 if (training.evaluation.ToString().Equals("1"))
@@ -990,6 +1011,7 @@ public partial class Training_Default : System.Web.UI.Page {
             lblDosSubmitted.Visible = true;
             lblRingIssued.Visible = true;
             rblDosIssued.Visible = true;
+            rblDosIssued.ClearSelection();
             if (training.radiation_dosimeterIssued != null)
             {
                 if (Convert.ToString(training.radiation_dosimeterIssued).Equals("1"))
@@ -1001,6 +1023,7 @@ public partial class Training_Default : System.Web.UI.Page {
                     rblDosIssued.SelectedValue = "No";
                 }
             }
+            rblDosSubmitted.ClearSelection();
             if (training.radiation_dosimeterSubmitted != null)
             {
                 if (Convert.ToString(training.radiation_dosimeterSubmitted).Equals("1"))
@@ -1013,6 +1036,7 @@ public partial class Training_Default : System.Web.UI.Page {
                 }
             }
             rblDosSubmitted.Visible = true;
+            rblRingIssued.ClearSelection();
             if (training.radiation_ringIssued != null)
             {
                 if (Convert.ToString(training.radiation_ringIssued).Equals("1"))
@@ -1031,6 +1055,7 @@ public partial class Training_Default : System.Web.UI.Page {
             pnlCrsDetails.Visible = true;
             
             rblEvaluation.Visible = true;
+            rblEvaluation.ClearSelection();
             if (training.evaluation != null)
             {
                 if (training.evaluation.ToString().Equals("1"))
@@ -1052,6 +1077,7 @@ public partial class Training_Default : System.Web.UI.Page {
             pnlCrsDetails.Visible = true;
             rblSigned.Visible = true;
             lblSOPSigned.Visible = true;
+            rblSigned.ClearSelection();
             if (training.SOPsigned != null)
             {
                 if (training.SOPsigned.ToString().Equals("1"))
@@ -1075,10 +1101,13 @@ public partial class Training_Default : System.Web.UI.Page {
     {
         ResetFormControlValues(this);
         btnAddCrs.Visible = false;
+        pnlCrsDetails.Visible = false;
         grvValidCourses.DataSource = null;
         grvValidCourses.DataBind();
         grvExpiredCourses.DataSource = null;
         grvExpiredCourses.DataBind();
+        cpeCourses.ClientState = "true";
+        cpeCourses.Collapsed = true;
     }
 
     /// <summary>
@@ -1180,9 +1209,18 @@ public partial class Training_Default : System.Web.UI.Page {
         
         try
         {
-            System.Globalization.CultureInfo enUS = new System.Globalization.CultureInfo("en-US");
-            DateTime newStartDate = Convert.ToDateTime(Convert.ToDateTime(tbxNewCrsStart.Text, enUS));
-            DateTime newEndDate = Convert.ToDateTime(Convert.ToDateTime(tbxNewCrsEnd.Text, enUS));
+
+            DateTime newStartDate = DateTime.MinValue;
+            DateTime newEndDate = DateTime.MinValue;
+
+            if (tbxNewCrsStart.Text.Equals(String.Empty)) 
+            {
+                newStartDate = DateTime.ParseExact(tbxNewCrsStart.Text, dateFormat, locale);
+            }
+            if (tbxNewCrsEnd.Text.Equals(string.Empty))
+            {
+                newEndDate = DateTime.ParseExact(tbxNewCrsEnd.Text, dateFormat, locale);
+            }
 
             TrainingTaken tt = new TrainingTaken
             {
@@ -1237,10 +1275,10 @@ public partial class Training_Default : System.Web.UI.Page {
 
         try
         {
-            System.Globalization.CultureInfo enUS = new System.Globalization.CultureInfo("en-US");
-            if (!(tbxCourseDate.Text.Equals("")))
+            if (!(tbxCourseDate.Text.Equals(String.Empty)))
             {
-                DateTime crsDate = Convert.ToDateTime(Convert.ToDateTime(tbxCourseDate.Text, enUS));
+                DateTime crsDate = DateTime.ParseExact(tbxCourseDate.Text, dateFormat, locale);
+                //DateTime crsDate = Convert.ToDateTime(Convert.ToDateTime(tbxCourseDate.Text, enUS));
                 training.courseDate = crsDate;
             }
 
@@ -1252,19 +1290,22 @@ public partial class Training_Default : System.Web.UI.Page {
             {
                 if (course.trainingName.Equals("Biosafety Training") && (!tbxBSCDate.Text.Equals("")))
                 {
-                    DateTime BSCDate = Convert.ToDateTime(Convert.ToDateTime(tbxBSCDate.Text, enUS));
+                    DateTime BSCDate = DateTime.ParseExact(tbxBSCDate.Text, dateFormat, locale);
+                    //DateTime BSCDate = Convert.ToDateTime(Convert.ToDateTime(tbxBSCDate.Text, enUS));
                     training.biosafety_BSCSeminar = BSCDate;
                 }
                 training.SOPsigned = (rblSigned.SelectedValue.Equals("Yes")) ? "1" : "0";
                 training.evaluation = (rblEvaluation.SelectedValue.Equals("Yes")) ? "1" : "0";
-                if (!(tbxSpillDate.Text.Equals("")))
+                if (!(tbxSpillDate.Text.Equals(String.Empty)))
                 {
-                    DateTime spillDate = Convert.ToDateTime(Convert.ToDateTime(tbxSpillDate.Text, enUS));
+                    DateTime spillDate = DateTime.ParseExact(tbxSpillDate.Text, dateFormat, locale);
+                    //DateTime spillDate = Convert.ToDateTime(Convert.ToDateTime(tbxSpillDate.Text, enUS));
                     training.spillCleanupPracticalDate = spillDate;
                 }
                 if (!(tbxDateFit.Text.Equals("")))
                 {
-                    DateTime dateFit = Convert.ToDateTime(Convert.ToDateTime(tbxDateFit.Text, enUS));
+                    DateTime dateFit = DateTime.ParseExact(tbxDateFit.Text, dateFormat, locale);
+                    //DateTime dateFit = Convert.ToDateTime(Convert.ToDateTime(tbxDateFit.Text, enUS));
                     training.respiratorDate = dateFit;
                 }
                 training.respiratorType = (tbxRespType.Text.Equals("")) ? null : tbxRespType.Text;

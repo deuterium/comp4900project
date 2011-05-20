@@ -106,13 +106,21 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                     Department: 
                 </td>
                 <td>
-                    <asp:DropDownList runat="server" ID="ddlOfficeDepartment"></asp:DropDownList>
+                    <asp:DropDownList runat="server" ID="ddlOfficeDepartment" AutoPostBack="true" 
+                        OnSelectedIndexChanged="ddlDepartments_SelectedIndexChanged"></asp:DropDownList>
+                        <asp:UpdatePanel ID="uplDepartment" runat="server">
+                            <ContentTemplate>
+                                <asp:TextBox ID="tbxDepartment" runat="server" Visible="false"></asp:TextBox>
+                            </ContentTemplate>
+                            <Triggers>
+                                <asp:AsyncPostBackTrigger ControlID="ddlOfficeDepartment" EventName="SelectedIndexChanged" />
+                            </Triggers>
+                        </asp:UpdatePanel>
                     <asp:RequiredFieldValidator ControlToValidate="ddlOfficeDepartment" ValidationGroup="vgpOfficeA" runat="server" 
                         ID="rfvDepart" ErrorMessage="Department is required" ForeColor="Red">*</asp:RequiredFieldValidator>
                 </td>
-                <td>
-                    &nbsp&nbsp&nbsp&nbsp&nbsp
-                </td>
+            </tr>
+            <tr>
                 <td>
                     Area: 
                 </td>
@@ -120,6 +128,14 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                     <asp:TextBox runat="server" ID="tbxOfficeArea" />
                     <asp:RequiredFieldValidator ControlToValidate="tbxOfficeArea" ValidationGroup="vgpOfficeA" runat="server" 
                         ID="rfvArea" ErrorMessage="Area is required" ForeColor="Red">*</asp:RequiredFieldValidator>
+                </td>
+                <td>
+                    Inspectors: 
+                </td>
+                <td>
+                    <asp:TextBox runat="server" ID="tbxOfficeInspectors"></asp:TextBox>
+                    <asp:RequiredFieldValidator ControlToValidate="tbxOfficeInspectors" ValidationGroup="vgpOfficeA" runat="server" 
+                        ID="rfvInspect" ErrorMessage="Inspector is required" ForeColor="Red">*</asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
@@ -135,17 +151,6 @@ ExpandedText="(Hide Details)" CollapsedImage="../../images/expand.jpg" ExpandedI
                     <asp:RegularExpressionValidator ID="revLabInspectionDate" runat="server" ValidationGroup="vgpOfficeA"
                         ControlToValidate="tbxOfficeInspectionDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Date of Inspection must be 'M/D/YYYY'"></asp:RegularExpressionValidator>
-                </td>
-                <td>
-                    &nbsp&nbsp&nbsp&nbsp&nbsp
-                </td>
-                <td>
-                    Inspectors: 
-                </td>
-                <td>
-                    <asp:TextBox runat="server" ID="tbxOfficeInspectors"></asp:TextBox>
-                    <asp:RequiredFieldValidator ControlToValidate="tbxOfficeInspectors" ValidationGroup="vgpOfficeA" runat="server" 
-                        ID="rfvInspect" ErrorMessage="Inspector is required" ForeColor="Red">*</asp:RequiredFieldValidator>
                 </td>
             </tr>
         </table>

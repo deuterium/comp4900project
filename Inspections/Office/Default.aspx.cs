@@ -15,6 +15,10 @@ using BCCAModel;
 public partial class Inspections_Office_Office : System.Web.UI.Page
 {
     BCCAEntities ctx = new BCCAEntities();
+    // Text value of DropDowns for the other option, selecting this option causes a textbox to appear for custom data entry
+    public static String otherOption = "Other (specify)";
+    // Text value of DropDowns for the none specified option (null value in db)
+    public static String noOptionSpecified = "Choose an option...";
 
     /// <summary>
     /// Code that is executed when the page is originally loaded. In this case, the code will populate
@@ -35,6 +39,26 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
             ddlOfficeDepartment.DataValueField = "value";
             ddlOfficeDepartment.DataTextField = "text";
             ddlOfficeDepartment.DataBind();
+            ddlOfficeDepartment.Items.Insert(ddlOfficeDepartment.Items.Count, otherOption);
+            ddlOfficeDepartment.Items.Insert(0, noOptionSpecified);
+        }
+    }
+
+    /// <summary>
+    /// Displays a textbox if the "Other (specify)" option is selected
+    /// and hides the textbox if any other option is selected
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The index changed event.</param>
+    protected void ddlDepartments_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (ddlOfficeDepartment.SelectedValue.Equals(otherOption))
+        {
+            tbxDepartment.Visible = true;
+        }
+        else
+        {
+            tbxDepartment.Visible = false;
         }
     }
 
