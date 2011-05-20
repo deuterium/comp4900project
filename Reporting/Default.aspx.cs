@@ -326,6 +326,13 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The click event properties.</param>
     protected void btnGetEmployee_Click(object sender, EventArgs e) {
+        // Check page
+        Page.Validate("vgpGetEmp");
+        Page.Validate("vpgGetEmpFromDb");
+        if (!Page.IsValid) {
+            return;
+        }
+        // Get Employee
         Employee result = loadEmployee();
         if (result == null) {
             Popup_Overlay("An error has occured while getting this employee. Please try again.", FailColour);
@@ -362,19 +369,12 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
 
     /// <summary>
-    /// Checks if the form data is valid.
+    /// Assumes page is valid.
     /// Uses the employee's first and last name to get the rest of the employee's information from the database.
     /// Populates the Employee Info form with the data.
     /// </summary>
     /// <returns>Returns the employee on success, null on failure.</returns>
     private Employee loadEmployee() {
-        // Check page
-        Page.Validate("vgpGetEmp");
-        Page.Validate("vpgGetEmpFromDb");
-        if (!Page.IsValid) {
-            return null;
-        }
-
         // Get employee
         String first = tbxFirstName.Text;
         String last = tbxLastName.Text;
@@ -526,6 +526,13 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The click event properties.</param>
     protected void btnCreateEmployee_Click(object sender, EventArgs e) {
+        // Check page
+        Page.Validate("vgpGetEmp");
+        Page.Validate("vgpCreateEmp");
+        if (!Page.IsValid) {
+            return;
+        } 
+        // Create Employee
         Employee result = createEmployee();
         if (result != null) {
             Popup_Overlay("Employee successfully created.", SuccessColour);
@@ -535,19 +542,12 @@ public partial class Reporting_Default : System.Web.UI.Page {
     }
 
     /// <summary>
-    /// Checks if the form data is valid (includes if the first/last name is already in use).
+    /// Assumes page is valid (including checking if the employee already exists).
     /// Creates a new Employee object (using the form fields).
     /// Saves the new Employee to the database.
     /// </summary>
     /// <returns>Returns the employee on success, null on failure.</returns>
     private Employee createEmployee() {
-        // Check page
-        Page.Validate("vgpGetEmp");
-        Page.Validate("vgpCreateEmp");
-        if (!Page.IsValid) {
-            return null;
-        }
-
         Employee emp = ctx.Employees
                        .Where(et => et.fname.Equals(tbxFirstName.Text) && et.lname.Equals(tbxLastName.Text))
                        .Select(et => et).FirstOrDefault();
