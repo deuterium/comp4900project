@@ -63,9 +63,9 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:TextBox TabIndex="100" ID="tbxLastName" runat="server" ClientID="tbxLastNameClient" MaxLength="50" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweLastName" runat="server" TargetControlID="tbxLastName"
                         WatermarkCssClass="watermarked" WatermarkText="Required field"></asp:TextBoxWatermarkExtender>
-                    <asp:RequiredFieldValidator ID="rfvLastName" runat="server" ValidationGroup="vgpGetEmp" 
+                    <asp:RequiredFieldValidator ID="rfvLastName" runat="server" ValidationGroup="vgpGetEmp" Display="Dynamic"
                         ControlToValidate="tbxLastName" ErrorMessage="Last name is required."></asp:RequiredFieldValidator>
-                    <asp:RegularExpressionValidator ID="revLastName" runat="server" ValidationGroup="vgpGetEmp" 
+                    <asp:RegularExpressionValidator ID="revLastName" runat="server" ValidationGroup="vgpGetEmp" Display="Dynamic"
                         ControlToValidate="tbxLastName" ErrorMessage="Last name can only contain letters."
                         ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
                 </td>
@@ -76,14 +76,14 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:TextBox TabIndex="101" ID="tbxFirstName" runat="server" MaxLength="50" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweFirstName" runat="server" TargetControlID="tbxFirstName"
                         WatermarkCssClass="watermarked" WatermarkText="Required field"></asp:TextBoxWatermarkExtender>
-                    <asp:RequiredFieldValidator ID="rfvFirstName" runat="server" ValidationGroup="vgpGetEmp" 
+                    <asp:RequiredFieldValidator ID="rfvFirstName" runat="server" ValidationGroup="vgpGetEmp" Display="Dynamic"
                         ControlToValidate="tbxFirstName" ErrorMessage="First name is required."></asp:RequiredFieldValidator>  
-                    <asp:CustomValidator ID="cmvGetEmpFromDb" runat="server" ValidationGroup="vpgGetEmpFromDb"
+                    <asp:CustomValidator ID="cmvGetEmpFromDb" runat="server" ValidationGroup="vpgGetEmpFromDb" Display="Dynamic"
                         ErrorMessage="Employee not found in database." OnServerValidate="cmvGetEmpFromDb_ServerValidate"></asp:CustomValidator>
-                    <asp:CustomValidator ID="cmvCheckEmpExists" runat="server" ValidationGroup="vpgCreateEmp"
+                    <asp:CustomValidator ID="cmvCheckEmpExists" runat="server" ValidationGroup="vpgCreateEmp" Display="Dynamic"
                         ErrorMessage="An employee with that first and last name already exists. Please change either the name and try again."
                         OnServerValidate="cmvCheckEmpExists_ServerValidate"></asp:CustomValidator>
-                    <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpGetEmp" 
+                    <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpGetEmp" Display="Dynamic"
                         ControlToValidate="tbxFirstName" ErrorMessage="First name can only contain letters."
                         ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
                 </td>
@@ -150,7 +150,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:TextBox TabIndex="108" ID="tbxSupervisor" runat="server" MaxLength="50" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweSupervisor" runat="server" TargetControlID="tbxSupervisor"
                         WatermarkCssClass="watermarked" WatermarkText="First Last"></asp:TextBoxWatermarkExtender>
-                    <asp:RegularExpressionValidator ID="revSupervisor" runat="server" ValidationGroup="vgpCreateEmp"
+                    <asp:RegularExpressionValidator ID="revSupervisor" runat="server" ValidationGroup="vgpCreateEmp" Display="Dynamic"
                         ControlToValidate="tbxSupervisor" ErrorMessage="Supervisor must have a first and last name separated by a space."
                         ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
                 </td>
@@ -163,10 +163,10 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="M/d/yyyy" >
                     </asp:CalendarExtender>
-                    <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpCreateEmp"
+                    <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpCreateEmp" Display="Dynamic"
                         ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Start date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-                    <asp:RequiredFieldValidator ID="rfvStartDate" runat="server" ValidationGroup="vgpCreateEmp"
+                    <asp:RequiredFieldValidator ID="rfvStartDate" runat="server" ValidationGroup="vgpCreateEmp" Display="Dynamic"
                         ControlToValidate="tbxStartDate" ErrorMessage="Start date is required."></asp:RequiredFieldValidator>
                 </td>
             </tr>
@@ -178,10 +178,10 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="M/d/yyyy" >
                     </asp:CalendarExtender>
-                    <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpCreateEmp"
+                    <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpCreateEmp" Display="Dynamic"
                         ControlToValidate="tbxEndDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="End date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-                    <asp:CustomValidator ID="cmvEmpDates" runat="server" ValidationGroup="vgpCreateEmp"
+                    <asp:CustomValidator ID="cmvEmpDates" runat="server" ValidationGroup="vgpCreateEmp" Display="Dynamic"
                         ErrorMessage="End date must be later than start date." OnServerValidate="cmvEmpDates_ServerValidate"></asp:CustomValidator>
                 </td>
             </tr>
@@ -215,9 +215,9 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexDateOfIncident" runat="server" TargetControlID="tbx_p1_dateOfIncident" Format="M/d/yyyy" >
                     </asp:CalendarExtender>
-                    <asp:RequiredFieldValidator ID="rfvDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
+                    <asp:RequiredFieldValidator ID="rfvDateOfIncident" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_dateOfIncident" ErrorMessage="Date of incident is required."></asp:RequiredFieldValidator>
-                    <asp:RegularExpressionValidator ID="revDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
+                    <asp:RegularExpressionValidator ID="revDateOfIncident" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_dateOfIncident" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Date reported must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
                 </td>
@@ -229,9 +229,9 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:TextBox TabIndex="113" ID="tbx_p1_timeOfIncident" runat="server" MaxLength="8" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweTimeOfIncident" runat="server" TargetControlID="tbx_p1_timeOfIncident"
                         WatermarkCssClass="watermarked" WatermarkText="HH:MM"></asp:TextBoxWatermarkExtender>
-                    <asp:RequiredFieldValidator ID="rfvTimeOfIncident" runat="server" ValidationGroup="vgpPanelA"
+                    <asp:RequiredFieldValidator ID="rfvTimeOfIncident" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_timeOfIncident" ErrorMessage="Time of incident is required."></asp:RequiredFieldValidator>
-                    <asp:RegularExpressionValidator ID="revTimeOfIncident" runat="server" ValidationGroup="vgpPanelA"
+                    <asp:RegularExpressionValidator ID="revTimeOfIncident" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_timeOfIncident" ValidationExpression="^((([01]?[0-9]{1}|[2]{1}[0-3]{1}){1}(:[0-5]{1}[0-9]{1}){1})|(([0]?[0-9]{1}|[1]{1}[012]{1}){1}(:[0-5]{1}[0-9]{1})? ?(am|AM|pm|PM){1}))$" 
                         ErrorMessage="Time of incident must be in one of the following formats: H pm, H:MM AM, HH:MM"></asp:RegularExpressionValidator>
                 </td>
@@ -240,7 +240,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:TextBox TabIndex="117" ID="tbx_p1_witnessName1" runat="server" MaxLength="50" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweWitnessName1" runat="server" TargetControlID="tbx_p1_witnessName1"
                         WatermarkCssClass="watermarked" WatermarkText="First Last"></asp:TextBoxWatermarkExtender>
-                    <asp:RegularExpressionValidator ID="revWitnessName1" runat="server" ValidationGroup="vgpPanelA"
+                    <asp:RegularExpressionValidator ID="revWitnessName1" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_witnessName1" ErrorMessage="Witness 1 must have a first and last name separated by a space."
                         ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
                 </td>
@@ -249,7 +249,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:TextBox TabIndex="118" ID="tbx_p1_witnessPhone1" runat="server" MaxLength="12" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweWitnessPhone1" runat="server" TargetControlID="tbx_p1_witnessPhone1"
                         WatermarkCssClass="watermarked" WatermarkText="###-###-####"></asp:TextBoxWatermarkExtender>
-                    <asp:RegularExpressionValidator ID="revWitnessPhone1" runat="server" ValidationGroup="vgpPanelA"
+                    <asp:RegularExpressionValidator ID="revWitnessPhone1" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_witnessPhone1" ValidationExpression="^[0-9]{3}-{1}[0-9]{3}-{1}[0-9]{4}$"
                         ErrorMessage="Phone number for witness 1 must be in format '###-###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
                 </td>
@@ -262,9 +262,9 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexDateReported" runat="server" TargetControlID="tbx_p1_dateReported" Format="M/d/yyyy" >
                     </asp:CalendarExtender>
-                    <asp:RequiredFieldValidator ID="rfvDateReported" runat="server" ValidationGroup="vgpPanelA"
+                    <asp:RequiredFieldValidator ID="rfvDateReported" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_dateReported" ErrorMessage="Date reported is required."></asp:RequiredFieldValidator>
-                    <asp:RegularExpressionValidator ID="revDateReported" runat="server" ValidationGroup="vgpPanelA"
+                    <asp:RegularExpressionValidator ID="revDateReported" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_dateReported" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Date reported must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
                 </td>
@@ -276,21 +276,21 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:TextBox TabIndex="115" ID="tbx_p1_timeReported" runat="server" MaxLength="8" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweTimeReported" runat="server" TargetControlID="tbx_p1_timeReported"
                         WatermarkCssClass="watermarked" WatermarkText="HH:MM"></asp:TextBoxWatermarkExtender>
-                    <asp:RequiredFieldValidator ID="rfvTimeReported" runat="server" ValidationGroup="vgpPanelA"
+                    <asp:RequiredFieldValidator ID="rfvTimeReported" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_timeReported" ErrorMessage="Time reported is required."></asp:RequiredFieldValidator>
-                    <asp:RegularExpressionValidator ID="revTimeReported" runat="server" ValidationGroup="vgpPanelA"
+                    <asp:RegularExpressionValidator ID="revTimeReported" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_timeReported" ValidationExpression="^((([01]?[0-9]{1}|[2]{1}[0-3]{1}){1}(:[0-5]{1}[0-9]{1}){1})|(([0]?[0-9]{1}|[1]{1}[012]{1}){1}(:[0-5]{1}[0-9]{1})? ?(am|AM|pm|PM){1}))$" 
                         ErrorMessage="Time reported must be in one of the following formats: H pm, H:MM AM, HH:MM"></asp:RegularExpressionValidator>
-                    <%--<asp:CustomValidator ID="cmvDate" runat="server" ValidationGroup="vgpPanelA"
-                        ErrorMessage="You must select at least one Action Following checkbox." 
-                        OnServerValidate="cmvActionFollowing_ServerValidate"></asp:CustomValidator>--%>
+                    <asp:CustomValidator ID="cmvReportDate" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
+                        ErrorMessage="The date/time reported must be later than the date/time the incident occured." 
+                        OnServerValidate="cmvReportDate_ServerValidate"></asp:CustomValidator>
                 </td>
                 <td>Name:</td>
                 <td>
                     <asp:TextBox TabIndex="119" ID="tbx_p1_witnessName2" runat="server" MaxLength="50" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweWitnessName2" runat="server" TargetControlID="tbx_p1_witnessName2"
                         WatermarkCssClass="watermarked" WatermarkText="First Last"></asp:TextBoxWatermarkExtender>
-                    <asp:RegularExpressionValidator ID="rexWitnessName2" runat="server" ValidationGroup="vgpEmpInfo"
+                    <asp:RegularExpressionValidator ID="rexWitnessName2" runat="server" ValidationGroup="vgpEmpInfo" Display="Dynamic"
                         ControlToValidate="tbx_p1_witnessName2" ErrorMessage="Witness 2 must have a first and last name separated by a space."
                         ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
                 </td>
@@ -299,7 +299,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:TextBox TabIndex="120" ID="tbx_p1_witnessPhone2" runat="server" MaxLength="12" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweWitnessPhone2" runat="server" TargetControlID="tbx_p1_witnessPhone2"
                         WatermarkCssClass="watermarked" WatermarkText="###-###-####"></asp:TextBoxWatermarkExtender>
-                    <asp:RegularExpressionValidator ID="revWitnessPhone2" runat="server" ValidationGroup="vgpPanelA"
+                    <asp:RegularExpressionValidator ID="revWitnessPhone2" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_witnessPhone2" ValidationExpression="^[0-9]{3}-{1}[0-9]{3}-{1}[0-9]{4}$" 
                         ErrorMessage="Phone number for witness 2 must be in format '###-###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
                 </td>
@@ -318,8 +318,6 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
         <span class="spanBold" >Incident Description:</span>
         <asp:RequiredFieldValidator ID="rfvIncidentDesc" runat="server" ValidationGroup="vgpPanelA"
             ControlToValidate="tbx_p1_incidentDesc" ErrorMessage="Incident description is required."></asp:RequiredFieldValidator>
-        <%--<asp:RegularExpressionValidator ID="revIncidentDesc" runat="server" ControlToValidate="tbx_p1_incidentDesc" ValidationGroup="vgpPanelA"
-            ValidationExpression=".{50}" ErrorMessage="The incident description must be at least 50 characters. Please be more descriptive!"></asp:RegularExpressionValidator>--%>
         <br />
         <table>
             <tr>
@@ -345,10 +343,10 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date" Format="M/d/yyyy" >
                     </asp:CalendarExtender>
-                    <asp:RegularExpressionValidator ID="revMedicalGpDate" runat="server" ValidationGroup="vgpPanelA"
+                    <asp:RegularExpressionValidator ID="revMedicalGpDate" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_action_medicalGP_date" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Medical Aid (GP / Clinic) date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-                    <asp:RequiredFieldValidator ID="rfvMedicalAidGpDate" runat="server" ValidationGroup="vgpPanelA" Enabled="false"
+                    <asp:RequiredFieldValidator ID="rfvMedicalAidGpDate" runat="server" ValidationGroup="vgpPanelA" Enabled="false" Display="Dynamic"
                         ControlToValidate="tbx_p1_action_medicalGP_date" ErrorMessage="Date is required for Medical Aid (GP / Clinic)."></asp:RequiredFieldValidator>
                 </td>
             </tr>
@@ -362,23 +360,17 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date" Format="M/d/yyyy" >
                     </asp:CalendarExtender>
-                    <asp:RegularExpressionValidator ID="revMedicalErDate" runat="server" ValidationGroup="vgpPanelA"
+                    <asp:RegularExpressionValidator ID="revMedicalErDate" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_action_medicalER_date" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Medical Aid (ER) date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-                    <asp:RequiredFieldValidator ID="rfvMedicalAidErDate" runat="server" ValidationGroup="vgpPanelA" Enabled="false"
+                    <asp:RequiredFieldValidator ID="rfvMedicalAidErDate" runat="server" ValidationGroup="vgpPanelA" Enabled="false" Display="Dynamic"
                         ControlToValidate="tbx_p1_action_medicalER_date" ErrorMessage="Date is required for Medical Aid (ER)."></asp:RequiredFieldValidator>
                 </td>
             </tr>
         </table>
     </div>
-
-    <%--<asp:RegularExpressionValidator ID="revMedicalAidDate" runat="server" ValidationGroup="vgpPanelA"
-        ControlToValidate="tbxMedicalAidDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-        ErrorMessage="Medical Aid date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-    --%>
     <div id="div1" class="summariesAndButtons" >
-        <asp:ValidationSummary ID="vsyPanelA" runat="server" ValidationGroup="vgpPanelA"
-            DisplayMode="BulletList" />
+        <asp:ValidationSummary ID="vsyPanelA" runat="server" ValidationGroup="vgpPanelA" DisplayMode="BulletList" />
     </div>
 
 </asp:Panel>
@@ -455,10 +447,12 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
             <tr><td>How many employees involved in activity at time of incident?</td></tr>
             <tr><td>
                 <asp:TextBox TabIndex="132" ID="tbx_p1_numEmployeesInvolved" runat="server" MaxLength="10" ></asp:TextBox>
-                <asp:CompareValidator ID="cpvEmployeesInvolved" runat="server" ValidationGroup="vgpCInvestigation"
+                <asp:CompareValidator ID="cpvEmployeesInvolved" runat="server" ValidationGroup="vgpCInvestigation" Display="Dynamic"
                     ControlToValidate="tbx_p1_numEmployeesInvolved" Type="Integer" Operator="DataTypeCheck"
                     ErrorMessage="The number of employees involved must be number." ></asp:CompareValidator>
-                <%-- CHECK FOR GREATHER THAN 0 --%>
+                <asp:RegularExpressionValidator ID="revEmployeesInvolved" runat="server" ValidationGroup="vgpCInvestigation"
+                    ControlToValidate="tbx_p1_numEmployeesInvolved" ValidationExpression="^[^\-]*$"
+                    ErrorMessage="The number of employees involved cannot be negative."></asp:RegularExpressionValidator>
             </td></tr>
         </table>
   
