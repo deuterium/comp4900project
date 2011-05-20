@@ -679,6 +679,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
             incidentNo = Convert.ToInt32(strIncidentNo);
         }
         catch (FormatException ex) {
+            ex.ToString();
             Popup_Overlay("An unexpected error has occured. Please refresh the page and try again.", FailColour);
         }
         return incidentNo;
