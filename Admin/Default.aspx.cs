@@ -61,8 +61,7 @@ public partial class Admin_Default : System.Web.UI.Page
     /// <param name="e">not used in our code</param>
     protected void btnPnlPopClose_Click(object sender, EventArgs e)
     {
-        switch (rblUsers.SelectedValue)
-        {
+        switch (rblUsers.SelectedValue) {
             case "Create":
                 User_Pass_Clear();
                 break;
@@ -463,7 +462,7 @@ public partial class Admin_Default : System.Web.UI.Page
 
     #region Course Management
     /// <summary>
-    /// Calls Load_AllCourses().
+    /// Loads all the courses when the page is first displayed.
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
@@ -472,7 +471,7 @@ public partial class Admin_Default : System.Web.UI.Page
         if (!IsPostBack)
         {
             Load_AllCourses();
-            switchCourseMode("Create");
+            switchCourseManagementMode("Create");
         }
     }
 
@@ -490,13 +489,43 @@ public partial class Admin_Default : System.Web.UI.Page
         lbxAllCourses.DataValueField = "trainingNo";
         lbxAllCourses.DataBind();
     }
+    
+    /// <summary>
+    /// Returns the course selected in the List Box of all courses as an object.
+    /// Returns null on failure.
+    /// </summary>
+    /// <returns>Returns the selected course in the List Box as an object.</returns>
+    private TrainingCours getSelectedCourse() {
+        if (lbxAllCourses.SelectedValue == null) {
+            return null;
+        }
+        if (lbxAllCourses.SelectedValue.Equals(String.Empty)) {
+            return null;
+        }
 
-    protected void lbxAllCourses_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        getCourse();
+        int courseId = Convert.ToInt32(lbxAllCourses.SelectedValue);
+        TrainingCours course = ctx.TrainingCourses
+                               .Where(c => (c.trainingNo == courseId))
+                               .Select(c => c).FirstOrDefault();
+        return course;
     }
 
-    private void getCourse()
+    /// <summary>
+    /// Calls loadCourse() to load a course into the edit form.
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
+    protected void lbxAllCourses_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        loadCourse();
+    }
+
+    /// <summary>
+    /// Switches to edit mode.
+    /// Loads a course into the edit form.
+    /// Displays a pop-up if there is an error.
+    /// </summary>
+    private void loadCourse()
     {
         TrainingCours course = getSelectedCourse();
 
@@ -506,16 +535,29 @@ public partial class Admin_Default : System.Web.UI.Page
             return;
         }
 
-        switchCourseMode("Edit");
+        switchCourseManagementMode("Edit");
         tbxCourseName.Text = course.trainingName;
-        tbxMonthsValid.Text = course.monthsValid.ToString();
+        if (course.monthsValid == null) {
+            cbxNeverExpires.Checked = true;
+            toggleNeverExpires();
+            tbxMonthsValid.Text = "1";
+        }
+        else {
+            cbxNeverExpires.Checked = false;
+            toggleNeverExpires();
+            tbxMonthsValid.Text = course.monthsValid.ToString();
+        }
     }
 
+    /// <summary>
+    /// Creates a course from the fields in the form and saves that course to the database.
+    /// Displays a pop-up on success/failure.
+    /// </summary>
     private void createCourse()
     {
         TrainingCours tc = new TrainingCours();
         tc.trainingName = tbxCourseName.Text;
-        if (tbxMonthsValid.Text.Equals(String.Empty))
+        if (cbxNeverExpires.Checked)
         {
             tc.monthsValid = null;
         }
@@ -532,37 +574,58 @@ public partial class Admin_Default : System.Web.UI.Page
             Popup_Overlay("An error occured while adding your course. Please try again.", Color.Red);
             return;
         }
+        Load_AllCourses();
         Popup_Overlay("Course succesfully added.", Color.Green);
     }
 
+    /// <summary>
+    /// Updates the selected course from the fields in the form and saves the changes to the database.
+    /// Displays a pop-up on success/failure.
+    /// </summary>
     private void updateCourse()
     {
-        var course = ctx.TrainingCourses
-                     .Where(tc => tc.trainingNo.Equals(lbxAllCourses.SelectedValue)).FirstOrDefault();
+        TrainingCours course = getSelectedCourse();
 
         if (course == null) {
             Popup_Overlay("Could not find course. Course changes not saved.", Color.Red);
         }
 
         course.trainingName = tbxCourseName.Text;
-        course.monthsValid = Convert.ToDecimal(tbxMonthsValid.Text);
+        if (cbxNeverExpires.Checked) {
+            course.monthsValid = null;
+        }
+        else {
+            course.monthsValid = Convert.ToDecimal(tbxMonthsValid.Text);
+        }
 
         try {
             ctx.SaveChanges();
         }
         catch (Exception ex) {
+            ex.ToString();
             Popup_Overlay("An error occured while saving your course. Please try again.", Color.Red);
             return;
         }
         Popup_Overlay("Course succesfully saved.", Color.Green);
     }
 
+    /// <summary>
+    /// Calls switchCourseManagementMode() to change the form fields to match the selected mode (Create or Edit).
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void rblCourseMode_SelectedIndexChanged(object sender, EventArgs e)
     {
-        switchCourseMode(rblCourseMode.SelectedValue);
+        switchCourseManagementMode(rblCourseMode.SelectedValue);
     }
 
-    private void switchCourseMode(String mode)
+    /// <summary>
+    /// Changes the form fields to match the selected mode (Create or Edit).
+    /// Create mode clears the List Box selection, changes the submit button to an Add button, and hides the Delete button.
+    /// Edit mode changes the submit button to a Save button and shows the Delete button.
+    /// </summary>
+    /// <param name="mode"></param>
+    private void switchCourseManagementMode(String mode)
     {
         if (mode.Equals("Create"))
         {
@@ -580,37 +643,60 @@ public partial class Admin_Default : System.Web.UI.Page
         }
     }
 
-    protected void cbxNeverExpires_CheckChanged(object sender, EventArgs e)
-    {
-        if (cbxNeverExpires.Checked)
-        {
+    /// <summary>
+    /// Toggles the months valid field to show/hide if the never expires is unchecked/checked.
+    /// </summary>
+    private void toggleNeverExpires() {
+        if (cbxNeverExpires.Checked) {
             nexMonthsValid.Enabled = false;
             tbxMonthsValid.Visible = false;
         }
-        else
-        {
+        else {
             nexMonthsValid.Enabled = true;
             tbxMonthsValid.Visible = true;
         }
     }
 
-    private void clearForm() {
-        lbxAllCourses.ClearSelection();
-        cbxNeverExpires.Checked = false;
-        tbxCourseName.Text = String.Empty;
-        tbxMonthsValid.Text = "1";
-    }
-
-    protected void btnCancelCourse_Click(object sender, EventArgs e)
+    /// <summary>
+    /// Calls toggleNeverExpires() to show/hide the months valid field.
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
+    protected void cbxNeverExpires_CheckChanged(object sender, EventArgs e)
     {
-        clearForm();
+        toggleNeverExpires();
     }
 
+    /// <summary>
+    /// Deletes the selected course.
+    /// Shows a pop-up on success/failure.
+    /// Clears the form and re-loads the list of all courses.
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void btnDeleteCourse_Click(object sender, EventArgs e) {
-        // do nothing
+        TrainingCours course = getSelectedCourse();
+        try {
+            ctx.DeleteObject(course);
+            ctx.SaveChanges();
+        }
+        catch (Exception ex) {
+            ex.ToString();
+            Popup_Overlay("An error occured while deleting your course. Please try again.", Color.Red);
+            return;
+        }
+        clearForm();
+        Load_AllCourses();
+        Popup_Overlay("Course succesfully deleted.", Color.Green);
     }
-    #endregion Course Management
 
+    /// <summary>
+    /// Checks the Course Management mode.
+    /// If Edit mode is selected, calls the updateCourse() method.
+    /// If Create mode is selected, calls the createCourse() method.
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
     protected void btnSubmitCourse_Click(object sender, EventArgs e) {
         if (rblCourseMode.SelectedValue.Equals("Create")) {
             createCourse();
@@ -618,22 +704,27 @@ public partial class Admin_Default : System.Web.UI.Page
         else if (rblCourseMode.SelectedValue.Equals("Edit")) {
             updateCourse();
         }
-
-        lbxAllCourses.DataBind();
     }
 
-    private TrainingCours getSelectedCourse() {
-        if (lbxAllCourses.SelectedValue == null) {
-            return null;
-        }
-        if (lbxAllCourses.SelectedValue.Equals(String.Empty)) {
-            return null;
-        }
-
-        int courseId = Convert.ToInt32(lbxAllCourses.SelectedValue);
-        TrainingCours course = ctx.TrainingCourses
-                               .Where(c => (c.trainingNo == courseId))
-                               .Select(c => c).FirstOrDefault();
-        return course;
+    /// <summary>
+    /// Resets the form fields to blank and the months valid to 1.
+    /// Clears the selected value in the List Box.
+    /// </summary>
+    private void clearForm() {
+        lbxAllCourses.ClearSelection();
+        cbxNeverExpires.Checked = false;
+        toggleNeverExpires();
+        tbxCourseName.Text = String.Empty;
+        tbxMonthsValid.Text = "1";
     }
+
+    /// <summary>
+    /// Calls clearForm() to reset the form.
+    /// </summary>
+    /// <param name="sender">not used in our code</param>
+    /// <param name="e">not used in our code</param>
+    protected void btnCancelCourse_Click(object sender, EventArgs e) {
+        clearForm();
+    }
+    #endregion Course Management
 }
