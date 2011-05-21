@@ -254,7 +254,7 @@ h3
 .invertedshiftdown
 {
     text-align: right;
-    padding-left: 10px;
+    padding-left: 7px;
     width: 92%;
     border-top: 5px solid #89c123; /*Red color theme*/
     background: transparent;
@@ -281,12 +281,13 @@ h3
 .invertedshiftdown a
 {
     float: left;
-    display: block;
+    /* display: block; */
     font: bold 12px Arial;
     color: black;
     text-decoration: none;
     margin: 0 1px 0 0; /*Margin between each menu item*/
-    padding: 5px 10px 9px 10px; /*Padding within each menu item*/
+    padding-right: 10px;
+    padding-left: 10px;
     background-color: white; /*Default menu color*/ /*BELOW 4 LINES add rounded bottom corners to each menu item.     ONLY WORKS IN FIREFOX AND FUTURE CSS3 CAPABLE BROWSERS     REMOVE IF DESIRED*/
     -moz-border-radius-bottomleft: 5px;
     border-bottom-left-radius: 5px;
@@ -297,24 +298,24 @@ h3
 .invertedshiftdown a:hover
 {
     background-color: #89c123; /*Red color theme*/
-    padding-top: 9px; /*Flip default padding-top value with padding-bottom */
-    padding-bottom: 5px; /*Flip default padding-bottom value with padding-top*/
+    padding-top: 2px; /*Flip default padding-top value with padding-bottom */
+    padding-bottom: 2px; /*Flip default padding-bottom value with padding-top*/
     color: white;
 }
 
 .invertedshiftdown .current a /** currently selected menu item **/
 {
     background-color: #89c123; /*Red color theme*/
-    padding-top: 9px; /*Flip default padding-top value with padding-bottom */
-    padding-bottom: 5px; /*Flip default padding-bottom value with padding-top*/
+    padding-top: 2px; /*Flip default padding-top value with padding-bottom */
+    padding-bottom: 2px; /*Flip default padding-bottom value with padding-top*/
     color: white;
 }
 
 .level1 .selected /* dirty fix for menu hover */
 {
     background-color: #89c123; /*Red color theme*/
-    padding-top: 9px; /*Flip default padding-top value with padding-bottom */
-    padding-bottom: 5px; /*Flip default padding-bottom value with padding-top*/
+    padding-top: 2px; /*Flip default padding-top value with padding-bottom */
+    padding-bottom: 2px; /*Flip default padding-bottom value with padding-top*/
     color: white;
 }
 
