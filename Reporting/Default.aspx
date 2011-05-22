@@ -3,6 +3,18 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="head">
+
+<script type="text/javascript">
+    function checkChar(event) {
+        var code = event.keyCode;
+        // code is the ascii number of the key.
+        alert("You typed " + code);
+        if (event.keyCode == 38 || event.keyCode == 60 || event.keyCode == 62) {
+            
+        }
+    }
+</script>
+
 </asp:Content>
 
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="body">
@@ -63,9 +75,14 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:TextBox TabIndex="100" ID="tbxLastName" runat="server" ClientID="tbxLastNameClient" MaxLength="50" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweLastName" runat="server" TargetControlID="tbxLastName"
                         WatermarkCssClass="watermarked" WatermarkText="Required field"></asp:TextBoxWatermarkExtender>
-                    <asp:RequiredFieldValidator ID="rfvLastName" runat="server" ValidationGroup="vgpGetEmp" Display="Dynamic"
+                    <asp:RequiredFieldValidator ID="rfvLastNameVgpEmpName" runat="server" ValidationGroup="vgpEmpName" Display="Dynamic"
                         ControlToValidate="tbxLastName" ErrorMessage="Last name is required."></asp:RequiredFieldValidator>
-                    <asp:RegularExpressionValidator ID="revLastName" runat="server" ValidationGroup="vgpGetEmp" Display="Dynamic"
+                    <asp:RegularExpressionValidator ID="revLastNameVgpEmpName" runat="server" ValidationGroup="vgpEmpName" Display="Dynamic"
+                        ControlToValidate="tbxLastName" ErrorMessage="Last name can only contain letters."
+                        ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
+                    <asp:RequiredFieldValidator ID="rfvLastNameVgpCreate" runat="server" ValidationGroup="vgpAllEmpInfo" Display="Dynamic"
+                        ControlToValidate="tbxLastName" ErrorMessage="Last name is required."></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="revLastNameVgpCreate" runat="server" ValidationGroup="vgpAllEmpInfo" Display="Dynamic"
                         ControlToValidate="tbxLastName" ErrorMessage="Last name can only contain letters."
                         ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
                 </td>
@@ -76,14 +93,14 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:TextBox TabIndex="101" ID="tbxFirstName" runat="server" MaxLength="50" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweFirstName" runat="server" TargetControlID="tbxFirstName"
                         WatermarkCssClass="watermarked" WatermarkText="Required field"></asp:TextBoxWatermarkExtender>
-                    <asp:RequiredFieldValidator ID="rfvFirstName" runat="server" ValidationGroup="vgpGetEmp" Display="Dynamic"
-                        ControlToValidate="tbxFirstName" ErrorMessage="First name is required."></asp:RequiredFieldValidator>  
-                    <asp:CustomValidator ID="cmvGetEmpFromDb" runat="server" ValidationGroup="vpgGetEmpFromDb" Display="Dynamic"
-                        ErrorMessage="Employee not found in database." OnServerValidate="cmvGetEmpFromDb_ServerValidate"></asp:CustomValidator>
-                    <asp:CustomValidator ID="cmvCheckEmpExists" runat="server" ValidationGroup="vpgCreateEmp" Display="Dynamic"
-                        ErrorMessage="An employee with that first and last name already exists. Please change either the name and try again."
-                        OnServerValidate="cmvCheckEmpExists_ServerValidate"></asp:CustomValidator>
-                    <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpGetEmp" Display="Dynamic"
+                    <asp:RequiredFieldValidator ID="rfvFirstNameVgpEmpName" runat="server" ValidationGroup="vgpEmpName" Display="Dynamic"
+                        ControlToValidate="tbxFirstName" ErrorMessage="First name is required."></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="revFirstNameVgpEmpName" runat="server" ValidationGroup="vgpEmpName" Display="Dynamic"
+                        ControlToValidate="tbxFirstName" ErrorMessage="First name can only contain letters."
+                        ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
+                    <asp:RequiredFieldValidator ID="rfvFirstName" runat="server" ValidationGroup="vgpAllEmpInfo" Display="Dynamic"
+                        ControlToValidate="tbxFirstName" ErrorMessage="First name is required."></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="revFirstName" runat="server" ValidationGroup="vgpAllEmpInfo" Display="Dynamic"
                         ControlToValidate="tbxFirstName" ErrorMessage="First name can only contain letters."
                         ValidationExpression="^[A-Za-z']+$" ></asp:RegularExpressionValidator>
                 </td>
@@ -100,6 +117,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:UpdatePanel ID="uplPosition" runat="server">
                         <ContentTemplate>
                             <asp:TextBox TabIndex="103" ID="tbxPosition" runat="server" Visible="false" MaxLength="50" ></asp:TextBox>
+                            <asp:FilteredTextBoxExtender ID="ftePosition" runat="server" TargetControlID="tbxPosition" InvalidChars="&#<>" />
                         </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="ddlPositions" EventName="SelectedIndexChanged" />
@@ -114,6 +132,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:UpdatePanel ID="uplEmployer" runat="server">
                         <ContentTemplate>
                             <asp:TextBox TabIndex="105" ID="tbxEmployer" runat="server" Visible="false" MaxLength="10" ></asp:TextBox>
+
                         </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="ddlEmployers" EventName="SelectedIndexChanged" />
@@ -150,7 +169,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:TextBox TabIndex="108" ID="tbxSupervisor" runat="server" MaxLength="50" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweSupervisor" runat="server" TargetControlID="tbxSupervisor"
                         WatermarkCssClass="watermarked" WatermarkText="First Last"></asp:TextBoxWatermarkExtender>
-                    <asp:RegularExpressionValidator ID="revSupervisor" runat="server" ValidationGroup="vgpCreateEmp" Display="Dynamic"
+                    <asp:RegularExpressionValidator ID="revSupervisor" runat="server" ValidationGroup="vgpAllEmpInfo" Display="Dynamic"
                         ControlToValidate="tbxSupervisor" ErrorMessage="Supervisor must have a first and last name separated by a space."
                         ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
                 </td>
@@ -163,11 +182,12 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexStartDate" runat="server" TargetControlID="tbxStartDate" Format="M/d/yyyy" >
                     </asp:CalendarExtender>
-                    <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpCreateEmp" Display="Dynamic"
+                    <asp:RequiredFieldValidator ID="rfvStartDate" runat="server" ValidationGroup="vgpAllEmpInfo" Display="Dynamic"
+                        ControlToValidate="tbxStartDate" ErrorMessage="Start date is required."></asp:RequiredFieldValidator>
+                    <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpAllEmpInfo" Display="Dynamic"
                         ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="Start date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-                    <asp:RequiredFieldValidator ID="rfvStartDate" runat="server" ValidationGroup="vgpCreateEmp" Display="Dynamic"
-                        ControlToValidate="tbxStartDate" ErrorMessage="Start date is required."></asp:RequiredFieldValidator>
+                    
                 </td>
             </tr>
             <tr>
@@ -178,10 +198,10 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY"></asp:TextBoxWatermarkExtender>
                     <asp:CalendarExtender ID="cexEndDate" runat="server" TargetControlID="tbxEndDate" Format="M/d/yyyy" >
                     </asp:CalendarExtender>
-                    <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpCreateEmp" Display="Dynamic"
+                    <asp:RegularExpressionValidator ID="revEndDate" runat="server" ValidationGroup="vgpAllEmpInfo" Display="Dynamic"
                         ControlToValidate="tbxEndDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                         ErrorMessage="End date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-                    <asp:CustomValidator ID="cmvEmpDates" runat="server" ValidationGroup="vgpCreateEmp" Display="Dynamic"
+                    <asp:CustomValidator ID="cmvEmpDates" runat="server" ValidationGroup="vgpAllEmpInfo" Display="Dynamic"
                         ErrorMessage="End date must be later than start date." OnServerValidate="cmvEmpDates_ServerValidate"></asp:CustomValidator>
                 </td>
             </tr>
@@ -189,19 +209,18 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
     </div>
 
     <div id="divEmpInfoButtons" class="summariesAndButtons" >
-        <asp:Button TabIndex="111" ID="btnGetEmployee" runat="server"
-            Text="Get Employee" onclick="btnGetEmployee_Click" />
-        <asp:Button TabIndex="111" ID="btnCreateEmployee" runat="server"
-            Text="Create Employee" onclick="btnCreateEmployee_Click" />
-        <asp:Button TabIndex="1112" ID="btnUpdateEmployee" runat="server"
-            Text="Update  Employee" onclick="btnUpdateEmployee_Click" />
-        <asp:Button TabIndex="1112" ID="btnCreateReport" runat="server" 
-            Text="Create Report" onclick="btnCreateReport_Click" />
+        <asp:Button TabIndex="111" ID="btnGetEmployee" runat="server" ValidationGroup="vgpEmpName"
+            Text="Get Employee" OnClick="btnGetEmployee_Click" />
+        <asp:Button TabIndex="111" ID="btnCreateEmployee" runat="server" ValidationGroup="vgpAllEmpInfo"
+            Text="Create Employee" OnClick="btnCreateEmployee_Click" />
+        <asp:Button TabIndex="1112" ID="btnUpdateEmployee" runat="server" ValidationGroup="vgpAllEmpInfo"
+            Text="Update  Employee" OnClick="btnUpdateEmployee_Click" />
+        <asp:Button TabIndex="1112" ID="btnCreateReport" runat="server" ValidationGroup="vgpPanelA"
+            Text="Create Report" OnClick="btnCreateReport_Click" />
         <asp:Button TabIndex="1112" ID="btnClear" runat="server" 
             Text="Clear" onclick="btnClear_Click" />
-        <asp:ValidationSummary ID="vsyGetEmp" ValidationGroup="vgpGetEmp" runat="server" DisplayMode="BulletList" />
-        <asp:ValidationSummary ID="vsyGetEmpFromDb" ValidationGroup="vpgGetEmpFromDb" runat="server" DisplayMode="BulletList" />
-        <asp:ValidationSummary ID="vsyCreateEmp" ValidationGroup="vgpCreateEmp" runat="server" DisplayMode="BulletList" />
+        <asp:ValidationSummary ID="vsyGetEmp" ValidationGroup="vgpEmpName" runat="server" DisplayMode="BulletList" />
+        <asp:ValidationSummary ID="vsyCreateEmp" ValidationGroup="vgpAllEmpInfo" runat="server" DisplayMode="BulletList" />
     </div>
 </asp:Panel>
 
@@ -236,7 +255,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:RegularExpressionValidator ID="revTimeOfIncident" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_timeOfIncident"
                         ValidationExpression="^(((([1-9]{1})|([01]{1}[012])){1} {1}(am|AM|pm|PM){1}){1}|((([0]?[1-9]{1})|([1]{1}[012]{1})){1}:{1}[0-5]{1}[0-9]{1} {1}(am|AM|pm|PM){1}){1}|((([0]?[1-9]{1})|([01]{1}[0-9]{1})|([2]{1}[0123])){1}:{1}[0-5]{1}[0-9]{1}$){1})$" 
-                        ErrorMessage="Time of incident must be in one of the following formats: H pm, H:MM AM, HH:MM"></asp:RegularExpressionValidator>
+                        ErrorMessage="Time of incident must be in one of the following formats: H pm, H:MM AM, HH:MM."></asp:RegularExpressionValidator>
                 </td>
                 <td>Name:</td>
                 <td>
@@ -254,7 +273,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         WatermarkCssClass="watermarked" WatermarkText="###-###-####"></asp:TextBoxWatermarkExtender>
                     <asp:RegularExpressionValidator ID="revWitnessPhone1" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_witnessPhone1" ValidationExpression="^[0-9]{3}-{1}[0-9]{3}-{1}[0-9]{4}$"
-                        ErrorMessage="Phone number for witness 1 must be in format '###-###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
+                        ErrorMessage="Phone number for witness 1 must be in format '###-###-####'."></asp:RegularExpressionValidator>
                 </td>
             </tr>
             <tr>
@@ -294,7 +313,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:TextBox TabIndex="119" ID="tbx_p1_witnessName2" runat="server" MaxLength="50" ></asp:TextBox>
                     <asp:TextBoxWatermarkExtender ID="tweWitnessName2" runat="server" TargetControlID="tbx_p1_witnessName2"
                         WatermarkCssClass="watermarked" WatermarkText="First Last"></asp:TextBoxWatermarkExtender>
-                    <asp:RegularExpressionValidator ID="rexWitnessName2" runat="server" ValidationGroup="vgpEmpInfo" Display="Dynamic"
+                    <asp:RegularExpressionValidator ID="rexWitnessName2" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_witnessName2" ErrorMessage="Witness 2 must have a first and last name separated by a space."
                         ValidationExpression="^[A-Za-z']+ [A-Za-z']+$" ></asp:RegularExpressionValidator>
                 </td>
@@ -305,7 +324,7 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                         WatermarkCssClass="watermarked" WatermarkText="###-###-####"></asp:TextBoxWatermarkExtender>
                     <asp:RegularExpressionValidator ID="revWitnessPhone2" runat="server" ValidationGroup="vgpPanelA" Display="Dynamic"
                         ControlToValidate="tbx_p1_witnessPhone2" ValidationExpression="^[0-9]{3}-{1}[0-9]{3}-{1}[0-9]{4}$" 
-                        ErrorMessage="Phone number for witness 2 must be in format '###-###-####'. You can add an extension afterwards."></asp:RegularExpressionValidator>
+                        ErrorMessage="Phone number for witness 2 must be in format '###-###-####'."></asp:RegularExpressionValidator>
                 </td>
             </tr>
             <tr>
@@ -451,12 +470,8 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
             <tr><td>How many employees involved in activity at time of incident?</td></tr>
             <tr><td>
                 <asp:TextBox TabIndex="132" ID="tbx_p1_numEmployeesInvolved" runat="server" MaxLength="10" ></asp:TextBox>
-                <asp:CompareValidator ID="cpvEmployeesInvolved" runat="server" ValidationGroup="vgpCInvestigation" Display="Dynamic"
-                    ControlToValidate="tbx_p1_numEmployeesInvolved" Type="Integer" Operator="DataTypeCheck"
-                    ErrorMessage="The number of employees involved must be number." ></asp:CompareValidator>
-                <asp:RegularExpressionValidator ID="revEmployeesInvolved" runat="server" ValidationGroup="vgpCInvestigation"
-                    ControlToValidate="tbx_p1_numEmployeesInvolved" ValidationExpression="^[^\-]*$"
-                    ErrorMessage="The number of employees involved cannot be negative."></asp:RegularExpressionValidator>
+                <asp:FilteredTextBoxExtender ID="fteEmpInvolved" runat="server" TargetControlID="tbx_p1_numEmployeesInvolved"
+                    ValidChars="0123456789" />
             </td></tr>
         </table>
   
@@ -802,26 +817,33 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
     </div>
 </asp:Panel>
 
-<div id="divPop" visible="false">
-<asp:Panel ID="pnlPop" BackColor="White" Width="400px" Height="100px" CssClass="popPanel" runat="server">
-    <table width="100%" cellpadding="5">
-        <tr>
-            <td>
-                <asp:Label ID="lblPnlPop" runat="server"></asp:Label>
-            </td>
-        </tr>
-        <tr>
-            <td align="right">
-                <asp:Button ID="btnPnlPopClose" runat="server" Text="Close" OnClick="btnPnlPopClose_Click" />
-            </td>
-        </tr>
-    </table>
-</asp:Panel>
-
-<asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
-<asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
-    DropShadow="true" BackgroundCssClass="modalBackground" />
-</div>
+<asp:UpdatePanel ID="UpdatePanel3" runat="server">
+    <ContentTemplate>
+        <asp:Panel ID="pnlPop" BackColor="White" CssClass="popPanel" runat="server">
+            <table width="100%" cellpadding="5">
+                <tr>
+                    <td>
+                        <asp:Label ID="lblPnlPop" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <asp:Button ID="btnPnlPopClose" runat="server" Text="Close" OnClick="btnPnlPopClose_Click" />
+                    </td>
+                </tr>
+            </table>
+        </asp:Panel>
+        <asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
+        <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
+            DropShadow="true" BackgroundCssClass="modalBackground" />
+    </ContentTemplate>
+    <Triggers>
+        <asp:AsyncPostBackTrigger ControlID="btnGetEmployee" EventName="Click" />
+        <asp:AsyncPostBackTrigger ControlID="btnCreateEmployee" EventName="Click" />
+        <asp:AsyncPostBackTrigger ControlID="btnUpdateEmployee" EventName="Click" />
+        <asp:AsyncPostBackTrigger ControlID="btnCreateReport" EventName="Click" />
+    </Triggers>
+</asp:UpdatePanel>
 
 </div>
 

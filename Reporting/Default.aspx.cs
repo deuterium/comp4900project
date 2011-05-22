@@ -7,6 +7,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using BCCAModel;
 using System.Text.RegularExpressions;
+using System.Text;
+using AjaxControlToolkit;
 
 /** TO DO:
  * Make clear all and clear individual form buttons
@@ -46,7 +48,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
     public static List<String> employers = new List<String> {
         "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH"
     };
-    public static String reportErrorMsg = String.Empty;
+    // Set by a called method so the caller can handle the error and display the message.
+    private String reportErrorMsg = String.Empty;
+    // Script to check if an invalid character was typed
+    private static String jsKeyPressHandler = String.Empty;
+
     #endregion class variables
 
     /// <summary>
@@ -61,8 +67,9 @@ public partial class Reporting_Default : System.Web.UI.Page {
         Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
         Session["AfterLoginRedirectUrl"] = null;
-
+        
         if (!IsPostBack) {
+            addCharFilterToAllTextBoxes();
             PopulateEmployersDdl();
             PopulatePositionsDdl();
             PopulateDepartmentsDdl();
@@ -70,6 +77,45 @@ public partial class Reporting_Default : System.Web.UI.Page {
             pnlPop.Style.Value = "display:none;";
         }
     }
+
+    #region Add Char Filter to All TextBox
+    /// <summary>
+    /// Recursively gets every control of the specified root (including root and all it's child controls).
+    /// Returns the controls as an array of Control objects.
+    /// </summary>
+    /// <param name="root">The root control to get child controls for.</param>
+    /// <returns>An array of all the child controls of root.</returns>
+    public static Control[] getAllPageControls(Control root) {
+        List<Control> list = new List<Control>();
+        list.Add(root);
+        if (root.HasControls()) {
+            foreach (Control control in root.Controls) {
+                list.AddRange(getAllPageControls(control));
+            }
+        }
+        return list.ToArray();
+    }
+
+    /// <summary>
+    /// Adds a character filter to all Text Boxes on the page.
+    /// Prevents users from entering the <, >, &, or # characters in Text Boxes.
+    /// These characters trigger the HttpRequestValidationException that prevents script injection.
+    /// Note: the JS behind the filter could be turned off, in which case, the exception will still occur.
+    /// </summary>
+    private void addCharFilterToAllTextBoxes() {
+        Control[] allControls = getAllPageControls(Page);
+        foreach (Control c in allControls) {
+            TextBox tbx = c as TextBox;
+            if (tbx != null) {
+                FilteredTextBoxExtender fte = new FilteredTextBoxExtender();
+                fte.FilterMode = FilterModes.InvalidChars;
+                fte.InvalidChars = "<>&#";
+                fte.TargetControlID = c.ID;
+                tbx.Parent.Controls.Add(fte);
+            }
+        }
+    }
+    #endregion Filter TextBox
 
     #region Page Popup
     /// <summary>
@@ -326,49 +372,19 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="e">The click event properties.</param>
     protected void btnGetEmployee_Click(object sender, EventArgs e) {
         // Check page
-        Page.Validate("vgpGetEmp");
-        Page.Validate("vpgGetEmpFromDb");
+        Page.Validate("vgpEmpName");
         if (!Page.IsValid) {
+            Popup_Overlay("Invalid input, unable to get Employee.", FailColour);
             return;
         }
         // Get Employee
         Employee result = loadEmployee();
         if (result == null) {
-            Popup_Overlay("An error has occured while getting this employee. Please try again.", FailColour);
-        }
-    }
-    
-    /// <summary>
-    /// Checks if the first and last name are found in the database.
-    /// If the first and last name are found, the employee can be fetched and validates true.
-    /// If zero or more than one matching employee is found, validates false.
-    /// </summary>
-    /// <param name="source">The validator control.</param>
-    /// <param name="args">The validate event properties.</param>
-    protected void cmvGetEmpFromDb_ServerValidate(object source, ServerValidateEventArgs args) {
-        args.IsValid = false;
-        String first = tbxFirstName.Text;
-        String last = tbxLastName.Text;
-
-        if (first.Equals(String.Empty) || last.Equals(String.Empty)) {
-            args.IsValid = true;
-            return;
-        }
-
-        var qry = ctx.Employees
-                  .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
-                  .Select(e => e);
-
-        if ((qry != null) && (qry.Count() == 1)) {
-            args.IsValid = true;
-        }
-        else if ((qry != null) && (qry.Count() <= 0)) {
-            cmvGetEmpFromDb.ErrorMessage = "No employee with that first and last name found.";
-            return;
-        }
-        else {
-            cmvGetEmpFromDb.ErrorMessage = "There was more than one employee with that first and last name.";
-            return;
+            if (reportErrorMsg == null) {
+                reportErrorMsg = "An error has occured while getting this employee. Please try again.";
+            }
+            Popup_Overlay(reportErrorMsg, FailColour);
+            reportErrorMsg = null;
         }
     }
 
@@ -387,8 +403,11 @@ public partial class Reporting_Default : System.Web.UI.Page {
                   .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
                   .Select(e => e);
         if (qry == null || qry.Count() == 0) {
-            // Unexpected error
+            reportErrorMsg = "No employee with that first and last name found. Are the first and last names in the right fields?";
             return null;
+        }
+        else if (qry == null || qry.Count() > 1) {
+            reportErrorMsg = "More than one employee with that first and last name found.";
         }
 
         #region Populate Form
@@ -470,32 +489,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
 
     #region Create Employee
     /// <summary>
-    /// Checks if the first and last name are found in the database.
-    /// If the first and last name are found, the employee already exists and 
-    /// a new employee with the same name cannot be created and the validation returns false.
-    /// If zero or more than one matching employee is found, the validation returns true.
-    /// </summary>
-    /// <param name="source">The validator control.</param>
-    /// <param name="args">The validate event properties.</param>
-    protected void cmvCheckEmpExists_ServerValidate(object source, ServerValidateEventArgs args) {
-        args.IsValid = false;
-        String first = tbxFirstName.Text;
-        String last = tbxLastName.Text;
-
-        var qry = ctx.Employees
-                  .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
-                  .Select(e => e);
-
-        // If the employee exists, you can't create an employee
-        if ((qry != null) && (qry.Count() == 1)) {
-            args.IsValid = false;
-            return;
-        }
-
-        args.IsValid = true;
-    }
-
-    /// <summary>
     /// Gets the employee's start and end dates from the form.
     /// If one or both dates are null, validates true (nothing to compare).
     /// If both dates are specified, compares them as dates, and validates 
@@ -532,18 +525,20 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="e">The click event properties.</param>
     protected void btnCreateEmployee_Click(object sender, EventArgs e) {
         // Check page
-        Page.Validate("vgpGetEmp");
-        Page.Validate("vgpCreateEmp");
+        Page.Validate("vgpAllEmpInfo");
         if (!Page.IsValid) {
             return;
         } 
         // Create Employee
         Employee result = createEmployee();
-        if (result != null) {
-            Popup_Overlay("Employee successfully created.", SuccessColour);
-        } else {
-            Popup_Overlay("An error has occured while creating this employee. Please try again.", FailColour);
+        if (result == null) {
+            if (reportErrorMsg == null) {
+                reportErrorMsg = "An error has occured while creating this employee. Please try again.";
+            }
+            Popup_Overlay(reportErrorMsg, FailColour);
+            return;
         }
+        Popup_Overlay("Employee successfully created.", SuccessColour); 
     }
 
     /// <summary>
@@ -558,7 +553,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
                        .Select(et => et).FirstOrDefault();
 
         if (emp != null) {
-            // Unexpected error.
+            reportErrorMsg = "An employee with that first and last name already exists.";
             return null;
         }
 
@@ -655,7 +650,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <returns>Returns the employee on success, null on failure.</returns>
     private Employee updateEmployee() {
         // Check page
-        Page.Validate("vgpCreateEmp");
+        Page.Validate("vgpAllEmpInfo");
         if (!Page.IsValid) {
             return null;
         }
@@ -813,7 +808,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <returns>the newly created Incident report</returns>
     private Incident createReport() {
         // Check page
-        Page.Validate("vgpGetEmp");
+        Page.Validate("vgpEmpName");
         Page.Validate("vpgGetEmpFromDb"); 
         Page.Validate("vgpPanelA");
         Page.Validate("vgpFCorrective");
