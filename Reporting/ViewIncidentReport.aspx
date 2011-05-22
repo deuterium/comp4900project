@@ -6,6 +6,9 @@
 
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="body">
 
+<asp:Label ID="lblUserMsg" runat="server" />
+
+<asp:Panel ID="pnlAllContent" runat="server" >
 <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
 </asp:ToolkitScriptManager>
 
@@ -60,6 +63,8 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </div>
 
 <div id="divReportInfo">
+
+<h3 id="hr3Title"><asp:Label ID="lblTitle" runat="server" Text="Viewing Incident Report #" Font-Bold="true" Visible="false" /></h3>
 
 <h3 id="hr3EmployeeInfo">Employee Information</h3>
 <asp:Panel ID="pnlEmployeeInfo" CssClass="panel" runat="server">
@@ -1013,5 +1018,6 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
     DropShadow="true" BackgroundCssClass="modalBackground" />
 
 </div>
+</asp:Panel>
 
 </asp:Content>

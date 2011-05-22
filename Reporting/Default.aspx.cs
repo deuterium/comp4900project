@@ -725,32 +725,6 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
     }
     #endregion Update Employee
-
-    #region Clear Employee
-    /// <summary>
-    /// Clears the Employee Information form.
-    /// </summary>
-    private void clearEmployeeInfo() {
-        tbxId.Text = String.Empty;
-        tbxFirstName.Text = String.Empty;
-        tbxLastName.Text = String.Empty;
-
-        ddlPositions.SelectedIndex = 0;
-        tbxPosition.Text = String.Empty;
-        ddlEmployers.SelectedIndex = 0;
-        CheckDdlSelection(ddlPositions, tbxPosition);
-        tbxEmployer.Text = String.Empty;
-        CheckDdlSelection(ddlEmployers, tbxEmployer);
-        ddlDepartments.SelectedIndex = 0;
-        tbxDepartment.Text = String.Empty;
-        CheckDdlSelection(ddlDepartments, tbxDepartment);
-
-        tbxSupervisor.Text = String.Empty;
-        tbxRoom.Text = String.Empty;
-        tbxStartDate.Text =
-        tbxEndDate.Text = String.Empty;
-    }
-    #endregion Clear Employee
     #endregion EmployeeInfoRelated
 
     #region Create New Incident Report
@@ -1041,6 +1015,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
                 dateFormat + " " + timeFormat, locale);
         }
         else {
+            reportErrorMsg = "Date/time reported is required.";
             return null;
         }
 
@@ -1054,7 +1029,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
                 dateFormat + " " + timeFormat, locale);
         }
         else {
-            reportErrorMsg = "Date or time of incident is required.";
+            reportErrorMsg = "Date/time of incident is required.";
             return null;
         }
         #endregion Dates
@@ -1142,7 +1117,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
             return tbx.Text;
         }
     }
-    #endregion Create New Incident Report
+
 
     /// <summary>
     /// In Section A - Action Following, if the Medical Aid (GP / Clinic) checkbox is checked,
@@ -1235,7 +1210,7 @@ public partial class Reporting_Default : System.Web.UI.Page {
             args.IsValid = true;
             return;
         }
-        
+
         if (strDateReported.Equals(String.Empty) || strTimeReported.Equals(String.Empty)) {
             args.IsValid = true;
             return;
@@ -1258,7 +1233,9 @@ public partial class Reporting_Default : System.Web.UI.Page {
         }
         args.IsValid = true;
     }
+    #endregion Create New Incident Report
 
+    #region Clear Forms
     /// <summary>
     /// Clears the Employee Information form and the Report Information form.
     /// </summary>
@@ -1266,6 +1243,228 @@ public partial class Reporting_Default : System.Web.UI.Page {
     /// <param name="e">The event properties.</param>
     protected void btnClear_Click(object sender, EventArgs e) {
         clearEmployeeInfo();
+        clearReport();
+    }
+    /// <summary>
+    /// Clears the Employee Information form.
+    /// </summary>
+    private void clearEmployeeInfo() {
+        tbxId.Text = String.Empty;
+        tbxFirstName.Text = String.Empty;
+        tbxLastName.Text = String.Empty;
+
+        ddlPositions.SelectedIndex = 0;
+        tbxPosition.Text = String.Empty;
+        ddlEmployers.SelectedIndex = 0;
+        CheckDdlSelection(ddlPositions, tbxPosition);
+        tbxEmployer.Text = String.Empty;
+        CheckDdlSelection(ddlEmployers, tbxEmployer);
+        ddlDepartments.SelectedIndex = 0;
+        tbxDepartment.Text = String.Empty;
+        CheckDdlSelection(ddlDepartments, tbxDepartment);
+
+        tbxSupervisor.Text = String.Empty;
+        tbxRoom.Text = String.Empty;
+        tbxStartDate.Text =
+        tbxEndDate.Text = String.Empty;
     }
 
+    /// <summary>
+    /// Clears the entire report (panels A through E).
+    /// </summary>
+    private void clearReport() {
+
+        #region A_IncidentInfo
+        tbx_p1_dateOfIncident.Text = String.Empty;
+        tbx_p1_timeOfIncident.Text = String.Empty;
+        tbx_p1_dateReported.Text = String.Empty;
+        tbx_p1_timeReported.Text = String.Empty;
+        tbx_p1_incidentDesc.Text = String.Empty;
+        ddlReportDepts.SelectedIndex = 0;
+        tbx_p1_witnessName1.Text = String.Empty;
+        tbx_p1_witnessPhone1.Text = String.Empty;
+        tbx_p1_witnessName2.Text = String.Empty;
+        tbx_p1_witnessPhone2.Text = String.Empty;
+        cbx_p1_action_report.Checked = false;
+        cbx_p1_action_firstAid.Checked = false;
+        cbx_p1_action_medicalGP.Checked = false;
+        cbx_p1_action_lostTime.Checked = false;
+        cbx_p1_action_medicalER.Checked = false;
+        tbx_p1_action_medicalGP_date.Text = String.Empty;
+        tbx_p1_action_medicalER_date.Text = String.Empty;
+        #endregion A_IncidentInfo
+
+        #region B_NatureOfInjury
+        cbx_p1_nature_no.Checked = false;
+        cbx_p1_nature_musculoskeletal.Checked = false;
+        cbx_p1_nature_bruise.Checked = false;
+        cbx_p1_nature_burn.Checked = false;
+        cbx_p1_nature_cut.Checked = false;
+        cbx_p1_nature_puncture.Checked = false;
+        cbx_p1_nature_skinIrritation.Checked = false;
+        cbx_p1_nature_skinMucous.Checked = false;
+        cbx_p1_nature_eye.Checked = false;
+        cbx_p1_nature_allergic.Checked = false;
+        cbx_p1_nature_psychological.Checked = false;
+        cbx_p1_nature_respiratory.Checked = false;
+        #endregion B_NatureOfInjury
+
+        #region C_AccidentInvestigation
+        cbx_p2_activity_no.Checked = false;
+        cbx_p2_activity_repositioning.Checked = false;
+        cbx_p2_activity_transferring.Checked = false;
+        cbx_p2_activity_assistedWalking.Checked = false;
+        cbx_p2_activity_assistedFloor.Checked = false;
+        cbx_p2_activity_fall.Checked = false;
+        cbx_p2_activity_holding.Checked = false;
+        cbx_p2_activity_toileting.Checked = false;
+                
+        cbx_p2_patient_ceilingLift.Checked = false;
+        cbx_p2_patient_sitStandLift.Checked = false;
+        cbx_p2_patient_floorLift.Checked = false;
+        cbx_p2_patient_manualLift.Checked = false;
+        tbx_p2_patient_otherSpecify.Text = String.Empty;
+        rbl_p2_patient_adequateAssist.SelectedValue = String.Empty;
+        tbx_p1_numEmployeesInvolved.Text = String.Empty;    
+
+        cbx_p2_activity_washing.Checked = false;
+        cbx_p2_activity_dressing.Checked = false;
+        cbx_p2_activity_changing.Checked = false;
+        cbx_p2_activity_feeding.Checked = false;
+        cbx_p2_activity_prep.Checked = false;
+        cbx_p2_activity_dressingChanges.Checked = false;
+        tbx_p2_activity_otherPatientCare.Text = String.Empty;
+            
+        cbx_p2_activity_recapping.Checked = false;
+        cbx_p2_activity_puncture.Checked = false;
+        cbx_p2_activity_sharpsDisposal.Checked = false;
+        cbx_p2_activity_otherSharps.Checked = false;
+              
+        tbx_p2_activity_material.Text = String.Empty;
+        cbx_p2_activity_lift.Checked = false;
+        cbx_p2_activity_push.Checked = false;
+        cbx_p2_activity_carry.Checked = false;
+        tbx_p2_activity_otherMat.Text = String.Empty;
+        cbx_p2_activity_driving.Checked = false;
+        tbx_p2_activity_otherEquip.Text = String.Empty;
+        tbx_p2_activity_otherEquipDesc.Text = String.Empty;
+        cbx_p2_activity_equipMain.Checked = false;
+        cbx_p2_activity_comp.Checked = false;
+        cbx_p2_activity_nonComp.Checked = false;
+           
+        cbx_p2_activity_walking.Checked = false;
+        cbx_p2_activity_bending.Checked = false;
+        cbx_p2_activity_reading.Checked = false;
+        cbx_p2_activity_spill.Checked = false;
+        cbx_p2_activity_cleaning.Checked = false;
+        tbx_p2_activity_other.Text = String.Empty;
+        #endregion C_AccidentInvestigation
+
+        #region D_Cause
+        cbx_p2_cause_human.Checked = false;
+        cbx_p2_cause_animal.Checked = false;
+            
+        cbx_p2_cause_needle.Checked = false;
+        cbx_p2_cause_otherSharps.Checked = false;
+        cbx_p2_cause_skin.Checked = false;
+                    
+        cbx_p2_cause_awkwardPosture.Checked = false;
+        cbx_p2_cause_staticPosture.Checked = false;
+        cbx_p2_cause_contactStress.Checked = false;
+        cbx_p2_cause_force.Checked = false;
+        cbx_p2_cause_rep.Checked = false;
+
+        cbx_p2_cause_motor.Checked = false;
+        cbx_p2_cause_slip.Checked = false;
+        cbx_p2_cause_aggression.Checked = false;
+        cbx_p2_cause_undetermined.Checked = false;
+        cbx_p2_cause_event.Checked = false;
+        cbx_p2_cause_underEquip.Checked = false;
+        cbx_p2_cause_hit.Checked = false;
+        tbx_p2_cause_other.Text = String.Empty;
+                   
+        cbx_p2_cause_aggression_verbal.Checked = false;
+        cbx_p2_cause_aggression_biting.Checked = false;
+        cbx_p2_cause_aggression_hitting.Checked = false;
+        cbx_p2_cause_aggression_squeezing.Checked = false;
+        cbx_p2_cause_aggression_assault.Checked = false;
+        cbx_p2_cause_aggression_patient.Checked = false;
+        cbx_p2_cause_aggression_family.Checked = false;
+        cbx_p2_cause_aggression_public.Checked = false;
+        cbx_p2_cause_aggression_worker.Checked = false;
+        tbx_p2_cause_aggression_other.Text = String.Empty;
+            
+        tbx_p2_cause_exposure_chemName.Text = String.Empty;
+        cbx_p2_cause_chemInhalation.Checked = false;
+        cbx_p2_cause_chemIngest.Checked = false;
+        cbx_p2_cause_chemContact.Checked = false;
+        cbx_p2_cause_latex.Checked = false;
+        cbx_p2_cause_dust.Checked = false;
+        cbx_p2_cause_disease.Checked = false;
+        cbx_p2_cause_temp.Checked = false;
+        cbx_p2_cause_noise.Checked = false;
+        cbx_p2_cause_radiation.Checked = false;
+        cbx_p2_cause_elec.Checked = false;
+        cbx_p2_cause_air.Checked = false;
+        #endregion D_Cause
+
+        #region E_ContributingFactors
+        cbx_p2_factors_malfunction.Checked = false;
+        cbx_p2_factors_improperUse.Checked = false;
+        cbx_p2_factors_signage.Checked = false;
+        cbx_p2_factors_notAvailable.Checked = false;
+        cbx_p2_factors_poorDesign.Checked = false;
+        tbx_p2_factors_otherEquip.Text = String.Empty;
+       
+        cbx_p2_factors_temp.Checked = false;
+        cbx_p2_factors_workplace.Checked = false;
+        cbx_p2_factors_layout.Checked = false;
+        cbx_p2_factors_limitedWorkspace.Checked = false;
+        cbx_p2_factors_slippery.Checked = false;
+        cbx_p2_factors_lighting.Checked = false;
+        cbx_p2_factors_noise.Checked = false;
+        cbx_p2_factors_vent.Checked = false;
+        cbx_p2_factors_storage.Checked = false;
+        tbx_p2_factors_otherEnv.Text = String.Empty;
+                    
+        cbx_p2_factors_assessment.Checked = false;
+        cbx_p2_factors_procedure.Checked = false;
+        cbx_p2_factors_appropriateEquip.Checked = false;
+        cbx_p2_factors_conduct.Checked = false;
+        cbx_p2_factors_extended.Checked = false;
+        cbx_p2_factors_comm.Checked = false;
+        cbx_p2_factors_unaccustomed.Checked = false;
+        tbx_p2_factors_otherWorkPractice.Text = String.Empty;
+
+        cbx_p2_factors_directions.Checked = false;
+        cbx_p2_factors_weight.Checked = false;
+        cbx_p2_factors_aggressive.Checked = false;
+        cbx_p2_factors_patientResistive.Checked = false;
+        cbx_p2_factors_movement.Checked = false;
+        cbx_p2_factors_confused.Checked = false;
+        cbx_p2_factors_influence.Checked = false;
+        cbx_p2_factors_lang.Checked = false;
+        tbx_p2_factors_otherPatient.Text = String.Empty;
+        
+        cbx_p2_factors_alone.Checked = false;
+        cbx_p2_factors_info.Checked = false;
+        cbx_p2_factors_scheduling.Checked = false;
+        cbx_p2_factors_training.Checked = false;
+        cbx_p2_factors_equip.Checked = false;
+        cbx_p2_factors_personal.Checked = false;
+        cbx_p2_factors_safe.Checked = false;
+        cbx_p2_factors_perceived.Checked = false;
+        tbx_p2_factors_otherOrganizational.Text = String.Empty;
+
+        cbx_p2_factors_inexperienced.Checked = false;
+        cbx_p2_factors_communication.Checked = false;
+        cbx_p2_factors_fatigued.Checked = false;
+        cbx_p2_factors_distracted.Checked = false;
+        cbx_p2_factors_preexisting.Checked = false;
+        cbx_p2_factors_sick.Checked = false;
+        tbx_p2_factors_otherWorker.Text = String.Empty;
+        #endregion E_ContributingFactors
+    }
+    
+    #endregion Clear Forms
 }

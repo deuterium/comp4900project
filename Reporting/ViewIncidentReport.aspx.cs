@@ -38,9 +38,10 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
         Session["AfterLoginRedirectUrl"] = null;
-
+        
         // Only do the initial set up the first time the page loads (and not on post-backs).
         if (!IsPostBack) {
+            hideAllPanels();
             pnlPop.Style.Value = "display:none;"; 
             String reqIncidentNo = Request.QueryString["IncidentNo"];
             int incidentNo = -1;
@@ -53,6 +54,41 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
             loadReport(incidentNo);
             disableAllControls();
         }
+    }
+
+    /// <summary>
+    /// Shows a message for the user on the page.
+    /// This is intended to be used for errors.
+    /// If a null message parameter is given, the message is hidden.
+    /// </summary>
+    /// <param name="msg"></param>
+    private void setUserMsg(String msg) {
+        if (msg == null) {
+            lblUserMsg.Visible = false;
+            return;
+        }
+        lblUserMsg.Visible = true;
+        lblUserMsg.Text = msg;
+    }
+
+    /// <summary>
+    /// Hides all the panels on the page.
+    /// Shows the user message.
+    /// </summary>
+    private void hideAllPanels() {
+        pnlAllContent.Visible = false;
+        lblTitle.Visible = false;
+        lblUserMsg.Visible = true;
+    }
+
+    /// <summary>
+    /// Shows all the panels on the page.
+    /// Hides the user message.
+    /// </summary>
+    private void showAllPanels() {
+        pnlAllContent.Visible = true;
+        lblTitle.Visible = true;
+        lblUserMsg.Visible = false;
     }
 
     #region Page Popup
@@ -86,8 +122,8 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// </summary>
     /// <param name="cbx">The CheckBox to disable.</param>
     private void disableCheckBox(CheckBox cbx) {
-        cbx.Enabled = false;
-        //cbx.BackColor = DisabledColor;
+        //cbx.Enabled = false;
+        cbx.Attributes.Add("onclick", "return false;");
     }
     /// <summary>
     /// Disabled the parameter TextBox control.
@@ -440,14 +476,26 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// </summary>
     /// <param name="id">The incidentNo (ID) of the report to load.</param>
     /// <returns></returns>
-    private Incident loadReport(int id) {
+    private void loadReport(int id) {
+        if (id == -1) {
+            setUserMsg("No incident report number given.");
+            return;
+        }
+
         var report = ctx.Incidents
                      .Where(r => r.incidentNo.Equals(id))
                      .Select(r => r).FirstOrDefault();
 
         if (report == null) {
-            Popup_Overlay("Report not found.", SuccessColour);
-            return null;
+            setUserMsg("No incident report with that report number found.");
+            return;
+        }
+
+        if (Session["RoleNo"].Equals(4)) {
+            if (!Session["DeptNo"].Equals(report.deptNo)) {
+                setUserMsg("Only safety officers and administrators can view incident reports from other departments.");
+                return;
+            }
         }
 
         tbxFirstName.Text = report.Employee.fname.ToString();
@@ -708,7 +756,8 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
 
         #endregion H_FixedShiftRotation
 
-        return report;
+        lblTitle.Text = lblTitle.Text + id;
+        showAllPanels();
     }
 
     /// <summary>

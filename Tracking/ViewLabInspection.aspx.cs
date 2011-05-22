@@ -140,7 +140,11 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
         }
 
         if (Session["RoleNo"].Equals(4)) {
-            if (!Session["DeptNo"].Equals(inspection.deptName)) {
+            int inspectionDeptNo = (from d in ctx.Departments
+                                    join i in ctx.LabInspections on d.deptName equals i.deptName
+                                    where i.labInsNo.Equals(selectedLabInsNo)
+                                    select d.deptNo).FirstOrDefault();
+            if (!Session["DeptNo"].Equals(inspectionDeptNo)) {
                 setUserMsg("Only safety officers and administrators can view inspections from other departments.");
                 return;
             }

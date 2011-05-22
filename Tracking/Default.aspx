@@ -106,9 +106,9 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 <asp:Panel ID="pnlAllContent" runat="server" >
 
 <h3 id="hr3Filters"><asp:Image ID="imgExpandCollapseFilters" runat="server" /> Incident Form Filters <asp:Label ID="lblExpandCollapseFilters" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlFilters" CssClass="parentPanel" runat="server">
+<asp:Panel ID="pnlFilters" CssClass="wideParentPanel" runat="server">
 <h3 id="hr3A"><asp:Image ID="imgExpandCollapseA" runat="server" /> A. Incident/Accident Information <asp:Label ID="ExpandCollapseA" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlA" CssClass="childPanel" runat="server" >
+<asp:Panel ID="pnlA" CssClass="wideChildPanel" runat="server" >
     <div id="divABottomPanel">
         <h4>Action Following Incident:</h4>
         <table>
@@ -154,7 +154,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:Panel>
 
 <h3 id="hr3B"><asp:Image ID="imgExpandCollapseB" runat="server" /> B. Nature of Injury <asp:Label ID="ExpandCollapseB" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlB" CssClass="childPanel" runat="server">
+<asp:Panel ID="pnlB" CssClass="wideChildPanel" runat="server">
     <h4>Nature of Injury</h4>
     <div id="divBLeftPanel">
         <table>
@@ -179,7 +179,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:Panel>
 
 <h3 id="hr3C"><asp:Image ID="imgExpandCollapseC" runat="server" /> C. Accident Investigation <asp:Label ID="ExpandCollapseC" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlC" CssClass="childPanel" runat="server">
+<asp:Panel ID="pnlC" CssClass="wideChildPanel" runat="server">
     <div id="divCLeftPanel">
         <table>
             <tr><td><asp:CheckBox TabIndex="125" ID="cbx_p2_activity_no" Text="No Injury" runat="server" /></td></tr>
@@ -333,7 +333,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:Panel>
 
 <h3 id="hr3D"><asp:Image ID="imgExpandCollapseD" runat="server" /> D. Cause <asp:Label ID="ExpandCollapseD" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlD" CssClass="childPanel" runat="server">
+<asp:Panel ID="pnlD" CssClass="wideChildPanel" runat="server">
     <div id="divDLeftPanel">
         <h4>Bite</h4>
         <table>
@@ -430,7 +430,7 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:Panel>
 
 <h3 id="hr3E"><asp:Image ID="imgExpandCollapseE" runat="server"/> E. Contributing Factors <asp:Label ID="ExpandCollapseE" runat="server" Text=""></asp:Label></h3>
-<asp:Panel ID="pnlE" CssClass="childPanel" runat="server">
+<asp:Panel ID="pnlE" CssClass="wideChildPanel" runat="server">
     <div id="divELeftPanel" >
         <h4>Equipment / Device</h4>
         <table>

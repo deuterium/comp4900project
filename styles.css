@@ -610,6 +610,30 @@ h3
     border: 1px solid #dbeff5;
 }
 
+.wideParentPanel /* for tracking page */
+{
+    display: inline;
+    float: left;
+    padding: 0px;
+    width: 805px;
+    margin: 0;
+    background: #e8f7fb;
+    border: 1px solid #dbeff5;
+}
+
+
+.wideChildPanel /* for tracking page */
+{
+    display: inline;
+    float: left;
+    padding-left: 0px;
+    padding-right: 0px;
+    width: 800px;
+    margin: 0;
+    background: #e8f7fb;
+    border: 1px solid #dbeff5;
+}
+
 .childPanel
 {
     display: inline;

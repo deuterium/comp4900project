@@ -3,18 +3,6 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="head">
-
-<script type="text/javascript">
-    function checkChar(event) {
-        var code = event.keyCode;
-        // code is the ascii number of the key.
-        alert("You typed " + code);
-        if (event.keyCode == 38 || event.keyCode == 60 || event.keyCode == 62) {
-            
-        }
-    }
-</script>
-
 </asp:Content>
 
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="body">
@@ -117,7 +105,6 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:UpdatePanel ID="uplPosition" runat="server">
                         <ContentTemplate>
                             <asp:TextBox TabIndex="103" ID="tbxPosition" runat="server" Visible="false" MaxLength="50" ></asp:TextBox>
-                            <asp:FilteredTextBoxExtender ID="ftePosition" runat="server" TargetControlID="tbxPosition" InvalidChars="&#<>" />
                         </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="ddlPositions" EventName="SelectedIndexChanged" />
@@ -132,7 +119,6 @@ CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
                     <asp:UpdatePanel ID="uplEmployer" runat="server">
                         <ContentTemplate>
                             <asp:TextBox TabIndex="105" ID="tbxEmployer" runat="server" Visible="false" MaxLength="10" ></asp:TextBox>
-
                         </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="ddlEmployers" EventName="SelectedIndexChanged" />

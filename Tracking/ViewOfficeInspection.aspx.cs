@@ -137,7 +137,11 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
         }
 
         if (Session["RoleNo"].Equals(4)) {
-            if (!Session["DeptNo"].Equals(inspection.deptName)) {
+            int inspectionDeptNo = (from d in ctx.Departments
+                                    join i in ctx.OfficeInspections on d.deptName equals i.deptName
+                                    where i.officeInsNo.Equals(selectedOfficeInsNo)
+                                    select d.deptNo).FirstOrDefault();
+            if (!Session["DeptNo"].Equals(inspectionDeptNo)) {
                 setUserMsg("Only safety officers and administrators can view inspections from other departments.");
                 return;
             }
@@ -301,6 +305,8 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
                 row.ForeColor = HeaderForeColor;
             }
         }
+
+        showAllPanels();
     }
 
     /// <summary>
