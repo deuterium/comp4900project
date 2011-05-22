@@ -67,6 +67,7 @@ public partial class Training_Default : System.Web.UI.Page {
             tsmScriptManager.SetFocus(tbxLastName.ClientID);
             pnlCrsDetails.Visible = false;
             pnlNewCourse.Visible = false;
+            pnlExpiredCourseDetails.Visible = false;
         }
     }
 
@@ -720,17 +721,27 @@ public partial class Training_Default : System.Web.UI.Page {
 
         grvValidCourses.DataSource = q;
         Session["query"] = q;
-        BindData();
+        BindValidData();
         btnAddCrs.Visible = true;
     }
 
     /// <summary>
+    /// Sets the datasource grvValidCourses to a session named query
     /// Binds the grvValidCourses
     /// </summary>
-    private void BindData()
+    private void BindValidData()
     {
         grvValidCourses.DataSource = Session["query"];
         grvValidCourses.DataBind();
+    }
+    /// <summary>
+    /// Sets the datasource grvExpiredCourses to a session named expired
+    /// Binds grvExpiredCourses gridview
+    /// </summary>
+    private void BindExpiredData()
+    {
+        grvExpiredCourses.DataSource = Session["expired"];
+        grvExpiredCourses.DataBind();
     }
 
     /// <summary>
@@ -771,11 +782,13 @@ public partial class Training_Default : System.Web.UI.Page {
                                          coursename = temp1.TC.trainingName,
                                          startdate = temp1.temp0.TT.startDate,
                                          enddate = temp1.temp0.TT.endDate,
+                                         ttNo = temp1.temp0.TT.trainingTakenNo,
                                      }
                                );
 
         grvExpiredCourses.DataSource = q;
-        grvExpiredCourses.DataBind();
+        Session["expired"] = q;
+        BindExpiredData();
     }
 
     /// <summary>
@@ -786,7 +799,7 @@ public partial class Training_Default : System.Web.UI.Page {
     protected void grvValidCourses_RowEditing(object sender, GridViewEditEventArgs e)
     {
         grvValidCourses.EditIndex = e.NewEditIndex;
-        BindData();
+        BindValidData();
     }
 
     /// <summary>
@@ -849,15 +862,14 @@ public partial class Training_Default : System.Web.UI.Page {
             grvValidCourses.EditIndex = -1;
             e.Cancel = true;
             Popup_Overlay("Update successful.", SuccessColour);
-            BindData();
+            BindValidData();
+            BindExpiredData();
         }
         catch (Exception ex)
         {
             Popup_Overlay("An error has occured while updating this training. Please try again." + ex.StackTrace.ToString(), FailColour);
             return;
         }
-
-
     }
 
     /// <summary>
@@ -868,7 +880,7 @@ public partial class Training_Default : System.Web.UI.Page {
     protected void grvValidCourses_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
     {
         grvValidCourses.EditIndex = -1;
-        BindData();
+        BindValidData();
     }
 
     /// <summary>
@@ -877,6 +889,99 @@ public partial class Training_Default : System.Web.UI.Page {
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void grvValidCourses_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        DisplayValidCourseDetails();
+    }
+
+    /// <summary>
+    /// Triggered when edit is clicked on grvExpiredCourses
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void grvExpiredCourses_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+        grvExpiredCourses.EditIndex = e.NewEditIndex;
+        BindExpiredData();
+    }
+
+    protected void grvExpiredCourses_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+        var q = Session["expired"];
+
+        GridViewRow row = grvExpiredCourses.Rows[e.RowIndex];
+
+        int empNo = Convert.ToInt32(tbxId.Text);
+        int ttNo = Convert.ToInt32(grvExpiredCourses.Rows[e.RowIndex].Cells[3].Text);
+
+        TrainingTaken training = ctx.TrainingTakens
+                       .Where(tt => tt.trainingTakenNo == ttNo)
+                       .Select(tt => tt).FirstOrDefault();
+
+        if (e.NewValues["startdate"] != null)
+        {
+            if (!(e.NewValues["startdate"].Equals(String.Empty)))
+            {
+                String strStart = e.NewValues["startdate"].ToString();
+                try
+                {
+                    training.startDate = DateTime.ParseExact(strStart, dateFormat, locale);
+                }
+                catch (Exception ex)
+                {
+                    Popup_Overlay("Unsupported date format." , FailColour);
+                    return;
+                }
+            }
+
+        }
+        if (e.NewValues["enddate"] != null)
+        {
+            if (!(e.NewValues["enddate"].Equals(String.Empty)))
+            {
+                String strEnd = e.NewValues["enddate"].ToString();
+                try
+                {
+                    training.endDate = DateTime.ParseExact(strEnd, dateFormat, locale);
+                }
+                catch (Exception ex)
+                {
+                    Popup_Overlay(ex.Message, FailColour);
+                    return;
+                }
+            }
+        }
+
+        try
+        {
+            //ctx.DetectChanges();
+            ctx.SaveChanges();
+            grvExpiredCourses.EditIndex = -1;
+            e.Cancel = true;
+            Popup_Overlay("Update successful.", SuccessColour);
+            BindExpiredData();
+            BindValidData();
+        }
+        catch (Exception ex)
+        {
+            Popup_Overlay("An error has occured while updating this training. Please try again." + ex.StackTrace.ToString(), FailColour);
+            return;
+        }
+    }
+    protected void grvExpiredCourses_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+        grvExpiredCourses.EditIndex = -1;
+        BindExpiredData();
+    }
+    protected void grvExpiredCourses_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        DisplayExpiredCourseDetails();
+    }
+
+    /// <summary>
+    /// Called by SelectedIndexChanged methods.
+    /// Used to display individual course details
+    /// </summary>
+    private void DisplayValidCourseDetails()
     {
         pnlNewCourse.Visible = false;
         disableDetails();
@@ -892,32 +997,19 @@ public partial class Training_Default : System.Web.UI.Page {
             .Where(c => c.trainingNo == training.trainingNo)
             .Select(c => c).FirstOrDefault();
 
-        pnlCrsDetails.Visible = true;
-        lblCourseDate.Visible = true;
-        tbxCourseDate.Visible = true;
-        if (training.courseDate != null)
-        {
-            tbxCourseDate.Text = Convert.ToDateTime(training.courseDate).ToString(dateFormat, locale);
-        }
-        else
-        {
-            tbxCourseDate.Text = "";
-        }
-
         if (course.trainingName.Equals("Biosafety Training") || course.trainingName.Equals("Chem Safety Training")
             || course.trainingName.Equals("Cyto. Safety Training"))
-        {         
-            lblresp1.Visible = true;
-            lblRespType.Visible = true;
-            
+        {
+            pnlCrsDetails.Visible = true;
+            pnlGeneralCourseInfo.Visible = true;
+            pnlLabTrainingInfo.Visible = true;
+
             if (course.trainingName.Equals("Biosafety Training"))
             {
-                tbxBSCDate.Visible = true;
-                lblBSCDate.Visible = true;
+                pnlBiosafetyInfo.Visible = true;
                 tbxBSCDate.Text = Convert.ToDateTime(training.biosafety_BSCSeminar).ToString(dateFormat, locale);
             }
-            rblSigned.Visible = true;
-            lblSOPSigned.Visible = true;
+            
             rblSigned.ClearSelection();
             if (training.SOPsigned != null)
             {
@@ -930,8 +1022,7 @@ public partial class Training_Default : System.Web.UI.Page {
                     rblSigned.SelectedValue = "No";
                 }
             }
-            lblEval.Visible = true;
-            rblEvaluation.Visible = true;
+
             rblEvaluation.ClearSelection();
             if (training.evaluation != null)
             {
@@ -944,8 +1035,7 @@ public partial class Training_Default : System.Web.UI.Page {
                     rblEvaluation.SelectedValue = "Fail";
                 }
             }
-            lblRespFit.Visible = true;
-            tbxDateFit.Visible = true;
+
             if (training.respiratorDate != null)
             {
                 tbxDateFit.Text = Convert.ToDateTime(training.respiratorDate).ToString(dateFormat, locale);
@@ -953,31 +1043,25 @@ public partial class Training_Default : System.Web.UI.Page {
 
             if (!(course.trainingName.Equals("Cyto. Safety Training")))
             {
-                lblSpillDate.Visible = true;
-                tbxSpillDate.Visible = true;
+                lblSpillDate.Visible = false;
+                tbxSpillDate.Visible = false;
                 if (training.spillCleanupPracticalDate != null)
                 {
                     tbxSpillDate.Text = Convert.ToDateTime(training.spillCleanupPracticalDate).ToString(dateFormat, locale);
                 }
             }
-            lblRespFit.Visible = true;
-            tbxRespType.Visible = true;
+
             tbxRespType.Text = training.respiratorType;
-            lblRespModel.Visible = true;
-            tbxRespModel.Visible = true;
             tbxRespModel.Text = training.respiratorModel;
-            lblRespComment.Visible = true;
-            tbxRespComment.Visible = true;
             tbxRespComment.Text = training.respiratorComments;
-            lblCert.Visible = true;
-            tbxCert.Visible = true;
             tbxCert.Text = training.certificateNum;
         }
         else if (course.trainingName.Equals("Radiation Safety Training"))
         {
             pnlCrsDetails.Visible = true;
-            rblSigned.Visible = true;
-            lblSOPSigned.Visible = true;
+            pnlRadiationTrainingInfo.Visible = true;
+            pnlGeneralCourseInfo.Visible = true;
+
             rblSigned.ClearSelection();
             if (training.SOPsigned != null)
             {
@@ -990,8 +1074,7 @@ public partial class Training_Default : System.Web.UI.Page {
                     rblSigned.SelectedValue = "No";
                 }
             }
-            lblEval.Visible = true;
-            rblEvaluation.Visible = true;
+
             rblEvaluation.ClearSelection();
             if (training.evaluation != null)
             {
@@ -1004,13 +1087,7 @@ public partial class Training_Default : System.Web.UI.Page {
                     rblEvaluation.SelectedValue = "Fail";
                 }
             }
-            lblCert.Visible = true;
-            tbxCert.Visible = true;
             tbxCert.Text = training.certificateNum;
-            lblDosIssued.Visible = true;
-            lblDosSubmitted.Visible = true;
-            lblRingIssued.Visible = true;
-            rblDosIssued.Visible = true;
             rblDosIssued.ClearSelection();
             if (training.radiation_dosimeterIssued != null)
             {
@@ -1035,7 +1112,7 @@ public partial class Training_Default : System.Web.UI.Page {
                     rblDosSubmitted.SelectedValue = "No";
                 }
             }
-            rblDosSubmitted.Visible = true;
+
             rblRingIssued.ClearSelection();
             if (training.radiation_ringIssued != null)
             {
@@ -1048,14 +1125,13 @@ public partial class Training_Default : System.Web.UI.Page {
                     rblRingIssued.SelectedValue = "No";
                 }
             }
-            rblRingIssued.Visible = true;
         }
         else if (course.trainingName.Equals("ARC Safety Training"))
         {
             pnlCrsDetails.Visible = true;
-            
-            rblEvaluation.Visible = true;
+            pnlGeneralCourseInfo.Visible = true;
             rblEvaluation.ClearSelection();
+
             if (training.evaluation != null)
             {
                 if (training.evaluation.ToString().Equals("1"))
@@ -1067,16 +1143,14 @@ public partial class Training_Default : System.Web.UI.Page {
                     rblEvaluation.SelectedValue = "Fail";
                 }
             }
-            
-            lblCert.Visible = true;
-            tbxCert.Visible = true;
+
             tbxCert.Text = training.certificateNum;
         }
         else if (course.trainingName.Equals("X Ray Machine Training"))
         {
             pnlCrsDetails.Visible = true;
-            rblSigned.Visible = true;
-            lblSOPSigned.Visible = true;
+            pnlGeneralCourseInfo.Visible = true;
+
             rblSigned.ClearSelection();
             if (training.SOPsigned != null)
             {
@@ -1087,6 +1161,198 @@ public partial class Training_Default : System.Web.UI.Page {
                 else
                 {
                     rblSigned.SelectedValue = "No";
+                }
+            }
+        }
+        else
+        {
+        }
+    }
+
+    private void DisplayExpiredCourseDetails() 
+    {
+        pnlNewCourse.Visible = false;
+        pnlBiosafetyInfoExp.Visible = false;
+        pnlGeneralCourseInfoExp.Visible = false;
+        pnlLabTrainingInfoExp.Visible = false;
+        pnlRadiationTrainingInfoExp.Visible = false;
+
+        GridViewRow row = grvExpiredCourses.SelectedRow;
+        //String name = Convert.ToString(row.Cells[1].Text);
+        int ttNo = Convert.ToInt32(row.Cells[3].Text);
+
+        TrainingTaken training = ctx.TrainingTakens
+                       .Where(tt => tt.trainingTakenNo == ttNo)
+                       .Select(tt => tt).FirstOrDefault();
+
+        TrainingCours course = ctx.TrainingCourses
+            .Where(c => c.trainingNo == training.trainingNo)
+            .Select(c => c).FirstOrDefault();
+
+        if (course.trainingName.Equals("Biosafety Training") || course.trainingName.Equals("Chem Safety Training")
+            || course.trainingName.Equals("Cyto. Safety Training"))
+        {
+            pnlExpiredCourseDetails.Visible = true;
+            pnlGeneralCourseInfoExp.Visible = true;
+            pnlLabTrainingInfoExp.Visible = true;
+
+            if (course.trainingName.Equals("Biosafety Training"))
+            {
+                pnlBiosafetyInfoExp.Visible = true;
+                tbxBSCDateExp.Text = Convert.ToDateTime(training.biosafety_BSCSeminar).ToString(dateFormat, locale);
+            }
+
+            rblSignedExp.ClearSelection();
+            if (training.SOPsigned != null)
+            {
+                if (training.SOPsigned.ToString().Equals("1"))
+                {
+                    rblSignedExp.SelectedValue = "Yes";
+                }
+                else
+                {
+                    rblSignedExp.SelectedValue = "No";
+                }
+            }
+
+            rblEvaluationExp.ClearSelection();
+            if (training.evaluation != null)
+            {
+                if (training.evaluation.ToString().Equals("1"))
+                {
+                    rblEvaluationExp.SelectedValue = "Pass";
+                }
+                else
+                {
+                    rblEvaluationExp.SelectedValue = "Fail";
+                }
+            }
+
+            if (training.respiratorDate != null)
+            {
+                tbxDateFitExp.Text = Convert.ToDateTime(training.respiratorDate).ToString(dateFormat, locale);
+            }
+
+            if (!(course.trainingName.Equals("Cyto. Safety Training")))
+            {
+                lblSpillDate0.Visible = false;
+                tbxSpillDateExp.Visible = false;
+                if (training.spillCleanupPracticalDate != null)
+                {
+                    tbxSpillDateExp.Text = Convert.ToDateTime(training.spillCleanupPracticalDate).ToString(dateFormat, locale);
+                }
+            }
+
+            tbxRespTypeExp.Text = training.respiratorType;
+            tbxRespModelExp.Text = training.respiratorModel;
+            tbxRespCommentExp.Text = training.respiratorComments;
+            tbxCertExp.Text = training.certificateNum;
+        }
+        else if (course.trainingName.Equals("Radiation Safety Training"))
+        {
+            pnlExpiredCourseDetails.Visible = true;
+            pnlRadiationTrainingInfoExp.Visible = true;
+            pnlGeneralCourseInfoExp.Visible = true;
+
+            rblSignedExp.ClearSelection();
+            if (training.SOPsigned != null)
+            {
+                if (training.SOPsigned.ToString().Equals("1"))
+                {
+                    rblSignedExp.SelectedValue = "Yes";
+                }
+                else
+                {
+                    rblSignedExp.SelectedValue = "No";
+                }
+            }
+
+            rblEvaluationExp.ClearSelection();
+            if (training.evaluation != null)
+            {
+                if (training.evaluation.ToString().Equals("1"))
+                {
+                    rblEvaluationExp.SelectedValue = "Pass";
+                }
+                else
+                {
+                    rblEvaluationExp.SelectedValue = "Fail";
+                }
+            }
+            tbxCertExp.Text = training.certificateNum;
+            rblDosIssuedExp.ClearSelection();
+            if (training.radiation_dosimeterIssued != null)
+            {
+                if (Convert.ToString(training.radiation_dosimeterIssued).Equals("1"))
+                {
+                    rblDosIssuedExp.SelectedValue = "Yes";
+                }
+                else
+                {
+                    rblDosIssuedExp.SelectedValue = "No";
+                }
+            }
+            rblDosSubmittedExp.ClearSelection();
+            if (training.radiation_dosimeterSubmitted != null)
+            {
+                if (Convert.ToString(training.radiation_dosimeterSubmitted).Equals("1"))
+                {
+                    rblDosSubmittedExp.SelectedValue = "Yes";
+                }
+                else
+                {
+                    rblDosSubmittedExp.SelectedValue = "No";
+                }
+            }
+
+            rblRingIssuedExp.ClearSelection();
+            if (training.radiation_ringIssued != null)
+            {
+                if (Convert.ToString(training.radiation_ringIssued).Equals("1"))
+                {
+                    rblRingIssuedExp.SelectedValue = "Yes";
+                }
+                else
+                {
+                    rblRingIssuedExp.SelectedValue = "No";
+                }
+            }
+        }
+        else if (course.trainingName.Equals("ARC Safety Training"))
+        {
+            pnlExpiredCourseDetails.Visible = true;
+            pnlGeneralCourseInfoExp.Visible = true;
+            rblEvaluationExp.ClearSelection();
+
+            if (training.evaluation != null)
+            {
+                if (training.evaluation.ToString().Equals("1"))
+                {
+                    rblEvaluationExp.SelectedValue = "Pass";
+                }
+                else
+                {
+                    rblEvaluationExp.SelectedValue = "Fail";
+                }
+            }
+
+            tbxCertExp.Text = training.certificateNum;
+        }
+        else if (course.trainingName.Equals("X Ray Machine Training"))
+        {
+            pnlExpiredCourseDetails.Visible = true;
+            pnlGeneralCourseInfoExp.Visible = true;
+
+            rblSignedExp.ClearSelection();
+            if (training.SOPsigned != null)
+            {
+                if (training.SOPsigned.ToString().Equals("1"))
+                {
+                    rblSignedExp.SelectedValue = "Yes";
+                }
+                else
+                {
+                    rblSignedExp.SelectedValue = "No";
                 }
             }
         }
@@ -1147,32 +1413,11 @@ public partial class Training_Default : System.Web.UI.Page {
 
     protected void disableDetails()
     {
-        tbxBSCDate.Visible = false;
-        lblBSCDate.Visible = false;
-        lblDosIssued.Visible = false;
-        lblDosSubmitted.Visible = false;
-        lblRingIssued.Visible = false;
-        rblDosIssued.Visible = false;
-        rblDosSubmitted.Visible = false;
-        rblRingIssued.Visible = false;
-        lblSOPSigned.Visible = false;
-        rblSigned.Visible = false;
-        lblEval.Visible = false;
-        rblEvaluation.Visible = false;
-        lblRespFit.Visible = false;
-        tbxDateFit.Visible = false;
-        lblSpillDate.Visible = false;
-        tbxSpillDate.Visible = false;
-        lblresp1.Visible = false;
-        lblRespType.Visible = false;
-        lblRespComment.Visible = false;
-        tbxRespComment.Visible = false;
-        lblRespFit.Visible = false;
-        tbxRespType.Visible = false;
-        lblRespModel.Visible = false;
-        tbxRespModel.Visible = false;
-        lblCert.Visible = false;
-        tbxCert.Visible = false;
+        pnlCrsDetails.Visible = false;
+        pnlBiosafetyInfo.Visible = false;
+        pnlGeneralCourseInfo.Visible = false;
+        pnlLabTrainingInfo.Visible = false;
+        pnlRadiationTrainingInfo.Visible = false;
     }
 
     
@@ -1213,11 +1458,11 @@ public partial class Training_Default : System.Web.UI.Page {
             DateTime newStartDate = DateTime.MinValue;
             DateTime newEndDate = DateTime.MinValue;
 
-            if (tbxNewCrsStart.Text.Equals(String.Empty)) 
+            if (!(tbxNewCrsStart.Text.Equals(String.Empty)))
             {
                 newStartDate = DateTime.ParseExact(tbxNewCrsStart.Text, dateFormat, locale);
             }
-            if (tbxNewCrsEnd.Text.Equals(string.Empty))
+            if (!(tbxNewCrsEnd.Text.Equals(string.Empty)))
             {
                 newEndDate = DateTime.ParseExact(tbxNewCrsEnd.Text, dateFormat, locale);
             }
@@ -1231,7 +1476,7 @@ public partial class Training_Default : System.Web.UI.Page {
             };
             ctx.AddToTrainingTakens(tt);
             ctx.SaveChanges();
-            BindData();
+            BindValidData();
             tbxNewCrsEnd.Text = "";
             tbxNewCrsStart.Text = "";
             ddlNewCrs.SelectedIndex = 0;
@@ -1275,12 +1520,6 @@ public partial class Training_Default : System.Web.UI.Page {
 
         try
         {
-            if (!(tbxCourseDate.Text.Equals(String.Empty)))
-            {
-                DateTime crsDate = DateTime.ParseExact(tbxCourseDate.Text, dateFormat, locale);
-                //DateTime crsDate = Convert.ToDateTime(Convert.ToDateTime(tbxCourseDate.Text, enUS));
-                training.courseDate = crsDate;
-            }
 
             training.evaluation = (rblEvaluation.SelectedValue.Equals("Pass")) ? "1" : "0";
             training.certificateNum = tbxCert.Text;
@@ -1335,4 +1574,5 @@ public partial class Training_Default : System.Web.UI.Page {
         }
     }
     #endregion
+
 }
