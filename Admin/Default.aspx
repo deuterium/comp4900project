@@ -218,14 +218,21 @@
                     <table>
                         <tr>
                             <td>
-                                Selection Mode:
+                                Choose what you want to do:
                             </td>
                             <td>
-                                <asp:RadioButtonList ID="rblCourseMode" runat="server" OnSelectedIndexChanged="rblCourseMode_SelectedIndexChanged"
-                                    AutoPostBack="true" RepeatDirection="Horizontal">
-                                    <asp:ListItem Text="Create" Value="Create" Selected="True" />
-                                    <asp:ListItem Text="Edit" Value="Edit" />
-                                </asp:RadioButtonList>
+                                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                    <ContentTemplate>
+                                        <asp:RadioButtonList ID="rblCourseMode" runat="server" OnSelectedIndexChanged="rblCourseMode_SelectedIndexChanged"
+                                            AutoPostBack="true" RepeatDirection="Horizontal">
+                                            <asp:ListItem Text="Create" Value="Create" Selected="True" />
+                                            <asp:ListItem Text="Edit" Value="Edit" />
+                                        </asp:RadioButtonList>
+                                    </ContentTemplate>
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="lbxAllCourses" EventName="SelectedIndexChanged" />
+                                    </Triggers>
+                                </asp:UpdatePanel>
                             </td>
                         </tr>
                     </table>
@@ -234,41 +241,71 @@
                     <span class="spanBold">Courses in System:</span>
                     <br />
                     <br />
-                    <asp:ListBox ID="lbxAllCourses" runat="server" Width="250" Height="300" OnLoad="lbxAllCourses_Load"
-                        OnSelectedIndexChanged="lbxAllCourses_SelectedIndexChanged" AutoPostBack="true" />
+                    <asp:UpdatePanel ID="uplAllCourses" runat="server">
+                        <ContentTemplate>
+                            <asp:ListBox ID="lbxAllCourses" runat="server" Width="250" Height="300" OnLoad="lbxAllCourses_Load"
+                                OnSelectedIndexChanged="lbxAllCourses_SelectedIndexChanged" AutoPostBack="true" />
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="btnSubmitCourse" EventName="Click" />
+                            <asp:AsyncPostBackTrigger ControlID="btnDeleteCourse" EventName="Click" />
+                        </Triggers>
+                    </asp:UpdatePanel>
                 </div>
                 <div id="divManageCoursesRight">
                     <table>
+                        <tr><td><span class="spanBold">Course Name:</span></td></tr>
                         <tr>
                             <td>
-                                <span class="spanBold">Course Name:</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <asp:TextBox ID="tbxCourseName" runat="server" MaxLength="255" Width="200"></asp:TextBox>
+                                <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                                    <ContentTemplate>
+                                        <asp:TextBox ID="tbxCourseName" runat="server" MaxLength="255" Width="200"></asp:TextBox>
+                                    </ContentTemplate>
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="rblCourseMode" EventName="SelectedIndexChanged" />
+                                        <asp:AsyncPostBackTrigger ControlID="lbxAllCourses" EventName="SelectedIndexChanged" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnCancelCourse" EventName="Click" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnDeleteCourse" EventName="Click" />
+                                    </Triggers>
+                                </asp:UpdatePanel>
                                 <asp:RequiredFieldValidator ID="rfvCourseName" runat="server"  ValidationGroup="vgpCourses"
                                     ControlToValidate="tbxCourseName" ErrorMessage="Course name is required."></asp:RequiredFieldValidator>
                             </td>
                         </tr>
+                        <tr><td><span class="spanBold">Months Valid:</span></td></tr>
                         <tr>
                             <td>
-                                <span class="spanBold">Months Valid:</span>
+                                <asp:UpdatePanel ID="uplNeverExpires" runat="server">
+                                    <ContentTemplate>
+                                        <asp:CheckBox ID="cbxNeverExpires" runat="server" Text="Never expires" AutoPostBack="true"
+                                            OnCheckedChanged="cbxNeverExpires_CheckChanged" />
+                                    </ContentTemplate>
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="rblCourseMode" EventName="SelectedIndexChanged" />
+                                        <asp:AsyncPostBackTrigger ControlID="lbxAllCourses" EventName="SelectedIndexChanged" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnCancelCourse" EventName="Click" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnDeleteCourse" EventName="Click" />
+                                    </Triggers>
+                                </asp:UpdatePanel>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <asp:CheckBox ID="cbxNeverExpires" runat="server" Text="Never expires" AutoPostBack="true"
-                                    OnCheckedChanged="cbxNeverExpires_CheckChanged" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <asp:TextBox ID="tbxMonthsValid" runat="server" Text="1" MaxLength="3"></asp:TextBox>
-                                <asp:FilteredTextBoxExtender ID="fteMonthsValid" runat="server" TargetControlID="tbxMonthsValid"
-                                    ValidChars="0123456789" />
-                                <asp:NumericUpDownExtender ID="nexMonthsValid" runat="server" TargetControlID="tbxMonthsValid"
-                                    Width="100" Maximum="999" Minimum="1" />
+                                <asp:UpdatePanel ID="uplMonthsValid" runat="server">
+                                    <ContentTemplate>
+                                        <asp:TextBox ID="tbxMonthsValid" runat="server" Text="1" MaxLength="3"></asp:TextBox>
+                                        <asp:FilteredTextBoxExtender ID="fteMonthsValid" runat="server" TargetControlID="tbxMonthsValid"
+                                            ValidChars="0123456789" />
+                                        <asp:NumericUpDownExtender ID="nexMonthsValid" runat="server" TargetControlID="tbxMonthsValid"
+                                            Width="100" Maximum="999" Minimum="1" />
+                                    </ContentTemplate>
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="rblCourseMode" EventName="SelectedIndexChanged" />
+                                        <asp:AsyncPostBackTrigger ControlID="lbxAllCourses" EventName="SelectedIndexChanged" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnCancelCourse" EventName="Click" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnDeleteCourse" EventName="Click" />
+                                    </Triggers>
+                                </asp:UpdatePanel>
                             </td>
                         </tr>
                         <tr>
@@ -279,16 +316,22 @@
                         </tr>
                         <tr>
                             <td>
-                                <asp:Button ID="btnSubmitCourse" runat="server" Text="Add" 
-                                    ValidationGroup="vgpCourses" onclick="btnSubmitCourse_Click" />
-                                <!-- toggle -->
-                                <asp:Button ID="btnDeleteCourse" OnClick="btnDeleteCourse_Click" runat="server" Text="Delete" Visible="false" />
-                                <asp:ConfirmButtonExtender ID="btnDeleteCourse_ConfirmButtonExtender" 
-                                    runat="server" ConfirmText="Are you sure you want to permanently delete this course?" Enabled="True" TargetControlID="btnDeleteCourse" ConfirmOnFormSubmit="false">
-                                </asp:ConfirmButtonExtender>
-                                <!-- confirm -->
-                                <asp:Button ID="btnCancelCourse" runat="server" Text="Cancel" OnClick="btnCancelCourse_Click" />
-                                <!-- clear form -->
+                                <asp:UpdatePanel ID="uplButtons" runat="server">
+                                    <ContentTemplate>
+                                        <asp:Button ID="btnSubmitCourse" runat="server" Text="Add" 
+                                            ValidationGroup="vgpCourses" onclick="btnSubmitCourse_Click" />
+                                        <asp:Button ID="btnDeleteCourse" OnClick="btnDeleteCourse_Click" runat="server" Text="Delete"
+                                            Visible="false" />
+                                        <asp:ConfirmButtonExtender ID="btnDeleteCourse_ConfirmButtonExtender" 
+                                            runat="server" ConfirmText="Are you sure you want to permanently delete this course?"
+                                            Enabled="True" TargetControlID="btnDeleteCourse" ConfirmOnFormSubmit="false"></asp:ConfirmButtonExtender>
+                                        <asp:Button ID="btnCancelCourse" runat="server" Text="Cancel" OnClick="btnCancelCourse_Click" />
+                                    </ContentTemplate>
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="rblCourseMode" EventName="SelectedIndexChanged" />
+                                        <asp:AsyncPostBackTrigger ControlID="lbxAllCourses" EventName="SelectedIndexChanged" />
+                                    </Triggers>
+                                </asp:UpdatePanel>
                             </td>
                         </tr>
                         <tr>
@@ -300,22 +343,30 @@
                 </div>
             </asp:Panel>
         </div>
-        <asp:Panel ID="pnlPop" BackColor="White" CssClass="popPanel" runat="server">
-            <table width="100%" cellpadding="5">
-                <tr>
-                    <td>
-                        <asp:Label ID="lblPnlPop" runat="server"></asp:Label>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="right">
-                        <asp:Button ID="btnPnlPopClose" runat="server" Text="Close" OnClick="btnPnlPopClose_Click" />
-                    </td>
-                </tr>
-            </table>
-        </asp:Panel>
-        <asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
-        <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
-            DropShadow="true" BackgroundCssClass="modalBackground" />
+        <asp:UpdatePanel ID="UpdatePanel3" runat="server">
+            <ContentTemplate>
+                <asp:Panel ID="pnlPop" BackColor="White" CssClass="popPanel" runat="server">
+                    <table width="100%" cellpadding="5">
+                        <tr>
+                            <td>
+                                <asp:Label ID="lblPnlPop" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <asp:Button ID="btnPnlPopClose" runat="server" Text="Close" OnClick="btnPnlPopClose_Click" />
+                            </td>
+                        </tr>
+                    </table>
+                </asp:Panel>
+                <asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
+                <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
+                    DropShadow="true" BackgroundCssClass="modalBackground" />
+            </ContentTemplate>
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="btnDeleteCourse" EventName="Click" />
+                <asp:AsyncPostBackTrigger ControlID="btnSubmitCourse" EventName="Click" />
+            </Triggers>
+        </asp:UpdatePanel>
     </div>
 </asp:Content>

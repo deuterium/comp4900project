@@ -6,6 +6,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
     <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server" />
+    <br />
     <div id="divLogin">
         <table style="margin-left:auto; margin-right:auto;">
             <tr>
