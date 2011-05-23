@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using AjaxControlToolkit;
 using BCCAModel;
 
 /// <summary>
@@ -36,7 +40,57 @@ public partial class Admin_Default : System.Web.UI.Page
         }
 
         pnlPop.Style.Value = "display:none;";
+
+        if (!IsPostBack)
+        {
+            addCharFilterToAllTextBoxes();
+        }
     }
+
+    #region Add Char Filter to All TextBox
+    /// <summary>
+    /// Recursively gets every control of the specified root (including root and all it's child controls).
+    /// Returns the controls as an array of Control objects.
+    /// </summary>
+    /// <param name="root">The root control to get child controls for.</param>
+    /// <returns>An array of all the child controls of root.</returns>
+    public static Control[] getAllPageControls(Control root)
+    {
+        List<Control> list = new List<Control>();
+        list.Add(root);
+        if (root.HasControls())
+        {
+            foreach (Control control in root.Controls)
+            {
+                list.AddRange(getAllPageControls(control));
+            }
+        }
+        return list.ToArray();
+    }
+
+    /// <summary>
+    /// Adds a character filter to all Text Boxes on the page.
+    /// Prevents users from entering the <, >, &, or # characters in Text Boxes.
+    /// These characters trigger the HttpRequestValidationException that prevents script injection.
+    /// Note: the JS behind the filter could be turned off, in which case, the exception will still occur.
+    /// </summary>
+    private void addCharFilterToAllTextBoxes()
+    {
+        Control[] allControls = getAllPageControls(Page);
+        foreach (Control c in allControls)
+        {
+            TextBox tbx = c as TextBox;
+            if (tbx != null)
+            {
+                FilteredTextBoxExtender fte = new FilteredTextBoxExtender();
+                fte.FilterMode = FilterModes.InvalidChars;
+                fte.InvalidChars = "<>&#";
+                fte.TargetControlID = c.ID;
+                tbx.Parent.Controls.Add(fte);
+            }
+        }
+    }
+    #endregion Filter TextBox
 
     #region Page Popup
     /// <summary>
@@ -61,7 +115,8 @@ public partial class Admin_Default : System.Web.UI.Page
     /// <param name="e">not used in our code</param>
     protected void btnPnlPopClose_Click(object sender, EventArgs e)
     {
-        switch (rblUsers.SelectedValue) {
+        switch (rblUsers.SelectedValue)
+        {
             case "Create":
                 User_Pass_Clear();
                 break;
@@ -489,17 +544,20 @@ public partial class Admin_Default : System.Web.UI.Page
         lbxAllCourses.DataValueField = "trainingNo";
         lbxAllCourses.DataBind();
     }
-    
+
     /// <summary>
     /// Returns the course selected in the List Box of all courses as an object.
     /// Returns null on failure.
     /// </summary>
     /// <returns>Returns the selected course in the List Box as an object.</returns>
-    private TrainingCours getSelectedCourse() {
-        if (lbxAllCourses.SelectedValue == null) {
+    private TrainingCours getSelectedCourse()
+    {
+        if (lbxAllCourses.SelectedValue == null)
+        {
             return null;
         }
-        if (lbxAllCourses.SelectedValue.Equals(String.Empty)) {
+        if (lbxAllCourses.SelectedValue.Equals(String.Empty))
+        {
             return null;
         }
 
@@ -537,12 +595,14 @@ public partial class Admin_Default : System.Web.UI.Page
 
         switchCourseManagementMode("Edit");
         tbxCourseName.Text = course.trainingName;
-        if (course.monthsValid == null) {
+        if (course.monthsValid == null)
+        {
             cbxNeverExpires.Checked = true;
             toggleNeverExpires();
             tbxMonthsValid.Text = "1";
         }
-        else {
+        else
+        {
             cbxNeverExpires.Checked = false;
             toggleNeverExpires();
             tbxMonthsValid.Text = course.monthsValid.ToString();
@@ -566,11 +626,13 @@ public partial class Admin_Default : System.Web.UI.Page
             tc.monthsValid = Convert.ToDecimal(tbxMonthsValid.Text);
         }
 
-        try {
+        try
+        {
             ctx.AddToTrainingCourses(tc);
             ctx.SaveChanges();
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             Popup_Overlay("An error occured while adding your course. Please try again.", Color.Red);
             return;
         }
@@ -586,22 +648,27 @@ public partial class Admin_Default : System.Web.UI.Page
     {
         TrainingCours course = getSelectedCourse();
 
-        if (course == null) {
+        if (course == null)
+        {
             Popup_Overlay("Could not find course. Course changes not saved.", Color.Red);
         }
 
         course.trainingName = tbxCourseName.Text;
-        if (cbxNeverExpires.Checked) {
+        if (cbxNeverExpires.Checked)
+        {
             course.monthsValid = null;
         }
-        else {
+        else
+        {
             course.monthsValid = Convert.ToDecimal(tbxMonthsValid.Text);
         }
 
-        try {
+        try
+        {
             ctx.SaveChanges();
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             ex.ToString();
             Popup_Overlay("An error occured while saving your course. Please try again.", Color.Red);
             return;
@@ -646,12 +713,15 @@ public partial class Admin_Default : System.Web.UI.Page
     /// <summary>
     /// Toggles the months valid field to show/hide if the never expires is unchecked/checked.
     /// </summary>
-    private void toggleNeverExpires() {
-        if (cbxNeverExpires.Checked) {
+    private void toggleNeverExpires()
+    {
+        if (cbxNeverExpires.Checked)
+        {
             nexMonthsValid.Enabled = false;
             tbxMonthsValid.Visible = false;
         }
-        else {
+        else
+        {
             nexMonthsValid.Enabled = true;
             tbxMonthsValid.Visible = true;
         }
@@ -674,13 +744,16 @@ public partial class Admin_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
-    protected void btnDeleteCourse_Click(object sender, EventArgs e) {
+    protected void btnDeleteCourse_Click(object sender, EventArgs e)
+    {
         TrainingCours course = getSelectedCourse();
-        try {
+        try
+        {
             ctx.DeleteObject(course);
             ctx.SaveChanges();
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             ex.ToString();
             Popup_Overlay("An error occured while deleting your course. Please try again.", Color.Red);
             return;
@@ -697,11 +770,14 @@ public partial class Admin_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
-    protected void btnSubmitCourse_Click(object sender, EventArgs e) {
-        if (rblCourseMode.SelectedValue.Equals("Create")) {
+    protected void btnSubmitCourse_Click(object sender, EventArgs e)
+    {
+        if (rblCourseMode.SelectedValue.Equals("Create"))
+        {
             createCourse();
         }
-        else if (rblCourseMode.SelectedValue.Equals("Edit")) {
+        else if (rblCourseMode.SelectedValue.Equals("Edit"))
+        {
             updateCourse();
         }
     }
@@ -710,7 +786,8 @@ public partial class Admin_Default : System.Web.UI.Page
     /// Resets the form fields to blank and the months valid to 1.
     /// Clears the selected value in the List Box.
     /// </summary>
-    private void clearForm() {
+    private void clearForm()
+    {
         lbxAllCourses.ClearSelection();
         cbxNeverExpires.Checked = false;
         toggleNeverExpires();
@@ -723,7 +800,8 @@ public partial class Admin_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
-    protected void btnCancelCourse_Click(object sender, EventArgs e) {
+    protected void btnCancelCourse_Click(object sender, EventArgs e)
+    {
         clearForm();
     }
     #endregion Course Management

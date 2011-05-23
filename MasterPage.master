@@ -34,7 +34,6 @@
                     &nbsp;|&nbsp;
                     <asp:LinkButton ID="lbnLogout" runat="server" OnClick="lbnLogout_Click">Logout</asp:LinkButton>
                 </div>
-                
             </div>
             <div class="clear">
             </div>
@@ -51,7 +50,7 @@
                     <asp:Menu ID="masterMenuSO" runat="server" Orientation="Horizontal" DataSourceID="sdsSO"
                         StaticDisplayLevels="2" Visible="false" />
                     <asp:Menu ID="masterMenuAdmin" runat="server" Orientation="Horizontal" DataSourceID="sdsAdmin"
-                        StaticDisplayLevels="2" visible ="false"/>
+                        StaticDisplayLevels="2" Visible="false" />
                 </div>
             </div>
             <div id="content" runat="server">

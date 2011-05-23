@@ -1,9 +1,9 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ViewLabInspection.aspx.cs" Inherits="Tracking_ViewLabInspection" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ViewLabInspection.aspx.cs"
+    Inherits="Tracking_ViewLabInspection" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-</asp:Content>
-
-<asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
+<asp:content id="Content1" contentplaceholderid="head" runat="Server">
+</asp:content>
+<asp:content id="Content2" contentplaceholderid="body" runat="Server">
 
 <asp:Label ID="lblUserMsg" runat="server" />
 
@@ -92,4 +92,4 @@
 
 <div>&nbsp;</div>
 
-</asp:Content>
+</asp:content>

@@ -1845,5 +1845,5 @@
     </asp:Panel>
     <asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
     <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
-        DropShadow="true" BackgroundCssClass="modalBackground" />
+        DropShadow="true" BackgroundCssClass="modalBackground" OkControlID="btnPnlPopClose" />
 </asp:Content>

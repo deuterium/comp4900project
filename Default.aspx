@@ -2,12 +2,11 @@
     CodeFile="Default.aspx.cs" Inherits="_Default" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
-<asp:ToolkitScriptManager ID="tsmScriptManager" runat="server" />
-<pre>
+    <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server" />
+    <pre>
     Welcome to The BC Cancer Agency Research Form Tracking.
 
     With our web application you can:
@@ -19,6 +18,5 @@
     -	Record incident/accident reports, workplace inspections, and employee courses
     -	Create, Read, Update, and Delete on departments, rooms, positions, courses, users, and employees
 </pre>
-To begin, simply login by clicking <a href="Login.aspx">Here</a>
-
+    To begin, simply login by clicking <a href="Login.aspx">Here</a>
 </asp:Content>

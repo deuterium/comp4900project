@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using AjaxControlToolkit;
 using BCCAModel;
 
 /// <summary>
@@ -68,8 +69,55 @@ public partial class Training_Default : System.Web.UI.Page {
             pnlCrsDetails.Visible = false;
             pnlNewCourse.Visible = false;
             pnlExpiredCourseDetails.Visible = false;
+
+            addCharFilterToAllTextBoxes();
         }
     }
+
+    #region Add Char Filter to All TextBox
+    /// <summary>
+    /// Recursively gets every control of the specified root (including root and all it's child controls).
+    /// Returns the controls as an array of Control objects.
+    /// </summary>
+    /// <param name="root">The root control to get child controls for.</param>
+    /// <returns>An array of all the child controls of root.</returns>
+    public static Control[] getAllPageControls(Control root)
+    {
+        List<Control> list = new List<Control>();
+        list.Add(root);
+        if (root.HasControls())
+        {
+            foreach (Control control in root.Controls)
+            {
+                list.AddRange(getAllPageControls(control));
+            }
+        }
+        return list.ToArray();
+    }
+
+    /// <summary>
+    /// Adds a character filter to all Text Boxes on the page.
+    /// Prevents users from entering the <, >, &, or # characters in Text Boxes.
+    /// These characters trigger the HttpRequestValidationException that prevents script injection.
+    /// Note: the JS behind the filter could be turned off, in which case, the exception will still occur.
+    /// </summary>
+    private void addCharFilterToAllTextBoxes()
+    {
+        Control[] allControls = getAllPageControls(Page);
+        foreach (Control c in allControls)
+        {
+            TextBox tbx = c as TextBox;
+            if (tbx != null)
+            {
+                FilteredTextBoxExtender fte = new FilteredTextBoxExtender();
+                fte.FilterMode = FilterModes.InvalidChars;
+                fte.InvalidChars = "<>&#";
+                fte.TargetControlID = c.ID;
+                tbx.Parent.Controls.Add(fte);
+            }
+        }
+    }
+    #endregion Filter TextBox
 
     #region Toggle Other TextBox and CheckBox
     private void toggleOther(TextBox tbx, CheckBox cbx)

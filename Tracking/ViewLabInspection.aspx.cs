@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Web.UI.WebControls;
 using BCCAModel;
-using System.Globalization;
 
-public partial class Tracking_ViewLabInspection : System.Web.UI.Page {  
+public partial class Tracking_ViewLabInspection : System.Web.UI.Page
+{
     #region Class Variables
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
@@ -28,24 +29,29 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that requested the page load.</param>
     /// <param name="e">The page load event.</param>
-    protected void Page_Load(object sender, EventArgs e) {
+    protected void Page_Load(object sender, EventArgs e)
+    {
         //Check User Authentication
         Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
         Session["AfterLoginRedirectUrl"] = null;
-        
-        if (!IsPostBack) {
+
+        if (!IsPostBack)
+        {
             hideAllPanels();
         }
 
         String reqIncidentNo = Request.QueryString["LabInspectionNo"];
         int incidentNo = -1;
-        try {
-            if (reqIncidentNo != null) {
+        try
+        {
+            if (reqIncidentNo != null)
+            {
                 incidentNo = Convert.ToInt32(reqIncidentNo);
             }
         }
-        catch (FormatException ex) {
+        catch (FormatException ex)
+        {
             ex.ToString();
             setUserMsg("Invalid inspection number given.");
             return;
@@ -59,8 +65,10 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
     /// If a null message parameter is given, the message is hidden.
     /// </summary>
     /// <param name="msg"></param>
-    private void setUserMsg(String msg) {
-        if (msg == null) {
+    private void setUserMsg(String msg)
+    {
+        if (msg == null)
+        {
             lblUserMsg.Visible = false;
             return;
         }
@@ -72,7 +80,8 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
     /// Hides all the panels on the page.
     /// Shows the user message.
     /// </summary>
-    private void hideAllPanels() {
+    private void hideAllPanels()
+    {
         pnlHeader.Visible = false;
         pnlChecklist.Visible = false;
         pnlComments.Visible = false;
@@ -83,24 +92,28 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
     /// Shows all the panels on the page.
     /// Hides the user message.
     /// </summary>
-    private void showAllPanels() {
+    private void showAllPanels()
+    {
         pnlHeader.Visible = true;
         pnlChecklist.Visible = true;
         pnlComments.Visible = true;
         lblUserMsg.Visible = false;
     }
-    
+
     /// <summary>
     /// Converts the follow up status code into a string for display.
     /// </summary>
     /// <param name="statusNo">A string that holds a number representing the follow up status (1, 2, or 3).</param>
     /// <returns>1 as "Not Started", 2 as "In Progress", 3 as "Complete", and "Unknown" for errors</returns>
-    private String convertFollowUpStatus(String statusNo) {
+    private String convertFollowUpStatus(String statusNo)
+    {
         String status = "Unknown";
-        if (statusNo == null) {
+        if (statusNo == null)
+        {
             return status;
         }
-        switch (statusNo) {
+        switch (statusNo)
+        {
             case "1":
                 status = "Not Started";
                 break;
@@ -124,8 +137,10 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
     /// Formats the grid view so it displays nicely.
     /// </summary>
     /// <param name="insNo">The id of the Lab Inspection to display.</param>
-    protected void displayLabInspection(int selectedLabInsNo) {
-        if (selectedLabInsNo == -1) {
+    protected void displayLabInspection(int selectedLabInsNo)
+    {
+        if (selectedLabInsNo == -1)
+        {
             setUserMsg("No inspection number given.");
             return;
         }
@@ -134,17 +149,20 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
                         .Where(li => li.labInsNo.Equals(selectedLabInsNo))
                         .Select(li => li).FirstOrDefault();
 
-        if (inspection == null) {
+        if (inspection == null)
+        {
             setUserMsg("No inspection with that inspection number found.");
             return;
         }
 
-        if (Session["RoleNo"].Equals(4)) {
+        if (Session["RoleNo"].Equals(4))
+        {
             int inspectionDeptNo = (from d in ctx.Departments
                                     join i in ctx.LabInspections on d.deptName equals i.deptName
                                     where i.labInsNo.Equals(selectedLabInsNo)
                                     select d.deptNo).FirstOrDefault();
-            if (!Session["DeptNo"].Equals(inspectionDeptNo)) {
+            if (!Session["DeptNo"].Equals(inspectionDeptNo))
+            {
                 setUserMsg("Only safety officers and administrators can view inspections from other departments.");
                 return;
             }
@@ -156,15 +174,18 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
                     .Join(
                         ctx.LabInspectionDetails,
                         LII =>
-                            new {
+                            new
+                            {
                                 labInsItemNo = LII.labInsItemNo
                             },
                         LID =>
-                            new {
+                            new
+                            {
                                 labInsItemNo = (Int32)(LID.labItemNo)
                             },
                         (LII, LID) =>
-                            new {
+                            new
+                            {
                                 LII = LII,
                                 LID = LID
                             }
@@ -174,7 +195,8 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
                         temp0 => temp0.LID.labInsNo,
                         LI => LI.labInsNo,
                         (temp0, LI) =>
-                            new {
+                            new
+                            {
                                 temp0 = temp0,
                                 LI = LI
                             }
@@ -182,17 +204,20 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
                     .GroupJoin(
                         ctx.LabFollowUps,
                         temp1 =>
-                            new {
+                            new
+                            {
                                 labInsItemNo = temp1.temp0.LII.labInsItemNo,
                                 labInsNo = temp1.LI.labInsNo
                             },
                         LFU =>
-                            new {
+                            new
+                            {
                                 labInsItemNo = (Int32)(LFU.labInsItemNo),
                                 labInsNo = LFU.labInsNo
                             },
                         (temp1, labfollowup_join) =>
-                            new {
+                            new
+                            {
                                 temp1 = temp1,
                                 labfollowup_join = labfollowup_join
                             }
@@ -200,7 +225,8 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
                     .SelectMany(
                         temp2 => temp2.labfollowup_join.DefaultIfEmpty(),
                         (temp2, LFU) =>
-                            new {
+                            new
+                            {
                                 temp2 = temp2,
                                 LFU = LFU
                             }
@@ -213,7 +239,8 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
                     )
                     .Select(
                         temp3 =>
-                            new {
+                            new
+                            {
                                 labInsItemNo = temp3.temp2.temp1.temp0.LII.labInsItemNo,
                                 labInsItemName = temp3.temp2.temp1.temp0.LII.labInsItem,
                                 checkbox = temp3.temp2.temp1.temp0.LID.checkbox,
@@ -229,19 +256,23 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
         lblRoom.Text = inspection.room;
         lblInspector.Text = inspection.inspector;
         lblManager.Text = inspection.labMgr;
-        if (inspection.date != null) {
+        if (inspection.date != null)
+        {
             lblInspectionDate.Text = Convert.ToDateTime(inspection.date).ToString(dateFormat, locale);
         }
         lblFollowUpStatus.Text = convertFollowUpStatus(inspection.followUpStatus);
-        if (inspection.followupSubmitter != null) {
+        if (inspection.followupSubmitter != null)
+        {
             lblFollowUpSubmitter.Text = inspection.followupSubmitter;
         }
-        lblInspectionComment.Text = "No comment.";        
-        if (inspection.comments != null) {
+        lblInspectionComment.Text = "No comment.";
+        if (inspection.comments != null)
+        {
             lblInspectionComment.Text = inspection.comments;
         }
         lblFollowUpComment.Text = "No comment.";
-        if (inspection.followupComment != null) {
+        if (inspection.followupComment != null)
+        {
             lblFollowUpComment.Text = inspection.followupComment;
         }
 
@@ -259,9 +290,11 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
         dt.Columns.Add(new DataColumn("followUpComment", typeof(System.String)));
 
         // Put the data in rows, inserting rows for subheaders
-        foreach (var result in qry) {
+        foreach (var result in qry)
+        {
             String subheader = checkForSubheaderStart(result.labInsItemNo);
-            if (!subheader.Equals(String.Empty)) {
+            if (!subheader.Equals(String.Empty))
+            {
                 DataRow drSubheader = dt.NewRow();
                 drSubheader["labInsItemNo"] = subheader;
                 dt.Rows.Add(drSubheader);
@@ -285,11 +318,13 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
         gdvLabInspection.Columns[2].ItemStyle.Width = 50;
         gdvLabInspection.Columns[3].ItemStyle.Width = 175;
         gdvLabInspection.Columns[4].ItemStyle.Width = 175;
-        
+
         // Find and format the subheader rows
-        foreach (GridViewRow row in gdvLabInspection.Rows) {
+        foreach (GridViewRow row in gdvLabInspection.Rows)
+        {
             String strChecked = ((Label)row.FindControl("lblChecked")).Text;
-            if ((strChecked == null) || (strChecked.Equals(String.Empty))) {
+            if ((strChecked == null) || (strChecked.Equals(String.Empty)))
+            {
                 row.Cells[0].ColumnSpan = gdvLabInspection.Columns.Count;
                 row.Cells[1].Visible = false;
                 row.Cells[2].Visible = false;
@@ -301,47 +336,49 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
 
         showAllPanels();
     }
-    
+
     /// <summary>
     /// Checks if the lab inspection number is the first one after a subheader
     /// and if it is, returns the subheader, otherwise returns an empty string.
     /// </summary>
     /// <param name="labInsItem">The id of the lab inspection item.</param>
     /// <returns>A subheader or an empty string.</returns>
-    private String checkForSubheaderStart(int labInsItem) {
+    private String checkForSubheaderStart(int labInsItem)
+    {
         String subheader = String.Empty;
-        switch (labInsItem) {
-            case 1 : // Fire evacuation route posted on exits in each section/floor
+        switch (labInsItem)
+        {
+            case 1: // Fire evacuation route posted on exits in each section/floor
                 subheader = "Emergency & Information Material";
                 break;
-            case 13 : // Safety Glasses/Facial shield available and in good condition
+            case 13: // Safety Glasses/Facial shield available and in good condition
                 subheader = "Personal Protection";
                 break;
-            case 20 : // Bench tops and sink areas tidy
+            case 20: // Bench tops and sink areas tidy
                 subheader = "Housekeeping";
                 break;
-            case 27 : // Separate collection containers for sharps available
+            case 27: // Separate collection containers for sharps available
                 subheader = "Waste Management";
                 break;
-            case 35 : // Appropriate disinfectant(s) in correct concentration available
+            case 35: // Appropriate disinfectant(s) in correct concentration available
                 subheader = "Biohazards";
                 break;
-            case 37 : // Sash at recommended height and air flow on
+            case 37: // Sash at recommended height and air flow on
                 subheader = "Fume Hoods/Biological Safety Cabinets";
                 break;
-            case 41 : // Vacuum pumps stored safely and belts guarded
+            case 41: // Vacuum pumps stored safely and belts guarded
                 subheader = "Electrical Apparatus";
                 break;
-            case 46 : // Flammables stored in appropriate refrigerator/cabinet
+            case 46: // Flammables stored in appropriate refrigerator/cabinet
                 subheader = "Chemicals and Reagents";
                 break;
-            case 54 : // Biosafety, chemical and cytotoxics safety training provided and documented
+            case 54: // Biosafety, chemical and cytotoxics safety training provided and documented
                 subheader = "Training";
                 break;
-            case 58 : // Equipment/storage shelves seismically restrained
+            case 58: // Equipment/storage shelves seismically restrained
                 subheader = "Miscellaneous";
                 break;
-            default : 
+            default:
                 // do nothing
                 break;
         }
@@ -353,19 +390,21 @@ public partial class Tracking_ViewLabInspection : System.Web.UI.Page {
     /// </summary>
     /// <param name="value">The radio button value to convert to a display String.</param>
     /// <returns>A string: Yes for 1, No for 2, N/A or Unknown for 3.</returns>
-    private String convertRadioButtonListValue(int value) {
+    private String convertRadioButtonListValue(int value)
+    {
         String returnValue = String.Empty;
-        switch (value) {
+        switch (value)
+        {
             case 1:
-                 returnValue = "Yes";
+                returnValue = "Yes";
                 break;
-            case 2 :
-                returnValue =  "No";
+            case 2:
+                returnValue = "No";
                 break;
-            case 3 :
-                returnValue =  "N/A";
+            case 3:
+                returnValue = "N/A";
                 break;
-            default : 
+            default:
                 // default should not be reached
                 returnValue = String.Empty;
                 break;

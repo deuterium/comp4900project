@@ -20,7 +20,8 @@ using BCCAModel;
  * Add what you filtered section
  */
 
-public partial class Tracking_Default : System.Web.UI.Page {
+public partial class Tracking_Default : System.Web.UI.Page
+{
     #region Class Variables
     // The background color of disabled controls.
     public Color DisabledColor = ColorTranslator.FromHtml("#E6E6E6");
@@ -55,7 +56,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that requested the page load.</param>
     /// <param name="e">The page load event.</param>
-    protected void Page_Load(object sender, EventArgs e) {
+    protected void Page_Load(object sender, EventArgs e)
+    {
         //Check User Authentication
         Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
@@ -69,11 +71,13 @@ public partial class Tracking_Default : System.Web.UI.Page {
             Response.Redirect("~/Default.aspx");
         }
 
-        if (!(Session["RoleNo"].Equals(1) || Session["RoleNo"].Equals(3))) {
+        if (!(Session["RoleNo"].Equals(1) || Session["RoleNo"].Equals(3)))
+        {
             pnlAllContent.Visible = false;
             lblUnauthorizedMsg.Visible = true;
         }
-        if (!IsPostBack) {
+        if (!IsPostBack)
+        {
             pnlPop.Style.Value = "display:none;";
             disableAllTextBoxes();
             cpeFilters.Collapsed = false;
@@ -90,7 +94,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="msg">Message displayed on confirmation overlay</param>
     /// <param name="color">Color for the message to be</param>
-    protected void Popup_Overlay(string msg, Color color) {
+    protected void Popup_Overlay(string msg, Color color)
+    {
         lblPnlPop.Text = msg;
         lblPnlPop.ForeColor = color;
         pnlPop.Style.Value = "display:block;";
@@ -103,7 +108,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
-    protected void btnPnlPopClose_Click(object sender, EventArgs e) {
+    protected void btnPnlPopClose_Click(object sender, EventArgs e)
+    {
         // do nothing
     }
     #endregion
@@ -115,7 +121,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The button click event.</param>
-    protected void btnFilterReport_Click(object sender, EventArgs e) {
+    protected void btnFilterReport_Click(object sender, EventArgs e)
+    {
         filterReport(gdvTracker);
         collapseAllFilterPanels();
         pnlResultsContainer.Visible = true;
@@ -123,7 +130,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
         cpeResults.ClientState = "false";
     }
 
-    private void collapseAllFilterPanels() {
+    private void collapseAllFilterPanels()
+    {
         cpeFilters.Collapsed = true;
         cpeFilters.ClientState = "true";
         cpeA.Collapsed = true;
@@ -138,24 +146,26 @@ public partial class Tracking_Default : System.Web.UI.Page {
         cpeE.ClientState = "true";
     }
 
-    private void addFilter(CheckBox cbx) {
+    private void addFilter(CheckBox cbx)
+    {
         lblFilters.Text = "The filters you selected were:";
-        
+
         CheckBox cbxClone = new CheckBox();
         cbxClone.Checked = cbx.Checked;
         cbxClone.Text = cbx.Text;
-        
+
         pnlFiltersSelected.Controls.Add(cbxClone);
         pnlFiltersSelected.Controls.Add(new LiteralControl("<br />"));
     }
 
-    private void addFilter(CheckBox cbx, String additionalInfo) {
+    private void addFilter(CheckBox cbx, String additionalInfo)
+    {
         lblFilters.Text = "The filters you selected were:";
-        
+
         CheckBox cbxClone = new CheckBox();
         cbxClone.Checked = cbx.Checked;
         cbxClone.Text = cbx.Text;
-        
+
         Label lblAdditionalInfo = new Label();
         lblAdditionalInfo.Text = additionalInfo;
 
@@ -164,20 +174,22 @@ public partial class Tracking_Default : System.Web.UI.Page {
         pnlFiltersSelected.Controls.Add(new LiteralControl("<br />"));
     }
 
-    private void addFilter(RadioButtonList rbl, String text) {
+    private void addFilter(RadioButtonList rbl, String text)
+    {
         lblFilters.Text = "The filters you selected were:";
-        
+
         RadioButtonList rblClone = new RadioButtonList();
-        foreach (ListItem li in rbl.Items) {
+        foreach (ListItem li in rbl.Items)
+        {
             rblClone.Items.Add(li);
         }
         rblClone.SelectedValue = rbl.SelectedValue;
         rblClone.RepeatDirection = rbl.RepeatDirection;
-        
+
         Label lblAdditionalInfo = new Label();
         lblAdditionalInfo.Text = text;
 
-        pnlFiltersSelected.Controls.Add(lblAdditionalInfo); 
+        pnlFiltersSelected.Controls.Add(lblAdditionalInfo);
         pnlFiltersSelected.Controls.Add(rblClone);
         pnlFiltersSelected.Controls.Add(new LiteralControl("<br />"));
     }
@@ -187,7 +199,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// Only considers the checkboxes in sections B, C, D, and E of the form.
     /// Populates the GridView parameter with the resulting reports.
     /// </summary>
-    private void filterReport(GridView gdv) {
+    private void filterReport(GridView gdv)
+    {
         var reports = ctx.Incidents
                       .Select(r => r);
 
@@ -205,7 +218,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (cbx_p1_nature_psychological.Checked) { reports = reports.Where(r => r.p1_nature_psychological.Equals("1")); addFilter(cbx_p1_nature_psychological); }
         if (cbx_p1_nature_respiratory.Checked) { reports = reports.Where(r => r.p1_nature_respiratory.Equals("1")); addFilter(cbx_p1_nature_respiratory); }
         #endregion B_NatureOfInjury
-                
+
         #region C_AccidentInvestigation
         if (cbx_p2_activity_no.Checked) { reports = reports.Where(r => r.p2_activity_no.Equals("1")); addFilter(cbx_p2_activity_no); }
         if (cbx_p2_activity_repositioning.Checked) { reports = reports.Where(r => r.p2_activity_repositioning.Equals("1")); addFilter(cbx_p2_activity_repositioning); }
@@ -221,7 +234,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (cbx_p2_patient_floorLift.Checked) { reports = reports.Where(r => r.p2_patient_floorLift.Equals("1")); addFilter(cbx_p2_patient_floorLift); }
         if (cbx_p2_patient_manualLift.Checked) { reports = reports.Where(r => r.p2_patient_manualLift.Equals("1")); addFilter(cbx_p2_patient_manualLift); }
         if (cbx_p2_patient_other.Checked) { reports = reports.Where(r => !(r.p2_patient_otherSpecify.Equals(null))); addFilter(cbx_p2_patient_other, " (Incident/Accident Information, Patient Handling Details)"); }
-        if (!rbl_p2_patient_adequateAssist.SelectedValue.Equals(String.Empty)) {
+        if (!rbl_p2_patient_adequateAssist.SelectedValue.Equals(String.Empty))
+        {
             reports = reports.Where(r => r.p2_patient_adequateAssist.Equals(rbl_p2_patient_adequateAssist.SelectedValue));
             addFilter(rbl_p2_patient_adequateAssist, "Was adaquate assistance available?");
         }
@@ -281,7 +295,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (cbx_p2_cause_underEquip.Checked) { reports = reports.Where(r => r.p2_cause_underEquip.Equals("1")); addFilter(cbx_p2_cause_underEquip); }
         if (cbx_p2_cause_hit.Checked) { reports = reports.Where(r => r.p2_cause_hit.Equals("1")); addFilter(cbx_p2_cause_hit); }
         if (cbx_p2_cause_other.Checked) { reports = reports.Where(r => r.p2_cause_other != null); addFilter(cbx_p2_cause_other, "(Cause, Other)"); }
-        
+
         if (cbx_p2_cause_aggression_verbal.Checked) { reports = reports.Where(r => r.p2_aggression_verbal.Equals("1")); addFilter(cbx_p2_cause_aggression_verbal); }
         if (cbx_p2_cause_aggression_biting.Checked) { reports = reports.Where(r => r.p2_aggression_biting.Equals("1")); addFilter(cbx_p2_cause_aggression_biting); }
         if (cbx_p2_cause_aggression_hitting.Checked) { reports = reports.Where(r => r.p2_aggression_hitting.Equals("1")); addFilter(cbx_p2_cause_aggression_hitting); }
@@ -376,12 +390,13 @@ public partial class Tracking_Default : System.Web.UI.Page {
                     .OrderBy(d => d.deptName)
                     .Select(d => d.deptNo);
 
-        foreach (int deptNumber in depts) {
+        foreach (int deptNumber in depts)
+        {
             var deptReports = from d in ctx.Departments
                               join r in reports on d.deptNo equals r.deptNo
                               where r.deptNo == deptNumber
                               select r;
-            
+
             // Subheader row
             String deptName = (from d in ctx.Departments
                                where d.deptNo == deptNumber
@@ -390,10 +405,12 @@ public partial class Tracking_Default : System.Web.UI.Page {
             drSubheader["incidentNo"] = "Department: " + deptName;
             dt.Rows.Add(drSubheader);
             // Put the data in rows
-            foreach (var report in deptReports) {
+            foreach (var report in deptReports)
+            {
                 DataRow dr = dt.NewRow();
                 dr["incidentNo"] = report.incidentNo;
-                if (report.p1_dateOfIncident != null) {
+                if (report.p1_dateOfIncident != null)
+                {
                     dr["date"] = Convert.ToDateTime(report.p1_dateOfIncident, locale).ToString(dateFormat, locale);
                 }
                 dr["submitter"] = report.reportSubmitter;
@@ -410,15 +427,17 @@ public partial class Tracking_Default : System.Web.UI.Page {
         // Get the other depts that were NOT in the dept table
         var otherDeptReports = reports
                                .Where(r => r.deptNo == null);
-        
+
         // Subheader row
         DataRow drSubheaderOther = dt.NewRow();
         drSubheaderOther["incidentNo"] = "Department: Other";
         dt.Rows.Add(drSubheaderOther);
-        foreach (var report in otherDeptReports) {
+        foreach (var report in otherDeptReports)
+        {
             DataRow dr = dt.NewRow();
             dr["incidentNo"] = report.incidentNo;
-            if (report.p1_dateOfIncident != null) {
+            if (report.p1_dateOfIncident != null)
+            {
                 dr["date"] = Convert.ToDateTime(report.p1_dateOfIncident, locale).ToString(dateFormat, locale);
             }
             dr["submitter"] = report.reportSubmitter;
@@ -447,12 +466,15 @@ public partial class Tracking_Default : System.Web.UI.Page {
         //gdvTracker.Columns[3].ItemStyle.Width = 450;
 
         // Find and format the subheader and subtotal rows
-        foreach (GridViewRow row in gdvTracker.Rows) {
+        foreach (GridViewRow row in gdvTracker.Rows)
+        {
             String strName = ((Label)row.FindControl("lblEmployeeName")).Text;
-            if ((strName == null) || (strName.Equals(String.Empty))) {
+            if ((strName == null) || (strName.Equals(String.Empty)))
+            {
                 // common formatting
                 row.ForeColor = HeaderForeColor;
-                foreach (TableCell c in row.Cells) {
+                foreach (TableCell c in row.Cells)
+                {
                     c.Visible = false;
                 }
                 row.Cells[0].Visible = true;
@@ -460,17 +482,21 @@ public partial class Tracking_Default : System.Web.UI.Page {
                 String strIncidentNo = ((Label)row.FindControl("lblIncidentNo")).Text;
 
                 // subheader dept row formatting (make view inspection/lab buttons visible)
-                if (!(strIncidentNo.StartsWith("Number") || strIncidentNo.StartsWith("Total"))) {
+                if (!(strIncidentNo.StartsWith("Number") || strIncidentNo.StartsWith("Total")))
+                {
                     row.Cells[5].Visible = true;
                     row.Cells[5].ColumnSpan = 2;
                     row.Font.Bold = true;
                     row.Height = 50;
                 }
                 // subtotal row formatting 
-                else {
+                else
+                {
                     row.Cells[0].ColumnSpan = gdvTracker.Columns.Count;
                 }
-            } else {
+            }
+            else
+            {
                 row.Cells[5].Visible = false;
                 row.Cells[4].ColumnSpan = 2;
             }
@@ -481,8 +507,10 @@ public partial class Tracking_Default : System.Web.UI.Page {
     #endregion Filter Report
 
     #region Toggle Other TextBox and CheckBox
-    private void toggleOther(TextBox tbx, CheckBox cbx) {
-        if (!tbx.Text.Equals(String.Empty)) {
+    private void toggleOther(TextBox tbx, CheckBox cbx)
+    {
+        if (!tbx.Text.Equals(String.Empty))
+        {
             cbx.Checked = true;
             return;
         }
@@ -493,7 +521,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_patient_otherSpecify_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_patient_otherSpecify_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_patient_otherSpecify, cbx_p2_patient_other);
     }
     /// <summary>
@@ -501,7 +530,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_otherPatientCare_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_activity_otherPatientCare_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_activity_otherPatientCare, cbx_p2_activity_otherPatientCare);
     }
     /// <summary>
@@ -509,7 +539,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_otherMat_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_activity_otherMat_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_activity_otherMat, cbx_p2_activity_otherMat);
     }
     /// <summary>
@@ -517,7 +548,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_otherEquip_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_activity_otherEquip_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_activity_otherEquip, cbx_p2_activity_otherEquip);
     }
     /// <summary>
@@ -525,7 +557,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_otherEquipDesc_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_activity_otherEquipDesc_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_activity_otherEquipDesc, cbx_p2_activity_otherEquipDesc);
     }
     /// <summary>
@@ -533,7 +566,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_other_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_activity_other_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_activity_other, cbx_p2_activity_other);
     }
     /// <summary>
@@ -541,7 +575,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_cause_other_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_cause_other_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_cause_other, cbx_p2_cause_other);
     }
     /// <summary>
@@ -549,7 +584,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_cause_aggression_other_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_cause_aggression_other_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_cause_aggression_other, cbx_p2_cause_aggression_other);
     }
     /// <summary>
@@ -557,7 +593,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherEquip_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_factors_otherEquip_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_factors_otherEquip, cbx_p2_factors_otherEquip);
     }
     /// <summary>
@@ -565,7 +602,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherEnv_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_factors_otherEnv_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_factors_otherEnv, cbx_p2_factors_otherEnv);
     }
     /// <summary>
@@ -573,7 +611,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherWorkPractice_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_factors_otherWorkPractice_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_factors_otherWorkPractice, cbx_p2_factors_otherWorkPractice);
     }
     /// <summary>
@@ -581,7 +620,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherPatient_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_factors_otherPatient_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_factors_otherPatient, cbx_p2_factors_otherPatient);
     }
     /// <summary>
@@ -589,7 +629,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherOrganizational_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_factors_otherOrganizational_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_factors_otherOrganizational, cbx_p2_factors_otherOrganizational);
     }
     /// <summary>
@@ -597,7 +638,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherWorker_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_factors_otherWorker_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_factors_otherWorker, cbx_p2_factors_otherWorker);
     }
     #endregion Toggle Other TextBox and CheckBox
@@ -608,7 +650,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// Changes the control's background color to the disabled color.
     /// </summary>
     /// <param name="cbx">The TextBox to disable.</param>
-    private void disableTextBox(TextBox tbx) {
+    private void disableTextBox(TextBox tbx)
+    {
         tbx.Enabled = false;
         tbx.BackColor = DisabledColor;
         tbx.Visible = false;
@@ -617,14 +660,16 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// Disabled the parameter RadioButtonList control.
     /// </summary>
     /// <param name="cbx">The RadioButtonList to disable.</param>
-    private void disableRadioButtonList(RadioButtonList rbl) {
+    private void disableRadioButtonList(RadioButtonList rbl)
+    {
         rbl.Enabled = false;
     }
     /// <summary>
     /// Disabled the parameter TextBoxWatermarkExtender control.
     /// </summary>
     /// <param name="cbx">The TextBoxWatermarkExtender to disable.</param>
-    private void disableWatermark(TextBoxWatermarkExtender twe) {
+    private void disableWatermark(TextBoxWatermarkExtender twe)
+    {
         twe.Enabled = false;
     }
 
@@ -632,7 +677,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// Calls the disableTextBox method on each textbox in the form.
     /// Disables all the watermarks as well.
     /// </summary>
-    private void disableAllTextBoxes() {
+    private void disableAllTextBoxes()
+    {
         #region A_IncidentInfo
         disableTextBox(tbx_p1_action_medicalGP_date);
         disableTextBox(tbx_p1_action_medicalER_date);
@@ -671,25 +717,30 @@ public partial class Tracking_Default : System.Web.UI.Page {
     }
     #endregion Disable Form
 
-    private int GetIncidentIdFromRow(int index) {
+    private int GetIncidentIdFromRow(int index)
+    {
         GridViewRow row = gdvTracker.Rows[index];
         String strIncidentNo = ((Label)row.FindControl("lblIncidentNo")).Text;
         int incidentNo = -1;
-        try {
+        try
+        {
             incidentNo = Convert.ToInt32(strIncidentNo);
         }
-        catch (FormatException ex) {
+        catch (FormatException ex)
+        {
             ex.ToString();
             Popup_Overlay("An unexpected error has occured. Please refresh the page and try again.", FailColour);
         }
         return incidentNo;
     }
 
-    protected void gdvTracker_RowCommand(object sender, GridViewCommandEventArgs e) {
+    protected void gdvTracker_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
         // Get the row that called the event
         int index = Convert.ToInt32(e.CommandArgument);
         // Find out which button was clicked, take appropriate action
-        switch (e.CommandName) {
+        switch (e.CommandName)
+        {
             case "RowViewReport":
                 Response.Redirect("~/Reporting/ViewIncidentReport.aspx?IncidentNo=" + GetIncidentIdFromRow(index));
                 break;
@@ -710,7 +761,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
         }
     }
 
-    private Employee getEmployeeFromIncidentId(int incidentNo) {
+    private Employee getEmployeeFromIncidentId(int incidentNo)
+    {
         Employee emp = ctx.Incidents
                         .Where(i => i.incidentNo.Equals(incidentNo))
                         .Select(i => i.Employee).FirstOrDefault();
@@ -718,22 +770,27 @@ public partial class Tracking_Default : System.Web.UI.Page {
     }
 
     #region Look Up Courses
-    private string ConvertDateToString(Object date) {
-        if (date.Equals(DateTime.MinValue)) {
+    private string ConvertDateToString(Object date)
+    {
+        if (date.Equals(DateTime.MinValue))
+        {
             return String.Empty;
         }
         return Convert.ToDateTime(date, locale).ToString(dateFormat, locale);
     }
 
-    private void loadCourses(Employee employee) {
-        if (employee == null) {
+    private void loadCourses(Employee employee)
+    {
+        if (employee == null)
+        {
             return;
         }
         lblCoursesTitle.Text = employee.fname.ToString() + " " + employee.lname.ToString();
 
         var qry = ctx.TrainingTakens
                   .OrderByDescending(tt => tt.startDate)
-                  .Select(tt => new {
+                  .Select(tt => new
+                  {
                       courseName = tt.TrainingCours.trainingName,
                       status = (tt.completed == 1) ? "Complete" : "Incomplete",
                       completionDate = tt.startDate,
@@ -742,12 +799,15 @@ public partial class Tracking_Default : System.Web.UI.Page {
                   });
         gdvEmpCourses.DataSource = qry;
         gdvEmpCourses.DataBind();
-        
-        foreach (GridViewRow row in gdvEmpCourses.Rows) {
-            String strExpirationDate = ((Label)row.FindControl("lblExpirationDate")).Text;    
-            if ((strExpirationDate != null) && (!strExpirationDate.Equals(String.Empty))) {
+
+        foreach (GridViewRow row in gdvEmpCourses.Rows)
+        {
+            String strExpirationDate = ((Label)row.FindControl("lblExpirationDate")).Text;
+            if ((strExpirationDate != null) && (!strExpirationDate.Equals(String.Empty)))
+            {
                 DateTime expirationDate = DateTime.ParseExact(strExpirationDate, dateFormat, locale);
-                if (expirationDate.CompareTo(DateTime.Now) <= 0) {
+                if (expirationDate.CompareTo(DateTime.Now) <= 0)
+                {
                     row.ForeColor = Color.Red;
                 }
             }
@@ -759,14 +819,16 @@ public partial class Tracking_Default : System.Web.UI.Page {
     }
 
     // not used atm, will be?
-    private void getCourses2(Employee employee) {
+    private void getCourses2(Employee employee)
+    {
         var q = from x in ctx.TrainingCourses
                 select x;
         var total = q.Count();
 
         List<String> courseArray = ctx.TrainingCourses.Select(c => c.trainingName).ToList();
 
-        for (int i = 0; i < total; i++) {
+        for (int i = 0; i < total; i++)
+        {
             GridView grvCourseLookUp = new GridView();
             String temp = courseArray[i];
             grvCourseLookUp.DataSource = ctx.Employees
@@ -775,7 +837,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
                                   emp => emp.empNo,
                                   TT => TT.empNo,
                                   (emp, TT) =>
-                                     new {
+                                     new
+                                     {
                                          emp = emp,
                                          TT = TT
                                      }
@@ -785,7 +848,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
                                   temp0 => temp0.TT.trainingNo,
                                   TC => TC.trainingNo,
                                   (temp0, TC) =>
-                                     new {
+                                     new
+                                     {
                                          temp0 = temp0,
                                          TC = TC
                                      }
@@ -793,7 +857,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
                                .Where(temp1 => (temp1.TC.trainingName == temp))
                                .Select(
                                   temp1 =>
-                                     new {
+                                     new
+                                     {
                                          lastname = temp1.temp0.emp.lname,
                                          firstname = temp1.temp0.emp.fname,
                                          startdate = temp1.temp0.TT.startDate,
@@ -814,8 +879,10 @@ public partial class Tracking_Default : System.Web.UI.Page {
     #endregion Look Up Courses
 
     #region Look Up Employee Info
-    private void loadEmployee(Employee emp) {
-        if (emp != null) {
+    private void loadEmployee(Employee emp)
+    {
+        if (emp != null)
+        {
             lblId.Text = emp.empNo.ToString();
             lblFirstName.Text = emp.fname.ToString();
             lblLastName.Text = emp.lname.ToString();
@@ -825,11 +892,13 @@ public partial class Tracking_Default : System.Web.UI.Page {
             lblSupervisor.Text = convertToTextBoxValue(emp.supervisor);
             lblRoom.Text = convertToTextBoxValue(emp.room);
 
-            if (emp.startDate != null) {
+            if (emp.startDate != null)
+            {
                 lblStartDate.Text = Convert.ToDateTime(emp.startDate, locale).ToString(dateFormat, locale);
             }
 
-            if (emp.endDate != null) {
+            if (emp.endDate != null)
+            {
                 lblEndDate.Text = Convert.ToDateTime(emp.endDate, locale).ToString(dateFormat, locale);
             }
         }
@@ -845,35 +914,42 @@ public partial class Tracking_Default : System.Web.UI.Page {
     /// </summary>
     /// <param name="value">The String to convert.</param>
     /// <returns>Empty string if null, otherwise returns the value.</returns>
-    private String convertToTextBoxValue(String value) {
-        if (value == null) {
+    private String convertToTextBoxValue(String value)
+    {
+        if (value == null)
+        {
             return String.Empty;
         }
         return value;
     }
     #endregion Look Up Employee Info
 
-    protected void gdvLabInspections_RowCommand(object sender, GridViewCommandEventArgs e) {
+    protected void gdvLabInspections_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
         // Get the row that called the event
         int index = Convert.ToInt32(e.CommandArgument);
         GridViewRow row = gdvLabInspections.Rows[index];
         // Get the Lab Inspection No
         String strLabInspectionNo = String.Empty;
         Label lbl = (Label)row.FindControl("lblLabInspectionNo");
-        if (lbl != null) {
+        if (lbl != null)
+        {
             strLabInspectionNo = lbl.Text;
         }
         // Find out which button was clicked, take appropriate action
-        if (e.CommandName.Equals("RowViewLabInspection")) {
+        if (e.CommandName.Equals("RowViewLabInspection"))
+        {
             Response.Redirect("~/Tracking/ViewLabInspection.aspx?LabInspectionNo=" + strLabInspectionNo);
         }
     }
 
-    private void loadLabInspections(int incidentNo) {
+    private void loadLabInspections(int incidentNo)
+    {
         var qry = from l in ctx.LabInspections
                   join i in ctx.Incidents on l.deptName equals i.Department.deptName
                   where (i.incidentNo.Equals(incidentNo))
-                  select new {
+                  select new
+                  {
                       labInspectionNo = l.labInsNo,
                       deptName = l.deptName,
                       inspectionDate = l.date,
@@ -892,27 +968,32 @@ public partial class Tracking_Default : System.Web.UI.Page {
         cpeLabInspections.ClientState = "false";
     }
 
-    protected void gdvOfficeInspections_RowCommand(object sender, GridViewCommandEventArgs e) {
+    protected void gdvOfficeInspections_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
         // Get the row that called the event
         int index = Convert.ToInt32(e.CommandArgument);
         GridViewRow row = gdvOfficeInspections.Rows[index];
         // Get the Office Inspection No
         String strOfficeInspectionNo = String.Empty;
         Label lbl = (Label)row.FindControl("lblOfficeInspectionNo");
-        if (lbl != null) {
+        if (lbl != null)
+        {
             strOfficeInspectionNo = lbl.Text;
         }
         // Find out which button was clicked, take appropriate action
-        if (e.CommandName.Equals("RowViewOfficeInspection")) {
+        if (e.CommandName.Equals("RowViewOfficeInspection"))
+        {
             Response.Redirect("~/Tracking/ViewOfficeInspection.aspx?OfficeInspectionNo=" + strOfficeInspectionNo);
         }
     }
 
-    private void loadOfficeInspections(int incidentNo) {
+    private void loadOfficeInspections(int incidentNo)
+    {
         var qry = from l in ctx.OfficeInspections
                   join i in ctx.Incidents on l.deptName equals i.Department.deptName
                   where (i.incidentNo.Equals(incidentNo))
-                  select new {
+                  select new
+                  {
                       officeInspectionNo = l.officeInsNo,
                       deptName = l.deptName,
                       inspectionDate = l.insDate,

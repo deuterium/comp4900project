@@ -1,7 +1,8 @@
-﻿<%@ Page Title="Summary" Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Summary_Default" %>
-<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+﻿<%@ Page Title="Summary" Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs"
+    Inherits="Summary_Default" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+<asp:content id="Content1" contentplaceholderid="head" runat="Server">
     <style type="text/css">
         .style3
         {
@@ -20,8 +21,8 @@
             width: 93px;
         }
     </style>
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="body" runat="Server">
+</asp:content>
+<asp:content id="Content2" contentplaceholderid="body" runat="Server">
     <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
 </asp:ToolkitScriptManager>
 
@@ -1548,5 +1549,6 @@ Summary Page:
 </asp:Panel>
 <asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
 <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
-    DropShadow="true" BackgroundCssClass="modalBackground" />
-</asp:Content>
+    DropShadow="true" BackgroundCssClass="modalBackground" 
+        OkControlID="btnPnlPopClose" />
+</asp:content>

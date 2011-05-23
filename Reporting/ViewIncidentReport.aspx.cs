@@ -6,7 +6,8 @@ using System.Web.UI.WebControls;
 using AjaxControlToolkit;
 using BCCAModel;
 
-public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
+public partial class Reporting_ViewIncidentReport : System.Web.UI.Page
+{
     #region Class Variables
     // The background color of disabled controls.
     public Color DisabledColor = ColorTranslator.FromHtml("#FFFFFF");
@@ -33,22 +34,26 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that requested the page load.</param>
     /// <param name="e">The page load event.</param>
-    protected void Page_Load(object sender, EventArgs e) {
+    protected void Page_Load(object sender, EventArgs e)
+    {
         //Check User Authentication
         Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
         Session["AfterLoginRedirectUrl"] = null;
-        
+
         // Only do the initial set up the first time the page loads (and not on post-backs).
-        if (!IsPostBack) {
+        if (!IsPostBack)
+        {
             hideAllPanels();
-            pnlPop.Style.Value = "display:none;"; 
+            pnlPop.Style.Value = "display:none;";
             String reqIncidentNo = Request.QueryString["IncidentNo"];
             int incidentNo = -1;
-            try {
+            try
+            {
                 incidentNo = Convert.ToInt32(reqIncidentNo);
             }
-            catch (FormatException ex) {
+            catch (FormatException ex)
+            {
                 // redirect to error page
             }
             loadReport(incidentNo);
@@ -62,8 +67,10 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// If a null message parameter is given, the message is hidden.
     /// </summary>
     /// <param name="msg"></param>
-    private void setUserMsg(String msg) {
-        if (msg == null) {
+    private void setUserMsg(String msg)
+    {
+        if (msg == null)
+        {
             lblUserMsg.Visible = false;
             return;
         }
@@ -75,7 +82,8 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// Hides all the panels on the page.
     /// Shows the user message.
     /// </summary>
-    private void hideAllPanels() {
+    private void hideAllPanels()
+    {
         pnlAllContent.Visible = false;
         lblTitle.Visible = false;
         lblUserMsg.Visible = true;
@@ -85,7 +93,8 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// Shows all the panels on the page.
     /// Hides the user message.
     /// </summary>
-    private void showAllPanels() {
+    private void showAllPanels()
+    {
         pnlAllContent.Visible = true;
         lblTitle.Visible = true;
         lblUserMsg.Visible = false;
@@ -94,7 +103,8 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// <summary>
     /// Shows and expands all the panels on the page.
     /// </summary>
-    private void expandAllPanels() {
+    private void expandAllPanels()
+    {
         showAllPanels();
         cpeA.Collapsed = false;
         cpeA.ClientState = "false";
@@ -121,7 +131,8 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// </summary>
     /// <param name="msg">Message displayed on confirmation overlay</param>
     /// <param name="color">Color for the message to be</param>
-    protected void Popup_Overlay(string msg, Color color) {
+    protected void Popup_Overlay(string msg, Color color)
+    {
         lblPnlPop.Text = msg;
         lblPnlPop.ForeColor = color;
         pnlPop.Style.Value = "display:block;";
@@ -134,7 +145,8 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
-    protected void btnPnlPopClose_Click(object sender, EventArgs e) {
+    protected void btnPnlPopClose_Click(object sender, EventArgs e)
+    {
         // do nothing
     }
     #endregion
@@ -144,7 +156,8 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// Disabled the parameter CheckBox control.
     /// </summary>
     /// <param name="cbx">The CheckBox to disable.</param>
-    private void disableCheckBox(CheckBox cbx) {
+    private void disableCheckBox(CheckBox cbx)
+    {
         //cbx.Enabled = false;
         cbx.Attributes.Add("onclick", "return false;");
     }
@@ -153,31 +166,35 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// Changes the control's background color to the disabled color.
     /// </summary>
     /// <param name="cbx">The TextBox to disable.</param>
-    private void disableTextBox(TextBox tbx) {
-         tbx.ReadOnly = true;
-         tbx.ForeColor = Color.Black;
-         tbx.BackColor = DisabledColor;
+    private void disableTextBox(TextBox tbx)
+    {
+        tbx.ReadOnly = true;
+        tbx.ForeColor = Color.Black;
+        tbx.BackColor = DisabledColor;
     }
     /// <summary>
     /// Disabled the parameter RadioButtonList control.
     /// </summary>
     /// <param name="cbx">The RadioButtonList to disable.</param>
-    private void disableRadioButtonList(RadioButtonList rbl) {
+    private void disableRadioButtonList(RadioButtonList rbl)
+    {
         rbl.Enabled = false;
     }
     /// <summary>
     /// Disabled the parameter TextBoxWatermarkExtender control.
     /// </summary>
     /// <param name="cbx">The TextBoxWatermarkExtender to disable.</param>
-    private void disableWatermark(TextBoxWatermarkExtender twe) {
+    private void disableWatermark(TextBoxWatermarkExtender twe)
+    {
         twe.Enabled = false;
     }
-    
+
     /// <summary>
     /// Calls the appropriate disable method on each of the form's controls.
     /// Disables watermarks as well.
     /// </summary>
-    private void disableAllControls() {
+    private void disableAllControls()
+    {
         #region Employee Info
         disableTextBox(tbxId);
         disableTextBox(tbxFirstName);
@@ -246,7 +263,7 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         disableCheckBox(cbx_p2_patient_other);
         disableTextBox(tbx_p2_patient_otherSpecify);
         disableRadioButtonList(rbl_p2_patient_adequateAssist);
-      
+
         disableCheckBox(cbx_p2_activity_washing);
         disableCheckBox(cbx_p2_activity_dressing);
         disableCheckBox(cbx_p2_activity_changing);
@@ -275,7 +292,7 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         disableCheckBox(cbx_p2_activity_equipMain);
         disableCheckBox(cbx_p2_activity_comp);
         disableCheckBox(cbx_p2_activity_nonComp);
-                
+
         disableCheckBox(cbx_p2_activity_walking);
         disableCheckBox(cbx_p2_activity_bending);
         disableCheckBox(cbx_p2_activity_reading);
@@ -298,7 +315,7 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         disableCheckBox(cbx_p2_cause_contactStress);
         disableCheckBox(cbx_p2_cause_force);
         disableCheckBox(cbx_p2_cause_rep);
-        
+
         disableCheckBox(cbx_p2_cause_motor);
         disableCheckBox(cbx_p2_cause_slip);
         disableCheckBox(cbx_p2_cause_aggression);
@@ -308,7 +325,7 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         disableCheckBox(cbx_p2_cause_hit);
         disableCheckBox(cbx_p2_cause_other);
         disableTextBox(tbx_p2_cause_other);
-      
+
         disableCheckBox(cbx_p2_cause_aggression_verbal);
         disableCheckBox(cbx_p2_cause_aggression_biting);
         disableCheckBox(cbx_p2_cause_aggression_hitting);
@@ -320,7 +337,7 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         disableCheckBox(cbx_p2_cause_aggression_worker);
         disableCheckBox(cbx_p2_cause_aggression_other);
         disableTextBox(tbx_p2_cause_aggression_other);
-        
+
         disableTextBox(tbx_p2_cause_exposure_chemName);
         disableCheckBox(cbx_p2_cause_chemInhalation);
         disableCheckBox(cbx_p2_cause_chemIngest);
@@ -355,7 +372,7 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         disableCheckBox(cbx_p2_factors_storage);
         disableCheckBox(cbx_p2_factors_otherEnv);
         disableTextBox(tbx_p2_factors_otherEnv);
-        
+
         disableCheckBox(cbx_p2_factors_assessment);
         disableCheckBox(cbx_p2_factors_procedure);
         disableCheckBox(cbx_p2_factors_appropriateEquip);
@@ -365,7 +382,7 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         disableCheckBox(cbx_p2_factors_unaccustomed);
         disableCheckBox(cbx_p2_factors_otherWorkPractice);
         disableTextBox(tbx_p2_factors_otherWorkPractice);
-        
+
         disableCheckBox(cbx_p2_factors_directions);
         disableCheckBox(cbx_p2_factors_weight);
         disableCheckBox(cbx_p2_factors_aggressive);
@@ -397,7 +414,7 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         disableCheckBox(cbx_p2_factors_otherWorker);
         disableTextBox(tbx_p2_factors_otherWorker);
         #endregion E_ContributingFactors
-        
+
         #region F_CorrectiveAction
         disableTextBox(tbx_p2_corrective_person);
         disableTextBox(tbx_p2_corrective_personDate);
@@ -470,7 +487,7 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         disableWatermark(tweWitnessName1);
         disableWatermark(tweWitnessPhone1);
         disableWatermark(tweWitnessName2);
-        disableWatermark(tweWitnessPhone2); 
+        disableWatermark(tweWitnessPhone2);
         disableWatermark(tweMedicalGpDate);
         disableWatermark(tweMedicalErDate);
         disableWatermark(tweCorrectivePerson);
@@ -487,7 +504,7 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         disableWatermark(tweEnvironmentTargetDate);
         disableWatermark(tweEnvironmentCompletedDate);
         disableWatermark(twePatientTargetDate);
-        disableWatermark(twePatientCompletedDate);        
+        disableWatermark(twePatientCompletedDate);
         #endregion watermarks
 
     }
@@ -499,8 +516,10 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// </summary>
     /// <param name="id">The incidentNo (ID) of the report to load.</param>
     /// <returns></returns>
-    private void loadReport(int id) {
-        if (id == -1) {
+    private void loadReport(int id)
+    {
+        if (id == -1)
+        {
             setUserMsg("No incident report number given.");
             return;
         }
@@ -509,13 +528,16 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
                      .Where(r => r.incidentNo.Equals(id))
                      .Select(r => r).FirstOrDefault();
 
-        if (report == null) {
+        if (report == null)
+        {
             setUserMsg("No incident report with that report number found.");
             return;
         }
 
-        if (Session["RoleNo"].Equals(4)) {
-            if (!Session["DeptNo"].Equals(report.deptNo)) {
+        if (Session["RoleNo"].Equals(4))
+        {
+            if (!Session["DeptNo"].Equals(report.deptNo))
+            {
                 setUserMsg("Only safety officers and administrators can view incident reports from other departments.");
                 return;
             }
@@ -790,8 +812,10 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// </summary>
     /// <param name="value">The String to convert.</param>
     /// <returns>Boolean: true for 1, false for 2 or null.</returns>
-    private Boolean convertToCheckBoxValue(String value) {
-        if ((value == null) || value.Equals("2")) {
+    private Boolean convertToCheckBoxValue(String value)
+    {
+        if ((value == null) || value.Equals("2"))
+        {
             return false;
         }
         return true;
@@ -804,8 +828,10 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// </summary>
     /// <param name="value">The String to convert.</param>
     /// <returns>Empty string if null, otherwise returns the value.</returns>
-    private String convertToTextBoxValue(String value) {
-        if (value == null) {
+    private String convertToTextBoxValue(String value)
+    {
+        if (value == null)
+        {
             return String.Empty;
         }
         return value;
@@ -818,8 +844,10 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// </summary>
     /// <param name="value">The Date to convert.</param>
     /// <returns>The date in the format "M/d/yyyy" or an empty string if the value is null.</returns>
-    private String convertDateTimeToString(Object value) {
-        if (value == null) {
+    private String convertDateTimeToString(Object value)
+    {
+        if (value == null)
+        {
             return String.Empty;
         }
         return Convert.ToDateTime(value).ToString("M/d/yyyy");
@@ -832,8 +860,10 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// </summary>
     /// <param name="value">The Date to convert.</param>
     /// <returns>The time in the format "h:mm tt" or an empty string if the value is null.</returns>
-    private String convertTimeToString(Object value) {
-        if (value == null) {
+    private String convertTimeToString(Object value)
+    {
+        if (value == null)
+        {
             return String.Empty;
         }
         return Convert.ToDateTime(value).ToString("h:mm tt");
@@ -844,7 +874,8 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// Uses the employee's first and last name to get the rest employee's information from the database.
     /// Populates the Header form with this data.
     /// </summary>
-    private void getEmployeeData() {
+    private void getEmployeeData()
+    {
         String first = tbxFirstName.Text;
         String last = tbxLastName.Text;
         Employee emp = null;
@@ -853,40 +884,50 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
                   .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
                   .Select(e => e);
 
-        if ((qry != null) && (qry.Count() == 1)) {
+        if ((qry != null) && (qry.Count() == 1))
+        {
             emp = qry.FirstOrDefault();
 
             tbxId.Text = emp.empNo.ToString();
             tbxFirstName.Text = emp.fname.ToString();
             tbxLastName.Text = emp.lname.ToString();
 
-            if (emp.position != null) {
+            if (emp.position != null)
+            {
                 tbxPosition.Text = emp.position;
             }
-            if (emp.employer != null) {
+            if (emp.employer != null)
+            {
                 tbxEmployer.Text = emp.employer;
             }
-            if (emp.deptName != null) {
+            if (emp.deptName != null)
+            {
                 tbxDepartment.Text = emp.deptName;
             }
-            if (emp.supervisor != null) {
+            if (emp.supervisor != null)
+            {
                 tbxSupervisor.Text = emp.supervisor;
             }
-            if (emp.room != null) {
+            if (emp.room != null)
+            {
                 tbxRoom.Text = emp.room;
             }
-            if (emp.startDate != null) {
+            if (emp.startDate != null)
+            {
                 tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy");
             }
-            if (emp.endDate != null) {
+            if (emp.endDate != null)
+            {
                 tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy");
             }
 
         }
-        else if ((qry != null) && (qry.Count() <= 0)) {
+        else if ((qry != null) && (qry.Count() <= 0))
+        {
             Popup_Overlay("No employee with that first and last name found.", FailColour);
         }
-        else {
+        else
+        {
             Popup_Overlay("There was more than one employee with that first and last name.", FailColour);
         }
     }
@@ -897,7 +938,8 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The index changed event.</param>
-    protected void btnGetEmployee_Click(object sender, EventArgs e) {
+    protected void btnGetEmployee_Click(object sender, EventArgs e)
+    {
         getEmployeeData();
     }
     #endregion LoadEmployeeData

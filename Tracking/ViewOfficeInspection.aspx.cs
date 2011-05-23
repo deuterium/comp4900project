@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Web.UI.WebControls;
 using BCCAModel;
-using System.Globalization;
 
-public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
+public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page
+{
     #region Class Variables
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
@@ -30,19 +31,23 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
         Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
         Session["AfterLoginRedirectUrl"] = null;
-        
-        if (!IsPostBack) {
+
+        if (!IsPostBack)
+        {
             hideAllPanels();
         }
 
         String reqInspectionNo = Request.QueryString["OfficeInspectionNo"];
         int inspectionNo = -1;
-        try {
-            if (reqInspectionNo != null) {
+        try
+        {
+            if (reqInspectionNo != null)
+            {
                 inspectionNo = Convert.ToInt32(reqInspectionNo);
             }
         }
-        catch (FormatException ex) {
+        catch (FormatException ex)
+        {
             ex.ToString();
             setUserMsg("Invalid inspection number given.");
             return;
@@ -56,8 +61,10 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
     /// If a null message parameter is given, the message is hidden.
     /// </summary>
     /// <param name="msg"></param>
-    private void setUserMsg(String msg) {
-        if (msg == null) {
+    private void setUserMsg(String msg)
+    {
+        if (msg == null)
+        {
             lblUserMsg.Visible = false;
             return;
         }
@@ -69,7 +76,8 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
     /// Hides all the panels on the page.
     /// Shows the user message.
     /// </summary>
-    private void hideAllPanels() {
+    private void hideAllPanels()
+    {
         pnlHeader.Visible = false;
         pnlChecklist.Visible = false;
         pnlComments.Visible = false;
@@ -80,7 +88,8 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
     /// Shows all the panels on the page.
     /// Hides the user message.
     /// </summary>
-    private void showAllPanels() {
+    private void showAllPanels()
+    {
         pnlHeader.Visible = true;
         pnlChecklist.Visible = true;
         pnlComments.Visible = true;
@@ -92,12 +101,15 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
     /// </summary>
     /// <param name="statusNo">A string that holds a number representing the follow up status (1, 2, or 3).</param>
     /// <returns>1 as "Not Started", 2 as "In Progress", 3 as "Complete", and "Unknown" for errors</returns>
-    private String convertFollowUpStatus(String statusNo) {
+    private String convertFollowUpStatus(String statusNo)
+    {
         String status = "Unknown";
-        if (statusNo == null) {
+        if (statusNo == null)
+        {
             return status;
         }
-        switch (statusNo) {
+        switch (statusNo)
+        {
             case "1":
                 status = "Not Started";
                 break;
@@ -121,8 +133,10 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
     /// Formats the grid view so it displays nicely.
     /// </summary>
     /// <param name="insNo">The id of the Office Inspection to display.</param>
-    protected void displayOfficeInspection(int selectedOfficeInsNo) {
-        if (selectedOfficeInsNo == -1) {
+    protected void displayOfficeInspection(int selectedOfficeInsNo)
+    {
+        if (selectedOfficeInsNo == -1)
+        {
             setUserMsg("No inspection number given.");
             return;
         }
@@ -131,17 +145,20 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
                         .Where(oi => oi.officeInsNo.Equals(selectedOfficeInsNo))
                         .Select(oi => oi).FirstOrDefault();
 
-        if (inspection == null) {
+        if (inspection == null)
+        {
             setUserMsg("No inspection with that inspection number found.");
             return;
         }
 
-        if (Session["RoleNo"].Equals(4)) {
+        if (Session["RoleNo"].Equals(4))
+        {
             int inspectionDeptNo = (from d in ctx.Departments
                                     join i in ctx.OfficeInspections on d.deptName equals i.deptName
                                     where i.officeInsNo.Equals(selectedOfficeInsNo)
                                     select d.deptNo).FirstOrDefault();
-            if (!Session["DeptNo"].Equals(inspectionDeptNo)) {
+            if (!Session["DeptNo"].Equals(inspectionDeptNo))
+            {
                 setUserMsg("Only safety officers and administrators can view inspections from other departments.");
                 return;
             }
@@ -151,78 +168,79 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
         // Get the office inspection from the database
         // Note: the query was converted from SQL to Lambda in LinqPad
         var qry = ctx.OfficeInspectionItems
-                    .Join (
-                        ctx.OfficeInspectionDetails, 
-                        OII => 
-                            new  
+                    .Join(
+                        ctx.OfficeInspectionDetails,
+                        OII =>
+                            new
                             {
-                            officeInsItemNo = OII.officeInsItemNo
-                            }, 
-                        OID => 
-                            new  
+                                officeInsItemNo = OII.officeInsItemNo
+                            },
+                        OID =>
+                            new
                             {
-                            officeInsItemNo = (Int32)(OID.officeInsItemNo)
-                            }, 
-                        (OII, OID) => 
-                            new  
+                                officeInsItemNo = (Int32)(OID.officeInsItemNo)
+                            },
+                        (OII, OID) =>
+                            new
                             {
-                            OII = OII, 
-                            OID = OID
+                                OII = OII,
+                                OID = OID
                             }
                     )
-                    .Join (
-                        ctx.OfficeInspections, 
-                        temp0 => temp0.OID.officeInsNo, 
-                        OI => (Int32?)(OI.officeInsNo), 
-                        (temp0, OI) => 
-                            new  
+                    .Join(
+                        ctx.OfficeInspections,
+                        temp0 => temp0.OID.officeInsNo,
+                        OI => (Int32?)(OI.officeInsNo),
+                        (temp0, OI) =>
+                            new
                             {
-                            temp0 = temp0, 
-                            OI = OI
+                                temp0 = temp0,
+                                OI = OI
                             }
                     )
-                    .GroupJoin (
-                        ctx.OfficeFollowUps, 
-                        temp1 => 
-                            new  
+                    .GroupJoin(
+                        ctx.OfficeFollowUps,
+                        temp1 =>
+                            new
                             {
-                            officeInsItemNo = temp1.temp0.OII.officeInsItemNo, 
-                            officeInsNo = temp1.OI.officeInsNo
-                            }, 
-                        OFU => 
-                            new  
+                                officeInsItemNo = temp1.temp0.OII.officeInsItemNo,
+                                officeInsNo = temp1.OI.officeInsNo
+                            },
+                        OFU =>
+                            new
                             {
-                            officeInsItemNo = (Int32)(OFU.officeInsItemNo), 
-                            officeInsNo = OFU.officeInsNo
-                            }, 
-                        (temp1, officefollowup_join) => 
-                            new  
+                                officeInsItemNo = (Int32)(OFU.officeInsItemNo),
+                                officeInsNo = OFU.officeInsNo
+                            },
+                        (temp1, officefollowup_join) =>
+                            new
                             {
-                            temp1 = temp1, 
-                            officefollowup_join = officefollowup_join
+                                temp1 = temp1,
+                                officefollowup_join = officefollowup_join
                             }
                     )
-                    .SelectMany (
-                        temp2 => temp2.officefollowup_join.DefaultIfEmpty (), 
-                        (temp2, OFU) => 
-                            new  
+                    .SelectMany(
+                        temp2 => temp2.officefollowup_join.DefaultIfEmpty(),
+                        (temp2, OFU) =>
+                            new
                             {
-                            temp2 = temp2, 
-                            OFU = OFU
+                                temp2 = temp2,
+                                OFU = OFU
                             }
                     )
-                    .Where (
+                    .Where(
                         temp3 =>
                             (((temp3.OFU.officeInsNo == selectedOfficeInsNo) && (temp3.temp2.temp1.OI.officeInsNo == selectedOfficeInsNo)) ||
                                 (((Int32?)(temp3.OFU.officeInsNo) == null) && (temp3.temp2.temp1.OI.officeInsNo == selectedOfficeInsNo))
                             )
                     )
-                    .Select (
-                        temp3 => 
-                            new {
+                    .Select(
+                        temp3 =>
+                            new
+                            {
                                 officeInsItemNo = temp3.temp2.temp1.temp0.OII.officeInsItemNo,
-                                officeInsItemName = temp3.temp2.temp1.temp0.OII.officeInsName, 
-                                checkbox = temp3.temp2.temp1.temp0.OID.checkbox, 
+                                officeInsItemName = temp3.temp2.temp1.temp0.OII.officeInsName,
+                                checkbox = temp3.temp2.temp1.temp0.OID.checkbox,
                                 itemComment = temp3.temp2.temp1.temp0.OID.comments,
                                 itemFollowUpComment = temp3.OFU.comment,
                             }
@@ -233,22 +251,27 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
         lblDepartment.Text = inspection.deptName;
         lblOfficeArea.Text = inspection.area;
         lblInspector.Text = inspection.inspector;
-        if (inspection.insDate != null) {
+        if (inspection.insDate != null)
+        {
             lblInspectionDate.Text = Convert.ToDateTime(inspection.insDate, locale).ToString(dateFormat, locale);
         }
-        if (inspection.followupDate != null) {
+        if (inspection.followupDate != null)
+        {
             lblFollowUpDate.Text = Convert.ToDateTime(inspection.followupDate, locale).ToString(dateFormat, locale);
         }
         lblFollowUpStatus.Text = convertFollowUpStatus(inspection.followUpStatus);
-        if (inspection.followupSubmitter != null) {
+        if (inspection.followupSubmitter != null)
+        {
             lblFollowUpSubmitter.Text = inspection.followupSubmitter;
         }
         lblInspectionComment.Text = "No comment.";
-        if (inspection.comments != null) {
+        if (inspection.comments != null)
+        {
             lblInspectionComment.Text = inspection.comments;
         }
         lblFollowUpComment.Text = "No comment.";
-        if (inspection.followupComment != null) {
+        if (inspection.followupComment != null)
+        {
             lblFollowUpComment.Text = inspection.followupComment;
         }
 
@@ -264,11 +287,13 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
         dt.Columns.Add(new DataColumn("checkbox", typeof(System.String)));
         dt.Columns.Add(new DataColumn("inspectionComment", typeof(System.String)));
         dt.Columns.Add(new DataColumn("followUpComment", typeof(System.String)));
-        
+
         // Put the data in rows, inserting rows for subheaders
-        foreach (var result in qry) {
+        foreach (var result in qry)
+        {
             String subheader = checkForSubheaderStart(result.officeInsItemNo);
-            if (!subheader.Equals(String.Empty)) {
+            if (!subheader.Equals(String.Empty))
+            {
                 DataRow drSubheader = dt.NewRow();
                 drSubheader["officeInsItemNo"] = subheader;
                 dt.Rows.Add(drSubheader);
@@ -294,9 +319,11 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
         gdvOfficeInspection.Columns[4].ItemStyle.Width = 175;
 
         // Find and format the subheader rows
-        foreach (GridViewRow row in gdvOfficeInspection.Rows) {
+        foreach (GridViewRow row in gdvOfficeInspection.Rows)
+        {
             String strChecked = ((Label)row.FindControl("lblChecked")).Text;
-            if ((strChecked == null) || (strChecked.Equals(String.Empty))) {
+            if ((strChecked == null) || (strChecked.Equals(String.Empty)))
+            {
                 row.Cells[0].ColumnSpan = gdvOfficeInspection.Columns.Count;
                 row.Cells[1].Visible = false;
                 row.Cells[2].Visible = false;
@@ -315,9 +342,11 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
     /// </summary>
     /// <param name="labInsItem">The id of the lab inspection item.</param>
     /// <returns>A subheader or an empty string.</returns>
-    private String checkForSubheaderStart(int labInsItem) {
+    private String checkForSubheaderStart(int labInsItem)
+    {
         String subheader = String.Empty;
-        switch (labInsItem) {
+        switch (labInsItem)
+        {
             case 1: // Are worker incident/injury forms available / do staff know when to use them
                 subheader = "General Safety";
                 break;
@@ -347,7 +376,7 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
                 break;
             case 42: // Do staff know what to do in the event of an evacuation alarm
                 subheader = "Fire Safety and Emergency Response";
-                break;            
+                break;
             default:
                 // do nothing
                 break;
@@ -360,9 +389,11 @@ public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page {
     /// </summary>
     /// <param name="value">The radio button value to convert to a display String.</param>
     /// <returns>A string: Yes for 1, No for 2, N/A or Unknown for 3.</returns>
-    private String convertRadioButtonListValue(int value) {
+    private String convertRadioButtonListValue(int value)
+    {
         String returnValue = String.Empty;
-        switch (value) {
+        switch (value)
+        {
             case 1:
                 returnValue = "Yes";
                 break;

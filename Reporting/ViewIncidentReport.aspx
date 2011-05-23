@@ -1,10 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ViewIncidentReport.aspx.cs" Inherits="Reporting_ViewIncidentReport" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ViewIncidentReport.aspx.cs"
+    Inherits="Reporting_ViewIncidentReport" %>
+
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
-
-<asp:Content ID="Content1" runat="server" ContentPlaceHolderID="head">
-</asp:Content>
-
-<asp:Content ID="Content2" runat="server" ContentPlaceHolderID="body">
+<asp:content id="Content1" runat="server" contentplaceholderid="head">
+</asp:content>
+<asp:content id="Content2" runat="server" contentplaceholderid="body">
 
 <asp:Label ID="lblUserMsg" runat="server" />
 
@@ -14,51 +14,51 @@
 
 <div ID="divCollapsiblePanelExtenders" visible="false">
 <asp:CollapsiblePanelExtender ID="cpeA" runat="server" Collapsed="true"
-CollapseControlID="hr3A" ExpandControlID="hr3A" TargetControlID="pnlA"
-ImageControlID="imgExpandCollapseA" TextLabelID="ExpandCollapseA" 
-CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+    CollapseControlID="hr3A" ExpandControlID="hr3A" TargetControlID="pnlA"
+    ImageControlID="imgExpandCollapseA" TextLabelID="ExpandCollapseA" 
+    CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeB" runat="server" Collapsed="true"
-CollapseControlID="hr3B" ExpandControlID="hr3B" TargetControlID="pnlB"
-ImageControlID="imgExpandCollapseB" TextLabelID="ExpandCollapseB" 
-CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+    CollapseControlID="hr3B" ExpandControlID="hr3B" TargetControlID="pnlB"
+    ImageControlID="imgExpandCollapseB" TextLabelID="ExpandCollapseB" 
+    CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeC" runat="server" Collapsed="true"
-CollapseControlID="hr3C" ExpandControlID="hr3C" TargetControlID="pnlC"
-ImageControlID="imgExpandCollapseC" TextLabelID="ExpandCollapseC" 
-CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+    CollapseControlID="hr3C" ExpandControlID="hr3C" TargetControlID="pnlC"
+    ImageControlID="imgExpandCollapseC" TextLabelID="ExpandCollapseC" 
+    CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeD" runat="server" Collapsed="true"
-CollapseControlID="hr3D" ExpandControlID="hr3D" TargetControlID="pnlD"
-ImageControlID="imgExpandCollapseD" TextLabelID="ExpandCollapseD" 
-CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+    CollapseControlID="hr3D" ExpandControlID="hr3D" TargetControlID="pnlD"
+    ImageControlID="imgExpandCollapseD" TextLabelID="ExpandCollapseD" 
+    CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeE" runat="server" Collapsed="true"
-CollapseControlID="hr3E" ExpandControlID="hr3E" TargetControlID="pnlE"
-ImageControlID="imgExpandCollapseE" TextLabelID="ExpandCollapseE" 
-CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+    CollapseControlID="hr3E" ExpandControlID="hr3E" TargetControlID="pnlE"
+    ImageControlID="imgExpandCollapseE" TextLabelID="ExpandCollapseE" 
+    CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeF" runat="server" Collapsed="true"
-CollapseControlID="hr3F" ExpandControlID="hr3F" TargetControlID="pnlF"
-ImageControlID="imgExpandCollapseF" TextLabelID="ExpandCollapseF" 
-CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+    CollapseControlID="hr3F" ExpandControlID="hr3F" TargetControlID="pnlF"
+    ImageControlID="imgExpandCollapseF" TextLabelID="ExpandCollapseF" 
+    CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeG" runat="server" Collapsed="true"
-CollapseControlID="hr3G" ExpandControlID="hr3G" TargetControlID="pnlG"
-ImageControlID="imgExpandCollapseG" TextLabelID="ExpandCollapseG" 
-CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+    CollapseControlID="hr3G" ExpandControlID="hr3G" TargetControlID="pnlG"
+    ImageControlID="imgExpandCollapseG" TextLabelID="ExpandCollapseG" 
+    CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 
 <asp:CollapsiblePanelExtender ID="cpeH" runat="server" Collapsed="true"
-CollapseControlID="hr3H" ExpandControlID="hr3H" TargetControlID="pnlH"
-ImageControlID="imgExpandCollapseH" TextLabelID="ExpandCollapseH" 
-CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+    CollapseControlID="hr3H" ExpandControlID="hr3H" TargetControlID="pnlH"
+    ImageControlID="imgExpandCollapseH" TextLabelID="ExpandCollapseH" 
+    CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </asp:CollapsiblePanelExtender>
 </div>
 
@@ -1020,4 +1020,4 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 </div>
 </asp:Panel>
 
-</asp:Content>
+</asp:content>

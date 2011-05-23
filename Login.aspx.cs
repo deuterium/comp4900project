@@ -43,7 +43,7 @@ public partial class Login : System.Web.UI.Page
         {
             dbPass = ctx.Users.Where(u => u.userName == username).Select(u => u.password).First();
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             //Treats empty result exceptions and invalid database returns as failed logins
             e.ToString();
@@ -97,10 +97,12 @@ public partial class Login : System.Web.UI.Page
             }
 
             Object redirectUrl = Session["AfterLoginRedirectUrl"];
-            if ((redirectUrl == null)) {
+            if ((redirectUrl == null))
+            {
                 Response.Redirect("Default.aspx");
             }
-            else {
+            else
+            {
                 Session["AfterLoginRedirectUrl"] = null;
                 Response.Redirect(redirectUrl.ToString());
             }

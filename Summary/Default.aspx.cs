@@ -1,11 +1,12 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using AjaxControlToolkit;
 using BCCAModel;
-using System.Globalization;
 
 /// <summary>
 ///Summary/Default.aspx.cs
@@ -98,9 +99,11 @@ public partial class Summary_Default : System.Web.UI.Page
 
         if (!IsPostBack)
         {
+            addCharFilterToAllTextBoxes();
+
             ddlLabLabManager.DataSource = ctx.LabInspections.Select(l => new { text = l.labMgr, value = l.labMgr }).OrderBy(l => l).Distinct();
             ddlLabLabManager.DataValueField = "value";
-            ddlLabLabManager.DataTextField  = "text";
+            ddlLabLabManager.DataTextField = "text";
             ddlLabLabManager.DataBind();
 
             ddlLabDepartment.DataSource = ctx.Departments.Select(D => new { text = D.deptName, value = D.deptName }).OrderBy(D => D);
@@ -119,11 +122,56 @@ public partial class Summary_Default : System.Web.UI.Page
             populateTrackerGridView();
             // pnlPop.Style.Value = "display:none;";
             lblResults.Visible = true;
-            
+
             tsmScriptManager.SetFocus(tbxLastName.ClientID);
         }
 
     }
+
+    #region Add Char Filter to All TextBox
+    /// <summary>
+    /// Recursively gets every control of the specified root (including root and all it's child controls).
+    /// Returns the controls as an array of Control objects.
+    /// </summary>
+    /// <param name="root">The root control to get child controls for.</param>
+    /// <returns>An array of all the child controls of root.</returns>
+    public static Control[] getAllPageControls(Control root)
+    {
+        List<Control> list = new List<Control>();
+        list.Add(root);
+        if (root.HasControls())
+        {
+            foreach (Control control in root.Controls)
+            {
+                list.AddRange(getAllPageControls(control));
+            }
+        }
+        return list.ToArray();
+    }
+
+    /// <summary>
+    /// Adds a character filter to all Text Boxes on the page.
+    /// Prevents users from entering the <, >, &, or # characters in Text Boxes.
+    /// These characters trigger the HttpRequestValidationException that prevents script injection.
+    /// Note: the JS behind the filter could be turned off, in which case, the exception will still occur.
+    /// </summary>
+    private void addCharFilterToAllTextBoxes()
+    {
+        Control[] allControls = getAllPageControls(Page);
+        foreach (Control c in allControls)
+        {
+            TextBox tbx = c as TextBox;
+            if (tbx != null)
+            {
+                FilteredTextBoxExtender fte = new FilteredTextBoxExtender();
+                fte.FilterMode = FilterModes.InvalidChars;
+                fte.InvalidChars = "<>&#";
+                fte.TargetControlID = c.ID;
+                tbx.Parent.Controls.Add(fte);
+            }
+        }
+    }
+    #endregion Filter TextBox
 
     #region Lab Inspection Look Up
     /// <summary>
@@ -136,7 +184,7 @@ public partial class Summary_Default : System.Web.UI.Page
         grvLabInspections.Visible = true;
 
         department = Convert.ToString(ddlLabDepartment.SelectedValue);
-        
+
         labManager = Convert.ToString(ddlLabLabManager.SelectedValue);
         //String labInspectionDate = tbxLabInspectionDate.Text;
         //String.Format("{0:Mm/dd/yyyy}", labInspectionDate);
@@ -158,71 +206,71 @@ public partial class Summary_Default : System.Web.UI.Page
         {
             //Role: Admin/Safety Officer; Sees all reports
             case 0:
-                     grvLabInspections.DataSource = ctx.LabInspections
-                                                  .Join(
-                                                    ctx.Departments,
-                                                    LI => LI.deptName,
-                                                    D => D.deptName,
-                                                    (LI, D) =>
-                                                        new
-                                                        {
-                                                            LI = LI,
-                                                            D = D
-                                                        }
-                                                )
-                                               .Where(temp0 => ((temp0.D.deptName == department) || (temp0.LI.labMgr == labManager)
-                                                 || (temp0.LI.date == validDate)))
-                                               .Select(
-                                                  temp0 =>
-                                                     new
-                                                     {
-                                                         labInsNo = temp0.LI.labInsNo,
-                                                         deptName = temp0.D.deptName,
-                                                         date = temp0.LI.date,
-                                                         followupDate = temp0.LI.followupDate,
-                                                         inspector = temp0.LI.inspector,
-                                                         labMgr = temp0.LI.labMgr,
-                                                         supervisor = temp0.LI.supervisor,
-                                                         room = temp0.LI.room
-                                                     }
-                                               );
+                grvLabInspections.DataSource = ctx.LabInspections
+                                             .Join(
+                                               ctx.Departments,
+                                               LI => LI.deptName,
+                                               D => D.deptName,
+                                               (LI, D) =>
+                                                   new
+                                                   {
+                                                       LI = LI,
+                                                       D = D
+                                                   }
+                                           )
+                                          .Where(temp0 => ((temp0.D.deptName == department) || (temp0.LI.labMgr == labManager)
+                                            || (temp0.LI.date == validDate)))
+                                          .Select(
+                                             temp0 =>
+                                                new
+                                                {
+                                                    labInsNo = temp0.LI.labInsNo,
+                                                    deptName = temp0.D.deptName,
+                                                    date = temp0.LI.date,
+                                                    followupDate = temp0.LI.followupDate,
+                                                    inspector = temp0.LI.inspector,
+                                                    labMgr = temp0.LI.labMgr,
+                                                    supervisor = temp0.LI.supervisor,
+                                                    room = temp0.LI.room
+                                                }
+                                          );
 
-                        grvLabInspections.DataBind();
+                grvLabInspections.DataBind();
                 break;
 
             case 1:
-                        // Session Value of logged in users Deptartment Number
-                        int userDeptNo = (int)Session["DeptNo"];
-                        grvLabInspections.DataSource = ctx.LabInspections
-                                                  .Join(
-                                                    ctx.Departments,
-                                                    LI => LI.deptName,
-                                                    D => D.deptName,
-                                                    (LI, D) =>
-                                                        new
-                                                        {
-                                                            LI = LI,
-                                                            D = D
-                                                        }
-                                                )
-                                               .Where(temp0 => ((temp0.D.deptName == department) || (temp0.LI.labMgr == labManager)
-                                                 || (temp0.LI.date == validDate) && (temp0.D.deptNo == userDeptNo)))
-                                               .Select(
-                                                  temp0 =>
-                                                     new
-                                                     {
-                                                         labInsNo = temp0.LI.labInsNo,
-                                                         deptName = temp0.D.deptName,
-                                                         date = temp0.LI.date,
-                                                         followupDate = temp0.LI.followupDate,
-                                                         inspector = temp0.LI.inspector,
-                                                         labMgr = temp0.LI.labMgr,
-                                                         supervisor = temp0.LI.supervisor,
-                                                         room = temp0.LI.room
-                                                     }
-                                               );
+                // Session Value of logged in users Deptartment Number
+                int userDeptNo = (int)Session["DeptNo"];
+                grvLabInspections.DataSource = ctx.LabInspections
+                                          .Join(
+                                            ctx.Departments,
+                                            LI => LI.deptName,
+                                            D => D.deptName,
+                                            (LI, D) =>
+                                                new
+                                                {
+                                                    LI = LI,
+                                                    D = D
+                                                }
+                                        )
+                                       .Where(temp0 => ((temp0.D.deptName == department) || (temp0.LI.labMgr == labManager)
+                                         || (temp0.LI.date == validDate) && (temp0.D.deptNo == userDeptNo)))
+                                       .Select(
+                                          temp0 =>
+                                             new
+                                             {
+                                                 labInsNo = temp0.LI.labInsNo,
+                                                 deptName = temp0.D.deptName,
+                                                 date = temp0.LI.date,
+                                                 followupDate = temp0.LI.followupDate,
+                                                 inspector = temp0.LI.inspector,
+                                                 labMgr = temp0.LI.labMgr,
+                                                 supervisor = temp0.LI.supervisor,
+                                                 room = temp0.LI.room
+                                             }
+                                       );
 
-                        grvLabInspections.DataBind();
+                grvLabInspections.DataBind();
                 break;
 
             default:
@@ -440,9 +488,9 @@ public partial class Summary_Default : System.Web.UI.Page
 
         tbLabInspectionComment.Text = Convert.ToString(ctx.LabInspections.Where(LI => (LI.labInsNo == selectedLabInsNo)).Select(LI => LI.comments).FirstOrDefault());
 
-        
+
         var qryFollowUpSubmitter = ctx.LabInspections.Where(LI => (LI.labInsNo == selectedLabInsNo)).Select(LI => LI.followupSubmitter).FirstOrDefault();
-        
+
         // Check for null values.
         if (qryFollowUpSubmitter != null)
         {
@@ -490,20 +538,20 @@ public partial class Summary_Default : System.Web.UI.Page
     /// <param name="e"></param>
     protected void grvLabInspectionResults_DataBinding(object sender, GridViewRowEventArgs e)
     {
-        
+
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             for (int i = -1; i < grvLabInspectionResults.Rows.Count; i++)
             {
 
-                    if (e.Row.Cells[1].Text == "1")
-                        e.Row.Cells[1].Text = "Yes";
+                if (e.Row.Cells[1].Text == "1")
+                    e.Row.Cells[1].Text = "Yes";
 
-                    if (e.Row.Cells[1].Text == "2")
-                        e.Row.Cells[1].Text = "No";
+                if (e.Row.Cells[1].Text == "2")
+                    e.Row.Cells[1].Text = "No";
 
-                    if (e.Row.Cells[1].Text == "3")
-                        e.Row.Cells[1].Text = "N/A";
+                if (e.Row.Cells[1].Text == "3")
+                    e.Row.Cells[1].Text = "N/A";
 
             }
         }
@@ -539,67 +587,67 @@ public partial class Summary_Default : System.Web.UI.Page
         {
             //Role: Admin/Safety Officer; Sees all reports
             case 0:
-                        grvOfficeInspections.DataSource = ctx.OfficeInspections
-                                                   .Join(
-                                                      ctx.Departments,
-                                                      OI => OI.deptName,
-                                                      D => D.deptName,
-                                                      (OI, D) =>
-                                                         new
-                                                         {
-                                                             OI = OI,
-                                                             D = D
-                                                         }
-                                                   )
-                                                   .Where(temp0 => ((temp0.D.deptName == department) || (temp0.OI.insDate == validDate)))
-                                                   .Select(
-                                                      temp0 =>
-                                                         new
-                                                         {
-                                                             officeInsNo = temp0.OI.officeInsNo,
-                                                             deptName = temp0.D.deptName,
-                                                             insDate = temp0.OI.insDate,
-                                                             inspector = temp0.OI.inspector,
-                                                             area = temp0.OI.area,
-                                                         }
-                                                   );
+                grvOfficeInspections.DataSource = ctx.OfficeInspections
+                                           .Join(
+                                              ctx.Departments,
+                                              OI => OI.deptName,
+                                              D => D.deptName,
+                                              (OI, D) =>
+                                                 new
+                                                 {
+                                                     OI = OI,
+                                                     D = D
+                                                 }
+                                           )
+                                           .Where(temp0 => ((temp0.D.deptName == department) || (temp0.OI.insDate == validDate)))
+                                           .Select(
+                                              temp0 =>
+                                                 new
+                                                 {
+                                                     officeInsNo = temp0.OI.officeInsNo,
+                                                     deptName = temp0.D.deptName,
+                                                     insDate = temp0.OI.insDate,
+                                                     inspector = temp0.OI.inspector,
+                                                     area = temp0.OI.area,
+                                                 }
+                                           );
 
 
 
-        grvOfficeInspections.DataBind();
+                grvOfficeInspections.DataBind();
                 break;
             // Role: Lab Manager; See reports in their lab.
             case 1:
-                        // Session Value of logged in users Deptartment Number
-                        int userDeptNo = (int)Session["DeptNo"];
-                        grvOfficeInspections.DataSource = ctx.OfficeInspections
-                                                   .Join(
-                                                      ctx.Departments,
-                                                      OI => OI.deptName,
-                                                      D => D.deptName,
-                                                      (OI, D) =>
-                                                         new
-                                                         {
-                                                             OI = OI,
-                                                             D = D
-                                                         }
-                                                   )
-                                                   .Where(temp0 => ((temp0.D.deptName == department) || (temp0.OI.insDate == validDate)) && (temp0.D.deptNo == userDeptNo))
-                                                   .Select(
-                                                      temp0 =>
-                                                         new
-                                                         {
-                                                             officeInsNo = temp0.OI.officeInsNo,
-                                                             deptName = temp0.D.deptName,
-                                                             insDate = temp0.OI.insDate,
-                                                             inspector = temp0.OI.inspector,
-                                                             area = temp0.OI.area,
-                                                         }
-                                                   );
+                // Session Value of logged in users Deptartment Number
+                int userDeptNo = (int)Session["DeptNo"];
+                grvOfficeInspections.DataSource = ctx.OfficeInspections
+                                           .Join(
+                                              ctx.Departments,
+                                              OI => OI.deptName,
+                                              D => D.deptName,
+                                              (OI, D) =>
+                                                 new
+                                                 {
+                                                     OI = OI,
+                                                     D = D
+                                                 }
+                                           )
+                                           .Where(temp0 => ((temp0.D.deptName == department) || (temp0.OI.insDate == validDate)) && (temp0.D.deptNo == userDeptNo))
+                                           .Select(
+                                              temp0 =>
+                                                 new
+                                                 {
+                                                     officeInsNo = temp0.OI.officeInsNo,
+                                                     deptName = temp0.D.deptName,
+                                                     insDate = temp0.OI.insDate,
+                                                     inspector = temp0.OI.inspector,
+                                                     area = temp0.OI.area,
+                                                 }
+                                           );
 
 
 
-                        grvOfficeInspections.DataBind();
+                grvOfficeInspections.DataBind();
                 break;
             default:
                 throw new System.SystemException("Default case of switch should never be reached");
@@ -624,7 +672,7 @@ public partial class Summary_Default : System.Web.UI.Page
 
         System.Globalization.DateTimeFormatInfo dateInfo = new System.Globalization.DateTimeFormatInfo();
         dateInfo.ShortDatePattern = "MM/dd/yyyy";
-        
+
         DateTime validDate;
         if (tbxOfficeInspectionDate.Text.Length == 0)
         {
@@ -730,80 +778,80 @@ public partial class Summary_Default : System.Web.UI.Page
         int selectedOfficeInsNo = Convert.ToInt32(row.Cells[1].Text);
 
         grvOfficeInspectionResults.DataSource = ctx.OfficeInspectionItems
-                                                           .Join (
-                                                              ctx.OfficeInspectionDetails, 
-                                                              OII => 
-                                                                 new  
+                                                           .Join(
+                                                              ctx.OfficeInspectionDetails,
+                                                              OII =>
+                                                                 new
                                                                  {
-                                                                    officeInsItemNo = OII.officeInsItemNo
-                                                                 }, 
-                                                              OID => 
-                                                                 new  
+                                                                     officeInsItemNo = OII.officeInsItemNo
+                                                                 },
+                                                              OID =>
+                                                                 new
                                                                  {
-                                                                    officeInsItemNo = (Int32)(OID.officeInsItemNo)
-                                                                 }, 
-                                                              (OII, OID) => 
-                                                                 new  
+                                                                     officeInsItemNo = (Int32)(OID.officeInsItemNo)
+                                                                 },
+                                                              (OII, OID) =>
+                                                                 new
                                                                  {
-                                                                    OII = OII, 
-                                                                    OID = OID
+                                                                     OII = OII,
+                                                                     OID = OID
                                                                  }
                                                            )
-                                                           .Join (
-                                                              ctx.OfficeInspections, 
-                                                              temp0 => temp0.OID.officeInsNo, 
-                                                              OI => (Int32?)(OI.officeInsNo), 
-                                                              (temp0, OI) => 
-                                                                 new  
+                                                           .Join(
+                                                              ctx.OfficeInspections,
+                                                              temp0 => temp0.OID.officeInsNo,
+                                                              OI => (Int32?)(OI.officeInsNo),
+                                                              (temp0, OI) =>
+                                                                 new
                                                                  {
-                                                                    temp0 = temp0, 
-                                                                    OI = OI
+                                                                     temp0 = temp0,
+                                                                     OI = OI
                                                                  }
                                                            )
-                                                           .GroupJoin (
-                                                              ctx.OfficeFollowUps, 
-                                                              temp1 => 
-                                                                 new  
+                                                           .GroupJoin(
+                                                              ctx.OfficeFollowUps,
+                                                              temp1 =>
+                                                                 new
                                                                  {
-                                                                    officeInsItemNo = temp1.temp0.OII.officeInsItemNo, 
-                                                                    officeInsNo = temp1.OI.officeInsNo
-                                                                 }, 
-                                                              OFU => 
-                                                                 new  
+                                                                     officeInsItemNo = temp1.temp0.OII.officeInsItemNo,
+                                                                     officeInsNo = temp1.OI.officeInsNo
+                                                                 },
+                                                              OFU =>
+                                                                 new
                                                                  {
-                                                                    officeInsItemNo = (Int32)(OFU.officeInsItemNo), 
-                                                                    officeInsNo = OFU.officeInsNo
-                                                                 }, 
-                                                              (temp1, officefollowup_join) => 
-                                                                 new  
+                                                                     officeInsItemNo = (Int32)(OFU.officeInsItemNo),
+                                                                     officeInsNo = OFU.officeInsNo
+                                                                 },
+                                                              (temp1, officefollowup_join) =>
+                                                                 new
                                                                  {
-                                                                    temp1 = temp1, 
-                                                                    officefollowup_join = officefollowup_join
+                                                                     temp1 = temp1,
+                                                                     officefollowup_join = officefollowup_join
                                                                  }
                                                            )
-                                                           .SelectMany (
-                                                              temp2 => temp2.officefollowup_join.DefaultIfEmpty (), 
-                                                              (temp2, OFU) => 
-                                                                 new  
+                                                           .SelectMany(
+                                                              temp2 => temp2.officefollowup_join.DefaultIfEmpty(),
+                                                              (temp2, OFU) =>
+                                                                 new
                                                                  {
-                                                                    temp2 = temp2, 
-                                                                    OFU = OFU
+                                                                     temp2 = temp2,
+                                                                     OFU = OFU
                                                                  }
                                                            )
-                                                           .Where (
+                                                           .Where(
                                                               temp3 =>
                                                                     (((temp3.OFU.officeInsNo == selectedOfficeInsNo) && (temp3.temp2.temp1.OI.officeInsNo == selectedOfficeInsNo)) ||
                                                                        (((Int32?)(temp3.OFU.officeInsNo) == null) && (temp3.temp2.temp1.OI.officeInsNo == selectedOfficeInsNo))
                                                                     )
                                                            )
-                                                           .Select (
-                                                              temp3 => 
-                                                                 new  
+                                                           .Select(
+                                                              temp3 =>
+                                                                 new
                                                                  {
-                                                                    officeInsName = temp3.temp2.temp1.temp0.OII.officeInsName, 
-                                                                    checkbox = temp3.temp2.temp1.temp0.OID.checkbox, 
-                                                                    comments = temp3.temp2.temp1.temp0.OID.comments, 
-                                                                    comment = temp3.OFU.comment
+                                                                     officeInsName = temp3.temp2.temp1.temp0.OII.officeInsName,
+                                                                     checkbox = temp3.temp2.temp1.temp0.OID.checkbox,
+                                                                     comments = temp3.temp2.temp1.temp0.OID.comments,
+                                                                     comment = temp3.OFU.comment
                                                                  }
                                                            );
 
@@ -936,7 +984,7 @@ public partial class Summary_Default : System.Web.UI.Page
             grvCourseLookUp.Caption = "<table width=\"100%\" class=\"gvCaption\"><tr><td>" + temp + "</td></tr></table>";
             grvCourseLookUp.DataBind();
         }
-               
+
     }
     #endregion
 
@@ -1012,14 +1060,17 @@ public partial class Summary_Default : System.Web.UI.Page
 
     #region Incident Code
 
-        private void populateTrackerGridView() {
-            gdvTracker.DataSource = ctx.Incidents;
-            gdvTracker.DataBind();
+    private void populateTrackerGridView()
+    {
+        gdvTracker.DataSource = ctx.Incidents;
+        gdvTracker.DataBind();
     }
 
     #region Toggle Other TextBox and CheckBox
-    private void toggleOther(TextBox tbx, CheckBox cbx) {
-        if (!tbx.Text.Equals(String.Empty)) {
+    private void toggleOther(TextBox tbx, CheckBox cbx)
+    {
+        if (!tbx.Text.Equals(String.Empty))
+        {
             cbx.Checked = true;
             return;
         }
@@ -1030,7 +1081,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_patient_otherSpecify_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_patient_otherSpecify_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_patient_otherSpecify, cbx_p2_patient_other);
     }
     /// <summary>
@@ -1038,7 +1090,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_otherPatientCare_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_activity_otherPatientCare_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_activity_otherPatientCare, cbx_p2_activity_otherPatientCare);
     }
     /// <summary>
@@ -1046,7 +1099,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_otherMat_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_activity_otherMat_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_activity_otherMat, cbx_p2_activity_otherMat);
     }
     /// <summary>
@@ -1054,7 +1108,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_otherEquip_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_activity_otherEquip_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_activity_otherEquip, cbx_p2_activity_otherEquip);
     }
     /// <summary>
@@ -1062,7 +1117,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_otherEquipDesc_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_activity_otherEquipDesc_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_activity_otherEquipDesc, cbx_p2_activity_otherEquipDesc);
     }
     /// <summary>
@@ -1070,7 +1126,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_other_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_activity_other_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_activity_other, cbx_p2_activity_other);
     }
     /// <summary>
@@ -1078,7 +1135,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_cause_other_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_cause_other_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_cause_other, cbx_p2_cause_other);
     }
     /// <summary>
@@ -1086,7 +1144,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_cause_aggression_other_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_cause_aggression_other_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_cause_aggression_other, cbx_p2_cause_aggression_other);
     }
     /// <summary>
@@ -1094,7 +1153,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherEquip_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_factors_otherEquip_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_factors_otherEquip, cbx_p2_factors_otherEquip);
     }
     /// <summary>
@@ -1102,7 +1162,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherEnv_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_factors_otherEnv_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_factors_otherEnv, cbx_p2_factors_otherEnv);
     }
     /// <summary>
@@ -1110,7 +1171,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherWorkPractice_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_factors_otherWorkPractice_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_factors_otherWorkPractice, cbx_p2_factors_otherWorkPractice);
     }
     /// <summary>
@@ -1118,7 +1180,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherPatient_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_factors_otherPatient_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_factors_otherPatient, cbx_p2_factors_otherPatient);
     }
     /// <summary>
@@ -1126,7 +1189,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherOrganizational_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_factors_otherOrganizational_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_factors_otherOrganizational, cbx_p2_factors_otherOrganizational);
     }
     /// <summary>
@@ -1134,7 +1198,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherWorker_OnTextChanged(object sender, EventArgs e) {
+    protected void tbx_p2_factors_otherWorker_OnTextChanged(object sender, EventArgs e)
+    {
         toggleOther(tbx_p2_factors_otherWorker, cbx_p2_factors_otherWorker);
     }
     #endregion Toggle Other TextBox and CheckBox
@@ -1147,7 +1212,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// <summary>
     /// Populates the employers drop down list.
     /// </summary>
-    private void PopulateEmployersDdl() {
+    private void PopulateEmployersDdl()
+    {
         ddlEmployers.DataSource = employers.OrderBy(e => e.ToString());
         ddlEmployers.DataBind();
         ddlEmployers.Items.Insert(ddlEmployers.Items.Count, otherOption);
@@ -1159,7 +1225,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// Adds the "no selection" option to the front of the list.
     /// Adds the "other" option to the end of the list.
     /// </summary>
-    private void PopulatePositionsDdl() {
+    private void PopulatePositionsDdl()
+    {
         ddlPositions.DataSource = ctx.Positions.OrderBy(p => p.posName);
         ddlPositions.DataValueField = "posName";
         ddlPositions.DataBind();
@@ -1173,7 +1240,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// Adds the "no selection" option to the front of the list.
     /// Adds the "other" option to the end of the list.
     /// </summary>
-    private void PopulateDepartmentsDdl() {
+    private void PopulateDepartmentsDdl()
+    {
         ddlDepartments.DataSource = ctx.Departments.OrderBy(d => d.deptName);
         ddlDepartments.DataValueField = "deptName";
         ddlDepartments.DataBind();
@@ -1190,7 +1258,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The index changed event.</param>
-    protected void ddlPositions_SelectedIndexChanged(object sender, EventArgs e) {
+    protected void ddlPositions_SelectedIndexChanged(object sender, EventArgs e)
+    {
         CheckPositionSelection();
     }
 
@@ -1200,7 +1269,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The index changed event.</param>
-    protected void ddlEmployers_SelectedIndexChanged(object sender, EventArgs e) {
+    protected void ddlEmployers_SelectedIndexChanged(object sender, EventArgs e)
+    {
         CheckEmployeeSelection();
     }
 
@@ -1210,7 +1280,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The index changed event.</param>
-    protected void ddlDepartments_SelectedIndexChanged(object sender, EventArgs e) {
+    protected void ddlDepartments_SelectedIndexChanged(object sender, EventArgs e)
+    {
         CheckDepartmentSelection();
     }
 
@@ -1218,11 +1289,14 @@ public partial class Summary_Default : System.Web.UI.Page
     /// Displays a textbox if the "Other (specify)" option of the positions drop down list is selected.
     /// Hides the textbox if any other option is selected
     /// </summary>
-    private void CheckPositionSelection() {
-        if (ddlPositions.SelectedValue.Equals(otherOption)) {
+    private void CheckPositionSelection()
+    {
+        if (ddlPositions.SelectedValue.Equals(otherOption))
+        {
             tbxPosition.Visible = true;
         }
-        else {
+        else
+        {
             tbxPosition.Visible = false;
         }
     }
@@ -1231,11 +1305,14 @@ public partial class Summary_Default : System.Web.UI.Page
     /// Displays a textbox if the "Other (specify)" option of the employee drop down list is selected.
     /// Hides the textbox if any other option is selected
     /// </summary>
-    private void CheckEmployeeSelection() {
-        if (ddlEmployers.SelectedValue.Equals(otherOption)) {
+    private void CheckEmployeeSelection()
+    {
+        if (ddlEmployers.SelectedValue.Equals(otherOption))
+        {
             tbxEmployer.Visible = true;
         }
-        else {
+        else
+        {
             tbxEmployer.Visible = false;
         }
     }
@@ -1244,11 +1321,14 @@ public partial class Summary_Default : System.Web.UI.Page
     /// Displays a textbox if the "Other (specify)" option of the departments drop down list is selected.
     /// Hides the textbox if any other option is selected
     /// </summary>
-    private void CheckDepartmentSelection() {
-        if (ddlDepartments.SelectedValue.Equals(otherOption)) {
+    private void CheckDepartmentSelection()
+    {
+        if (ddlDepartments.SelectedValue.Equals(otherOption))
+        {
             tbxDepartment.Visible = true;
         }
-        else {
+        else
+        {
             tbxDepartment.Visible = false;
         }
     }
@@ -1261,7 +1341,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// Uses the employee's first and last name to get the rest employee's information from the database.
     /// Populates the Header form with this data.
     /// </summary>
-    private void getEmployeeData() {
+    private void getEmployeeData()
+    {
         String first = tbxFirstName.Text;
         String last = tbxLastName.Text;
         Employee emp = null;
@@ -1270,7 +1351,8 @@ public partial class Summary_Default : System.Web.UI.Page
                   .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
                   .Select(e => e);
 
-        if ((qry != null) && (qry.Count() == 1)) {
+        if ((qry != null) && (qry.Count() == 1))
+        {
             emp = qry.FirstOrDefault();
 
             tbxId.Text = emp.empNo.ToString();
@@ -1282,26 +1364,32 @@ public partial class Summary_Default : System.Web.UI.Page
                            .Where(p => p.posName.Equals(emp.position))
                            .Select(p => p).FirstOrDefault();
 
-            if (emp.position == null) {
+            if (emp.position == null)
+            {
                 ddlPositions.SelectedIndex = 0;
             }
-            else if (position != null) {
+            else if (position != null)
+            {
                 ddlPositions.SelectedValue = position.posName;
             }
-            else {
+            else
+            {
                 ddlPositions.SelectedValue = otherOption;
                 tbxPosition.Text = emp.position;
             }
             CheckPositionSelection();
 
             // Employer DDL
-            if (emp.employer == null) {
+            if (emp.employer == null)
+            {
                 ddlEmployers.SelectedIndex = 0;
             }
-            else if (employers.Contains(emp.employer)) {
+            else if (employers.Contains(emp.employer))
+            {
                 ddlEmployers.SelectedValue = emp.employer;
             }
-            else {
+            else
+            {
                 ddlEmployers.SelectedValue = otherOption;
                 tbxEmployer.Text = emp.employer;
             }
@@ -1312,40 +1400,49 @@ public partial class Summary_Default : System.Web.UI.Page
                             .Where(d => d.deptName.Equals(emp.deptName))
                             .Select(d => d).FirstOrDefault();
 
-            if (emp.deptName == null) {
+            if (emp.deptName == null)
+            {
                 ddlDepartments.SelectedIndex = 0;
             }
-            else if (department != null) {
+            else if (department != null)
+            {
                 ddlDepartments.SelectedValue = department.deptName;
             }
-            else {
+            else
+            {
                 ddlDepartments.SelectedValue = otherOption;
                 tbxDepartment.Text = emp.deptName;
             }
             CheckDepartmentSelection();
 
-            if (emp.supervisor == null) {
+            if (emp.supervisor == null)
+            {
                 tbxSupervisor.Text = String.Empty;
             }
-            else {
+            else
+            {
                 tbxSupervisor.Text = emp.supervisor;
             }
 
             tbxRoom.Text = emp.room;
 
-            if (emp.startDate != null) {
+            if (emp.startDate != null)
+            {
                 tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy");
             }
 
-            if (emp.endDate != null) {
+            if (emp.endDate != null)
+            {
                 tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy");
             }
 
         }
-        else if ((qry != null) && (qry.Count() <= 0)) {
+        else if ((qry != null) && (qry.Count() <= 0))
+        {
             Popup_Overlay("No employee with that first and last name found.", FailColour);
         }
-        else {
+        else
+        {
             Popup_Overlay("There was more than one employee with that first and last name.", FailColour);
         }
     }
@@ -1356,7 +1453,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The index changed event.</param>
-    protected void btnGetEmployee_Click(object sender, EventArgs e) {
+    protected void btnGetEmployee_Click(object sender, EventArgs e)
+    {
         getEmployeeData();
     }
     #endregion LoadEmployeeData
@@ -1367,7 +1465,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The index changed event.</param>
-    protected void btnCreateEmployee_Click(object sender, EventArgs e) {
+    protected void btnCreateEmployee_Click(object sender, EventArgs e)
+    {
         createEmployee();
     }
 
@@ -1377,17 +1476,20 @@ public partial class Summary_Default : System.Web.UI.Page
     /// Displays a pop-up with a success or fail message.
     /// The new employee cannot have the same first and last name of an existing employee.
     /// </summary>
-    private Employee createEmployee() {
+    private Employee createEmployee()
+    {
         Employee emp = ctx.Employees
                        .Where(et => et.fname.Equals(tbxFirstName.Text) && et.lname.Equals(tbxLastName.Text))
                        .Select(et => et).FirstOrDefault();
 
-        if (emp != null) {
+        if (emp != null)
+        {
             Popup_Overlay("An employee with that first and last name already exists. Please change either the first or the last name.", FailColour);
             return null;
         }
-        
-        emp = new Employee {
+
+        emp = new Employee
+        {
             fname = tbxFirstName.Text,
             lname = tbxLastName.Text,
             room = tbxRoom.Text,
@@ -1395,60 +1497,73 @@ public partial class Summary_Default : System.Web.UI.Page
         };
 
         #region dates
-        if (!tbxStartDate.Text.Equals(String.Empty)) {
+        if (!tbxStartDate.Text.Equals(String.Empty))
+        {
             DateTime formStartDate = Convert.ToDateTime(tbxStartDate.Text);
             emp.startDate = formStartDate;
         }
-        if (!tbxEndDate.Text.Equals(String.Empty)) {
+        if (!tbxEndDate.Text.Equals(String.Empty))
+        {
             DateTime formEndDate = Convert.ToDateTime(tbxEndDate.Text);
             emp.endDate = formEndDate;
         }
         #endregion dates
 
         #region position
-        if (ddlPositions.SelectedValue.Equals(otherOption)) {
+        if (ddlPositions.SelectedValue.Equals(otherOption))
+        {
             emp.position = tbxPosition.Text;
         }
-        else if (ddlPositions.SelectedValue.Equals(noOptionSpecified)) {
+        else if (ddlPositions.SelectedValue.Equals(noOptionSpecified))
+        {
             emp.position = null;
         }
-        else {
+        else
+        {
             emp.position = ddlPositions.SelectedValue;
         }
         #endregion position
 
         #region employer
-        if (ddlEmployers.SelectedValue.Equals(otherOption)) {
+        if (ddlEmployers.SelectedValue.Equals(otherOption))
+        {
             emp.employer = tbxEmployer.Text;
         }
-        else if (ddlEmployers.SelectedValue.Equals(noOptionSpecified)) {
+        else if (ddlEmployers.SelectedValue.Equals(noOptionSpecified))
+        {
             emp.employer = null;
         }
-        else {
+        else
+        {
             emp.employer = ddlEmployers.SelectedValue;
         }
         #endregion employer
 
         #region department
-        if (ddlDepartments.SelectedValue.Equals(otherOption)) {
+        if (ddlDepartments.SelectedValue.Equals(otherOption))
+        {
             emp.deptName = tbxDepartment.Text;
         }
-        else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
+        else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified))
+        {
             emp.deptName = null;
         }
-        else {
+        else
+        {
             emp.deptName = ddlDepartments.SelectedValue;
         }
         #endregion department
-        
-        try {
+
+        try
+        {
             ctx.AddToEmployees(emp);
             ctx.SaveChanges();
             tbxId.Text = emp.empNo.ToString();
             Popup_Overlay("Employee successfully created.", SuccessColour);
             return emp;
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             Popup_Overlay("An error has occured while creating this employee. Please try again." + ex.StackTrace.ToString(), FailColour);
             return null;
         }
@@ -1462,7 +1577,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The index changed event.</param>
-    protected void btnUpdateEmployee_Click(object sender, EventArgs e) {
+    protected void btnUpdateEmployee_Click(object sender, EventArgs e)
+    {
         updateEmployee();
     }
 
@@ -1473,14 +1589,16 @@ public partial class Summary_Default : System.Web.UI.Page
     /// The new employee cannot have the same first and last name of an existing employee.
     /// The ID cannot be changed.
     /// </summary>
-    private Employee updateEmployee() {
+    private Employee updateEmployee()
+    {
         int empId = Convert.ToInt32(tbxId.Text);
 
         Employee emp = ctx.Employees
                        .Where(et => et.empNo.Equals(empId))
                        .Select(et => et).FirstOrDefault();
 
-        if (emp == null) {
+        if (emp == null)
+        {
             Popup_Overlay("Error updating employee. Please try again.", FailColour);
             return null;
         }
@@ -1491,7 +1609,8 @@ public partial class Summary_Default : System.Web.UI.Page
                                 && !(et.empNo.Equals(emp.empNo)))
                             .Select(et => et).FirstOrDefault();
 
-        if (otherEmp != null) {
+        if (otherEmp != null)
+        {
             Popup_Overlay("An employee with that first and last name already exists. Please change either the first or the last name.", FailColour);
             return null;
         }
@@ -1507,25 +1626,31 @@ public partial class Summary_Default : System.Web.UI.Page
         emp.endDate = formEndDate;
 
         #region position
-        if (ddlPositions.SelectedValue.Equals(otherOption)) {
+        if (ddlPositions.SelectedValue.Equals(otherOption))
+        {
             emp.position = tbxPosition.Text;
         }
-        else if (ddlPositions.SelectedValue.Equals(noOptionSpecified)) {
+        else if (ddlPositions.SelectedValue.Equals(noOptionSpecified))
+        {
             emp.position = null;
         }
-        else {
+        else
+        {
             emp.position = ddlPositions.SelectedValue;
         }
         #endregion position
 
         #region employer
-        if (ddlEmployers.SelectedValue.Equals(otherOption)) {
+        if (ddlEmployers.SelectedValue.Equals(otherOption))
+        {
             emp.employer = tbxEmployer.Text;
         }
-        else if (ddlEmployers.SelectedValue.Equals(noOptionSpecified)) {
+        else if (ddlEmployers.SelectedValue.Equals(noOptionSpecified))
+        {
             emp.employer = null;
         }
-        else {
+        else
+        {
             emp.employer = ddlEmployers.SelectedValue;
         }
         #endregion employer
@@ -1542,12 +1667,14 @@ public partial class Summary_Default : System.Web.UI.Page
         //}
         #endregion department
 
-        try {
+        try
+        {
             ctx.SaveChanges();
             Popup_Overlay("Employee successfully updated.", SuccessColour);
             return emp;
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             Popup_Overlay("An error has occured while updatin this employee. Please try again." + ex.StackTrace.ToString(), FailColour);
             return null;
         }
@@ -1562,7 +1689,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="msg">Message displayed on confirmation overlay</param>
     /// <param name="color">Color for the message to be</param>
-    protected void Popup_Overlay(string msg, Color color) {
+    protected void Popup_Overlay(string msg, Color color)
+    {
         lblPnlPop.Text = msg;
         lblPnlPop.ForeColor = color;
         pnlPop.Style.Value = "display:block;";
@@ -1575,7 +1703,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
-    protected void btnPnlPopClose_Click(object sender, EventArgs e) {
+    protected void btnPnlPopClose_Click(object sender, EventArgs e)
+    {
         // do nothing
     }
     #endregion
@@ -1588,21 +1717,25 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The button click event.</param>
-    protected void btnCreateReport_Click(object sender, EventArgs e) {
+    protected void btnCreateReport_Click(object sender, EventArgs e)
+    {
         Page.Validate("vgpEmpInfo");
         Page.Validate("vgpPanelA");
         Page.Validate("vgpFCorrective");
         Page.Validate("vgpGRelevant");
         Page.Validate("vgpHManagers");
 
-        if (Page.IsValid) {
+        if (Page.IsValid)
+        {
             Incident report = createReport();
-            try {
+            try
+            {
                 ctx.AddToIncidents(report);
                 ctx.SaveChanges();
                 Popup_Overlay("Report successfully created.", SuccessColour);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Popup_Overlay("An error has occured while creating your report. Please try again." + ex.StackTrace.ToString(), FailColour);
                 return;
             }
@@ -1615,14 +1748,16 @@ public partial class Summary_Default : System.Web.UI.Page
     /// Returns the new Incident report on success, null on failure.
     /// </summary>
     /// <returns>the newly created Incident report</returns>
-    private Incident createReport() {
+    private Incident createReport()
+    {
         getEmployeeData();
         int empId = Convert.ToInt32(tbxId.Text);
 
         DateTime dateOfIncident = Convert.ToDateTime(tbx_p1_dateOfIncident.Text + " " + tbx_p1_timeOfIncident.Text);
         DateTime dateReported = Convert.ToDateTime(tbx_p1_dateReported.Text + " " + tbx_p1_timeReported.Text);
 
-        Incident report = new Incident {
+        Incident report = new Incident
+        {
 
             #region A_IncidentInfo
             empNo = empId,
@@ -1834,23 +1969,28 @@ public partial class Summary_Default : System.Web.UI.Page
         };
 
         #region A_IncidentInfo_Dates
-        if (!tbx_p1_action_medicalER_date.Text.Equals(String.Empty)) {
+        if (!tbx_p1_action_medicalER_date.Text.Equals(String.Empty))
+        {
             DateTime dateMedicalER = Convert.ToDateTime(tbx_p1_action_medicalER_date.Text);
             report.p1_action_medicalER_date = dateMedicalER;
         }
 
-        if (!tbx_p1_action_medicalGP_date.Text.Equals(String.Empty)) {
+        if (!tbx_p1_action_medicalGP_date.Text.Equals(String.Empty))
+        {
             DateTime dateMedicalGP = Convert.ToDateTime(tbx_p1_action_medicalGP_date.Text);
             report.p1_action_medicalGP_date = dateMedicalGP;
         }
         #endregion A_IncidentInfo_Dates
 
         #region C_AccidentInvestigation_PatientHandling
-        if (!tbx_p1_numEmployeesInvolved.Text.Equals(String.Empty)) {
-            try {
+        if (!tbx_p1_numEmployeesInvolved.Text.Equals(String.Empty))
+        {
+            try
+            {
                 report.p1_numEmployeesInvolved = Convert.ToInt32(tbx_p1_numEmployeesInvolved.Text);
             }
-            catch (FormatException) {
+            catch (FormatException)
+            {
                 Popup_Overlay("Report not created. The number of employees involved (in Patient Handling of Section C) must be a number.", FailColour);
                 return null;
             }
@@ -1858,22 +1998,26 @@ public partial class Summary_Default : System.Web.UI.Page
         #endregion C_AccidentInvestigation_PatientHandling
 
         #region F_CorrectiveAction_Dates
-        if (!tbx_p2_corrective_personDate.Text.Equals(String.Empty)) {
+        if (!tbx_p2_corrective_personDate.Text.Equals(String.Empty))
+        {
             DateTime dateCorrectivePerson = Convert.ToDateTime(tbx_p2_corrective_personDate.Text);
             report.p2_corrective_personDate = dateCorrectivePerson;
         }
 
-        if (!tbx_p2_corrective_maintenanceDate.Text.Equals(String.Empty)) {
+        if (!tbx_p2_corrective_maintenanceDate.Text.Equals(String.Empty))
+        {
             DateTime dateMaintenance = Convert.ToDateTime(tbx_p2_corrective_maintenanceDate.Text);
             report.p2_corrective_maintenanceDate = dateMaintenance;
         }
 
-        if (!tbx_p2_corrective_communicatedDate.Text.Equals(String.Empty)) {
+        if (!tbx_p2_corrective_communicatedDate.Text.Equals(String.Empty))
+        {
             DateTime dateCommunicated = Convert.ToDateTime(tbx_p2_corrective_communicatedDate.Text);
             report.p2_corrective_communicatedDate = dateCommunicated;
         }
 
-        if (!tbx_p2_corrective_timeDate.Text.Equals(String.Empty)) {
+        if (!tbx_p2_corrective_timeDate.Text.Equals(String.Empty))
+        {
             DateTime dateTimeLoss = Convert.ToDateTime(tbx_p2_corrective_timeDate.Text);
             report.p2_corrective_timeDate = dateTimeLoss;
         }
@@ -1883,27 +2027,32 @@ public partial class Summary_Default : System.Web.UI.Page
 
         #region G_FollowUp_Dates_Target
 
-        if (!tbx_p2_corrective_writtenTargetDate.Text.Equals(String.Empty)) {
+        if (!tbx_p2_corrective_writtenTargetDate.Text.Equals(String.Empty))
+        {
             DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenTargetDate.Text);
             report.p2_corrective_writtenTargetDate = writtenDate;
         }
 
-        if (!tbx_p2_corrective_educationTargetDate.Text.Equals(String.Empty)) {
+        if (!tbx_p2_corrective_educationTargetDate.Text.Equals(String.Empty))
+        {
             DateTime educationDate = Convert.ToDateTime(tbx_p2_corrective_educationTargetDate.Text);
             report.p2_corrective_educationTargetDate = educationDate;
         }
 
-        if (!tbx_p2_corrective_equipmentTargetDate.Text.Equals(String.Empty)) {
+        if (!tbx_p2_corrective_equipmentTargetDate.Text.Equals(String.Empty))
+        {
             DateTime equipmentDate = Convert.ToDateTime(tbx_p2_corrective_equipmentTargetDate.Text);
             report.p2_corrective_equipmentTargetDate = equipmentDate;
         }
 
-        if (!tbx_p2_corrective_environmentTargetDate.Text.Equals(String.Empty)) {
+        if (!tbx_p2_corrective_environmentTargetDate.Text.Equals(String.Empty))
+        {
             DateTime environmentDate = Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text);
             report.p2_corrective_environmentTargetDate = environmentDate;
         }
 
-        if (!tbx_p2_corrective_patientTargetDate.Text.Equals(String.Empty)) {
+        if (!tbx_p2_corrective_patientTargetDate.Text.Equals(String.Empty))
+        {
             DateTime patientDate = Convert.ToDateTime(tbx_p2_corrective_patientTargetDate.Text);
             report.p2_corrective_patientTargetDate = patientDate;
         }
@@ -1912,27 +2061,32 @@ public partial class Summary_Default : System.Web.UI.Page
 
         #region G_FollowUp_Dates_Completed
 
-        if (!tbx_p2_corrective_writtenCompletedDate.Text.Equals(String.Empty)) {
+        if (!tbx_p2_corrective_writtenCompletedDate.Text.Equals(String.Empty))
+        {
             DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenCompletedDate.Text);
             report.p2_corrective_writtenCompletedDate = writtenDate;
         }
 
-        if (!tbx_p2_corrective_educationCompletedDate.Text.Equals(String.Empty)) {
+        if (!tbx_p2_corrective_educationCompletedDate.Text.Equals(String.Empty))
+        {
             DateTime educationDate = Convert.ToDateTime(tbx_p2_corrective_educationCompletedDate.Text);
             report.p2_corrective_educationCompletedDate = educationDate;
         }
 
-        if (!tbx_p2_corrective_equipmentCompletedDate.Text.Equals(String.Empty)) {
+        if (!tbx_p2_corrective_equipmentCompletedDate.Text.Equals(String.Empty))
+        {
             DateTime equipmentDate = Convert.ToDateTime(tbx_p2_corrective_equipmentCompletedDate.Text);
             report.p2_corrective_equipmentCompletedDate = equipmentDate;
         }
 
-        if (!tbx_p2_corrective_environmentCompletedDate.Text.Equals(String.Empty)) {
+        if (!tbx_p2_corrective_environmentCompletedDate.Text.Equals(String.Empty))
+        {
             DateTime environmentDate = Convert.ToDateTime(tbx_p2_corrective_environmentCompletedDate.Text);
             report.p2_corrective_environmentCompletedDate = environmentDate;
         }
 
-        if (!tbx_p2_corrective_patientCompletedDate.Text.Equals(String.Empty)) {
+        if (!tbx_p2_corrective_patientCompletedDate.Text.Equals(String.Empty))
+        {
             DateTime patientDate = Convert.ToDateTime(tbx_p2_corrective_patientCompletedDate.Text);
             report.p2_corrective_patientCompletedDate = patientDate;
         }
@@ -1943,74 +2097,88 @@ public partial class Summary_Default : System.Web.UI.Page
 
         #region H_FixedShiftRotation
         #region H_FixedShiftRotation_Week1
-        if (!tbx_p2_manager_week1_sun.Text.Equals(String.Empty)) {
+        if (!tbx_p2_manager_week1_sun.Text.Equals(String.Empty))
+        {
             Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sun.Text);
             report.p2_manager_week1_sun = d;
         }
 
-        if (!tbx_p2_manager_week1_mon.Text.Equals(String.Empty)) {
+        if (!tbx_p2_manager_week1_mon.Text.Equals(String.Empty))
+        {
             Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_mon.Text);
             report.p2_manager_week1_mon = d;
         }
 
-        if (!tbx_p2_manager_week1_tue.Text.Equals(String.Empty)) {
+        if (!tbx_p2_manager_week1_tue.Text.Equals(String.Empty))
+        {
             Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_tue.Text);
             report.p2_manager_week1_tue = d;
         }
 
-        if (!tbx_p2_manager_week1_wed.Text.Equals(String.Empty)) {
+        if (!tbx_p2_manager_week1_wed.Text.Equals(String.Empty))
+        {
             Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_wed.Text);
             report.p2_manager_week1_wed = d;
         }
 
-        if (!tbx_p2_manager_week1_thu.Text.Equals(String.Empty)) {
+        if (!tbx_p2_manager_week1_thu.Text.Equals(String.Empty))
+        {
             Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_thu.Text);
             report.p2_manager_week1_thu = d;
         }
 
-        if (!tbx_p2_manager_week1_fri.Text.Equals(String.Empty)) {
+        if (!tbx_p2_manager_week1_fri.Text.Equals(String.Empty))
+        {
             Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_fri.Text);
             report.p2_manager_week1_fri = d;
         }
 
-        if (!tbx_p2_manager_week1_sat.Text.Equals(String.Empty)) {
+        if (!tbx_p2_manager_week1_sat.Text.Equals(String.Empty))
+        {
             Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sat.Text);
             report.p2_manager_week1_sat = d;
         }
         #endregion H_FixedShiftRotation_Week1
 
         #region H_FixedShiftRotation_Week2
-        if (!tbx_p2_manager_week2_sun.Text.Equals(String.Empty)) {
+        if (!tbx_p2_manager_week2_sun.Text.Equals(String.Empty))
+        {
             Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_sun.Text);
             report.p2_manager_week2_sun = d;
         }
 
-        if (!tbx_p2_manager_week2_mon.Text.Equals(String.Empty)) {
+        if (!tbx_p2_manager_week2_mon.Text.Equals(String.Empty))
+        {
             Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_mon.Text);
             report.p2_manager_week2_mon = d;
         }
 
-        if (!tbx_p2_manager_week2_tue.Text.Equals(String.Empty)) {
+        if (!tbx_p2_manager_week2_tue.Text.Equals(String.Empty))
+        {
             Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_tue.Text);
             report.p2_manager_week2_tue = d;
         }
 
-        if (!tbx_p2_manager_week2_wed.Text.Equals(String.Empty)) {
+        if (!tbx_p2_manager_week2_wed.Text.Equals(String.Empty))
+        {
             Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_wed.Text);
             report.p2_manager_week2_wed = d;
         }
 
-        if (!tbx_p2_manager_week2_thu.Text.Equals(String.Empty)) {
+        if (!tbx_p2_manager_week2_thu.Text.Equals(String.Empty))
+        {
             Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_thu.Text);
             report.p2_manager_week2_thu = d;
         }
 
-        if (!tbx_p2_manager_week2_fri.Text.Equals(String.Empty)) {
+        if (!tbx_p2_manager_week2_fri.Text.Equals(String.Empty))
+        {
             Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_fri.Text);
             report.p2_manager_week2_fri = d;
         }
 
-        if (!tbx_p2_manager_week2_sat.Text.Equals(String.Empty)) {
+        if (!tbx_p2_manager_week2_sat.Text.Equals(String.Empty))
+        {
             Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_sat.Text);
             report.p2_manager_week2_sat = d;
         }
@@ -2027,8 +2195,10 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="cbx">The CheckBox to convert.</param>
     /// <returns>String: 1 for yes/checked, 2 for no/unchecked.</returns>
-    private String convertCheckBox(CheckBox cbx) {
-        if (!cbx.Checked) {
+    private String convertCheckBox(CheckBox cbx)
+    {
+        if (!cbx.Checked)
+        {
             return "2";
         }
         return "1";
@@ -2041,11 +2211,14 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="rbl">The radio button list to convert.</param>
     /// <returns>Returns a string: 1 for yes, 2 for no, 3 for N/A or Unknown, null for no value selected.</returns>
-    private String convertRadioButtonList(RadioButtonList rbl) {
-        if ((rbl == null) || rbl.SelectedValue.Equals(String.Empty)) {
+    private String convertRadioButtonList(RadioButtonList rbl)
+    {
+        if ((rbl == null) || rbl.SelectedValue.Equals(String.Empty))
+        {
             return null;
         }
-        else {
+        else
+        {
             return rbl.SelectedValue.ToString();
         }
     }
@@ -2057,14 +2230,18 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="tbx">The textbox to convert.</param>
     /// <returns>Null: for null or empty textbox otherwise returns the textbox's text as a String.</returns>
-    private String convertTextBox(TextBox tbx) {
-        if (tbx == null) {
+    private String convertTextBox(TextBox tbx)
+    {
+        if (tbx == null)
+        {
             return null;
         }
-        else if (tbx.Text.Equals(String.Empty)) {
+        else if (tbx.Text.Equals(String.Empty))
+        {
             return null;
         }
-        else {
+        else
+        {
             return tbx.Text;
         }
     }
@@ -2076,16 +2253,19 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The button click event.</param>
-    protected void btnLoadReport_Click(object sender, EventArgs e) {
+    protected void btnLoadReport_Click(object sender, EventArgs e)
+    {
         getReport(2);
     }
 
-    private Incident getReport(int id) {
+    private Incident getReport(int id)
+    {
         var report = ctx.Incidents
                      .Where(r => r.incidentNo.Equals(id))
                      .Select(r => r).FirstOrDefault();
 
-        if (report == null) {
+        if (report == null)
+        {
             Popup_Overlay("Report not found.", SuccessColour);
         }
 
@@ -2357,8 +2537,10 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="value">The String to convert.</param>
     /// <returns>Boolean: true for 1, false for 2 or null.</returns>
-    private Boolean convertToCheckBoxValue(String value) {
-        if ((value == null) || value.Equals("2")) {
+    private Boolean convertToCheckBoxValue(String value)
+    {
+        if ((value == null) || value.Equals("2"))
+        {
             return false;
         }
         return true;
@@ -2371,9 +2553,12 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="value">The String to convert.</param>
     /// <returns>Empty string if null, otherwise returns the value.</returns>
-    private String convertToTextBoxValue(String value) {
-        if (value == null) {
-            return String.Empty;}
+    private String convertToTextBoxValue(String value)
+    {
+        if (value == null)
+        {
+            return String.Empty;
+        }
         return value;
     }
 
@@ -2384,8 +2569,10 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="value">The Date to convert.</param>
     /// <returns>The date in the format "M/d/yyyy" or an empty string if the value is null.</returns>
-    private String convertDateTimeToString(Object value) {
-        if (value == null) {
+    private String convertDateTimeToString(Object value)
+    {
+        if (value == null)
+        {
             return String.Empty;
         }
         return Convert.ToDateTime(value).ToString("M/d/yyyy");
@@ -2398,8 +2585,10 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="value">The Date to convert.</param>
     /// <returns>The time in the format "h:mm tt" or an empty string if the value is null.</returns>
-    private String convertTimeToString(Object value) {
-        if (value == null) {
+    private String convertTimeToString(Object value)
+    {
+        if (value == null)
+        {
             return String.Empty;
         }
         return Convert.ToDateTime(value).ToString("h:mm tt");
@@ -2413,7 +2602,8 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The button click event.</param>
-    protected void btnFilterReport_Click(object sender, EventArgs e) {
+    protected void btnFilterReport_Click(object sender, EventArgs e)
+    {
         filterReport(gdvTracker);
     }
 
@@ -2422,11 +2612,13 @@ public partial class Summary_Default : System.Web.UI.Page
     /// Only considers the checkboxes in sections B, C, D, and E of the form.
     /// Populates the GridView parameter with the resulting reports.
     /// </summary>
-    private void filterReport(GridView gdv) {
+    private void filterReport(GridView gdv)
+    {
         var reports = ctx.Incidents
                       .Select(r => r);
-        
-        if (!tbxFirstName.Text.Equals(String.Empty)) {
+
+        if (!tbxFirstName.Text.Equals(String.Empty))
+        {
             reports = reports.Where(r => r.Employee.fname.Equals(tbxFirstName.Text));
         }
 
@@ -2454,16 +2646,17 @@ public partial class Summary_Default : System.Web.UI.Page
         if (cbx_p2_activity_fall.Checked) { reports = reports.Where(r => r.p2_activity_fall.Equals("1")); }
         if (cbx_p2_activity_holding.Checked) { reports = reports.Where(r => r.p2_activity_holding.Equals("1")); }
         if (cbx_p2_activity_toileting.Checked) { reports = reports.Where(r => r.p2_activity_toileting.Equals("1")); }
-        
+
         if (cbx_p2_patient_ceilingLift.Checked) { reports = reports.Where(r => r.p2_patient_ceilingLift.Equals("1")); }
         if (cbx_p2_patient_sitStandLift.Checked) { reports = reports.Where(r => r.p2_patient_sitStandLift.Equals("1")); }
         if (cbx_p2_patient_floorLift.Checked) { reports = reports.Where(r => r.p2_patient_floorLift.Equals("1")); }
         if (cbx_p2_patient_manualLift.Checked) { reports = reports.Where(r => r.p2_patient_manualLift.Equals("1")); }
         if (cbx_p2_patient_other.Checked) { reports = reports.Where(r => !(r.p2_patient_otherSpecify.Equals(null))); }
-        if (!rbl_p2_patient_adequateAssist.SelectedValue.Equals(String.Empty)) {
+        if (!rbl_p2_patient_adequateAssist.SelectedValue.Equals(String.Empty))
+        {
             reports = reports.Where(r => r.p2_patient_adequateAssist.Equals(rbl_p2_patient_adequateAssist.SelectedValue));
         }
-        
+
         if (cbx_p2_activity_washing.Checked) { reports = reports.Where(r => r.p2_activity_washing.Equals("1")); }
         if (cbx_p2_activity_dressing.Checked) { reports = reports.Where(r => r.p2_activity_dressing.Equals("1")); }
         if (cbx_p2_activity_changing.Checked) { reports = reports.Where(r => r.p2_activity_changing.Equals("1")); }
@@ -2471,7 +2664,7 @@ public partial class Summary_Default : System.Web.UI.Page
         if (cbx_p2_activity_prep.Checked) { reports = reports.Where(r => r.p2_activity_prep.Equals("1")); }
         if (cbx_p2_activity_dressingChanges.Checked) { reports = reports.Where(r => r.p2_activity_dressingChanges.Equals("1")); }
         if (cbx_p2_activity_otherPatientCare.Checked) { reports = reports.Where(r => r.p2_activity_otherPatientCare.Equals("1")); }
-        
+
         if (cbx_p2_activity_recapping.Checked) { reports = reports.Where(r => r.p2_activity_recapping.Equals("1")); }
         if (cbx_p2_activity_puncture.Checked) { reports = reports.Where(r => r.p2_activity_puncture.Equals("1")); }
         if (cbx_p2_activity_sharpsDisposal.Checked) { reports = reports.Where(r => r.p2_activity_sharpsDisposal.Equals("1")); }
@@ -2483,24 +2676,24 @@ public partial class Summary_Default : System.Web.UI.Page
         if (cbx_p2_activity_carry.Checked) { reports = reports.Where(r => r.p2_activity_carry.Equals("1")); }
         if (cbx_p2_activity_otherMat.Checked) { reports = reports.Where(r => r.p2_activity_otherMat != null); }
         if (cbx_p2_activity_driving.Checked) { reports = reports.Where(r => r.p2_activity_driving.Equals("1")); }
-        if (cbx_p2_activity_otherEquip.Checked) { reports = reports.Where(r => r.p2_activity_otherEquip  != null); }
-        if (cbx_p2_activity_otherEquipDesc.Checked) { reports = reports.Where(r => r.p2_activity_otherEquipDesc != null);  }
+        if (cbx_p2_activity_otherEquip.Checked) { reports = reports.Where(r => r.p2_activity_otherEquip != null); }
+        if (cbx_p2_activity_otherEquipDesc.Checked) { reports = reports.Where(r => r.p2_activity_otherEquipDesc != null); }
         if (cbx_p2_activity_equipMain.Checked) { reports = reports.Where(r => r.p2_activity_equipMain.Equals("1")); }
         if (cbx_p2_activity_comp.Checked) { reports = reports.Where(r => r.p2_activity_comp.Equals("1")); }
         if (cbx_p2_activity_nonComp.Checked) { reports = reports.Where(r => r.p2_activity_nonComp.Equals("1")); }
-                
+
         if (cbx_p2_activity_walking.Checked) { reports = reports.Where(r => r.p2_activity_walking.Equals("1")); }
         if (cbx_p2_activity_bending.Checked) { reports = reports.Where(r => r.p2_activity_bending.Equals("1")); }
         if (cbx_p2_activity_reading.Checked) { reports = reports.Where(r => r.p2_activity_reading.Equals("1")); }
         if (cbx_p2_activity_spill.Checked) { reports = reports.Where(r => r.p2_activity_spill.Equals("1")); }
         if (cbx_p2_activity_cleaning.Checked) { reports = reports.Where(r => r.p2_activity_cleaning.Equals("1")); }
-        if (cbx_p2_activity_other.Checked) { reports = reports.Where(r => r.p2_activity_other != null);  }
+        if (cbx_p2_activity_other.Checked) { reports = reports.Where(r => r.p2_activity_other != null); }
         #endregion C_AccidentInvestigation
 
         #region D_Cause
         if (cbx_p2_cause_human.Checked) { reports = reports.Where(r => r.p2_cause_human.Equals("1")); }
         if (cbx_p2_cause_animal.Checked) { reports = reports.Where(r => r.p2_cause_animal.Equals("1")); }
-        
+
         if (cbx_p2_cause_needle.Checked) { reports = reports.Where(r => r.p2_cause_needle.Equals("1")); }
         if (cbx_p2_cause_otherSharps.Checked) { reports = reports.Where(r => r.p2_cause_otherSharps.Equals("1")); }
         if (cbx_p2_cause_skin.Checked) { reports = reports.Where(r => r.p2_cause_skin.Equals("1")); }
@@ -2544,7 +2737,7 @@ public partial class Summary_Default : System.Web.UI.Page
         if (cbx_p2_cause_elec.Checked) { reports = reports.Where(r => r.p2_cause_elec.Equals("1")); }
         if (cbx_p2_cause_air.Checked) { reports = reports.Where(r => r.p2_cause_air.Equals("1")); }
         #endregion D_Cause
-        
+
         #region E_ContributingFactors
         if (cbx_p2_factors_malfunction.Checked) { reports = reports.Where(r => r.p2_factors_malfunction.Equals("1")); }
         if (cbx_p2_factors_improperUse.Checked) { reports = reports.Where(r => r.p2_factors_improperUse.Equals("1")); }
@@ -2552,7 +2745,7 @@ public partial class Summary_Default : System.Web.UI.Page
         if (cbx_p2_factors_notAvailable.Checked) { reports = reports.Where(r => r.p2_factors_notAvailable.Equals("1")); }
         if (cbx_p2_factors_poorDesign.Checked) { reports = reports.Where(r => r.p2_factors_poorDesign.Equals("1")); }
         if (cbx_p2_factors_otherEquip.Checked) { reports = reports.Where(r => r.p2_factors_otherEquip != null); }
-                
+
         if (cbx_p2_factors_temp.Checked) { reports = reports.Where(r => r.p2_factors_temp.Equals("1")); }
         if (cbx_p2_factors_workplace.Checked) { reports = reports.Where(r => r.p2_factors_workplace.Equals("1")); }
         if (cbx_p2_factors_layout.Checked) { reports = reports.Where(r => r.p2_factors_layout.Equals("1")); }
@@ -2572,7 +2765,7 @@ public partial class Summary_Default : System.Web.UI.Page
         if (cbx_p2_factors_comm.Checked) { reports = reports.Where(r => r.p2_factors_comm.Equals("1")); }
         if (cbx_p2_factors_unaccustomed.Checked) { reports = reports.Where(r => r.p2_factors_unaccustomed.Equals("1")); }
         if (cbx_p2_factors_otherWorkPractice.Checked) { reports = reports.Where(r => r.p2_factors_otherWorkPractice != null); }
-        
+
         if (cbx_p2_factors_directions.Checked) { reports = reports.Where(r => r.p2_factors_directions.Equals("1")); }
         if (cbx_p2_factors_weight.Checked) { reports = reports.Where(r => r.p2_factors_weight.Equals("1")); }
         if (cbx_p2_factors_aggressive.Checked) { reports = reports.Where(r => r.p2_factors_aggressive.Equals("1")); }
@@ -2592,7 +2785,7 @@ public partial class Summary_Default : System.Web.UI.Page
         if (cbx_p2_factors_safe.Checked) { reports = reports.Where(r => r.p2_factors_safe.Equals("1")); }
         if (cbx_p2_factors_perceived.Checked) { reports = reports.Where(r => r.p2_factors_perceived.Equals("1")); }
         if (cbx_p2_factors_otherOrganizational.Checked) { reports = reports.Where(r => r.p2_factors_otherOrganizational != null); }
-        
+
         if (cbx_p2_factors_inexperienced.Checked) { reports = reports.Where(r => r.p2_factors_inexperienced.Equals("1")); }
         if (cbx_p2_factors_communication.Checked) { reports = reports.Where(r => r.p2_factors_communication.Equals("1")); }
         if (cbx_p2_factors_fatigued.Checked) { reports = reports.Where(r => r.p2_factors_fatigued.Equals("1")); }

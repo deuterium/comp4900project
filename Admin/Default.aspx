@@ -254,7 +254,11 @@
                 </div>
                 <div id="divManageCoursesRight">
                     <table>
-                        <tr><td><span class="spanBold">Course Name:</span></td></tr>
+                        <tr>
+                            <td>
+                                <span class="spanBold">Course Name:</span>
+                            </td>
+                        </tr>
                         <tr>
                             <td>
                                 <asp:UpdatePanel ID="UpdatePanel2" runat="server">
@@ -268,11 +272,15 @@
                                         <asp:AsyncPostBackTrigger ControlID="btnDeleteCourse" EventName="Click" />
                                     </Triggers>
                                 </asp:UpdatePanel>
-                                <asp:RequiredFieldValidator ID="rfvCourseName" runat="server"  ValidationGroup="vgpCourses"
+                                <asp:RequiredFieldValidator ID="rfvCourseName" runat="server" ValidationGroup="vgpCourses"
                                     ControlToValidate="tbxCourseName" ErrorMessage="Course name is required."></asp:RequiredFieldValidator>
                             </td>
                         </tr>
-                        <tr><td><span class="spanBold">Months Valid:</span></td></tr>
+                        <tr>
+                            <td>
+                                <span class="spanBold">Months Valid:</span>
+                            </td>
+                        </tr>
                         <tr>
                             <td>
                                 <asp:UpdatePanel ID="uplNeverExpires" runat="server">
@@ -318,13 +326,14 @@
                             <td>
                                 <asp:UpdatePanel ID="uplButtons" runat="server">
                                     <ContentTemplate>
-                                        <asp:Button ID="btnSubmitCourse" runat="server" Text="Add" 
-                                            ValidationGroup="vgpCourses" onclick="btnSubmitCourse_Click" />
+                                        <asp:Button ID="btnSubmitCourse" runat="server" Text="Add" ValidationGroup="vgpCourses"
+                                            OnClick="btnSubmitCourse_Click" />
                                         <asp:Button ID="btnDeleteCourse" OnClick="btnDeleteCourse_Click" runat="server" Text="Delete"
                                             Visible="false" />
-                                        <asp:ConfirmButtonExtender ID="btnDeleteCourse_ConfirmButtonExtender" 
-                                            runat="server" ConfirmText="Are you sure you want to permanently delete this course?"
-                                            Enabled="True" TargetControlID="btnDeleteCourse" ConfirmOnFormSubmit="false"></asp:ConfirmButtonExtender>
+                                        <asp:ConfirmButtonExtender ID="btnDeleteCourse_ConfirmButtonExtender" runat="server"
+                                            ConfirmText="Are you sure you want to permanently delete this course?" Enabled="True"
+                                            TargetControlID="btnDeleteCourse" ConfirmOnFormSubmit="false">
+                                        </asp:ConfirmButtonExtender>
                                         <asp:Button ID="btnCancelCourse" runat="server" Text="Cancel" OnClick="btnCancelCourse_Click" />
                                     </ContentTemplate>
                                     <Triggers>
@@ -336,7 +345,8 @@
                         </tr>
                         <tr>
                             <td>
-                                <asp:ValidationSummary ID="vsyCourses" ValidationGroup="vgpCourses" runat="server" DisplayMode="BulletList" ></asp:ValidationSummary>
+                                <asp:ValidationSummary ID="vsyCourses" ValidationGroup="vgpCourses" runat="server"
+                                    DisplayMode="BulletList"></asp:ValidationSummary>
                             </td>
                         </tr>
                     </table>
@@ -361,7 +371,7 @@
                 </asp:Panel>
                 <asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
                 <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
-                    DropShadow="true" BackgroundCssClass="modalBackground" />
+                    DropShadow="true" BackgroundCssClass="modalBackground" OkControlID="btnPnlPopClose" />
             </ContentTemplate>
             <Triggers>
                 <asp:AsyncPostBackTrigger ControlID="btnDeleteCourse" EventName="Click" />
