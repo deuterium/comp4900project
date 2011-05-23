@@ -35,11 +35,11 @@ public partial class MasterPage : System.Web.UI.MasterPage
             switch (roleName)
             {
                 case "Administrator":
-                    Admin_Menu();
+                    Show_Menu(0);
                     Followup_Count(0, roleName);
                     break;
                 case "Safety Officer":
-                    Admin_Menu();
+                    Show_Menu(1);
                     Followup_Count(0, roleName);
                     break;
                 case "Lab Manager":
@@ -121,12 +121,24 @@ public partial class MasterPage : System.Web.UI.MasterPage
     }
 
     /// <summary>
-    /// Shows the Admin version of the menu - includes
-    /// Tracking, Training and Admin pages.
+    /// Shows the Admin or the Safety Officer Menu
+    /// 0 - Admin menu, shows tracking, training and admin additionally
+    /// 1 - Safety Officer menu, shows tracking and training additionally
     /// </summary>
-    protected void Admin_Menu()
+    /// <param name="type">type of the menu to show</param>
+    protected void Show_Menu(int type)
     {
-        masterMenuAdmin.Visible = true;
-        masterMenuRegular.Visible = false;
+        //Admin Menu
+        if (type == 0)
+        {
+            masterMenuAdmin.Visible = true;
+            masterMenuRegular.Visible = false;
+        }
+        //Safety Officer Menu
+        else if (type == 1)
+        {
+            masterMenuSO.Visible = true;
+            masterMenuRegular.Visible = false;
+        }
     }
 }

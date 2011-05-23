@@ -44,9 +44,12 @@
                 <img src="images/template/bars.gif" runat="server" alt="" />
                 <div class="invertedshiftdown">
                     <asp:SiteMapDataSource ID="sdsAdmin" runat="server" ShowStartingNode="false" SiteMapProvider="AdminSiteMap" />
+                    <asp:SiteMapDataSource ID="sdsSO" runat="server" ShowStartingNode="false" SiteMapProvider="SOSiteMap" />
                     <asp:SiteMapDataSource ID="sdsRegular" runat="server" ShowStartingNode="false" SiteMapProvider="RegularSiteMap" />
                     <asp:Menu ID="masterMenuRegular" runat="server" Orientation="Horizontal" DataSourceID="sdsRegular"
                         StaticDisplayLevels="2" />
+                    <asp:Menu ID="masterMenuSO" runat="server" Orientation="Horizontal" DataSourceID="sdsSO"
+                        StaticDisplayLevels="2" Visible="false" />
                     <asp:Menu ID="masterMenuAdmin" runat="server" Orientation="Horizontal" DataSourceID="sdsAdmin"
                         StaticDisplayLevels="2" visible ="false"/>
                 </div>

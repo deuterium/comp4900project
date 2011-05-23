@@ -30,7 +30,7 @@ public partial class Admin_Default : System.Web.UI.Page
         //Lab managers should no be on this page, if they go here they are forwarded away
         int roleNo = (int)Session["RoleNo"];
         string role = ctx.Roles.Where(r => r.roleNo == roleNo).Select(r => r.role1).First();
-        if (role == "Lab Manager")
+        if (role == "Lab Manager" || role == "Safety Officer")
         {
             Response.Redirect("~/Default.aspx");
         }
