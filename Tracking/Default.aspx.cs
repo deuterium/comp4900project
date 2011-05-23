@@ -464,11 +464,11 @@ public partial class Tracking_Default : System.Web.UI.Page {
                     row.Cells[5].Visible = true;
                     row.Cells[5].ColumnSpan = 2;
                     row.Font.Bold = true;
+                    row.Height = 50;
                 }
                 // subtotal row formatting 
                 else {
                     row.Cells[0].ColumnSpan = gdvTracker.Columns.Count;
-                    row.Height = 50;
                 }
             } else {
                 row.Cells[5].Visible = false;
@@ -718,7 +718,6 @@ public partial class Tracking_Default : System.Web.UI.Page {
     }
 
     #region Look Up Courses
-
     private string ConvertDateToString(Object date) {
         if (date.Equals(DateTime.MinValue)) {
             return String.Empty;
@@ -730,6 +729,8 @@ public partial class Tracking_Default : System.Web.UI.Page {
         if (employee == null) {
             return;
         }
+        lblCoursesTitle.Text = employee.fname.ToString() + " " + employee.lname.ToString();
+
         var qry = ctx.TrainingTakens
                   .OrderByDescending(tt => tt.startDate)
                   .Select(tt => new {

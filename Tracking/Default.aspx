@@ -646,7 +646,6 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 <asp:Panel ID="pnlEmpInfoContainer" runat="server" Visible="false" >
 <h3 id="hr3EmpInfo"><asp:Image ID="imgExpandCollapseEmpInfo" runat="server" /> Employee Information <asp:Label ID="lblExpandCollapseEmpInfo" runat="server" Text=""></asp:Label></h3>
 <asp:Panel ID="pnlEmployeeInfo" CssClass="panel" runat="server">
-
     <div id="divEmpInfoLeftPanel" >
         <table>
             <tr>
@@ -707,6 +706,9 @@ CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
 <asp:Panel ID="pnlEmpCoursesContainer" runat="server" Visible="false" >
     <h3 id="hr3EmpCourses"><asp:Image ID="imgExpandCollapseEmpCourses" runat="server" /> Employee Courses <asp:Label ID="ExpandCollapseEmpCourses" runat="server" Text=""></asp:Label></h3>
     <asp:Panel ID="pnlEmployeeCourses" CssClass="panel" runat="server">
+    
+    <span class="spanBold">Courses for:</span>
+    <asp:Label ID="lblCoursesTitle" runat="server"></asp:Label>
 
         <asp:GridView ID="gdvEmpCourses" runat="server" AutoGenerateColumns="False" OnRowCommand="gdvTracker_RowCommand" >
         <Columns>
