@@ -91,6 +91,29 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         lblUserMsg.Visible = false;
     }
 
+    /// <summary>
+    /// Shows and expands all the panels on the page.
+    /// </summary>
+    private void expandAllPanels() {
+        showAllPanels();
+        cpeA.Collapsed = false;
+        cpeA.ClientState = "false";
+        cpeB.Collapsed = false;
+        cpeB.ClientState = "false";
+        cpeC.Collapsed = false;
+        cpeC.ClientState = "false";
+        cpeD.Collapsed = false;
+        cpeD.ClientState = "false";
+        cpeE.Collapsed = false;
+        cpeE.ClientState = "false";
+        cpeF.Collapsed = false;
+        cpeF.ClientState = "false";
+        cpeG.Collapsed = false;
+        cpeG.ClientState = "false";
+        cpeH.Collapsed = false;
+        cpeH.ClientState = "false";
+    }
+
     #region Page Popup
     /// <summary>
     /// Calls the show method of the modal popup AJAX panel.
@@ -757,7 +780,7 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page {
         #endregion H_FixedShiftRotation
 
         lblTitle.Text = lblTitle.Text + id;
-        showAllPanels();
+        expandAllPanels();
     }
 
     /// <summary>
