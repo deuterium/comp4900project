@@ -633,6 +633,7 @@ public partial class Admin_Default : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ex.ToString();
             Popup_Overlay("An error occured while adding your course. Please try again.", Color.Red);
             return;
         }

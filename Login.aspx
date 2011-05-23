@@ -38,7 +38,7 @@
             </tr>
         </table>
     </div>
-    <div id="divLoginError">
+    <div id="divLoginError" style="text-align: center;">
         <asp:ValidationSummary ID="vsmLogin" runat="server" ValidationGroup="vgrLogin" DisplayMode="List"
             ForeColor="Red" />
         <asp:UpdatePanel ID="uplLoginError" runat="server">
