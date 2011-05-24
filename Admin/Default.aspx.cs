@@ -237,6 +237,7 @@ public partial class Admin_Default : System.Web.UI.Page
                         Popup_Overlay(ex.Message, Color.Red);
                         return;
                     }
+                    User_Pass_Clear();
                     Popup_Overlay("User succesfully added.", Color.Green);
                     lbxUsers.DataBind();
                 }
