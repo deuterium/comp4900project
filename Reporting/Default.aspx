@@ -1,6 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Reporting_Default" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="head">
 </asp:Content>
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="body">
@@ -36,6 +37,7 @@
             CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
         </asp:CollapsiblePanelExtender>
     </div>
+
     <div id="divReportInfo">
         <h3 id="hr3EmployeeInfo">
             Employee Information</h3>
@@ -108,6 +110,10 @@
                             <asp:UpdatePanel ID="uplPosition" runat="server">
                                 <ContentTemplate>
                                     <asp:TextBox TabIndex="103" ID="tbxPosition" runat="server" Visible="false" MaxLength="50"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="rfvPosition" runat="server" ValidationGroup="vgpAllEmpInfo" Enabled="false"
+                                        Display="Dynamic" ControlToValidate="tbxPosition" ErrorMessage="Position is required if you select 'Other (specify)' from the Positions drop down list."></asp:RequiredFieldValidator>
+                                    <asp:FilteredTextBoxExtender ID="ftePosition" runat="server" TargetControlID="tbxPosition"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="ddlPositions" EventName="SelectedIndexChanged" />
@@ -126,6 +132,10 @@
                             <asp:UpdatePanel ID="uplEmployer" runat="server">
                                 <ContentTemplate>
                                     <asp:TextBox TabIndex="105" ID="tbxEmployer" runat="server" Visible="false" MaxLength="10"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="rfvEmployer" runat="server" ValidationGroup="vgpAllEmpInfo" Enabled="false"
+                                        Display="Dynamic" ControlToValidate="tbxEmployer" ErrorMessage="Employer is required if you select 'Other (specify)' from the Employers drop down list."></asp:RequiredFieldValidator>
+                                    <asp:FilteredTextBoxExtender ID="fteEmployer" runat="server" TargetControlID="tbxEmployer"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="ddlEmployers" EventName="SelectedIndexChanged" />
@@ -143,7 +153,11 @@
                             </asp:DropDownList>
                             <asp:UpdatePanel ID="uplDepartment" runat="server">
                                 <ContentTemplate>
-                                    <asp:TextBox TabIndex="103" ID="tbxDepartment" runat="server" Visible="false" MaxLength="50"></asp:TextBox>
+                                    <asp:TextBox TabIndex="106" ID="tbxDepartment" runat="server" Visible="false" MaxLength="50"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="rfvDepartment" runat="server" ValidationGroup="vgpAllEmpInfo" Enabled="false"
+                                        Display="Dynamic" ControlToValidate="tbxDepartment" ErrorMessage="Department is required if you select 'Other (specify)' from the Departments drop down list."></asp:RequiredFieldValidator>
+                                    <asp:FilteredTextBoxExtender ID="fteDepartment" runat="server" TargetControlID="tbxDepartment"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="ddlDepartments" EventName="SelectedIndexChanged" />
@@ -173,7 +187,7 @@
                                 WatermarkCssClass="watermarked" WatermarkText="First Last">
                             </asp:TextBoxWatermarkExtender>
                             <asp:RegularExpressionValidator ID="revSupervisor" runat="server" ValidationGroup="vgpAllEmpInfo"
-                                Display="Dynamic" ControlToValidate="tbxSupervisor" ErrorMessage="Supervisor must have a first and last name separated by a space."
+                                Display="Dynamic" ControlToValidate="tbxSupervisor" ErrorMessage="Supervisor must have a first and last name separated by a space. Only letters and apostrophes are allowed in names."
                                 ValidationExpression="^[A-Za-z']+ [A-Za-z']+$"></asp:RegularExpressionValidator>
                         </td>
                     </tr>
@@ -194,6 +208,8 @@
                             <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpAllEmpInfo"
                                 Display="Dynamic" ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                                 ErrorMessage="Start date must be in  format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                            <asp:CustomValidator ID="cmvStartDate" runat="server" ValidationGroup="vgpAllEmpInfo"
+                                Display="Dynamic" ErrorMessage="Start date must be in  format 'MM/DD/YYYY'" OnServerValidate="cmvStartDate_ServerValidate"></asp:CustomValidator>
                         </td>
                     </tr>
                     <tr>
@@ -222,11 +238,14 @@
                     Text="Get Employee" OnClick="btnGetEmployee_Click" />
                 <asp:Button TabIndex="111" ID="btnCreateEmployee" runat="server" ValidationGroup="vgpAllEmpInfo"
                     Text="Create Employee" OnClick="btnCreateEmployee_Click" />
-                <asp:Button TabIndex="1112" ID="btnUpdateEmployee" runat="server" ValidationGroup="vgpAllEmpInfo"
+                <asp:Button TabIndex="111" ID="btnUpdateEmployee" runat="server" ValidationGroup="vgpAllEmpInfo"
                     Text="Update  Employee" OnClick="btnUpdateEmployee_Click" />
-                <asp:Button TabIndex="1112" ID="btnCreateReport" runat="server" ValidationGroup="vgpPanelA"
+                <asp:Button TabIndex="111" ID="btnCreateReport" runat="server" ValidationGroup="vgpPanelA"
                     Text="Create Report" OnClick="btnCreateReport_Click" />
-                <asp:Button TabIndex="1112" ID="btnClear" runat="server" Text="Clear" OnClick="btnClear_Click" />
+                <asp:Button TabIndex="111" ID="btnClear" runat="server" Text="Clear" OnClick="btnClear_Click" />
+                <asp:ConfirmButtonExtender ID="cbeClear" runat="server"
+                    ConfirmText="Are you sure you want to clear the form? All unsaved data will be permanently lost." Enabled="True"
+                    TargetControlID="btnClear" ConfirmOnFormSubmit="false"></asp:ConfirmButtonExtender>
                 <asp:ValidationSummary ID="vsyGetEmp" ValidationGroup="vgpEmpName" runat="server"
                     DisplayMode="BulletList" />
                 <asp:ValidationSummary ID="vsyCreateEmp" ValidationGroup="vgpAllEmpInfo" runat="server"
@@ -281,7 +300,7 @@
                             Name:
                         </td>
                         <td>
-                            <asp:TextBox TabIndex="117" ID="tbx_p1_witnessName1" runat="server" MaxLength="50"></asp:TextBox>
+                            <asp:TextBox TabIndex="116" ID="tbx_p1_witnessName1" runat="server" MaxLength="50"></asp:TextBox>
                             <asp:TextBoxWatermarkExtender ID="tweWitnessName1" runat="server" TargetControlID="tbx_p1_witnessName1"
                                 WatermarkCssClass="watermarked" WatermarkText="First Last">
                             </asp:TextBoxWatermarkExtender>
@@ -293,7 +312,7 @@
                             Phone:
                         </td>
                         <td>
-                            <asp:TextBox TabIndex="118" ID="tbx_p1_witnessPhone1" runat="server" MaxLength="12"></asp:TextBox>
+                            <asp:TextBox TabIndex="116" ID="tbx_p1_witnessPhone1" runat="server" MaxLength="12"></asp:TextBox>
                             <asp:TextBoxWatermarkExtender ID="tweWitnessPhone1" runat="server" TargetControlID="tbx_p1_witnessPhone1"
                                 WatermarkCssClass="watermarked" WatermarkText="###-###-####">
                             </asp:TextBoxWatermarkExtender>
@@ -346,7 +365,7 @@
                             Name:
                         </td>
                         <td>
-                            <asp:TextBox TabIndex="119" ID="tbx_p1_witnessName2" runat="server" MaxLength="50"></asp:TextBox>
+                            <asp:TextBox TabIndex="117" ID="tbx_p1_witnessName2" runat="server" MaxLength="50"></asp:TextBox>
                             <asp:TextBoxWatermarkExtender ID="tweWitnessName2" runat="server" TargetControlID="tbx_p1_witnessName2"
                                 WatermarkCssClass="watermarked" WatermarkText="First Last">
                             </asp:TextBoxWatermarkExtender>
@@ -358,7 +377,7 @@
                             Phone:
                         </td>
                         <td>
-                            <asp:TextBox TabIndex="120" ID="tbx_p1_witnessPhone2" runat="server" MaxLength="12"></asp:TextBox>
+                            <asp:TextBox TabIndex="117" ID="tbx_p1_witnessPhone2" runat="server" MaxLength="12"></asp:TextBox>
                             <asp:TextBoxWatermarkExtender ID="tweWitnessPhone2" runat="server" TargetControlID="tbx_p1_witnessPhone2"
                                 WatermarkCssClass="watermarked" WatermarkText="###-###-####">
                             </asp:TextBoxWatermarkExtender>
@@ -372,7 +391,7 @@
                             Department of Incident:
                         </td>
                         <td>
-                            <asp:DropDownList TabIndex="112" ID="ddlReportDepts" runat="server">
+                            <asp:DropDownList TabIndex="115" ID="ddlReportDepts" runat="server">
                             </asp:DropDownList>
                         </td>
                     </tr>
@@ -387,8 +406,8 @@
                 <table>
                     <tr>
                         <td>
-                            <asp:TextBox TabIndex="116" ID="tbx_p1_incidentDesc" CssClass="resizeableTextArea"
-                                runat="server" TextMode="MultiLine" MaxLength="8000"></asp:TextBox>
+                            <asp:TextBox TabIndex="118" ID="tbx_p1_incidentDesc" CssClass="resizeableTextArea" 
+                                runat="server" TextMode="MultiLine" MaxLength="8000" ></asp:TextBox>
                         </td>
                     </tr>
                 </table>
@@ -399,20 +418,20 @@
                 <table>
                     <tr>
                         <td>
-                            <asp:CheckBox ID="cbx_p1_action_report" Text="Report Only" runat="server" />
+                            <asp:CheckBox TabIndex="119" ID="cbx_p1_action_report" Text="Report Only" runat="server" />
                         </td>
                         <td>
-                            <asp:CheckBox ID="cbx_p1_action_firstAid" Text="First Aid" runat="server" />
+                            <asp:CheckBox TabIndex="121" ID="cbx_p1_action_firstAid" Text="First Aid" runat="server" />
                         </td>
                         <td>
-                            <asp:CheckBox ID="cbx_p1_action_medicalGP" Text="Medical Aid (GP / Clinic)" runat="server"
+                            <asp:CheckBox TabIndex="122" ID="cbx_p1_action_medicalGP" Text="Medical Aid (GP / Clinic)" runat="server"
                                 OnCheckedChanged="cbx_p1_action_medicalGP_CheckChanged" />
                         </td>
                         <td>
                             Date:
                         </td>
                         <td>
-                            <asp:TextBox ID="tbx_p1_action_medicalGP_date" runat="server" MaxLength="10" Width="150px"></asp:TextBox>
+                            <asp:TextBox TabIndex="122" ID="tbx_p1_action_medicalGP_date" runat="server" MaxLength="10" Width="150px"></asp:TextBox>
                             <asp:TextBoxWatermarkExtender ID="tweMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date"
                                 WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
                             </asp:TextBoxWatermarkExtender>
@@ -429,18 +448,18 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <asp:CheckBox ID="cbx_p1_action_lostTime" Text="Lost time (missed/will miss next scheduled shift due to injury)"
+                            <asp:CheckBox TabIndex="120" ID="cbx_p1_action_lostTime" Text="Lost time (missed/will miss next scheduled shift due to injury)"
                                 runat="server" />
                         </td>
                         <td>
-                            <asp:CheckBox ID="cbx_p1_action_medicalER" Text="Medical Aid (ER)" runat="server"
+                            <asp:CheckBox TabIndex="123" ID="cbx_p1_action_medicalER" Text="Medical Aid (ER)" runat="server"
                                 OnCheckedChanged="cbx_p1_action_medicalER_CheckChanged" />
                         </td>
                         <td>
                             Date:
                         </td>
                         <td>
-                            <asp:TextBox ID="tbx_p1_action_medicalER_date" runat="server" MaxLength="10" Width="150px"></asp:TextBox>
+                            <asp:TextBox TabIndex="123" ID="tbx_p1_action_medicalER_date" runat="server" MaxLength="10" Width="150px"></asp:TextBox>
                             <asp:TextBoxWatermarkExtender ID="tweMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date"
                                 WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
                             </asp:TextBoxWatermarkExtender>
@@ -457,7 +476,7 @@
                     </tr>
                 </table>
             </div>
-            <div id="div1" class="summariesAndButtons">
+            <div id="divSummariesAndButtons" class="summariesAndButtons">
                 <asp:ValidationSummary ID="vsyPanelA" runat="server" ValidationGroup="vgpPanelA"
                     DisplayMode="BulletList" />
             </div>
@@ -557,7 +576,7 @@
                 <table>
                     <tr>
                         <td>
-                            <asp:CheckBox TabIndex="125" ID="cbx_p2_activity_no" Text="No Injury" runat="server" />
+                            <asp:CheckBox TabIndex="127" ID="cbx_p2_activity_no" Text="No Injury" runat="server" />
                         </td>
                     </tr>
                 </table>
@@ -643,6 +662,8 @@
                                         AutoPostBack="true" />
                                     <asp:TextBox TabIndex="128" ID="tbx_p2_patient_otherSpecify" runat="server" MaxLength="8000"
                                         AutoPostBack="true" OnTextChanged="tbx_p2_patient_otherSpecify_OnTextChanged"></asp:TextBox>
+                                    <asp:FilteredTextBoxExtender ID="ftePatientOther" runat="server" TargetControlID="tbx_p2_patient_otherSpecify"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="tbx_p2_patient_otherSpecify" EventName="TextChanged" />
@@ -721,6 +742,8 @@
                                         runat="server" AutoPostBack="true" />
                                     <asp:TextBox TabIndex="132" ID="tbx_p2_activity_otherPatientCare" runat="server"
                                         MaxLength="8000" AutoPostBack="true" OnTextChanged="tbx_p2_activity_otherPatientCare_OnTextChanged"></asp:TextBox>
+                                    <asp:FilteredTextBoxExtender ID="fteOtherPatientCare" runat="server" TargetControlID="tbx_p2_activity_otherPatientCare"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="tbx_p2_activity_otherPatientCare" EventName="TextChanged" />
@@ -794,6 +817,8 @@
                                         runat="server" AutoPostBack="true" />
                                     <asp:TextBox TabIndex="134" ID="tbx_p2_activity_otherMat" runat="server" AutoPostBack="true"
                                         MaxLength="50" OnTextChanged="tbx_p2_activity_otherMat_OnTextChanged"></asp:TextBox>
+                                    <asp:FilteredTextBoxExtender ID="fteOtherMat" runat="server" TargetControlID="tbx_p2_activity_otherMat"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="tbx_p2_activity_otherMat" EventName="TextChanged" />
@@ -815,6 +840,8 @@
                                         runat="server" AutoPostBack="true" />
                                     <asp:TextBox TabIndex="134" ID="tbx_p2_activity_otherEquip" runat="server" AutoPostBack="true"
                                         MaxLength="8000" OnTextChanged="tbx_p2_activity_otherEquip_OnTextChanged"></asp:TextBox>
+                                    <asp:FilteredTextBoxExtender ID="fteOtherEquip" runat="server" TargetControlID="tbx_p2_activity_otherEquip"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="tbx_p2_activity_otherEquip" EventName="TextChanged" />
@@ -830,6 +857,8 @@
                                         runat="server" AutoPostBack="true" />
                                     <asp:TextBox TabIndex="134" ID="tbx_p2_activity_otherEquipDesc" runat="server" AutoPostBack="true"
                                         MaxLength="8000" OnTextChanged="tbx_p2_activity_otherEquipDesc_OnTextChanged"></asp:TextBox>
+                                    <asp:FilteredTextBoxExtender ID="fteOtherEquipDesc" runat="server" TargetControlID="tbx_p2_activity_otherEquipDesc"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="tbx_p2_activity_otherEquipDesc" EventName="TextChanged" />
@@ -893,6 +922,8 @@
                                         AutoPostBack="true" />
                                     <asp:TextBox TabIndex="135" ID="tbx_p2_activity_other" runat="server" AutoPostBack="true"
                                         MaxLength="8000" OnTextChanged="tbx_p2_activity_other_OnTextChanged"></asp:TextBox>
+                                    <asp:FilteredTextBoxExtender ID="fteActivityOther" runat="server" TargetControlID="tbx_p2_activity_other"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="tbx_p2_activity_other" EventName="TextChanged" />
@@ -1028,6 +1059,8 @@
                                         AutoPostBack="true" />
                                     <asp:TextBox TabIndex="139" ID="tbx_p2_cause_other" runat="server" AutoPostBack="true"
                                         MaxLength="8000" OnTextChanged="tbx_p2_cause_other_OnTextChanged"></asp:TextBox>
+                                    <asp:FilteredTextBoxExtender ID="fteCauseOther" runat="server" TargetControlID="tbx_p2_cause_other"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="tbx_p2_cause_other" EventName="TextChanged" />
@@ -1106,6 +1139,8 @@
                                         AutoPostBack="true" />
                                     <asp:TextBox TabIndex="141" ID="tbx_p2_cause_aggression_other" runat="server" MaxLength="8000"
                                         AutoPostBack="true" OnTextChanged="tbx_p2_cause_aggression_other_OnTextChanged"></asp:TextBox>
+                                    <asp:FilteredTextBoxExtender ID="fteCauseAggressionOther" runat="server" TargetControlID="tbx_p2_cause_aggression_other"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="tbx_p2_cause_aggression_other" EventName="TextChanged" />
@@ -1122,7 +1157,7 @@
                     <tr>
                         <td>
                             Checmical Name:
-                            <asp:TextBox ID="tbx_p2_cause_exposure_chemName" runat="server"></asp:TextBox>
+                            <asp:TextBox TabIndex="142" ID="tbx_p2_cause_exposure_chemName" runat="server"></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
@@ -1233,6 +1268,8 @@
                                         AutoPostBack="true" />
                                     <asp:TextBox TabIndex="143" ID="tbx_p2_factors_otherEquip" runat="server" MaxLength="8000"
                                         AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherEquip_OnTextChanged"></asp:TextBox>
+                                    <asp:FilteredTextBoxExtender ID="fteFactorsOtherEquip" runat="server" TargetControlID="tbx_p2_factors_otherEquip"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="tbx_p2_factors_otherEquip" EventName="TextChanged" />
@@ -1302,6 +1339,8 @@
                                         MaxLength="8000" AutoPostBack="true" />
                                     <asp:TextBox TabIndex="144" ID="tbx_p2_factors_otherEnv" runat="server" AutoPostBack="true"
                                         OnTextChanged="tbx_p2_factors_otherEnv_OnTextChanged"></asp:TextBox>
+                                    <asp:FilteredTextBoxExtender ID="fteFactorsOtherEnv" runat="server" TargetControlID="tbx_p2_factors_otherEnv"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="tbx_p2_factors_otherEnv" EventName="TextChanged" />
@@ -1363,6 +1402,8 @@
                                         runat="server" AutoPostBack="true" />
                                     <asp:TextBox TabIndex="145" ID="tbx_p2_factors_otherWorkPractice" runat="server"
                                         MaxLength="8000" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherWorkPractice_OnTextChanged"></asp:TextBox>
+                                    <asp:FilteredTextBoxExtender ID="fteFactorsOtherWork" runat="server" TargetControlID="tbx_p2_factors_otherWorkPractice"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="tbx_p2_factors_otherWorkPractice" EventName="TextChanged" />
@@ -1429,6 +1470,8 @@
                                         AutoPostBack="true" />
                                     <asp:TextBox TabIndex="146" ID="tbx_p2_factors_otherPatient" runat="server" MaxLength="8000"
                                         AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherPatient_OnTextChanged"></asp:TextBox>
+                                    <asp:FilteredTextBoxExtender ID="fteFactorsOtherPatient" runat="server" TargetControlID="tbx_p2_factors_otherPatient"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="tbx_p2_factors_otherPatient" EventName="TextChanged" />
@@ -1497,6 +1540,8 @@
                                         runat="server" AutoPostBack="true" />
                                     <asp:TextBox TabIndex="147" ID="tbx_p2_factors_otherOrganizational" runat="server"
                                         MaxLength="8000" AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherOrganizational_OnTextChanged"></asp:TextBox>
+                                    <asp:FilteredTextBoxExtender ID="fteFactorsOtherOrg" runat="server" TargetControlID="tbx_p2_factors_otherOrganizational"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="tbx_p2_factors_otherOrganizational" EventName="TextChanged" />
@@ -1549,6 +1594,8 @@
                                         AutoPostBack="true" />
                                     <asp:TextBox TabIndex="148" ID="tbx_p2_factors_otherWorker" runat="server" MaxLength="8000"
                                         AutoPostBack="true" OnTextChanged="tbx_p2_factors_otherWorker_OnTextChanged"></asp:TextBox>
+                                    <asp:FilteredTextBoxExtender ID="fteFactorsOtherWorker" runat="server" TargetControlID="tbx_p2_factors_otherWorker"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="tbx_p2_factors_otherWorker" EventName="TextChanged" />
@@ -1559,32 +1606,25 @@
                 </table>
             </div>
         </asp:Panel>
-        <asp:UpdatePanel ID="UpdatePanel3" runat="server">
-            <ContentTemplate>
-                <asp:Panel ID="pnlPop" BackColor="White" CssClass="popPanel" runat="server">
-                    <table width="100%" cellpadding="5">
-                        <tr>
-                            <td>
-                                <asp:Label ID="lblPnlPop" runat="server"></asp:Label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right">
-                                <asp:Button ID="btnPnlPopClose" runat="server" Text="Close" OnClick="btnPnlPopClose_Click" />
-                            </td>
-                        </tr>
-                    </table>
-                </asp:Panel>
-                <asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
-                <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
-                    DropShadow="true" BackgroundCssClass="modalBackground" OkControlID="btnPnlPopClose" />
-            </ContentTemplate>
-            <Triggers>
-                <asp:AsyncPostBackTrigger ControlID="btnGetEmployee" EventName="Click" />
-                <asp:AsyncPostBackTrigger ControlID="btnCreateEmployee" EventName="Click" />
-                <asp:AsyncPostBackTrigger ControlID="btnUpdateEmployee" EventName="Click" />
-                <asp:AsyncPostBackTrigger ControlID="btnCreateReport" EventName="Click" />
-            </Triggers>
-        </asp:UpdatePanel>
+
+        <asp:Panel ID="pnlPop" BackColor="White" CssClass="popPanel" runat="server">
+            <table width="100%" cellpadding="5">
+                <tr>
+                    <td>
+                        <asp:Label ID="lblPnlPop" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <asp:Button ID="btnPnlPopClose" runat="server" Text="Close" OnClick="btnPnlPopClose_Click" />
+                    </td>
+                </tr>
+            </table>
+        </asp:Panel>
+        <asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
+        <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
+            DropShadow="true" BackgroundCssClass="modalBackground" OkControlID="btnPnlPopClose" />
+    
     </div>
+
 </asp:Content>

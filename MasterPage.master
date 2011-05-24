@@ -30,7 +30,7 @@
                     <asp:Label ID="lblFollowupNum" runat="server" />
                     Follow ups
                     <br />
-                    <asp:LinkButton ID="lbnHelp" runat="server">Help</asp:LinkButton>
+                    <asp:LinkButton ID="lbnHelp" runat="server" onclick="lbnHelp_Click">Help</asp:LinkButton>
                     &nbsp;|&nbsp;
                     <asp:LinkButton ID="lbnLogout" runat="server" OnClick="lbnLogout_Click">Logout</asp:LinkButton>
                 </div>

@@ -702,8 +702,8 @@ h3
 
 .popPanel
 {
-    width: 160px;
-    min-height: 80px;
+    width: 300px;
+    min-height: 100px;
 }
 
 #divManageCoursesTop

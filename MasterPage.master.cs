@@ -141,4 +141,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
             masterMenuRegular.Visible = false;
         }
     }
+    protected void lbnHelp_Click(object sender, EventArgs e) {
+        Response.Redirect("~/BCCRC_SafetyDatabase_UserGuide.pdf");
+    }
 }

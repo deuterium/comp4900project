@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using AjaxControlToolkit;
 using BCCAModel;
+using System.Text;
 
 /// <summary>
 /// Reporting/Default.aspx.cs
@@ -63,6 +64,8 @@ public partial class Reporting_Default : System.Web.UI.Page
             PopulateDepartmentsDdl();
             PopulateReportDeptsDdl();
             pnlPop.Style.Value = "display:none;";
+            // random bug where text area had different font face than text boxes
+            tbx_p1_incidentDesc.Font.Name = "Verdana";
         }
     }
 
@@ -340,7 +343,8 @@ public partial class Reporting_Default : System.Web.UI.Page
     /// <param name="e">The event properties.</param>
     protected void ddlPositions_SelectedIndexChanged(object sender, EventArgs e)
     {
-        CheckDdlSelection(ddlPositions, tbxPosition);
+        CheckDdlSelection(ddlPositions, tbxPosition, rfvPosition);
+
     }
 
     /// <summary>
@@ -351,7 +355,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     /// <param name="e">The event properties.</param>
     protected void ddlEmployers_SelectedIndexChanged(object sender, EventArgs e)
     {
-        CheckDdlSelection(ddlEmployers, tbxEmployer);
+        CheckDdlSelection(ddlEmployers, tbxEmployer, rfvEmployer);
     }
 
     /// <summary>
@@ -362,23 +366,25 @@ public partial class Reporting_Default : System.Web.UI.Page
     /// <param name="e">The event properties.</param>
     protected void ddlDepartments_SelectedIndexChanged(object sender, EventArgs e)
     {
-        CheckDdlSelection(ddlDepartments, tbxDepartment);
+        CheckDdlSelection(ddlDepartments, tbxDepartment, rfvDepartment);
     }
 
     /// <summary>
     /// If the "Other (specify)" option is selected of the Drop Down List.
-    /// If the other option is selected, shows the Text Box.
-    /// If any other option is selected, hides the Text Box.
+    /// If the other option is selected, shows the Text Box and makes it required.
+    /// If any other option is selected, hides the Text Box and makes it optional.
     /// </summary>
-    private void CheckDdlSelection(DropDownList ddl, TextBox tbx)
+    private void CheckDdlSelection(DropDownList ddl, TextBox tbx, RequiredFieldValidator rfv)
     {
         if (ddl.SelectedValue.Equals(otherOption))
         {
             tbx.Visible = true;
+            rfv.Enabled = true;
         }
         else
         {
             tbx.Visible = false;
+            rfv.Enabled = false;
         }
     }
     #endregion Other Option Textbox Toggle
@@ -436,7 +442,10 @@ public partial class Reporting_Default : System.Web.UI.Page
         else if (qry == null || qry.Count() > 1)
         {
             reportErrorMsg = "More than one employee with that first and last name found.";
+            return null;
         }
+
+        clearEmployeeInfo();
 
         #region Populate Form
         // Populate form with employee data
@@ -464,7 +473,7 @@ public partial class Reporting_Default : System.Web.UI.Page
             ddlPositions.SelectedValue = otherOption;
             tbxPosition.Text = emp.position;
         }
-        CheckDdlSelection(ddlPositions, tbxPosition);
+        CheckDdlSelection(ddlPositions, tbxPosition, rfvPosition);
 
         // Employer DDL
         if (emp.employer == null)
@@ -480,7 +489,7 @@ public partial class Reporting_Default : System.Web.UI.Page
             ddlEmployers.SelectedValue = otherOption;
             tbxEmployer.Text = emp.employer;
         }
-        CheckDdlSelection(ddlEmployers, tbxEmployer);
+        CheckDdlSelection(ddlEmployers, tbxEmployer, rfvEmployer);
 
         // Department DDL
         var department = ctx.Departments
@@ -500,18 +509,15 @@ public partial class Reporting_Default : System.Web.UI.Page
             ddlDepartments.SelectedValue = otherOption;
             tbxDepartment.Text = emp.deptName;
         }
-        CheckDdlSelection(ddlDepartments, tbxDepartment);
+        CheckDdlSelection(ddlDepartments, tbxDepartment, rfvDepartment);
 
-        if (emp.supervisor == null)
-        {
-            tbxSupervisor.Text = String.Empty;
-        }
-        else
-        {
-            tbxSupervisor.Text = emp.supervisor;
+        if (emp.supervisor != null && !emp.supervisor.Equals(String.Empty)) {
+            tbxSupervisor.Text = emp.supervisor.ToString();
         }
 
-        tbxRoom.Text = emp.room;
+        if (emp.room != null && !emp.room.Equals(String.Empty)) {
+            tbxRoom.Text = emp.room;
+        }
 
         if (emp.startDate != null)
         {
@@ -532,8 +538,10 @@ public partial class Reporting_Default : System.Web.UI.Page
     /// <summary>
     /// Gets the employee's start and end dates from the form.
     /// If one or both dates are null, validates true (nothing to compare).
-    /// If both dates are specified, compares them as dates, and validates 
-    /// false if the end date is before the start date.
+    /// If the start date is in an invalid format, validates true (the custom start date validator will catch it).
+    /// If the end date is in an invalid format, validates false.
+    /// If both dates are specified and in the proper format, the dates are compared.
+    /// If the end date is before the start date, validates false.
     /// </summary>
     /// <param name="source">The validator control.</param>
     /// <param name="args">The event properties.</param>
@@ -542,24 +550,70 @@ public partial class Reporting_Default : System.Web.UI.Page
         args.IsValid = false;
         String strStartDate = tbxStartDate.Text;
         String strEndDate = tbxEndDate.Text;
-        if (strStartDate == null || strStartDate.Equals(String.Empty))
-        {
-            args.IsValid = true;
-            return;
-        }
-        if (strEndDate == null || strEndDate.Equals(String.Empty))
-        {
-            args.IsValid = true;
-            return;
-        }
-        DateTime startDate = DateTime.ParseExact(strStartDate, dateFormat, locale);
-        DateTime endDate = DateTime.ParseExact(strEndDate, dateFormat, locale);
+        DateTime startDate;
+        DateTime endDate;
 
+        // start date
+        if (strStartDate == null || strStartDate.Equals(String.Empty)) {
+            args.IsValid = true;
+            return;
+        }
+        try {
+            startDate = DateTime.ParseExact(strStartDate, dateFormat, locale);
+        }
+        catch (FormatException ex) {
+            ex.ToString();
+            args.IsValid = true; // other validator will catch it
+            return;
+        }
+
+        // end date
+        if (strEndDate == null || strEndDate.Equals(String.Empty)) {
+            args.IsValid = true;
+            return;
+        }
+        try {
+            endDate = DateTime.ParseExact(strEndDate, dateFormat, locale);
+        }
+        catch (FormatException ex) {
+            ex.ToString();
+            cmvEmpDates.ErrorMessage = "End date must be in  format 'MM/DD/YYYY'";
+            return;
+        }
+        
+        // comparison
         if (endDate.CompareTo(startDate) > 0)
         {
             args.IsValid = true;
             return;
         }
+
+        cmvEmpDates.ErrorMessage = "End date must be later than start date";
+    }
+
+    /// <summary>
+    /// Gets the employee's start date and makes sure it's in the correct format (MM/DD/YYYY).
+    /// For example, 13/24/2011 would be invalid but the regex validator doesn't catch it.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvStartDate_ServerValidate(object source, ServerValidateEventArgs args)
+    {
+        args.IsValid = false;
+        String strStartDate = tbxStartDate.Text;
+        DateTime startDate;
+        if (strStartDate == null || strStartDate.Equals(String.Empty)) {
+            args.IsValid = false;
+            return;
+        }
+        try {
+            startDate = DateTime.ParseExact(strStartDate, dateFormat, locale);
+        }
+        catch (FormatException ex) {
+            ex.ToString();
+            return;
+        }
+        args.IsValid = true;
     }
 
     /// <summary>
@@ -613,23 +667,8 @@ public partial class Reporting_Default : System.Web.UI.Page
         {
             fname = tbxFirstName.Text,
             lname = tbxLastName.Text,
-            room = tbxRoom.Text,
-            supervisor = tbxSupervisor.Text,
         };
-
-        #region dates
-        if (!tbxStartDate.Text.Equals(String.Empty))
-        {
-            DateTime formStartDate = DateTime.ParseExact(tbxStartDate.Text, dateFormat, locale);
-            emp.startDate = formStartDate;
-        }
-        if (!tbxEndDate.Text.Equals(String.Empty))
-        {
-            DateTime formEndDate = DateTime.ParseExact(tbxEndDate.Text, dateFormat, locale);
-            emp.endDate = formEndDate;
-        }
-        #endregion dates
-
+        
         #region position
         if (ddlPositions.SelectedValue.Equals(otherOption))
         {
@@ -675,6 +714,32 @@ public partial class Reporting_Default : System.Web.UI.Page
         }
         #endregion department
 
+        #region supervisor and room
+        if (tbxRoom.Text.Equals(String.Empty)) {
+            emp.room = tbxRoom.Text;
+        }
+        else {
+            emp.room = String.Empty;
+        }
+        if (tbxSupervisor.Text.Equals(String.Empty)) {
+            emp.supervisor = tbxRoom.Text;
+        }
+        else {
+            emp.supervisor = String.Empty;
+        }
+        #endregion supervisor and room
+
+        #region dates
+        if (!tbxStartDate.Text.Equals(String.Empty)) {
+            DateTime formStartDate = DateTime.ParseExact(tbxStartDate.Text, dateFormat, locale);
+            emp.startDate = formStartDate;
+        }
+        if (!tbxEndDate.Text.Equals(String.Empty)) {
+            DateTime formEndDate = DateTime.ParseExact(tbxEndDate.Text, dateFormat, locale);
+            emp.endDate = formEndDate;
+        }
+        #endregion dates
+
         // Save employee
         try
         {
@@ -685,6 +750,8 @@ public partial class Reporting_Default : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ex.ToString();
+            reportErrorMsg = "Error adding employee to the database. Please try again.";
             return null;
         }
     }
@@ -738,73 +805,86 @@ public partial class Reporting_Default : System.Web.UI.Page
         }
 
         // Update employee
-        if (!tbxStartDate.Text.Equals(String.Empty))
-        {
-            emp.startDate = DateTime.ParseExact(tbxStartDate.Text, dateFormat, locale);
-        }
-        if (!tbxEndDate.Text.Equals(String.Empty))
-        {
-            emp.endDate = DateTime.ParseExact(tbxEndDate.Text, dateFormat, locale);
-        }
+        emp = new Employee {
+            fname = tbxFirstName.Text,
+            lname = tbxLastName.Text,
+        };
 
-        emp.fname = tbxFirstName.Text;
-        emp.lname = tbxLastName.Text;
-        emp.room = tbxRoom.Text;
-        emp.supervisor = tbxSupervisor.Text;
+        #region dates
+        if (!tbxStartDate.Text.Equals(String.Empty)) {
+            DateTime formStartDate = DateTime.ParseExact(tbxStartDate.Text, dateFormat, locale);
+            emp.startDate = formStartDate;
+        }
+        else {
+            return null;
+        }
+        if (!tbxEndDate.Text.Equals(String.Empty)) {
+            DateTime formEndDate = DateTime.ParseExact(tbxEndDate.Text, dateFormat, locale);
+            emp.endDate = formEndDate;
+        }
+        else {
+            emp.endDate = null;
+        }
+        #endregion dates
 
         #region position
-        if (ddlPositions.SelectedValue.Equals(otherOption))
-        {
+        if (ddlPositions.SelectedValue.Equals(otherOption)) {
             emp.position = tbxPosition.Text;
         }
-        else if (ddlPositions.SelectedValue.Equals(noOptionSpecified))
-        {
+        else if (ddlPositions.SelectedValue.Equals(noOptionSpecified)) {
             emp.position = null;
         }
-        else
-        {
+        else {
             emp.position = ddlPositions.SelectedValue;
         }
         #endregion position
 
         #region employer
-        if (ddlEmployers.SelectedValue.Equals(otherOption))
-        {
+        if (ddlEmployers.SelectedValue.Equals(otherOption)) {
             emp.employer = tbxEmployer.Text;
         }
-        else if (ddlEmployers.SelectedValue.Equals(noOptionSpecified))
-        {
+        else if (ddlEmployers.SelectedValue.Equals(noOptionSpecified)) {
             emp.employer = null;
         }
-        else
-        {
+        else {
             emp.employer = ddlEmployers.SelectedValue;
         }
         #endregion employer
 
         #region department
-        if (ddlDepartments.SelectedValue.Equals(otherOption))
-        {
+        if (ddlDepartments.SelectedValue.Equals(otherOption)) {
             emp.deptName = tbxDepartment.Text;
         }
-        else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified))
-        {
+        else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
             emp.deptName = null;
         }
-        else
-        {
+        else {
             emp.deptName = ddlDepartments.SelectedValue;
         }
         #endregion department
 
+        #region supervisor and room
+        if (tbxRoom.Text.Equals(String.Empty)) {
+            emp.room = tbxRoom.Text;
+        }
+        else {
+            emp.room = String.Empty; // bug prevents it from being null in db
+        }
+        if (tbxSupervisor.Text.Equals(String.Empty)) {
+            emp.supervisor = tbxRoom.Text;
+        }
+        else {
+            emp.supervisor = String.Empty; // bug prevents it from being null in db
+        }
+        #endregion supervisor and room
+
         // Save employee
-        try
-        {
+        try {
             ctx.SaveChanges();
             return emp;
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
+            ex.ToString();
             return null;
         }
     }
@@ -847,6 +927,7 @@ public partial class Reporting_Default : System.Web.UI.Page
             }
             catch (Exception ex)
             {
+                ex.ToString();
                 if (reportErrorMsg.Equals(String.Empty))
                 {
                     reportErrorMsg = "An error has occured while creating your report. Please try again.";
@@ -1394,12 +1475,12 @@ public partial class Reporting_Default : System.Web.UI.Page
         ddlPositions.SelectedIndex = 0;
         tbxPosition.Text = String.Empty;
         ddlEmployers.SelectedIndex = 0;
-        CheckDdlSelection(ddlPositions, tbxPosition);
+        CheckDdlSelection(ddlPositions, tbxPosition, rfvPosition);
         tbxEmployer.Text = String.Empty;
-        CheckDdlSelection(ddlEmployers, tbxEmployer);
+        CheckDdlSelection(ddlEmployers, tbxEmployer, rfvEmployer);
         ddlDepartments.SelectedIndex = 0;
         tbxDepartment.Text = String.Empty;
-        CheckDdlSelection(ddlDepartments, tbxDepartment);
+        CheckDdlSelection(ddlDepartments, tbxDepartment, rfvDepartment);
 
         tbxSupervisor.Text = String.Empty;
         tbxRoom.Text = String.Empty;
