@@ -9,23 +9,12 @@ using System.Web.UI.WebControls;
 using AjaxControlToolkit;
 using BCCAModel;
 
-/** TO DO:
- * Make clear all and clear individual form buttons
- * Make custom validators (date comparisons, Others in form and DDL)
- * test really long inputs, restrict input size in code-behind
- * style + validate schedule (last part of follow-up)
- * Check documentation
- * Add security code, restrict access to certain departments depending on user??
- * Resizeable text areas
- * Make the view incident report have labels or things that LOOK like labels
- **/
-
 /// <summary>
-/// Class:   Reporting/Reporting.aspx.cs Code-Behind
-/// Project: BCIT COMP4900 2011
-///          BCCA Cancer Research Centre
-///          Safety Training Database and Website
-/// Authors: Lindsay Fester - lindsay.m.fester@gmail.com
+/// Reporting/Default.aspx.cs
+/// BCCA Cancer Research Centre
+/// Safety Training Database and Website
+/// Author: BCIT COMP4900 2011
+/// Lindsay Fester - lindsay.m.fester@gmail.com
 /// </summary>
 public partial class Reporting_Default : System.Web.UI.Page
 {
@@ -50,9 +39,6 @@ public partial class Reporting_Default : System.Web.UI.Page
     };
     // Set by a called method so the caller can handle the error and display the message.
     private String reportErrorMsg = String.Empty;
-    // Script to check if an invalid character was typed
-    private static String jsKeyPressHandler = String.Empty;
-
     #endregion class variables
 
     /// <summary>
@@ -1618,6 +1604,5 @@ public partial class Reporting_Default : System.Web.UI.Page
         tbx_p2_factors_otherWorker.Text = String.Empty;
         #endregion E_ContributingFactors
     }
-
     #endregion Clear Forms
 }
