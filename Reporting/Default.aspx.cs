@@ -30,7 +30,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     // Text colour for success messages
     public static Color SuccessColour = Color.Green;
     // Text value of DropDowns for the other option, selecting this option causes a textbox to appear for custom data entry
-    public static String otherOption = "Other (specifiy)";
+    public static String otherOption = "Other (specify)";
     // Text value of DropDowns for the none specified option (null value in db)
     public static String noOptionSpecified = "Choose an option...";
     // List of static, pre-defined employers a user can select
