@@ -1477,7 +1477,7 @@
                     DisplayMode="BulletList" />
             </asp:Panel>
             <h3 id="hr3G">
-                G. Relevant Corrective Actions and Follow Up</h3>
+                G. Relevant Corrective Actions</h3>
             <asp:Panel ID="pnlG" CssClass="panelFollowup" runat="server">
                 <p>
                     Full descriptions and target completion dates for corrective actions are required.</p>
@@ -1673,7 +1673,7 @@
                     DisplayMode="BulletList" />
             </asp:Panel>
             <h3 id="hr3H">
-                H. Managers Report</h3>
+                H. Manager's Report</h3>
             <asp:Panel ID="pnlH" CssClass="panelFollowup" runat="server">
                 <table>
                     <tr>

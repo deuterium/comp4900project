@@ -479,7 +479,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <asp:CheckBox TabIndex="124" ID="cbx_p1_nature_musculoskeletal" Text="Musculoskeletal Injyry (Strain / Sprain)"
+                            <asp:CheckBox TabIndex="124" ID="cbx_p1_nature_musculoskeletal" Text="Musculoskeletal Injury (Strain / Sprain)"
                                 runat="server" />
                         </td>
                     </tr>
@@ -652,7 +652,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Was adaquate assistance available?
+                            Was adequate assistance available?
                         </td>
                     </tr>
                     <tr>
@@ -1279,7 +1279,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <asp:CheckBox TabIndex="144" ID="cbx_p2_factors_noise" Text="Exessive Noise" runat="server" />
+                            <asp:CheckBox TabIndex="144" ID="cbx_p2_factors_noise" Text="Excessive Noise" runat="server" />
                         </td>
                     </tr>
                     <tr>
