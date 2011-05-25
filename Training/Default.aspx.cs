@@ -265,6 +265,7 @@ public partial class Training_Default : System.Web.UI.Page {
             }
             Popup_Overlay(popUpErrorMsg, FailColour);
             popUpErrorMsg = null;
+            return;
         }
         populateValidCourses();
         populateExpiredCourses();
@@ -1054,7 +1055,11 @@ public partial class Training_Default : System.Web.UI.Page {
             if (course.trainingName.Equals("Biosafety Training"))
             {
                 pnlBiosafetyInfo.Visible = true;
-                tbxBSCDate.Text = Convert.ToDateTime(training.biosafety_BSCSeminar).ToString(dateFormat, locale);
+                if (training.biosafety_BSCSeminar == null) {
+                    tbxBSCDate.Text = "";
+                } else {
+                    tbxBSCDate.Text = Convert.ToDateTime(training.biosafety_BSCSeminar).ToString(dateFormat, locale);
+                }
             }
             
             rblSigned.ClearSelection();
