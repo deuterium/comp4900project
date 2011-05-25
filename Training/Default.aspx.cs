@@ -13,16 +13,17 @@ using BCCAModel;
 /// BCCA Cancer Research Centre
 /// Safety Training Database and Website
 /// Authors: BCIT COMP4900 2011
-/// Chris Wood - chriswood.ca@gmail.com
 /// Daisy Yuen - yuen.daisy@gmail.com
-/// Kalen Wessel - kalen.wessel@gmail.com
 /// Lindsay Fester - lindsay.m.fester@gmail.com
-/// Michael Anderson - anderson.michael23@gmail.com
 /// </summary>
 public partial class Training_Default : System.Web.UI.Page {
-    
+    #region Class Variables
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
+    // The date format to use for displaying and converting dates
+    public static String dateFormat = "M/d/yyyy";
+    // The locale to use when displaying and converting dates/times
+    public static CultureInfo locale = new CultureInfo("en-CA");
     // Text colour for failure messages
     public static Color FailColour = Color.Red;
     // Text colour for success messages
@@ -31,17 +32,19 @@ public partial class Training_Default : System.Web.UI.Page {
     public static String otherOption = "Other (specify)";
     // Text value of DropDowns for the none specified option (null value in db)
     public static String noOptionSpecified = "Choose an option...";
-    // List of pre-defined employers a user can select
+    // List of static, pre-defined employers a user can select
     public static List<String> employers = new List<String> {
-        noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
+        "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH"
     };
-    // The date format to use for displaying and converting dates
-    public static String dateFormat = "M/d/yyyy";
-    // The locale to use when displaying and converting dates/times
-    public static CultureInfo locale = new CultureInfo("en-CA");
+    // Set by a called method so the caller can handle the error and display the message.
+    private String popUpErrorMsg = String.Empty;
+    #endregion class variables
+
     /// <summary>
-    /// Populate the Drop Down Lists (emplyoers, departments, positions).
-    /// Add OtherOption to end of each Drop Down List.
+    /// Sets up the dynamic elements when the page loads for the first time.
+    /// Populates the drop down lists.
+    /// Hides Popup panel on page load.
+    /// Authenticates user.
     /// </summary>
     /// <param name="sender">The object that requested the page load.</param>
     /// <param name="e">The page load event.</param>
@@ -51,7 +54,7 @@ public partial class Training_Default : System.Web.UI.Page {
         ASP.global_asax.Session_Authentication();
         Session["AfterLoginRedirectUrl"] = null;
 
-        //Lab managers should no be on this page, if they go here they are forwarded away
+        //Lab managers should not be on this page, if they go here they are forwarded away
         int roleNo = (int)Session["RoleNo"];
         string role = ctx.Roles.Where(r => r.roleNo == roleNo).Select(r => r.role1).First();
         if (role == "Lab Manager")
@@ -69,9 +72,34 @@ public partial class Training_Default : System.Web.UI.Page {
             pnlCrsDetails.Visible = false;
             pnlNewCourse.Visible = false;
             pnlExpiredCourseDetails.Visible = false;
-
             addCharFilterToAllTextBoxes();
         }
+    }
+
+    /// <summary>
+    /// Checks if a the given TextBox's text is a date in the correct format.
+    /// Returns the minimum date time value if the TextBox is null or empty.
+    /// Returns the date of the TextBox if that TextBox holds a date in the format "MM/DD/YYYY".
+    /// </summary>
+    /// <param name="tbx">The TextBox to extract a date from</param>
+    /// <returns>The date in the TextBox if it's valid, otherwise the minimum date.</returns>
+    private DateTime getDateTime(TextBox tbx) {
+        if (tbx == null) {
+            return DateTime.MinValue;
+        }
+        String strDate = tbx.Text;
+        DateTime date;
+        if (strDate == null || strDate.Equals(String.Empty)) {
+            return DateTime.MinValue;
+        }
+        try {
+            date = DateTime.ParseExact(strDate, dateFormat, locale);
+        }
+        catch (FormatException ex) {
+            ex.ToString();
+            return DateTime.MinValue;
+        }
+        return date;
     }
 
     #region Add Char Filter to All TextBox
@@ -118,32 +146,21 @@ public partial class Training_Default : System.Web.UI.Page {
         }
     }
     #endregion Filter TextBox
-
-    #region Toggle Other TextBox and CheckBox
-    private void toggleOther(TextBox tbx, CheckBox cbx)
-    {
-        if (!tbx.Text.Equals(String.Empty))
-        {
-            cbx.Checked = true;
-            return;
-        }
-        cbx.Checked = false;
-    }
     
-    #endregion Toggle Other TextBox and CheckBox
-
     #region Employee Info Related
     #region Drop Down Lists
     #region Load DropDownLists
-
     /// <summary>
     /// Populates the employers drop down list.
+    /// Uses the employers in the class variable.
+    /// Adds the "no selection" option to the front of the list.
+    /// Adds the "other" option to the end of the list.
     /// </summary>
-    private void PopulateEmployersDdl()
-    {
+    private void PopulateEmployersDdl() {
         ddlEmployers.DataSource = employers.OrderBy(e => e.ToString());
         ddlEmployers.DataBind();
         ddlEmployers.Items.Insert(ddlEmployers.Items.Count, otherOption);
+        ddlEmployers.Items.Insert(0, noOptionSpecified);
     }
 
     /// <summary>
@@ -152,8 +169,7 @@ public partial class Training_Default : System.Web.UI.Page {
     /// Adds the "no selection" option to the front of the list.
     /// Adds the "other" option to the end of the list.
     /// </summary>
-    private void PopulatePositionsDdl()
-    {
+    private void PopulatePositionsDdl() {
         ddlPositions.DataSource = ctx.Positions.OrderBy(p => p.posName);
         ddlPositions.DataValueField = "posName";
         ddlPositions.DataBind();
@@ -162,540 +178,520 @@ public partial class Training_Default : System.Web.UI.Page {
     }
 
     /// <summary>
-    /// Populates the departments drop down list in the employee info panel and the report info panel.
+    /// Populates the departments drop down list in the employee info panel.
     /// Loads departments from the database.
     /// Adds the "no selection" option to the front of the list.
     /// Adds the "other" option to the end of the list.
     /// </summary>
-    private void PopulateDepartmentsDdl()
-    {
-        // Employee Info Departments DDL
+    private void PopulateDepartmentsDdl() {
         ddlDepartments.DataSource = ctx.Departments.OrderBy(d => d.deptName);
         ddlDepartments.DataValueField = "deptName";
         ddlDepartments.DataBind();
         ddlDepartments.Items.Insert(ddlDepartments.Items.Count, otherOption);
         ddlDepartments.Items.Insert(0, noOptionSpecified);
     }
-    /// <summary>
-    /// Populates the courses dropdown list when user clicks the "Add Course" button.
-    /// </summary>
-    private void PopulateCoursesDdl()
-    {
-        ddlNewCrs.DataSource = ctx.TrainingCourses.OrderBy(c => c.trainingName);
-        ddlNewCrs.DataValueField = "trainingNo";
-        ddlNewCrs.DataTextField = "trainingName";
-        ddlNewCrs.DataBind();
-    }
-
     #endregion Load DropDownLists
 
     #region Other Option Textbox Toggle
     /// <summary>
-    /// Calls CheckPositionSelection(), which displays a textbox if the "Other (specify)" option is selected
-    /// and hides the textbox if any other option is selected
-    /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void ddlPositions_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        CheckPositionSelection();
-    }
-
-    /// <summary>
-    /// Calls CheckEmployeeSelection(), which displays a textbox if the "Other (specify)" option is selected
-    /// and hides the textbox if any other option is selected
-    /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void ddlEmployers_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        CheckEmployeeSelection();
-    }
-
-    /// <summary>
-    /// Calls CheckDepartmentSelection(), which displays a textbox if the "Other (specify)" option is selected
-    /// and hides the textbox if any other option is selected
-    /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void ddlDepartments_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        CheckDepartmentSelection();
-    }
-
-    /// <summary>
-    /// Displays a textbox if the "Other (specify)" option of the positions drop down list is selected.
+    /// If the "Other (specify)" option is selected, shows a TextBox.
     /// Hides the textbox if any other option is selected
     /// </summary>
-    private void CheckPositionSelection()
-    {
-        if (ddlPositions.SelectedValue.Equals(otherOption))
-        {
-            tbxPosition.Visible = true;
-        }
-        else
-        {
-            tbxPosition.Visible = false;
-        }
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The event properties.</param>
+    protected void ddlPositions_SelectedIndexChanged(object sender, EventArgs e) {
+        CheckDdlSelection(ddlPositions, tbxPosition, rfvPosition);
+
     }
 
     /// <summary>
-    /// Displays a textbox if the "Other (specify)" option of the employee drop down list is selected.
+    /// If the "Other (specify)" option is selected, shows a TextBox.
     /// Hides the textbox if any other option is selected
     /// </summary>
-    private void CheckEmployeeSelection()
-    {
-        if (ddlEmployers.SelectedValue.Equals(otherOption))
-        {
-            tbxEmployer.Visible = true;
-        }
-        else
-        {
-            tbxEmployer.Visible = false;
-        }
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The event properties.</param>
+    protected void ddlEmployers_SelectedIndexChanged(object sender, EventArgs e) {
+        CheckDdlSelection(ddlEmployers, tbxEmployer, rfvEmployer);
     }
 
     /// <summary>
-    /// Displays a textbox if the "Other (specify)" option of the departments drop down list is selected.
+    /// If the "Other (specify)" option is selected, shows a TextBox.
     /// Hides the textbox if any other option is selected
     /// </summary>
-    private void CheckDepartmentSelection()
-    {
-        if (ddlDepartments.SelectedValue.Equals(otherOption))
-        {
-            tbxDepartment.Visible = true;
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The event properties.</param>
+    protected void ddlDepartments_SelectedIndexChanged(object sender, EventArgs e) {
+        CheckDdlSelection(ddlDepartments, tbxDepartment, rfvDepartment);
+    }
+
+    /// <summary>
+    /// If the "Other (specify)" option is selected of the Drop Down List.
+    /// If the other option is selected, shows the Text Box and makes it required.
+    /// If any other option is selected, hides the Text Box and makes it optional.
+    /// </summary>
+    private void CheckDdlSelection(DropDownList ddl, TextBox tbx, RequiredFieldValidator rfv) {
+        if (ddl.SelectedValue.Equals(otherOption)) {
+            tbx.Visible = true;
+            rfv.Enabled = true;
         }
-        else
-        {
-            tbxDepartment.Visible = false;
+        else {
+            tbx.Visible = false;
+            rfv.Enabled = false;
         }
     }
     #endregion Other Option Textbox Toggle
     #endregion DropDownLists
 
-    #region Load Employee Data
+    #region Load Employee
     /// <summary>
-    /// Uses the employee's first and last name to get the rest employee's information from the database.
-    /// Populates the Header form with this data.
+    /// Calls getEmployeeData() to get an employee from the database and populate the form with that employee's data.
+    /// Displays a pop-up with a success or fail message.
     /// </summary>
-    /// <returns>Returns the employee on success, null on failure.</returns>
-    private Employee getEmployeeData()
-    {
-        String first = tbxFirstName.Text;
-        String last = tbxLastName.Text;
-        Employee emp = null;
-
-        var qry = ctx.Employees
-                  .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
-                  .Select(e => e);
-
-        if ((qry != null) && (qry.Count() == 1))
-        {
-            emp = qry.FirstOrDefault();
-
-            tbxId.Text = emp.empNo.ToString();
-            tbxFirstName.Text = emp.fname.ToString();
-            tbxLastName.Text = emp.lname.ToString();
-
-            // Position DDL
-            var position = ctx.Positions
-                           .Where(p => p.posName.Equals(emp.position))
-                           .Select(p => p).FirstOrDefault();
-
-            if (emp.position == null)
-            {
-                ddlPositions.SelectedIndex = 0;
-            }
-            else if (position != null)
-            {
-                ddlPositions.SelectedValue = position.posName;
-            }
-            else
-            {
-                ddlPositions.SelectedValue = otherOption;
-                tbxPosition.Text = emp.position;
-            }
-            CheckPositionSelection();
-
-            // Employer DDL
-            if (emp.employer == null)
-            {
-                ddlEmployers.SelectedIndex = 0;
-            }
-            else if (employers.Contains(emp.employer))
-            {
-                ddlEmployers.SelectedValue = emp.employer;
-            }
-            else
-            {
-                ddlEmployers.SelectedValue = otherOption;
-                tbxEmployer.Text = emp.employer;
-            }
-            CheckEmployeeSelection();
-
-            // Department DDL
-            var department = ctx.Departments
-                            .Where(d => d.deptName.Equals(emp.deptName))
-                            .Select(d => d).FirstOrDefault();
-
-            if (emp.deptName == null)
-            {
-                ddlDepartments.SelectedIndex = 0;
-            }
-            else if (department != null)
-            {
-                ddlDepartments.SelectedValue = department.deptName;
-            }
-            else
-            {
-                ddlDepartments.SelectedValue = otherOption;
-                tbxDepartment.Text = emp.deptName;
-            }
-            CheckDepartmentSelection();
-
-            if (emp.supervisor == null)
-            {
-                tbxSupervisor.Text = String.Empty;
-            }
-            else
-            {
-                tbxSupervisor.Text = emp.supervisor;
-            }
-
-            tbxRoom.Text = emp.room;
-
-            if (emp.startDate != null)
-            {
-                tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy", new CultureInfo("en-CA"));
-            }
-
-            if (emp.endDate != null)
-            {
-                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy", new CultureInfo("en-CA"));
-            }
-
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnGetEmployee_Click(object sender, EventArgs e) {
+        // Check page
+        Page.Validate("vgpEmpName");
+        if (!Page.IsValid) {
+            Popup_Overlay("Invalid input, unable to get Employee.", FailColour);
+            return;
         }
-        else if ((qry != null) && (qry.Count() <= 0))
-        {
-            Popup_Overlay("No employee with that first and last name found.", FailColour);
-            return null;
+        // Get Employee
+        Employee result = loadEmployee();
+        if (result == null) {
+            if (popUpErrorMsg == null) {
+                popUpErrorMsg = "An error has occured while getting this employee. Please try again.";
+            }
+            Popup_Overlay(popUpErrorMsg, FailColour);
+            popUpErrorMsg = null;
         }
-        else
-        {
-            Popup_Overlay("There was more than one employee with that first and last name.", FailColour);
-            return null;
-        }
-        populateValidCourses();
-        populateExpiredCourses();
-        return emp;
     }
 
     /// <summary>
-    /// Calls getEmployeeData(), which fetches the employee from the database using the employee's first and last name
-    /// then populates the rest of the form with the employee's information.
+    /// Assumes page is valid.
+    /// Uses the employee's first and last name to get the rest of the employee's information from the database.
+    /// Populates the Employee Info form with the data.
     /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void btnGetEmployee_Click(object sender, EventArgs e)
-    {
-        Page.Validate("vgpGetEmp");
-        Page.Validate("vpgGetEmpFromDb");
-        if (!Page.IsValid)
-        {
-            return;
+    /// <returns>Returns the employee on success, null on failure.</returns>
+    private Employee loadEmployee() {
+        // Get employee
+        String first = tbxFirstName.Text;
+        String last = tbxLastName.Text;
+        Employee emp = null;
+        var qry = ctx.Employees
+                  .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
+                  .Select(e => e);
+        if (qry == null || qry.Count() == 0) {
+            popUpErrorMsg = "No employee with that first and last name found. Are the first and last names in the right fields?";
+            return null;
+        }
+        else if (qry == null || qry.Count() > 1) {
+            popUpErrorMsg = "More than one employee with that first and last name found.";
+            return null;
         }
 
-        getEmployeeData();
+        clearEmployeeInfo();
+
+        #region Populate Form
+        // Populate form with employee data
+        emp = qry.FirstOrDefault();
+
+        tbxId.Text = emp.empNo.ToString();
+        tbxFirstName.Text = emp.fname.ToString();
+        tbxLastName.Text = emp.lname.ToString();
+
+        // Position DDL
+        var position = ctx.Positions
+                        .Where(p => p.posName.Equals(emp.position))
+                        .Select(p => p).FirstOrDefault();
+
+        if (emp.position == null) {
+            ddlPositions.SelectedIndex = 0;
+        }
+        else if (position != null) {
+            ddlPositions.SelectedValue = position.posName;
+        }
+        else {
+            ddlPositions.SelectedValue = otherOption;
+            tbxPosition.Text = emp.position;
+        }
+        CheckDdlSelection(ddlPositions, tbxPosition, rfvPosition);
+
+        // Employer DDL
+        if (emp.employer == null) {
+            ddlEmployers.SelectedIndex = 0;
+        }
+        else if (employers.Contains(emp.employer)) {
+            ddlEmployers.SelectedValue = emp.employer;
+        }
+        else {
+            ddlEmployers.SelectedValue = otherOption;
+            tbxEmployer.Text = emp.employer;
+        }
+        CheckDdlSelection(ddlEmployers, tbxEmployer, rfvEmployer);
+
+        // Department DDL
+        var department = ctx.Departments
+                        .Where(d => d.deptName.Equals(emp.deptName))
+                        .Select(d => d).FirstOrDefault();
+
+        if (emp.deptName == null) {
+            ddlDepartments.SelectedIndex = 0;
+        }
+        else if (department != null) {
+            ddlDepartments.SelectedValue = department.deptName;
+        }
+        else {
+            ddlDepartments.SelectedValue = otherOption;
+            tbxDepartment.Text = emp.deptName;
+        }
+        CheckDdlSelection(ddlDepartments, tbxDepartment, rfvDepartment);
+
+        if (emp.supervisor != null && !emp.supervisor.Equals(String.Empty)) {
+            tbxSupervisor.Text = emp.supervisor.ToString();
+        }
+
+        if (emp.room != null && !emp.room.Equals(String.Empty)) {
+            tbxRoom.Text = emp.room;
+        }
+
+        if (emp.startDate != null) {
+            tbxStartDate.Text = emp.startDate.ToString(dateFormat, locale);
+        }
+
+        if (emp.endDate != null) {
+            tbxEndDate.Text = ((DateTime)emp.endDate).ToString(dateFormat, locale);
+        }
+        #endregion Populate Form
+
+        return emp;
     }
     #endregion LoadEmployeeData
 
     #region Create Employee
     /// <summary>
-    /// Calls the create Employee method, which creates and saves an Employee into the database.
+    /// Gets the employee's start and end dates from the form.
+    /// If the start date is invalid, ignores it (the other validator will catch it).
+    /// If the end date is in an invalid format, validates false.
+    /// If the end date is null or empty, validates true becuase there's nothing to compare.
+    /// If both dates are specified and in the proper format, the dates are compared.
+    /// If the end date is before the start date, validates false.
     /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void btnCreateEmployee_Click(object sender, EventArgs e)
-    {
-        Page.Validate("vgpGetEmp");
-        Page.Validate("vgpCreateEmp");
-        if (!Page.IsValid)
-        {
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvEmpDates_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strEndDate = tbxEndDate.Text;
+        DateTime startDate = getDateTime(tbxStartDate);
+        DateTime endDate = getDateTime(tbxEndDate);
+
+        // end date
+        if (strEndDate == null || strEndDate.Equals(String.Empty)) {
+            args.IsValid = true; // nothing to compare, so it's valid
             return;
         }
-        createEmployee();
+
+        if (endDate.Equals(DateTime.MinValue)) {
+            args.IsValid = false;
+            cmvEmpDates.ErrorMessage = "End date must be in the format 'MM/DD/YYYY'";
+            return;
+        }
+
+        if (startDate.Equals(DateTime.MinValue)) {
+            args.IsValid = true;
+            return; // other server validator will catch the error
+        }
+
+        // comparison
+        if (endDate.CompareTo(startDate) > 0) {
+            args.IsValid = true;
+            return;
+        }
+
+        cmvEmpDates.ErrorMessage = "End date must be later than start date";
     }
 
     /// <summary>
-    /// Creates a new Employee object (using the form fields) and saves it in the database.
-    /// Returns the new Employeeon success, null on failure.
-    /// Displays a pop-up with a success or fail message.
-    /// The new employee cannot have the same first and last name of an existing employee.
+    /// Gets the employee's start date and makes sure it's in the correct format (MM/DD/YYYY).
+    /// For example, 13/24/2011 would be invalid but the regex validator doesn't catch it.
     /// </summary>
-    private Employee createEmployee()
-    {
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvStartDate_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strStartDate = tbxStartDate.Text;
+        DateTime startDate = getDateTime(tbxStartDate);
+        if (strStartDate == null || strStartDate.Equals(String.Empty)) {
+            args.IsValid = false;
+            return;
+        }
+        if (startDate.Equals(DateTime.MinValue)) {
+            args.IsValid = false;
+            cmvStartDate.ErrorMessage = "Start date must be in the format 'MM/DD/YYYY'";
+            return;
+        }
+        args.IsValid = true;
+    }
+
+    /// <summary>
+    /// Calls the create Employee method, which creates and saves an Employee into the database.
+    /// Displays a pop-up with a success or fail message.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnCreateEmployee_Click(object sender, EventArgs e) {
+        // Check page
+        Page.Validate("vgpAllEmpInfo");
+        if (!Page.IsValid) {
+            return;
+        }
+        // Create Employee
+        Employee result = createEmployee();
+        if (result == null) {
+            if (popUpErrorMsg == null) {
+                popUpErrorMsg = "An error has occured while creating this employee. Please try again.";
+            }
+            Popup_Overlay(popUpErrorMsg, FailColour);
+            return;
+        }
+        Popup_Overlay("Employee successfully created.", SuccessColour);
+    }
+
+    /// <summary>
+    /// Assumes page is valid (including checking if the employee already exists).
+    /// Creates a new Employee object (using the form fields).
+    /// Saves the new Employee to the database.
+    /// </summary>
+    /// <returns>Returns the employee on success, null on failure.</returns>
+    private Employee createEmployee() {
         Employee emp = ctx.Employees
                        .Where(et => et.fname.Equals(tbxFirstName.Text) && et.lname.Equals(tbxLastName.Text))
                        .Select(et => et).FirstOrDefault();
 
-        if (emp != null)
-        {
-            Popup_Overlay("An employee with that first and last name already exists. Please change either the first or the last name.", FailColour);
+        if (emp != null) {
+            popUpErrorMsg = "An employee with that first and last name already exists.";
             return null;
         }
 
-        emp = new Employee
-        {
+        // Create employee
+        emp = new Employee {
             fname = tbxFirstName.Text,
             lname = tbxLastName.Text,
-            room = tbxRoom.Text,
-            supervisor = tbxSupervisor.Text,
         };
 
-        #region dates
-        if (!tbxStartDate.Text.Equals(String.Empty))
-        {
-            DateTime formStartDate = Convert.ToDateTime(tbxStartDate.Text);
-            emp.startDate = formStartDate;
-        }
-        if (!tbxEndDate.Text.Equals(String.Empty))
-        {
-            DateTime formEndDate = Convert.ToDateTime(tbxEndDate.Text);
-            emp.endDate = formEndDate;
-        }
-        #endregion dates
-
         #region position
-        if (ddlPositions.SelectedValue.Equals(otherOption))
-        {
+        if (ddlPositions.SelectedValue.Equals(otherOption)) {
             emp.position = tbxPosition.Text;
         }
-        else if (ddlPositions.SelectedValue.Equals(noOptionSpecified))
-        {
+        else if (ddlPositions.SelectedValue.Equals(noOptionSpecified)) {
             emp.position = null;
         }
-        else
-        {
+        else {
             emp.position = ddlPositions.SelectedValue;
         }
         #endregion position
 
         #region employer
-        if (ddlEmployers.SelectedValue.Equals(otherOption))
-        {
+        if (ddlEmployers.SelectedValue.Equals(otherOption)) {
             emp.employer = tbxEmployer.Text;
         }
-        else if (ddlEmployers.SelectedValue.Equals(noOptionSpecified))
-        {
+        else if (ddlEmployers.SelectedValue.Equals(noOptionSpecified)) {
             emp.employer = null;
         }
-        else
-        {
+        else {
             emp.employer = ddlEmployers.SelectedValue;
         }
         #endregion employer
 
         #region department
-        if (ddlDepartments.SelectedValue.Equals(otherOption))
-        {
+        if (ddlDepartments.SelectedValue.Equals(otherOption)) {
             emp.deptName = tbxDepartment.Text;
         }
-        else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified))
-        {
+        else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
             emp.deptName = null;
         }
-        else
-        {
+        else {
             emp.deptName = ddlDepartments.SelectedValue;
         }
         #endregion department
 
-        try
-        {
+        #region supervisor and room
+        if (tbxRoom.Text.Equals(String.Empty)) {
+            emp.room = tbxRoom.Text;
+        }
+        else {
+            emp.room = String.Empty;
+        }
+        if (tbxSupervisor.Text.Equals(String.Empty)) {
+            emp.supervisor = tbxRoom.Text;
+        }
+        else {
+            emp.supervisor = String.Empty;
+        }
+        #endregion supervisor and room
+
+        #region dates
+        if (!tbxStartDate.Text.Equals(String.Empty)) {
+            DateTime formStartDate = DateTime.ParseExact(tbxStartDate.Text, dateFormat, locale);
+            emp.startDate = formStartDate;
+        }
+        if (!tbxEndDate.Text.Equals(String.Empty)) {
+            DateTime formEndDate = DateTime.ParseExact(tbxEndDate.Text, dateFormat, locale);
+            emp.endDate = formEndDate;
+        }
+        #endregion dates
+
+        // Save employee
+        try {
             ctx.AddToEmployees(emp);
             ctx.SaveChanges();
             tbxId.Text = emp.empNo.ToString();
-            Popup_Overlay("Employee successfully created.", SuccessColour);
             return emp;
         }
-        catch (Exception ex)
-        {
-            Popup_Overlay("An error has occured while creating this employee. Please try again." + ex.StackTrace.ToString(), FailColour);
+        catch (Exception ex) {
+            ex.ToString();
+            popUpErrorMsg = "Error adding employee to the database. Please try again.";
             return null;
         }
-
     }
     #endregion Create Employee
 
     #region Update Employee
     /// <summary>
     /// Calls the update Employee method, which updates the employee's info in database to match the form.
+    /// Displays a pop-up with a success or fail message.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void btnUpdateEmployee_Click(object sender, EventArgs e)
-    {
-        updateEmployee();
-    }
+    /// <param name="e">The click event properties.</param>
+    protected void btnUpdateEmployee_Click(object sender, EventArgs e) {
+        if (!Page.IsValid) {
+            return;
+        }
 
+        Employee result = updateEmployee();
+        if (result != null) {
+            Popup_Overlay("Employee successfully updated.", SuccessColour);
+        }
+        else {
+            if (popUpErrorMsg == null) {
+                popUpErrorMsg = "An error has occured while updating this employee. Please try again.";
+            }
+            Popup_Overlay(popUpErrorMsg, FailColour);
+            popUpErrorMsg = null;
+        }
+    }
     /// <summary>
-    /// Updates an employee object (using the form fields) and saves the changes to the database.
-    /// Returns the new Employeeon success, null on failure.
-    /// Displays a pop-up with a success or fail message.
-    /// The new employee cannot have the same first and last name of an existing employee.
-    /// The ID cannot be changed.
+    /// Checks if the first/last name is already in use).
+    /// Updates the Employee object's fields.
+    /// Saves the updated Employee to the database.
+    /// Note: the ID cannot be changed.
     /// </summary>
-    private Employee updateEmployee()
-    {
+    /// <returns>Returns the employee on success, null on failure.</returns>
+    private Employee updateEmployee() {
+        if (tbxId.Text.Equals(String.Empty)) {
+            popUpErrorMsg = "You must use the 'Get Employee' button before you can update an employee.";
+            return null;
+        }
         int empId = Convert.ToInt32(tbxId.Text);
 
         Employee emp = ctx.Employees
                        .Where(et => et.empNo.Equals(empId))
                        .Select(et => et).FirstOrDefault();
 
-        if (emp == null)
-        {
-            Popup_Overlay("Error updating employee. Please try again.", FailColour);
+        if (emp == null) {
+            // Unexpected error.
+            popUpErrorMsg = "No employee with that ID found. Unable to update employee.";
             return null;
         }
 
-        Employee otherEmp = ctx.Employees
-                            .Where(et => et.fname.Equals(tbxFirstName.Text)
-                                && et.lname.Equals(tbxLastName.Text)
-                                && !(et.empNo.Equals(emp.empNo)))
-                            .Select(et => et).FirstOrDefault();
+        Employee existingEmp = ctx.Employees
+                               .Where(et => et.fname.Equals(tbxFirstName.Text) && et.lname.Equals(tbxLastName.Text))
+                               .Select(et => et).FirstOrDefault();
 
-        if (otherEmp != null)
-        {
-            Popup_Overlay("An employee with that first and last name already exists. Please change either the first or the last name.", FailColour);
-            return null;
+        if (existingEmp != null) {
+            // if an employee with that name exists and it's not the employee's former name
+            if (!(emp.fname.Equals(existingEmp.fname) && emp.lname.Equals(existingEmp.lname))) {
+                popUpErrorMsg = "An employee with that first and last name already exists.";
+                return null;
+            }
         }
 
-        if (!tbxStartDate.Text.Equals(String.Empty))
-        {
-            emp.startDate = DateTime.ParseExact(tbxStartDate.Text, dateFormat, locale);
-            //emp.startDate = Convert.ToDateTime(tbxStartDate.Text);
-        }
-        if (!tbxEndDate.Text.Equals(String.Empty))
-        {
-            emp.endDate = DateTime.ParseExact(tbxEndDate.Text, dateFormat, locale);
-            //emp.endDate = Convert.ToDateTime(tbxEndDate.Text);
-        }
-
+        // Update employee
         emp.fname = tbxFirstName.Text;
         emp.lname = tbxLastName.Text;
-        emp.room = tbxRoom.Text;
-        emp.supervisor = tbxSupervisor.Text;
+
+        #region dates
+        if (!tbxStartDate.Text.Equals(String.Empty)) {
+            DateTime formStartDate = DateTime.ParseExact(tbxStartDate.Text, dateFormat, locale);
+            emp.startDate = formStartDate;
+        }
+        else {
+            return null;
+        }
+        if (!tbxEndDate.Text.Equals(String.Empty)) {
+            DateTime formEndDate = DateTime.ParseExact(tbxEndDate.Text, dateFormat, locale);
+            emp.endDate = formEndDate;
+        }
+        else {
+            emp.endDate = null;
+        }
+        #endregion dates
 
         #region position
-        if (ddlPositions.SelectedValue.Equals(otherOption))
-        {
+        if (ddlPositions.SelectedValue.Equals(otherOption)) {
             emp.position = tbxPosition.Text;
         }
-        else if (ddlPositions.SelectedValue.Equals(noOptionSpecified))
-        {
+        else if (ddlPositions.SelectedValue.Equals(noOptionSpecified)) {
             emp.position = null;
         }
-        else
-        {
+        else {
             emp.position = ddlPositions.SelectedValue;
         }
         #endregion position
 
         #region employer
-        if (ddlEmployers.SelectedValue.Equals(otherOption))
-        {
+        if (ddlEmployers.SelectedValue.Equals(otherOption)) {
             emp.employer = tbxEmployer.Text;
         }
-        else if (ddlEmployers.SelectedValue.Equals(noOptionSpecified))
-        {
+        else if (ddlEmployers.SelectedValue.Equals(noOptionSpecified)) {
             emp.employer = null;
         }
-        else
-        {
+        else {
             emp.employer = ddlEmployers.SelectedValue;
         }
         #endregion employer
 
         #region department
-        if (ddlDepartments.SelectedValue.Equals(otherOption))
-        {
+        if (ddlDepartments.SelectedValue.Equals(otherOption)) {
             emp.deptName = tbxDepartment.Text;
         }
-        else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified))
-        {
+        else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
             emp.deptName = null;
         }
-        else
-        {
+        else {
             emp.deptName = ddlDepartments.SelectedValue;
         }
         #endregion department
 
-        try
-        {
+        #region supervisor and room
+        emp.room = tbxRoom.Text; // bug prevents it from being null in db
+        emp.supervisor = tbxSupervisor.Text; // bug prevents it from being null in db
+        #endregion supervisor and room
+
+        // Save employee
+        try {
             ctx.SaveChanges();
-            Popup_Overlay("Employee successfully updated.", SuccessColour);
-            return emp;
         }
-        catch (Exception ex)
-        {
-            Popup_Overlay("An error has occured while updatin this employee. Please try again." + ex.StackTrace.ToString(), FailColour);
+        catch (Exception ex) {
+            popUpErrorMsg = "Error saving changes to the database. Unable to update employee.";
+            ex.ToString();
             return null;
         }
+
+        return emp;
     }
     #endregion Update Employee
     #endregion EmployeeInfoRelated
-
-    protected void cmvEmployeeExists_ServerValidate(object source, ServerValidateEventArgs args)
-    {
-        args.IsValid = false;
-        String first = tbxFirstName.Text;
-        String last = tbxLastName.Text;
-
-        var qry = ctx.Employees
-                  .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
-                  .Select(e => e);
-
-        if ((qry != null) && (qry.Count() == 1))
-        {
-            args.IsValid = true;
-        }
-        else if ((qry != null) && (qry.Count() <= 0))
-        {
-            cmvEmployeeExists.ErrorMessage = "No employee with that first and last name found.";
-            return;
-        }
-        else
-        {
-            cmvEmployeeExists.ErrorMessage = "There was more than one employee with that first and last name.";
-            return;
-        }
-    }
-
-    protected void cmvDates_ServerValidate(object source, ServerValidateEventArgs args)
-    {
-        args.IsValid = false;
-        String strStartDate = tbxStartDate.Text;
-        String strEndDate = tbxEndDate.Text;
-        if (strStartDate == null || strStartDate.Equals(String.Empty))
-        {
-            args.IsValid = true;
-            return;
-        }
-        if (strEndDate == null && strEndDate.Equals(String.Empty))
-        {
-            args.IsValid = true;
-            return;
-        }
-        DateTime startDate = Convert.ToDateTime(strStartDate);
-        DateTime endDate = Convert.ToDateTime(strEndDate);
-        if (startDate.CompareTo(endDate) > 0)
-        {
-            args.IsValid = true;
-            return;
-        }
-    }
 
     #region Page Popup
     /// <summary>
@@ -1411,8 +1407,33 @@ public partial class Training_Default : System.Web.UI.Page {
     #endregion
 
     #region clearPage
+    /// <summary>
+    /// Clears the Employee Information form.
+    /// </summary>
+    private void clearEmployeeInfo() {
+        tbxId.Text = String.Empty;
+        tbxFirstName.Text = String.Empty;
+        tbxLastName.Text = String.Empty;
+
+        ddlPositions.SelectedIndex = 0;
+        tbxPosition.Text = String.Empty;
+        ddlEmployers.SelectedIndex = 0;
+        CheckDdlSelection(ddlPositions, tbxPosition, rfvPosition);
+        tbxEmployer.Text = String.Empty;
+        CheckDdlSelection(ddlEmployers, tbxEmployer, rfvEmployer);
+        ddlDepartments.SelectedIndex = 0;
+        tbxDepartment.Text = String.Empty;
+        CheckDdlSelection(ddlDepartments, tbxDepartment, rfvDepartment);
+
+        tbxSupervisor.Text = String.Empty;
+        tbxRoom.Text = String.Empty;
+        tbxStartDate.Text =
+        tbxEndDate.Text = String.Empty;
+    }
+
     protected void btnClear_Click(object sender, EventArgs e)
     {
+        clearEmployeeInfo();
         ResetFormControlValues(this);
         btnAddCrs.Visible = false;
         pnlCrsDetails.Visible = false;
@@ -1467,15 +1488,18 @@ public partial class Training_Default : System.Web.UI.Page {
         pnlLabTrainingInfo.Visible = false;
         pnlRadiationTrainingInfo.Visible = false;
     }
-
-    
-    /// <summary>
-    /// Saves course detail changes to the database
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
     
     #region Course-related
+    /// <summary>
+    /// Populates the courses dropdown list when user clicks the "Add Course" button.
+    /// </summary>
+    private void PopulateCoursesDdl() {
+        ddlNewCrs.DataSource = ctx.TrainingCourses.OrderBy(c => c.trainingName);
+        ddlNewCrs.DataValueField = "trainingNo";
+        ddlNewCrs.DataTextField = "trainingName";
+        ddlNewCrs.DataBind();
+    }
+
     /// <summary>
     /// Unhides the panel to add new courses
     /// Populates the courses dropdown list

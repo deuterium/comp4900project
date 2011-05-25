@@ -46,6 +46,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     /// Sets up the dynamic elements when the page loads for the first time.
     /// Populates the drop down lists.
     /// Hides Popup panel on page load.
+    /// Authenticates user.
     /// </summary>
     /// <param name="sender">The object that requested the page load.</param>
     /// <param name="e">The page load event.</param>
@@ -185,6 +186,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         }
         cbx.Checked = false;
     }
+
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
@@ -194,6 +196,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     {
         toggleOther(tbx_p2_patient_otherSpecify, cbx_p2_patient_other);
     }
+
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
@@ -203,6 +206,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     {
         toggleOther(tbx_p2_activity_otherPatientCare, cbx_p2_activity_otherPatientCare);
     }
+
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
@@ -212,6 +216,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     {
         toggleOther(tbx_p2_activity_otherMat, cbx_p2_activity_otherMat);
     }
+
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
@@ -221,6 +226,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     {
         toggleOther(tbx_p2_activity_otherEquip, cbx_p2_activity_otherEquip);
     }
+
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
@@ -230,6 +236,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     {
         toggleOther(tbx_p2_activity_otherEquipDesc, cbx_p2_activity_otherEquipDesc);
     }
+
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
@@ -239,6 +246,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     {
         toggleOther(tbx_p2_activity_other, cbx_p2_activity_other);
     }
+
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
@@ -248,6 +256,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     {
         toggleOther(tbx_p2_cause_other, cbx_p2_cause_other);
     }
+
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
@@ -257,6 +266,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     {
         toggleOther(tbx_p2_cause_aggression_other, cbx_p2_cause_aggression_other);
     }
+
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
@@ -266,6 +276,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     {
         toggleOther(tbx_p2_factors_otherEquip, cbx_p2_factors_otherEquip);
     }
+
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
@@ -275,6 +286,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     {
         toggleOther(tbx_p2_factors_otherEnv, cbx_p2_factors_otherEnv);
     }
+
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
@@ -284,6 +296,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     {
         toggleOther(tbx_p2_factors_otherWorkPractice, cbx_p2_factors_otherWorkPractice);
     }
+
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
@@ -293,6 +306,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     {
         toggleOther(tbx_p2_factors_otherPatient, cbx_p2_factors_otherPatient);
     }
+
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
@@ -302,6 +316,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     {
         toggleOther(tbx_p2_factors_otherOrganizational, cbx_p2_factors_otherOrganizational);
     }
+
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
@@ -311,6 +326,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     {
         toggleOther(tbx_p2_factors_otherWorker, cbx_p2_factors_otherWorker);
     }
+
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
@@ -319,6 +335,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     protected void tbx_p1_action_medicalGP_date_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p1_action_medicalGP_date, cbx_p1_action_medicalGP);
     }
+
     /// <summary>
     /// Calls toggleOther() for the textbox and it's corresponding checkbox.
     /// </summary>
