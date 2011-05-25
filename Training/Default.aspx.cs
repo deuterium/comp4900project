@@ -266,6 +266,8 @@ public partial class Training_Default : System.Web.UI.Page {
             Popup_Overlay(popUpErrorMsg, FailColour);
             popUpErrorMsg = null;
         }
+        populateValidCourses();
+        populateExpiredCourses();
     }
 
     /// <summary>
@@ -1513,6 +1515,7 @@ public partial class Training_Default : System.Web.UI.Page {
         pnlCrsDetails.Visible = false;
         pnlNewCourse.Visible = true;
         PopulateCoursesDdl();
+        BindValidData();
     }
 
     /// <summary>
