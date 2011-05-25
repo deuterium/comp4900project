@@ -39,7 +39,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH"
     };
     // Set by a called method so the caller can handle the error and display the message.
-    private String popUpErrorMsg = null;
+    private String popUpErrorMsg = String.Empty;
     #endregion class variables
 
     /// <summary>
@@ -68,52 +68,6 @@ public partial class Reporting_Default : System.Web.UI.Page
             // random bug where text area had different font face than text boxes
             tbx_p1_incidentDesc.Font.Name = "Verdana";
         }
-    }
-
-    /// <summary>
-    /// Gets the date from validator's control to validate (a TextBox).
-    /// Makes sure the TextBox's date is in the correct format (MM/DD/YYYY).
-    /// For example, 13/24/2011 would be invalid but the regex validators don't catch it.
-    /// If the Validator, TextBox (or its Text) is not found or empty or null, validates true.
-    /// </summary>
-    /// <param name="source">The validator control.</param>
-    /// <param name="args">The event properties.</param>
-    protected void date_ServerValidate(object source, ServerValidateEventArgs args) {
-        args.IsValid = false;
-
-        if (!(source is CustomValidator)) {
-            return;
-        }
-
-        CustomValidator cmv = (CustomValidator)source;
-        if (!cmv.Enabled) {
-            args.IsValid = true;
-            return;
-        }
-
-        String tbxId = cmv.ControlToValidate.ToString();
-        Control ctl = Page.FindControl(tbxId);
-
-        if (!(ctl is TextBox)) {
-            return;
-        }
-
-        TextBox tbx = (TextBox)ctl;
-
-        // If the TextBox is empty, don't evaluate it as it should be a required field validator
-        if (tbx.Text == null || tbx.Text.Equals(String.Empty)) {
-            args.IsValid = true;
-            return;
-        }
-
-        DateTime date = getDateTime(tbx);
-
-        if (date.Equals(DateTime.MinValue)) {
-            args.IsValid = false;
-            return;
-        }
-
-        args.IsValid = true;
     }
 
     /// <summary>
@@ -653,6 +607,29 @@ public partial class Reporting_Default : System.Web.UI.Page
     }
 
     /// <summary>
+    /// Gets the employee's start date and makes sure it's in the correct format (MM/DD/YYYY).
+    /// For example, 13/24/2011 would be invalid but the regex validator doesn't catch it.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvStartDate_ServerValidate(object source, ServerValidateEventArgs args)
+    {
+        args.IsValid = false;
+        String strStartDate = tbxStartDate.Text;
+        DateTime startDate = getDateTime(tbxStartDate);
+        if (strStartDate == null || strStartDate.Equals(String.Empty)) {
+            args.IsValid = false;
+            return;
+        }
+        if (startDate.Equals(DateTime.MinValue)) {
+            args.IsValid = false;
+            cmvStartDate.ErrorMessage = "Start date must be in the format 'MM/DD/YYYY'";
+            return;
+        }
+        args.IsValid = true;
+    }
+
+    /// <summary>
     /// Calls the create Employee method, which creates and saves an Employee into the database.
     /// Displays a pop-up with a success or fail message.
     /// </summary>
@@ -675,7 +652,6 @@ public partial class Reporting_Default : System.Web.UI.Page
                 popUpErrorMsg = "An error has occured while creating this employee. Please try again.";
             }
             Popup_Overlay(popUpErrorMsg, FailColour);
-            popUpErrorMsg = null;
             return;
         }
         Popup_Overlay("Employee successfully created.", SuccessColour);
@@ -961,14 +937,6 @@ public partial class Reporting_Default : System.Web.UI.Page
     /// <param name="e">The button click event.</param>
     protected void btnCreateReport_Click(object sender, EventArgs e)
     {
-        // Check page
-        Page.Validate("vgpEmpName");
-        Page.Validate("vpgGetEmpFromDb");
-        Page.Validate("vgpPanelA");
-        Page.Validate("vgpFCorrective");
-        Page.Validate("vgpGRelevant");
-        Page.Validate("vgpHManagers");
-
         if (Page.IsValid)
         {
             Incident report = createReport();
@@ -981,12 +949,12 @@ public partial class Reporting_Default : System.Web.UI.Page
             catch (Exception ex)
             {
                 ex.ToString();
-                if (popUpErrorMsg == null)
+                if (popUpErrorMsg.Equals(String.Empty))
                 {
                     popUpErrorMsg = "An error has occured while creating your report. Please try again.";
                 }
                 Popup_Overlay(popUpErrorMsg, FailColour);
-                popUpErrorMsg = null;
+                popUpErrorMsg = String.Empty;
                 return;
             }
         }
@@ -1007,6 +975,19 @@ public partial class Reporting_Default : System.Web.UI.Page
     /// <returns>the newly created Incident report</returns>
     private Incident createReport()
     {
+        // Check page
+        Page.Validate("vgpEmpName");
+        Page.Validate("vpgGetEmpFromDb");
+        Page.Validate("vgpPanelA");
+        Page.Validate("vgpFCorrective");
+        Page.Validate("vgpGRelevant");
+        Page.Validate("vgpHManagers");
+        if (!Page.IsValid)
+        {
+            popUpErrorMsg = "Invalid input.";
+            return null;
+        }
+
         Employee emp = loadEmployee();
         if (emp == null)
         {
@@ -1231,15 +1212,8 @@ public partial class Reporting_Default : System.Web.UI.Page
                 popUpErrorMsg = "Time of incident is invalid.";
                 return null; // Error
             }
-
-            try {
-                report.p1_dateOfIncident = DateTime.ParseExact(strDateOfIncident + " " + strTimeOfIncident,
-                    dateFormat + " " + timeFormat, locale);
-            }
-            catch (FormatException ex) {
-                ex.ToString();
-                return null;
-            }
+            report.p1_dateOfIncident = DateTime.ParseExact(strDateOfIncident + " " + strTimeOfIncident,
+                dateFormat + " " + timeFormat, locale);
         }
         else
         {
@@ -1553,6 +1527,49 @@ public partial class Reporting_Default : System.Web.UI.Page
         // comparison
         if (dateReported.CompareTo(dateOfIncident) < 0)
         {
+            return;
+        }
+        args.IsValid = true;
+    }
+
+    /// <summary>
+    /// Gets the medical GP date and makes sure it's in the correct format (MM/DD/YYYY).
+    /// For example, 13/24/2011 would be invalid but the regex validator won't catch it.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvMedicalGpDate_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strDate = tbx_p1_action_medicalGP_date.Text;
+        DateTime date = getDateTime(tbx_p1_action_medicalGP_date);
+        if (strDate == null || strDate.Equals(String.Empty)) {
+            args.IsValid = true;
+            return;
+        }
+        if (date.Equals(DateTime.MinValue)) {
+            args.IsValid = false;
+            return;
+        }
+        args.IsValid = true;
+    }
+
+
+    /// <summary>
+    /// Gets the medical ER date and makes sure it's in the correct format (MM/DD/YYYY).
+    /// For example, 13/24/2011 would be invalid but the regex validator won't catch it.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvMedicalErDate_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strDate = tbx_p1_action_medicalER_date.Text;
+        DateTime date = getDateTime(tbx_p1_action_medicalER_date);
+        if (strDate == null || strDate.Equals(String.Empty)) {
+            args.IsValid = true;
+            return;
+        }
+        if (date.Equals(DateTime.MinValue)) {
+            args.IsValid = false;
             return;
         }
         args.IsValid = true;
