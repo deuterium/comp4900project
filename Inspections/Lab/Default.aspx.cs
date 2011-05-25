@@ -792,7 +792,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
                 return;
             }
 
-            Popup_Overlay("Update Successful", Color.Green);
+            Popup_Overlay("Inspection successfully submitted.", Color.Green);
 
             #endregion
         }
