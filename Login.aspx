@@ -16,7 +16,7 @@
                 <td>
                     <asp:TextBox ID="tbxLoginUsername" Width="100" runat="server" ValidationGroup="vgrLogin" />
                     <asp:RequiredFieldValidator ID="rfvUsername" runat="server" ErrorMessage="Username is required."
-                        ControlToValidate="tbxLoginUsername" Display="Dynamic" ValidationGroup="vgrLogin"></asp:RequiredFieldValidator>
+                        ControlToValidate="tbxLoginUsername" ValidationGroup="vgrLogin"></asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
@@ -27,7 +27,7 @@
                     <asp:TextBox ID="tbxLoginPassword" Width="100" runat="server" TextMode="Password"
                         ValidationGroup="vgrLogin" />
                     <asp:RequiredFieldValidator ID="rfvPassword" runat="server" ErrorMessage="Password is required."
-                        ControlToValidate="tbxLoginPassword" Display="Dynamic" ValidationGroup="vgrLogin"></asp:RequiredFieldValidator>
+                        ControlToValidate="tbxLoginPassword" ValidationGroup="vgrLogin"></asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
