@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -21,6 +22,10 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
     public static String otherOption = "Other (specify)";
     // Text value of DropDowns for the none specified option (null value in db)
     public static String noOptionSpecified = "Choose an option...";
+    // The date format to use for displaying and converting dates
+    public static String dateFormat = "M/d/yyyy";
+    // The locale to use when displaying and converting dates/times
+    public static CultureInfo locale = new CultureInfo("en-CA");
 
     /// <summary>
     /// Code that is executed when the page is originally loaded. In this case, the code will populate
@@ -169,7 +174,7 @@ public partial class Inspections_Lab_Lab : System.Web.UI.Page
 
             #region LabInspection Object
 
-            DateTime tmpDate = Convert.ToDateTime(tbxLabInspectionDate.Text);
+            DateTime tmpDate = DateTime.ParseExact(tbxLabInspectionDate.Text, dateFormat, locale);
 
             //LabInspection object that will be inserted into the database before the rest of the form
             //so that the unique id can be used to link the LabInspectionDetail objects.
