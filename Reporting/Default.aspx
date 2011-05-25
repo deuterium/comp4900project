@@ -57,8 +57,7 @@
                             Last name:
                         </td>
                         <td>
-                            <asp:TextBox TabIndex="100" ID="tbxLastName" runat="server" ClientID="tbxLastNameClient"
-                                MaxLength="50"></asp:TextBox>
+                            <asp:TextBox TabIndex="100" ID="tbxLastName" runat="server" MaxLength="50"></asp:TextBox>
                             <asp:TextBoxWatermarkExtender ID="tweLastName" runat="server" TargetControlID="tbxLastName"
                                 WatermarkCssClass="watermarked" WatermarkText="Required field">
                             </asp:TextBoxWatermarkExtender>
@@ -682,10 +681,10 @@
                     </tr>
                     <tr>
                         <td>
-                            <asp:RadioButtonList ID="rbl_p2_patient_adequateAssist" runat="server" RepeatDirection="Horizontal">
-                                <asp:ListItem TabIndex="129" Text="Yes" Value="1"></asp:ListItem>
-                                <asp:ListItem TabIndex="130" Text="No" Value="2"></asp:ListItem>
-                                <asp:ListItem TabIndex="131" Text="Unknown" Value="3"></asp:ListItem>
+                            <asp:RadioButtonList TabIndex="129" ID="rbl_p2_patient_adequateAssist" runat="server" RepeatDirection="Horizontal">
+                                <asp:ListItem Text="Yes" Value="1"></asp:ListItem>
+                                <asp:ListItem Text="No" Value="2"></asp:ListItem>
+                                <asp:ListItem Text="Unknown" Value="3"></asp:ListItem>
                             </asp:RadioButtonList>
                         </td>
                     </tr>
@@ -1339,10 +1338,9 @@
                         <td>
                             <asp:UpdatePanel ID="uplOtherEnv" runat="server">
                                 <ContentTemplate>
-                                    <asp:CheckBox TabIndex="144" ID="cbx_p2_factors_otherEnv" Text="Other: " runat="server"
-                                        MaxLength="8000" AutoPostBack="true" />
+                                    <asp:CheckBox TabIndex="144" ID="cbx_p2_factors_otherEnv" Text="Other: " runat="server" AutoPostBack="true" />
                                     <asp:TextBox TabIndex="144" ID="tbx_p2_factors_otherEnv" runat="server" AutoPostBack="true"
-                                        OnTextChanged="tbx_p2_factors_otherEnv_OnTextChanged"></asp:TextBox>
+                                        OnTextChanged="tbx_p2_factors_otherEnv_OnTextChanged" MaxLength="8000" ></asp:TextBox>
                                     <asp:FilteredTextBoxExtender ID="fteFactorsOtherEnv" runat="server" TargetControlID="tbx_p2_factors_otherEnv"
                                         FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
                                 </ContentTemplate>

@@ -54,7 +54,8 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page
             }
             catch (FormatException ex)
             {
-                // redirect to error page
+                // do nothing, load report will handle it
+                ex.ToString();
             }
             loadReport(incidentNo);
             disableAllControls();
