@@ -207,8 +207,8 @@
                             <asp:RegularExpressionValidator ID="revStartDate" runat="server" ValidationGroup="vgpAllEmpInfo"
                                 Display="Dynamic" ControlToValidate="tbxStartDate" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                                 ErrorMessage="Start date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-                            <asp:CustomValidator ID="cmvStartDate" runat="server" ValidationGroup="vgpAllEmpInfo"
-                                Display="Dynamic" ErrorMessage="Start date must be in the format 'MM/DD/YYYY'" OnServerValidate="cmvStartDate_ServerValidate"></asp:CustomValidator>
+                            <asp:CustomValidator ID="cmvStartDate" runat="server" ValidationGroup="vgpAllEmpInfo" ControlToValidate="tbxStartDate"
+                                Display="Dynamic" ErrorMessage="Start date must be in the format 'MM/DD/YYYY'" OnServerValidate="date_ServerValidate"></asp:CustomValidator>
                         </td>
                     </tr>
                     <tr>
@@ -275,8 +275,8 @@
                             <asp:RegularExpressionValidator ID="revDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
                                 Display="Dynamic" ControlToValidate="tbx_p1_dateOfIncident" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                                 ErrorMessage="Date of incident must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-                            <asp:CustomValidator ID="cmvDateOfIncident" runat="server" ValidationGroup="vgpPanelA"
-                                Display="Dynamic" ErrorMessage="Date of incident must be in the format 'MM/DD/YYYY'" OnServerValidate="cmvDateOfIncident_ServerValidate"></asp:CustomValidator>
+                            <asp:CustomValidator ID="cmvDateOfIncident" runat="server" ValidationGroup="vgpPanelA" ControlToValidate="tbx_p1_dateOfIncident"
+                                Display="Dynamic" ErrorMessage="Date of incident must be in the format 'MM/DD/YYYY'" OnServerValidate="date_ServerValidate"></asp:CustomValidator>
                         </td>
                         <td colspan="2">
                             <span class="spanBold">Witness 1:</span>
@@ -339,8 +339,8 @@
                             <asp:RegularExpressionValidator ID="revDateReported" runat="server" ValidationGroup="vgpPanelA"
                                 Display="Dynamic" ControlToValidate="tbx_p1_dateReported" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                                 ErrorMessage="Date reported must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-                            <asp:CustomValidator ID="cmvDateReported" runat="server" ValidationGroup="vgpPanelA"
-                                Display="Dynamic" ErrorMessage="Date reported must be in the format 'MM/DD/YYYY'" OnServerValidate="cmvDateReported_ServerValidate"></asp:CustomValidator>
+                            <asp:CustomValidator ID="cmvDateReported" runat="server" ValidationGroup="vgpPanelA" ControlToValidate="tbx_p1_dateReported"
+                                Display="Dynamic" ErrorMessage="Date reported must be in the format 'MM/DD/YYYY'" OnServerValidate="date_ServerValidate"></asp:CustomValidator>
                         </td>
                         <td colspan="2">
                             <span class="spanBold">Witness 2:</span>
@@ -444,9 +444,12 @@
                             <asp:RegularExpressionValidator ID="revMedicalGpDate" runat="server" ValidationGroup="vgpPanelA"
                                 Display="Dynamic" ControlToValidate="tbx_p1_action_medicalGP_date" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
                                 ErrorMessage="Medical Aid (GP / Clinic) date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-                            <asp:RequiredFieldValidator ID="rfvMedicalAidGpDate" runat="server" ValidationGroup="vgpPanelA"
-                                Enabled="false" Display="Dynamic" ControlToValidate="tbx_p1_action_medicalGP_date"
+                            <asp:RequiredFieldValidator ID="rfvMedicalAidGpDate" runat="server" ValidationGroup="vgpPanelA" Enabled="false"
+                                Display="Dynamic" ControlToValidate="tbx_p1_action_medicalGP_date"
                                 ErrorMessage="Date is required for Medical Aid (GP / Clinic)."></asp:RequiredFieldValidator>
+                            <asp:CustomValidator ID="cmvMedicalGpDate" runat="server"  ValidationGroup="vgpPanelA" Enabled="false"
+                                Display="Dynamic" ErrorMessage="Medical Aid (GP / Clinic) date must be in the format 'MM/DD/YYYY'"
+                                ControlToValidate="tbx_p1_action_medicalGP_date" OnServerValidate="date_ServerValidate"></asp:CustomValidator>
                         </td>
                     </tr>
                     <tr>
@@ -475,6 +478,9 @@
                             <asp:RequiredFieldValidator ID="rfvMedicalAidErDate" runat="server" ValidationGroup="vgpPanelA"
                                 Enabled="false" Display="Dynamic" ControlToValidate="tbx_p1_action_medicalER_date"
                                 ErrorMessage="Date is required for Medical Aid (ER)."></asp:RequiredFieldValidator>
+                            <asp:CustomValidator ID="cmvMedicalErDate" runat="server"  ValidationGroup="vgpPanelA" Enabled="false"
+                                Display="Dynamic" ErrorMessage="Medical Aid (ER) date must be in the format 'MM/DD/YYYY'"
+                                ControlToValidate="tbx_p1_action_medicalER_date" OnServerValidate="date_ServerValidate"></asp:CustomValidator>
                         </td>
                     </tr>
                 </table>
