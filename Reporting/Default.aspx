@@ -427,29 +427,46 @@
                             <asp:CheckBox TabIndex="121" ID="cbx_p1_action_firstAid" Text="First Aid" runat="server" />
                         </td>
                         <td>
-                            <asp:CheckBox TabIndex="122" ID="cbx_p1_action_medicalGP" Text="Medical Aid (GP / Clinic)" runat="server"
-                                OnCheckedChanged="cbx_p1_action_medicalGP_CheckChanged" />
+                            <asp:UpdatePanel ID="uplMedicalGpCheckbox" runat="server">
+                                <ContentTemplate>
+                                    <asp:CheckBox TabIndex="122" ID="cbx_p1_action_medicalGP" Text="Medical Aid (GP / Clinic)"
+                                        runat="server" AutoPostBack="true" OnCheckedChanged="cbx_p1_action_medicalGP_CheckedChanged" />
+                                </ContentTemplate>
+                                <Triggers>
+                                    <asp:AsyncPostBackTrigger ControlID="tbx_p1_action_medicalGP_date" EventName="TextChanged" />
+                                </Triggers>
+                            </asp:UpdatePanel>
                         </td>
                         <td>
                             Date:
                         </td>
                         <td>
-                            <asp:TextBox TabIndex="122" ID="tbx_p1_action_medicalGP_date" runat="server" MaxLength="10" Width="150px"></asp:TextBox>
-                            <asp:TextBoxWatermarkExtender ID="tweMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date"
-                                WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
-                            </asp:TextBoxWatermarkExtender>
-                            <asp:CalendarExtender ID="cexMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date"
-                                Format="M/d/yyyy">
-                            </asp:CalendarExtender>
-                            <asp:RegularExpressionValidator ID="revMedicalGpDate" runat="server" ValidationGroup="vgpPanelA"
-                                Display="Dynamic" ControlToValidate="tbx_p1_action_medicalGP_date" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                                ErrorMessage="Medical Aid (GP / Clinic) date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-                            <asp:RequiredFieldValidator ID="rfvMedicalAidGpDate" runat="server" ValidationGroup="vgpPanelA"
-                                Enabled="false" Display="Dynamic" ControlToValidate="tbx_p1_action_medicalGP_date"
-                                ErrorMessage="Date is required for Medical Aid (GP / Clinic)."></asp:RequiredFieldValidator>
-                            <asp:CustomValidator ID="cmvMedicalGpDate" runat="server" ValidationGroup="vgpPanelA" Enabled="false"
-                                Display="Dynamic" ErrorMessage="Medical Aid (GP / Clinic) Date reported must be in the format 'MM/DD/YYYY'"
-                                OnServerValidate="cmvMedicalGpDate_ServerValidate"></asp:CustomValidator>
+                            <asp:UpdatePanel ID="UpdatePanel4" runat="server">
+                                <ContentTemplate>
+                                    <asp:TextBox TabIndex="122" ID="tbx_p1_action_medicalGP_date" runat="server" MaxLength="10" Width="150px"
+                                        AutoPostBack="true" OnTextChanged="tbx_p1_action_medicalGP_date_OnTextChanged"></asp:TextBox>
+                                    <asp:TextBoxWatermarkExtender ID="tweMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date"
+                                        WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
+                                    </asp:TextBoxWatermarkExtender>
+                                    <asp:CalendarExtender ID="cexMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date"
+                                        Format="M/d/yyyy">
+                                    </asp:CalendarExtender>
+                                    <asp:RegularExpressionValidator ID="revMedicalGpDate" runat="server" ValidationGroup="vgpPanelA"
+                                        Display="Dynamic" ControlToValidate="tbx_p1_action_medicalGP_date" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                                        ErrorMessage="Medical Aid (GP / Clinic) date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                                    <asp:RequiredFieldValidator ID="rfvMedicalAidGpDate" runat="server" ValidationGroup="vgpPanelA"
+                                        Enabled="false" Display="Dynamic" ControlToValidate="tbx_p1_action_medicalGP_date"
+                                        ErrorMessage="Date is required for Medical Aid (GP / Clinic)."></asp:RequiredFieldValidator>
+                                    <asp:CustomValidator ID="cmvMedicalGpDate" runat="server" ValidationGroup="vgpPanelA"
+                                        Display="Dynamic" ErrorMessage="Medical Aid (GP / Clinic) Date reported must be in the format 'MM/DD/YYYY'"
+                                        OnServerValidate="cmvMedicalGpDate_ServerValidate"></asp:CustomValidator>
+                                    <asp:FilteredTextBoxExtender ID="fteMedicalGpDate" runat="server" TargetControlID="tbx_p1_action_medicalGP_date"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
+                                </ContentTemplate>
+                                <Triggers>
+                                    <asp:AsyncPostBackTrigger ControlID="cbx_p1_action_medicalGP" EventName="CheckedChanged" />
+                                </Triggers>
+                            </asp:UpdatePanel>
                         </td>
                     </tr>
                     <tr>
@@ -458,29 +475,46 @@
                                 runat="server" />
                         </td>
                         <td>
-                            <asp:CheckBox TabIndex="123" ID="cbx_p1_action_medicalER" Text="Medical Aid (ER)" runat="server"
-                                OnCheckedChanged="cbx_p1_action_medicalER_CheckChanged" />
+                            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                <ContentTemplate>
+                                    <asp:CheckBox TabIndex="123" ID="cbx_p1_action_medicalER" Text="Medical Aid (ER)" runat="server"
+                                        OnCheckedChanged="cbx_p1_action_medicalER_CheckedChanged" />
+                                </ContentTemplate>
+                                <Triggers>
+                                    <asp:AsyncPostBackTrigger ControlID="tbx_p1_action_medicalER_date" EventName="TextChanged" />
+                                </Triggers>
+                            </asp:UpdatePanel>
                         </td>
                         <td>
                             Date:
                         </td>
                         <td>
-                            <asp:TextBox TabIndex="123" ID="tbx_p1_action_medicalER_date" runat="server" MaxLength="10" Width="150px"></asp:TextBox>
-                            <asp:TextBoxWatermarkExtender ID="tweMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date"
-                                WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
-                            </asp:TextBoxWatermarkExtender>
-                            <asp:CalendarExtender ID="cexMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date"
-                                Format="M/d/yyyy">
-                            </asp:CalendarExtender>
-                            <asp:RegularExpressionValidator ID="revMedicalErDate" runat="server" ValidationGroup="vgpPanelA"
-                                Display="Dynamic" ControlToValidate="tbx_p1_action_medicalER_date" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
-                                ErrorMessage="Medical Aid (ER) date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
-                            <asp:RequiredFieldValidator ID="rfvMedicalAidErDate" runat="server" ValidationGroup="vgpPanelA"
-                                Enabled="false" Display="Dynamic" ControlToValidate="tbx_p1_action_medicalER_date"
-                                ErrorMessage="Date is required for Medical Aid (ER)."></asp:RequiredFieldValidator>
-                            <asp:CustomValidator ID="cmvMedicalErDate" runat="server" ValidationGroup="vgpPanelA" Enabled="false"
-                                Display="Dynamic" ErrorMessage="Medical Aid (ER) Date reported must be in the format 'MM/DD/YYYY'"
-                                OnServerValidate="cmvMedicalErDate_ServerValidate"></asp:CustomValidator>
+                            <asp:UpdatePanel ID="UpdatePanel3" runat="server">
+                                <ContentTemplate>
+                                    <asp:TextBox TabIndex="123" ID="tbx_p1_action_medicalER_date" runat="server" MaxLength="10" Width="150px"
+                                        AutoPostBack="true" OnTextChanged="tbx_p1_action_medicalER_date_OnTextChanged"></asp:TextBox>
+                                    <asp:TextBoxWatermarkExtender ID="tweMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date"
+                                        WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
+                                    </asp:TextBoxWatermarkExtender>
+                                    <asp:CalendarExtender ID="cexMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date"
+                                        Format="M/d/yyyy">
+                                    </asp:CalendarExtender>
+                                    <asp:RegularExpressionValidator ID="revMedicalErDate" runat="server" ValidationGroup="vgpPanelA"
+                                        Display="Dynamic" ControlToValidate="tbx_p1_action_medicalER_date" ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                                        ErrorMessage="Medical Aid (ER) date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                                    <asp:RequiredFieldValidator ID="rfvMedicalAidErDate" runat="server" ValidationGroup="vgpPanelA"
+                                        Enabled="false" Display="Dynamic" ControlToValidate="tbx_p1_action_medicalER_date"
+                                        ErrorMessage="Date is required for Medical Aid (ER)."></asp:RequiredFieldValidator>
+                                    <asp:CustomValidator ID="cmvMedicalErDate" runat="server" ValidationGroup="vgpPanelA"
+                                        Display="Dynamic" ErrorMessage="Medical Aid (ER) Date reported must be in the format 'MM/DD/YYYY'"
+                                        OnServerValidate="cmvMedicalErDate_ServerValidate"></asp:CustomValidator>
+                                    <asp:FilteredTextBoxExtender ID="fteMedicalErDate" runat="server" TargetControlID="tbx_p1_action_medicalER_date"
+                                        FilterMode="InvalidChars" FilterType="Custom" InvalidChars="<>&#" />
+                                </ContentTemplate>
+                                <Triggers>
+                                    <asp:AsyncPostBackTrigger ControlID="cbx_p1_action_medicalER" EventName="CheckedChanged" />
+                                </Triggers>
+                            </asp:UpdatePanel>
                         </td>
                     </tr>
                 </table>
@@ -701,7 +735,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <asp:TextBox TabIndex="132" ID="tbx_p1_numEmployeesInvolved" runat="server" MaxLength="10"></asp:TextBox>
+                            <asp:TextBox TabIndex="132" ID="tbx_p1_numEmployeesInvolved" runat="server" MaxLength="9"></asp:TextBox>
                             <asp:FilteredTextBoxExtender ID="fteEmpInvolved" runat="server" TargetControlID="tbx_p1_numEmployeesInvolved"
                                 ValidChars="0123456789" />
                         </td>

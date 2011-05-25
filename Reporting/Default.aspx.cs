@@ -311,6 +311,22 @@ public partial class Reporting_Default : System.Web.UI.Page
     {
         toggleOther(tbx_p2_factors_otherWorker, cbx_p2_factors_otherWorker);
     }
+    /// <summary>
+    /// Calls toggleOther() for the textbox and it's corresponding checkbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The event properties.</param>
+    protected void tbx_p1_action_medicalGP_date_OnTextChanged(object sender, EventArgs e) {
+        toggleOther(tbx_p1_action_medicalGP_date, cbx_p1_action_medicalGP);
+    }
+    /// <summary>
+    /// Calls toggleOther() for the textbox and it's corresponding checkbox.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The event properties.</param>
+    protected void tbx_p1_action_medicalER_date_OnTextChanged(object sender, EventArgs e) {
+        toggleOther(tbx_p1_action_medicalER_date, cbx_p1_action_medicalER);
+    }
     #endregion Toggle Other TextBox and CheckBox
 
     #region Employee Info Related
@@ -977,7 +993,6 @@ public partial class Reporting_Default : System.Web.UI.Page
     {
         // Check page
         Page.Validate("vgpEmpName");
-        Page.Validate("vpgGetEmpFromDb");
         Page.Validate("vgpPanelA");
         Page.Validate("vgpFCorrective");
         Page.Validate("vgpGRelevant");
@@ -991,7 +1006,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         Employee emp = loadEmployee();
         if (emp == null)
         {
-            popUpErrorMsg = "Unable to find employee.";
+            popUpErrorMsg = "Unable to find employee. Try clicking the 'Get Employee' button.";
             return null;
         }
 
@@ -1253,16 +1268,18 @@ public partial class Reporting_Default : System.Web.UI.Page
         #endregion Report Info Dates and Department
 
         #region A_IncidentInfo_Dates
-        if (!tbx_p1_action_medicalER_date.Text.Equals(String.Empty))
-        {
-            DateTime dateMedicalER = DateTime.ParseExact(tbx_p1_action_medicalER_date.Text, dateFormat, locale);
-            report.p1_action_medicalER_date = dateMedicalER;
+        if (cbx_p1_action_medicalER.Checked) {
+            if (!tbx_p1_action_medicalER_date.Text.Equals(String.Empty)) {
+                DateTime dateMedicalER = DateTime.ParseExact(tbx_p1_action_medicalER_date.Text, dateFormat, locale);
+                report.p1_action_medicalER_date = dateMedicalER;
+            }
         }
 
-        if (!tbx_p1_action_medicalGP_date.Text.Equals(String.Empty))
-        {
-            DateTime dateMedicalGP = DateTime.ParseExact(tbx_p1_action_medicalGP_date.Text, dateFormat, locale);
-            report.p1_action_medicalGP_date = dateMedicalGP;
+        if (cbx_p1_action_medicalGP.Checked) {
+            if (!tbx_p1_action_medicalGP_date.Text.Equals(String.Empty)) {
+                DateTime dateMedicalGP = DateTime.ParseExact(tbx_p1_action_medicalGP_date.Text, dateFormat, locale);
+                report.p1_action_medicalGP_date = dateMedicalGP;
+            }
         }
         #endregion A_IncidentInfo_Dates
 
@@ -1346,7 +1363,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The control that triggered the event.</param>
     /// <param name="e">The event properties.</param>
-    protected void cbx_p1_action_medicalGP_CheckChanged(object sender, EventArgs e)
+    protected void cbx_p1_action_medicalGP_CheckedChanged(object sender, EventArgs e)
     {
         if (cbx_p1_action_medicalGP.Checked)
         {
@@ -1357,6 +1374,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         {
             rfvMedicalAidGpDate.Enabled = false;
             cmvMedicalGpDate.Enabled = false;
+            tbx_p1_action_medicalGP_date.Text = String.Empty;
         }
     }
 
@@ -1366,7 +1384,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The control that triggered the event.</param>
     /// <param name="e">The event properties.</param>
-    protected void cbx_p1_action_medicalER_CheckChanged(object sender, EventArgs e)
+    protected void cbx_p1_action_medicalER_CheckedChanged(object sender, EventArgs e)
     {
         if (cbx_p1_action_medicalER.Checked)
         {
@@ -1377,6 +1395,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         {
             rfvMedicalAidErDate.Enabled = false;
             cmvMedicalErDate.Enabled = false;
+            tbx_p1_action_medicalER_date.Text = String.Empty;
         }
     }
 
@@ -1437,7 +1456,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         String strDateOfIncident = tbx_p1_dateOfIncident.Text;
         DateTime dateOfIncident = getDateTime(tbx_p1_dateOfIncident);
         if (strDateOfIncident == null || strDateOfIncident.Equals(String.Empty)) {
-            args.IsValid = false;
+            args.IsValid = true;
             return;
         }
         if (dateOfIncident.Equals(DateTime.MinValue)) {
@@ -1456,13 +1475,13 @@ public partial class Reporting_Default : System.Web.UI.Page
     /// <param name="args">The event properties.</param>
     protected void cmvDateReported_ServerValidate(object source, ServerValidateEventArgs args) {
         args.IsValid = false;
-        String strDateReported = tbx_p1_dateReported.Text;
-        DateTime dateReported = getDateTime(tbx_p1_dateReported);
-        if (strDateReported == null || strDateReported.Equals(String.Empty)) {
-            args.IsValid = false;
+        String strDate = tbx_p1_dateReported.Text;
+        DateTime date = getDateTime(tbx_p1_dateReported);
+        if (strDate == null || strDate.Equals(String.Empty)) {
+            args.IsValid = true;
             return;
         }
-        if (dateReported.Equals(DateTime.MinValue)) {
+        if (date.Equals(DateTime.MinValue)) {
             args.IsValid = false;
             cmvEmpDates.ErrorMessage = "Date reported must be in the format 'MM/DD/YYYY'";
             return;
@@ -1552,7 +1571,6 @@ public partial class Reporting_Default : System.Web.UI.Page
         }
         args.IsValid = true;
     }
-
 
     /// <summary>
     /// Gets the medical ER date and makes sure it's in the correct format (MM/DD/YYYY).
@@ -1667,6 +1685,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         cbx_p2_patient_sitStandLift.Checked = false;
         cbx_p2_patient_floorLift.Checked = false;
         cbx_p2_patient_manualLift.Checked = false;
+        cbx_p2_patient_other.Checked = false; 
         tbx_p2_patient_otherSpecify.Text = String.Empty;
         rbl_p2_patient_adequateAssist.SelectedValue = String.Empty;
         tbx_p1_numEmployeesInvolved.Text = String.Empty;
@@ -1677,6 +1696,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         cbx_p2_activity_feeding.Checked = false;
         cbx_p2_activity_prep.Checked = false;
         cbx_p2_activity_dressingChanges.Checked = false;
+        cbx_p2_activity_otherPatientCare.Checked = false;
         tbx_p2_activity_otherPatientCare.Text = String.Empty;
 
         cbx_p2_activity_recapping.Checked = false;
@@ -1688,9 +1708,12 @@ public partial class Reporting_Default : System.Web.UI.Page
         cbx_p2_activity_lift.Checked = false;
         cbx_p2_activity_push.Checked = false;
         cbx_p2_activity_carry.Checked = false;
+        cbx_p2_activity_otherMat.Checked = false;
         tbx_p2_activity_otherMat.Text = String.Empty;
         cbx_p2_activity_driving.Checked = false;
+        cbx_p2_activity_otherEquip.Checked = false;
         tbx_p2_activity_otherEquip.Text = String.Empty;
+        cbx_p2_activity_otherEquipDesc.Checked = false;
         tbx_p2_activity_otherEquipDesc.Text = String.Empty;
         cbx_p2_activity_equipMain.Checked = false;
         cbx_p2_activity_comp.Checked = false;
@@ -1701,6 +1724,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         cbx_p2_activity_reading.Checked = false;
         cbx_p2_activity_spill.Checked = false;
         cbx_p2_activity_cleaning.Checked = false;
+        cbx_p2_activity_other.Checked = false;
         tbx_p2_activity_other.Text = String.Empty;
         #endregion C_AccidentInvestigation
 
@@ -1725,6 +1749,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         cbx_p2_cause_event.Checked = false;
         cbx_p2_cause_underEquip.Checked = false;
         cbx_p2_cause_hit.Checked = false;
+        cbx_p2_cause_other.Checked = false;
         tbx_p2_cause_other.Text = String.Empty;
 
         cbx_p2_cause_aggression_verbal.Checked = false;
@@ -1736,6 +1761,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         cbx_p2_cause_aggression_family.Checked = false;
         cbx_p2_cause_aggression_public.Checked = false;
         cbx_p2_cause_aggression_worker.Checked = false;
+        cbx_p2_cause_aggression_other.Checked = false;
         tbx_p2_cause_aggression_other.Text = String.Empty;
 
         tbx_p2_cause_exposure_chemName.Text = String.Empty;
@@ -1758,6 +1784,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         cbx_p2_factors_signage.Checked = false;
         cbx_p2_factors_notAvailable.Checked = false;
         cbx_p2_factors_poorDesign.Checked = false;
+        cbx_p2_factors_otherEquip.Checked = false;
         tbx_p2_factors_otherEquip.Text = String.Empty;
 
         cbx_p2_factors_temp.Checked = false;
@@ -1769,6 +1796,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         cbx_p2_factors_noise.Checked = false;
         cbx_p2_factors_vent.Checked = false;
         cbx_p2_factors_storage.Checked = false;
+        cbx_p2_factors_otherEnv.Checked = false; 
         tbx_p2_factors_otherEnv.Text = String.Empty;
 
         cbx_p2_factors_assessment.Checked = false;
@@ -1778,6 +1806,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         cbx_p2_factors_extended.Checked = false;
         cbx_p2_factors_comm.Checked = false;
         cbx_p2_factors_unaccustomed.Checked = false;
+        cbx_p2_factors_otherWorkPractice.Checked = false;
         tbx_p2_factors_otherWorkPractice.Text = String.Empty;
 
         cbx_p2_factors_directions.Checked = false;
@@ -1788,6 +1817,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         cbx_p2_factors_confused.Checked = false;
         cbx_p2_factors_influence.Checked = false;
         cbx_p2_factors_lang.Checked = false;
+        cbx_p2_factors_otherPatient.Checked = false;
         tbx_p2_factors_otherPatient.Text = String.Empty;
 
         cbx_p2_factors_alone.Checked = false;
@@ -1798,6 +1828,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         cbx_p2_factors_personal.Checked = false;
         cbx_p2_factors_safe.Checked = false;
         cbx_p2_factors_perceived.Checked = false;
+        cbx_p2_factors_otherOrganizational.Checked = false;
         tbx_p2_factors_otherOrganizational.Text = String.Empty;
 
         cbx_p2_factors_inexperienced.Checked = false;
@@ -1806,6 +1837,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         cbx_p2_factors_distracted.Checked = false;
         cbx_p2_factors_preexisting.Checked = false;
         cbx_p2_factors_sick.Checked = false;
+        cbx_p2_factors_otherWorker.Checked = false;
         tbx_p2_factors_otherWorker.Text = String.Empty;
         #endregion E_ContributingFactors
     }
