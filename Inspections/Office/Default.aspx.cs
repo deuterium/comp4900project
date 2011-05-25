@@ -643,7 +643,7 @@ public partial class Inspections_Office_Office : System.Web.UI.Page
                 return;
             }
 
-            Popup_Overlay("Update Successful", Color.Green);
+            Popup_Overlay("Inspection successfully submitted.", Color.Green);
 
             #endregion
         }
