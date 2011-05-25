@@ -9,17 +9,13 @@ using System.Web.UI.WebControls;
 using AjaxControlToolkit;
 using BCCAModel;
 
-/**
- * TO DO:
- * Finish documentation
- * Fix panels (scrollbars)
- * Stop button from disappearing
- * Add security code, restrict access to certain departments depending on user??
- * Get FollowUpStatus not follow up comments
- * Change buttons to link to department and only show up in the department subheader?
- * Add what you filtered section
- */
-
+/// <summary>
+/// Tracking/Default.aspx.cs
+/// BCCA Cancer Research Centre
+/// Safety Training Database and Website
+/// Author: BCIT COMP4900 2011
+/// Lindsay Fester - lindsay.m.fester@gmail.com
+/// </summary>
 public partial class Tracking_Default : System.Web.UI.Page
 {
     #region Class Variables
@@ -153,6 +149,7 @@ public partial class Tracking_Default : System.Web.UI.Page
         CheckBox cbxClone = new CheckBox();
         cbxClone.Checked = cbx.Checked;
         cbxClone.Text = cbx.Text;
+        cbxClone.Attributes.Add("onclick", "return false;");
 
         pnlFiltersSelected.Controls.Add(cbxClone);
         pnlFiltersSelected.Controls.Add(new LiteralControl("<br />"));
@@ -165,6 +162,7 @@ public partial class Tracking_Default : System.Web.UI.Page
         CheckBox cbxClone = new CheckBox();
         cbxClone.Checked = cbx.Checked;
         cbxClone.Text = cbx.Text;
+        cbxClone.Attributes.Add("onclick", "return false;");
 
         Label lblAdditionalInfo = new Label();
         lblAdditionalInfo.Text = additionalInfo;
@@ -185,6 +183,7 @@ public partial class Tracking_Default : System.Web.UI.Page
         }
         rblClone.SelectedValue = rbl.SelectedValue;
         rblClone.RepeatDirection = rbl.RepeatDirection;
+        rblClone.Enabled = false;
 
         Label lblAdditionalInfo = new Label();
         lblAdditionalInfo.Text = text;
@@ -203,6 +202,14 @@ public partial class Tracking_Default : System.Web.UI.Page
     {
         var reports = ctx.Incidents
                       .Select(r => r);
+
+        #region A_IncidentInfo
+        if (cbx_p1_action_report.Checked) { reports = reports.Where(r => r.p1_action_medicalER.Equals("1")); addFilter(cbx_p1_action_report); }
+        if (cbx_p1_action_firstAid.Checked) { reports = reports.Where(r => r.p1_action_firstAid.Equals("1")); addFilter(cbx_p1_action_firstAid); }
+        if (cbx_p1_action_medicalGP.Checked) { reports = reports.Where(r => r.p1_action_medicalGP.Equals("1")); addFilter(cbx_p1_action_medicalGP); }
+        if (cbx_p1_action_lostTime.Checked) { reports = reports.Where(r => r.p1_action_lostTime.Equals("1")); addFilter(cbx_p1_action_lostTime); }
+        if (cbx_p1_action_medicalER.Checked) { reports = reports.Where(r => r.p1_action_medicalER.Equals("1")); addFilter(cbx_p1_action_medicalER); }
+        #endregion A_IncidentInfo
 
         #region B_NatureOfInjury
         if (cbx_p1_nature_no.Checked) { reports = reports.Where(r => r.p1_nature_no.Equals("1")); addFilter(cbx_p1_nature_no); }
