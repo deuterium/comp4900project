@@ -73,6 +73,7 @@ public partial class Training_Default : System.Web.UI.Page {
             pnlNewCourse.Visible = false;
             pnlExpiredCourseDetails.Visible = false;
             addCharFilterToAllTextBoxes();
+            btnAddCrs.Visible = true;
         }
     }
 
