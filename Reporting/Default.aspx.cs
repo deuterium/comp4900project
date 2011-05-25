@@ -39,7 +39,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH"
     };
     // Set by a called method so the caller can handle the error and display the message.
-    private String reportErrorMsg = String.Empty;
+    private String popUpErrorMsg = String.Empty;
     #endregion class variables
 
     /// <summary>
@@ -55,10 +55,11 @@ public partial class Reporting_Default : System.Web.UI.Page
         Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
         Session["AfterLoginRedirectUrl"] = null;
-
+        
+        addCharFilterToAllTextBoxes();
+        
         if (!IsPostBack)
-        {
-            addCharFilterToAllTextBoxes();
+        {  
             PopulateEmployersDdl();
             PopulatePositionsDdl();
             PopulateDepartmentsDdl();
@@ -67,6 +68,32 @@ public partial class Reporting_Default : System.Web.UI.Page
             // random bug where text area had different font face than text boxes
             tbx_p1_incidentDesc.Font.Name = "Verdana";
         }
+    }
+
+    /// <summary>
+    /// Checks if a the given TextBox's text is a date in the correct format.
+    /// Returns the minimum date time value if the TextBox is null or empty.
+    /// Returns the date of the TextBox if that TextBox holds a date in the format "MM/DD/YYYY".
+    /// </summary>
+    /// <param name="tbx">The TextBox to extract a date from</param>
+    /// <returns>The date in the TextBox if it's valid, otherwise the minimum date.</returns>
+    private DateTime getDateTime(TextBox tbx) {
+        if (tbx == null) {
+            return DateTime.MinValue;
+        }
+        String strDate = tbx.Text;
+        DateTime date;
+        if (strDate == null || strDate.Equals(String.Empty)) {
+            return DateTime.MinValue;
+        }
+        try {
+            date = DateTime.ParseExact(strDate, dateFormat, locale);
+        }
+        catch (FormatException ex) {
+            ex.ToString();
+            return DateTime.MinValue;
+        }
+        return date;
     }
 
     #region Add Char Filter to All TextBox
@@ -410,12 +437,12 @@ public partial class Reporting_Default : System.Web.UI.Page
         Employee result = loadEmployee();
         if (result == null)
         {
-            if (reportErrorMsg == null)
+            if (popUpErrorMsg == null)
             {
-                reportErrorMsg = "An error has occured while getting this employee. Please try again.";
+                popUpErrorMsg = "An error has occured while getting this employee. Please try again.";
             }
-            Popup_Overlay(reportErrorMsg, FailColour);
-            reportErrorMsg = null;
+            Popup_Overlay(popUpErrorMsg, FailColour);
+            popUpErrorMsg = null;
         }
     }
 
@@ -436,12 +463,12 @@ public partial class Reporting_Default : System.Web.UI.Page
                   .Select(e => e);
         if (qry == null || qry.Count() == 0)
         {
-            reportErrorMsg = "No employee with that first and last name found. Are the first and last names in the right fields?";
+            popUpErrorMsg = "No employee with that first and last name found. Are the first and last names in the right fields?";
             return null;
         }
         else if (qry == null || qry.Count() > 1)
         {
-            reportErrorMsg = "More than one employee with that first and last name found.";
+            popUpErrorMsg = "More than one employee with that first and last name found.";
             return null;
         }
 
@@ -537,9 +564,9 @@ public partial class Reporting_Default : System.Web.UI.Page
     #region Create Employee
     /// <summary>
     /// Gets the employee's start and end dates from the form.
-    /// If one or both dates are null, validates true (nothing to compare).
-    /// If the start date is in an invalid format, validates true (the custom start date validator will catch it).
+    /// If the start date is invalid, ignores it (the other validator will catch it).
     /// If the end date is in an invalid format, validates false.
+    /// If the end date is null or empty, validates true becuase there's nothing to compare.
     /// If both dates are specified and in the proper format, the dates are compared.
     /// If the end date is before the start date, validates false.
     /// </summary>
@@ -548,37 +575,25 @@ public partial class Reporting_Default : System.Web.UI.Page
     protected void cmvEmpDates_ServerValidate(object source, ServerValidateEventArgs args)
     {
         args.IsValid = false;
-        String strStartDate = tbxStartDate.Text;
         String strEndDate = tbxEndDate.Text;
-        DateTime startDate;
-        DateTime endDate;
-
-        // start date
-        if (strStartDate == null || strStartDate.Equals(String.Empty)) {
-            args.IsValid = true;
-            return;
-        }
-        try {
-            startDate = DateTime.ParseExact(strStartDate, dateFormat, locale);
-        }
-        catch (FormatException ex) {
-            ex.ToString();
-            args.IsValid = true; // other validator will catch it
-            return;
-        }
+        DateTime startDate = getDateTime(tbxStartDate);
+        DateTime endDate = getDateTime(tbxEndDate);
 
         // end date
         if (strEndDate == null || strEndDate.Equals(String.Empty)) {
+            args.IsValid = true; // nothing to compare, so it's valid
+            return;
+        }
+
+        if (endDate.Equals(DateTime.MinValue)) {
+            args.IsValid = false;
+            cmvEmpDates.ErrorMessage = "End date must be in the format 'MM/DD/YYYY'";
+            return;
+        }
+
+        if (startDate.Equals(DateTime.MinValue)) {
             args.IsValid = true;
-            return;
-        }
-        try {
-            endDate = DateTime.ParseExact(strEndDate, dateFormat, locale);
-        }
-        catch (FormatException ex) {
-            ex.ToString();
-            cmvEmpDates.ErrorMessage = "End date must be in  format 'MM/DD/YYYY'";
-            return;
+            return; // other server validator will catch the error
         }
         
         // comparison
@@ -601,16 +616,14 @@ public partial class Reporting_Default : System.Web.UI.Page
     {
         args.IsValid = false;
         String strStartDate = tbxStartDate.Text;
-        DateTime startDate;
+        DateTime startDate = getDateTime(tbxStartDate);
         if (strStartDate == null || strStartDate.Equals(String.Empty)) {
             args.IsValid = false;
             return;
         }
-        try {
-            startDate = DateTime.ParseExact(strStartDate, dateFormat, locale);
-        }
-        catch (FormatException ex) {
-            ex.ToString();
+        if (startDate.Equals(DateTime.MinValue)) {
+            args.IsValid = false;
+            cmvStartDate.ErrorMessage = "Start date must be in the format 'MM/DD/YYYY'";
             return;
         }
         args.IsValid = true;
@@ -634,11 +647,11 @@ public partial class Reporting_Default : System.Web.UI.Page
         Employee result = createEmployee();
         if (result == null)
         {
-            if (reportErrorMsg == null)
+            if (popUpErrorMsg == null)
             {
-                reportErrorMsg = "An error has occured while creating this employee. Please try again.";
+                popUpErrorMsg = "An error has occured while creating this employee. Please try again.";
             }
-            Popup_Overlay(reportErrorMsg, FailColour);
+            Popup_Overlay(popUpErrorMsg, FailColour);
             return;
         }
         Popup_Overlay("Employee successfully created.", SuccessColour);
@@ -658,7 +671,7 @@ public partial class Reporting_Default : System.Web.UI.Page
 
         if (emp != null)
         {
-            reportErrorMsg = "An employee with that first and last name already exists.";
+            popUpErrorMsg = "An employee with that first and last name already exists.";
             return null;
         }
 
@@ -751,7 +764,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         catch (Exception ex)
         {
             ex.ToString();
-            reportErrorMsg = "Error adding employee to the database. Please try again.";
+            popUpErrorMsg = "Error adding employee to the database. Please try again.";
             return null;
         }
     }
@@ -766,6 +779,10 @@ public partial class Reporting_Default : System.Web.UI.Page
     /// <param name="e">The click event properties.</param>
     protected void btnUpdateEmployee_Click(object sender, EventArgs e)
     {
+        if (!Page.IsValid) {
+            return;
+        }
+
         Employee result = updateEmployee();
         if (result != null)
         {
@@ -773,11 +790,15 @@ public partial class Reporting_Default : System.Web.UI.Page
         }
         else
         {
-            Popup_Overlay("An error has occured while updating this employee. Please try again.", FailColour);
+            if (popUpErrorMsg == null) {
+                popUpErrorMsg = "An error has occured while updating this employee. Please try again.";
+            }
+            Popup_Overlay(popUpErrorMsg, FailColour);
+            popUpErrorMsg = null;
         }
     }
     /// <summary>
-    /// Checks if the form data is valid (includes if the first/last name is already in use).
+    /// Checks if the first/last name is already in use).
     /// Updates the Employee object's fields.
     /// Saves the updated Employee to the database.
     /// Note: the ID cannot be changed.
@@ -785,13 +806,10 @@ public partial class Reporting_Default : System.Web.UI.Page
     /// <returns>Returns the employee on success, null on failure.</returns>
     private Employee updateEmployee()
     {
-        // Check page
-        Page.Validate("vgpAllEmpInfo");
-        if (!Page.IsValid)
-        {
+        if (tbxId.Text.Equals(String.Empty)) {
+            popUpErrorMsg = "You must use the 'Get Employee' button before you can update an employee.";
             return null;
         }
-
         int empId = Convert.ToInt32(tbxId.Text);
 
         Employee emp = ctx.Employees
@@ -801,14 +819,25 @@ public partial class Reporting_Default : System.Web.UI.Page
         if (emp == null)
         {
             // Unexpected error.
+            popUpErrorMsg = "No employee with that ID found. Unable to update employee.";
             return null;
         }
 
+        Employee existingEmp = ctx.Employees
+                               .Where(et => et.fname.Equals(tbxFirstName.Text) && et.lname.Equals(tbxLastName.Text))
+                               .Select(et => et).FirstOrDefault();
+
+        if (existingEmp != null) {
+            // if an employee with that name exists and it's not the employee's former name
+            if (!(emp.fname.Equals(existingEmp.fname) && emp.lname.Equals(existingEmp.lname))) {
+                popUpErrorMsg = "An employee with that first and last name already exists.";
+                return null;
+            }
+        }
+
         // Update employee
-        emp = new Employee {
-            fname = tbxFirstName.Text,
-            lname = tbxLastName.Text,
-        };
+        emp.fname = tbxFirstName.Text;
+        emp.lname = tbxLastName.Text;
 
         #region dates
         if (!tbxStartDate.Text.Equals(String.Empty)) {
@@ -864,29 +893,21 @@ public partial class Reporting_Default : System.Web.UI.Page
         #endregion department
 
         #region supervisor and room
-        if (tbxRoom.Text.Equals(String.Empty)) {
-            emp.room = tbxRoom.Text;
-        }
-        else {
-            emp.room = String.Empty; // bug prevents it from being null in db
-        }
-        if (tbxSupervisor.Text.Equals(String.Empty)) {
-            emp.supervisor = tbxRoom.Text;
-        }
-        else {
-            emp.supervisor = String.Empty; // bug prevents it from being null in db
-        }
+        emp.room = tbxRoom.Text; // bug prevents it from being null in db
+        emp.supervisor = tbxSupervisor.Text; // bug prevents it from being null in db
         #endregion supervisor and room
 
         // Save employee
         try {
             ctx.SaveChanges();
-            return emp;
         }
         catch (Exception ex) {
+            popUpErrorMsg = "Error saving changes to the database. Unable to update employee.";
             ex.ToString();
             return null;
         }
+
+        return emp;
     }
     #endregion Update Employee
     #endregion EmployeeInfoRelated
@@ -928,12 +949,12 @@ public partial class Reporting_Default : System.Web.UI.Page
             catch (Exception ex)
             {
                 ex.ToString();
-                if (reportErrorMsg.Equals(String.Empty))
+                if (popUpErrorMsg.Equals(String.Empty))
                 {
-                    reportErrorMsg = "An error has occured while creating your report. Please try again.";
+                    popUpErrorMsg = "An error has occured while creating your report. Please try again.";
                 }
-                Popup_Overlay(reportErrorMsg, FailColour);
-                reportErrorMsg = String.Empty;
+                Popup_Overlay(popUpErrorMsg, FailColour);
+                popUpErrorMsg = String.Empty;
                 return;
             }
         }
@@ -963,14 +984,14 @@ public partial class Reporting_Default : System.Web.UI.Page
         Page.Validate("vgpHManagers");
         if (!Page.IsValid)
         {
-            reportErrorMsg = "Invalid input.";
+            popUpErrorMsg = "Invalid input.";
             return null;
         }
 
         Employee emp = loadEmployee();
         if (emp == null)
         {
-            reportErrorMsg = "Unable to find employee.";
+            popUpErrorMsg = "Unable to find employee.";
             return null;
         }
 
@@ -1188,7 +1209,7 @@ public partial class Reporting_Default : System.Web.UI.Page
             String timeFormat = getTimeFormat(strTimeOfIncident);
             if (timeFormat == null)
             {
-                reportErrorMsg = "Time of incident is invalid.";
+                popUpErrorMsg = "Time of incident is invalid.";
                 return null; // Error
             }
             report.p1_dateOfIncident = DateTime.ParseExact(strDateOfIncident + " " + strTimeOfIncident,
@@ -1196,7 +1217,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         }
         else
         {
-            reportErrorMsg = "Date/time reported is required.";
+            popUpErrorMsg = "Date/time reported is required.";
             return null;
         }
 
@@ -1205,7 +1226,7 @@ public partial class Reporting_Default : System.Web.UI.Page
             String timeFormat = getTimeFormat(strTimeReported);
             if (timeFormat == null)
             {
-                reportErrorMsg = "Time reported is invalid.";
+                popUpErrorMsg = "Time reported is invalid.";
                 return null; // Error
             }
             report.p1_dateReported = DateTime.ParseExact(strDateReported + " " + strTimeReported,
@@ -1213,7 +1234,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         }
         else
         {
-            reportErrorMsg = "Date/time of incident is required.";
+            popUpErrorMsg = "Date/time of incident is required.";
             return null;
         }
         #endregion Dates
@@ -1402,6 +1423,50 @@ public partial class Reporting_Default : System.Web.UI.Page
     }
 
     /// <summary>
+    /// Gets the date of incident and makes sure it's in the correct format (MM/DD/YYYY).
+    /// For example, 13/24/2011 would be invalid but the regex validator won't catch it.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvDateOfIncident_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strDateOfIncident = tbx_p1_dateOfIncident.Text;
+        DateTime dateOfIncident = getDateTime(tbx_p1_dateOfIncident);
+        if (strDateOfIncident == null || strDateOfIncident.Equals(String.Empty)) {
+            args.IsValid = false;
+            return;
+        }
+        if (dateOfIncident.Equals(DateTime.MinValue)) {
+            args.IsValid = false;
+            cmvEmpDates.ErrorMessage = "Date of incident must be in the format 'MM/DD/YYYY'";
+            return;
+        }
+        args.IsValid = true;
+    }
+    
+    /// <summary>
+    /// Gets the date reported and makes sure it's in the correct format (MM/DD/YYYY).
+    /// For example, 13/24/2011 would be invalid but the regex validator won't catch it.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvDateReported_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strDateReported = tbx_p1_dateReported.Text;
+        DateTime dateReported = getDateTime(tbx_p1_dateReported);
+        if (strDateReported == null || strDateReported.Equals(String.Empty)) {
+            args.IsValid = false;
+            return;
+        }
+        if (dateReported.Equals(DateTime.MinValue)) {
+            args.IsValid = false;
+            cmvEmpDates.ErrorMessage = "Date reported must be in the format 'MM/DD/YYYY'";
+            return;
+        }
+        args.IsValid = true;
+    }
+    
+    /// <summary>
     /// Checks if the date/time of the report is later than the date/time of the incident
     /// and if it is, validates true. Otherwise, validates false.
     /// </summary>
@@ -1409,41 +1474,53 @@ public partial class Reporting_Default : System.Web.UI.Page
     /// <param name="args">The validate event properties.</param>
     protected void cmvReportDate_ServerValidate(object source, ServerValidateEventArgs args)
     {
+        args.IsValid = false;
         String strDateOfIncident = tbx_p1_dateOfIncident.Text;
         String strTimeOfIncident = tbx_p1_timeOfIncident.Text;
         String strDateReported = tbx_p1_dateReported.Text;
         String strTimeReported = tbx_p1_timeReported.Text;
-        DateTime dateOfIncident;
-        DateTime dateReported;
-        args.IsValid = false;
+        DateTime dateOfIncident = getDateTime(tbx_p1_dateOfIncident);
+        DateTime dateReported = getDateTime(tbx_p1_dateReported);
 
-        // if either date/time is empty, don't bother comparing
-        if (strDateOfIncident.Equals(String.Empty) || strTimeOfIncident.Equals(String.Empty))
-        {
+        if (dateReported.Equals(DateTime.MinValue)) {
             args.IsValid = true;
-            return;
+            return; // other server validator will catch the error
         }
 
-        if (strDateReported.Equals(String.Empty) || strTimeReported.Equals(String.Empty))
-        {
+        // date of incident
+        if (dateOfIncident.Equals(DateTime.MinValue)) {
             args.IsValid = true;
-            return;
+            return; // other server validator will catch the error
         }
 
+        // times
         String timeFormat1 = getTimeFormat(strTimeOfIncident);
-        if (timeFormat1 == null)
-        {
-            return; // Error, not valid
+        if (timeFormat1 == null) {
+            return; // Error, should be caught by client-side regex
         }
-        dateOfIncident = DateTime.ParseExact(strDateOfIncident + " " + strTimeOfIncident, dateFormat + " " + timeFormat1, locale);
+
+        try {
+            dateOfIncident = DateTime.ParseExact(strDateOfIncident + " " + strTimeOfIncident, dateFormat + " " + timeFormat1, locale);
+        }
+        catch (FormatException ex) {
+            ex.ToString();
+            return; // will be caught by date of incident server side validator
+        }
 
         String timeFormat2 = getTimeFormat(strTimeReported);
-        if (timeFormat2 == null)
-        {
-            return; // Error, not valid
+        if (timeFormat2 == null) {
+            return; // Error, should be caught by client-side regex
         }
-        dateReported = DateTime.ParseExact(strDateReported + " " + strTimeReported, dateFormat + " " + timeFormat2, locale);
 
+        try {
+            dateReported = DateTime.ParseExact(strDateReported + " " + strTimeReported, dateFormat + " " + timeFormat2, locale);
+        }
+        catch (FormatException ex) {
+            ex.ToString();
+            return; // will be caught by date reported server side validator
+        }
+
+        // comparison
         if (dateReported.CompareTo(dateOfIncident) < 0)
         {
             return;
