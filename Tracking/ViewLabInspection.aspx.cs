@@ -6,6 +6,13 @@ using System.Linq;
 using System.Web.UI.WebControls;
 using BCCAModel;
 
+/// <summary>
+/// Tracking/ViewLabInspection.aspx.cs
+/// BCCA Cancer Research Centre
+/// Safety Training Database and Website
+/// Author: BCIT COMP4900 2011
+/// Lindsay Fester - lindsay.m.fester@gmail.com
+/// </summary>
 public partial class Tracking_ViewLabInspection : System.Web.UI.Page
 {
     #region Class Variables
