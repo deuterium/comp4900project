@@ -1537,16 +1537,21 @@ public partial class Training_Default : System.Web.UI.Page {
         {
 
             DateTime newStartDate = DateTime.MinValue;
-            DateTime newEndDate = DateTime.MinValue;
+            DateTime newEndDate = DateTime.Now;
+            int courseNo = Convert.ToInt32(ddlNewCrs.SelectedValue);
 
             if (!(tbxNewCrsStart.Text.Equals(String.Empty)))
             {
                 newStartDate = DateTime.ParseExact(tbxNewCrsStart.Text, dateFormat, locale);
             }
-            if (!(tbxNewCrsEnd.Text.Equals(string.Empty)))
-            {
-                newEndDate = DateTime.ParseExact(tbxNewCrsEnd.Text, dateFormat, locale);
-            }
+
+            TrainingCours course = ctx.TrainingCourses
+                .Where(tc => tc.trainingNo == courseNo)
+                .Select(tc => tc).FirstOrDefault();
+
+            double months = Convert.ToDouble(course.monthsValid);
+
+            newEndDate.AddMinutes(months);
 
             TrainingTaken tt = new TrainingTaken
             {
@@ -1558,8 +1563,6 @@ public partial class Training_Default : System.Web.UI.Page {
             ctx.AddToTrainingTakens(tt);
             ctx.SaveChanges();
             BindValidData();
-            tbxNewCrsEnd.Text = "";
-            tbxNewCrsStart.Text = "";
             ddlNewCrs.SelectedIndex = 0;
             pnlNewCourse.Visible = false;
             Popup_Overlay("Training successfully created.", SuccessColour);
@@ -1580,8 +1583,6 @@ public partial class Training_Default : System.Web.UI.Page {
     /// <param name="e"></param>
     protected void btnCancelAddCrs_Click(object sender, EventArgs e)
     {
-        tbxNewCrsEnd.Text = "";
-        tbxNewCrsStart.Text = "";
         ddlNewCrs.SelectedIndex = 0;
         pnlNewCourse.Visible = false;
     }

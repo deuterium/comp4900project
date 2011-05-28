@@ -487,17 +487,6 @@
                             </tr>
                             <tr>
                                 <td>
-                                    Expiry Date
-                                </td>
-                                <td>
-                                    <asp:TextBox ID="tbxNewCrsEnd" runat="server"></asp:TextBox>
-                                    <asp:CalendarExtender ID="tbxNewCrsEnd_CalendarExtender" runat="server" Enabled="True"
-                                        TargetControlID="tbxNewCrsEnd">
-                                    </asp:CalendarExtender>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
                                     <asp:Button ID="btnAddCrsAction" runat="server" OnClick="btnAddCrsAction_Click" Text="Add" />
                                     <asp:Button ID="btnCancelAddCrs" runat="server" OnClick="btnCancelAddCrs_Click" Text="Cancel" />
                                 </td>
