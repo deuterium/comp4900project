@@ -16,8 +16,7 @@ using BCCAModel;
 /// Author: BCIT COMP4900 2011
 /// Lindsay Fester - lindsay.m.fester@gmail.com
 /// </summary>
-public partial class Tracking_Default : System.Web.UI.Page
-{
+public partial class Tracking_Default : System.Web.UI.Page {
     #region Class Variables
     // The background color of disabled controls.
     public Color DisabledColor = ColorTranslator.FromHtml("#E6E6E6");
@@ -40,9 +39,17 @@ public partial class Tracking_Default : System.Web.UI.Page
         noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
     };
     // The pink colour of the header text.
-    public Color HeaderForeColor = ColorTranslator.FromHtml("#d80080");
+    public static Color HeaderForeColor = ColorTranslator.FromHtml("#d80080");
     // The back colour of header rows.
-    public Color HeaderBackColor = ColorTranslator.FromHtml("#F778A1");
+    public static Color HeaderBackColor = ColorTranslator.FromHtml("#F778A1");
+    // The format for percents.
+    public static String PercentFormat = "{0:0%}";
+    // List of incident reports that match the filters.
+    private List<Incident> matchingIncidents = new List<Incident>();
+    // The number of incident reports in the system.
+    private int totalReports = 0;
+    // The number of incident reports that match the filters.
+    private int totalMatchingReports = 0;
     #endregion Class Variables
 
     /// <summary>
@@ -52,8 +59,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that requested the page load.</param>
     /// <param name="e">The page load event.</param>
-    protected void Page_Load(object sender, EventArgs e)
-    {
+    protected void Page_Load(object sender, EventArgs e) {
         //Check User Authentication
         Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
@@ -62,13 +68,11 @@ public partial class Tracking_Default : System.Web.UI.Page
         //Lab managers should no be on this page, if they go here they are forwarded away
         int roleNo = (int)Session["RoleNo"];
         string role = ctx.Roles.Where(r => r.roleNo == roleNo).Select(r => r.role1).First();
-        if (role == "Lab Manager")
-        {
+        if (role == "Lab Manager") {
             Response.Redirect("~/Default.aspx");
         }
 
-        if (!(Session["RoleNo"].Equals(1) || Session["RoleNo"].Equals(3)))
-        {
+        if (!(Session["RoleNo"].Equals(1) || Session["RoleNo"].Equals(3))) {
             pnlAllContent.Visible = false;
             lblUnauthorizedMsg.Visible = true;
         }
@@ -80,7 +84,10 @@ public partial class Tracking_Default : System.Web.UI.Page
             cpeA.Collapsed = false;
             cpeA.ClientState = "false";
         }
-        filterReport();
+        else {
+            filterReports();
+            displayResults();
+        }
     }
 
     #region Page Popup
@@ -90,8 +97,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="msg">Message displayed on confirmation overlay</param>
     /// <param name="color">Color for the message to be</param>
-    protected void Popup_Overlay(string msg, Color color)
-    {
+    protected void Popup_Overlay(string msg, Color color) {
         lblPnlPop.Text = msg;
         lblPnlPop.ForeColor = color;
         pnlPop.Style.Value = "display:block;";
@@ -104,8 +110,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
-    protected void btnPnlPopClose_Click(object sender, EventArgs e)
-    {
+    protected void btnPnlPopClose_Click(object sender, EventArgs e) {
         // do nothing
     }
     #endregion
@@ -117,17 +122,16 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The button click event.</param>
-    protected void btnFilterReport_Click(object sender, EventArgs e)
-    {
-        filterReport();
+    protected void btnFilterReport_Click(object sender, EventArgs e) {
         collapseAllFilterPanels();
+        filterReports();
+        displayResults();
         pnlResultsContainer.Visible = true;
         cpeResults.Collapsed = false;
         cpeResults.ClientState = "false";
     }
 
-    private void collapseAllFilterPanels()
-    {
+    private void collapseAllFilterPanels() {
         cpeFilters.Collapsed = true;
         cpeFilters.ClientState = "true";
         cpeA.Collapsed = true;
@@ -142,8 +146,7 @@ public partial class Tracking_Default : System.Web.UI.Page
         cpeE.ClientState = "true";
     }
 
-    private void addToFilters(CheckBox cbx)
-    {
+    private void addToFilters(CheckBox cbx) {
         lblFilters.Text = "The filters you selected were:";
 
         CheckBox cbxClone = new CheckBox();
@@ -155,8 +158,7 @@ public partial class Tracking_Default : System.Web.UI.Page
         pnlFiltersSelected.Controls.Add(new LiteralControl("<br />"));
     }
 
-    private void addToFilters(CheckBox cbx, String additionalInfo)
-    {
+    private void addToFilters(CheckBox cbx, String additionalInfo) {
         lblFilters.Text = "The filters you selected were:";
 
         CheckBox cbxClone = new CheckBox();
@@ -172,13 +174,11 @@ public partial class Tracking_Default : System.Web.UI.Page
         pnlFiltersSelected.Controls.Add(new LiteralControl("<br />"));
     }
 
-    private void addToFilters(RadioButtonList rbl, String text)
-    {
+    private void addToFilters(RadioButtonList rbl, String text) {
         lblFilters.Text = "The filters you selected were:";
 
         RadioButtonList rblClone = new RadioButtonList();
-        foreach (ListItem li in rbl.Items)
-        {
+        foreach (ListItem li in rbl.Items) {
             rblClone.Items.Add(li);
         }
         rblClone.SelectedValue = rbl.SelectedValue;
@@ -193,14 +193,14 @@ public partial class Tracking_Default : System.Web.UI.Page
         pnlFiltersSelected.Controls.Add(new LiteralControl("<br />"));
     }
 
-    private void setUpGridViewDisplay(GridView gdv) {
+    private void formatGridViewRows(GridView gdv) {
         // Set the Grid View column widths
         gdv.Columns[0].ItemStyle.Width = 30;
         gdv.Columns[1].ItemStyle.Width = 80;
         gdv.Columns[2].ItemStyle.Width = 200;
         gdv.Columns[3].ItemStyle.Width = 200;
         gdv.Columns[4].ItemStyle.Width = 450;
-        
+
         // Set up the rows
         foreach (GridViewRow row in gdv.Rows) {
             String strName = ((Label)row.FindControl("lblEmployeeName")).Text;
@@ -216,8 +216,8 @@ public partial class Tracking_Default : System.Web.UI.Page
 
                 // subheader dept row formatting (make view inspection/lab buttons visible)
                 if (!(strIncidentNo.StartsWith("Number") || strIncidentNo.StartsWith("Total"))) {
-                    row.Cells[5].Visible = true;
-                    row.Cells[5].ColumnSpan = 2;
+                    row.Cells[4].Visible = true;
+                    row.Cells[4].ColumnSpan = 2;
                     row.Font.Bold = true;
                     row.Height = 50;
                 }
@@ -227,11 +227,11 @@ public partial class Tracking_Default : System.Web.UI.Page
                 }
             }
             else {
-                row.Cells[5].Visible = false;
-                row.Cells[4].ColumnSpan = 2;
+                row.Cells[4].Visible = false;
+                row.Cells[3].ColumnSpan = 2;
             }
         }
-        gdv.HeaderRow.Cells[5].Visible = false;
+        //gdv.HeaderRow.Cells[5].Visible = false;
     }
 
     /// <summary>
@@ -239,13 +239,14 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// Only considers the checkboxes in sections B, C, D, and E of the form.
     /// Populates the GridView parameter with the resulting reports.
     /// </summary>
-    private void filterReport()
-    {
+    private void filterReports() {
         pnlDepartments.Controls.Clear();
         pnlFiltersSelected.Controls.Clear();
-        
+
         var reports = ctx.Incidents
                       .Select(r => r);
+
+        totalReports = reports.Count();
 
         #region A_IncidentInfo
         if (cbx_p1_action_report.Checked) { reports = reports.Where(r => r.p1_action_medicalER.Equals("1")); addToFilters(cbx_p1_action_report); }
@@ -285,8 +286,7 @@ public partial class Tracking_Default : System.Web.UI.Page
         if (cbx_p2_patient_floorLift.Checked) { reports = reports.Where(r => r.p2_patient_floorLift.Equals("1")); addToFilters(cbx_p2_patient_floorLift); }
         if (cbx_p2_patient_manualLift.Checked) { reports = reports.Where(r => r.p2_patient_manualLift.Equals("1")); addToFilters(cbx_p2_patient_manualLift); }
         if (cbx_p2_patient_other.Checked) { reports = reports.Where(r => !(r.p2_patient_otherSpecify.Equals(null))); addToFilters(cbx_p2_patient_other, " (Incident/Accident Information, Patient Handling Details)"); }
-        if (!rbl_p2_patient_adequateAssist.SelectedValue.Equals(String.Empty))
-        {
+        if (!rbl_p2_patient_adequateAssist.SelectedValue.Equals(String.Empty)) {
             reports = reports.Where(r => r.p2_patient_adequateAssist.Equals(rbl_p2_patient_adequateAssist.SelectedValue));
             addToFilters(rbl_p2_patient_adequateAssist, "Was adaquate assistance available?");
         }
@@ -429,186 +429,10 @@ public partial class Tracking_Default : System.Web.UI.Page
         if (cbx_p2_factors_otherWorker.Checked) { reports = reports.Where(r => r.p2_factors_otherWorker != null); addToFilters(cbx_p2_factors_otherOrganizational, "(Worker, Other)"); }
         #endregion E_ContributingFactors
 
-        var depts = ctx.Departments
-                    .OrderBy(d => d.deptName)
-                    .Select(d => d.deptNo);
+        matchingIncidents = reports.ToList<Incident>();
 
-        foreach (int deptNumber in depts)
-        {
-            var deptReports = from d in ctx.Departments
-                              join r in reports on d.deptNo equals r.deptNo
-                              where r.deptNo == deptNumber
-                              select r;
-            // Subheader row
-            String deptName = (from d in ctx.Departments
-                               where d.deptNo == deptNumber
-                               select d.deptName).FirstOrDefault();
+        totalMatchingReports = reports.Count();
 
-
-        //    <asp:CollapsiblePanelExtender ID="cpeFilters" runat="server" Collapsed="false" CollapseControlID="hr3Filters"
-        //    ExpandControlID="hr3Filters" TargetControlID="pnlFilters" CollapsedText="(Show Details)"
-        //    ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseFilters" TextLabelID="lblExpandCollapseFilters"
-        //    CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
-        //</asp:CollapsiblePanelExtender>
-
-        //<h3 id="hr3A">
-        //    <asp:Image ID="imgExpandCollapseA" runat="server" />
-        //    A. Incident/Accident Information
-        //    <asp:Label ID="ExpandCollapseA" runat="server" Text=""></asp:Label></h3>
-            
-            Panel pnl = new Panel();
-            pnl.CssClass = "childPanel";
-            pnl.ID = "pnl" + deptNumber;
-
-            //Label lbl = new Label();
-            //lbl.Text = deptName;
-            //lbl.ID = "lbl" + deptNumber;
-            //pnl.Controls.Add(lbl);
-
-            LiteralControl hr3Open = new LiteralControl();
-            hr3Open.Text = "<h3 id='hr3" + deptNumber + "' >";
-            pnlDepartments.Controls.Add(hr3Open);
-
-            System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
-            img.ID = "imgExpandCollapse" + deptNumber;
-            pnlDepartments.Controls.Add(img);
-
-            LiteralControl hr3Text = new LiteralControl();
-            if (deptReports.Count() != 1) {
-                hr3Text.Text = " " + deptName + " --- " + deptReports.Count() + " incidents";
-            }
-            else {
-                hr3Text.Text = " " + deptName + " --- " + deptReports.Count() + " incident";
-            }
-            
-            pnlDepartments.Controls.Add(hr3Text);
-
-            Label lbl = new Label();
-            lbl.ID = "lblExpandCollapse" + deptNumber;
-            pnlDepartments.Controls.Add(lbl);
-            
-            LiteralControl hr3Close = new LiteralControl();
-            hr3Close.Text = "</h3>";
-            pnlDepartments.Controls.Add(hr3Close);
-            //pnlTest.Controls.Add(hr3);
-            //Control c = pnlTest.FindControl("hr3" + deptNumber);
-            
-
-
-                        //+ "<asp:Image ID='imgExpandCollapse" + deptNumber + "' runat='server' />"
-                        //+ deptName
-                        //+ "<asp:Label ID='lblExpandCollapse" + deptNumber + "' runat='server' Text=''>"
-                        //+ "</asp:Label>"
-                        //+ "</h3>";
-            
-            CollapsiblePanelExtender cpe = new CollapsiblePanelExtender();
-            cpe.ID = "cpe" + deptNumber;
-            cpe.Collapsed = true;
-            cpe.ClientState = "true";
-            cpe.ExpandControlID = "hr3" + deptNumber;
-            cpe.CollapseControlID = "hr3" + deptNumber;
-            cpe.TargetControlID = "pnl" + deptNumber;
-            cpe.CollapsedText = " (Show Details)";
-            cpe.ExpandedText = " (Hide Details)";
-            cpe.TextLabelID = "lblExpandCollapse" + deptNumber;
-            cpe.ImageControlID = "imgExpandCollapse" + deptNumber;
-            cpe.CollapsedImage = "../images/expand.jpg";
-            cpe.ExpandedImage = "../images/collapse.jpg";
-            pnlDepartments.Controls.Add(cpe);
-
-            UserControl uc = (UserControl)Page.LoadControl("DepartmentTrackerGridView.ascx");
-            GridView gdv = ((Tracking_DepartmentTrackerGridView)uc).getGridView();
-            //uc = null;
-            
-            gdv.RowCommand += new GridViewCommandEventHandler(gdvDepartmentTracker_RowCommand);
-            
-            // Format the data for the Grid View
-            // Setup the Data Table
-            DataTable dt = new DataTable();
-            dt.Columns.Add(new DataColumn("incidentNo", typeof(System.String)));
-            dt.Columns.Add(new DataColumn("date", typeof(System.String)));
-            dt.Columns.Add(new DataColumn("submitter", typeof(System.String)));
-            dt.Columns.Add(new DataColumn("employee", typeof(System.String)));
-
-            //// Add first subheader
-            //DataRow drSubheader = dt.NewRow();
-            //drSubheader["incidentNo"] = "Department: " + deptName;
-            //dt.Rows.Add(drSubheader);
-            // Put the data in rows
-            foreach (var report in deptReports) {
-                DataRow dr = dt.NewRow();
-                dr["incidentNo"] = report.incidentNo;
-                if (report.p1_dateOfIncident != null) {
-                    dr["date"] = Convert.ToDateTime(report.p1_dateOfIncident, locale).ToString(dateFormat, locale);
-                }
-                dr["submitter"] = report.reportSubmitter;
-                dr["employee"] = report.Employee.fname + " " + report.Employee.lname;
-                dt.Rows.Add(dr);
-            }
-            // Add subtotal row
-            DataRow drSubtotal = dt.NewRow();
-            drSubtotal["incidentNo"] = "Number of Incidents: " + deptReports.Count();
-            dt.Rows.Add(drSubtotal);
-
-            gdv.DataSource = dt;
-            gdv.DataBind();
-
-            gdv.RowCommand += new GridViewCommandEventHandler(this.gdvDepartmentTracker_RowCommand);
-            setUpGridViewDisplay(gdv);
-
-            gdv.ID = "gdvDeptTracker" + deptNumber;
-
-            pnl.Controls.Add(gdv);
-            pnlDepartments.Controls.Add(pnl);
-        }
-
-        #region Old Code
-        ////// Format the data for the Grid View
-        //// Setup the Data Table
-        //DataTable dt = new DataTable();
-        //dt.Columns.Add(new DataColumn("incidentNo", typeof(System.String)));
-        //dt.Columns.Add(new DataColumn("date", typeof(System.String)));
-        //dt.Columns.Add(new DataColumn("submitter", typeof(System.String)));
-        //dt.Columns.Add(new DataColumn("employee", typeof(System.String)));
-
-        //var depts = ctx.Departments
-        //            .OrderBy(d => d.deptName)
-        //            .Select(d => d.deptNo);
-
-        //foreach (int deptNumber in depts) {
-        //    var deptReports = from d in ctx.Departments
-        //                      join r in reports on d.deptNo equals r.deptNo
-        //                      where r.deptNo == deptNumber
-        //                      select r;
-
-        //    // Subheader row
-        //    String deptName = (from d in ctx.Departments
-        //                       where d.deptNo == deptNumber
-        //                       select d.deptName).FirstOrDefault();
-
-
-
-        //    // Add first subheader
-        //    DataRow drSubheader = dt.NewRow();
-        //    drSubheader["incidentNo"] = "Department: " + deptName;
-        //    dt.Rows.Add(drSubheader);
-        //    // Put the data in rows
-        //    foreach (var report in deptReports) {
-        //        DataRow dr = dt.NewRow();
-        //        dr["incidentNo"] = report.incidentNo;
-        //        if (report.p1_dateOfIncident != null) {
-        //            dr["date"] = Convert.ToDateTime(report.p1_dateOfIncident, locale).ToString(dateFormat, locale);
-        //        }
-        //        dr["submitter"] = report.reportSubmitter;
-        //        dr["employee"] = report.Employee.fname + " " + report.Employee.lname;
-        //        dt.Rows.Add(dr);
-        //    }
-        //    // Add subtotal row
-        //    DataRow drSubtotal = dt.NewRow();
-        //    drSubtotal["incidentNo"] = "Number of Incidents: " + deptReports.Count();
-        //    dt.Rows.Add(drSubtotal);
-        //}
-        #endregion Old Code
 
         #region other depts
         //// Get the other depts that were NOT in the dept table
@@ -642,13 +466,166 @@ public partial class Tracking_Default : System.Web.UI.Page
         //drTotal["incidentNo"] = "Total Number of Incidents: " + reports.Count();
         //dt.Rows.Add(drTotal);
     }
+
+    private void setUpResults() {
+    }
+
+    private void displayResults() {
+
+        var depts = ctx.Departments
+                    .OrderBy(d => d.deptName)
+                    .Select(d => d.deptNo);
+
+        foreach (int deptNumber in depts) {
+            var deptReports = from r in matchingIncidents
+                              join d in ctx.Departments on r.deptNo equals d.deptNo
+                              where r.deptNo == deptNumber
+                              select r;
+
+            int deptReportsCount = deptReports.Count();
+            
+            String deptName = (from d in ctx.Departments
+                               where d.deptNo == deptNumber
+                               select d.deptName).FirstOrDefault();
+
+            Panel pnl = new Panel();
+            pnl.CssClass = "childPanel";
+            pnl.ID = "pnl" + deptNumber;
+
+            LiteralControl hr3Open = new LiteralControl();
+            hr3Open.Text = "<h3 id='hr3" + deptNumber + "' >";
+            pnlDepartments.Controls.Add(hr3Open);
+
+            System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
+            img.ID = "imgExpandCollapse" + deptNumber;
+            pnlDepartments.Controls.Add(img);
+
+            int totalDeptReports = (from r in ctx.Incidents
+                                    where r.deptNo == deptNumber
+                                    select r).Count();
+
+            Label lblHr3 = new Label();
+            if (deptReports.Count() != 1) {
+                lblHr3.Text = " " + deptName + " --- " + deptReportsCount + " matches";
+            }
+            else {
+                lblHr3.Text = " " + deptName + " --- " + deptReportsCount + " matches";
+            }
+            lblHr3.ID = "lblHr3" + deptNumber;
+            pnlDepartments.Controls.Add(lblHr3);
+
+            // "(Show/Hide Details)" label
+            Label lblExpandCollapse = new Label();
+            lblExpandCollapse.ID = "lblExpandCollapse" + deptNumber;
+            pnlDepartments.Controls.Add(lblExpandCollapse);
+
+            LiteralControl hr3Close = new LiteralControl();
+            hr3Close.Text = "</h3>";
+            pnlDepartments.Controls.Add(hr3Close);
+
+            CollapsiblePanelExtender cpe = new CollapsiblePanelExtender();
+            cpe.ID = "cpe" + deptNumber;
+            cpe.Collapsed = true;
+            cpe.ClientState = "true";
+            cpe.ExpandControlID = "hr3" + deptNumber;
+            cpe.CollapseControlID = "hr3" + deptNumber;
+            cpe.TargetControlID = "pnl" + deptNumber;
+            cpe.CollapsedText = " (Show Details)";
+            cpe.ExpandedText = " (Hide Details)";
+            cpe.TextLabelID = "lblExpandCollapse" + deptNumber;
+            cpe.ImageControlID = "imgExpandCollapse" + deptNumber;
+            cpe.CollapsedImage = "../images/expand.jpg";
+            cpe.ExpandedImage = "../images/collapse.jpg";
+            pnlDepartments.Controls.Add(cpe);
+
+            Label lblCount = new Label();
+            lblCount.ID = "lblIncidentMatches" + deptNumber;
+            lblCount.Text = "Number of matching incidents in this department: " + deptReportsCount;
+            if (totalDeptReports != 0) {
+                lblCount.Text += "/" + totalDeptReports + " ("
+                                + String.Format(PercentFormat, (((double) deptReportsCount) / totalDeptReports))
+                                + ")";
+            }
+            else {
+                lblCount.Text += "/" + totalDeptReports + " ("
+                                + String.Format(PercentFormat, 0)
+                                + ")";
+            }
+            pnl.Controls.Add(lblCount);
+            pnl.Controls.Add(new LiteralControl("<br />"));
+
+            lblCount = new Label();
+            lblCount.ID = "lblTotalIncidentMatches" + deptNumber;
+            lblCount.Text = "Number of matching incidents: " + deptReportsCount;
+            if (totalMatchingReports != 0) {
+                lblCount.Text += "/" + totalMatchingReports + " ("
+                                + String.Format(PercentFormat, (((double) deptReportsCount) / totalMatchingReports))
+                                + ")";
+            }
+            else {
+                lblCount.Text += "/" + totalMatchingReports + " ("
+                                + String.Format(PercentFormat, 0)
+                                + ")";
+            }
+            pnl.Controls.Add(lblCount);
+            pnl.Controls.Add(new LiteralControl("<br />"));
+
+            lblCount = new Label();
+            lblCount.ID = "lblTotalIncidents" + deptNumber;
+            lblCount.Text = "Total number of incidents in this department: " + totalDeptReports;
+            if (totalReports != 0) {
+                lblCount.Text += "/" + totalReports + " ("
+                                + String.Format(PercentFormat, (((double) totalDeptReports) / totalReports))
+                                + ")";
+            }
+            else {
+                lblCount.Text += "/" + totalReports + " ("
+                                + String.Format(PercentFormat, 0)
+                                + ")";
+            }
+            pnl.Controls.Add(lblCount);
+            pnl.Controls.Add(new LiteralControl("<br />"));
+
+            UserControl uc = (UserControl)Page.LoadControl("DepartmentTrackerGridView.ascx");
+            GridView gdv = ((Tracking_DepartmentTrackerGridView)uc).getGridView();
+            //uc = null;
+
+            gdv.RowCommand += new GridViewCommandEventHandler(gdvDepartmentTracker_RowCommand);
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("incidentNo", typeof(System.String)));
+            dt.Columns.Add(new DataColumn("date", typeof(System.String)));
+            dt.Columns.Add(new DataColumn("submitter", typeof(System.String)));
+            dt.Columns.Add(new DataColumn("employee", typeof(System.String)));
+
+            foreach (var report in deptReports) {
+                DataRow dr = dt.NewRow();
+                dr["incidentNo"] = report.incidentNo;
+                if (report.p1_dateOfIncident != null) {
+                    dr["date"] = Convert.ToDateTime(report.p1_dateOfIncident, locale).ToString(dateFormat, locale);
+                }
+                dr["submitter"] = report.reportSubmitter;
+                dr["employee"] = report.Employee.fname + " " + report.Employee.lname;
+                dt.Rows.Add(dr);
+            }
+
+            gdv.DataSource = dt;
+            gdv.DataBind();
+
+            gdv.RowCommand += new GridViewCommandEventHandler(this.gdvDepartmentTracker_RowCommand);
+            formatGridViewRows(gdv);
+
+            gdv.ID = "gdvDeptTracker" + deptNumber;
+
+            pnl.Controls.Add(gdv);
+            pnlDepartments.Controls.Add(pnl);
+        }
+    }
     #endregion Filter Report
 
     #region Toggle Other TextBox and CheckBox
-    private void toggleOther(TextBox tbx, CheckBox cbx)
-    {
-        if (!tbx.Text.Equals(String.Empty))
-        {
+    private void toggleOther(TextBox tbx, CheckBox cbx) {
+        if (!tbx.Text.Equals(String.Empty)) {
             cbx.Checked = true;
             return;
         }
@@ -659,8 +636,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_patient_otherSpecify_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_patient_otherSpecify_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_patient_otherSpecify, cbx_p2_patient_other);
     }
     /// <summary>
@@ -668,8 +644,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_otherPatientCare_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_activity_otherPatientCare_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_activity_otherPatientCare, cbx_p2_activity_otherPatientCare);
     }
     /// <summary>
@@ -677,8 +652,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_otherMat_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_activity_otherMat_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_activity_otherMat, cbx_p2_activity_otherMat);
     }
     /// <summary>
@@ -686,8 +660,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_otherEquip_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_activity_otherEquip_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_activity_otherEquip, cbx_p2_activity_otherEquip);
     }
     /// <summary>
@@ -695,8 +668,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_otherEquipDesc_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_activity_otherEquipDesc_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_activity_otherEquipDesc, cbx_p2_activity_otherEquipDesc);
     }
     /// <summary>
@@ -704,8 +676,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_other_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_activity_other_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_activity_other, cbx_p2_activity_other);
     }
     /// <summary>
@@ -713,8 +684,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_cause_other_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_cause_other_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_cause_other, cbx_p2_cause_other);
     }
     /// <summary>
@@ -722,8 +692,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_cause_aggression_other_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_cause_aggression_other_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_cause_aggression_other, cbx_p2_cause_aggression_other);
     }
     /// <summary>
@@ -731,8 +700,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherEquip_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_factors_otherEquip_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherEquip, cbx_p2_factors_otherEquip);
     }
     /// <summary>
@@ -740,8 +708,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherEnv_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_factors_otherEnv_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherEnv, cbx_p2_factors_otherEnv);
     }
     /// <summary>
@@ -749,8 +716,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherWorkPractice_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_factors_otherWorkPractice_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherWorkPractice, cbx_p2_factors_otherWorkPractice);
     }
     /// <summary>
@@ -758,8 +724,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherPatient_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_factors_otherPatient_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherPatient, cbx_p2_factors_otherPatient);
     }
     /// <summary>
@@ -767,8 +732,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherOrganizational_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_factors_otherOrganizational_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherOrganizational, cbx_p2_factors_otherOrganizational);
     }
     /// <summary>
@@ -776,8 +740,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherWorker_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_factors_otherWorker_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherWorker, cbx_p2_factors_otherWorker);
     }
     #endregion Toggle Other TextBox and CheckBox
@@ -788,8 +751,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// Changes the control's background color to the disabled color.
     /// </summary>
     /// <param name="cbx">The TextBox to disable.</param>
-    private void disableTextBox(TextBox tbx)
-    {
+    private void disableTextBox(TextBox tbx) {
         tbx.Enabled = false;
         tbx.BackColor = DisabledColor;
         tbx.Visible = false;
@@ -798,16 +760,14 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// Disabled the parameter RadioButtonList control.
     /// </summary>
     /// <param name="cbx">The RadioButtonList to disable.</param>
-    private void disableRadioButtonList(RadioButtonList rbl)
-    {
+    private void disableRadioButtonList(RadioButtonList rbl) {
         rbl.Enabled = false;
     }
     /// <summary>
     /// Disabled the parameter TextBoxWatermarkExtender control.
     /// </summary>
     /// <param name="cbx">The TextBoxWatermarkExtender to disable.</param>
-    private void disableWatermark(TextBoxWatermarkExtender twe)
-    {
+    private void disableWatermark(TextBoxWatermarkExtender twe) {
         twe.Enabled = false;
     }
 
@@ -815,8 +775,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// Calls the disableTextBox method on each textbox in the form.
     /// Disables all the watermarks as well.
     /// </summary>
-    private void disableAllTextBoxes()
-    {
+    private void disableAllTextBoxes() {
         #region A_IncidentInfo
         disableTextBox(tbx_p1_action_medicalGP_date);
         disableTextBox(tbx_p1_action_medicalER_date);
@@ -855,16 +814,12 @@ public partial class Tracking_Default : System.Web.UI.Page
     }
     #endregion Disable Form
 
-    protected void gdvDepartmentTracker_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-        // Get the row that called the event
+    protected void gdvDepartmentTracker_RowCommand(object sender, GridViewCommandEventArgs e) {
+        // Get the Grid View and Row that called the event
         int index = Convert.ToInt32(e.CommandArgument);
-
         GridView gdv = (GridView)sender;
-
         // Find out which button was clicked, take appropriate action
-        switch (e.CommandName)
-        {
+        switch (e.CommandName) {
             case "RowViewReport":
                 Response.Redirect("~/Reporting/ViewIncidentReport.aspx?IncidentNo=" + GetIncidentIdFromRow(index, gdv));
                 break;
@@ -898,9 +853,8 @@ public partial class Tracking_Default : System.Web.UI.Page
         }
         return incidentNo;
     }
-    
-    private Employee getEmployeeFromIncidentId(int incidentNo)
-    {
+
+    private Employee getEmployeeFromIncidentId(int incidentNo) {
         Employee emp = ctx.Incidents
                         .Where(i => i.incidentNo.Equals(incidentNo))
                         .Select(i => i.Employee).FirstOrDefault();
@@ -908,27 +862,22 @@ public partial class Tracking_Default : System.Web.UI.Page
     }
 
     #region Look Up Courses
-    private string ConvertDateToString(Object date)
-    {
-        if (date.Equals(DateTime.MinValue))
-        {
+    private string ConvertDateToString(Object date) {
+        if (date.Equals(DateTime.MinValue)) {
             return String.Empty;
         }
         return Convert.ToDateTime(date, locale).ToString(dateFormat, locale);
     }
 
-    private void loadCourses(Employee employee)
-    {
-        if (employee == null)
-        {
+    private void loadCourses(Employee employee) {
+        if (employee == null) {
             return;
         }
         lblCoursesTitle.Text = employee.fname.ToString() + " " + employee.lname.ToString();
 
         var qry = ctx.TrainingTakens
                   .OrderByDescending(tt => tt.startDate)
-                  .Select(tt => new
-                  {
+                  .Select(tt => new {
                       courseName = tt.TrainingCours.trainingName,
                       status = (tt.completed == 1) ? "Complete" : "Incomplete",
                       completionDate = tt.startDate,
@@ -938,14 +887,11 @@ public partial class Tracking_Default : System.Web.UI.Page
         gdvEmpCourses.DataSource = qry;
         gdvEmpCourses.DataBind();
 
-        foreach (GridViewRow row in gdvEmpCourses.Rows)
-        {
+        foreach (GridViewRow row in gdvEmpCourses.Rows) {
             String strExpirationDate = ((Label)row.FindControl("lblExpirationDate")).Text;
-            if ((strExpirationDate != null) && (!strExpirationDate.Equals(String.Empty)))
-            {
+            if ((strExpirationDate != null) && (!strExpirationDate.Equals(String.Empty))) {
                 DateTime expirationDate = DateTime.ParseExact(strExpirationDate, dateFormat, locale);
-                if (expirationDate.CompareTo(DateTime.Now) <= 0)
-                {
+                if (expirationDate.CompareTo(DateTime.Now) <= 0) {
                     row.ForeColor = Color.Red;
                 }
             }
@@ -957,16 +903,14 @@ public partial class Tracking_Default : System.Web.UI.Page
     }
 
     // not used atm, will be?
-    private void getCourses2(Employee employee)
-    {
+    private void getCourses2(Employee employee) {
         var q = from x in ctx.TrainingCourses
                 select x;
         var total = q.Count();
 
         List<String> courseArray = ctx.TrainingCourses.Select(c => c.trainingName).ToList();
 
-        for (int i = 0; i < total; i++)
-        {
+        for (int i = 0; i < total; i++) {
             GridView grvCourseLookUp = new GridView();
             String temp = courseArray[i];
             grvCourseLookUp.DataSource = ctx.Employees
@@ -975,8 +919,7 @@ public partial class Tracking_Default : System.Web.UI.Page
                                   emp => emp.empNo,
                                   TT => TT.empNo,
                                   (emp, TT) =>
-                                     new
-                                     {
+                                     new {
                                          emp = emp,
                                          TT = TT
                                      }
@@ -986,8 +929,7 @@ public partial class Tracking_Default : System.Web.UI.Page
                                   temp0 => temp0.TT.trainingNo,
                                   TC => TC.trainingNo,
                                   (temp0, TC) =>
-                                     new
-                                     {
+                                     new {
                                          temp0 = temp0,
                                          TC = TC
                                      }
@@ -995,8 +937,7 @@ public partial class Tracking_Default : System.Web.UI.Page
                                .Where(temp1 => (temp1.TC.trainingName == temp))
                                .Select(
                                   temp1 =>
-                                     new
-                                     {
+                                     new {
                                          lastname = temp1.temp0.emp.lname,
                                          firstname = temp1.temp0.emp.fname,
                                          startdate = temp1.temp0.TT.startDate,
@@ -1017,10 +958,8 @@ public partial class Tracking_Default : System.Web.UI.Page
     #endregion Look Up Courses
 
     #region Look Up Employee Info
-    private void loadEmployee(Employee emp)
-    {
-        if (emp != null)
-        {
+    private void loadEmployee(Employee emp) {
+        if (emp != null) {
             lblId.Text = emp.empNo.ToString();
             lblFirstName.Text = emp.fname.ToString();
             lblLastName.Text = emp.lname.ToString();
@@ -1030,13 +969,11 @@ public partial class Tracking_Default : System.Web.UI.Page
             lblSupervisor.Text = convertToTextBoxValue(emp.supervisor);
             lblRoom.Text = convertToTextBoxValue(emp.room);
 
-            if (emp.startDate != null)
-            {
+            if (emp.startDate != null) {
                 lblStartDate.Text = Convert.ToDateTime(emp.startDate, locale).ToString(dateFormat, locale);
             }
 
-            if (emp.endDate != null)
-            {
+            if (emp.endDate != null) {
                 lblEndDate.Text = Convert.ToDateTime(emp.endDate, locale).ToString(dateFormat, locale);
             }
         }
@@ -1052,42 +989,35 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="value">The String to convert.</param>
     /// <returns>Empty string if null, otherwise returns the value.</returns>
-    private String convertToTextBoxValue(String value)
-    {
-        if (value == null)
-        {
+    private String convertToTextBoxValue(String value) {
+        if (value == null) {
             return String.Empty;
         }
         return value;
     }
     #endregion Look Up Employee Info
 
-    protected void gdvLabInspections_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
+    protected void gdvLabInspections_RowCommand(object sender, GridViewCommandEventArgs e) {
         // Get the row that called the event
         int index = Convert.ToInt32(e.CommandArgument);
         GridViewRow row = gdvLabInspections.Rows[index];
         // Get the Lab Inspection No
         String strLabInspectionNo = String.Empty;
         Label lbl = (Label)row.FindControl("lblLabInspectionNo");
-        if (lbl != null)
-        {
+        if (lbl != null) {
             strLabInspectionNo = lbl.Text;
         }
         // Find out which button was clicked, take appropriate action
-        if (e.CommandName.Equals("RowViewLabInspection"))
-        {
+        if (e.CommandName.Equals("RowViewLabInspection")) {
             Response.Redirect("~/Tracking/ViewLabInspection.aspx?LabInspectionNo=" + strLabInspectionNo);
         }
     }
 
-    private void loadLabInspections(int incidentNo)
-    {
+    private void loadLabInspections(int incidentNo) {
         var qry = from l in ctx.LabInspections
                   join i in ctx.Incidents on l.deptName equals i.Department.deptName
                   where (i.incidentNo.Equals(incidentNo))
-                  select new
-                  {
+                  select new {
                       labInspectionNo = l.labInsNo,
                       deptName = l.deptName,
                       inspectionDate = l.date,
@@ -1106,32 +1036,27 @@ public partial class Tracking_Default : System.Web.UI.Page
         cpeLabInspections.ClientState = "false";
     }
 
-    protected void gdvOfficeInspections_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
+    protected void gdvOfficeInspections_RowCommand(object sender, GridViewCommandEventArgs e) {
         // Get the row that called the event
         int index = Convert.ToInt32(e.CommandArgument);
         GridViewRow row = gdvOfficeInspections.Rows[index];
         // Get the Office Inspection No
         String strOfficeInspectionNo = String.Empty;
         Label lbl = (Label)row.FindControl("lblOfficeInspectionNo");
-        if (lbl != null)
-        {
+        if (lbl != null) {
             strOfficeInspectionNo = lbl.Text;
         }
         // Find out which button was clicked, take appropriate action
-        if (e.CommandName.Equals("RowViewOfficeInspection"))
-        {
+        if (e.CommandName.Equals("RowViewOfficeInspection")) {
             Response.Redirect("~/Tracking/ViewOfficeInspection.aspx?OfficeInspectionNo=" + strOfficeInspectionNo);
         }
     }
 
-    private void loadOfficeInspections(int incidentNo)
-    {
+    private void loadOfficeInspections(int incidentNo) {
         var qry = from l in ctx.OfficeInspections
                   join i in ctx.Incidents on l.deptName equals i.Department.deptName
                   where (i.incidentNo.Equals(incidentNo))
-                  select new
-                  {
+                  select new {
                       officeInspectionNo = l.officeInsNo,
                       deptName = l.deptName,
                       inspectionDate = l.insDate,
@@ -1148,4 +1073,4 @@ public partial class Tracking_Default : System.Web.UI.Page
         cpeOfficeInspections.ClientState = "false";
     }
 
-}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+}
