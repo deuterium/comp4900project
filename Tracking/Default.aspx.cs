@@ -465,15 +465,36 @@ public partial class Tracking_Default : System.Web.UI.Page
             //lbl.ID = "lbl" + deptNumber;
             //pnl.Controls.Add(lbl);
 
-            LiteralControl hr3 = new LiteralControl();
-            hr3.Text = "<h3 id='hr3" + deptNumber + "' >"
-                        + "<asp:Image ID='imgExpandCollapse" + deptNumber + "' runat='server' />"
-                        + deptName + " "
-                        + "<asp:Label ID='lblExpandCollapse" + deptNumber + "' runat='server' Text=''>"
-                        + "</asp:Label>"
-                        + "</h3>";
-            pnlTest.Controls.Add(hr3);
+            LiteralControl hr3Open = new LiteralControl();
+            hr3Open.Text = "<h3 id='hr3" + deptNumber + "' >";
+            pnlTest.Controls.Add(hr3Open);
 
+            System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
+            img.ID = "imgExpandCollapse" + deptNumber;
+            pnlTest.Controls.Add(img);
+
+            LiteralControl hr3Text = new LiteralControl();
+            hr3Text.Text = " " + deptName;
+            pnlTest.Controls.Add(hr3Text);
+
+            Label lbl = new Label();
+            lbl.ID = "lblExpandCollapse" + deptNumber;
+            pnlTest.Controls.Add(lbl);
+            
+            LiteralControl hr3Close = new LiteralControl();
+            hr3Close.Text = "</h3>";
+            pnlTest.Controls.Add(hr3Close);
+            //pnlTest.Controls.Add(hr3);
+            //Control c = pnlTest.FindControl("hr3" + deptNumber);
+            
+
+
+                        //+ "<asp:Image ID='imgExpandCollapse" + deptNumber + "' runat='server' />"
+                        //+ deptName
+                        //+ "<asp:Label ID='lblExpandCollapse" + deptNumber + "' runat='server' Text=''>"
+                        //+ "</asp:Label>"
+                        //+ "</h3>";
+            
             CollapsiblePanelExtender cpe = new CollapsiblePanelExtender();
             cpe.ID = "cpe" + deptNumber;
             cpe.Collapsed = true;
@@ -481,12 +502,12 @@ public partial class Tracking_Default : System.Web.UI.Page
             cpe.ExpandControlID = "hr3" + deptNumber;
             cpe.CollapseControlID = "hr3" + deptNumber;
             cpe.TargetControlID = "pnl" + deptNumber;
-            cpe.CollapsedText = "(Show Details)";
-            cpe.ExpandedText = "(Hide Details)";
-            cpe.CollapsedImage = "../images/expand.jpg";
-            cpe.ExpandedImage = "../images/collapse.jpg";
+            cpe.CollapsedText = " (Show Details)";
+            cpe.ExpandedText = " (Hide Details)";
             cpe.TextLabelID = "lblExpandCollapse" + deptNumber;
             cpe.ImageControlID = "imgExpandCollapse" + deptNumber;
+            cpe.CollapsedImage = "../images/expand.jpg";
+            cpe.ExpandedImage = "../images/collapse.jpg";
             pnlTest.Controls.Add(cpe);
 
             UserControl uc = (UserControl)Page.LoadControl("DepartmentTrackerGridView.ascx");
