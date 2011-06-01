@@ -14,8 +14,7 @@ using System.Text;
 /// Reporting/Default.aspx.cs
 /// BCCA Cancer Research Centre
 /// Safety Training Database and Website
-/// Author: BCIT COMP4900 2011
-/// Lindsay Fester - lindsay.m.fester@gmail.com
+/// Author: Lindsay Fester - lindsay.m.fester@gmail.com
 /// </summary>
 public partial class Reporting_Default : System.Web.UI.Page
 {
@@ -23,23 +22,25 @@ public partial class Reporting_Default : System.Web.UI.Page
     // Database Entity framework context
     BCCAEntities ctx = new BCCAEntities();
     // The date format to use for displaying and converting dates
-    public static String dateFormat = "M/d/yyyy";
+    public static String DateFormat = "M/d/yyyy";
     // The locale to use when displaying and converting dates/times
-    public static CultureInfo locale = new CultureInfo("en-CA");
+    public static CultureInfo Locale = new CultureInfo("en-CA");
     // Text colour for failure messages
     public static Color FailColour = Color.Red;
     // Text colour for success messages
     public static Color SuccessColour = Color.Green;
     // Text value of DropDowns for the other option, selecting this option causes a textbox to appear for custom data entry
-    public static String otherOption = "Other (specify)";
+    public static String OtherOption = "Other (specify)";
     // Text value of DropDowns for the none specified option (null value in db)
-    public static String noOptionSpecified = "Choose an option...";
+    public static String NoOptionSpecified = "Choose an option...";
     // List of static, pre-defined employers a user can select
-    public static List<String> employers = new List<String> {
+    public static List<String> Employers = new List<String> {
         "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH"
     };
     // Set by a called method so the caller can handle the error and display the message.
-    private String popUpErrorMsg = String.Empty;
+    private String PopUpErrorMsg = null;
+    // The chars that trigger the dangerous request exception and should not be typed.
+    public static String InvalidChars = "<>&#";
     #endregion class variables
 
     /// <summary>
@@ -52,7 +53,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     /// <param name="e">The page load event.</param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        //Check User Authentication
+        // Authenticate user
         Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
         Session["AfterLoginRedirectUrl"] = null;
@@ -88,7 +89,7 @@ public partial class Reporting_Default : System.Web.UI.Page
             return DateTime.MinValue;
         }
         try {
-            date = DateTime.ParseExact(strDate, dateFormat, locale);
+            date = DateTime.ParseExact(strDate, DateFormat, Locale);
         }
         catch (FormatException ex) {
             ex.ToString();
@@ -134,7 +135,7 @@ public partial class Reporting_Default : System.Web.UI.Page
             {
                 FilteredTextBoxExtender fte = new FilteredTextBoxExtender();
                 fte.FilterMode = FilterModes.InvalidChars;
-                fte.InvalidChars = "<>&#";
+                fte.InvalidChars = InvalidChars;
                 fte.TargetControlID = c.ID;
                 tbx.Parent.Controls.Add(fte);
             }
@@ -158,8 +159,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     }
 
     /// <summary>
-    /// Clears username and password textboxes when the overlay is closed.
-    /// If user is in edit user mode, the listbox is also updated.
+    /// Does nothing.
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
@@ -357,10 +357,10 @@ public partial class Reporting_Default : System.Web.UI.Page
     /// </summary>
     private void PopulateEmployersDdl()
     {
-        ddlEmployers.DataSource = employers.OrderBy(e => e.ToString());
+        ddlEmployers.DataSource = Employers.OrderBy(e => e.ToString());
         ddlEmployers.DataBind();
-        ddlEmployers.Items.Insert(ddlEmployers.Items.Count, otherOption);
-        ddlEmployers.Items.Insert(0, noOptionSpecified);
+        ddlEmployers.Items.Insert(ddlEmployers.Items.Count, OtherOption);
+        ddlEmployers.Items.Insert(0, NoOptionSpecified);
     }
 
     /// <summary>
@@ -374,8 +374,8 @@ public partial class Reporting_Default : System.Web.UI.Page
         ddlPositions.DataSource = ctx.Positions.OrderBy(p => p.posName);
         ddlPositions.DataValueField = "posName";
         ddlPositions.DataBind();
-        ddlPositions.Items.Insert(ddlPositions.Items.Count, otherOption);
-        ddlPositions.Items.Insert(0, noOptionSpecified);
+        ddlPositions.Items.Insert(ddlPositions.Items.Count, OtherOption);
+        ddlPositions.Items.Insert(0, NoOptionSpecified);
     }
 
     /// <summary>
@@ -389,8 +389,8 @@ public partial class Reporting_Default : System.Web.UI.Page
         ddlDepartments.DataSource = ctx.Departments.OrderBy(d => d.deptName);
         ddlDepartments.DataValueField = "deptName";
         ddlDepartments.DataBind();
-        ddlDepartments.Items.Insert(ddlDepartments.Items.Count, otherOption);
-        ddlDepartments.Items.Insert(0, noOptionSpecified);
+        ddlDepartments.Items.Insert(ddlDepartments.Items.Count, OtherOption);
+        ddlDepartments.Items.Insert(0, NoOptionSpecified);
     }
     #endregion Load DropDownLists
 
@@ -436,7 +436,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     /// </summary>
     private void CheckDdlSelection(DropDownList ddl, TextBox tbx, RequiredFieldValidator rfv)
     {
-        if (ddl.SelectedValue.Equals(otherOption))
+        if (ddl.SelectedValue.Equals(OtherOption))
         {
             tbx.Visible = true;
             rfv.Enabled = true;
@@ -452,7 +452,8 @@ public partial class Reporting_Default : System.Web.UI.Page
 
     #region Load Employee
     /// <summary>
-    /// Calls getEmployeeData() to get an employee from the database and populate the form with that employee's data.
+    /// Calls the getEmployee() and loadEmployee() methods to get an employee from the database
+    /// and populate the form with that employee's data.
     /// Displays a pop-up with a success or fail message.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
@@ -467,55 +468,74 @@ public partial class Reporting_Default : System.Web.UI.Page
             return;
         }
         // Get Employee
-        Employee result = loadEmployee();
+        Employee result = getEmployee(tbxFirstName.Text, tbxLastName.Text);
         if (result == null)
         {
-            if (popUpErrorMsg == null)
+            if (PopUpErrorMsg == null)
             {
-                popUpErrorMsg = "An error has occured while getting this employee. Please try again.";
+                PopUpErrorMsg = "An error has occured while getting this employee. Please try again.";
             }
-            Popup_Overlay(popUpErrorMsg, FailColour);
-            popUpErrorMsg = null;
+            Popup_Overlay(PopUpErrorMsg, FailColour);
+            PopUpErrorMsg = null;
+            return;
+        }
+        // Load form
+        loadEmployee(result);
+        if (PopUpErrorMsg != null) {
+            Popup_Overlay(PopUpErrorMsg, FailColour);
+            PopUpErrorMsg = null;
+            return;
         }
     }
 
+
     /// <summary>
-    /// Assumes page is valid.
-    /// Uses the employee's first and last name to get the rest of the employee's information from the database.
-    /// Populates the Employee Info form with the data.
+    /// Assumes the page is valid.
+    /// Uses the employee's first and last name to get an employee object from the database.
+    /// Returns the employee on success, null on failure.
     /// </summary>
+    /// <param name="first">The employee's first name.</param>
+    /// <param name="last">The employee's last name.</param>
     /// <returns>Returns the employee on success, null on failure.</returns>
-    private Employee loadEmployee()
+    private Employee getEmployee(String first, String last)
     {
         // Get employee
-        String first = tbxFirstName.Text;
-        String last = tbxLastName.Text;
-        Employee emp = null;
         var qry = ctx.Employees
                   .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
                   .Select(e => e);
         if (qry == null || qry.Count() == 0)
         {
-            popUpErrorMsg = "No employee with that first and last name found. Are the first and last names in the right fields?";
+            PopUpErrorMsg = "No employee with that first and last name found. "
+                            + "Are the first and last names in the right fields?";
             return null;
         }
         else if (qry == null || qry.Count() > 1)
         {
-            popUpErrorMsg = "More than one employee with that first and last name found.";
+            PopUpErrorMsg = "More than one employee with that first and last name found.";
             return null;
         }
+        return qry.FirstOrDefault();
+    }
 
+    /// <summary>
+    /// Assumes the page is valid.
+    /// Populates the Employee Info form with the emp parameter.
+    /// </summary>    
+    /// <param name="emp">The employee to populate the form with.</param>
+    private void loadEmployee(Employee emp)
+    {
+        if (emp == null)
+        {
+            PopUpErrorMsg = "No employee specified.";
+            return;
+        }
         clearEmployeeInfo();
-
-        #region Populate Form
-        // Populate form with employee data
-        emp = qry.FirstOrDefault();
 
         tbxId.Text = emp.empNo.ToString();
         tbxFirstName.Text = emp.fname.ToString();
         tbxLastName.Text = emp.lname.ToString();
 
-        // Position DDL
+        #region Position DDL
         var position = ctx.Positions
                         .Where(p => p.posName.Equals(emp.position))
                         .Select(p => p).FirstOrDefault();
@@ -530,28 +550,30 @@ public partial class Reporting_Default : System.Web.UI.Page
         }
         else
         {
-            ddlPositions.SelectedValue = otherOption;
+            ddlPositions.SelectedValue = OtherOption;
             tbxPosition.Text = emp.position;
         }
         CheckDdlSelection(ddlPositions, tbxPosition, rfvPosition);
+        #endregion Position DDL
 
-        // Employer DDL
+        #region Employer DDL
         if (emp.employer == null)
         {
             ddlEmployers.SelectedIndex = 0;
         }
-        else if (employers.Contains(emp.employer))
+        else if (Employers.Contains(emp.employer))
         {
             ddlEmployers.SelectedValue = emp.employer;
         }
         else
         {
-            ddlEmployers.SelectedValue = otherOption;
+            ddlEmployers.SelectedValue = OtherOption;
             tbxEmployer.Text = emp.employer;
         }
         CheckDdlSelection(ddlEmployers, tbxEmployer, rfvEmployer);
+        #endregion Employer DDL
 
-        // Department DDL
+        #region Department DDL
         var department = ctx.Departments
                         .Where(d => d.deptName.Equals(emp.deptName))
                         .Select(d => d).FirstOrDefault();
@@ -566,31 +588,31 @@ public partial class Reporting_Default : System.Web.UI.Page
         }
         else
         {
-            ddlDepartments.SelectedValue = otherOption;
+            ddlDepartments.SelectedValue = OtherOption;
             tbxDepartment.Text = emp.deptName;
         }
         CheckDdlSelection(ddlDepartments, tbxDepartment, rfvDepartment);
+        #endregion Department DDL
 
-        if (emp.supervisor != null && !emp.supervisor.Equals(String.Empty)) {
+        if (emp.supervisor != null && !emp.supervisor.Equals(String.Empty))
+        {
             tbxSupervisor.Text = emp.supervisor.ToString();
         }
 
-        if (emp.room != null && !emp.room.Equals(String.Empty)) {
+        if (emp.room != null && !emp.room.Equals(String.Empty))
+        {
             tbxRoom.Text = emp.room;
         }
 
         if (emp.startDate != null)
         {
-            tbxStartDate.Text = emp.startDate.ToString(dateFormat, locale);
+            tbxStartDate.Text = emp.startDate.ToString(DateFormat, Locale);
         }
 
         if (emp.endDate != null)
         {
-            tbxEndDate.Text = ((DateTime)emp.endDate).ToString(dateFormat, locale);
+            tbxEndDate.Text = ((DateTime)emp.endDate).ToString(DateFormat, Locale);
         }
-        #endregion Populate Form
-
-        return emp;
     }
     #endregion LoadEmployeeData
 
@@ -680,11 +702,11 @@ public partial class Reporting_Default : System.Web.UI.Page
         Employee result = createEmployee();
         if (result == null)
         {
-            if (popUpErrorMsg == null)
+            if (PopUpErrorMsg == null)
             {
-                popUpErrorMsg = "An error has occured while creating this employee. Please try again.";
+                PopUpErrorMsg = "An error has occured while creating this employee. Please try again.";
             }
-            Popup_Overlay(popUpErrorMsg, FailColour);
+            Popup_Overlay(PopUpErrorMsg, FailColour);
             return;
         }
         Popup_Overlay("Employee successfully created.", SuccessColour);
@@ -704,7 +726,7 @@ public partial class Reporting_Default : System.Web.UI.Page
 
         if (emp != null)
         {
-            popUpErrorMsg = "An employee with that first and last name already exists.";
+            PopUpErrorMsg = "An employee with that first and last name already exists.";
             return null;
         }
 
@@ -716,11 +738,11 @@ public partial class Reporting_Default : System.Web.UI.Page
         };
         
         #region position
-        if (ddlPositions.SelectedValue.Equals(otherOption))
+        if (ddlPositions.SelectedValue.Equals(OtherOption))
         {
             emp.position = tbxPosition.Text;
         }
-        else if (ddlPositions.SelectedValue.Equals(noOptionSpecified))
+        else if (ddlPositions.SelectedValue.Equals(NoOptionSpecified))
         {
             emp.position = null;
         }
@@ -731,11 +753,11 @@ public partial class Reporting_Default : System.Web.UI.Page
         #endregion position
 
         #region employer
-        if (ddlEmployers.SelectedValue.Equals(otherOption))
+        if (ddlEmployers.SelectedValue.Equals(OtherOption))
         {
             emp.employer = tbxEmployer.Text;
         }
-        else if (ddlEmployers.SelectedValue.Equals(noOptionSpecified))
+        else if (ddlEmployers.SelectedValue.Equals(NoOptionSpecified))
         {
             emp.employer = null;
         }
@@ -746,11 +768,11 @@ public partial class Reporting_Default : System.Web.UI.Page
         #endregion employer
 
         #region department
-        if (ddlDepartments.SelectedValue.Equals(otherOption))
+        if (ddlDepartments.SelectedValue.Equals(OtherOption))
         {
             emp.deptName = tbxDepartment.Text;
         }
-        else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified))
+        else if (ddlDepartments.SelectedValue.Equals(NoOptionSpecified))
         {
             emp.deptName = null;
         }
@@ -777,11 +799,11 @@ public partial class Reporting_Default : System.Web.UI.Page
 
         #region dates
         if (!tbxStartDate.Text.Equals(String.Empty)) {
-            DateTime formStartDate = DateTime.ParseExact(tbxStartDate.Text, dateFormat, locale);
+            DateTime formStartDate = DateTime.ParseExact(tbxStartDate.Text, DateFormat, Locale);
             emp.startDate = formStartDate;
         }
         if (!tbxEndDate.Text.Equals(String.Empty)) {
-            DateTime formEndDate = DateTime.ParseExact(tbxEndDate.Text, dateFormat, locale);
+            DateTime formEndDate = DateTime.ParseExact(tbxEndDate.Text, DateFormat, Locale);
             emp.endDate = formEndDate;
         }
         #endregion dates
@@ -797,7 +819,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         catch (Exception ex)
         {
             ex.ToString();
-            popUpErrorMsg = "Error adding employee to the database. Please try again.";
+            PopUpErrorMsg = "Error adding employee to the database. Please try again.";
             return null;
         }
     }
@@ -823,11 +845,11 @@ public partial class Reporting_Default : System.Web.UI.Page
         }
         else
         {
-            if (popUpErrorMsg == null) {
-                popUpErrorMsg = "An error has occured while updating this employee. Please try again.";
+            if (PopUpErrorMsg == null) {
+                PopUpErrorMsg = "An error has occured while updating this employee. Please try again.";
             }
-            Popup_Overlay(popUpErrorMsg, FailColour);
-            popUpErrorMsg = null;
+            Popup_Overlay(PopUpErrorMsg, FailColour);
+            PopUpErrorMsg = null;
         }
     }
     /// <summary>
@@ -840,7 +862,7 @@ public partial class Reporting_Default : System.Web.UI.Page
     private Employee updateEmployee()
     {
         if (tbxId.Text.Equals(String.Empty)) {
-            popUpErrorMsg = "You must use the 'Get Employee' button before you can update an employee.";
+            PopUpErrorMsg = "You must use the 'Get Employee' button before you can update an employee.";
             return null;
         }
         int empId = Convert.ToInt32(tbxId.Text);
@@ -852,7 +874,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         if (emp == null)
         {
             // Unexpected error.
-            popUpErrorMsg = "No employee with that ID found. Unable to update employee.";
+            PopUpErrorMsg = "No employee with that ID found. Unable to update employee.";
             return null;
         }
 
@@ -863,7 +885,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         if (existingEmp != null) {
             // if an employee with that name exists and it's not the employee's former name
             if (!(emp.fname.Equals(existingEmp.fname) && emp.lname.Equals(existingEmp.lname))) {
-                popUpErrorMsg = "An employee with that first and last name already exists.";
+                PopUpErrorMsg = "An employee with that first and last name already exists.";
                 return null;
             }
         }
@@ -874,14 +896,14 @@ public partial class Reporting_Default : System.Web.UI.Page
 
         #region dates
         if (!tbxStartDate.Text.Equals(String.Empty)) {
-            DateTime formStartDate = DateTime.ParseExact(tbxStartDate.Text, dateFormat, locale);
+            DateTime formStartDate = DateTime.ParseExact(tbxStartDate.Text, DateFormat, Locale);
             emp.startDate = formStartDate;
         }
         else {
             return null;
         }
         if (!tbxEndDate.Text.Equals(String.Empty)) {
-            DateTime formEndDate = DateTime.ParseExact(tbxEndDate.Text, dateFormat, locale);
+            DateTime formEndDate = DateTime.ParseExact(tbxEndDate.Text, DateFormat, Locale);
             emp.endDate = formEndDate;
         }
         else {
@@ -890,10 +912,10 @@ public partial class Reporting_Default : System.Web.UI.Page
         #endregion dates
 
         #region position
-        if (ddlPositions.SelectedValue.Equals(otherOption)) {
+        if (ddlPositions.SelectedValue.Equals(OtherOption)) {
             emp.position = tbxPosition.Text;
         }
-        else if (ddlPositions.SelectedValue.Equals(noOptionSpecified)) {
+        else if (ddlPositions.SelectedValue.Equals(NoOptionSpecified)) {
             emp.position = null;
         }
         else {
@@ -902,10 +924,10 @@ public partial class Reporting_Default : System.Web.UI.Page
         #endregion position
 
         #region employer
-        if (ddlEmployers.SelectedValue.Equals(otherOption)) {
+        if (ddlEmployers.SelectedValue.Equals(OtherOption)) {
             emp.employer = tbxEmployer.Text;
         }
-        else if (ddlEmployers.SelectedValue.Equals(noOptionSpecified)) {
+        else if (ddlEmployers.SelectedValue.Equals(NoOptionSpecified)) {
             emp.employer = null;
         }
         else {
@@ -914,10 +936,10 @@ public partial class Reporting_Default : System.Web.UI.Page
         #endregion employer
 
         #region department
-        if (ddlDepartments.SelectedValue.Equals(otherOption)) {
+        if (ddlDepartments.SelectedValue.Equals(OtherOption)) {
             emp.deptName = tbxDepartment.Text;
         }
-        else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
+        else if (ddlDepartments.SelectedValue.Equals(NoOptionSpecified)) {
             emp.deptName = null;
         }
         else {
@@ -935,7 +957,7 @@ public partial class Reporting_Default : System.Web.UI.Page
             ctx.SaveChanges();
         }
         catch (Exception ex) {
-            popUpErrorMsg = "Error saving changes to the database. Unable to update employee.";
+            PopUpErrorMsg = "Error saving changes to the database. Unable to update employee.";
             ex.ToString();
             return null;
         }
@@ -982,12 +1004,12 @@ public partial class Reporting_Default : System.Web.UI.Page
             catch (Exception ex)
             {
                 ex.ToString();
-                if (popUpErrorMsg.Equals(String.Empty))
+                if (PopUpErrorMsg.Equals(String.Empty))
                 {
-                    popUpErrorMsg = "An error has occured while creating your report. Please try again.";
+                    PopUpErrorMsg = "An error has occured while creating your report. Please try again.";
                 }
-                Popup_Overlay(popUpErrorMsg, FailColour);
-                popUpErrorMsg = String.Empty;
+                Popup_Overlay(PopUpErrorMsg, FailColour);
+                PopUpErrorMsg = String.Empty;
                 return;
             }
         }
@@ -1016,16 +1038,18 @@ public partial class Reporting_Default : System.Web.UI.Page
         Page.Validate("vgpHManagers");
         if (!Page.IsValid)
         {
-            popUpErrorMsg = "Invalid input.";
+            PopUpErrorMsg = "Invalid input.";
             return null;
         }
 
-        Employee emp = loadEmployee();
+        Employee emp = getEmployee(tbxFirstName.Text, tbxLastName.Text);
         if (emp == null)
         {
-            popUpErrorMsg = "Unable to find employee. Try clicking the 'Get Employee' button.";
+            PopUpErrorMsg = "Unable to find employee. Try clicking the 'Get Employee' button.";
             return null;
         }
+
+        loadEmployee(emp);
 
         // Create the report
         Incident report = new Incident
@@ -1241,15 +1265,15 @@ public partial class Reporting_Default : System.Web.UI.Page
             String timeFormat = getTimeFormat(strTimeOfIncident);
             if (timeFormat == null)
             {
-                popUpErrorMsg = "Time of incident is invalid.";
+                PopUpErrorMsg = "Time of incident is invalid.";
                 return null; // Error
             }
             report.p1_dateOfIncident = DateTime.ParseExact(strDateOfIncident + " " + strTimeOfIncident,
-                dateFormat + " " + timeFormat, locale);
+                DateFormat + " " + timeFormat, Locale);
         }
         else
         {
-            popUpErrorMsg = "Date/time reported is required.";
+            PopUpErrorMsg = "Date/time reported is required.";
             return null;
         }
 
@@ -1258,15 +1282,15 @@ public partial class Reporting_Default : System.Web.UI.Page
             String timeFormat = getTimeFormat(strTimeReported);
             if (timeFormat == null)
             {
-                popUpErrorMsg = "Time reported is invalid.";
+                PopUpErrorMsg = "Time reported is invalid.";
                 return null; // Error
             }
             report.p1_dateReported = DateTime.ParseExact(strDateReported + " " + strTimeReported,
-                dateFormat + " " + timeFormat, locale);
+                DateFormat + " " + timeFormat, Locale);
         }
         else
         {
-            popUpErrorMsg = "Date/time of incident is required.";
+            PopUpErrorMsg = "Date/time of incident is required.";
             return null;
         }
         #endregion Dates
@@ -1287,14 +1311,14 @@ public partial class Reporting_Default : System.Web.UI.Page
         #region A_IncidentInfo_Dates
         if (cbx_p1_action_medicalER.Checked) {
             if (!tbx_p1_action_medicalER_date.Text.Equals(String.Empty)) {
-                DateTime dateMedicalER = DateTime.ParseExact(tbx_p1_action_medicalER_date.Text, dateFormat, locale);
+                DateTime dateMedicalER = DateTime.ParseExact(tbx_p1_action_medicalER_date.Text, DateFormat, Locale);
                 report.p1_action_medicalER_date = dateMedicalER;
             }
         }
 
         if (cbx_p1_action_medicalGP.Checked) {
             if (!tbx_p1_action_medicalGP_date.Text.Equals(String.Empty)) {
-                DateTime dateMedicalGP = DateTime.ParseExact(tbx_p1_action_medicalGP_date.Text, dateFormat, locale);
+                DateTime dateMedicalGP = DateTime.ParseExact(tbx_p1_action_medicalGP_date.Text, DateFormat, Locale);
                 report.p1_action_medicalGP_date = dateMedicalGP;
             }
         }
@@ -1540,7 +1564,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         }
 
         try {
-            dateOfIncident = DateTime.ParseExact(strDateOfIncident + " " + strTimeOfIncident, dateFormat + " " + timeFormat1, locale);
+            dateOfIncident = DateTime.ParseExact(strDateOfIncident + " " + strTimeOfIncident, DateFormat + " " + timeFormat1, Locale);
         }
         catch (FormatException ex) {
             ex.ToString();
@@ -1553,7 +1577,7 @@ public partial class Reporting_Default : System.Web.UI.Page
         }
 
         try {
-            dateReported = DateTime.ParseExact(strDateReported + " " + strTimeReported, dateFormat + " " + timeFormat2, locale);
+            dateReported = DateTime.ParseExact(strDateReported + " " + strTimeReported, DateFormat + " " + timeFormat2, Locale);
         }
         catch (FormatException ex) {
             ex.ToString();

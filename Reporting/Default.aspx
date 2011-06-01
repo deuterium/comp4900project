@@ -441,7 +441,7 @@
                             Date:
                         </td>
                         <td>
-                            <asp:UpdatePanel ID="UpdatePanel4" runat="server">
+                            <asp:UpdatePanel ID="uplMedicalGpDate" runat="server">
                                 <ContentTemplate>
                                     <asp:TextBox TabIndex="122" ID="tbx_p1_action_medicalGP_date" runat="server" MaxLength="10" Width="150px"
                                         AutoPostBack="true" OnTextChanged="tbx_p1_action_medicalGP_date_OnTextChanged"></asp:TextBox>
@@ -475,10 +475,10 @@
                                 runat="server" />
                         </td>
                         <td>
-                            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                            <asp:UpdatePanel ID="uplMedicalErCheckbox" runat="server">
                                 <ContentTemplate>
                                     <asp:CheckBox TabIndex="123" ID="cbx_p1_action_medicalER" Text="Medical Aid (ER)" runat="server"
-                                        OnCheckedChanged="cbx_p1_action_medicalER_CheckedChanged" />
+                                        OnCheckedChanged="cbx_p1_action_medicalER_CheckedChanged" AutoPostBack="true" />
                                 </ContentTemplate>
                                 <Triggers>
                                     <asp:AsyncPostBackTrigger ControlID="tbx_p1_action_medicalER_date" EventName="TextChanged" />
@@ -489,7 +489,7 @@
                             Date:
                         </td>
                         <td>
-                            <asp:UpdatePanel ID="UpdatePanel3" runat="server">
+                            <asp:UpdatePanel ID="uplMedicalErDate" runat="server">
                                 <ContentTemplate>
                                     <asp:TextBox TabIndex="123" ID="tbx_p1_action_medicalER_date" runat="server" MaxLength="10" Width="150px"
                                         AutoPostBack="true" OnTextChanged="tbx_p1_action_medicalER_date_OnTextChanged"></asp:TextBox>

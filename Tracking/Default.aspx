@@ -1,6 +1,9 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Tracking_Default" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+
+<%@ Reference Control="DepartmentTrackerGridView.ascx" %>
+
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="head">
 </asp:Content>
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="body">
@@ -1227,18 +1230,21 @@
             <asp:Button TabIndex="1112" ID="btnFilterReport" runat="server" Text="Filter Reports"
                 OnClick="btnFilterReport_Click" />
         </asp:Panel>
+        <asp:Panel ID="pnlTest" runat="server">
+        </asp:Panel>
         <asp:Panel ID="pnlResultsContainer" runat="server" Visible="false">
             <h3 id="hr3Results">
                 <asp:Image ID="imgExpandCollapseResults" runat="server" />
                 Results
                 <asp:Label ID="lblExpandCollapseResults" runat="server" Text=""></asp:Label></h3>
             <asp:Panel ID="pnlResults" CssClass="panel" runat="server">
-                <asp:Panel ID="pnlFiltersSelected" runat="server">
+                <asp:Panel ID="pnlFiltersSelectedContainer" runat="server">
                     <asp:Label ID="lblFilters" runat="server" Text="No filters selected." Font-Bold="true" />
+                    <asp:Panel ID="pnlFiltersSelected" runat="server"></asp:Panel>
                     <br />
                 </asp:Panel>
                 <br />
-                <asp:GridView ID="gdvTracker" runat="server" AutoGenerateColumns="False" OnRowCommand="gdvTracker_RowCommand"
+                <asp:GridView ID="gdvTracker" runat="server" AutoGenerateColumns="False" OnRowCommand="gdvDepartmentTracker_RowCommand"
                     HorizontalAlign="Center">
                     <Columns>
                         <asp:TemplateField HeaderText="#" ItemStyle-Width="20">
@@ -1393,7 +1399,7 @@
             <asp:Panel ID="pnlEmployeeCourses" CssClass="panel" runat="server">
                 <span class="spanBold">Courses for:</span>
                 <asp:Label ID="lblCoursesTitle" runat="server"></asp:Label>
-                <asp:GridView ID="gdvEmpCourses" runat="server" AutoGenerateColumns="False" OnRowCommand="gdvTracker_RowCommand">
+                <asp:GridView ID="gdvEmpCourses" runat="server" AutoGenerateColumns="False" OnRowCommand="gdvDepartmentTracker_RowCommand">
                     <Columns>
                         <asp:TemplateField HeaderText="Name">
                             <ItemTemplate>
