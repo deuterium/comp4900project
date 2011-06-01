@@ -241,7 +241,7 @@ public partial class Tracking_Default : System.Web.UI.Page
     /// </summary>
     private void filterReport()
     {
-        pnlTest.Controls.Clear();
+        pnlDepartments.Controls.Clear();
         pnlFiltersSelected.Controls.Clear();
         
         var reports = ctx.Incidents
@@ -467,23 +467,23 @@ public partial class Tracking_Default : System.Web.UI.Page
 
             LiteralControl hr3Open = new LiteralControl();
             hr3Open.Text = "<h3 id='hr3" + deptNumber + "' >";
-            pnlTest.Controls.Add(hr3Open);
+            pnlDepartments.Controls.Add(hr3Open);
 
             System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
             img.ID = "imgExpandCollapse" + deptNumber;
-            pnlTest.Controls.Add(img);
+            pnlDepartments.Controls.Add(img);
 
             LiteralControl hr3Text = new LiteralControl();
             hr3Text.Text = " " + deptName;
-            pnlTest.Controls.Add(hr3Text);
+            pnlDepartments.Controls.Add(hr3Text);
 
             Label lbl = new Label();
             lbl.ID = "lblExpandCollapse" + deptNumber;
-            pnlTest.Controls.Add(lbl);
+            pnlDepartments.Controls.Add(lbl);
             
             LiteralControl hr3Close = new LiteralControl();
             hr3Close.Text = "</h3>";
-            pnlTest.Controls.Add(hr3Close);
+            pnlDepartments.Controls.Add(hr3Close);
             //pnlTest.Controls.Add(hr3);
             //Control c = pnlTest.FindControl("hr3" + deptNumber);
             
@@ -508,7 +508,7 @@ public partial class Tracking_Default : System.Web.UI.Page
             cpe.ImageControlID = "imgExpandCollapse" + deptNumber;
             cpe.CollapsedImage = "../images/expand.jpg";
             cpe.ExpandedImage = "../images/collapse.jpg";
-            pnlTest.Controls.Add(cpe);
+            pnlDepartments.Controls.Add(cpe);
 
             UserControl uc = (UserControl)Page.LoadControl("DepartmentTrackerGridView.ascx");
             GridView gdv = ((Tracking_DepartmentTrackerGridView)uc).getGridView();
@@ -554,7 +554,7 @@ public partial class Tracking_Default : System.Web.UI.Page
             gdv.ID = "gdvDeptTracker" + deptNumber;
 
             pnl.Controls.Add(gdv);
-            pnlTest.Controls.Add(pnl);
+            pnlDepartments.Controls.Add(pnl);
         }
 
         #region Old Code
