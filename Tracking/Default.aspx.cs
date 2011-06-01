@@ -474,7 +474,13 @@ public partial class Tracking_Default : System.Web.UI.Page
             pnlDepartments.Controls.Add(img);
 
             LiteralControl hr3Text = new LiteralControl();
-            hr3Text.Text = " " + deptName;
+            if (deptReports.Count() != 1) {
+                hr3Text.Text = " " + deptName + " --- " + deptReports.Count() + " incidents";
+            }
+            else {
+                hr3Text.Text = " " + deptName + " --- " + deptReports.Count() + " incident";
+            }
+            
             pnlDepartments.Controls.Add(hr3Text);
 
             Label lbl = new Label();
@@ -515,8 +521,7 @@ public partial class Tracking_Default : System.Web.UI.Page
             //uc = null;
             
             gdv.RowCommand += new GridViewCommandEventHandler(gdvDepartmentTracker_RowCommand);
-
-
+            
             // Format the data for the Grid View
             // Setup the Data Table
             DataTable dt = new DataTable();
