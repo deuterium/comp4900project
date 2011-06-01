@@ -755,7 +755,7 @@ public partial class Training_Default : System.Web.UI.Page {
                                          TC = TC
                                      }
                                )
-                               .Where(temp1 => (currentDate <= temp1.temp0.TT.endDate))
+                               .Where(temp1 => (currentDate <= temp1.temp0.TT.endDate) || (temp1.temp0.TT.endDate == null))
                                .Select(
                                   temp1 =>
                                      new
@@ -822,7 +822,7 @@ public partial class Training_Default : System.Web.UI.Page {
                                          TC = TC
                                      }
                                )
-                               .Where(temp1 => (currentDate > temp1.temp0.TT.endDate))
+                               .Where(temp1 => (currentDate > temp1.temp0.TT.endDate) || (temp1.temp0.TT.endDate == null))
                                .Select(
                                   temp1 =>
                                      new
@@ -1537,7 +1537,7 @@ public partial class Training_Default : System.Web.UI.Page {
         {
 
             DateTime newStartDate = DateTime.MinValue;
-            DateTime newEndDate = DateTime.Now;
+            DateTime newEndDate = Convert.ToDateTime(tbxNewCrsStart.Text);
             int courseNo = Convert.ToInt32(ddlNewCrs.SelectedValue);
 
             if (!(tbxNewCrsStart.Text.Equals(String.Empty)))
@@ -1549,21 +1549,22 @@ public partial class Training_Default : System.Web.UI.Page {
                 .Where(tc => tc.trainingNo == courseNo)
                 .Select(tc => tc).FirstOrDefault();
 
-            double months = Convert.ToDouble(course.monthsValid);
+            int months = Convert.ToInt32(course.monthsValid);
 
-            newEndDate.AddMinutes(months);
+            newEndDate = newEndDate.AddMonths(months);
 
             TrainingTaken tt = new TrainingTaken
             {
                 empNo = empId,
                 trainingNo = Convert.ToInt32(ddlNewCrs.SelectedValue),
                 startDate = newStartDate,
-                endDate = newEndDate,
+                endDate = (course.monthsValid == null) ? (DateTime?) null : newEndDate,
             };
             ctx.AddToTrainingTakens(tt);
             ctx.SaveChanges();
             BindValidData();
             ddlNewCrs.SelectedIndex = 0;
+            tbxNewCrsStart.Text = "";
             pnlNewCourse.Visible = false;
             Popup_Overlay("Training successfully created.", SuccessColour);
             return;
