@@ -2,7 +2,7 @@
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
-<%@ Reference Control="DepartmentTrackerGridView.ascx" %>
+<%@ Reference Control="DepartmentTrackerGridViews.ascx" %>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="head">
 </asp:Content>

@@ -1,5 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ViewIncidentReport.aspx.cs"
-    Inherits="Reporting_ViewIncidentReport" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="IncidentReport.aspx.cs"
+    Inherits="View_IncidentReport" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <asp:content id="Content1" runat="server" contentplaceholderid="head">

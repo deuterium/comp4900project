@@ -13,7 +13,7 @@ using BCCAModel;
 /// Author: BCIT COMP4900 2011
 /// Lindsay Fester - lindsay.m.fester@gmail.com
 /// </summary>
-public partial class Tracking_ViewOfficeInspection : System.Web.UI.Page
+public partial class Tracking_OfficeInspection : System.Web.UI.Page
 {
     #region Class Variables
     // Database Entity framework context

@@ -193,45 +193,13 @@ public partial class Tracking_Default : System.Web.UI.Page {
         pnlFiltersSelected.Controls.Add(new LiteralControl("<br />"));
     }
 
-    private void formatGridViewRows(GridView gdv) {
+    private void formatIncidentGridViewRows(GridView gdv) {
         // Set the Grid View column widths
         gdv.Columns[0].ItemStyle.Width = 30;
         gdv.Columns[1].ItemStyle.Width = 80;
         gdv.Columns[2].ItemStyle.Width = 200;
         gdv.Columns[3].ItemStyle.Width = 200;
         gdv.Columns[4].ItemStyle.Width = 450;
-
-        // Set up the rows
-        foreach (GridViewRow row in gdv.Rows) {
-            String strName = ((Label)row.FindControl("lblEmployeeName")).Text;
-            if ((strName == null) || (strName.Equals(String.Empty))) {
-                // common formatting
-                row.ForeColor = HeaderForeColor;
-                foreach (TableCell c in row.Cells) {
-                    c.Visible = false;
-                }
-                row.Cells[0].Visible = true;
-                row.Cells[0].ColumnSpan = gdv.Columns.Count - 2;
-                String strIncidentNo = ((Label)row.FindControl("lblIncidentNo")).Text;
-
-                // subheader dept row formatting (make view inspection/lab buttons visible)
-                if (!(strIncidentNo.StartsWith("Number") || strIncidentNo.StartsWith("Total"))) {
-                    row.Cells[4].Visible = true;
-                    row.Cells[4].ColumnSpan = 2;
-                    row.Font.Bold = true;
-                    row.Height = 50;
-                }
-                // subtotal row formatting 
-                else {
-                    row.Cells[0].ColumnSpan = gdv.Columns.Count;
-                }
-            }
-            else {
-                row.Cells[4].Visible = false;
-                row.Cells[3].ColumnSpan = 2;
-            }
-        }
-        //gdv.HeaderRow.Cells[5].Visible = false;
     }
 
     /// <summary>
@@ -537,7 +505,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
             cpe.CollapsedImage = "../images/expand.jpg";
             cpe.ExpandedImage = "../images/collapse.jpg";
             pnlDepartments.Controls.Add(cpe);
-
+            
             Label lblCount = new Label();
             lblCount.ID = "lblIncidentMatches" + deptNumber;
             lblCount.Text = "Number of matching incidents in this department: " + deptReportsCount;
@@ -586,10 +554,9 @@ public partial class Tracking_Default : System.Web.UI.Page {
             pnl.Controls.Add(lblCount);
             pnl.Controls.Add(new LiteralControl("<br />"));
 
-            UserControl uc = (UserControl)Page.LoadControl("DepartmentTrackerGridView.ascx");
-            GridView gdv = ((Tracking_DepartmentTrackerGridView)uc).getGridView();
-            //uc = null;
-
+            UserControl uc = (UserControl)Page.LoadControl("DepartmentTrackerGridViews.ascx");
+            GridView gdv = ((Tracking_DepartmentTrackerGridViews)uc).getIncidentsGridView();
+            
             gdv.RowCommand += new GridViewCommandEventHandler(gdvDepartmentTracker_RowCommand);
 
             DataTable dt = new DataTable();
@@ -613,7 +580,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
             gdv.DataBind();
 
             gdv.RowCommand += new GridViewCommandEventHandler(this.gdvDepartmentTracker_RowCommand);
-            formatGridViewRows(gdv);
+            formatIncidentGridViewRows(gdv);
 
             gdv.ID = "gdvDeptTracker" + deptNumber;
 
@@ -821,20 +788,21 @@ public partial class Tracking_Default : System.Web.UI.Page {
         // Find out which button was clicked, take appropriate action
         switch (e.CommandName) {
             case "RowViewReport":
-                Response.Redirect("~/Reporting/ViewIncidentReport.aspx?IncidentNo=" + GetIncidentIdFromRow(index, gdv));
+                Response.Redirect("~/View/IncidentReport.aspx?id=" + GetIncidentIdFromRow(index, gdv));
                 break;
-            case "RowViewEmployee":
+            case "RowViewEmpCourses":
                 loadEmployee(getEmployeeFromIncidentId(GetIncidentIdFromRow(index, gdv)));
-                break;
-            case "RowViewCourses":
                 loadCourses(getEmployeeFromIncidentId(GetIncidentIdFromRow(index, gdv)));
                 break;
-            case "RowViewLabInspections":
-                loadLabInspections(GetIncidentIdFromRow(index + 1, gdv)); // subheader rows don't have incident numbers
-                break;
-            case "RowViewOfficeInspections":
-                loadOfficeInspections(GetIncidentIdFromRow(index + 1, gdv)); // subheader rows don't have incident numbers
-                break;
+            //case "RowViewCourses":
+            //    loadCourses(getEmployeeFromIncidentId(GetIncidentIdFromRow(index, gdv)));
+            //    break;
+            //case "RowViewLabInspections":
+            //    loadLabInspections(GetIncidentIdFromRow(index + 1, gdv)); // subheader rows don't have incident numbers
+            //    break;
+            //case "RowViewOfficeInspections":
+            //    loadOfficeInspections(GetIncidentIdFromRow(index + 1, gdv)); // subheader rows don't have incident numbers
+            //    break;
             default:
                 throw new System.SystemException("Default case of switch should never be reached");
         }

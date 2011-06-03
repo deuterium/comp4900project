@@ -1,5 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ViewLabInspection.aspx.cs"
-    Inherits="Tracking_ViewLabInspection" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="LabInspection.aspx.cs"
+    Inherits="Tracking_LabInspection" %>
 
 <asp:content id="Content1" contentplaceholderid="head" runat="Server">
 </asp:content>

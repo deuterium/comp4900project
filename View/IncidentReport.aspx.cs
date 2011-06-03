@@ -13,7 +13,7 @@ using BCCAModel;
 /// Author: BCIT COMP4900 2011
 /// Lindsay Fester - lindsay.m.fester@gmail.com
 /// </summary>
-public partial class Reporting_ViewIncidentReport : System.Web.UI.Page
+public partial class View_IncidentReport : System.Web.UI.Page
 {
     #region Class Variables
     // The background color of disabled controls.
@@ -53,7 +53,7 @@ public partial class Reporting_ViewIncidentReport : System.Web.UI.Page
         {
             hideAllPanels();
             pnlPop.Style.Value = "display:none;";
-            String reqIncidentNo = Request.QueryString["IncidentNo"];
+            String reqIncidentNo = Request.QueryString["id"];
             int incidentNo = -1;
             try
             {
