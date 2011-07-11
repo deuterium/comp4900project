@@ -516,9 +516,9 @@
                             <asp:CommandField ShowEditButton="True" UpdateText="Update |" />
                             <asp:TemplateField ShowHeader="False">
                                  <ItemTemplate>
-                                   <asp:LinkButton ID="lbnDelete" runat="server" CausesValidation="False" CommandName="Delete"
-                                                OnClientClick='return confirm("Are you sure you want to delete this training course?");'
-                                                Text="Delete" />
+                                     <asp:LinkButton ID="lbnDelete" runat="server" CausesValidation="False" CommandName="Delete"
+                                                    OnClientClick='return confirm("Are you sure you want to delete this training course?");'
+                                                    Text="Delete" />
                                  </ItemTemplate>
                             </asp:TemplateField>
                             <asp:CommandField ShowSelectButton="True" SelectText="Details" />

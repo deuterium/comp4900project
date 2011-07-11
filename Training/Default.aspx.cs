@@ -8,6 +8,8 @@ using System.Web.UI.WebControls;
 using AjaxControlToolkit;
 using BCCAModel;
 
+//ALTER TABLE TrainingTaken ADD active CHAR(1) DEFAULT NULL;
+
 /// <summary>
 /// Training/Default.aspx.cs
 /// BCCA Cancer Research Centre
@@ -269,6 +271,10 @@ public partial class Training_Default : System.Web.UI.Page {
         }
         populateValidCourses();
         populateExpiredCourses();
+        cpeCourses.Collapsed = false;
+        cpeCourses.ClientState = "false";
+        cpeCoursesCompleted.Collapsed = false;
+        cpeCoursesCompleted.ClientState = "false";
     }
 
     /// <summary>
@@ -743,7 +749,7 @@ public partial class Training_Default : System.Web.UI.Page {
                                          emp = emp,
                                          TT = TT
                                      }
-                               )
+                               ).Where(t => (t.TT.active == null || t.TT.active.Equals("1")))
                                .Join(
                                   ctx.TrainingCourses,
                                   temp0 => temp0.TT.trainingNo,
@@ -810,7 +816,7 @@ public partial class Training_Default : System.Web.UI.Page {
                                          emp = emp,
                                          TT = TT
                                      }
-                               )
+                               ).Where(t => (t.TT.active == null || t.TT.active.Equals("1")))
                                .Join(
                                   ctx.TrainingCourses,
                                   temp0 => temp0.TT.trainingNo,
@@ -854,12 +860,20 @@ public partial class Training_Default : System.Web.UI.Page {
         TrainingTaken training = ctx.TrainingTakens
                       .Where(tt => tt.trainingTakenNo == ttNo)
                       .Select(tt => tt).FirstOrDefault();
+        
+        training.active = "0";
 
-        ctx.DeleteObject(training);
-        ctx.SaveChanges();
+        try {
+            ctx.SaveChanges();
+        }
+        catch (Exception ex) {
+            ex.ToString();
+            Popup_Overlay("An error has occured. Training not deleted from employee's record.", FailColour);
+        }
 
         disableDetails();
         BindValidData();
+        Popup_Overlay("Training successfully deleted from employee's record.", SuccessColour);
     }
 
     /// <summary>
@@ -980,11 +994,19 @@ public partial class Training_Default : System.Web.UI.Page {
                       .Where(tt => tt.trainingTakenNo == ttNo)
                       .Select(tt => tt).FirstOrDefault();
 
-        ctx.DeleteObject(training);
-        ctx.SaveChanges();
+        training.active = "0";
+
+        try {
+            ctx.SaveChanges();
+        }
+        catch (Exception ex) {
+            ex.ToString();
+            Popup_Overlay("An error has occured. Training not deleted from employee's record.", FailColour);
+        }
         
         HideExpiredCourseDetails();
         BindExpiredData();
+        Popup_Overlay("Training successfully deleted from employee's record.", SuccessColour);
     }
 
     /// <summary>

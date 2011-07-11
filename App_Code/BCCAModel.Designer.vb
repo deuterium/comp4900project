@@ -16,7 +16,7 @@ Imports System.ComponentModel
 Imports System.Xml.Serialization
 Imports System.Runtime.Serialization
 
-<Assembly: EdmSchemaAttribute("38a74d4d-fb0f-40ab-b877-6d0760e66fab")>
+<Assembly: EdmSchemaAttribute("c96082e5-7493-40d5-8ebe-08ac3937953d")>
 #Region "EDM Relationship Metadata"
 <Assembly: EdmRelationshipAttribute("BCCAModel", "FK__Incident__deptNo__4E1E9780", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, GetType(BCCAModel.Department), "Incident", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, GetType(BCCAModel.Incident), True)>
 <Assembly: EdmRelationshipAttribute("BCCAModel", "FK__Incident__submit__2F9A1060", "Department", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, GetType(BCCAModel.Department), "Incident", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, GetType(BCCAModel.Incident), True)>
@@ -8695,6 +8695,31 @@ Namespace BCCAModel
         End Sub
     
         Private Partial Sub OncourseDateChanged()
+        End Sub
+    
+        ''' <summary>
+        ''' No Metadata Documentation available.
+        ''' </summary>
+        <EdmScalarPropertyAttribute(EntityKeyProperty:=false, IsNullable:=true)>
+        <DataMemberAttribute()>
+        Public Property active() As Global.System.String
+            Get
+                Return _active
+            End Get
+            Set
+                OnactiveChanging(value)
+                ReportPropertyChanging("active")
+                _active = StructuralObject.SetValidValue(value, true)
+                ReportPropertyChanged("active")
+                OnactiveChanged()
+            End Set
+        End Property
+    
+        Private _active As Global.System.String
+        Private Partial Sub OnactiveChanging(value As Global.System.String)
+        End Sub
+    
+        Private Partial Sub OnactiveChanged()
         End Sub
 
         #End Region
