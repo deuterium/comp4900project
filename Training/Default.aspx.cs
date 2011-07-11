@@ -840,6 +840,29 @@ public partial class Training_Default : System.Web.UI.Page {
     }
 
     /// <summary>
+    /// Triggered when a course is deleted from grvValidCourses
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void grvValidCourses_RowDeleting(object sender, GridViewDeleteEventArgs e) {
+        //grvValidCourses.DeleteRow(e.RowIndex);
+        
+        GridViewRow row = grvValidCourses.Rows[e.RowIndex];
+        int empNo = Convert.ToInt32(tbxId.Text);
+        int ttNo = Convert.ToInt32(grvValidCourses.Rows[e.RowIndex].Cells[4].Text);
+
+        TrainingTaken training = ctx.TrainingTakens
+                      .Where(tt => tt.trainingTakenNo == ttNo)
+                      .Select(tt => tt).FirstOrDefault();
+
+        ctx.DeleteObject(training);
+        ctx.SaveChanges();
+
+        disableDetails();
+        BindValidData();
+    }
+
+    /// <summary>
     /// Triggered when grvValidCourses is edited
     /// </summary>
     /// <param name="sender"></param>
@@ -862,7 +885,7 @@ public partial class Training_Default : System.Web.UI.Page {
         GridViewRow row = grvValidCourses.Rows[e.RowIndex];
 
         int empNo = Convert.ToInt32(tbxId.Text);
-        int ttNo = Convert.ToInt32(grvValidCourses.Rows[e.RowIndex].Cells[3].Text);
+        int ttNo = Convert.ToInt32(grvValidCourses.Rows[e.RowIndex].Cells[4].Text);
         //String ttNoTeest = grvValidCourses.Rows[e.RowIndex].Cells[3].Text;
 
         TrainingTaken training = ctx.TrainingTakens
@@ -942,6 +965,29 @@ public partial class Training_Default : System.Web.UI.Page {
     }
 
     /// <summary>
+    /// Triggered when a course is deleted from grvValidCourses
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void grvExpiredCourses_RowDeleting(object sender, GridViewDeleteEventArgs e) {
+        //grvValidCourses.DeleteRow(e.RowIndex);
+
+        GridViewRow row = grvExpiredCourses.Rows[e.RowIndex];
+        int empNo = Convert.ToInt32(tbxId.Text);
+        int ttNo = Convert.ToInt32(grvExpiredCourses.Rows[e.RowIndex].Cells[4].Text);
+
+        TrainingTaken training = ctx.TrainingTakens
+                      .Where(tt => tt.trainingTakenNo == ttNo)
+                      .Select(tt => tt).FirstOrDefault();
+
+        ctx.DeleteObject(training);
+        ctx.SaveChanges();
+        
+        HideExpiredCourseDetails();
+        BindExpiredData();
+    }
+
+    /// <summary>
     /// Triggered when edit is clicked on grvExpiredCourses
     /// </summary>
     /// <param name="sender"></param>
@@ -959,7 +1005,7 @@ public partial class Training_Default : System.Web.UI.Page {
         GridViewRow row = grvExpiredCourses.Rows[e.RowIndex];
 
         int empNo = Convert.ToInt32(tbxId.Text);
-        int ttNo = Convert.ToInt32(grvExpiredCourses.Rows[e.RowIndex].Cells[3].Text);
+        int ttNo = Convert.ToInt32(grvExpiredCourses.Rows[e.RowIndex].Cells[4].Text);
 
         TrainingTaken training = ctx.TrainingTakens
                        .Where(tt => tt.trainingTakenNo == ttNo)
@@ -1035,7 +1081,7 @@ public partial class Training_Default : System.Web.UI.Page {
         disableDetails();
         GridViewRow row = grvValidCourses.SelectedRow;
         //String name = Convert.ToString(row.Cells[1].Text);
-        int ttNo = Convert.ToInt32(row.Cells[3].Text);
+        int ttNo = Convert.ToInt32(row.Cells[4].Text);
 
         TrainingTaken training = ctx.TrainingTakens
                        .Where(tt => tt.trainingTakenNo == ttNo)
@@ -1221,6 +1267,14 @@ public partial class Training_Default : System.Web.UI.Page {
         }
     }
 
+    private void HideExpiredCourseDetails() {
+        pnlNewCourse.Visible = false;
+        pnlBiosafetyInfoExp.Visible = false;
+        pnlGeneralCourseInfoExp.Visible = false;
+        pnlLabTrainingInfoExp.Visible = false;
+        pnlRadiationTrainingInfoExp.Visible = false;
+    }
+
     private void DisplayExpiredCourseDetails() 
     {
         pnlNewCourse.Visible = false;
@@ -1231,7 +1285,7 @@ public partial class Training_Default : System.Web.UI.Page {
 
         GridViewRow row = grvExpiredCourses.SelectedRow;
         //String name = Convert.ToString(row.Cells[1].Text);
-        int ttNo = Convert.ToInt32(row.Cells[3].Text);
+        int ttNo = Convert.ToInt32(row.Cells[4].Text);
 
         TrainingTaken training = ctx.TrainingTakens
                        .Where(tt => tt.trainingTakenNo == ttNo)
@@ -1590,8 +1644,8 @@ public partial class Training_Default : System.Web.UI.Page {
     protected void btnSaveCrsDetails_Click(object sender, EventArgs e)
     {
         GridViewRow row = grvValidCourses.SelectedRow;
-        String name = row.Cells[2].Text.ToString();
-        int ttNo = Convert.ToInt32(row.Cells[3].Text);
+        String name = row.Cells[3].Text.ToString();
+        int ttNo = Convert.ToInt32(row.Cells[4].Text);
 
         TrainingTaken training = ctx.TrainingTakens
                        .Where(tt => tt.trainingTakenNo == ttNo)

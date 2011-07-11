@@ -269,10 +269,17 @@
                     <asp:Label ID="ExpandCollapseCoursesCompleted" runat="server" Text=""></asp:Label></h3>
                 <asp:Panel ID="pnlCoursesCompleted" Width="790px" runat="server">
                     <asp:GridView ID="grvValidCourses" runat="server" Width="790px" OnRowCancelingEdit="grvValidCourses_RowCancelingEdit"
-                        OnRowEditing="grvValidCourses_RowEditing" OnRowUpdating="grvValidCourses_RowUpdating"
+                        OnRowEditing="grvValidCourses_RowEditing" OnRowUpdating="grvValidCourses_RowUpdating" OnRowDeleting="grvValidCourses_RowDeleting"
                         AutoGenerateColumns="False" OnSelectedIndexChanged="grvValidCourses_SelectedIndexChanged">
                         <Columns>
-                            <asp:CommandField ShowEditButton="True" />
+                            <asp:CommandField ShowEditButton="True" EditText="Edit" UpdateText="Update |" />
+                            <asp:TemplateField ShowHeader="False">
+                                 <ItemTemplate>
+                                   <asp:LinkButton ID="lbnDelete" runat="server" CausesValidation="False" CommandName="Delete"
+                                                OnClientClick='return confirm("Are you sure you want to delete this training course?");'
+                                                Text="Delete" />
+                                 </ItemTemplate>
+                            </asp:TemplateField>
                             <asp:CommandField ShowSelectButton="True" SelectText="Details" />
                             <asp:TemplateField HeaderText="Training Name" SortExpression="coursename">
                                 <EditItemTemplate>
@@ -503,11 +510,18 @@
                     <asp:Label ID="ExpandCollapseCoursesExpired" runat="server" Text=""></asp:Label></h3>
                 <asp:Panel ID="pnlCoursesExpired" CssClass="childPanel" runat="server">
                     <asp:GridView ID="grvExpiredCourses" runat="server" AutoGenerateColumns="False" OnRowCancelingEdit="grvExpiredCourses_RowCancelingEdit"
-                        OnRowEditing="grvExpiredCourses_RowEditing" OnRowUpdating="grvExpiredCourses_RowUpdating"
+                        OnRowEditing="grvExpiredCourses_RowEditing" OnRowUpdating="grvExpiredCourses_RowUpdating" OnRowDeleting="grvExpiredCourses_RowDeleting"
                         OnSelectedIndexChanged="grvExpiredCourses_SelectedIndexChanged">
                         <Columns>
-                            <asp:CommandField ShowEditButton="True" />
-                            <asp:CommandField ShowSelectButton="True" />
+                            <asp:CommandField ShowEditButton="True" UpdateText="Update |" />
+                            <asp:TemplateField ShowHeader="False">
+                                 <ItemTemplate>
+                                   <asp:LinkButton ID="lbnDelete" runat="server" CausesValidation="False" CommandName="Delete"
+                                                OnClientClick='return confirm("Are you sure you want to delete this training course?");'
+                                                Text="Delete" />
+                                 </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:CommandField ShowSelectButton="True" SelectText="Details" />
                             <asp:BoundField DataField="coursename" HeaderText="Training Name" SortExpression="coursename"
                                 ReadOnly="True" />
                             <asp:BoundField DataField="ttNo" HeaderText="#" ReadOnly="True" SortExpression="ttNo" />
