@@ -380,14 +380,23 @@ h3
 
 .GridViewPagerStyle
 {
-    background-color: #284775;
+    background-color: #89c123;
     color: #FFFFFF;
 }
-
-.GridViewPagerStyle table /* to center the paging links*/
+/*
+.GridViewPagerStyle table // to center the paging links
 {
     margin: 0 auto 0 auto;
 }
+*/
+.GridViewPagerStyle td {    
+    line-height: 10px;   
+ }
+ 
+.GridViewPagerStyle a { 
+    color: #FFFFFF;
+    text-decoration: underline; 
+} 
 
 /* Gridview Header */
 .gvCaption
@@ -619,7 +628,6 @@ h3
     background: #e8f7fb;
     border: 1px solid #dbeff5;
 }
-
 
 .wideChildPanel /* for tracking page */
 {

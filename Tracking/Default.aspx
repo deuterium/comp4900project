@@ -1,10 +1,9 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Tracking_Default" %>
+﻿<%@ Page Title="BCCA - Tracking" Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Tracking_Default" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
-<%@ Reference Control="DepartmentTrackerGridViews.ascx" %>
-
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="head">
+    <script language="javascript" src="../Print.js" ></script>
 </asp:Content>
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="body">
     <asp:ToolkitScriptManager ID="tsmScriptManager" runat="server">
@@ -45,15 +44,23 @@
             TextLabelID="lblExpandCollapseResults" CollapsedText="(Show Details)" ExpandedText="(Hide Details)"
             CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
         </asp:CollapsiblePanelExtender>
-        <asp:CollapsiblePanelExtender ID="cpeEmpInfo" runat="server" Collapsed="true" CollapseControlID="hr3EmpInfo"
-            ExpandControlID="hr3EmpInfo" TargetControlID="pnlEmployeeInfo" CollapsedText="(Show Details)"
-            ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseEmpInfo" TextLabelID="lblExpandCollapseEmpInfo"
-            CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
+
+        <asp:CollapsiblePanelExtender ID="cpeEmployees" runat="server" Collapsed="true"
+            CollapseControlID="hr3Emps" ExpandControlID="hr3Emps" TargetControlID="pnlEmployees"
+            CollapsedText="(Show Details)" ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseEmp"
+            TextLabelID="lblExpandCollapseEmp" CollapsedImage="../images/expand.jpg"
+            ExpandedImage="../images/collapse.jpg">
+        </asp:CollapsiblePanelExtender>   
+        <asp:CollapsiblePanelExtender ID="cpeTraining" runat="server" Collapsed="true"
+            CollapseControlID="hr3Training" ExpandControlID="hr3Training" TargetControlID="pnlTraining"
+            CollapsedText="(Show Details)" ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseTraining"
+            TextLabelID="lblExpandCollapseTraining" CollapsedImage="../images/expand.jpg"
+            ExpandedImage="../images/collapse.jpg">
         </asp:CollapsiblePanelExtender>
-        <asp:CollapsiblePanelExtender ID="cpeEmployeeCourses" runat="server" Collapsed="true"
-            CollapseControlID="hr3EmpCourses" ExpandControlID="hr3EmpCourses" TargetControlID="pnlEmployeeCourses"
-            CollapsedText="(Show Details)" ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseEmpCourses"
-            TextLabelID="ExpandCollapseEmpCourses" CollapsedImage="../images/expand.jpg"
+        <asp:CollapsiblePanelExtender ID="cpeIncidents" runat="server" Collapsed="true"
+            CollapseControlID="hr3Incidents" ExpandControlID="hr3Incidents" TargetControlID="pnlIncidents"
+            CollapsedText="(Show Details)" ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseIncidents"
+            TextLabelID="lblExpandCollapseIncidents" CollapsedImage="../images/expand.jpg"
             ExpandedImage="../images/collapse.jpg">
         </asp:CollapsiblePanelExtender>
         <asp:CollapsiblePanelExtender ID="cpeLabInspections" runat="server" Collapsed="true"
@@ -1227,234 +1234,708 @@
                     </table>
                 </div>
             </asp:Panel>
-            <asp:Button TabIndex="1112" ID="btnFilterReport" runat="server" Text="Filter Reports"
+            <asp:Button TabIndex="1112" ID="btnFilterReport" runat="server" Text="Find Reports"
                 OnClick="btnFilterReport_Click" />
         </asp:Panel>
         <asp:Panel ID="pnlResultsContainer" runat="server" Visible="false">
             <h3 id="hr3Results">
                 <asp:Image ID="imgExpandCollapseResults" runat="server" />
-                Results
+                Results by Department
                 <asp:Label ID="lblExpandCollapseResults" runat="server" Text=""></asp:Label></h3>
+            
             <asp:Panel ID="pnlResults" CssClass="panel" runat="server">
+                <div id="divDeptsHeader">
                 <asp:Panel ID="pnlFiltersSelectedContainer" runat="server">
                     <asp:Label ID="lblFilters" runat="server" Text="No filters selected." Font-Bold="true" />
                     <asp:Panel ID="pnlFiltersSelected" runat="server"></asp:Panel>
                     <br />
+                    <table>
+                        <tr>
+                            <td>Results per page:</td>
+                            <td>
+                                <asp:TextBox ID="tbxDeptSearchPages" runat="server"></asp:TextBox>
+                                <asp:FilteredTextBoxExtender ID="fteDeptSearchPages" runat="server" TargetControlID="tbxDeptSearchPages"
+                                    ValidChars="0123456789" />
+                                (leave blank to show all results)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Department:</td>
+                            <td>
+                                <asp:TextBox ID="tbxDeptSearchDept" runat="server"></asp:TextBox>
+                                <asp:CheckBox ID="cbxDeptSearchDept" Text="Exact match only" runat="server" />
+                            </td>
+                        </tr>
+                    </table>
+                
+                    <asp:Button ID="btnDeptSearch" runat="server" Text="Search" OnClick="btnDeptSearch_Click" ValidationGroup="vgpDeptSearch" />
+                    <asp:Button ID="btnDeptSearchReset" runat="server" Text="Reset" OnClick="btnDeptSearchReset_Click" />
+                    <asp:Button ID="btnPrintDepts" runat="server" Text="Print" />
+                    <asp:ValidationSummary ID="vsyDeptSearch" runat="server" DisplayMode="BulletList" ValidationGroup="vgpDeptSearch" />
+                        
+                    <br /><br />
                 </asp:Panel>
-                <asp:Panel ID="pnlDepartments" runat="server">
-                </asp:Panel>
-            </asp:Panel>
+                </div>        
+                        
+            <div id="divDepts">
+            <asp:GridView ID="gdvDepts" runat="server" AutoGenerateColumns="False" HorizontalAlign="Center"
+                    OnSelectedIndexChanged="gdvDepts_SelectedIndexChanged"
+                    OnSorting="gdvDepts_Sorting" AllowSorting="true"
+                    OnPageIndexChanging="gdvDepts_PageIndexChanging" AllowPaging="true" EnableViewState="true" 
+                    PagerSettings-PageButtonCount="10" PagerSettings-Mode="NumericFirstLast" >
+                <HeaderStyle BackColor="#89c123" ForeColor="White" />
+                <PagerStyle CssClass="GridViewPagerStyle" />
+                <Columns>
+                    <asp:BoundField HeaderText="#" HeaderStyle-Width="25" DataField="deptNo" SortExpression="deptNo" ReadOnly="True" />
+                    <asp:BoundField HeaderText="Department" ItemStyle-Width="160" DataField="deptName"
+                        SortExpression="deptName" ReadOnly="True" />
+                    <asp:BoundField HeaderText="Matching Incidents in Dept" ItemStyle-Width="110" ItemStyle-HorizontalAlign="Right"
+                        DataField="matchesInDept" SortExpression="matchesInDept" ReadOnly="True" />
+                    <asp:BoundField HeaderText="%" DataField="matchesInDeptPercent" ItemStyle-Width="45" ItemStyle-HorizontalAlign="Right"
+                        SortExpression="matchesInDeptPercent" DataFormatString="{0:0%}" ReadOnly="True" />
+                    <asp:BoundField HeaderText="Total Matching Incidents" ItemStyle-Width="110" ItemStyle-HorizontalAlign="Right"
+                        DataField="totalMatches" SortExpression="totalMatches" ReadOnly="True" />
+                    <asp:BoundField HeaderText="%" DataField="totalMatchesPercent" ItemStyle-Width="45" ItemStyle-HorizontalAlign="Right"
+                        SortExpression="totalMatchesPercent" DataFormatString="{0:0%}" ReadOnly="True" />
+                    <asp:BoundField HeaderText="Total Incidents" DataField="totalIncidents" ItemStyle-Width="110" ItemStyle-HorizontalAlign="Right"
+                        SortExpression="totalIncidents" ReadOnly="True" />
+                    <asp:BoundField HeaderText="%" DataField="totalIncidentsPercent" ItemStyle-Width="45" ItemStyle-HorizontalAlign="Right"
+                        SortExpression="totalIncidentsPercent" DataFormatString="{0:0%}" ReadOnly="True" />
+                    <asp:CommandField HeaderStyle-Width="50" ItemStyle-HorizontalAlign="Center" ShowSelectButton="True" SelectText="Select" ButtonType="Button" />
+                </Columns>
+                <EmptyDataTemplate>No departments found.</EmptyDataTemplate>
+            </asp:GridView>
+            </div>
         </asp:Panel>
-        <asp:Panel ID="pnlEmpInfoContainer" runat="server" Visible="false">
-            <h3 id="hr3EmpInfo">
-                <asp:Image ID="imgExpandCollapseEmpInfo" runat="server" />
-                Employee Information
-                <asp:Label ID="lblExpandCollapseEmpInfo" runat="server" Text=""></asp:Label></h3>
-            <asp:Panel ID="pnlEmployeeInfo" CssClass="panel" runat="server">
-                <div id="divEmpInfoLeftPanel">
-                    <table>
-                        <tr>
-                            <td>
-                                Id:
-                            </td>
-                            <td>
-                                <asp:Label ID="lblId" runat="server"></asp:Label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Last name:
-                            </td>
-                            <td>
-                                <asp:Label ID="lblLastName" runat="server"></asp:Label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                First name:
-                            </td>
-                            <td>
-                                <asp:Label ID="lblFirstName" runat="server"></asp:Label>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div id="divEmpInfoMiddlePanel">
-                    <table>
-                        <tr>
-                            <td>
-                                Position:
-                            </td>
-                            <td>
-                                <asp:Label ID="lblPosition" runat="server"></asp:Label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Employer:
-                            </td>
-                            <td>
-                                <asp:Label ID="lblEmployer" runat="server"></asp:Label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Department:
-                            </td>
-                            <td>
-                                <asp:Label ID="lblDepartment" runat="server"></asp:Label>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div id="divEmpInfoRightPanel">
-                    <table>
-                        <tr>
-                            <td>
-                                Room:
-                            </td>
-                            <td>
-                                <asp:Label ID="lblRoom" runat="server"></asp:Label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Supervisor:
-                            </td>
-                            <td>
-                                <asp:Label ID="lblSupervisor" runat="server"></asp:Label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Start date:
-                            </td>
-                            <td>
-                                <asp:Label ID="lblStartDate" runat="server"></asp:Label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                End date:
-                            </td>
-                            <td>
-                                <asp:Label ID="lblEndDate" runat="server"></asp:Label>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </asp:Panel>
-        </asp:Panel>
-        <asp:Panel ID="pnlEmpCoursesContainer" runat="server" Visible="false">
-            <h3 id="hr3EmpCourses">
-                <asp:Image ID="imgExpandCollapseEmpCourses" runat="server" />
-                Employee Courses
-                <asp:Label ID="ExpandCollapseEmpCourses" runat="server" Text=""></asp:Label></h3>
-            <asp:Panel ID="pnlEmployeeCourses" CssClass="panel" runat="server">
-                <span class="spanBold">Courses for:</span>
-                <asp:Label ID="lblCoursesTitle" runat="server"></asp:Label>
-                <asp:GridView ID="gdvEmpCourses" runat="server" AutoGenerateColumns="False" OnRowCommand="gdvDepartmentTracker_RowCommand">
-                    <Columns>
-                        <asp:TemplateField HeaderText="Name">
-                            <ItemTemplate>
-                                <asp:Label ID="lblCourseName" runat="server" Text='<%# Bind("courseName") %>'></asp:Label>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Status">
-                            <ItemTemplate>
-                                <asp:Label ID="lblCourseStatus" runat="server" Text='<%# Bind("status") %>'></asp:Label>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Completion Date">
-                            <ItemTemplate>
-                                <asp:Label ID="lblCompletionDate" runat="server" Text='<%# Eval("completionDate", "{0:M/d/yyyy}") %>'></asp:Label>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Expiry Date">
-                            <ItemTemplate>
-                                <asp:Label ID="lblExpirationDate" runat="server" Text='<%# Eval("expirationDate", "{0:M/d/yyyy}") %>'></asp:Label>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Required">
-                            <ItemTemplate>
-                                <asp:Label ID="lblRequired" runat="server" Text='<%# Bind("required") %>'></asp:Label>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                    </Columns>
-                    <EmptyDataTemplate>
-                        No courses found.</EmptyDataTemplate>
-                </asp:GridView>
-            </asp:Panel>
-        </asp:Panel>
-        <asp:Panel ID="pnlLabInspectionsContainer" runat="server" Visible="false">
-            <h3 id="hr3LabInspections">
-                <asp:Image ID="imgExpandCollapseLabInspections" runat="server" />
-                Lab Inspections
-                <asp:Label ID="lblExpandCollapseLabInspections" runat="server" Text=""></asp:Label></h3>
-            <asp:Panel ID="pnlLabInspections" CssClass="panel" runat="server">
-                <asp:GridView ID="gdvLabInspections" runat="server" AutoGenerateColumns="False" OnRowCommand="gdvLabInspections_RowCommand">
-                    <Columns>
-                        <asp:TemplateField HeaderText="#">
-                            <ItemTemplate>
-                                <asp:Label ID="lblLabInspectionNo" runat="server" Text='<%# Bind("labInspectionNo") %>'></asp:Label>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:BoundField DataField="deptName" HeaderText="Department" ReadOnly="True" SortExpression="deptName" />
-                        <asp:TemplateField HeaderText="Inspection Date">
-                            <ItemTemplate>
-                                <asp:Label ID="lblInspectionDate" runat="server" Text='<%# Eval("inspectionDate", "{0:M/d/yyyy}") %>'></asp:Label>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:BoundField DataField="followup" HeaderText="Follow-Up" ReadOnly="True" SortExpression="followup" />
-                        <asp:BoundField DataField="inspector" HeaderText="Inspector" ReadOnly="True" SortExpression="inspector" />
-                        <asp:BoundField DataField="labManager" HeaderText="Lab Manager" ReadOnly="True" SortExpression="labManager" />
-                        <asp:BoundField DataField="supervisor" HeaderText="Supervisor" ReadOnly="True" SortExpression="supervisor" />
-                        <asp:BoundField DataField="room" HeaderText="Room" ReadOnly="True" SortExpression="room" />
-                        <asp:TemplateField HeaderText="Click to View">
-                            <ItemTemplate>
-                                <asp:Button ID="btnRowViewLabInspection" runat="server" CommandName="RowViewLabInspection"
-                                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Checklist" />
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                    </Columns>
-                    <EmptyDataTemplate>
-                        No lab inspections found.</EmptyDataTemplate>
-                </asp:GridView>
-            </asp:Panel>
-        </asp:Panel>
-        <asp:Panel ID="pnlOfficeInspectionsContainer" runat="server" Visible="false">
-            <h3 id="hr3OfficeInspections">
-                <asp:Image ID="imgExpandCollapseOfficeInspections" runat="server" />
-                Office Inspections
-                <asp:Label ID="lblExpandCollapseOfficeInspections" runat="server" Text=""></asp:Label></h3>
-            <asp:Panel ID="pnlOfficeInspections" CssClass="panel" runat="server">
-                <asp:GridView ID="gdvOfficeInspections" runat="server" AutoGenerateColumns="False"
-                    OnRowCommand="gdvOfficeInspections_RowCommand">
-                    <Columns>
-                        <asp:TemplateField HeaderText="#">
-                            <ItemTemplate>
-                                <asp:Label ID="lblOfficeInspectionNo" runat="server" Text='<%# Bind("officeInspectionNo") %>'></asp:Label>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:BoundField DataField="deptName" HeaderText="Department" ReadOnly="True" SortExpression="deptName" />
-                        <asp:BoundField DataField="inspectionDate" HeaderText="Date" DataFormatString="{0:M/dd/yyyy}"
-                            SortExpression="inspectionDate" />
-                        <asp:BoundField DataField="followup" HeaderText="Follow-up" ReadOnly="True" SortExpression="deptName" />
-                        <asp:BoundField DataField="inspector" HeaderText="Inspector" ReadOnly="True" SortExpression="inspector" />
-                        <asp:BoundField DataField="area" HeaderText="Area" ReadOnly="True" SortExpression="area" />
-                        <asp:TemplateField HeaderText="Click to View">
-                            <ItemTemplate>
-                                <asp:Button ID="btnRowViewLabInspection" runat="server" CommandName="RowViewOfficeInspection"
-                                    CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" Text="Checklist" />
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                    </Columns>
-                    <EmptyDataTemplate>
-                        No office inspections found.</EmptyDataTemplate>
-                </asp:GridView>
-            </asp:Panel>
-        </asp:Panel>
-        <div id="divPop" visible="false">
+         
+    <h3 id="hr3Emps">
+    <asp:Image ID="imgExpandCollapseEmp" runat="server" />
+    Employees
+    <asp:Label ID="lblExpandCollapseEmp" runat="server" Text=""></asp:Label></h3>
+    <asp:Panel ID="pnlEmployees" runat="server" CssClass="panel" >
+        <asp:UpdatePanel ID="UpdatePanel3" runat="server">
+        <ContentTemplate>
+        <table>
+            <tr>
+                <td>Results per page:</td>
+                <td>
+                    <asp:TextBox ID="tbxEmpSearchPages" runat="server"></asp:TextBox>
+                    <asp:FilteredTextBoxExtender ID="fteEmpSearchPages" runat="server" TargetControlID="tbxEmpSearchPages"
+                        ValidChars="0123456789" />
+                    (leave blank to show all results)
+                </td>
+            </tr>
+            <tr>
+                <td>Department:</td>
+                <td>
+                    <asp:TextBox ID="tbxEmpSearchDept" runat="server"></asp:TextBox>
+                    <asp:CheckBox ID="cbxEmpSearchDept" Text="Exact match only" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td>Name:</td>
+                <td>
+                    <asp:TextBox ID="tbxEmpSearchName" runat="server"></asp:TextBox>
+                    <asp:CheckBox ID="cbxEmpSearchName" Text="Exact match only" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td>Employer:</td>
+                <td>
+                    <asp:TextBox ID="tbxEmpSearchEmployer" runat="server"></asp:TextBox>
+                    <asp:CheckBox ID="cbxEmpSearchEmployer" Text="Exact match only" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td>Show results: </td>
+                <td><asp:CheckBox ID="cbxEmpSearchCurrent" Text="Include current employees" Checked="true" runat="server" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><asp:CheckBox ID="cbxEmpSearchFormer" Text="Include former employees" runat="server" /></td>
+            </tr>
+        </table>
+                
+        <asp:Button ID="btnEmpSearch" runat="server" Text="Search" OnClick="btnEmpSearch_Click" ValidationGroup="vgpEmpSearch" />
+        <asp:Button ID="btnEmpSearchReset" runat="server" Text="Reset" OnClick="btnEmpSearchReset_Click" />
+        <asp:Button ID="btnPrintEmps" runat="server" Text="Print" />
+        <asp:ValidationSummary ID="vsyEmpSearch" runat="server" DisplayMode="BulletList" ValidationGroup="vgpEmpSearch" />
+        
+        <br /><br />
+        
+        <div id="divEmps">
+        <asp:GridView ID="gdvEmployees" runat="server" AutoGenerateColumns="False" HorizontalAlign="Center"
+                OnSelectedIndexChanged="gdvEmployees_SelectedIndexChanged" OnRowDataBound="gdvEmployees_RowDataBound"
+                OnSorting="gdvEmployees_Sorting" AllowSorting="true" ShowFooter="true"
+                OnPageIndexChanging="gdvEmployees_PageIndexChanging" AllowPaging="true" EnableViewState="true" 
+                PagerSettings-PageButtonCount="10" PagerSettings-Mode="NumericFirstLast" >
+            <HeaderStyle BackColor="#89c123" ForeColor="White" />
+            <PagerStyle CssClass="GridViewPagerStyle" />
+            <FooterStyle BackColor="LightGray" ForeColor="Black" Font-Bold="false" />
+            <Columns>
+                <asp:BoundField HeaderText="#" DataField="empNo" SortExpression="empNo" ItemStyle-Width="30" ReadOnly="True" />
+                <asp:BoundField HeaderText="Department" DataField="empDept" SortExpression="empDept" ItemStyle-Width="150" ReadOnly="True" />
+                <asp:BoundField HeaderText="Name" DataField="empName" SortExpression="empName" ReadOnly="True" />
+                <asp:BoundField HeaderText="Employer" DataField="employer" SortExpression="employer" ReadOnly="True" />
+                <asp:BoundField HeaderText="Incidents" DataField="incidents" SortExpression="incidents" ReadOnly="True" />
+                <asp:BoundField HeaderText="Courses" DataField="totalCourses" SortExpression="totalCourses" ReadOnly="True" />
+                <asp:BoundField HeaderText="Valid" DataField="validCourses" SortExpression="validCourses" ReadOnly="True" />
+                <asp:BoundField HeaderText="Expired" DataField="expiredCourses" SortExpression="expiredCourses" ReadOnly="True" />
+                <asp:CommandField HeaderText="Click to View" HeaderStyle-Width="90" ItemStyle-HorizontalAlign="Center"
+                    ShowSelectButton="True" SelectText="Record" ButtonType="Button" />
+            </Columns>
+            <EmptyDataTemplate>No employees found.</EmptyDataTemplate>
+        </asp:GridView>
+        </div>
+
+        </ContentTemplate>
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="btnEmpSearch" EventName="Click" />
+            <asp:AsyncPostBackTrigger ControlID="btnEmpSearchReset" EventName="Click" />
+        </Triggers>
+        </asp:UpdatePanel>
+    </asp:Panel>
+    
+    <h3 id="hr3Training">
+    <asp:Image ID="imgExpandCollapseTraining" runat="server" />
+    Training
+    <asp:Label ID="lblExpandCollapseTraining" runat="server" Text=""></asp:Label></h3>
+    <asp:Panel ID="pnlTraining" runat="server" CssClass="panel" >
+        <asp:UpdatePanel ID="UpdatePanel9" runat="server">
+        <ContentTemplate>
+
+        <table>
+            <tr>
+                <td>Results per page:</td>
+                <td>
+                    <asp:TextBox ID="tbxTrainingSearchPages" runat="server"></asp:TextBox>
+                    <asp:FilteredTextBoxExtender ID="fteTrainingSearchPages" runat="server" TargetControlID="tbxTrainingSearchPages"
+                        ValidChars="0123456789" />
+                    (leave blank to show all results)
+                </td>
+            </tr>
+            <tr>
+                <td>Department:</td>
+                <td>
+                    <asp:TextBox ID="tbxTrainingSearchDept" runat="server"></asp:TextBox>
+                    <asp:CheckBox ID="cbxTrainingSearchDept" Text="Exact match only" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td>Employee name:</td>
+                <td>
+                    <asp:TextBox ID="tbxTrainingSearchEmp" runat="server"></asp:TextBox>
+                    <asp:CheckBox ID="cbxTrainingSearchEmp" Text="Exact match only" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td>Training name:</td>
+                <td>
+                    <asp:TextBox ID="tbxTrainingSearchCourse" runat="server"></asp:TextBox>
+                    <asp:CheckBox ID="cbxTrainingSearchCourse" Text="Exact match only" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td>Course date from: </td>
+                <td>
+                    <asp:TextBox ID="tbxEarliestCourseDate" runat="server"></asp:TextBox>
+                    <asp:TextBoxWatermarkExtender ID="tweEarliestCourseDate" runat="server" TargetControlID="tbxEarliestCourseDate"
+                        WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
+                    </asp:TextBoxWatermarkExtender>
+                    <asp:CalendarExtender ID="cexEarliestCourseDate" runat="server" Enabled="True"
+                        TargetControlID="tbxEarliestCourseDate" Format="M/d/yyyy">
+                    </asp:CalendarExtender>
+                    <asp:RegularExpressionValidator ID="revEarliestCourseDate" runat="server" ValidationGroup="vgpTrainingSearch"
+                        Display="Dynamic" ControlToValidate="tbxEarliestCourseDate"
+                        ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="Earliest course date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                    <asp:CustomValidator ID="cmvEarliestCourseDate" runat="server" ValidationGroup="vgpTrainingSearch"
+                        Display="Dynamic" ErrorMessage="Earliest course date must be in the format 'MM/DD/YYYY'"
+                        OnServerValidate="cmvEarliestDate_ServerValidate" ControlToValidate="tbxEarliestCourseDate" ></asp:CustomValidator>
+                    to 
+                    <asp:TextBox ID="tbxLatestCourseDate" runat="server"></asp:TextBox>
+                    <asp:TextBoxWatermarkExtender ID="tweLatestCourseDate" runat="server" TargetControlID="tbxLatestCourseDate"
+                        WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
+                    </asp:TextBoxWatermarkExtender>
+                    <asp:CalendarExtender ID="cexLatestCourseDate" runat="server" Enabled="True"
+                        TargetControlID="tbxLatestCourseDate" Format="M/d/yyyy">
+                    </asp:CalendarExtender>
+                    <asp:RegularExpressionValidator ID="revLatestCourseDate" runat="server" ValidationGroup="vgpTrainingSearch"
+                        Display="Dynamic" ControlToValidate="tbxLatestCourseDate"
+                        ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="Latest course date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                    <asp:CustomValidator ID="cmvLatestCourseDate" runat="server" ValidationGroup="vgpTrainingSearch"
+                        Display="Dynamic" ErrorMessage="" OnServerValidate="cmvLatestCourseDate_ServerValidate"></asp:CustomValidator>
+                </td>
+            </tr>
+            <tr>
+                <td>Expiry date from: </td>
+                <td>
+                    <asp:TextBox ID="tbxEarliestExpiryDate" runat="server"></asp:TextBox>
+                    <asp:TextBoxWatermarkExtender ID="tweEarliestExpiryDate" runat="server" TargetControlID="tbxEarliestExpiryDate"
+                        WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
+                    </asp:TextBoxWatermarkExtender>
+                    <asp:CalendarExtender ID="cexEarliestExpiryDate" runat="server" Enabled="True"
+                        TargetControlID="tbxEarliestExpiryDate" Format="M/d/yyyy">
+                    </asp:CalendarExtender>
+                    <asp:RegularExpressionValidator ID="revEarliestExpiryDate" runat="server" ValidationGroup="vgpTrainingSearch"
+                        Display="Dynamic" ControlToValidate="tbxEarliestExpiryDate"
+                        ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="Earliest expiry date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                    <asp:CustomValidator ID="cmvEarliestExpiryDate" runat="server" ValidationGroup="vgpTrainingSearch"
+                        Display="Dynamic" ErrorMessage="Earliest expiry date must be in the format 'MM/DD/YYYY'"
+                        OnServerValidate="cmvEarliestDate_ServerValidate" ControlToValidate="tbxEarliestExpiryDate" ></asp:CustomValidator>
+                    to 
+                    <asp:TextBox ID="tbxLatestExpiryDate" runat="server"></asp:TextBox>
+                    <asp:TextBoxWatermarkExtender ID="tweLatestExpiryDate" runat="server" TargetControlID="tbxLatestExpiryDate"
+                        WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
+                    </asp:TextBoxWatermarkExtender>
+                    <asp:CalendarExtender ID="cexLatestExpiryDate" runat="server" Enabled="True"
+                        TargetControlID="tbxLatestExpiryDate" Format="M/d/yyyy">
+                    </asp:CalendarExtender>
+                    <asp:RegularExpressionValidator ID="revLatestExpiryDate" runat="server" ValidationGroup="vgpTrainingSearch"
+                        Display="Dynamic" ControlToValidate="tbxLatestExpiryDate"
+                        ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="Latest expiry date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                    <asp:CustomValidator ID="cmvLatestExpiryDate" runat="server" ValidationGroup="vgpTrainingSearch"
+                        Display="Dynamic" ErrorMessage="" OnServerValidate="cmvLatestExpiryDate_ServerValidate"></asp:CustomValidator>
+                </td>
+            </tr>
+            <tr>
+                <td>Show results: </td>
+                <td>
+                    <asp:RadioButtonList ID="rblMostRecent" runat="server" RepeatDirection="Horizontal">
+                        <asp:ListItem Text="All training" Value="all"></asp:ListItem>
+                        <asp:ListItem Text="Most recent training" Value="mostRecent" Selected="True" ></asp:ListItem>
+                    </asp:RadioButtonList>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><asp:CheckBox ID="cbxIncludeDeleted" Text="Include deleted courses" runat="server" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><asp:CheckBox ID="cbxIncludeValid" Text="Include valid courses" runat="server" Checked="True" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <asp:CheckBox ID="cbxIncludeExpired" Text="Include expired courses" runat="server" Checked="True" />
+                    &nbsp;(<asp:CheckBox ID="cbxHighlightExpired" Text="Highlight" runat="server" Checked="True" />)
+                </td>
+            </tr>
+        </table>
+
+        <asp:Button ID="btnTrainingSearch" runat="server" Text="Search" OnClick="btnTrainingSearch_Click" ValidationGroup="vgpTrainingSearch" />
+        <asp:Button ID="btnTrainingSearchReset" runat="server" Text="Reset" OnClick="btnTrainingSearchReset_Click" />
+        <asp:Button ID="btnPrintTraining" runat="server" Text="Print" />
+        <asp:ValidationSummary ID="vsyTrainingSearch" runat="server" DisplayMode="BulletList" ValidationGroup="vgpTrainingSearch" />
+        <br /><br />
+
+        <div id="divTraining">
+        <asp:GridView ID="gdvTraining" runat="server" AutoGenerateColumns="False" HorizontalAlign="Center"
+                OnSelectedIndexChanged="gdvTraining_SelectedIndexChanged" OnRowDataBound="gdvTraining_RowDataBound"
+                OnSorting="gdvTraining_Sorting" AllowSorting="true"
+                OnPageIndexChanging="gdvTraining_PageIndexChanging" AllowPaging="true" EnableViewState="true" 
+                PagerSettings-PageButtonCount="10" PagerSettings-Mode="NumericFirstLast" >
+            <HeaderStyle BackColor="#89c123" ForeColor="White" />
+            <PagerStyle CssClass="GridViewPagerStyle" />
+            <Columns>
+                <asp:BoundField HeaderText="#" SortExpression="ttNo" ItemStyle-Width="30" DataField="ttNo" ReadOnly="True" />
+                <asp:BoundField HeaderText="Department" SortExpression="empDept" ItemStyle-Width="150" DataField="empDept" ReadOnly="True" />
+                <asp:BoundField HeaderText="Name" SortExpression="empName" DataField="empName" ReadOnly="True" />
+                <asp:BoundField HeaderText="Training" SortExpression="courseName" DataField="courseName" ReadOnly="True" />
+                <asp:BoundField HeaderText="Course Date" SortExpression="courseDate" DataField="courseDate" ItemStyle-Width="90" DataFormatString="{0:M/d/yyyy}" ReadOnly="True" />
+                <asp:BoundField HeaderText="Expiry Date" SortExpression="expiryDate" DataField="expiryDate" ItemStyle-Width="90" DataFormatString="{0:M/d/yyyy}" ReadOnly="True" />
+                <asp:BoundField HeaderText="*" SortExpression="expired" DataField="expired" ReadOnly="True" />
+                <asp:CommandField HeaderText="Click to View" HeaderStyle-Width="90" ItemStyle-HorizontalAlign="Center"
+                    ShowSelectButton="True" SelectText="Record" ButtonType="Button" />
+            </Columns>
+            <EmptyDataTemplate>No training found.</EmptyDataTemplate>
+        </asp:GridView>
+        </div>
+                
+        </ContentTemplate>
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="btnTrainingSearch" EventName="Click" />
+            <asp:AsyncPostBackTrigger ControlID="btnTrainingSearchReset" EventName="Click" />
+        </Triggers>
+        </asp:UpdatePanel>
+    </asp:Panel>
+
+    
+    <h3 id="hr3Incidents">
+    <asp:Image ID="imgExpandCollapseIncidents" runat="server" />
+    Incident Reports
+    <asp:Label ID="lblExpandCollapseIncidents" runat="server" Text=""></asp:Label></h3>
+    <asp:Panel ID="pnlIncidents" runat="server" CssClass="panel" >
+        
+        <asp:UpdatePanel ID="UpdatePanel4" runat="server" >
+        <ContentTemplate>
+
+        <table>
+            <tr>
+                <td>Results per page:</td>
+                <td>
+                    <asp:TextBox ID="tbxIncidentSearchPages" runat="server"></asp:TextBox>
+                    <asp:FilteredTextBoxExtender ID="fteIncidentSearchPages" runat="server" TargetControlID="tbxIncidentSearchPages"
+                        ValidChars="0123456789" />
+                    (leave blank to show all results)
+                </td>
+            </tr>
+            <tr>
+                <td>Department:</td>
+                <td>
+                    <asp:TextBox ID="tbxIncSearchDept" runat="server"></asp:TextBox>
+                    <asp:CheckBox ID="cbxIncSearchDept" Text="Exact match only" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td>Employee:</td>
+                <td>
+                    <asp:TextBox ID="tbxIncSearchEmp" runat="server"></asp:TextBox>
+                    <asp:CheckBox ID="cbxIncSearchEmp" Text="Exact match only" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td>Submitter:</td>
+                <td>
+                    <asp:TextBox ID="tbxIncSearchSubmitter" runat="server"></asp:TextBox>
+                    <asp:CheckBox ID="cbxIncSearchSubmitter" Text="Exact match only" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td>Incident date from: </td>
+                <td>
+                    <asp:TextBox ID="tbxEarliestIncidentDate" runat="server"></asp:TextBox>
+                    <asp:TextBoxWatermarkExtender ID="tweEarliestIncidentDate" runat="server" TargetControlID="tbxEarliestIncidentDate"
+                        WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
+                    </asp:TextBoxWatermarkExtender>
+                    <asp:CalendarExtender ID="cexEarliestIncidentDate" runat="server" Enabled="True"
+                        TargetControlID="tbxEarliestIncidentDate" Format="M/d/yyyy">
+                    </asp:CalendarExtender>
+                    <asp:RegularExpressionValidator ID="revEarliestIncidentDate" runat="server" ValidationGroup="vgpIncidentSearch"
+                        Display="Dynamic" ControlToValidate="tbxEarliestIncidentDate"
+                        ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="Earliest incident date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                    <asp:CustomValidator ID="cmvEarliestIncidentDate" runat="server" ValidationGroup="vgpIncidentSearch"
+                        Display="Dynamic" ErrorMessage="Earliest incident date must be in the format 'MM/DD/YYYY'"
+                        OnServerValidate="cmvEarliestDate_ServerValidate" ControlToValidate="tbxEarliestIncidentDate" ></asp:CustomValidator>
+                    to 
+                    <asp:TextBox ID="tbxLatestIncidentDate" runat="server"></asp:TextBox>
+                    <asp:TextBoxWatermarkExtender ID="tweLatestIncidentDate" runat="server" TargetControlID="tbxLatestIncidentDate"
+                        WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
+                    </asp:TextBoxWatermarkExtender>
+                    <asp:CalendarExtender ID="cexLatestIncidentDate" runat="server" Enabled="True"
+                        TargetControlID="tbxLatestIncidentDate" Format="M/d/yyyy">
+                    </asp:CalendarExtender>
+                    <asp:RegularExpressionValidator ID="revLatestIncidentDate" runat="server" ValidationGroup="vgpIncidentSearch"
+                        Display="Dynamic" ControlToValidate="tbxLatestIncidentDate"
+                        ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="Latest incident date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                    <asp:CustomValidator ID="cmvLatestIncidentDate" runat="server" ValidationGroup="vgpIncidentSearch"
+                        Display="Dynamic" ErrorMessage="" OnServerValidate="cmvLatestIncidentDate_ServerValidate"></asp:CustomValidator>
+                </td>
+            </tr>
+            <tr>
+                <td>Report date from: </td>
+                <td>
+                    <asp:TextBox ID="tbxEarliestReportDate" runat="server"></asp:TextBox>
+                    <asp:TextBoxWatermarkExtender ID="tweEarliestReportDate" runat="server" TargetControlID="tbxEarliestReportDate"
+                        WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
+                    </asp:TextBoxWatermarkExtender>
+                    <asp:CalendarExtender ID="cexEarliestReportDate" runat="server" Enabled="True"
+                        TargetControlID="tbxEarliestReportDate" Format="M/d/yyyy">
+                    </asp:CalendarExtender>
+                    <asp:RegularExpressionValidator ID="revEarliestReportDate" runat="server" ValidationGroup="vgpIncidentSearch"
+                        Display="Dynamic" ControlToValidate="tbxEarliestReportDate"
+                        ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="Earliest report date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                    <asp:CustomValidator ID="cmvEarliestReportDate" runat="server" ValidationGroup="vgpIncidentSearch"
+                        Display="Dynamic" ErrorMessage="Earliest report date must be in the format 'MM/DD/YYYY'"
+                        OnServerValidate="cmvEarliestDate_ServerValidate" ControlToValidate="tbxEarliestReportDate" ></asp:CustomValidator>
+                    to 
+                    <asp:TextBox ID="tbxLatestReportDate" runat="server"></asp:TextBox>
+                    <asp:TextBoxWatermarkExtender ID="tweLatestReportDate" runat="server" TargetControlID="tbxLatestReportDate"
+                        WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
+                    </asp:TextBoxWatermarkExtender>
+                    <asp:CalendarExtender ID="cexLatestReportDate" runat="server" Enabled="True"
+                        TargetControlID="tbxLatestReportDate" Format="M/d/yyyy">
+                    </asp:CalendarExtender>
+                    <asp:RegularExpressionValidator ID="revLatestReportDate" runat="server" ValidationGroup="vgpIncidentSearch"
+                        Display="Dynamic" ControlToValidate="tbxLatestReportDate"
+                        ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="Latest report date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                    <asp:CustomValidator ID="cmvLatestReportDate" runat="server" ValidationGroup="vgpIncidentSearch"
+                        Display="Dynamic" ErrorMessage="" OnServerValidate="cmvLatestReportDate_ServerValidate"></asp:CustomValidator>
+                </td>                
+            </tr>
+        </table>
+                
+        <asp:Button ID="btnIncidentSearch" runat="server" Text="Search" OnClick="btnIncidentSearch_Click" ValidationGroup="vgpIncidentSearch" />
+        <asp:Button ID="btnIncidentSearchReset" runat="server" Text="Reset" OnClick="btnIncidentSearchReset_Click" />
+        <asp:Button ID="btnPrintIncidents" runat="server" Text="Print" />
+        <asp:ValidationSummary ID="vsyIncidentSearch" runat="server" DisplayMode="BulletList" ValidationGroup="vgpIncidentSearch" />
+
+        <br /><br />
+        
+        <%--<asp:UpdatePanel ID="UpdatePanel5" runat="server" >
+        <ContentTemplate>--%>
+
+        <div id="divIncidents">
+        <asp:GridView ID="gdvIncidents" runat="server" AutoGenerateColumns="False" HorizontalAlign="Center"
+                OnSelectedIndexChanged="gdvIncidents_SelectedIndexChanged"
+                OnSorting="gdvIncidents_Sorting" AllowSorting="true" 
+                OnPageIndexChanging="gdvIncidents_PageIndexChanging" AllowPaging="true" EnableViewState="true" 
+                PagerSettings-PageButtonCount="10" PagerSettings-Mode="NumericFirstLast" >
+            <HeaderStyle BackColor="#89c123" ForeColor="White" />
+            <PagerStyle CssClass="GridViewPagerStyle" />
+            <Columns>
+                <asp:BoundField HeaderText="#" SortExpression="incidentNo" ItemStyle-Width="30" DataField="incidentNo" ReadOnly="True" />
+                <asp:BoundField HeaderText="Department" SortExpression="deptName" ItemStyle-Width="150" DataField="deptName" ReadOnly="True" />
+                <asp:BoundField HeaderText="Employee" SortExpression="employee" DataField="employee" ReadOnly="True" />
+                <asp:BoundField HeaderText="Incident Date" SortExpression="incidentDate" DataField="incidentDate" DataFormatString="{0:M/d/yyyy}" ReadOnly="True" />
+                <asp:BoundField HeaderText="Report Date" SortExpression="reportDate" DataField="reportDate" DataFormatString="{0:M/d/yyyy}" ReadOnly="True" />
+                <asp:BoundField HeaderText="Submitter" SortExpression="submitter" DataField="submitter" ReadOnly="True" />
+                <asp:CommandField HeaderText="Click to View" HeaderStyle-Width="90" ItemStyle-HorizontalAlign="Center"
+                    ShowSelectButton="True" SelectText="Report" ButtonType="Button" />
+            </Columns>
+        <EmptyDataTemplate>No incident reports found.</EmptyDataTemplate>
+        </asp:GridView>
+        </div>
+        
+        </ContentTemplate>
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="btnIncidentSearch" EventName="Click" />
+            <asp:AsyncPostBackTrigger ControlID="btnIncidentSearchReset" EventName="Click" />
+        </Triggers>
+        </asp:UpdatePanel>
+    </asp:Panel>
+
+    <h3 id="hr3LabInspections">
+    <asp:Image ID="imgExpandCollapseLabInspections" runat="server" />
+    Lab Inspections
+    <asp:Label ID="lblExpandCollapseLabInspections" runat="server" Text=""></asp:Label></h3>
+    <asp:Panel ID="pnlLabInspections" CssClass="panel" runat="server">
+       <asp:UpdatePanel ID="UpdatePanel11" runat="server">
+       <ContentTemplate>
+       
+       <table>
+            <tr>
+                <td>Results per page:</td>
+                <td>
+                    <asp:TextBox ID="tbxLabInspPages" runat="server"></asp:TextBox>
+                    <asp:FilteredTextBoxExtender ID="fteLabInspPages" runat="server" TargetControlID="tbxLabInspPages"
+                        ValidChars="0123456789" />
+                    (leave blank to show all results)
+                </td>
+            </tr>
+            <tr>
+                <td>Department:</td>
+                <td>
+                    <asp:TextBox ID="tbxLabInspDept" runat="server"></asp:TextBox>
+                    <asp:CheckBox ID="cbxLabInspDept" Text="Exact match only" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td>Inspector:</td>
+                <td>
+                    <asp:TextBox ID="tbxLabInspInspector" runat="server"></asp:TextBox>
+                    <asp:CheckBox ID="cbxLabInspInspector" Text="Exact match only" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td>Room:</td>
+                <td>
+                    <asp:TextBox ID="tbxLabInspRoom" runat="server"></asp:TextBox>
+                    <asp:CheckBox ID="cbxLabInspRoom" Text="Exact match only" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td>Lab Manager:</td>
+                <td>
+                    <asp:TextBox ID="tbxLabInspLabMgr" runat="server"></asp:TextBox>
+                    <asp:CheckBox ID="cbxLabInspLabMgr" Text="Exact match only" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td>Inspection date: </td>
+                <td>
+                    <asp:TextBox ID="tbxLabInspDate" runat="server"></asp:TextBox>
+                    <asp:TextBoxWatermarkExtender ID="tweLabInspDate" runat="server" TargetControlID="tbxLabInspDate"
+                        WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
+                    </asp:TextBoxWatermarkExtender>
+                    <asp:CalendarExtender ID="cexLabInspDate" runat="server" Enabled="True"
+                        TargetControlID="tbxLabInspDate" Format="M/d/yyyy">
+                    </asp:CalendarExtender>
+                    <asp:RegularExpressionValidator ID="revLabInspDate" runat="server" ValidationGroup="vgpLabInspSearch"
+                        Display="Dynamic" ControlToValidate="tbxLabInspDate"
+                        ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="Inspection date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                    <asp:CustomValidator ID="cmvLabInspDate" runat="server" ValidationGroup="vgpLabInspSearch"
+                        Display="Dynamic" ErrorMessage="Inspection date must be in the format 'MM/DD/YYYY'"
+                        OnServerValidate="cmvEarliestDate_ServerValidate" ControlToValidate="tbxLabInspDate" ></asp:CustomValidator>
+                </td>
+            </tr>
+            <tr>
+                <td>Follow-up:</td>
+                <td>
+                    <asp:RadioButtonList ID="rblLabInspFollowup" runat="server" RepeatDirection="Horizontal">
+                        <asp:ListItem Text="Yes" Value="yes"></asp:ListItem>
+                        <asp:ListItem Text="No" Value="no" ></asp:ListItem>
+                    </asp:RadioButtonList>
+                </td>
+            </tr>
+        </table>
+
+        <asp:Button ID="btnLabInspSearch" runat="server" Text="Search" OnClick="btnLabInspSearch_Click" ValidationGroup="vgpLabInspSearch" />
+        <asp:Button ID="btnLabInspSearchReset" runat="server" Text="Reset" OnClick="btnLabInspSearchReset_Click" />
+        <asp:Button ID="btnPrintLabInsps" runat="server" Text="Print" />
+        <asp:ValidationSummary ID="vsyLabInspSearch" runat="server" DisplayMode="BulletList" ValidationGroup="vgpLabInspSearch" />
+        
+        <br /><br />
+        
+        <div id="divLabInsps">
+        <asp:GridView ID="gdvLabInspections" runat="server" AutoGenerateColumns="False" 
+                OnSelectedIndexChanged="gdvLabInspections_SelectedIndexChanged"
+                OnSorting="gdvLabInspections_Sorting" AllowSorting="true" 
+                OnPageIndexChanging="gdvIncidents_PageIndexChanging" AllowPaging="true" EnableViewState="true" 
+                PagerSettings-PageButtonCount="10" PagerSettings-Mode="NumericFirstLast" >
+            <HeaderStyle BackColor="#89c123" ForeColor="White" />
+            <PagerStyle CssClass="GridViewPagerStyle" />
+            <Columns>
+                <asp:BoundField DataField="labInspectionNo" HeaderText="#" ItemStyle-Width="30" ReadOnly="True" SortExpression="labInspectionNo" />
+                <asp:BoundField DataField="deptName" HeaderText="Department" ItemStyle-Width="150" ReadOnly="True" SortExpression="deptName" />
+                <asp:BoundField DataField="inspectionDate" HeaderText="Date" ItemStyle-Width="75" SortExpression="inspectionDate" DataFormatString="{0:M/d/yyyy}" ReadOnly="True" />
+                <asp:BoundField DataField="followup" HeaderText="Follow-Up" ItemStyle-Width="75" ReadOnly="True" SortExpression="followup" />
+                <asp:BoundField DataField="inspector" HeaderText="Inspector" ReadOnly="True" SortExpression="inspector" />
+                <asp:BoundField DataField="room" HeaderText="Room" ReadOnly="True" SortExpression="room" />
+                <asp:BoundField DataField="labMgr" HeaderText="Lab Manager" ReadOnly="True" SortExpression="room" />
+                <asp:CommandField HeaderText="Click to View" HeaderStyle-Width="90" ItemStyle-HorizontalAlign="Center"
+                    ShowSelectButton="True" SelectText="Checklist" ButtonType="Button" />
+            </Columns>
+            <EmptyDataTemplate>No lab inspections found.</EmptyDataTemplate>
+        </asp:GridView>
+        </div>
+        
+        </ContentTemplate>
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="btnLabInspSearch" EventName="Click" />
+            <asp:AsyncPostBackTrigger ControlID="btnLabInspSearchReset" EventName="Click" />
+        </Triggers>
+        </asp:UpdatePanel>
+    </asp:Panel>
+    
+    <h3 id="hr3OfficeInspections">
+    <asp:Image ID="imgExpandCollapseOfficeInspections" runat="server" />
+    Office Inspections
+    <asp:Label ID="lblExpandCollapseOfficeInspections" runat="server" Text=""></asp:Label></h3>
+    <asp:Panel ID="pnlOfficeInspections" CssClass="panel" runat="server">
+       <asp:UpdatePanel ID="UpdatePanel12" runat="server">
+       <ContentTemplate>
+       
+       <table>
+           <tr>
+                <td>Results per page:</td>
+                <td>
+                    <asp:TextBox ID="tbxOffInspPages" runat="server"></asp:TextBox>
+                    <asp:FilteredTextBoxExtender ID="fteOffInspPages" runat="server" TargetControlID="tbxOffInspPages"
+                        ValidChars="0123456789" />
+                    (leave blank to show all results)
+                </td>
+            </tr>
+            <tr>
+                <td>Department:</td>
+                <td>
+                    <asp:TextBox ID="tbxOffInspDept" runat="server"></asp:TextBox>
+                    <asp:CheckBox ID="cbxOffInspDept" Text="Exact match only" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td>Inspector:</td>
+                <td>
+                    <asp:TextBox ID="tbxOffInspInspector" runat="server"></asp:TextBox>
+                    <asp:CheckBox ID="cbxOffInspInspector" Text="Exact match only" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td>Area:</td>
+                <td>
+                    <asp:TextBox ID="tbxOffInspArea" runat="server"></asp:TextBox>
+                    <asp:CheckBox ID="cbxOffInspArea" Text="Exact match only" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td>Inspection date: </td>
+                <td>
+                    <asp:TextBox ID="tbxOffInspDate" runat="server"></asp:TextBox>
+                    <asp:TextBoxWatermarkExtender ID="tweOffInspDate" runat="server" TargetControlID="tbxOffInspDate"
+                        WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
+                    </asp:TextBoxWatermarkExtender>
+                    <asp:CalendarExtender ID="cexOffInspDate" runat="server" Enabled="True"
+                        TargetControlID="tbxOffInspDate" Format="M/d/yyyy">
+                    </asp:CalendarExtender>
+                    <asp:RegularExpressionValidator ID="revOffInspDate" runat="server" ValidationGroup="vgpOffInspSearch"
+                        Display="Dynamic" ControlToValidate="tbxOffInspDate"
+                        ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                        ErrorMessage="Inspection date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                    <asp:CustomValidator ID="cmvOffInspDate" runat="server" ValidationGroup="vgpOffInspSearch"
+                        Display="Dynamic" ErrorMessage="Inspection date must be in the format 'MM/DD/YYYY'"
+                        OnServerValidate="cmvEarliestDate_ServerValidate" ControlToValidate="tbxOffInspDate" ></asp:CustomValidator>
+                </td>
+            </tr>
+            <tr>
+                <td>Follow-up:</td>
+                <td>
+                    <asp:RadioButtonList ID="rblOffInspFollowup" runat="server" RepeatDirection="Horizontal">
+                        <asp:ListItem Text="Yes" Value="yes"></asp:ListItem>
+                        <asp:ListItem Text="No" Value="no" ></asp:ListItem>
+                    </asp:RadioButtonList>
+                </td>
+            </tr>
+        </table>
+
+        <asp:Button ID="btnOffInspSearch" runat="server" Text="Search" OnClick="btnOffInspSearch_Click" ValidationGroup="vgpOffInspSearch" />
+        <asp:Button ID="btnOffInspSearchReset" runat="server" Text="Reset" OnClick="btnOffInspSearchReset_Click" />
+        <asp:Button ID="btnPrintOffInsps" runat="server" Text="Print" />
+        <asp:ValidationSummary ID="vsyOfInspSearch" runat="server" DisplayMode="BulletList" ValidationGroup="vgpOffInspSearch" />
+        
+        <br /><br />
+
+        <div id="divOffInsps">
+        <asp:GridView ID="gdvOfficeInspections" runat="server" AutoGenerateColumns="False" 
+                OnSelectedIndexChanged="gdvOfficeInspections_SelectedIndexChanged"
+                OnSorting="gdvOfficeInspections_Sorting" AllowSorting="true" 
+                OnPageIndexChanging="gdvOfficeInspections_PageIndexChanging" AllowPaging="true" EnableViewState="true" 
+                PagerSettings-PageButtonCount="10" PagerSettings-Mode="NumericFirstLast" >
+            <HeaderStyle BackColor="#89c123" ForeColor="White" />
+            <PagerStyle CssClass="GridViewPagerStyle" />
+            <Columns>
+                <asp:BoundField DataField="officeInspectionNo" HeaderText="#" ItemStyle-Width="30" ReadOnly="True" SortExpression="officeInspectionNo" />
+                <asp:BoundField DataField="deptName" HeaderText="Department" ItemStyle-Width="150" ReadOnly="True" SortExpression="deptName" />
+                <asp:BoundField DataField="inspectionDate" HeaderText="Date" ItemStyle-Width="75" DataFormatString="{0:M/d/yyyy}" ReadOnly="True" />
+                <asp:BoundField DataField="followup" HeaderText="Follow-Up" ItemStyle-Width="75" ReadOnly="True" SortExpression="deptName" />
+                <asp:BoundField DataField="inspector" HeaderText="Inspector" ReadOnly="True" SortExpression="inspector" />
+                <asp:BoundField DataField="area" HeaderText="Area" ReadOnly="True" SortExpression="area" />
+                <asp:CommandField HeaderText="Click to View" HeaderStyle-Width="90" ItemStyle-HorizontalAlign="Center"
+                    ShowSelectButton="True" SelectText="Checklist" ButtonType="Button" />
+            </Columns>
+            <EmptyDataTemplate>No office inspections found.</EmptyDataTemplate>
+        </asp:GridView>
+        </div>
+        
+        </ContentTemplate>
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="btnOffInspSearch" EventName="Click" />
+            <asp:AsyncPostBackTrigger ControlID="btnOffInspSearchReset" EventName="Click" />
+        </Triggers>
+        </asp:UpdatePanel>
+    </asp:Panel>
+    </asp:Panel>
+    </asp:Panel>
+
+    <div id="divPop" visible="false">
             <asp:Panel ID="pnlPop" BackColor="White" Width="400px" Height="100px" CssClass="popPanel"
                 runat="server">
                 <table width="100%" cellpadding="5">
@@ -1473,8 +1954,6 @@
             <asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
             <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
                 DropShadow="true" BackgroundCssClass="modalBackground" OkControlID="btnPnlPopClose" />
-        </div>
-    </asp:Panel>
-    <div>
-        &nbsp;</div>
+    </div>
+    <div>&nbsp;</div>
 </asp:Content>

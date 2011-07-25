@@ -7,6 +7,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using AjaxControlToolkit;
 using BCCAModel;
+using System.Data.Objects;
+using System.Data;
 
 //ALTER TABLE TrainingTaken ADD active CHAR(1) DEFAULT NULL;
 
@@ -38,6 +40,8 @@ public partial class Training_Default : System.Web.UI.Page {
     public static List<String> employers = new List<String> {
         "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH"
     };
+    // The default number of pages to show for a grid view.
+    public static int DefaultGridViewPageSize = 10;
     // Set by a called method so the caller can handle the error and display the message.
     private String popUpErrorMsg = String.Empty;
     #endregion class variables
@@ -64,18 +68,44 @@ public partial class Training_Default : System.Web.UI.Page {
             Response.Redirect("~/Default.aspx");
         }
 
+        populateValidCourses();
+        populateCourseCatalogue();
+
         if (!IsPostBack)
         {
+            tbxTrainingSearchPages.Text = DefaultGridViewPageSize.ToString();
             PopulateEmployersDdl();
             PopulatePositionsDdl();
             PopulateDepartmentsDdl();
             pnlPop.Style.Value = "display:none;";
-            tsmScriptManager.SetFocus(tbxLastName.ClientID);
             pnlCrsDetails.Visible = false;
             pnlNewCourse.Visible = false;
-            pnlExpiredCourseDetails.Visible = false;
             addCharFilterToAllTextBoxes();
-            btnAddCrs.Visible = true;
+            clearAllInfo();
+            cbxIncludeExpired.Checked = true;
+            cbxHighlightExpired.Checked = true;
+            cbxIncludeValid.Checked = true;
+            processRequest();
+            tbxTrainingSearchPages.Text = DefaultGridViewPageSize.ToString();
+        }
+        btnPrint.Attributes.Add("onClick", "javascript:PrintWithHeader('divEmpInfo', 'divPrint')");
+    }
+
+    private void processRequest() {
+        String reqEmpNo = Request.QueryString["id"];
+        int empNo = -1;
+        try {
+            empNo = Convert.ToInt32(reqEmpNo);
+        }
+        catch (FormatException ex) {
+            // do nothing, load report will handle it
+            ex.ToString();
+        }
+        Employee reqEmp = ctx.Employees.Where(emp => emp.empNo == empNo).FirstOrDefault();
+        if (reqEmp != null) {
+            tbxFirstName.Text = reqEmp.fname;
+            tbxLastName.Text = reqEmp.lname;
+            loadEmployee();
         }
     }
 
@@ -91,6 +121,31 @@ public partial class Training_Default : System.Web.UI.Page {
             return DateTime.MinValue;
         }
         String strDate = tbx.Text;
+        DateTime date;
+        if (strDate == null || strDate.Equals(String.Empty)) {
+            return DateTime.MinValue;
+        }
+        try {
+            date = DateTime.ParseExact(strDate, dateFormat, locale);
+        }
+        catch (FormatException ex) {
+            ex.ToString();
+            return DateTime.MinValue;
+        }
+        return date;
+    }
+
+    /// <summary>
+    /// Checks if a the given String is a date in the correct format.
+    /// Returns the minimum date time value if the String is null or empty.
+    /// Returns the date of the String if that String holds a date in the format "MM/DD/YYYY".
+    /// </summary>
+    /// <param name="str">The String to extract a date from</param>
+    /// <returns>The String as a date, if it's valid, otherwise the minimum date.</returns>
+    private DateTime getDateTime(String strDate) {
+        if (strDate == null) {
+            return DateTime.MinValue;
+        }
         DateTime date;
         if (strDate == null || strDate.Equals(String.Empty)) {
             return DateTime.MinValue;
@@ -149,6 +204,25 @@ public partial class Training_Default : System.Web.UI.Page {
         }
     }
     #endregion Filter TextBox
+
+    private void setPageSize(GridView gdv, TextBox tbx, int defaultPageSize) {
+        if (tbx.Text == null || tbx.Text.Equals(String.Empty)) {
+            gdv.AllowPaging = false;
+        }
+        else {
+            gdv.AllowPaging = true;
+            int pageSize = defaultPageSize;
+            try {
+                pageSize = Convert.ToInt32(tbx.Text);
+            }
+            catch (FormatException ex) {
+                ex.ToString();
+                pageSize = defaultPageSize;
+                tbx.Text = defaultPageSize.ToString();
+            }
+            gdv.PageSize = pageSize;
+        }
+    }
     
     #region Employee Info Related
     #region Drop Down Lists
@@ -253,14 +327,17 @@ public partial class Training_Default : System.Web.UI.Page {
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The click event properties.</param>
     protected void btnGetEmployee_Click(object sender, EventArgs e) {
-        // Check page
+        loadEmployee();       
+    }
+
+    private void loadEmployee() {
         Page.Validate("vgpEmpName");
         if (!Page.IsValid) {
             Popup_Overlay("Invalid input, unable to get Employee.", FailColour);
             return;
         }
-        // Get Employee
-        Employee result = loadEmployee();
+
+        Employee result = fetchEmployee();
         if (result == null) {
             if (popUpErrorMsg == null) {
                 popUpErrorMsg = "An error has occured while getting this employee. Please try again.";
@@ -269,12 +346,10 @@ public partial class Training_Default : System.Web.UI.Page {
             popUpErrorMsg = null;
             return;
         }
+
         populateValidCourses();
-        populateExpiredCourses();
         cpeCourses.Collapsed = false;
         cpeCourses.ClientState = "false";
-        cpeCoursesCompleted.Collapsed = false;
-        cpeCoursesCompleted.ClientState = "false";
     }
 
     /// <summary>
@@ -283,7 +358,7 @@ public partial class Training_Default : System.Web.UI.Page {
     /// Populates the Employee Info form with the data.
     /// </summary>
     /// <returns>Returns the employee on success, null on failure.</returns>
-    private Employee loadEmployee() {
+    private Employee fetchEmployee() {
         // Get employee
         String first = tbxFirstName.Text;
         String last = tbxLastName.Text;
@@ -465,6 +540,9 @@ public partial class Training_Default : System.Web.UI.Page {
             return;
         }
         Popup_Overlay("Employee successfully created.", SuccessColour);
+        cpeCourses.Collapsed = false;
+        cpeCourses.ClientState = "false";
+        btnAddCrs.Visible = true;
     }
 
     /// <summary>
@@ -736,113 +814,182 @@ public partial class Training_Default : System.Web.UI.Page {
     /// populate all valid courses taken
     /// </summary>
     private void populateValidCourses() {
+        if (tbxId.Text.Equals(String.Empty)) {
+            return;
+        }
         int id = Convert.ToInt32(tbxId.Text);
         DateTime currentDate = DateTime.Now;
-        var q = ctx.Employees.Where(e => e.empNo == id)
-                               .Join(
-                                  ctx.TrainingTakens,
-                                  emp => emp.empNo,
-                                  TT => TT.empNo,
-                                  (emp, TT) =>
-                                     new
-                                     {
-                                         emp = emp,
-                                         TT = TT
-                                     }
-                               ).Where(t => (t.TT.active == null || t.TT.active.Equals("1")))
-                               .Join(
-                                  ctx.TrainingCourses,
-                                  temp0 => temp0.TT.trainingNo,
-                                  TC => TC.trainingNo,
-                                  (temp0, TC) =>
-                                     new
-                                     {
-                                         temp0 = temp0,
-                                         TC = TC
-                                     }
-                               )
-                               .Where(temp1 => (currentDate <= temp1.temp0.TT.endDate) || (temp1.temp0.TT.endDate == null))
-                               .Select(
-                                  temp1 =>
-                                     new
-                                     {
-                                         coursename = temp1.TC.trainingName,
-                                         startdate = temp1.temp0.TT.startDate,
-                                         enddate = temp1.temp0.TT.endDate,
-                                         ttNo = temp1.temp0.TT.trainingTakenNo,
-                                     }
-                               );
 
-        grvValidCourses.DataSource = q;
-        Session["query"] = q;
+        var qry = ctx.TrainingTakens
+                  .Where(tt => tt.empNo.Equals(id))
+                  .Select(tt => new {
+                      coursename = tt.TrainingCours.trainingName,
+                      startdate = tt.startDate,
+                      enddate = tt.endDate,
+                      ttNo = tt.trainingTakenNo,
+                      active = tt.active,
+                      expired = tt.endDate <= DateTime.Now ? "*" : String.Empty
+                  });
+
+        // Apply filters
+        setPageSize(grvValidCourses, tbxTrainingSearchPages, DefaultGridViewPageSize);
+
+        if (tbxTrainingNameFilter.Text != null && !(tbxTrainingNameFilter.Text.Equals(String.Empty))) {
+            if (cbxTrainingNameExactMatch.Checked) {
+                qry = qry.Where(tt => tt.coursename.Equals(tbxTrainingNameFilter.Text));
+            }
+            else {
+                qry = qry.Where(tt => tt.coursename.Contains(tbxTrainingNameFilter.Text));
+            }
+        }
+
+        DateTime earliestCourseDate = getDateTime(tbxEarliestCourseDate);
+        if (!(earliestCourseDate.Equals(DateTime.MinValue))) {
+            qry = qry.Where(tt => tt.startdate >= earliestCourseDate);
+        }
+
+        DateTime latestCourseDate = getDateTime(tbxLatestCourseDate);
+        if (!(latestCourseDate.Equals(DateTime.MinValue))) {
+            qry = qry.Where(tt => tt.startdate <= latestCourseDate);
+        }
+
+        DateTime earliestExpiryDate = getDateTime(tbxEarliestExpiryDate);
+        if (!(earliestExpiryDate.Equals(DateTime.MinValue))) {
+            qry = qry.Where(tt => (tt.enddate == null || tt.enddate >= earliestExpiryDate));
+        }
+
+        DateTime latestExpiryDate = getDateTime(tbxLatestExpiryDate);
+        if (!(latestExpiryDate.Equals(DateTime.MinValue))) {
+            qry = qry.Where(tt => tt.enddate <= latestExpiryDate);
+        }
+
+        if (rblMostRecent.SelectedValue.ToString().Equals("mostRecent")) {
+            qry = qry.Where(tt => tt.ttNo.Equals(
+                            ctx.TrainingTakens
+                            .Where(ttRecent => ttRecent.TrainingCours.trainingName.Equals(tt.coursename))
+                            .Select(ttRecent => ttRecent)
+                            .OrderByDescending(ttRecent => ttRecent.startDate).FirstOrDefault().trainingTakenNo));
+        }
+
+        if (!cbxIncludeDeleted.Checked) {
+            qry = qry.Where(tt => (tt.active == null || tt.active.Equals("1")));
+        }
+
+        if (cbxIncludeExpired.Checked && cbxIncludeValid.Checked) {
+            // if both expired and valid are checked, do nothing to query
+        }
+        else if (cbxIncludeExpired.Checked) {
+            qry = qry.Where(tt => (tt.enddate != null) && (currentDate >= tt.enddate));
+        }
+        else if (cbxIncludeValid.Checked) {
+            qry = qry.Where(tt => (tt.enddate == null) || (currentDate < tt.enddate));
+        }
+        else {
+            qry = null; // no results if neither is checked
+        }
+
+        if (qry != null) {
+            qry = qry.OrderByDescending(tt => tt.expired);
+        }
+
+        DataTable dt = new DataTable();
+        dt.Columns.Add("coursename", typeof(String));
+        dt.Columns.Add("startdate", typeof(DateTime));
+        dt.Columns.Add("enddate", typeof(DateTime));
+        dt.Columns.Add("ttNo", typeof(int));
+        dt.Columns.Add("expired", typeof(String));
+        dt.Columns.Add("active", typeof(String));
+
+        foreach (var item in qry) {
+            DataRow dr = dt.NewRow();
+            dr["coursename"] = item.coursename;
+            dr["startdate"] = item.startdate;
+            dr["enddate"] = item.enddate == null ? DateTime.MaxValue : item.enddate;
+            dr["ttNo"] = item.ttNo;
+            dr["expired"] = item.enddate == null ? "N" : (item.enddate <= DateTime.Now ? "*" : String.Empty);
+            dr["active"] = item.active;
+            dt.Rows.Add(dr);
+        }
+
+        grvValidCourses_DataView = new DataView(dt);
+        Session["query"] = grvValidCourses_DataView;
         BindValidData();
         btnAddCrs.Visible = true;
     }
+    #region grvValidCourses
 
-    /// <summary>
-    /// Sets the datasource grvValidCourses to a session named query
-    /// Binds the grvValidCourses
-    /// </summary>
-    private void BindValidData()
-    {
-        grvValidCourses.DataSource = Session["query"];
+    #region grvValidCourses - Sorting and Paging
+    private DataView grvValidCourses_DataView = new DataView();
+
+    private string grvValidCourses_SortExpression {
+        get { return ViewState["grvValidCourses_SortExpression"] as string ?? String.Empty; }
+        set { ViewState["grvValidCourses_SortExpression"] = value; }
+    }
+
+    private string grvValidCourses_SortDirection {
+        get { return ViewState["grvValidCourses_SortDirection"] as string ?? "ASC"; }
+        set { ViewState["grvValidCourses_SortDirection"] = value; }
+    }
+
+    protected void grvValidCourses_Sorting(object sender, GridViewSortEventArgs e) {
+        grvValidCourses_SortDirection = getSortDirection(grvValidCourses_SortDirection);
+        grvValidCourses_SortExpression = e.SortExpression + " " + grvValidCourses_SortDirection;
+        grvValidCourses_Sort(grvValidCourses.PageIndex);
+    }
+
+    protected void grvValidCourses_PageIndexChanging(object sender, GridViewPageEventArgs e) {
+        grvValidCourses.PageIndex = e.NewPageIndex;
+        grvValidCourses_Sort(grvValidCourses.PageIndex);
+    }
+
+    private void grvValidCourses_Sort(int gdvPageIndex) {
+        grvValidCourses_DataView.Sort = grvValidCourses_SortExpression;
+        BindValidData();
+        grvValidCourses.PageIndex = gdvPageIndex;
+    }
+
+    private string getSortDirection(String sortDirection) {
+        switch (sortDirection) {
+            case "ASC":
+                sortDirection = "DESC";
+                break;
+            case "DESC":
+                sortDirection = "ASC";
+                break;
+        }
+        return sortDirection;
+    }
+    #endregion grvValidCourses - Sorting and Paging
+
+    protected void grvValidCourses_RowDataBound(Object sender, GridViewRowEventArgs e) {
+        if (e.Row.RowType != DataControlRowType.DataRow) {
+            return;
+        }
+        
+        GridViewRow row = e.Row;
+         // if the expiry date is null (N is a flag)
+        if (row.Cells[7].Text.Equals("N")) {
+            row.Cells[7].Text = String.Empty;
+            row.Cells[6].Text = String.Empty;
+            return;
+        }
+
+        if (!cbxHighlightExpired.Checked) {
+            return;
+        }
+
+        if (row.Cells[7].Text.Equals("*")) {
+            e.Row.Cells[3].ForeColor = Color.Red;
+            e.Row.Cells[4].ForeColor = Color.Red;
+            e.Row.Cells[5].ForeColor = Color.Red;
+            e.Row.Cells[6].ForeColor = Color.Red;
+            e.Row.Cells[7].ForeColor = Color.Red;
+        }
+    }
+
+    private void BindValidData() {
+        grvValidCourses.DataSource = grvValidCourses_DataView;
         grvValidCourses.DataBind();
-    }
-    /// <summary>
-    /// Sets the datasource grvExpiredCourses to a session named expired
-    /// Binds grvExpiredCourses gridview
-    /// </summary>
-    private void BindExpiredData()
-    {
-        grvExpiredCourses.DataSource = Session["expired"];
-        grvExpiredCourses.DataBind();
-    }
-
-    /// <summary>
-    /// Populates the expired courses gridview
-    /// </summary>
-    private void populateExpiredCourses()
-    {
-        DateTime currentDate = DateTime.Now;
-        int id = Convert.ToInt32(tbxId.Text);
-        var q = ctx.Employees.Where(e => e.empNo == id)
-                               .Join(
-                                  ctx.TrainingTakens,
-                                  emp => emp.empNo,
-                                  TT => TT.empNo,
-                                  (emp, TT) =>
-                                     new
-                                     {
-                                         emp = emp,
-                                         TT = TT
-                                     }
-                               ).Where(t => (t.TT.active == null || t.TT.active.Equals("1")))
-                               .Join(
-                                  ctx.TrainingCourses,
-                                  temp0 => temp0.TT.trainingNo,
-                                  TC => TC.trainingNo,
-                                  (temp0, TC) =>
-                                     new
-                                     {
-                                         temp0 = temp0,
-                                         TC = TC
-                                     }
-                               )
-                               .Where(temp1 => (currentDate > temp1.temp0.TT.endDate) || (temp1.temp0.TT.endDate == null))
-                               .Select(
-                                  temp1 =>
-                                     new
-                                     {
-                                         coursename = temp1.TC.trainingName,
-                                         startdate = temp1.temp0.TT.startDate,
-                                         enddate = temp1.temp0.TT.endDate,
-                                         ttNo = temp1.temp0.TT.trainingTakenNo,
-                                     }
-                               );
-
-        grvExpiredCourses.DataSource = q;
-        Session["expired"] = q;
-        BindExpiredData();
     }
 
     /// <summary>
@@ -860,20 +1007,35 @@ public partial class Training_Default : System.Web.UI.Page {
         TrainingTaken training = ctx.TrainingTakens
                       .Where(tt => tt.trainingTakenNo == ttNo)
                       .Select(tt => tt).FirstOrDefault();
-        
-        training.active = "0";
 
-        try {
-            ctx.SaveChanges();
+        // toggle for delete/restore
+        if (training.active == null || training.active.Equals("1")) {
+            training.active = "0";
+            try {
+                ctx.SaveChanges();
+            }
+            catch (Exception ex) {
+                ex.ToString();
+                Popup_Overlay("An error has occured. Training not deleted from employee's record.", FailColour);
+            }
+            disableDetails();
+            BindValidData();
+            Popup_Overlay("Training successfully deleted from employee's record.", SuccessColour);
         }
-        catch (Exception ex) {
-            ex.ToString();
-            Popup_Overlay("An error has occured. Training not deleted from employee's record.", FailColour);
+        else {
+            training.active = "1";
+            try {
+                ctx.SaveChanges();
+            }
+            catch (Exception ex) {
+                ex.ToString();
+                Popup_Overlay("An error has occured. Training not restored to employee's record.", FailColour);
+            }
+            disableDetails();
+            BindValidData();
+            Popup_Overlay("Training successfully restored to employee's record.", SuccessColour);
         }
-
-        disableDetails();
-        BindValidData();
-        Popup_Overlay("Training successfully deleted from employee's record.", SuccessColour);
+                
     }
 
     /// <summary>
@@ -948,7 +1110,6 @@ public partial class Training_Default : System.Web.UI.Page {
             e.Cancel = true;
             Popup_Overlay("Update successful.", SuccessColour);
             BindValidData();
-            BindExpiredData();
         }
         catch (Exception ex)
         {
@@ -977,132 +1138,16 @@ public partial class Training_Default : System.Web.UI.Page {
     {
         DisplayValidCourseDetails();
     }
-
-    /// <summary>
-    /// Triggered when a course is deleted from grvValidCourses
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void grvExpiredCourses_RowDeleting(object sender, GridViewDeleteEventArgs e) {
-        //grvValidCourses.DeleteRow(e.RowIndex);
-
-        GridViewRow row = grvExpiredCourses.Rows[e.RowIndex];
-        int empNo = Convert.ToInt32(tbxId.Text);
-        int ttNo = Convert.ToInt32(grvExpiredCourses.Rows[e.RowIndex].Cells[4].Text);
-
-        TrainingTaken training = ctx.TrainingTakens
-                      .Where(tt => tt.trainingTakenNo == ttNo)
-                      .Select(tt => tt).FirstOrDefault();
-
-        training.active = "0";
-
-        try {
-            ctx.SaveChanges();
-        }
-        catch (Exception ex) {
-            ex.ToString();
-            Popup_Overlay("An error has occured. Training not deleted from employee's record.", FailColour);
-        }
-        
-        HideExpiredCourseDetails();
-        BindExpiredData();
-        Popup_Overlay("Training successfully deleted from employee's record.", SuccessColour);
-    }
-
-    /// <summary>
-    /// Triggered when edit is clicked on grvExpiredCourses
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void grvExpiredCourses_RowEditing(object sender, GridViewEditEventArgs e)
-    {
-        grvExpiredCourses.EditIndex = e.NewEditIndex;
-        BindExpiredData();
-    }
-
-    protected void grvExpiredCourses_RowUpdating(object sender, GridViewUpdateEventArgs e)
-    {
-        var q = Session["expired"];
-
-        GridViewRow row = grvExpiredCourses.Rows[e.RowIndex];
-
-        int empNo = Convert.ToInt32(tbxId.Text);
-        int ttNo = Convert.ToInt32(grvExpiredCourses.Rows[e.RowIndex].Cells[4].Text);
-
-        TrainingTaken training = ctx.TrainingTakens
-                       .Where(tt => tt.trainingTakenNo == ttNo)
-                       .Select(tt => tt).FirstOrDefault();
-
-        if (e.NewValues["startdate"] != null)
-        {
-            if (!(e.NewValues["startdate"].Equals(String.Empty)))
-            {
-                String strStart = e.NewValues["startdate"].ToString();
-                try
-                {
-                    training.startDate = DateTime.ParseExact(strStart, dateFormat, locale);
-                }
-                catch (Exception ex)
-                {
-                    Popup_Overlay("Unsupported date format." , FailColour);
-                    return;
-                }
-            }
-
-        }
-        if (e.NewValues["enddate"] != null)
-        {
-            if (!(e.NewValues["enddate"].Equals(String.Empty)))
-            {
-                String strEnd = e.NewValues["enddate"].ToString();
-                try
-                {
-                    training.endDate = DateTime.ParseExact(strEnd, dateFormat, locale);
-                }
-                catch (Exception ex)
-                {
-                    Popup_Overlay(ex.Message, FailColour);
-                    return;
-                }
-            }
-        }
-
-        try
-        {
-            //ctx.DetectChanges();
-            ctx.SaveChanges();
-            grvExpiredCourses.EditIndex = -1;
-            e.Cancel = true;
-            Popup_Overlay("Update successful.", SuccessColour);
-            BindExpiredData();
-            BindValidData();
-        }
-        catch (Exception ex)
-        {
-            Popup_Overlay("An error has occured while updating this training. Please try again." + ex.StackTrace.ToString(), FailColour);
-            return;
-        }
-    }
-    protected void grvExpiredCourses_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
-    {
-        grvExpiredCourses.EditIndex = -1;
-        BindExpiredData();
-    }
-    protected void grvExpiredCourses_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        DisplayExpiredCourseDetails();
-    }
+    #endregion grvValidCourses
 
     /// <summary>
     /// Called by SelectedIndexChanged methods.
     /// Used to display individual course details
     /// </summary>
-    private void DisplayValidCourseDetails()
-    {
+    private void DisplayValidCourseDetails() {
         pnlNewCourse.Visible = false;
         disableDetails();
         GridViewRow row = grvValidCourses.SelectedRow;
-        //String name = Convert.ToString(row.Cells[1].Text);
         int ttNo = Convert.ToInt32(row.Cells[4].Text);
 
         TrainingTaken training = ctx.TrainingTakens
@@ -1114,59 +1159,49 @@ public partial class Training_Default : System.Web.UI.Page {
             .Select(c => c).FirstOrDefault();
 
         if (course.trainingName.Equals("Biosafety Training") || course.trainingName.Equals("Chem Safety Training")
-            || course.trainingName.Equals("Cyto. Safety Training"))
-        {
+            || course.trainingName.Equals("Cyto. Safety Training")) {
             pnlCrsDetails.Visible = true;
             pnlGeneralCourseInfo.Visible = true;
             pnlLabTrainingInfo.Visible = true;
 
-            if (course.trainingName.Equals("Biosafety Training"))
-            {
+            if (course.trainingName.Equals("Biosafety Training")) {
                 pnlBiosafetyInfo.Visible = true;
                 if (training.biosafety_BSCSeminar == null) {
                     tbxBSCDate.Text = "";
-                } else {
+                }
+                else {
                     tbxBSCDate.Text = Convert.ToDateTime(training.biosafety_BSCSeminar).ToString(dateFormat, locale);
                 }
             }
-            
+
             rblSigned.ClearSelection();
-            if (training.SOPsigned != null)
-            {
-                if (training.SOPsigned.ToString().Equals("1"))
-                {
+            if (training.SOPsigned != null) {
+                if (training.SOPsigned.ToString().Equals("1")) {
                     rblSigned.SelectedValue = "Yes";
                 }
-                else
-                {
+                else {
                     rblSigned.SelectedValue = "No";
                 }
             }
 
             rblEvaluation.ClearSelection();
-            if (training.evaluation != null)
-            {
-                if (training.evaluation.ToString().Equals("1"))
-                {
+            if (training.evaluation != null) {
+                if (training.evaluation.ToString().Equals("1")) {
                     rblEvaluation.SelectedValue = "Pass";
                 }
-                else
-                {
+                else {
                     rblEvaluation.SelectedValue = "Fail";
                 }
             }
 
-            if (training.respiratorDate != null)
-            {
+            if (training.respiratorDate != null) {
                 tbxDateFit.Text = Convert.ToDateTime(training.respiratorDate).ToString(dateFormat, locale);
             }
 
-            if (!(course.trainingName.Equals("Cyto. Safety Training")))
-            {
+            if (!(course.trainingName.Equals("Cyto. Safety Training"))) {
                 lblSpillDate.Visible = false;
                 tbxSpillDate.Visible = false;
-                if (training.spillCleanupPracticalDate != null)
-                {
+                if (training.spillCleanupPracticalDate != null) {
                     tbxSpillDate.Text = Convert.ToDateTime(training.spillCleanupPracticalDate).ToString(dateFormat, locale);
                 }
             }
@@ -1176,316 +1211,91 @@ public partial class Training_Default : System.Web.UI.Page {
             tbxRespComment.Text = training.respiratorComments;
             tbxCert.Text = training.certificateNum;
         }
-        else if (course.trainingName.Equals("Radiation Safety Training"))
-        {
+        else if (course.trainingName.Equals("Radiation Safety Training")) {
             pnlCrsDetails.Visible = true;
             pnlRadiationTrainingInfo.Visible = true;
             pnlGeneralCourseInfo.Visible = true;
 
             rblSigned.ClearSelection();
-            if (training.SOPsigned != null)
-            {
-                if (training.SOPsigned.ToString().Equals("1"))
-                {
+            if (training.SOPsigned != null) {
+                if (training.SOPsigned.ToString().Equals("1")) {
                     rblSigned.SelectedValue = "Yes";
                 }
-                else
-                {
+                else {
                     rblSigned.SelectedValue = "No";
                 }
             }
 
             rblEvaluation.ClearSelection();
-            if (training.evaluation != null)
-            {
-                if (training.evaluation.ToString().Equals("1"))
-                {
+            if (training.evaluation != null) {
+                if (training.evaluation.ToString().Equals("1")) {
                     rblEvaluation.SelectedValue = "Pass";
                 }
-                else
-                {
+                else {
                     rblEvaluation.SelectedValue = "Fail";
                 }
             }
             tbxCert.Text = training.certificateNum;
             rblDosIssued.ClearSelection();
-            if (training.radiation_dosimeterIssued != null)
-            {
-                if (Convert.ToString(training.radiation_dosimeterIssued).Equals("1"))
-                {
+            if (training.radiation_dosimeterIssued != null) {
+                if (Convert.ToString(training.radiation_dosimeterIssued).Equals("1")) {
                     rblDosIssued.SelectedValue = "Yes";
                 }
-                else
-                {
+                else {
                     rblDosIssued.SelectedValue = "No";
                 }
             }
             rblDosSubmitted.ClearSelection();
-            if (training.radiation_dosimeterSubmitted != null)
-            {
-                if (Convert.ToString(training.radiation_dosimeterSubmitted).Equals("1"))
-                {
+            if (training.radiation_dosimeterSubmitted != null) {
+                if (Convert.ToString(training.radiation_dosimeterSubmitted).Equals("1")) {
                     rblDosSubmitted.SelectedValue = "Yes";
                 }
-                else
-                {
+                else {
                     rblDosSubmitted.SelectedValue = "No";
                 }
             }
 
             rblRingIssued.ClearSelection();
-            if (training.radiation_ringIssued != null)
-            {
-                if (Convert.ToString(training.radiation_ringIssued).Equals("1"))
-                {
+            if (training.radiation_ringIssued != null) {
+                if (Convert.ToString(training.radiation_ringIssued).Equals("1")) {
                     rblRingIssued.SelectedValue = "Yes";
                 }
-                else
-                {
+                else {
                     rblRingIssued.SelectedValue = "No";
                 }
             }
         }
-        else if (course.trainingName.Equals("ARC Safety Training"))
-        {
+        else if (course.trainingName.Equals("ARC Safety Training")) {
             pnlCrsDetails.Visible = true;
             pnlGeneralCourseInfo.Visible = true;
             rblEvaluation.ClearSelection();
 
-            if (training.evaluation != null)
-            {
-                if (training.evaluation.ToString().Equals("1"))
-                {
+            if (training.evaluation != null) {
+                if (training.evaluation.ToString().Equals("1")) {
                     rblEvaluation.SelectedValue = "Pass";
                 }
-                else
-                {
+                else {
                     rblEvaluation.SelectedValue = "Fail";
                 }
             }
 
             tbxCert.Text = training.certificateNum;
         }
-        else if (course.trainingName.Equals("X Ray Machine Training"))
-        {
+        else if (course.trainingName.Equals("X Ray Machine Training")) {
             pnlCrsDetails.Visible = true;
             pnlGeneralCourseInfo.Visible = true;
 
             rblSigned.ClearSelection();
-            if (training.SOPsigned != null)
-            {
-                if (training.SOPsigned.ToString().Equals("1"))
-                {
+            if (training.SOPsigned != null) {
+                if (training.SOPsigned.ToString().Equals("1")) {
                     rblSigned.SelectedValue = "Yes";
                 }
-                else
-                {
+                else {
                     rblSigned.SelectedValue = "No";
                 }
             }
         }
-        else
-        {
-        }
-    }
-
-    private void HideExpiredCourseDetails() {
-        pnlNewCourse.Visible = false;
-        pnlBiosafetyInfoExp.Visible = false;
-        pnlGeneralCourseInfoExp.Visible = false;
-        pnlLabTrainingInfoExp.Visible = false;
-        pnlRadiationTrainingInfoExp.Visible = false;
-    }
-
-    private void DisplayExpiredCourseDetails() 
-    {
-        pnlNewCourse.Visible = false;
-        pnlBiosafetyInfoExp.Visible = false;
-        pnlGeneralCourseInfoExp.Visible = false;
-        pnlLabTrainingInfoExp.Visible = false;
-        pnlRadiationTrainingInfoExp.Visible = false;
-
-        GridViewRow row = grvExpiredCourses.SelectedRow;
-        //String name = Convert.ToString(row.Cells[1].Text);
-        int ttNo = Convert.ToInt32(row.Cells[4].Text);
-
-        TrainingTaken training = ctx.TrainingTakens
-                       .Where(tt => tt.trainingTakenNo == ttNo)
-                       .Select(tt => tt).FirstOrDefault();
-
-        TrainingCours course = ctx.TrainingCourses
-            .Where(c => c.trainingNo == training.trainingNo)
-            .Select(c => c).FirstOrDefault();
-
-        if (course.trainingName.Equals("Biosafety Training") || course.trainingName.Equals("Chem Safety Training")
-            || course.trainingName.Equals("Cyto. Safety Training"))
-        {
-            pnlExpiredCourseDetails.Visible = true;
-            pnlGeneralCourseInfoExp.Visible = true;
-            pnlLabTrainingInfoExp.Visible = true;
-
-            if (course.trainingName.Equals("Biosafety Training"))
-            {
-                pnlBiosafetyInfoExp.Visible = true;
-                tbxBSCDateExp.Text = Convert.ToDateTime(training.biosafety_BSCSeminar).ToString(dateFormat, locale);
-            }
-
-            rblSignedExp.ClearSelection();
-            if (training.SOPsigned != null)
-            {
-                if (training.SOPsigned.ToString().Equals("1"))
-                {
-                    rblSignedExp.SelectedValue = "Yes";
-                }
-                else
-                {
-                    rblSignedExp.SelectedValue = "No";
-                }
-            }
-
-            rblEvaluationExp.ClearSelection();
-            if (training.evaluation != null)
-            {
-                if (training.evaluation.ToString().Equals("1"))
-                {
-                    rblEvaluationExp.SelectedValue = "Pass";
-                }
-                else
-                {
-                    rblEvaluationExp.SelectedValue = "Fail";
-                }
-            }
-
-            if (training.respiratorDate != null)
-            {
-                tbxDateFitExp.Text = Convert.ToDateTime(training.respiratorDate).ToString(dateFormat, locale);
-            }
-
-            if (!(course.trainingName.Equals("Cyto. Safety Training")))
-            {
-                lblSpillDate0.Visible = false;
-                tbxSpillDateExp.Visible = false;
-                if (training.spillCleanupPracticalDate != null)
-                {
-                    tbxSpillDateExp.Text = Convert.ToDateTime(training.spillCleanupPracticalDate).ToString(dateFormat, locale);
-                }
-            }
-
-            tbxRespTypeExp.Text = training.respiratorType;
-            tbxRespModelExp.Text = training.respiratorModel;
-            tbxRespCommentExp.Text = training.respiratorComments;
-            tbxCertExp.Text = training.certificateNum;
-        }
-        else if (course.trainingName.Equals("Radiation Safety Training"))
-        {
-            pnlExpiredCourseDetails.Visible = true;
-            pnlRadiationTrainingInfoExp.Visible = true;
-            pnlGeneralCourseInfoExp.Visible = true;
-
-            rblSignedExp.ClearSelection();
-            if (training.SOPsigned != null)
-            {
-                if (training.SOPsigned.ToString().Equals("1"))
-                {
-                    rblSignedExp.SelectedValue = "Yes";
-                }
-                else
-                {
-                    rblSignedExp.SelectedValue = "No";
-                }
-            }
-
-            rblEvaluationExp.ClearSelection();
-            if (training.evaluation != null)
-            {
-                if (training.evaluation.ToString().Equals("1"))
-                {
-                    rblEvaluationExp.SelectedValue = "Pass";
-                }
-                else
-                {
-                    rblEvaluationExp.SelectedValue = "Fail";
-                }
-            }
-            tbxCertExp.Text = training.certificateNum;
-            rblDosIssuedExp.ClearSelection();
-            if (training.radiation_dosimeterIssued != null)
-            {
-                if (Convert.ToString(training.radiation_dosimeterIssued).Equals("1"))
-                {
-                    rblDosIssuedExp.SelectedValue = "Yes";
-                }
-                else
-                {
-                    rblDosIssuedExp.SelectedValue = "No";
-                }
-            }
-            rblDosSubmittedExp.ClearSelection();
-            if (training.radiation_dosimeterSubmitted != null)
-            {
-                if (Convert.ToString(training.radiation_dosimeterSubmitted).Equals("1"))
-                {
-                    rblDosSubmittedExp.SelectedValue = "Yes";
-                }
-                else
-                {
-                    rblDosSubmittedExp.SelectedValue = "No";
-                }
-            }
-
-            rblRingIssuedExp.ClearSelection();
-            if (training.radiation_ringIssued != null)
-            {
-                if (Convert.ToString(training.radiation_ringIssued).Equals("1"))
-                {
-                    rblRingIssuedExp.SelectedValue = "Yes";
-                }
-                else
-                {
-                    rblRingIssuedExp.SelectedValue = "No";
-                }
-            }
-        }
-        else if (course.trainingName.Equals("ARC Safety Training"))
-        {
-            pnlExpiredCourseDetails.Visible = true;
-            pnlGeneralCourseInfoExp.Visible = true;
-            rblEvaluationExp.ClearSelection();
-
-            if (training.evaluation != null)
-            {
-                if (training.evaluation.ToString().Equals("1"))
-                {
-                    rblEvaluationExp.SelectedValue = "Pass";
-                }
-                else
-                {
-                    rblEvaluationExp.SelectedValue = "Fail";
-                }
-            }
-
-            tbxCertExp.Text = training.certificateNum;
-        }
-        else if (course.trainingName.Equals("X Ray Machine Training"))
-        {
-            pnlExpiredCourseDetails.Visible = true;
-            pnlGeneralCourseInfoExp.Visible = true;
-
-            rblSignedExp.ClearSelection();
-            if (training.SOPsigned != null)
-            {
-                if (training.SOPsigned.ToString().Equals("1"))
-                {
-                    rblSignedExp.SelectedValue = "Yes";
-                }
-                else
-                {
-                    rblSignedExp.SelectedValue = "No";
-                }
-            }
-        }
-        else
-        {
+        else {
         }
     }
     #endregion
@@ -1515,18 +1325,20 @@ public partial class Training_Default : System.Web.UI.Page {
         tbxEndDate.Text = String.Empty;
     }
 
-    protected void btnClear_Click(object sender, EventArgs e)
-    {
+    private void clearAllInfo() {
         clearEmployeeInfo();
         ResetFormControlValues(this);
         btnAddCrs.Visible = false;
         pnlCrsDetails.Visible = false;
         grvValidCourses.DataSource = null;
         grvValidCourses.DataBind();
-        grvExpiredCourses.DataSource = null;
-        grvExpiredCourses.DataBind();
         cpeCourses.ClientState = "true";
         cpeCourses.Collapsed = true;
+    }
+
+    protected void btnClear_Click(object sender, EventArgs e)
+    {
+        clearAllInfo();
     }
 
     /// <summary>
@@ -1596,7 +1408,50 @@ public partial class Training_Default : System.Web.UI.Page {
         pnlCrsDetails.Visible = false;
         pnlNewCourse.Visible = true;
         PopulateCoursesDdl();
-        BindValidData();
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The event properties.</param>
+    protected void ddlNewCrs_SelectedIndexChanged(object sender, EventArgs e) {
+        updateNewCourseExpiryDate();
+    }
+
+    private void updateNewCourseExpiryDate() {
+        DateTime startDate = DateTime.MinValue;
+        int courseNo = Convert.ToInt32(ddlNewCrs.SelectedValue);
+
+        if (tbxNewCrsStart.Text.Equals(String.Empty)) {
+            return;
+        }
+
+        try {
+            startDate = DateTime.ParseExact(tbxNewCrsStart.Text, dateFormat, locale);
+        }
+        catch (Exception ex) {
+            ex.ToString();
+            Popup_Overlay("Invalid course date. Please use format 'MM/DD/YYYY'.", FailColour);
+            return;
+        }
+
+        TrainingCours course = ctx.TrainingCourses
+            .Where(tc => tc.trainingNo == courseNo)
+            .Select(tc => tc).FirstOrDefault();
+        
+        if (course.monthsValid == null) {
+            tbxNewCrsExpiry.Text = String.Empty;
+            return;
+        }
+
+        int months = Convert.ToInt32(course.monthsValid);
+        DateTime endDate = startDate.AddMonths(months);
+
+        tbxNewCrsExpiry.Text = ((DateTime)endDate).ToString(dateFormat, locale);
+    }
+
+    protected void tbxNewCrsStart_OnTextChanged(object sender, EventArgs e) {
+        updateNewCourseExpiryDate();
     }
 
     /// <summary>
@@ -1611,37 +1466,38 @@ public partial class Training_Default : System.Web.UI.Page {
         
         try
         {
-
             DateTime newStartDate = DateTime.MinValue;
-            DateTime newEndDate = Convert.ToDateTime(tbxNewCrsStart.Text);
+            DateTime newEndDate = DateTime.MinValue;
             int courseNo = Convert.ToInt32(ddlNewCrs.SelectedValue);
 
             if (!(tbxNewCrsStart.Text.Equals(String.Empty)))
             {
                 newStartDate = DateTime.ParseExact(tbxNewCrsStart.Text, dateFormat, locale);
             }
+            
+            if (!tbxNewCrsExpiry.Text.Equals(String.Empty))
+            {
+                newEndDate = DateTime.ParseExact(tbxNewCrsExpiry.Text, dateFormat, locale);
+            }
+            
 
             TrainingCours course = ctx.TrainingCourses
                 .Where(tc => tc.trainingNo == courseNo)
                 .Select(tc => tc).FirstOrDefault();
-
-            int months = Convert.ToInt32(course.monthsValid);
-
-            newEndDate = newEndDate.AddMonths(months);
-
+                                    
             TrainingTaken tt = new TrainingTaken
             {
                 empNo = empId,
                 trainingNo = Convert.ToInt32(ddlNewCrs.SelectedValue),
                 startDate = newStartDate,
-                endDate = (course.monthsValid == null) ? (DateTime?) null : newEndDate,
+                endDate = tbxNewCrsExpiry.Text.Equals(String.Empty) ? (DateTime?) null : newEndDate,
             };
             ctx.AddToTrainingTakens(tt);
             ctx.SaveChanges();
-            BindValidData();
-            ddlNewCrs.SelectedIndex = 0;
-            tbxNewCrsStart.Text = "";
+            resetAddNewCourse();
             pnlNewCourse.Visible = false;
+            populateValidCourses();
+            BindValidData();
             Popup_Overlay("Training successfully created.", SuccessColour);
             return;
         }
@@ -1662,7 +1518,19 @@ public partial class Training_Default : System.Web.UI.Page {
     {
         ddlNewCrs.SelectedIndex = 0;
         pnlNewCourse.Visible = false;
+        resetAddNewCourse();
     }
+
+    private void resetAddNewCourse() {
+        ddlNewCrs.SelectedIndex = 1;
+        tbxNewCrsStart.Text = String.Empty;
+        tbxNewCrsExpiry.Text = String.Empty;
+    }
+
+    protected void btnCancelSaveCrsDetails_Click(object sender, EventArgs e) {
+        disableDetails();
+    }
+
     protected void btnSaveCrsDetails_Click(object sender, EventArgs e)
     {
         GridViewRow row = grvValidCourses.SelectedRow;
@@ -1733,5 +1601,183 @@ public partial class Training_Default : System.Web.UI.Page {
         }
     }
     #endregion
+
+    /// <summary>
+    /// Gets the earliest course date filter and makes sure it's in the correct format (MM/DD/YYYY).
+    /// For example, 13/24/2011 would be invalid but the regex validator doesn't catch it.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvEarliestCourseDate_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+
+        String date = tbxEarliestCourseDate.Text;
+        if (date == null || date.Equals(String.Empty)) {
+            args.IsValid = true;
+            return;
+        }
+
+        DateTime earliestCourseDate = getDateTime(tbxEarliestCourseDate);
+        if (earliestCourseDate.Equals(DateTime.MinValue)) {
+            return;
+        }
+
+        args.IsValid = true;
+    }
+
+    /// <summary>
+    /// Gets the employee's start and end dates from the form.
+    /// If the start date is invalid, ignores it (the other validator will catch it).
+    /// If the end date is in an invalid format, validates false.
+    /// If the end date is null or empty, validates true becuase there's nothing to compare.
+    /// If both dates are specified and in the proper format, the dates are compared.
+    /// If the end date is before the start date, validates false.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvLatestCourseDate_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strLatestDate = tbxLatestCourseDate.Text;
+        DateTime earliestDate = getDateTime(tbxEarliestCourseDate);
+        DateTime latestDate = getDateTime(tbxLatestCourseDate);
+
+        // end date
+        if (strLatestDate == null || strLatestDate.Equals(String.Empty)) {
+            args.IsValid = true; // nothing to compare, so it's valid
+            return;
+        }
+
+        if (latestDate.Equals(DateTime.MinValue)) {
+            cmvLatestCourseDate.ErrorMessage = "Latest course date must be in the format 'MM/DD/YYYY'";
+            return;
+        }
+
+        if (earliestDate.Equals(DateTime.MinValue)) {
+            args.IsValid = true;
+            return; // other server validator will catch the error
+        }
+
+        // comparison
+        if (latestDate.CompareTo(earliestDate) > 0) {
+            args.IsValid = true;
+            return;
+        }
+
+        cmvLatestCourseDate.ErrorMessage = "Latest course date must be later than earliest course date.";
+    }
+
+    /// <summary>
+    /// Gets the earliest course date filter and makes sure it's in the correct format (MM/DD/YYYY).
+    /// For example, 13/24/2011 would be invalid but the regex validator doesn't catch it.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvEarliestExpiryDate_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+
+        String date = tbxEarliestExpiryDate.Text;
+        if (date == null || date.Equals(String.Empty)) {
+            args.IsValid = true;
+            return;
+        }
+
+        DateTime earliestExpiryDate = getDateTime(tbxEarliestExpiryDate);
+        if (earliestExpiryDate.Equals(DateTime.MinValue)) {
+            return;
+        }
+
+        args.IsValid = true;
+    }
+
+    /// <summary>
+    /// Gets the employee's start and end dates from the form.
+    /// If the start date is invalid, ignores it (the other validator will catch it).
+    /// If the end date is in an invalid format, validates false.
+    /// If the end date is null or empty, validates true becuase there's nothing to compare.
+    /// If both dates are specified and in the proper format, the dates are compared.
+    /// If the end date is before the start date, validates false.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvLatestExpiryDate_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strLatestDate = tbxLatestExpiryDate.Text;
+        DateTime earliestDate = getDateTime(tbxEarliestExpiryDate);
+        DateTime latestDate = getDateTime(tbxLatestExpiryDate);
+
+        // end date
+        if (strLatestDate == null || strLatestDate.Equals(String.Empty)) {
+            args.IsValid = true; // nothing to compare, so it's valid
+            return;
+        }
+
+        if (latestDate.Equals(DateTime.MinValue)) {
+            cmvLatestExpiryDate.ErrorMessage = "Latest expiry date must be in the format 'MM/DD/YYYY'";
+            return;
+        }
+
+        if (earliestDate.Equals(DateTime.MinValue)) {
+            args.IsValid = true;
+            return; // other server validator will catch the error
+        }
+
+        // comparison
+        if (latestDate.CompareTo(earliestDate) > 0) {
+            args.IsValid = true;
+            return;
+        }
+
+        cmvLatestExpiryDate.ErrorMessage = "Latest expiry date must be later than earliest expiry date.";
+    }
+
+    /// <summary>
+    /// Calls getEmployeeData() to get an employee from the database and populate the form with that employee's data.
+    /// Displays a pop-up with a success or fail message.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnValidCourseSearch_Click(object sender, EventArgs e) {
+        populateValidCourses();
+    }
+
+    /// <summary>
+    /// Calls getEmployeeData() to get an employee from the database and populate the form with that employee's data.
+    /// Displays a pop-up with a success or fail message.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnCourseSearchReset_Click(object sender, EventArgs e) {
+        clearCourseSearchFilters();
+    }
+
+    private void clearCourseSearchFilters() {
+        tbxTrainingNameFilter.Text = String.Empty;
+        cbxTrainingNameExactMatch.Checked = false;
+        tbxEarliestCourseDate.Text = String.Empty;
+        tbxLatestCourseDate.Text = String.Empty;
+        tbxEarliestExpiryDate.Text = String.Empty;
+        tbxLatestExpiryDate.Text = String.Empty;
+        rblMostRecent.SelectedValue = "mostRecent";
+        cbxIncludeDeleted.Checked = false;
+        cbxIncludeValid.Checked = true; 
+        cbxIncludeExpired.Checked = true;
+        cbxHighlightExpired.Checked = true;
+        populateValidCourses();
+    }
+
+    #region Course Catalogue
+    private void populateCourseCatalogue() {
+        var qry = ctx.TrainingCourses.Select(tc => new {
+            trainingNo = tc.trainingNo,
+            trainingName = tc.trainingName,
+            monthsValid = tc.monthsValid
+        });
+
+        qry = qry.OrderBy(ct => ct.trainingName);
+
+        gdvCoursesCatalog.DataSource = qry;
+        gdvCoursesCatalog.DataBind();
+    }
+    #endregion Course Catalogue
 
 }

@@ -1,5 +1,6 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -9,32 +10,22 @@ using AjaxControlToolkit;
 using BCCAModel;
 
 /// <summary>
-///Summary/Default.aspx.cs
-///BCCA Cancer Research Centre
-///Safety Training Database and Website
-///Author: Kalen Wessel - kalen.wessel@gmail.com
-///BCIT COMP4900 2011
+/// Summary/Default.aspx.cs
+/// BCCA Cancer Research Centre
+/// Safety Training Database and Website
+/// Author: BCIT COMP4900 2011
+/// Lindsay Fester - lindsay.m.fester@gmail.com
 /// </summary>
-public partial class Summary_Default : System.Web.UI.Page
-{
-
-    // The date format to use for displaying and converting dates
+public partial class Summary_Default : System.Web.UI.Page {
+    #region Class Variables
+    // The background color of disabled controls.
+    public Color DisabledColor = ColorTranslator.FromHtml("#E6E6E6");
+    // Database Entity framework context
+    BCCAEntities ctx = new BCCAEntities();
+    // The date format to use for displaying dates
     public static String dateFormat = "M/d/yyyy";
-    // The locale to use when displaying and converting dates/times
+    // The locale to use when converting dates
     public static CultureInfo locale = new CultureInfo("en-CA");
-
-    // Static level entity context
-    static BCCAEntities ctx = new BCCAEntities();
-
-    // Departments var for drop down lists.
-    private string department;
-
-    // Lab Manager var for drop down lists.
-    private string labManager;
-
-    // Holds the user role for switch cases to see if a user is admin, lab manager, etc.
-    private int userRole;
-
     // Text colour for failure messages
     public static Color FailColour = Color.Red;
     // Text colour for success messages
@@ -45,1032 +36,1489 @@ public partial class Summary_Default : System.Web.UI.Page
     public static String noOptionSpecified = String.Empty;
     // List of static, pre-defined employers a user can select
     public static List<String> employers = new List<String> {
-        noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH"
+        noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
     };
+    // The pink colour of the header text.
+    public static Color HeaderForeColor = ColorTranslator.FromHtml("#d80080");
+    // The back colour of header rows.
+    public static Color HeaderBackColor = ColorTranslator.FromHtml("#F778A1");
+    // The format for percents.
+    public static String PercentFormat = "{0:0%}";
+    // The default number of pages to show for a grid view.
+    public static int DefaultGridViewPageSize = 10;
+    #endregion Class Variables
 
     /// <summary>
-    /// Populates drop down list for Lab Managers
+    /// Sets up the dynamic elements when the page loads for the first time.
+    /// Populates the Employer, Position, and Department drop down lists.
+    /// Hides Popup panel on page load.
     /// </summary>
-    /// <param name="sender">not used in our code</param>
-    /// <param name="e">not used in our code</param>
-    protected void Page_Load(object sender, EventArgs e)
-    {
+    /// <param name="sender">The object that requested the page load.</param>
+    /// <param name="e">The page load event.</param>
+    protected void Page_Load(object sender, EventArgs e) {
         //Check User Authentication
         Session["AfterLoginRedirectUrl"] = Request.Url.ToString();
         ASP.global_asax.Session_Authentication();
         Session["AfterLoginRedirectUrl"] = null;
 
-        //Session["RoleNo"].ToString();
-        //Session["DeptNo"].ToString();    THESE GET Stuff
-        BCCAEntities ctx = new BCCAEntities();
-
-        int? userRoleNo = (int?)Session["RoleNo"];
-        switch (ctx.Roles.Where(r => r.roleNo == userRoleNo).Select(r => r.role1).First())
-        {
-            case "Administrator":
-                userRole = 0;
-                break;
-            case "Safety Officer":
-                userRole = 0;
-                break;
-            case "Lab Manager":
-                departmentRowLab.Visible = false;
-                departmentRowOffice.Visible = false;
-                divStats.Visible = false;
-                divCourseLookUp.Visible = false;
-                userRole = 1;
-                break;
-            default:
-                throw new System.SystemException("Default case of switch should never be reached");
+        //Lab managers should no be on this page, if they go here they are forwarded away
+        int roleNo = (int)Session["RoleNo"];
+        string role = ctx.Roles.Where(r => r.roleNo == roleNo).Select(r => r.role1).First();
+        if (role == "Lab Manager") {
+            Response.Redirect("~/Default.aspx");
         }
 
-        grvLabInspections.Visible = false;
-        grvLabInspectionResults.Visible = false;
-
-        grvOfficeInspections.Visible = false;
-        grvOfficeInspectionResults.Visible = false;
-        followupRow.Visible = false;
-        officefollowUpRow.Visible = false;
-        tblLabInspectionComment.Visible = false;
-        tbOfficeInspectionComment.Visible = false;
-
-        tblOfficeInspectionComment.Visible = false;
-        tbLabInspectionComment.Visible = false;
-
-        if (!IsPostBack)
-        {
-            addCharFilterToAllTextBoxes();
-
-            ddlLabLabManager.DataSource = ctx.LabInspections.Select(l => new { text = l.labMgr, value = l.labMgr }).OrderBy(l => l).Distinct();
-            ddlLabLabManager.DataValueField = "value";
-            ddlLabLabManager.DataTextField = "text";
-            ddlLabLabManager.DataBind();
-
-            ddlLabDepartment.DataSource = ctx.Departments.Select(D => new { text = D.deptName, value = D.deptName }).OrderBy(D => D);
-            ddlLabDepartment.DataValueField = "value";
-            ddlLabDepartment.DataTextField = "text";
-            ddlLabDepartment.DataBind();
-
-            ddlOfficeDepartment.DataSource = ctx.Departments.Select(D => new { text = D.deptName, value = D.deptName }).OrderBy(D => D);
-            ddlOfficeDepartment.DataValueField = "value";
-            ddlOfficeDepartment.DataTextField = "text";
-            ddlOfficeDepartment.DataBind();
-
-            PopulateEmployersDdl();
-            PopulatePositionsDdl();
-            PopulateDepartmentsDdl();
-            populateTrackerGridView();
-            // pnlPop.Style.Value = "display:none;";
-            lblResults.Visible = true;
-
-            tsmScriptManager.SetFocus(tbxLastName.ClientID);
+        if (!(Session["RoleNo"].Equals(1) || Session["RoleNo"].Equals(3))) {
+            //pnlAllContent.Visible = false;
+            lblUnauthorizedMsg.Visible = true;
         }
 
+        if (!IsPostBack) {
+            tbxEmpSearchPages.Text = DefaultGridViewPageSize.ToString();
+            tbxTrainingSearchPages.Text = DefaultGridViewPageSize.ToString();
+            tbxIncidentSearchPages.Text = DefaultGridViewPageSize.ToString();
+            tbxLabInspPages.Text = DefaultGridViewPageSize.ToString();
+            tbxOffInspPages.Text = DefaultGridViewPageSize.ToString();
+        }
+        
+        populateStatistics();
+        populateDepartments();
+        populateEmployees();
+        populateTraining();
+        populateIncidents();
+        populateLabInspections();
+        populateOfficeInspections();
+
+        btnPrintStats.Attributes.Add("onClick", "javascript:Print('divStats')");
+        btnPrintDepts.Attributes.Add("onClick", "javascript:Print('divDepts')");
+        btnPrintEmps.Attributes.Add("onClick", "javascript:Print('divEmps')");
+        btnPrintTraining.Attributes.Add("onClick", "javascript:Print('divTraining')");
+        btnPrintIncidents.Attributes.Add("onClick", "javascript:Print('divIncidents')");
+        btnPrintLabInsps.Attributes.Add("onClick", "javascript:Print('divLabInsps')");
+        btnPrintOffInsps.Attributes.Add("onClick", "javascript:Print('divOffInsps')");
     }
 
-    #region Add Char Filter to All TextBox
+    private void collapseAllPanels(Boolean collapse) {
+        cpeStats.Collapsed = collapse;
+        cpeStats.ClientState = collapse.ToString();
+        cpeDept.Collapsed = collapse;
+        cpeDept.ClientState = collapse.ToString();
+        cpeEmployees.Collapsed = collapse;
+        cpeEmployees.ClientState = collapse.ToString();
+        cpeTraining.Collapsed = collapse;
+        cpeTraining.ClientState = collapse.ToString();
+        cpeIncidents.Collapsed = collapse;
+        cpeIncidents.ClientState = collapse.ToString();
+        cpeLabInspections.Collapsed = collapse;
+        cpeLabInspections.ClientState = collapse.ToString();
+        cpeOfficeInspections.Collapsed = collapse;
+        cpeOfficeInspections.ClientState = collapse.ToString();
+    }
+
+    private string getSortDirection(String sortDirection) {
+        switch (sortDirection) {
+            case "ASC":
+                sortDirection = "DESC";
+                break;
+            case "DESC":
+                sortDirection = "ASC";
+                break;
+        }
+        return sortDirection;
+    }
+    
+    private void setPageSize(GridView gdv, TextBox tbx, int defaultPageSize) {
+        if (tbx.Text == null || tbx.Text.Equals(String.Empty)) {
+            gdv.AllowPaging = false;
+        }
+        else {
+            gdv.AllowPaging = true;
+            int pageSize = defaultPageSize;
+            try {
+                pageSize = Convert.ToInt32(tbx.Text);
+            }
+            catch (FormatException ex) {
+                ex.ToString();
+                pageSize = defaultPageSize;
+                tbx.Text = defaultPageSize.ToString();
+            }
+            gdv.PageSize = pageSize;
+        }
+    }
+
     /// <summary>
-    /// Recursively gets every control of the specified root (including root and all it's child controls).
-    /// Returns the controls as an array of Control objects.
+    /// Checks if a the given String is a date in the correct format.
+    /// Returns the minimum date time value if the String is null or empty.
+    /// Returns the date of the String if that String holds a date in the format "MM/DD/YYYY".
     /// </summary>
-    /// <param name="root">The root control to get child controls for.</param>
-    /// <returns>An array of all the child controls of root.</returns>
-    public static Control[] getAllPageControls(Control root)
-    {
-        List<Control> list = new List<Control>();
-        list.Add(root);
-        if (root.HasControls())
-        {
-            foreach (Control control in root.Controls)
-            {
-                list.AddRange(getAllPageControls(control));
+    /// <param name="str">The String to extract a date from</param>
+    /// <returns>The String as a date, if it's valid, otherwise the minimum date.</returns>
+    private DateTime getDateTime(String strDate) {
+        if (strDate == null) {
+            return DateTime.MinValue;
+        }
+        DateTime date;
+        if (strDate == null || strDate.Equals(String.Empty)) {
+            return DateTime.MinValue;
+        }
+        try {
+            date = DateTime.ParseExact(strDate, dateFormat, locale);
+        }
+        catch (FormatException ex) {
+            ex.ToString();
+            return DateTime.MinValue;
+        }
+        return date;
+    }
+
+    /// <summary>
+    /// Makes sure the earliest date (in a range) is in the correct format (MM/DD/YYYY).
+    /// For example, 13/24/2011 would be invalid but the client-side validator doesn't catch it.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvEarliestDate_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+
+        CustomValidator cmv = (CustomValidator)source;
+        TextBox tbx = (TextBox)cmv.Parent.FindControl(cmv.ControlToValidate);
+        String strDate = tbx.Text;
+        if (strDate == null || strDate.Equals(String.Empty)) {
+            args.IsValid = true;
+            return;
+        }
+
+        DateTime date = getDateTime(tbx.Text);
+        if (date.Equals(DateTime.MinValue)) {
+            return;
+        }
+
+        args.IsValid = true;
+    }
+        
+    #region Statistics
+    private void populateStatistics() {
+        DataTable dt = new DataTable();
+        dt.Columns.Add("statName");
+        dt.Columns.Add("statValue");
+        DataRow dr = dt.NewRow();
+                
+        int labInspCount = ctx.LabInspections.Select(LI => LI).Count();
+        dr = dt.NewRow();
+        dr["statName"] = "Total lab inspections:";
+        dr["statValue"] = labInspCount;
+        dt.Rows.Add(dr);
+
+        int officeInspCount = ctx.OfficeInspections.Select(OI => OI).Count();
+        dr = dt.NewRow();
+        dr["statName"] = "Total office inspections:";
+        dr["statValue"] = officeInspCount;
+        dt.Rows.Add(dr);
+
+        int coursesCount = ctx.TrainingCourses.Select(TC => TC).Count();
+        dr = dt.NewRow();
+        dr["statName"] = "Total training courses:";
+        dr["statValue"] = coursesCount;
+        dt.Rows.Add(dr);
+
+        int incidentCount = ctx.Incidents.Select(I => I).Count();
+        dr = dt.NewRow();
+        dr["statName"] = "Total incident reports:";
+        dr["statValue"] = incidentCount;
+        dt.Rows.Add(dr);
+
+        int deptCount = ctx.Departments.Select(D => D).Count();
+        dr = dt.NewRow();
+        dr["statName"] = "Total departments:";
+        dr["statValue"] = deptCount;
+        dt.Rows.Add(dr);
+
+        int empCount = ctx.Employees.Select(E => E).Count();
+        dr = dt.NewRow();
+        dr["statName"] = "Total employees:";
+        dr["statValue"] = empCount;
+
+        int followUpIncidentCount = ctx.Incidents.Where(inc => ((inc.followUpStatus == "0") || (inc.followUpStatus == "1"))).Select(inc => inc).Count();
+        dr = dt.NewRow();
+        dr["statName"] = "Total incidents needing follow-up:";
+        dr["statValue"] = followUpIncidentCount;
+        dt.Rows.Add(dr);
+
+        int followUpLabCount = ctx.LabInspections.Where(l => ((l.followUpStatus == "0") || (l.followUpStatus == "1"))).Select(l => l).Count();
+        dr = dt.NewRow();
+        dr["statName"] = "Total lab inspections needing follow-up:";
+        dr["statValue"] = followUpLabCount;
+        dt.Rows.Add(dr);
+
+        int followUpOfficeCount = ctx.OfficeInspections.Where(o => ((o.followUpStatus == "0") || (o.followUpStatus == "1"))).Select(o => o).Count();
+        dr = dt.NewRow();
+        dr["statName"] = "Total office inspections needing follow-up:";
+        dr["statValue"] = followUpOfficeCount;
+        dt.Rows.Add(dr);
+
+        dr = dt.NewRow();
+        dr["statName"] = "Total records needing follow-up:";
+        dr["statValue"] = followUpIncidentCount + followUpLabCount + followUpOfficeCount;
+        dt.Rows.Add(dr);
+
+        gdvStats.DataSource = dt;
+        gdvStats.DataBind();
+    }
+    #endregion Statistics
+
+    #region Departments
+    private void populateDepartments() {
+        var offInspDept = ctx.OfficeInspections
+                          .Select(oid => oid.deptName)
+                          .Distinct();
+
+        var labInspDept = ctx.LabInspections
+                          .Select(lid => lid.deptName)
+                          .Distinct();
+
+        var incRepDept = ctx.Incidents
+                          .Select(i => i.Department1.deptName)
+                          .Distinct();
+
+        var empDept = ctx.Employees
+                      .Select(e => e.deptName)
+                      .Distinct();
+
+        var depts = ctx.Departments
+                      .Select(d => d.deptName)
+                      .Distinct();
+
+        List<String> lstDeptNames = new List<String>();
+        lstDeptNames.AddRange(offInspDept.ToList());
+        lstDeptNames.AddRange(labInspDept.ToList());
+        lstDeptNames.AddRange(incRepDept.ToList());
+        lstDeptNames.AddRange(empDept.ToList());
+        lstDeptNames.AddRange(depts.ToList());
+        lstDeptNames = lstDeptNames.Distinct().ToList<String>();
+        
+        lstDeptNames = applyDeptFilters(lstDeptNames);
+        
+        lstDeptNames.Sort();
+        //lstDeptNames.RemoveAt(0);
+        if (lstDeptNames.Count() > 0 && (lstDeptNames[0] == null || lstDeptNames[0].Equals(String.Empty))) {
+            //lstDeptNames[0] = "Other";
+            lstDeptNames.RemoveAt(0);
+        }
+
+        DataTable dt = new DataTable();
+        dt.Columns.Add("deptNo", typeof(int));
+        dt.Columns.Add("deptName", typeof(String));
+        dt.Columns.Add("employees", typeof(int));
+        dt.Columns.Add("incidents", typeof(int));
+        dt.Columns.Add("labInspections", typeof(int));
+        dt.Columns.Add("officeInspections", typeof(int));
+
+        int totalEmps = 0;
+        int totalIncidents = 0;
+        int totalOfficeInsp = 0;
+        int totalLabInsp = 0;
+
+        foreach (String deptName in lstDeptNames) {
+            DataRow dr = dt.NewRow();
+
+            int emps = ctx.Employees.Where(e => e.deptName.Equals(deptName)).Select(e => e.empNo).Count();
+            int incidents = 0;
+            int officeInsp = ctx.OfficeInspections.Where(oi => oi.deptName.Equals(deptName)).Select(oi => oi).Count();
+            int labInsp = ctx.LabInspections.Where(li => li.deptName.Equals(deptName)).Select(li => li).Count();
+
+            String strDeptNo = "-";
+            String incidentCount = "-";
+            if (ctx.Departments.Select(d => d.deptName).Contains(deptName)) {
+                int deptNo = ctx.Departments.Where(d => d.deptName.Equals(deptName)).Select(d => d.deptNo).FirstOrDefault();
+                strDeptNo = deptNo.ToString();
+                incidents = ctx.Incidents.Where(i => i.deptNo == deptNo).Select(i => i.incidentNo).Count();
+                incidentCount = incidents.ToString();                
+            }
+
+            dr["deptNo"] = strDeptNo;
+            dr["deptName"] = deptName;
+            dr["employees"] = emps;
+            dr["incidents"] = incidentCount;
+            dr["officeInspections"] = officeInsp;
+            dr["labInspections"] = labInsp;
+
+            dt.Rows.Add(dr);
+
+            totalEmps += emps;
+            totalIncidents += incidents;
+            totalOfficeInsp += officeInsp;
+            totalLabInsp += labInsp;
+        }
+
+        drDeptTotal = dt.NewRow();
+        drDeptTotal["deptNo"] = 0;
+        drDeptTotal["deptName"] = "Total: ";
+        drDeptTotal["employees"] = totalEmps;
+        drDeptTotal["incidents"] = totalIncidents;
+        drDeptTotal["officeInspections"] = totalOfficeInsp;
+        drDeptTotal["labInspections"] = totalLabInsp;
+
+        gdvDepts_DataView = new DataView(dt);
+        bindDepts();
+    }
+
+    private DataRow drDeptTotal = null;
+
+    private void bindDepts() {
+        gdvDepts.DataSource = gdvDepts_DataView;
+        gdvDepts.DataBind();
+    }
+
+    protected void gdvDepts_RowDataBound(Object sender, GridViewRowEventArgs e) {
+        if (e.Row.RowType == DataControlRowType.Footer) {
+            GridViewRow footer = e.Row;
+            for (int i = 1; i < footer.Cells.Count - 1; i++) {
+                footer.Cells[i].Text = drDeptTotal[i].ToString();
+            }                        
+            footer.Cells[0].Visible = false;
+            footer.Cells[1].ColumnSpan = 2;
+            footer.Cells[footer.Cells.Count - 1].Text = String.Empty;
+        }
+    }
+
+    private List<String> applyDeptFilters(List<String> depts) {
+        setPageSize(gdvDepts, tbxDeptSearchPages, 20); 
+        if (tbxDeptSearchDept.Text != null && !(tbxDeptSearchDept.Text.Equals(String.Empty))) {
+            if (cbxDeptSearchDept.Checked) {
+                depts = depts.Where(deptName => deptName != null && deptName.Equals(tbxDeptSearchDept.Text)).ToList<String>();
+            }
+            else {
+                depts = depts.Where(deptName => deptName != null && deptName.Contains(tbxDeptSearchDept.Text)).ToList<String>();
             }
         }
-        return list.ToArray();
+        return depts;
     }
-
+    
     /// <summary>
-    /// Adds a character filter to all Text Boxes on the page.
-    /// Prevents users from entering the <, >, &, or # characters in Text Boxes.
-    /// These characters trigger the HttpRequestValidationException that prevents script injection.
-    /// Note: the JS behind the filter could be turned off, in which case, the exception will still occur.
-    /// </summary>
-    private void addCharFilterToAllTextBoxes()
-    {
-        Control[] allControls = getAllPageControls(Page);
-        foreach (Control c in allControls)
-        {
-            TextBox tbx = c as TextBox;
-            if (tbx != null)
-            {
-                FilteredTextBoxExtender fte = new FilteredTextBoxExtender();
-                fte.FilterMode = FilterModes.InvalidChars;
-                fte.InvalidChars = "<>&#";
-                fte.TargetControlID = c.ID;
-                tbx.Parent.Controls.Add(fte);
-            }
-        }
-    }
-    #endregion Filter TextBox
-
-    #region Lab Inspection Look Up
-    /// <summary>
-    /// When clicked it does a lookup for any lab inspections.
-    /// And returns a grid view of the results.
-    /// </summary>
-    protected void btnLabInspectionLookUp_Click(object sender, EventArgs e)
-    {
-        // Sets the gridview visibile on lookup of an inspection
-        grvLabInspections.Visible = true;
-
-        department = Convert.ToString(ddlLabDepartment.SelectedValue);
-
-        labManager = Convert.ToString(ddlLabLabManager.SelectedValue);
-        //String labInspectionDate = tbxLabInspectionDate.Text;
-        //String.Format("{0:Mm/dd/yyyy}", labInspectionDate);
-
-        string labInspectionDate = Convert.ToString(tbxLabInspectionDate.Text);
-
-        System.Globalization.DateTimeFormatInfo dateInfo = new System.Globalization.DateTimeFormatInfo();
-        dateInfo.ShortDatePattern = "MM/dd/yyyy";
-        DateTime validDate;
-        if (tbxLabInspectionDate.Text.Length == 0)
-        {
-            validDate = Convert.ToDateTime("01/01/0001");
-        }
-        else
-        {
-            validDate = Convert.ToDateTime(labInspectionDate, dateInfo);
-        }
-        switch (userRole)
-        {
-            //Role: Admin/Safety Officer; Sees all reports
-            case 0:
-                grvLabInspections.DataSource = ctx.LabInspections
-                                             .Join(
-                                               ctx.Departments,
-                                               LI => LI.deptName,
-                                               D => D.deptName,
-                                               (LI, D) =>
-                                                   new
-                                                   {
-                                                       LI = LI,
-                                                       D = D
-                                                   }
-                                           )
-                                          .Where(temp0 => ((temp0.D.deptName == department) || (temp0.LI.labMgr == labManager)
-                                            || (temp0.LI.date == validDate)))
-                                          .Select(
-                                             temp0 =>
-                                                new
-                                                {
-                                                    labInsNo = temp0.LI.labInsNo,
-                                                    deptName = temp0.D.deptName,
-                                                    date = temp0.LI.date,
-                                                    followupDate = temp0.LI.followupDate,
-                                                    inspector = temp0.LI.inspector,
-                                                    labMgr = temp0.LI.labMgr,
-                                                    supervisor = temp0.LI.supervisor,
-                                                    room = temp0.LI.room
-                                                }
-                                          );
-
-                grvLabInspections.DataBind();
-                break;
-
-            case 1:
-                // Session Value of logged in users Deptartment Number
-                int userDeptNo = (int)Session["DeptNo"];
-                grvLabInspections.DataSource = ctx.LabInspections
-                                          .Join(
-                                            ctx.Departments,
-                                            LI => LI.deptName,
-                                            D => D.deptName,
-                                            (LI, D) =>
-                                                new
-                                                {
-                                                    LI = LI,
-                                                    D = D
-                                                }
-                                        )
-                                       .Where(temp0 => ((temp0.D.deptName == department) || (temp0.LI.labMgr == labManager)
-                                         || (temp0.LI.date == validDate) && (temp0.D.deptNo == userDeptNo)))
-                                       .Select(
-                                          temp0 =>
-                                             new
-                                             {
-                                                 labInsNo = temp0.LI.labInsNo,
-                                                 deptName = temp0.D.deptName,
-                                                 date = temp0.LI.date,
-                                                 followupDate = temp0.LI.followupDate,
-                                                 inspector = temp0.LI.inspector,
-                                                 labMgr = temp0.LI.labMgr,
-                                                 supervisor = temp0.LI.supervisor,
-                                                 room = temp0.LI.room
-                                             }
-                                       );
-
-                grvLabInspections.DataBind();
-                break;
-
-            default:
-                throw new System.SystemException("Default case of switch should never be reached");
-        }
-
-    }
-    #endregion
-
-    /// <summary>
-    /// Handles the search of ALL Lab Inspections.
-    /// </summary>
-    /// <param name="sender">Not used</param>
-    /// <param name="e">Not used</param>
-    protected void btnLabInspectionLookUpAll_Click(object sender, EventArgs e)
-    {
-        // Sets the gridview visibile on lookup of an inspection
-        grvLabInspections.Visible = true;
-
-        department = Convert.ToString(ddlLabDepartment.SelectedValue);
-
-        labManager = Convert.ToString(ddlLabLabManager.SelectedValue);
-        //String labInspectionDate = tbxLabInspectionDate.Text;
-        //String.Format("{0:Mm/dd/yyyy}", labInspectionDate);
-
-        string labInspectionDate = Convert.ToString(tbxLabInspectionDate.Text);
-
-        System.Globalization.DateTimeFormatInfo dateInfo = new System.Globalization.DateTimeFormatInfo();
-        dateInfo.ShortDatePattern = "MM/dd/yyyy";
-        DateTime validDate;
-        if (tbxLabInspectionDate.Text.Length == 0)
-        {
-            validDate = Convert.ToDateTime("01/01/0001");
-        }
-        else
-        {
-            validDate = Convert.ToDateTime(labInspectionDate, dateInfo);
-        }
-        switch (userRole)
-        {
-            //Role: Admin/Safety Officer; Sees all reports
-            case 0:
-                grvLabInspections.DataSource = ctx.LabInspections
-                                             .Join(
-                                               ctx.Departments,
-                                               LI => LI.deptName,
-                                               D => D.deptName,
-                                               (LI, D) =>
-                                                   new
-                                                   {
-                                                       LI = LI,
-                                                       D = D
-                                                   }
-                                           )
-                                          .Select(
-                                             temp0 =>
-                                                new
-                                                {
-                                                    labInsNo = temp0.LI.labInsNo,
-                                                    deptName = temp0.D.deptName,
-                                                    date = temp0.LI.date,
-                                                    followupDate = temp0.LI.followupDate,
-                                                    inspector = temp0.LI.inspector,
-                                                    labMgr = temp0.LI.labMgr,
-                                                    supervisor = temp0.LI.supervisor,
-                                                    room = temp0.LI.room
-                                                }
-                                          );
-
-                grvLabInspections.DataBind();
-                break;
-
-            case 1:
-                // Session Value of logged in users Deptartment Number
-                int userDeptNo = (int)Session["DeptNo"];
-                grvLabInspections.DataSource = ctx.LabInspections
-                                          .Join(
-                                            ctx.Departments,
-                                            LI => LI.deptName,
-                                            D => D.deptName,
-                                            (LI, D) =>
-                                                new
-                                                {
-                                                    LI = LI,
-                                                    D = D
-                                                }
-                                        )
-                                       .Where(temp0 => (temp0.D.deptNo == userDeptNo))
-                                       .Select(
-                                          temp0 =>
-                                             new
-                                             {
-                                                 labInsNo = temp0.LI.labInsNo,
-                                                 deptName = temp0.D.deptName,
-                                                 date = temp0.LI.date,
-                                                 followupDate = temp0.LI.followupDate,
-                                                 inspector = temp0.LI.inspector,
-                                                 labMgr = temp0.LI.labMgr,
-                                                 supervisor = temp0.LI.supervisor,
-                                                 room = temp0.LI.room
-                                             }
-                                       );
-
-                grvLabInspections.DataBind();
-                break;
-
-            default:
-                throw new System.SystemException("Default case of switch should never be reached");
-        }
-    }
-
-    /// <summary>
-    /// Keeps track of which Lab Inspection is selected for bring up
-    /// more information in the Lab Inspection Results Grid view.
+    /// Triggered when a department is selected from the grid view.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void grvLabInspections_SelectedIndexChanged(Object sender, EventArgs e)
-    {
-        lblLabFollowUpSubmitter.Text = "";
-        lblLabFollowUpDate.Text = "";
-        lblLabFollowUpStatus.Text = "";
-        tbLabFollowupComments.Text = "";
-        tbLabFollowupComments.Text = "";
-        followupRow.Visible = true;
-        tbLabInspectionComment.Visible = true;
-        tblLabInspectionComment.Visible = true;
+    protected void gdvDepts_SelectedIndexChanged(object sender, EventArgs e) {
+        String deptName = gdvDepts.SelectedRow.Cells[1].Text;
+        selectDepartment(deptName);
+    }
 
-        grvLabInspectionResults.Visible = true;
-        grvLabInspections.Visible = true;
-        // Get the currently selected row using the SelectedRow property.
-        GridViewRow row = grvLabInspections.SelectedRow;
-        row.Cells[1].Text.ToString();
-        int selectedLabInsNo = Convert.ToInt32(row.Cells[1].Text);
-
-        grvLabInspectionResults.DataSource = ctx.LabInspectionItems
-                                                   .Join(
-                                                      ctx.LabInspectionDetails,
-                                                      LII =>
-                                                         new
-                                                         {
-                                                             labInsItemNo = LII.labInsItemNo
-                                                         },
-                                                      LID =>
-                                                         new
-                                                         {
-                                                             labInsItemNo = (Int32)(LID.labItemNo)
-                                                         },
-                                                      (LII, LID) =>
-                                                         new
-                                                         {
-                                                             LII = LII,
-                                                             LID = LID
-                                                         }
-                                                   )
-                                                   .Join(
-                                                      ctx.LabInspections,
-                                                      temp0 => temp0.LID.labInsNo,
-                                                      LI => LI.labInsNo,
-                                                      (temp0, LI) =>
-                                                         new
-                                                         {
-                                                             temp0 = temp0,
-                                                             LI = LI
-                                                         }
-                                                   )
-                                                   .GroupJoin(
-                                                      ctx.LabFollowUps,
-                                                      temp1 =>
-                                                         new
-                                                         {
-                                                             labInsItemNo = temp1.temp0.LII.labInsItemNo,
-                                                             labInsNo = temp1.LI.labInsNo
-                                                         },
-                                                      LFU =>
-                                                         new
-                                                         {
-                                                             labInsItemNo = (Int32)(LFU.labInsItemNo),
-                                                             labInsNo = LFU.labInsNo
-                                                         },
-                                                      (temp1, labfollowup_join) =>
-                                                         new
-                                                         {
-                                                             temp1 = temp1,
-                                                             labfollowup_join = labfollowup_join
-                                                         }
-                                                   )
-                                                   .SelectMany(
-                                                      temp2 => temp2.labfollowup_join.DefaultIfEmpty(),
-                                                      (temp2, LFU) =>
-                                                         new
-                                                         {
-                                                             temp2 = temp2,
-                                                             LFU = LFU
-                                                         }
-                                                   )
-                                                   .Where(
-                                                      temp3 =>
-                                                            (((temp3.LFU.labInsNo == selectedLabInsNo) && (temp3.temp2.temp1.LI.labInsNo == selectedLabInsNo)) ||
-                                                               (((Int32?)(temp3.LFU.labInsNo) == null) && (temp3.temp2.temp1.LI.labInsNo == selectedLabInsNo))
-                                                            )
-                                                   )
-                                                   .Select(
-                                                      temp3 =>
-                                                         new
-                                                         {
-                                                             labInsItem = temp3.temp2.temp1.temp0.LII.labInsItem,
-                                                             checkbox = temp3.temp2.temp1.temp0.LID.checkbox,
-                                                             comments = temp3.temp2.temp1.temp0.LID.comments,
-                                                             comment = temp3.LFU.comment
-                                                         }
-                                                   );
-
-        grvLabInspectionResults.DataBind();
-
-        tbLabInspectionComment.Text = Convert.ToString(ctx.LabInspections.Where(LI => (LI.labInsNo == selectedLabInsNo)).Select(LI => LI.comments).FirstOrDefault());
-
-
-        var qryFollowUpSubmitter = ctx.LabInspections.Where(LI => (LI.labInsNo == selectedLabInsNo)).Select(LI => LI.followupSubmitter).FirstOrDefault();
-
-        // Check for null values.
-        if (qryFollowUpSubmitter != null)
-        {
-            lblLabFollowUpSubmitter.Text = Convert.ToString(qryFollowUpSubmitter);
-        }
-
-        var qryFollowUpDate = ctx.LabInspections.Where(LI => (LI.labInsNo == selectedLabInsNo)).Select(LI => LI.followupDate).FirstOrDefault();
-        // Checks for null values.
-        if (qryFollowUpDate != null)
-        {
-            DateTime temp = Convert.ToDateTime(qryFollowUpDate);
-            lblLabFollowUpDate.Text = temp.ToString("MM/dd/yyyy");
-        }
-
-        // Converts the int value in the DB to a string. Used for checking if a follow up is complete or not.
-        var qryFollowUpStatus = ctx.LabInspections.Where(LI => (LI.labInsNo == selectedLabInsNo)).Select(LI => LI.followUpStatus).FirstOrDefault();
-        if (qryFollowUpStatus != null)
-        {
-            if (qryFollowUpStatus == "1")
-            {
-                lblLabFollowUpStatus.Text = "No Follow Up";
-            }
-            else if (qryFollowUpStatus == "0")
-            {
-                lblLabFollowUpStatus.Text = "No Follow Up";
-            }
-            else
-            {
-                lblLabFollowUpStatus.Text = "Follow Up Complete";
-            }
-        }
-
-        var qryFollowUpComment = ctx.LabInspections.Where(LI => (LI.labInsNo == selectedLabInsNo)).Select(LI => LI.followupComment).FirstOrDefault();
-        if (qryFollowUpComment != null)
-        {
-            tbLabFollowupComments.Text = qryFollowUpComment.ToString();
-        }
+    private void selectDepartment(String deptName) {
+        collapseAllPanels(false);
+        cpeStats.Collapsed = true;
+        cpeStats.ClientState = "true";
+        cpeDept.Collapsed = true;
+        cpeDept.ClientState = "true";
+        tbxEmpSearchDept.Text = deptName;
+        cbxEmpSearchDept.Checked = true;
+        populateEmployees();
+        tbxTrainingSearchDept.Text = deptName;
+        cbxTrainingSearchDept.Checked = true;
+        populateTraining();
+        tbxIncSearchDept.Text = deptName;
+        cbxIncSearchDept.Checked = true;
+        populateIncidents();
+        tbxLabInspDept.Text = deptName;
+        cbxLabInspDept.Checked = true;
+        populateLabInspections();
+        tbxOffInspDept.Text = deptName;
+        cbxOffInspDept.Checked = true;
+        populateOfficeInspections();
     }
 
     /// <summary>
-    /// This method populates one of the column fields on the fly.
-    /// It changes any 1, 2, 3 to their appropriate values.
+    /// Re-populates the grid view so it reflects any modified search filters.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnDeptSearch_Click(object sender, EventArgs e) {
+        populateDepartments();
+    }
+    /// <summary>
+    /// Resets the search filters and re-populates the grid view so the default filters and results are showing.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnDeptSearchReset_Click(object sender, EventArgs e) {
+        resetDeptartmentSearch();
+    }
+
+    private void resetDeptartmentSearch() {
+        tbxDeptSearchDept.Text = String.Empty;
+        cbxDeptSearchDept.Checked = false;
+        populateDepartments();
+    }
+
+    #region gdvDepts - Sorting and Paging
+    private DataView gdvDepts_DataView = new DataView();
+
+    private string gdvDepts_SortExpression {
+        get { return ViewState["gdvDepts_SortExpression"] as string ?? String.Empty; }
+        set { ViewState["gdvDepts_SortExpression"] = value; }
+    }
+
+    private string gdvDepts_SortDirection {
+        get { return ViewState["gdvDepts_SortDirection"] as string ?? "ASC"; }
+        set { ViewState["gdvDepts_SortDirection"] = value; }
+    }
+
+    protected void gdvDepts_Sorting(object sender, GridViewSortEventArgs e) {
+        gdvDepts_SortDirection = getSortDirection(gdvDepts_SortDirection);
+        gdvDepts_SortExpression = e.SortExpression + " " + gdvDepts_SortDirection;
+        gdvDepts_Sort(gdvDepts.PageIndex);
+    }
+
+    protected void gdvDepts_PageIndexChanging(object sender, GridViewPageEventArgs e) {
+        gdvDepts.PageIndex = e.NewPageIndex;
+        gdvDepts_Sort(gdvDepts.PageIndex);
+    }
+    
+    private void gdvDepts_Sort(int gdvPageIndex) {
+        gdvDepts_DataView.Sort = gdvDepts_SortExpression;
+        bindDepts();
+        gdvDepts.PageIndex = gdvPageIndex;
+    }
+    #endregion gdvDepts - Sorting and Paging
+    #endregion Departments
+
+    #region Employees
+    private void populateEmployees() {
+        DataTable dt = new DataTable();
+        dt.Columns.Add("empNo", typeof(int));
+        dt.Columns.Add("empDept", typeof(String)); 
+        dt.Columns.Add("empName", typeof(String));
+        dt.Columns.Add("employer", typeof(String));
+        dt.Columns.Add("incidents", typeof(int));
+        dt.Columns.Add("totalCourses", typeof(int));
+        dt.Columns.Add("validCourses", typeof(int));
+        dt.Columns.Add("expiredCourses", typeof(int));
+        
+        List<Employee> emps = applyEmployeeFilters();
+        emps.OrderBy(e => e.deptName).ThenBy(e => (e.fname + " " + e.lname));
+
+        int totalValid = 0;
+        int totalExpired = 0;
+        int totalCourses = 0;
+
+        foreach (Employee emp in emps) {
+            var training = ctx.TrainingTakens
+                         .Where(tt => tt.empNo.Equals(emp.empNo))
+                         .Where(tt => (tt.active == null || tt.active.Equals("1")))
+                         .Where(tt => tt.trainingTakenNo.Equals(
+                                     ctx.TrainingTakens
+                                     .Where(ttRecent => ttRecent.TrainingCours.trainingName.Equals(tt.TrainingCours.trainingName))
+                                     .Select(ttRecent => ttRecent)
+                                     .OrderByDescending(ttRecent => ttRecent.startDate).FirstOrDefault().trainingTakenNo))
+                         .Select(tt => tt);
+
+            int valid = training.Where(tt => (tt.endDate == null) || (DateTime.Now < tt.endDate)).Count();
+            int expired = training.Where(tt => (tt.endDate != null) && (DateTime.Now >= tt.endDate)).Count();
+            int courses = training.Count();
+                        
+            DataRow dr = dt.NewRow();
+            dr["empNo"] = emp.empNo;
+            dr["empDept"] = emp.deptName;
+            dr["empName"] = emp.fname + " " + emp.lname;
+            dr["employer"] = emp.employer;
+            dr["incidents"] = 0;
+            dr["totalCourses"] = courses;
+            dr["validCourses"] = valid;
+            dr["expiredCourses"] = expired;
+            
+
+            totalValid += valid;
+            totalExpired += expired;
+            totalCourses += courses;
+
+            dt.Rows.Add(dr);
+        }
+
+        drEmpTotal = dt.NewRow();
+        drEmpTotal["empNo"] = 0;
+        drEmpTotal["empDept"] = "Total: ";
+        drEmpTotal["empName"] = String.Empty;
+        drEmpTotal["employer"] = String.Empty;
+        drEmpTotal["incidents"] = 0;
+        drEmpTotal["totalCourses"] = totalCourses;
+        drEmpTotal["validCourses"] = totalValid;
+        drEmpTotal["expiredCourses"] = totalExpired;
+        
+        gdvEmployees_DataView = new DataView(dt);
+
+        bindEmps();
+    }
+
+    private DataRow drEmpTotal = null;
+
+    private void bindEmps() {
+        gdvEmployees.DataSource = gdvEmployees_DataView;
+        gdvEmployees.DataBind();
+    }
+
+    protected void gdvEmployees_RowDataBound(Object sender, GridViewRowEventArgs e) {
+        if (e.Row.RowType == DataControlRowType.Footer) {
+            GridViewRow footer = e.Row;
+            for (int i = 1; i < footer.Cells.Count - 1; i++) {
+                footer.Cells[i].Text = drEmpTotal[i].ToString();
+            }
+
+            footer.Cells[0].Visible = false;
+            footer.Cells[2].Visible = false;
+            footer.Cells[3].Visible = false;
+            footer.Cells[1].ColumnSpan = 4;
+            footer.Cells[footer.Cells.Count - 1].Text = String.Empty;
+        }
+    }
+
+    private List<Employee> applyEmployeeFilters() {
+        setPageSize(gdvEmployees, tbxEmpSearchPages, DefaultGridViewPageSize);
+
+        var qry = ctx.Employees.Select(emp => emp);
+
+        if (tbxEmpSearchDept.Text != null && !(tbxEmpSearchDept.Text.Equals(String.Empty))) {
+            if (cbxEmpSearchDept.Checked) {
+                qry = qry.Where(emp => emp.deptName.Equals(tbxEmpSearchDept.Text));
+            }
+            else {
+                qry = qry.Where(emp => emp.deptName.Contains(tbxEmpSearchDept.Text));
+            }
+        }
+
+        if (tbxEmpSearchName.Text != null && !(tbxEmpSearchName.Text.Equals(String.Empty))) {
+            if (cbxEmpSearchName.Checked) {
+                qry = qry.Where(emp => (emp.fname + " " + emp.lname).Equals(tbxEmpSearchName.Text));
+            }
+            else {
+                qry = qry.Where(emp => (emp.fname + " " + emp.lname).Contains(tbxEmpSearchName.Text));
+            }
+        }
+
+        if (tbxEmpSearchEmployer.Text != null && !(tbxEmpSearchEmployer.Text.Equals(String.Empty))) {
+            if (cbxEmpSearchEmployer.Checked) {
+                qry = qry.Where(emp => emp.employer.Equals(tbxEmpSearchEmployer.Text));
+            }
+            else {
+                qry = qry.Where(emp => emp.employer.Contains(tbxEmpSearchEmployer.Text));
+            }
+        }
+
+        if (cbxEmpSearchCurrent.Checked && cbxEmpSearchFormer.Checked) {
+            // if both current and former are checked, do nothing to query
+        }
+        else if (cbxEmpSearchFormer.Checked) {
+            qry = qry.Where(emp => (emp.endDate != null) && (DateTime.Now > emp.endDate));
+        }
+        else if (cbxEmpSearchCurrent.Checked) {
+            qry = qry.Where(emp => (emp.endDate == null) || (DateTime.Now <= emp.endDate));
+        }
+        else {
+            return new List<Employee>(); // no results if neither is checked
+        }
+
+        return qry.ToList<Employee>();
+    }
+
+    /// <summary>
+    /// Triggered when an employee is selected from the grid view.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void grvLabInspectionResults_DataBinding(object sender, GridViewRowEventArgs e)
-    {
+    protected void gdvEmployees_SelectedIndexChanged(object sender, EventArgs e) {
+        String strId = gdvEmployees.SelectedRow.Cells[0].Text;
+        selectEmployee(strId);
+    }
 
-        if (e.Row.RowType == DataControlRowType.DataRow)
-        {
-            for (int i = -1; i < grvLabInspectionResults.Rows.Count; i++)
-            {
+    private void selectEmployee(String id) {
+        Response.Redirect("~/Training/Default.aspx?id=" + id);
+    }
+    
+    /// <summary>
+    /// Re-populates the grid view so it reflects any modified search filters.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnEmpSearch_Click(object sender, EventArgs e) {
+        populateEmployees();
+    }
+    /// <summary>
+    /// Resets the search filters and re-populates the grid view so the default filters and results are showing.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnEmpSearchReset_Click(object sender, EventArgs e) {
+        resetEmpSearch();
+    }
 
-                if (e.Row.Cells[1].Text == "1")
-                    e.Row.Cells[1].Text = "Yes";
+    private void resetEmpSearch() {
+        tbxEmpSearchDept.Text = String.Empty;
+        cbxEmpSearchDept.Checked = false;
+        tbxEmpSearchName.Text = String.Empty;
+        cbxEmpSearchName.Checked = false;
+        tbxEmpSearchEmployer.Text = String.Empty;
+        cbxEmpSearchEmployer.Checked = false;
+        cbxEmpSearchCurrent.Checked = true;
+        cbxEmpSearchFormer.Checked = false;
+        populateEmployees();
+    }
+    
+    #region gdvEmployees - Sorting and Paging
+    private DataView gdvEmployees_DataView = new DataView();
 
-                if (e.Row.Cells[1].Text == "2")
-                    e.Row.Cells[1].Text = "No";
+    private string gdvEmployees_SortExpression {
+        get { return ViewState["gdvEmployees_SortExpression"] as string ?? String.Empty; }
+        set { ViewState["gdvEmployees_SortExpression"] = value; }
+    }
 
-                if (e.Row.Cells[1].Text == "3")
-                    e.Row.Cells[1].Text = "N/A";
+    private string gdvEmployees_SortDirection {
+        get { return ViewState["gdvEmployees_SortDirection"] as string ?? "ASC"; }
+        set { ViewState["gdvEmployees_SortDirection"] = value; }
+    }
 
+    protected void gdvEmployees_Sorting(object sender, GridViewSortEventArgs e) {
+        gdvEmployees_SortDirection = getSortDirection(gdvEmployees_SortDirection);
+        gdvEmployees_SortExpression = e.SortExpression + " " + gdvEmployees_SortDirection;
+        gdvEmployees_Sort(gdvEmployees.PageIndex);
+    }
+
+    protected void gdvEmployees_PageIndexChanging(object sender, GridViewPageEventArgs e) {
+        gdvEmployees.PageIndex = e.NewPageIndex;
+        gdvEmployees_Sort(gdvEmployees.PageIndex);
+    }
+
+    private void gdvEmployees_Sort(int gdvPageIndex) {
+        gdvEmployees_DataView.Sort = gdvEmployees_SortExpression;
+        bindEmps();
+        gdvEmployees.PageIndex = gdvPageIndex;
+    }
+    #endregion gdvEmployees - Sorting and Paging
+    #endregion Employees
+
+    #region Training
+    private void populateTraining() {
+        List<TrainingTaken> training = applyTrainingFilters();
+        var qry = training
+                  .Select(tt => new {
+                      ttNo = tt.trainingTakenNo,
+                      empDept = tt.Employee.deptName,
+                      empName = tt.Employee.fname + " " + tt.Employee.lname,
+                      courseName = tt.TrainingCours.trainingName,
+                      courseDate = tt.startDate,
+                      expiryDate = tt.endDate,
+                  });
+        
+        qry = qry.OrderBy(tt => tt.expiryDate);
+
+        DataTable dt = new DataTable();
+        dt.Columns.Add("ttNo", typeof(int));
+        dt.Columns.Add("empDept", typeof(String));
+        dt.Columns.Add("empName", typeof(String));
+        dt.Columns.Add("courseName", typeof(String));
+        dt.Columns.Add("courseDate", typeof(DateTime));
+        dt.Columns.Add("expiryDate", typeof(DateTime));
+        dt.Columns.Add("expired", typeof(String));
+                
+        foreach (var item in qry) {
+            DataRow dr = dt.NewRow();
+            dr["ttNo"] = item.ttNo;
+            dr["empDept"] = item.empDept;
+            dr["empName"] = item.empName;
+            dr["courseName"] = item.courseName;
+            dr["courseDate"] = item.courseDate;
+            dr["expiryDate"] = item.expiryDate == null ? DateTime.MaxValue : item.expiryDate;
+            dr["expired"] = item.expiryDate <= DateTime.Now ? "*" : String.Empty;
+            dt.Rows.Add(dr);
+        }
+
+        gdvTraining_DataView = new DataView(dt);
+        bindTraining();
+    }
+
+    private void bindTraining() {
+        gdvTraining.DataSource = gdvTraining_DataView;
+        gdvTraining.DataBind();
+    }
+
+    private List<TrainingTaken> applyTrainingFilters() {
+        setPageSize(gdvTraining, tbxTrainingSearchPages, DefaultGridViewPageSize);
+        var qry = ctx.TrainingTakens.Select(tt => tt);
+
+        if (tbxTrainingSearchDept.Text != null && !(tbxTrainingSearchDept.Text.Equals(String.Empty))) {
+            if (cbxTrainingSearchDept.Checked) {
+                qry = qry.Where(tt => tt.Employee.deptName.Equals(tbxTrainingSearchDept.Text));
+            }
+            else {
+                qry = qry.Where(tt => tt.Employee.deptName.Contains(tbxTrainingSearchDept.Text));
             }
         }
 
+        if (tbxTrainingSearchEmp.Text != null && !(tbxTrainingSearchEmp.Text.Equals(String.Empty))) {
+            if (cbxTrainingSearchEmp.Checked) {
+                qry = qry.Where(tt => (tt.Employee.fname + " " + tt.Employee.lname).Equals(tbxTrainingSearchEmp.Text));
+            }
+            else {
+                qry = qry.Where(tt => (tt.Employee.fname + " " + tt.Employee.lname).Contains(tbxTrainingSearchEmp.Text));
+            }
+        }
+
+        if (tbxTrainingSearchCourse.Text != null && !(tbxTrainingSearchCourse.Text.Equals(String.Empty))) {
+            if (cbxTrainingSearchCourse.Checked) {
+                qry = qry.Where(tt => tt.TrainingCours.trainingName.Equals(tbxTrainingSearchCourse.Text));
+            }
+            else {
+                qry = qry.Where(tt => tt.TrainingCours.trainingName.Contains(tbxTrainingSearchCourse.Text));
+            }
+        }
+
+        DateTime earliestCourseDate = getDateTime(tbxEarliestCourseDate.Text);
+        if (!(earliestCourseDate.Equals(DateTime.MinValue))) {
+            qry = qry.Where(tt => tt.startDate >= earliestCourseDate);
+        }
+
+        DateTime latestCourseDate = getDateTime(tbxLatestCourseDate.Text);
+        if (!(latestCourseDate.Equals(DateTime.MinValue))) {
+            qry = qry.Where(tt => tt.startDate <= latestCourseDate);
+        }
+
+        DateTime earliestExpiryDate = getDateTime(tbxEarliestExpiryDate.Text);
+        if (!(earliestExpiryDate.Equals(DateTime.MinValue))) {
+            qry = qry.Where(tt => (tt.endDate == null || tt.endDate >= earliestExpiryDate));
+        }
+
+        DateTime latestExpiryDate = getDateTime(tbxLatestExpiryDate.Text);
+        if (!(latestExpiryDate.Equals(DateTime.MinValue))) {
+            qry = qry.Where(tt => tt.endDate <= latestExpiryDate);
+        }
+
+        if (rblMostRecent.SelectedValue.ToString().Equals("mostRecent")) {
+            qry = qry.Where(tt => tt.trainingTakenNo.Equals(
+                            ctx.TrainingTakens
+                            .Where(ttRecent => ttRecent.TrainingCours.trainingName.Equals(tt.TrainingCours.trainingName))
+                            .Select(ttRecent => ttRecent)
+                            .OrderByDescending(ttRecent => ttRecent.startDate).FirstOrDefault().trainingTakenNo));
+        }
+
+        if (!cbxIncludeDeleted.Checked) {
+            qry = qry.Where(tt => (tt.active == null || tt.active.Equals("1")));
+        }
+
+        if (cbxIncludeExpired.Checked && cbxIncludeValid.Checked) {
+            // if both expired and valid are checked, do nothing to query
+        }
+        else if (cbxIncludeExpired.Checked) {
+            qry = qry.Where(tt => (tt.endDate != null) && (DateTime.Now >= tt.endDate));
+        }
+        else if (cbxIncludeValid.Checked) {
+            qry = qry.Where(tt => (tt.endDate == null) || (DateTime.Now < tt.endDate));
+        }
+        else {
+            return new List<TrainingTaken>(); // no results if neither is checked
+        }
+
+        return qry.ToList<TrainingTaken>();
     }
 
-
-    #region Office Inspection Look Up
-    /// <summary>
-    /// When clicked it does a lookup for any office inspections.
-    /// And returns a grid view of the results.
-    /// </summary>
-    protected void btnOfficeInspectionLookUp_Click(object sender, EventArgs e)
-    {
-        grvOfficeInspections.Visible = true;
-
-        department = Convert.ToString(ddlOfficeDepartment.SelectedValue);
-
-        string officeInspectionDate = Convert.ToString(tbxOfficeInspectionDate.Text);
-
-        System.Globalization.DateTimeFormatInfo dateInfo = new System.Globalization.DateTimeFormatInfo();
-        dateInfo.ShortDatePattern = "MM/dd/yyyy";
-        DateTime validDate;
-        if (tbxOfficeInspectionDate.Text.Length == 0)
-        {
-            validDate = Convert.ToDateTime("01/01/0001");
-        }
-        else
-        {
-            validDate = Convert.ToDateTime(officeInspectionDate, dateInfo);
-        }
-        switch (userRole)
-        {
-            //Role: Admin/Safety Officer; Sees all reports
-            case 0:
-                grvOfficeInspections.DataSource = ctx.OfficeInspections
-                                           .Join(
-                                              ctx.Departments,
-                                              OI => OI.deptName,
-                                              D => D.deptName,
-                                              (OI, D) =>
-                                                 new
-                                                 {
-                                                     OI = OI,
-                                                     D = D
-                                                 }
-                                           )
-                                           .Where(temp0 => ((temp0.D.deptName == department) || (temp0.OI.insDate == validDate)))
-                                           .Select(
-                                              temp0 =>
-                                                 new
-                                                 {
-                                                     officeInsNo = temp0.OI.officeInsNo,
-                                                     deptName = temp0.D.deptName,
-                                                     insDate = temp0.OI.insDate,
-                                                     inspector = temp0.OI.inspector,
-                                                     area = temp0.OI.area,
-                                                 }
-                                           );
-
-
-
-                grvOfficeInspections.DataBind();
-                break;
-            // Role: Lab Manager; See reports in their lab.
-            case 1:
-                // Session Value of logged in users Deptartment Number
-                int userDeptNo = (int)Session["DeptNo"];
-                grvOfficeInspections.DataSource = ctx.OfficeInspections
-                                           .Join(
-                                              ctx.Departments,
-                                              OI => OI.deptName,
-                                              D => D.deptName,
-                                              (OI, D) =>
-                                                 new
-                                                 {
-                                                     OI = OI,
-                                                     D = D
-                                                 }
-                                           )
-                                           .Where(temp0 => ((temp0.D.deptName == department) || (temp0.OI.insDate == validDate)) && (temp0.D.deptNo == userDeptNo))
-                                           .Select(
-                                              temp0 =>
-                                                 new
-                                                 {
-                                                     officeInsNo = temp0.OI.officeInsNo,
-                                                     deptName = temp0.D.deptName,
-                                                     insDate = temp0.OI.insDate,
-                                                     inspector = temp0.OI.inspector,
-                                                     area = temp0.OI.area,
-                                                 }
-                                           );
-
-
-
-                grvOfficeInspections.DataBind();
-                break;
-            default:
-                throw new System.SystemException("Default case of switch should never be reached");
+    protected void gdvTraining_RowDataBound(Object sender, GridViewRowEventArgs e) {
+        if (e.Row.RowType != DataControlRowType.DataRow) {
+            return;
         }
 
-
-    }
-    #endregion
-
-    /// <summary>
-    /// Handles the look up of ALL Office Inspections.
-    /// </summary>
-    /// <param name="sender">Not used</param>
-    /// <param name="e">Not used.</param>
-    protected void btnOfficeInspectionLookUpAll_Click(object sender, EventArgs e)
-    {
-        grvOfficeInspections.Visible = true;
-
-        department = Convert.ToString(ddlOfficeDepartment.SelectedValue);
-
-        string officeInspectionDate = Convert.ToString(tbxOfficeInspectionDate.Text);
-
-        System.Globalization.DateTimeFormatInfo dateInfo = new System.Globalization.DateTimeFormatInfo();
-        dateInfo.ShortDatePattern = "MM/dd/yyyy";
-
-        DateTime validDate;
-        if (tbxOfficeInspectionDate.Text.Length == 0)
-        {
-            validDate = Convert.ToDateTime("01/01/0001");
+        GridViewRow row = e.Row;
+         // if the expiry date is null
+        if (row.Cells[5].Text.Equals("12/31/9999")) {
+            row.Cells[5].Text = String.Empty;
+            return; // not expired, don't need to highlight
         }
-        else
-        {
-            validDate = Convert.ToDateTime(officeInspectionDate, dateInfo);
+
+        if (!cbxHighlightExpired.Checked) {
+            return;
         }
-        switch (userRole)
-        {
-            //Role: Admin/Safety Officer; Sees all reports
-            case 0:
-                grvOfficeInspections.DataSource = ctx.OfficeInspections
-                                           .Join(
-                                              ctx.Departments,
-                                              OI => OI.deptName,
-                                              D => D.deptName,
-                                              (OI, D) =>
-                                                 new
-                                                 {
-                                                     OI = OI,
-                                                     D = D
-                                                 }
-                                           )
-                                           .Select(
-                                              temp0 =>
-                                                 new
-                                                 {
-                                                     officeInsNo = temp0.OI.officeInsNo,
-                                                     deptName = temp0.D.deptName,
-                                                     insDate = temp0.OI.insDate,
-                                                     inspector = temp0.OI.inspector,
-                                                     area = temp0.OI.area,
-                                                 }
-                                           );
 
-
-
-                grvOfficeInspections.DataBind();
-                break;
-            // Role: Lab manager; See all reports in their Department.
-            case 1:
-                // Session Value of logged in users Deptartment Number
-                int userDeptNo = (int)Session["DeptNo"];
-                grvOfficeInspections.DataSource = ctx.OfficeInspections
-                                           .Join(
-                                              ctx.Departments,
-                                              OI => OI.deptName,
-                                              D => D.deptName,
-                                              (OI, D) =>
-                                                 new
-                                                 {
-                                                     OI = OI,
-                                                     D = D
-                                                 }
-                                           )
-                                           .Where(temp0 => (temp0.D.deptNo == userDeptNo))
-                                           .Select(
-                                              temp0 =>
-                                                 new
-                                                 {
-                                                     officeInsNo = temp0.OI.officeInsNo,
-                                                     deptName = temp0.D.deptName,
-                                                     insDate = temp0.OI.insDate,
-                                                     inspector = temp0.OI.inspector,
-                                                     area = temp0.OI.area,
-                                                 }
-                                           );
-
-
-
-                grvOfficeInspections.DataBind();
-                break;
-            default:
-                throw new System.SystemException("Default case of switch should never be reached");
+        if (row.Cells[6].Text.Equals("*")) {
+            e.Row.ForeColor = Color.Red;
         }
     }
 
-
     /// <summary>
-    /// Builds the gridview of the selected Office Inspection with more details
-    /// as well as a follow up at the end. 
+    /// Triggered when a training record is selected from the grid view.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void grvOfficeInspections_SelectedIndexChanged(Object sender, EventArgs e)
-    {
-        grvOfficeInspectionResults.Visible = true;
-        grvOfficeInspections.Visible = true;
-        officefollowUpRow.Visible = true;
-        tbOfficeInspectionComment.Visible = true;
-        tblOfficeInspectionComment.Visible = true;
-
-        lblOfficeFollowUpDate.Text = "";
-        lblOfficeFollowUpStatus.Text = "";
-        lblOfficeFollowUpSubmitter.Text = "";
-        tbOfficeFollowUpComment.Text = "";
-
-        // Get the currently selected row using the SelectedRow property.
-        GridViewRow row = grvOfficeInspections.SelectedRow;
-        row.Cells[1].Text.ToString();
-        int selectedOfficeInsNo = Convert.ToInt32(row.Cells[1].Text);
-
-        grvOfficeInspectionResults.DataSource = ctx.OfficeInspectionItems
-                                                           .Join(
-                                                              ctx.OfficeInspectionDetails,
-                                                              OII =>
-                                                                 new
-                                                                 {
-                                                                     officeInsItemNo = OII.officeInsItemNo
-                                                                 },
-                                                              OID =>
-                                                                 new
-                                                                 {
-                                                                     officeInsItemNo = (Int32)(OID.officeInsItemNo)
-                                                                 },
-                                                              (OII, OID) =>
-                                                                 new
-                                                                 {
-                                                                     OII = OII,
-                                                                     OID = OID
-                                                                 }
-                                                           )
-                                                           .Join(
-                                                              ctx.OfficeInspections,
-                                                              temp0 => temp0.OID.officeInsNo,
-                                                              OI => (Int32?)(OI.officeInsNo),
-                                                              (temp0, OI) =>
-                                                                 new
-                                                                 {
-                                                                     temp0 = temp0,
-                                                                     OI = OI
-                                                                 }
-                                                           )
-                                                           .GroupJoin(
-                                                              ctx.OfficeFollowUps,
-                                                              temp1 =>
-                                                                 new
-                                                                 {
-                                                                     officeInsItemNo = temp1.temp0.OII.officeInsItemNo,
-                                                                     officeInsNo = temp1.OI.officeInsNo
-                                                                 },
-                                                              OFU =>
-                                                                 new
-                                                                 {
-                                                                     officeInsItemNo = (Int32)(OFU.officeInsItemNo),
-                                                                     officeInsNo = OFU.officeInsNo
-                                                                 },
-                                                              (temp1, officefollowup_join) =>
-                                                                 new
-                                                                 {
-                                                                     temp1 = temp1,
-                                                                     officefollowup_join = officefollowup_join
-                                                                 }
-                                                           )
-                                                           .SelectMany(
-                                                              temp2 => temp2.officefollowup_join.DefaultIfEmpty(),
-                                                              (temp2, OFU) =>
-                                                                 new
-                                                                 {
-                                                                     temp2 = temp2,
-                                                                     OFU = OFU
-                                                                 }
-                                                           )
-                                                           .Where(
-                                                              temp3 =>
-                                                                    (((temp3.OFU.officeInsNo == selectedOfficeInsNo) && (temp3.temp2.temp1.OI.officeInsNo == selectedOfficeInsNo)) ||
-                                                                       (((Int32?)(temp3.OFU.officeInsNo) == null) && (temp3.temp2.temp1.OI.officeInsNo == selectedOfficeInsNo))
-                                                                    )
-                                                           )
-                                                           .Select(
-                                                              temp3 =>
-                                                                 new
-                                                                 {
-                                                                     officeInsName = temp3.temp2.temp1.temp0.OII.officeInsName,
-                                                                     checkbox = temp3.temp2.temp1.temp0.OID.checkbox,
-                                                                     comments = temp3.temp2.temp1.temp0.OID.comments,
-                                                                     comment = temp3.OFU.comment
-                                                                 }
-                                                           );
-
-
-        grvOfficeInspectionResults.DataBind();
-
-        tbOfficeInspectionComment.Text = Convert.ToString(ctx.OfficeInspections.Where(OI => (OI.officeInsNo == selectedOfficeInsNo)).Select(OI => OI.comments).FirstOrDefault());
-
-
-        var qryFollowUpSubmitter = ctx.OfficeInspections.Where(OI => (OI.officeInsNo == selectedOfficeInsNo)).Select(OI => OI.followupSubmitter).FirstOrDefault();
-        if (qryFollowUpSubmitter != null)
-        {
-            lblOfficeFollowUpSubmitter.Text = Convert.ToString(qryFollowUpSubmitter);
+    protected void gdvTraining_SelectedIndexChanged(object sender, EventArgs e) {
+        String name = gdvTraining.SelectedRow.Cells[2].Text;
+        int empNo = -1;
+        Employee employee = ctx.Employees.Where(emp => (emp.fname + " " + emp.lname).Equals(name)).FirstOrDefault();
+        if (employee != null) {
+            empNo = employee.empNo;
         }
+        selectTraining(empNo);
+    }
 
-        var qryFollowUpDate = ctx.OfficeInspections.Where(OI => (OI.officeInsNo == selectedOfficeInsNo)).Select(OI => OI.followupDate).FirstOrDefault();
-        if (qryFollowUpDate != null)
-        {
-            DateTime temp = Convert.ToDateTime(qryFollowUpDate);
-            lblOfficeFollowUpDate.Text = temp.ToString("MM/dd/yyyy");
-        }
-
-        var qryFollowUpStatus = ctx.OfficeInspections.Where(OI => (OI.officeInsNo == selectedOfficeInsNo)).Select(OI => OI.followUpStatus).FirstOrDefault();
-        if (qryFollowUpStatus != null)
-        {
-            if (qryFollowUpStatus == "1")
-            {
-                lblOfficeFollowUpStatus.Text = "No Follow Up";
-            }
-            else if (qryFollowUpStatus == "0")
-            {
-                lblOfficeFollowUpStatus.Text = "No Follow Up";
-            }
-            else
-            {
-                lblOfficeFollowUpStatus.Text = "Follow Up Complete";
-            }
-        }
-
-        var qryFollowUpComment = ctx.OfficeInspections.Where(OI => (OI.officeInsNo == selectedOfficeInsNo)).Select(OI => OI.followupComment).FirstOrDefault();
-        if (qryFollowUpComment != null)
-        {
-            tbOfficeFollowUpComment.Text = qryFollowUpComment.ToString();
-        }
+    private void selectTraining(int id) {
+        Response.Redirect("~/Training/Default.aspx?id=" + id);
     }
 
     /// <summary>
-    /// This method populates one of the column fields on the fly.
-    /// It changes any 1, 2, 3 to their appropriate values.
+    /// Checkes latest date is in correct format and compares the earliest and latest dates in a range.
+    /// Makes sure latest date is after earliest date.
+    /// If the earliest date is invalid, ignores it (the other validator will catch it).
+    /// If the latest date is in an invalid format, validates false, sets appropriate message.
+    /// If the latest date is null or empty, validates true becuase there's nothing to compare.
+    /// If both dates are specified and in the proper format, the dates are compared.
+    /// If the latest date is before the earliest date, validates false.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvLatestCourseDate_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strLatestDate = tbxLatestCourseDate.Text;
+        DateTime earliestDate = getDateTime(tbxEarliestCourseDate.Text);
+        DateTime latestDate = getDateTime(tbxLatestCourseDate.Text);
+
+        // end date
+        if (strLatestDate == null || strLatestDate.Equals(String.Empty)) {
+            args.IsValid = true; // nothing to compare, so it's valid
+            return;
+        }
+
+        if (latestDate.Equals(DateTime.MinValue)) {
+            cmvLatestCourseDate.ErrorMessage = "Latest course date must be in the format 'MM/DD/YYYY'";
+            return;
+        }
+
+        if (earliestDate.Equals(DateTime.MinValue)) {
+            args.IsValid = true;
+            return; // other server validator will catch the error
+        }
+
+        // comparison
+        if (latestDate.CompareTo(earliestDate) > 0) {
+            args.IsValid = true;
+            return;
+        }
+
+        cmvLatestCourseDate.ErrorMessage = "Latest course date must be later than earliest course date.";
+    }
+
+    /// <summary>
+    /// Checkes latest date is in correct format and compares the earliest and latest dates in a range.
+    /// Makes sure latest date is after earliest date.
+    /// If the earliest date is invalid, ignores it (the other validator will catch it).
+    /// If the latest date is in an invalid format, validates false, sets appropriate message.
+    /// If the latest date is null or empty, validates true becuase there's nothing to compare.
+    /// If both dates are specified and in the proper format, the dates are compared.
+    /// If the latest date is before the earliest date, validates false.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvLatestExpiryDate_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strLatestDate = tbxLatestExpiryDate.Text;
+        DateTime earliestDate = getDateTime(tbxEarliestExpiryDate.Text);
+        DateTime latestDate = getDateTime(tbxLatestExpiryDate.Text);
+
+        // end date
+        if (strLatestDate == null || strLatestDate.Equals(String.Empty)) {
+            args.IsValid = true; // nothing to compare, so it's valid
+            return;
+        }
+
+        if (latestDate.Equals(DateTime.MinValue)) {
+            cmvLatestExpiryDate.ErrorMessage = "Latest expiry date must be in the format 'MM/DD/YYYY'";
+            return;
+        }
+
+        if (earliestDate.Equals(DateTime.MinValue)) {
+            args.IsValid = true;
+            return; // other server validator will catch the error
+        }
+
+        // comparison
+        if (latestDate.CompareTo(earliestDate) > 0) {
+            args.IsValid = true;
+            return;
+        }
+
+        cmvLatestExpiryDate.ErrorMessage = "Latest expiry date must be later than earliest expiry date.";
+    }
+
+    /// <summary>
+    /// Re-populates the grid view so it reflects any modified search filters.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnTrainingSearch_Click(object sender, EventArgs e) {
+        populateTraining();
+    }
+    /// <summary>
+    /// Resets the search filters and re-populates the grid view so the default filters and results are showing.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnTrainingSearchReset_Click(object sender, EventArgs e) {
+        resetTrainingSearch();
+    }
+
+    private void resetTrainingSearch() {
+        tbxTrainingSearchDept.Text = String.Empty;
+        cbxTrainingSearchDept.Checked = false;
+        tbxTrainingSearchEmp.Text = String.Empty;
+        cbxTrainingSearchEmp.Checked = false;
+        tbxTrainingSearchCourse.Text = String.Empty;
+        cbxTrainingSearchCourse.Checked = false;
+        tbxEarliestCourseDate.Text = String.Empty;
+        tbxLatestCourseDate.Text = String.Empty;
+        tbxEarliestExpiryDate.Text = String.Empty;
+        tbxLatestExpiryDate.Text = String.Empty;
+        rblMostRecent.SelectedValue = "mostRecent";
+        cbxIncludeDeleted.Checked = false;
+        cbxIncludeValid.Checked = true;
+        cbxIncludeExpired.Checked = true;
+        cbxHighlightExpired.Checked = true;
+        populateTraining();
+    }
+    
+    #region gdvTraining - Sorting and Paging
+    private DataView gdvTraining_DataView = new DataView();
+
+    private string gdvTraining_SortExpression {
+        get { return ViewState["gdvTraining_SortExpression"] as string ?? String.Empty; }
+        set { ViewState["gdvTraining_SortExpression"] = value; }
+    }
+
+    private string gdvTraining_SortDirection {
+        get { return ViewState["gdvTraining_SortDirection"] as string ?? "ASC"; }
+        set { ViewState["gdvTraining_SortDirection"] = value; }
+    }
+
+    protected void gdvTraining_Sorting(object sender, GridViewSortEventArgs e) {
+        gdvTraining_SortDirection = getSortDirection(gdvTraining_SortDirection);
+        gdvTraining_SortExpression = e.SortExpression + " " + gdvTraining_SortDirection;
+        gdvTraining_Sort(gdvTraining.PageIndex);
+    }
+
+    protected void gdvTraining_PageIndexChanging(object sender, GridViewPageEventArgs e) {
+        gdvTraining.PageIndex = e.NewPageIndex;
+        gdvTraining_Sort(gdvTraining.PageIndex);
+    }
+
+    private void gdvTraining_Sort(int gdvPageIndex) {
+        gdvTraining_DataView.Sort = gdvTraining_SortExpression;
+        bindTraining();
+        gdvTraining.PageIndex = gdvPageIndex;
+    }
+    #endregion gdvEmployees - Sorting and Paging
+    #endregion Training
+
+    #region Incidents
+    private void populateIncidents() {
+        List<Incident> incidents = applyIncidentFilters();
+
+        var qry = incidents
+                  .Select(inc => new {
+                      incidentNo = inc.incidentNo,
+                      employee = inc.Employee.fname + " " + inc.Employee.lname,
+                      deptName = inc.Department == null ? "Other" : inc.Department.deptName,
+                      incidentDate = inc.p1_dateOfIncident,
+                      reportDate = inc.p1_dateReported,
+                      submitter = inc.reportSubmitter
+                  });
+
+        qry = qry.OrderByDescending(inc => inc.incidentDate);
+
+        DataTable dt = new DataTable();
+        dt.Columns.Add("incidentNo", typeof(int));
+        dt.Columns.Add("deptName", typeof(String));
+        dt.Columns.Add("employee", typeof(String));
+        dt.Columns.Add("incidentDate", typeof(DateTime));
+        dt.Columns.Add("reportDate", typeof(DateTime));
+        dt.Columns.Add("submitter", typeof(String));
+
+        foreach (var incident in qry) {
+            DataRow dr = dt.NewRow();
+            dr["incidentNo"] = incident.incidentNo;
+            dr["deptName"] = incident.deptName;
+            dr["employee"] = incident.employee;
+            dr["incidentDate"] = incident.incidentDate;
+            dr["reportDate"] = incident.reportDate;
+            dr["submitter"] = incident.submitter;
+            dt.Rows.Add(dr);
+        }
+
+        gdvIncidents_DataView = new DataView(dt);
+        bindIncidents();
+    }
+
+    private void bindIncidents() {
+        gdvIncidents.DataSource = gdvIncidents_DataView;
+        gdvIncidents.DataBind();
+    }
+
+    private List<Incident> applyIncidentFilters() {
+        setPageSize(gdvIncidents, tbxIncidentSearchPages, DefaultGridViewPageSize);
+        List<Incident> incidents = ctx.Incidents.ToList<Incident>();
+        collapseAllFilterPanels();
+
+        if (rblAdvancedSearch.SelectedValue.Equals("yes")) {  
+            incidents = applyAdvancedIncidentFilters();
+        }
+
+        if (!tbxIncSearchDept.Text.Equals(String.Empty)) {
+            String dept = tbxIncSearchDept.Text;
+            if (!cbxIncSearchDept.Checked) {
+                incidents = incidents.Where(i => ((i.Department == null) ? false : i.Department.deptName.Contains(dept))).ToList<Incident>();
+            }
+            else {
+                incidents = incidents.Where(i => ((i.Department == null) ? false : i.Department.deptName.Equals(dept))).ToList<Incident>();
+            }
+        }
+
+        if (!tbxIncSearchEmp.Text.Equals(String.Empty)) {
+            String emp = tbxIncSearchEmp.Text;
+            if (!cbxIncSearchEmp.Checked) {
+                incidents = incidents.Where(i => (i.Employee.fname + " " + i.Employee.lname).Contains(emp)).ToList<Incident>();
+            }
+            else {
+                incidents = incidents.Where(i => (i.Employee.fname + " " + i.Employee.lname).Equals(emp)).ToList<Incident>();
+            }
+        }
+
+        if (!tbxIncSearchSubmitter.Text.Equals(String.Empty)) {
+            String submitter = tbxIncSearchSubmitter.Text;
+            if (!cbxIncSearchSubmitter.Checked) {
+                incidents = incidents.Where(i => (i.reportSubmitter).Contains(submitter)).ToList<Incident>();
+            }
+            else {
+                incidents = incidents.Where(i => (i.reportSubmitter).Equals(submitter)).ToList<Incident>();
+            }
+        }
+
+        DateTime date = getDateTime(tbxEarliestIncidentDate.Text);
+        if (!(date.Equals(DateTime.MinValue))) {
+            incidents = incidents.Where(i => i.p1_dateOfIncident >= date).ToList<Incident>();
+        }
+
+        date = getDateTime(tbxLatestIncidentDate.Text);
+        if (!(date.Equals(DateTime.MinValue))) {
+            incidents = incidents.Where(i => i.p1_dateOfIncident <= date).ToList<Incident>();
+        }
+
+        date = getDateTime(tbxEarliestReportDate.Text);
+        if (!(date.Equals(DateTime.MinValue))) {
+            incidents = incidents.Where(i => i.p1_dateOfIncident >= date).ToList<Incident>();
+        }
+
+        date = getDateTime(tbxLatestReportDate.Text);
+        if (!(date.Equals(DateTime.MinValue))) {
+            incidents = incidents.Where(i => i.p1_dateOfIncident <= date).ToList<Incident>();
+        }
+
+        return incidents;
+    }
+    
+    /// <summary>
+    /// Triggered when an incident is selected from the grid view.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void grvOfficeInspectionResults_DataBinding(object sender, GridViewRowEventArgs e)
-    {
+    protected void gdvIncidents_SelectedIndexChanged(object sender, EventArgs e) {
+        String strId = gdvIncidents.SelectedRow.Cells[0].Text;
+        selectIncident(strId);
+    }
 
+    /// <summary>
+    /// Redirects browser to a separate page for viewing the incident report.
+    /// </summary>
+    /// <param name="id"></param>
+    private void selectIncident(String id) {
+        Response.Redirect("~/View/IncidentReport.aspx?id=" + id);
+    }
 
-        if (e.Row.RowType == DataControlRowType.DataRow)
-        {
-            for (int i = -1; i < grvOfficeInspectionResults.Rows.Count; i++)
-            {
+    /// <summary>
+    /// Checkes latest date is in correct format and compares the earliest and latest dates in a range.
+    /// Makes sure latest date is after earliest date.
+    /// If the earliest date is invalid, ignores it (the other validator will catch it).
+    /// If the latest date is in an invalid format, validates false, sets appropriate message.
+    /// If the latest date is null or empty, validates true becuase there's nothing to compare.
+    /// If both dates are specified and in the proper format, the dates are compared.
+    /// If the latest date is before the earliest date, validates false.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvLatestIncidentDate_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strLatestDate = tbxLatestIncidentDate.Text;
+        DateTime earliestDate = getDateTime(tbxEarliestIncidentDate.Text);
+        DateTime latestDate = getDateTime(tbxLatestIncidentDate.Text);
 
-                if (e.Row.Cells[1].Text == "1")
-                    e.Row.Cells[1].Text = "Yes";
-
-                if (e.Row.Cells[1].Text == "2")
-                    e.Row.Cells[1].Text = "No";
-
-                if (e.Row.Cells[1].Text == "3")
-                    e.Row.Cells[1].Text = "N/A";
-
-            }
+        // end date
+        if (strLatestDate == null || strLatestDate.Equals(String.Empty)) {
+            args.IsValid = true; // nothing to compare, so it's valid
+            return;
         }
 
-    }
-
-    #region Valid Course Look Up
-    /// <summary>
-    /// When clicked it does a lookup for all valid courses.
-    /// And returns a grid view of the results.
-    /// </summary>
-    protected void btnCourseLookUp_Click(object sender, EventArgs e)
-    {
-        var q = from x in ctx.TrainingCourses
-                select x;
-        var total = q.Count();
-        DateTime currentDate = DateTime.Now;
-        List<String> courseArray = ctx.TrainingCourses.Select(c => c.trainingName).ToList();
-
-
-        for (int i = 0; i < total; i++)
-        {
-            GridView grvCourseLookUp = new GridView();
-            String temp = courseArray[i];
-            grvCourseLookUp.DataSource = ctx.Employees
-                               .Join(
-                                  ctx.TrainingTakens,
-                                  emp => emp.empNo,
-                                  TT => TT.empNo,
-                                  (emp, TT) =>
-                                     new
-                                     {
-                                         emp = emp,
-                                         TT = TT
-                                     }
-                               )
-                               .Join(
-                                  ctx.TrainingCourses,
-                                  temp0 => temp0.TT.trainingNo,
-                                  TC => TC.trainingNo,
-                                  (temp0, TC) =>
-                                     new
-                                     {
-                                         temp0 = temp0,
-                                         TC = TC
-                                     }
-                               )
-                               .Where(temp1 => (temp1.TC.trainingName == temp) && (temp1.temp0.emp.endDate > (currentDate)))
-                               .Select(
-                                  temp1 =>
-                                     new
-                                     {
-                                         lastname = temp1.temp0.emp.lname,
-                                         firstname = temp1.temp0.emp.fname,
-                                         startdate = temp1.temp0.TT.startDate,
-                                         expirydate = temp1.temp0.TT.endDate
-                                     }
-                               );
-            grvPanelValidCourses.Controls.Add(grvCourseLookUp);
-
-            grvCourseLookUp.Caption = "<table width=\"100%\" class=\"gvCaption\"><tr><td>" + temp + "</td></tr></table>";
-            grvCourseLookUp.DataBind();
+        if (latestDate.Equals(DateTime.MinValue)) {
+            cmvLatestIncidentDate.ErrorMessage = "Latest incident date must be in the format 'MM/DD/YYYY'";
+            return;
         }
 
+        if (earliestDate.Equals(DateTime.MinValue)) {
+            args.IsValid = true;
+            return; // other server validator will catch the error
+        }
+
+        // comparison
+        if (latestDate.CompareTo(earliestDate) > 0) {
+            args.IsValid = true;
+            return;
+        }
+
+        cmvLatestIncidentDate.ErrorMessage = "Latest incident date must be later than earliest incident date.";
     }
-    #endregion
-
-
-    #region Inspection Look Up
-    /// <summary>
-    /// When clicked it does a lookup for any expired course.
-    /// coming up with in X amount of months.
-    /// And returns a grid view of the results.
-    /// </summary>
-    protected void btnExpiringCourses_Click(object sender, EventArgs e)
-    {
-        int month = Convert.ToInt32(tbxMonthsRange.Text);
-        DateTime currentDate = DateTime.Now;
-        DateTime currentDateMonths = DateTime.Now.AddMonths(month);
-        //var q = from x in ctx.TrainingCourses
-        //        select x;
-        //var total = q.Count();
-
-        //List<String> courseArray = ctx.TrainingCourses.Select(c => c.trainingName).ToList();
-
-        GridView grvExpiringCourseLookUp = new GridView();
-        grvExpiringCourseLookUp.DataSource = ctx.Employees
-                                        .Join(
-                                            ctx.TrainingTakens,
-                                            emp => emp.empNo,
-                                            TT => TT.empNo,
-                                            (emp, TT) =>
-                                                new
-                                                {
-                                                    emp = emp,
-                                                    TT = TT
-                                                }
-                                        )
-                                        .Join(
-                                            ctx.TrainingCourses,
-                                            temp0 => temp0.TT.trainingNo,
-                                            TC => TC.trainingNo,
-                                            (temp0, TC) =>
-                                                new
-                                                {
-                                                    temp0 = temp0,
-                                                    TC = TC
-                                                }
-                                        )
-                                        .Where(temp1 => (((currentDateMonths) > temp1.temp0.TT.endDate) && (temp1.temp0.emp.endDate > (currentDate))))
-                                        .Select(
-                                            temp1 =>
-                                                new
-                                                {
-                                                    trainingName = temp1.TC.trainingName,
-                                                    lastname = temp1.temp0.emp.lname,
-                                                    firstname = temp1.temp0.emp.fname,
-                                                    expirydate = temp1.temp0.TT.endDate
-                                                }
-                                        );
-        grvPanelExpiringCourses.Controls.Add(grvExpiringCourseLookUp);
-        grvExpiringCourseLookUp.Caption = "<table width=\"100%\" class=\"gvCaption\"><tr><td>Expiring Courses</td></tr></table>";
-        grvExpiringCourseLookUp.DataBind();
-    }
-    #endregion
 
     /// <summary>
-    /// Redirects users to a new page that shows
-    /// statistics of the website such as total employees.
+    /// Checkes latest date is in correct format and compares the earliest and latest dates in a range.
+    /// Makes sure latest date is after earliest date.
+    /// If the earliest date is invalid, ignores it (the other validator will catch it).
+    /// If the latest date is in an invalid format, validates false, sets appropriate message.
+    /// If the latest date is null or empty, validates true becuase there's nothing to compare.
+    /// If both dates are specified and in the proper format, the dates are compared.
+    /// If the latest date is before the earliest date, validates false.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btnStatistics_Click(object sender, EventArgs e)
-    {
-        Response.Redirect("Statistics.aspx");
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvLatestReportDate_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strLatestDate = tbxLatestReportDate.Text;
+        DateTime earliestDate = getDateTime(tbxEarliestReportDate.Text);
+        DateTime latestDate = getDateTime(tbxLatestReportDate.Text);
+
+        // end date
+        if (strLatestDate == null || strLatestDate.Equals(String.Empty)) {
+            args.IsValid = true; // nothing to compare, so it's valid
+            return;
+        }
+        if (latestDate.Equals(DateTime.MinValue)) {
+            cmvLatestReportDate.ErrorMessage = "Latest report date must be in the format 'MM/DD/YYYY'";
+            return;
+        }
+        if (earliestDate.Equals(DateTime.MinValue)) {
+            args.IsValid = true;
+            return; // other server validator will catch the error
+        }
+        // comparison
+        if (latestDate.CompareTo(earliestDate) > 0) {
+            args.IsValid = true;
+            return;
+        }
+        cmvLatestReportDate.ErrorMessage = "Latest report date must be later than earliest report date.";
     }
 
-    #region Incident Code
+    /// <summary>
+    /// Re-populates the grid view so it reflects any modified search filters.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnIncidentSearch_Click(object sender, EventArgs e) {
+        populateIncidents();
+    }
+    /// <summary>
+    /// Resets the search filters and re-populates the grid view so the default filters and results are showing.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnIncidentSearchReset_Click(object sender, EventArgs e) {
+        resetIncidentSearch();
+    }
 
-    private void populateTrackerGridView()
-    {
-        gdvTracker.DataSource = ctx.Incidents;
-        gdvTracker.DataBind();
+    /// <summary>
+    /// Resets the search filters and re-populates the grid view so the default filters and results are showing.
+    /// </summary>
+    private void resetIncidentSearch() {
+        tbxIncSearchDept.Text = String.Empty;
+        cbxIncSearchDept.Checked = false;
+        tbxIncSearchEmp.Text = String.Empty;
+        cbxIncSearchEmp.Checked = false;
+        tbxIncSearchSubmitter.Text = String.Empty;
+        cbxIncSearchSubmitter.Checked = false;
+        tbxEarliestIncidentDate.Text = String.Empty;
+        tbxLatestIncidentDate.Text = String.Empty;
+        tbxEarliestReportDate.Text = String.Empty;
+        tbxLatestReportDate.Text = String.Empty;
+        rblAdvancedSearch.SelectedValue = "no";
+        lblAdvancedFilters.Visible = false;
+        lblNoAdvancedFilters.Visible = true;
+        lblAdvancedFiltersReminder.Visible = true;
+        pnlFiltersSelected.Controls.Clear();
+        populateIncidents();
+    }
+    #region Advanced Search Filters
+
+    private void collapseAllFilterPanels() {
+        cpeAdvancedIncidentSearch.Collapsed = true;
+        cpeAdvancedIncidentSearch.ClientState = "true";
+        cpeA.Collapsed = true;
+        cpeA.ClientState = "true";
+        cpeB.Collapsed = true;
+        cpeB.ClientState = "true";
+        cpeC.Collapsed = true;
+        cpeC.ClientState = "true";
+        cpeD.Collapsed = true;
+        cpeD.ClientState = "true";
+        cpeE.Collapsed = true;
+        cpeE.ClientState = "true";
+    }
+
+    private void addToFilters(CheckBox cbx) {
+        changeAdvancedFilterMsgs();
+        
+        CheckBox cbxClone = new CheckBox();
+        cbxClone.Checked = cbx.Checked;
+        cbxClone.Text = cbx.Text;
+        cbxClone.Attributes.Add("onclick", "return false;");
+
+        pnlFiltersSelected.Controls.Add(cbxClone);
+        pnlFiltersSelected.Controls.Add(new LiteralControl("<br />"));
+    }
+
+    private void addToFilters(CheckBox cbx, String additionalInfo) {
+        changeAdvancedFilterMsgs();
+        
+        CheckBox cbxClone = new CheckBox();
+        cbxClone.Checked = cbx.Checked;
+        cbxClone.Text = cbx.Text;
+        cbxClone.Attributes.Add("onclick", "return false;");
+
+        Label lblAdditionalInfo = new Label();
+        lblAdditionalInfo.Text = additionalInfo;
+
+        pnlFiltersSelected.Controls.Add(cbxClone);
+        pnlFiltersSelected.Controls.Add(lblAdditionalInfo);
+        pnlFiltersSelected.Controls.Add(new LiteralControl("<br />"));
+    }
+
+    private void addToFilters(RadioButtonList rbl, String text) {
+        changeAdvancedFilterMsgs();
+        
+        RadioButtonList rblClone = new RadioButtonList();
+        foreach (ListItem li in rbl.Items) {
+            rblClone.Items.Add(li);
+        }
+        rblClone.SelectedValue = rbl.SelectedValue;
+        rblClone.RepeatDirection = rbl.RepeatDirection;
+        rblClone.Enabled = false;
+
+        Label lblAdditionalInfo = new Label();
+        lblAdditionalInfo.Text = text;
+
+        pnlFiltersSelected.Controls.Add(lblAdditionalInfo);
+        pnlFiltersSelected.Controls.Add(rblClone);
+        pnlFiltersSelected.Controls.Add(new LiteralControl("<br />"));
+    }
+
+    private void changeAdvancedFilterMsgs() {
+        lblAdvancedFilters.Visible = true;
+        lblNoAdvancedFilters.Visible = false;
+        lblAdvancedFiltersReminder.Visible = false;
+    }
+    
+    /// <summary>
+    /// Gets a list of incident reports that match ONLY the data entered into the form.
+    /// Only considers the non-text input in sections A, B, C, D, and E of the form.
+    /// Returns a list of Incident objects.
+    /// </summary>
+    private List<Incident> applyAdvancedIncidentFilters() {
+        pnlFiltersSelected.Controls.Clear();
+        
+        var reports = ctx.Incidents.Select(r => r);
+
+        #region A_IncidentInfo
+        if (cbx_p1_action_report.Checked) { reports = reports.Where(r => r.p1_action_report.Equals("1")); addToFilters(cbx_p1_action_report); }
+        if (cbx_p1_action_firstAid.Checked) { reports = reports.Where(r => r.p1_action_firstAid.Equals("1")); addToFilters(cbx_p1_action_firstAid); }
+        if (cbx_p1_action_medicalGP.Checked) { reports = reports.Where(r => r.p1_action_medicalGP.Equals("1")); addToFilters(cbx_p1_action_medicalGP); }
+        if (cbx_p1_action_lostTime.Checked) { reports = reports.Where(r => r.p1_action_lostTime.Equals("1")); addToFilters(cbx_p1_action_lostTime); }
+        if (cbx_p1_action_medicalER.Checked) { reports = reports.Where(r => r.p1_action_medicalER.Equals("1")); addToFilters(cbx_p1_action_medicalER); }
+        #endregion A_IncidentInfo
+
+        #region B_NatureOfInjury
+        if (cbx_p1_nature_no.Checked) { reports = reports.Where(r => r.p1_nature_no.Equals("1")); addToFilters(cbx_p1_nature_no); }
+        if (cbx_p1_nature_musculoskeletal.Checked) { reports = reports.Where(r => r.p1_nature_musculoskeletal.Equals("1")); addToFilters(cbx_p1_nature_musculoskeletal); }
+        if (cbx_p1_nature_bruise.Checked) { reports = reports.Where(r => r.p1_nature_bruise.Equals("1")); addToFilters(cbx_p1_nature_bruise); }
+        if (cbx_p1_nature_burn.Checked) { reports = reports.Where(r => r.p1_nature_burn.Equals("1")); addToFilters(cbx_p1_nature_burn); }
+        if (cbx_p1_nature_cut.Checked) { reports = reports.Where(r => r.p1_nature_cut.Equals("1")); addToFilters(cbx_p1_nature_cut); }
+        if (cbx_p1_nature_puncture.Checked) { reports = reports.Where(r => r.p1_nature_puncture.Equals("1")); addToFilters(cbx_p1_nature_puncture); }
+        if (cbx_p1_nature_skinIrritation.Checked) { reports = reports.Where(r => r.p1_nature_skinIrritation.Equals("1")); addToFilters(cbx_p1_nature_skinIrritation); }
+        if (cbx_p1_nature_skinMucous.Checked) { reports = reports.Where(r => r.p1_nature_skinMucous.Equals("1")); addToFilters(cbx_p1_nature_skinMucous); }
+        if (cbx_p1_nature_eye.Checked) { reports = reports.Where(r => r.p1_nature_eye.Equals("1")); addToFilters(cbx_p1_nature_eye); }
+        if (cbx_p1_nature_allergic.Checked) { reports = reports.Where(r => r.p1_nature_allergic.Equals("1")); addToFilters(cbx_p1_nature_allergic); }
+        if (cbx_p1_nature_psychological.Checked) { reports = reports.Where(r => r.p1_nature_psychological.Equals("1")); addToFilters(cbx_p1_nature_psychological); }
+        if (cbx_p1_nature_respiratory.Checked) { reports = reports.Where(r => r.p1_nature_respiratory.Equals("1")); addToFilters(cbx_p1_nature_respiratory); }
+        #endregion B_NatureOfInjury
+
+        #region C_AccidentInvestigation
+        if (cbx_p2_activity_no.Checked) { reports = reports.Where(r => r.p2_activity_no.Equals("1")); addToFilters(cbx_p2_activity_no); }
+        if (cbx_p2_activity_repositioning.Checked) { reports = reports.Where(r => r.p2_activity_repositioning.Equals("1")); addToFilters(cbx_p2_activity_repositioning); }
+        if (cbx_p2_activity_transferring.Checked) { reports = reports.Where(r => r.p2_activity_transferring.Equals("1")); addToFilters(cbx_p2_activity_transferring); }
+        if (cbx_p2_activity_assistedWalking.Checked) { reports = reports.Where(r => r.p2_activity_assistedWalking.Equals("1")); addToFilters(cbx_p2_activity_assistedWalking); }
+        if (cbx_p2_activity_assistedFloor.Checked) { reports = reports.Where(r => r.p2_activity_assistedFloor.Equals("1")); addToFilters(cbx_p2_activity_assistedFloor); }
+        if (cbx_p2_activity_fall.Checked) { reports = reports.Where(r => r.p2_activity_fall.Equals("1")); addToFilters(cbx_p2_activity_fall); }
+        if (cbx_p2_activity_holding.Checked) { reports = reports.Where(r => r.p2_activity_holding.Equals("1")); addToFilters(cbx_p2_activity_holding); }
+        if (cbx_p2_activity_toileting.Checked) { reports = reports.Where(r => r.p2_activity_toileting.Equals("1")); addToFilters(cbx_p2_activity_toileting); }
+
+        if (cbx_p2_patient_ceilingLift.Checked) { reports = reports.Where(r => r.p2_patient_ceilingLift.Equals("1")); addToFilters(cbx_p2_patient_ceilingLift); }
+        if (cbx_p2_patient_sitStandLift.Checked) { reports = reports.Where(r => r.p2_patient_sitStandLift.Equals("1")); addToFilters(cbx_p2_patient_sitStandLift); }
+        if (cbx_p2_patient_floorLift.Checked) { reports = reports.Where(r => r.p2_patient_floorLift.Equals("1")); addToFilters(cbx_p2_patient_floorLift); }
+        if (cbx_p2_patient_manualLift.Checked) { reports = reports.Where(r => r.p2_patient_manualLift.Equals("1")); addToFilters(cbx_p2_patient_manualLift); }
+        if (cbx_p2_patient_other.Checked) { reports = reports.Where(r => !(r.p2_patient_otherSpecify.Equals(null))); addToFilters(cbx_p2_patient_other, " (Incident/Accident Information, Patient Handling Details)"); }
+        if (!rbl_p2_patient_adequateAssist.SelectedValue.Equals(String.Empty)) {
+            reports = reports.Where(r => r.p2_patient_adequateAssist.Equals(rbl_p2_patient_adequateAssist.SelectedValue));
+            addToFilters(rbl_p2_patient_adequateAssist, "Was adaquate assistance available?");
+        }
+
+        if (cbx_p2_activity_washing.Checked) { reports = reports.Where(r => r.p2_activity_washing.Equals("1")); addToFilters(cbx_p2_activity_washing); }
+        if (cbx_p2_activity_dressing.Checked) { reports = reports.Where(r => r.p2_activity_dressing.Equals("1")); addToFilters(cbx_p2_activity_dressing); }
+        if (cbx_p2_activity_changing.Checked) { reports = reports.Where(r => r.p2_activity_changing.Equals("1")); addToFilters(cbx_p2_activity_changing); }
+        if (cbx_p2_activity_feeding.Checked) { reports = reports.Where(r => r.p2_activity_feeding.Equals("1")); addToFilters(cbx_p2_activity_feeding); }
+        if (cbx_p2_activity_prep.Checked) { reports = reports.Where(r => r.p2_activity_prep.Equals("1")); addToFilters(cbx_p2_activity_prep); }
+        if (cbx_p2_activity_dressingChanges.Checked) { reports = reports.Where(r => r.p2_activity_dressingChanges.Equals("1")); addToFilters(cbx_p2_activity_dressingChanges); }
+        if (cbx_p2_activity_otherPatientCare.Checked) { reports = reports.Where(r => r.p2_activity_otherPatientCare.Equals("1")); addToFilters(cbx_p2_activity_otherPatientCare, " (Incident/Accident Information, Patient Care)"); }
+
+        if (cbx_p2_activity_recapping.Checked) { reports = reports.Where(r => r.p2_activity_recapping.Equals("1")); addToFilters(cbx_p2_activity_recapping); }
+        if (cbx_p2_activity_puncture.Checked) { reports = reports.Where(r => r.p2_activity_puncture.Equals("1")); addToFilters(cbx_p2_activity_puncture); }
+        if (cbx_p2_activity_sharpsDisposal.Checked) { reports = reports.Where(r => r.p2_activity_sharpsDisposal.Equals("1")); addToFilters(cbx_p2_activity_sharpsDisposal); }
+        if (cbx_p2_activity_otherSharps.Checked) { reports = reports.Where(r => r.p2_activity_otherSharps.Equals("1")); addToFilters(cbx_p2_activity_otherSharps); }
+
+        //if (tbx_p2_acitvity_material.Checked) { reports = reports.Where(r => r.p2_activity_material.Equals("1")); addFilter(CBX_HERE_NOW); }
+        if (cbx_p2_activity_lift.Checked) { reports = reports.Where(r => r.p2_activity_lift.Equals("1")); addToFilters(cbx_p2_activity_lift); }
+        if (cbx_p2_activity_push.Checked) { reports = reports.Where(r => r.p2_activity_push.Equals("1")); addToFilters(cbx_p2_activity_push); }
+        if (cbx_p2_activity_carry.Checked) { reports = reports.Where(r => r.p2_activity_carry.Equals("1")); addToFilters(cbx_p2_activity_carry); }
+        if (cbx_p2_activity_otherMat.Checked) { reports = reports.Where(r => r.p2_activity_otherMat != null); addToFilters(cbx_p2_activity_otherMat); }
+        if (cbx_p2_activity_driving.Checked) { reports = reports.Where(r => r.p2_activity_driving.Equals("1")); addToFilters(cbx_p2_activity_driving); }
+        if (cbx_p2_activity_otherEquip.Checked) { reports = reports.Where(r => r.p2_activity_otherEquip != null); addToFilters(cbx_p2_activity_otherEquip); }
+        if (cbx_p2_activity_otherEquipDesc.Checked) { reports = reports.Where(r => r.p2_activity_otherEquipDesc != null); addToFilters(cbx_p2_activity_otherEquipDesc); }
+        if (cbx_p2_activity_equipMain.Checked) { reports = reports.Where(r => r.p2_activity_equipMain.Equals("1")); addToFilters(cbx_p2_activity_equipMain); }
+        if (cbx_p2_activity_comp.Checked) { reports = reports.Where(r => r.p2_activity_comp.Equals("1")); addToFilters(cbx_p2_activity_comp); }
+        if (cbx_p2_activity_nonComp.Checked) { reports = reports.Where(r => r.p2_activity_nonComp.Equals("1")); addToFilters(cbx_p2_activity_nonComp); }
+
+        if (cbx_p2_activity_walking.Checked) { reports = reports.Where(r => r.p2_activity_walking.Equals("1")); addToFilters(cbx_p2_activity_walking); }
+        if (cbx_p2_activity_bending.Checked) { reports = reports.Where(r => r.p2_activity_bending.Equals("1")); addToFilters(cbx_p2_activity_bending); }
+        if (cbx_p2_activity_reading.Checked) { reports = reports.Where(r => r.p2_activity_reading.Equals("1")); addToFilters(cbx_p2_activity_reading); }
+        if (cbx_p2_activity_spill.Checked) { reports = reports.Where(r => r.p2_activity_spill.Equals("1")); addToFilters(cbx_p2_activity_spill); }
+        if (cbx_p2_activity_cleaning.Checked) { reports = reports.Where(r => r.p2_activity_cleaning.Equals("1")); addToFilters(cbx_p2_activity_cleaning); }
+        if (cbx_p2_activity_other.Checked) { reports = reports.Where(r => r.p2_activity_other != null); addToFilters(cbx_p2_activity_other, "(Incident/Accident Information, Other)"); }
+        #endregion C_AccidentInvestigation
+
+        #region D_Cause
+        if (cbx_p2_cause_human.Checked) { reports = reports.Where(r => r.p2_cause_human.Equals("1")); addToFilters(cbx_p2_cause_human); }
+        if (cbx_p2_cause_animal.Checked) { reports = reports.Where(r => r.p2_cause_animal.Equals("1")); addToFilters(cbx_p2_cause_animal); }
+
+        if (cbx_p2_cause_needle.Checked) { reports = reports.Where(r => r.p2_cause_needle.Equals("1")); addToFilters(cbx_p2_cause_needle); }
+        if (cbx_p2_cause_otherSharps.Checked) { reports = reports.Where(r => r.p2_cause_otherSharps.Equals("1")); addToFilters(cbx_p2_cause_otherSharps); }
+        if (cbx_p2_cause_skin.Checked) { reports = reports.Where(r => r.p2_cause_skin.Equals("1")); addToFilters(cbx_p2_cause_skin); }
+
+        if (cbx_p2_cause_awkwardPosture.Checked) { reports = reports.Where(r => r.p2_cause_awkwardPosture.Equals("1")); addToFilters(cbx_p2_cause_awkwardPosture); }
+        if (cbx_p2_cause_staticPosture.Checked) { reports = reports.Where(r => r.p2_cause_staticPosture.Equals("1")); addToFilters(cbx_p2_cause_staticPosture); }
+        if (cbx_p2_cause_contactStress.Checked) { reports = reports.Where(r => r.p2_cause_contactStress.Equals("1")); addToFilters(cbx_p2_cause_contactStress); }
+        if (cbx_p2_cause_force.Checked) { reports = reports.Where(r => r.p2_cause_force.Equals("1")); addToFilters(cbx_p2_cause_force); }
+        if (cbx_p2_cause_rep.Checked) { reports = reports.Where(r => r.p2_cause_rep.Equals("1")); addToFilters(cbx_p2_cause_rep); }
+
+        if (cbx_p2_cause_motor.Checked) { reports = reports.Where(r => r.p2_cause_motor.Equals("1")); addToFilters(cbx_p2_cause_motor); }
+        if (cbx_p2_cause_slip.Checked) { reports = reports.Where(r => r.p2_cause_slip.Equals("1")); addToFilters(cbx_p2_cause_slip); }
+        if (cbx_p2_cause_aggression.Checked) { reports = reports.Where(r => r.p2_cause_aggression.Equals("1")); addToFilters(cbx_p2_cause_aggression); }
+        if (cbx_p2_cause_undetermined.Checked) { reports = reports.Where(r => r.p2_cause_undetermined.Equals("1")); addToFilters(cbx_p2_cause_undetermined); }
+        if (cbx_p2_cause_event.Checked) { reports = reports.Where(r => r.p2_cause_event.Equals("1")); addToFilters(cbx_p2_cause_event); }
+        if (cbx_p2_cause_underEquip.Checked) { reports = reports.Where(r => r.p2_cause_underEquip.Equals("1")); addToFilters(cbx_p2_cause_underEquip); }
+        if (cbx_p2_cause_hit.Checked) { reports = reports.Where(r => r.p2_cause_hit.Equals("1")); addToFilters(cbx_p2_cause_hit); }
+        if (cbx_p2_cause_other.Checked) { reports = reports.Where(r => r.p2_cause_other != null); addToFilters(cbx_p2_cause_other, "(Cause, Other)"); }
+
+        if (cbx_p2_cause_aggression_verbal.Checked) { reports = reports.Where(r => r.p2_aggression_verbal.Equals("1")); addToFilters(cbx_p2_cause_aggression_verbal); }
+        if (cbx_p2_cause_aggression_biting.Checked) { reports = reports.Where(r => r.p2_aggression_biting.Equals("1")); addToFilters(cbx_p2_cause_aggression_biting); }
+        if (cbx_p2_cause_aggression_hitting.Checked) { reports = reports.Where(r => r.p2_aggression_hitting.Equals("1")); addToFilters(cbx_p2_cause_aggression_hitting); }
+        if (cbx_p2_cause_aggression_squeezing.Checked) { reports = reports.Where(r => r.p2_aggression_squeezing.Equals("1")); addToFilters(cbx_p2_cause_aggression_squeezing); }
+        if (cbx_p2_cause_aggression_assault.Checked) { reports = reports.Where(r => r.p2_aggression_assault.Equals("1")); addToFilters(cbx_p2_cause_aggression_assault); }
+        if (cbx_p2_cause_aggression_patient.Checked) { reports = reports.Where(r => r.p2_aggression_patient.Equals("1")); addToFilters(cbx_p2_cause_aggression_patient); }
+        if (cbx_p2_cause_aggression_family.Checked) { reports = reports.Where(r => r.p2_aggression_family.Equals("1")); addToFilters(cbx_p2_cause_aggression_family); }
+        if (cbx_p2_cause_aggression_public.Checked) { reports = reports.Where(r => r.p2_aggression_public.Equals("1")); addToFilters(cbx_p2_cause_aggression_public); }
+        if (cbx_p2_cause_aggression_worker.Checked) { reports = reports.Where(r => r.p2_aggression_worker.Equals("1")); addToFilters(cbx_p2_cause_aggression_worker); }
+        if (cbx_p2_cause_aggression_other.Checked) { reports = reports.Where(r => r.p2_aggression_other != null); addToFilters(cbx_p2_cause_other, "(Cause, Workplace Aggression Details)"); }
+
+        //if (tbx_p2_cause_exposure_chemName.Checked) { reports = reports.Where(r => r.p2_cause_exposure_chemName.Equals("1")); addFilter(CBX_HERE_NOW); }
+        if (cbx_p2_cause_chemInhalation.Checked) { reports = reports.Where(r => r.p2_cause_chemInhalation.Equals("1")); addToFilters(cbx_p2_cause_chemInhalation); }
+        if (cbx_p2_cause_chemIngest.Checked) { reports = reports.Where(r => r.p2_cause_chemIngest.Equals("1")); addToFilters(cbx_p2_cause_chemIngest); }
+        if (cbx_p2_cause_chemContact.Checked) { reports = reports.Where(r => r.p2_cause_chemContact.Equals("1")); addToFilters(cbx_p2_cause_chemContact); }
+        if (cbx_p2_cause_latex.Checked) { reports = reports.Where(r => r.p2_cause_latex.Equals("1")); addToFilters(cbx_p2_cause_latex); }
+        if (cbx_p2_cause_dust.Checked) { reports = reports.Where(r => r.p2_cause_dust.Equals("1")); addToFilters(cbx_p2_cause_dust); }
+        if (cbx_p2_cause_disease.Checked) { reports = reports.Where(r => r.p2_cause_disease.Equals("1")); addToFilters(cbx_p2_cause_disease); }
+        if (cbx_p2_cause_temp.Checked) { reports = reports.Where(r => r.p2_cause_temp.Equals("1")); addToFilters(cbx_p2_cause_temp); }
+        if (cbx_p2_cause_noise.Checked) { reports = reports.Where(r => r.p2_cause_noise.Equals("1")); addToFilters(cbx_p2_cause_noise); }
+        if (cbx_p2_cause_radiation.Checked) { reports = reports.Where(r => r.p2_cause_radiation.Equals("1")); addToFilters(cbx_p2_cause_radiation); }
+        if (cbx_p2_cause_elec.Checked) { reports = reports.Where(r => r.p2_cause_elec.Equals("1")); addToFilters(cbx_p2_cause_elec); }
+        if (cbx_p2_cause_air.Checked) { reports = reports.Where(r => r.p2_cause_air.Equals("1")); addToFilters(cbx_p2_cause_air); }
+        #endregion D_Cause
+
+        #region E_ContributingFactors
+        if (cbx_p2_factors_malfunction.Checked) { reports = reports.Where(r => r.p2_factors_malfunction.Equals("1")); addToFilters(cbx_p2_factors_malfunction); }
+        if (cbx_p2_factors_improperUse.Checked) { reports = reports.Where(r => r.p2_factors_improperUse.Equals("1")); addToFilters(cbx_p2_factors_improperUse); }
+        if (cbx_p2_factors_signage.Checked) { reports = reports.Where(r => r.p2_factors_signage.Equals("1")); addToFilters(cbx_p2_factors_signage); }
+        if (cbx_p2_factors_notAvailable.Checked) { reports = reports.Where(r => r.p2_factors_notAvailable.Equals("1")); addToFilters(cbx_p2_factors_notAvailable); }
+        if (cbx_p2_factors_poorDesign.Checked) { reports = reports.Where(r => r.p2_factors_poorDesign.Equals("1")); addToFilters(cbx_p2_factors_poorDesign); }
+        if (cbx_p2_factors_otherEquip.Checked) { reports = reports.Where(r => r.p2_factors_otherEquip != null); addToFilters(cbx_p2_factors_otherEquip, "(Equipment/Device, Other)"); }
+
+        if (cbx_p2_factors_temp.Checked) { reports = reports.Where(r => r.p2_factors_temp.Equals("1")); addToFilters(cbx_p2_factors_temp); }
+        if (cbx_p2_factors_workplace.Checked) { reports = reports.Where(r => r.p2_factors_workplace.Equals("1")); addToFilters(cbx_p2_factors_workplace); }
+        if (cbx_p2_factors_layout.Checked) { reports = reports.Where(r => r.p2_factors_layout.Equals("1")); addToFilters(cbx_p2_factors_layout); }
+        if (cbx_p2_factors_limitedWorkspace.Checked) { reports = reports.Where(r => r.p2_factors_limitedWorkspace.Equals("1")); addToFilters(cbx_p2_factors_limitedWorkspace); }
+        if (cbx_p2_factors_slippery.Checked) { reports = reports.Where(r => r.p2_factors_slippery.Equals("1")); addToFilters(cbx_p2_factors_slippery); }
+        if (cbx_p2_factors_lighting.Checked) { reports = reports.Where(r => r.p2_factors_lighting.Equals("1")); addToFilters(cbx_p2_factors_lighting); }
+        if (cbx_p2_factors_noise.Checked) { reports = reports.Where(r => r.p2_factors_noise.Equals("1")); addToFilters(cbx_p2_factors_noise); }
+        if (cbx_p2_factors_vent.Checked) { reports = reports.Where(r => r.p2_factors_vent.Equals("1")); addToFilters(cbx_p2_factors_vent); }
+        if (cbx_p2_factors_storage.Checked) { reports = reports.Where(r => r.p2_factors_storage.Equals("1")); addToFilters(cbx_p2_factors_storage); }
+        if (cbx_p2_factors_otherEnv.Checked) { reports = reports.Where(r => r.p2_factors_otherEnv != null); addToFilters(cbx_p2_factors_otherEnv, "(Environment, Other)"); }
+
+        if (cbx_p2_factors_assessment.Checked) { reports = reports.Where(r => r.p2_factors_assessment.Equals("1")); addToFilters(cbx_p2_factors_assessment); }
+        if (cbx_p2_factors_procedure.Checked) { reports = reports.Where(r => r.p2_factors_procedure.Equals("1")); addToFilters(cbx_p2_factors_procedure); }
+        if (cbx_p2_factors_appropriateEquip.Checked) { reports = reports.Where(r => r.p2_factors_appropriateEquip.Equals("1")); addToFilters(cbx_p2_factors_appropriateEquip); }
+        if (cbx_p2_factors_conduct.Checked) { reports = reports.Where(r => r.p2_factors_conduct.Equals("1")); addToFilters(cbx_p2_factors_conduct); }
+        if (cbx_p2_factors_extended.Checked) { reports = reports.Where(r => r.p2_factors_extended.Equals("1")); addToFilters(cbx_p2_factors_extended); }
+        if (cbx_p2_factors_comm.Checked) { reports = reports.Where(r => r.p2_factors_comm.Equals("1")); addToFilters(cbx_p2_factors_comm); }
+        if (cbx_p2_factors_unaccustomed.Checked) { reports = reports.Where(r => r.p2_factors_unaccustomed.Equals("1")); addToFilters(cbx_p2_factors_unaccustomed); }
+        if (cbx_p2_factors_otherWorkPractice.Checked) { reports = reports.Where(r => r.p2_factors_otherWorkPractice != null); addToFilters(cbx_p2_factors_otherWorkPractice, "(Work Practice, Other)"); }
+
+        if (cbx_p2_factors_directions.Checked) { reports = reports.Where(r => r.p2_factors_directions.Equals("1")); addToFilters(cbx_p2_factors_directions); }
+        if (cbx_p2_factors_weight.Checked) { reports = reports.Where(r => r.p2_factors_weight.Equals("1")); addToFilters(cbx_p2_factors_weight); }
+        if (cbx_p2_factors_aggressive.Checked) { reports = reports.Where(r => r.p2_factors_aggressive.Equals("1")); addToFilters(cbx_p2_factors_aggressive); }
+        if (cbx_p2_factors_patientResistive.Checked) { reports = reports.Where(r => r.p2_factors_patientResistive.Equals("1")); addToFilters(cbx_p2_factors_patientResistive); }
+        if (cbx_p2_factors_movement.Checked) { reports = reports.Where(r => r.p2_factors_movement.Equals("1")); addToFilters(cbx_p2_factors_movement); }
+        if (cbx_p2_factors_confused.Checked) { reports = reports.Where(r => r.p2_factors_confused.Equals("1")); addToFilters(cbx_p2_factors_confused); }
+        if (cbx_p2_factors_influence.Checked) { reports = reports.Where(r => r.p2_factors_influence.Equals("1")); addToFilters(cbx_p2_factors_influence); }
+        if (cbx_p2_factors_lang.Checked) { reports = reports.Where(r => r.p2_factors_lang.Equals("1")); addToFilters(cbx_p2_factors_lang); }
+        if (cbx_p2_factors_otherPatient.Checked) { reports = reports.Where(r => r.p2_factors_otherPatient != null); addToFilters(cbx_p2_factors_otherPatient, "(Patient Related Factors, Other)"); }
+
+        if (cbx_p2_factors_alone.Checked) { reports = reports.Where(r => r.p2_factors_alone.Equals("1")); addToFilters(cbx_p2_factors_alone); }
+        if (cbx_p2_factors_info.Checked) { reports = reports.Where(r => r.p2_factors_info.Equals("1")); addToFilters(cbx_p2_factors_info); }
+        if (cbx_p2_factors_scheduling.Checked) { reports = reports.Where(r => r.p2_factors_scheduling.Equals("1")); addToFilters(cbx_p2_factors_scheduling); }
+        if (cbx_p2_factors_training.Checked) { reports = reports.Where(r => r.p2_factors_training.Equals("1")); addToFilters(cbx_p2_factors_training); }
+        if (cbx_p2_factors_equip.Checked) { reports = reports.Where(r => r.p2_factors_equip.Equals("1")); addToFilters(cbx_p2_factors_equip); }
+        if (cbx_p2_factors_personal.Checked) { reports = reports.Where(r => r.p2_factors_personal.Equals("1")); addToFilters(cbx_p2_factors_personal); }
+        if (cbx_p2_factors_safe.Checked) { reports = reports.Where(r => r.p2_factors_safe.Equals("1")); addToFilters(cbx_p2_factors_safe); }
+        if (cbx_p2_factors_perceived.Checked) { reports = reports.Where(r => r.p2_factors_perceived.Equals("1")); addToFilters(cbx_p2_factors_perceived); }
+        if (cbx_p2_factors_otherOrganizational.Checked) { reports = reports.Where(r => r.p2_factors_otherOrganizational != null); addToFilters(cbx_p2_factors_otherOrganizational, "(Organizational/Administrative, Other)"); }
+
+        if (cbx_p2_factors_inexperienced.Checked) { reports = reports.Where(r => r.p2_factors_inexperienced.Equals("1")); addToFilters(cbx_p2_factors_inexperienced); }
+        if (cbx_p2_factors_communication.Checked) { reports = reports.Where(r => r.p2_factors_communication.Equals("1")); addToFilters(cbx_p2_factors_communication); }
+        if (cbx_p2_factors_fatigued.Checked) { reports = reports.Where(r => r.p2_factors_fatigued.Equals("1")); addToFilters(cbx_p2_factors_fatigued); }
+        if (cbx_p2_factors_distracted.Checked) { reports = reports.Where(r => r.p2_factors_distracted.Equals("1")); addToFilters(cbx_p2_factors_distracted); }
+        if (cbx_p2_factors_preexisting.Checked) { reports = reports.Where(r => r.p2_factors_preexisting.Equals("1")); addToFilters(cbx_p2_factors_preexisting); }
+        if (cbx_p2_factors_sick.Checked) { reports = reports.Where(r => r.p2_factors_sick.Equals("1")); addToFilters(cbx_p2_factors_sick); }
+        if (cbx_p2_factors_otherWorker.Checked) { reports = reports.Where(r => r.p2_factors_otherWorker != null); addToFilters(cbx_p2_factors_otherOrganizational, "(Worker, Other)"); }
+        #endregion E_ContributingFactors
+
+        return reports.ToList<Incident>();
     }
 
     #region Toggle Other TextBox and CheckBox
-    private void toggleOther(TextBox tbx, CheckBox cbx)
-    {
-        if (!tbx.Text.Equals(String.Empty))
-        {
+    private void toggleOther(TextBox tbx, CheckBox cbx) {
+        if (!tbx.Text.Equals(String.Empty)) {
             cbx.Checked = true;
             return;
         }
@@ -1081,8 +1529,7 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_patient_otherSpecify_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_patient_otherSpecify_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_patient_otherSpecify, cbx_p2_patient_other);
     }
     /// <summary>
@@ -1090,8 +1537,7 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_otherPatientCare_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_activity_otherPatientCare_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_activity_otherPatientCare, cbx_p2_activity_otherPatientCare);
     }
     /// <summary>
@@ -1099,8 +1545,7 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_otherMat_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_activity_otherMat_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_activity_otherMat, cbx_p2_activity_otherMat);
     }
     /// <summary>
@@ -1108,8 +1553,7 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_otherEquip_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_activity_otherEquip_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_activity_otherEquip, cbx_p2_activity_otherEquip);
     }
     /// <summary>
@@ -1117,8 +1561,7 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_otherEquipDesc_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_activity_otherEquipDesc_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_activity_otherEquipDesc, cbx_p2_activity_otherEquipDesc);
     }
     /// <summary>
@@ -1126,8 +1569,7 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_activity_other_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_activity_other_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_activity_other, cbx_p2_activity_other);
     }
     /// <summary>
@@ -1135,8 +1577,7 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_cause_other_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_cause_other_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_cause_other, cbx_p2_cause_other);
     }
     /// <summary>
@@ -1144,8 +1585,7 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_cause_aggression_other_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_cause_aggression_other_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_cause_aggression_other, cbx_p2_cause_aggression_other);
     }
     /// <summary>
@@ -1153,8 +1593,7 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherEquip_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_factors_otherEquip_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherEquip, cbx_p2_factors_otherEquip);
     }
     /// <summary>
@@ -1162,8 +1601,7 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherEnv_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_factors_otherEnv_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherEnv, cbx_p2_factors_otherEnv);
     }
     /// <summary>
@@ -1171,8 +1609,7 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherWorkPractice_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_factors_otherWorkPractice_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherWorkPractice, cbx_p2_factors_otherWorkPractice);
     }
     /// <summary>
@@ -1180,8 +1617,7 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherPatient_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_factors_otherPatient_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherPatient, cbx_p2_factors_otherPatient);
     }
     /// <summary>
@@ -1189,8 +1625,7 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherOrganizational_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_factors_otherOrganizational_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherOrganizational, cbx_p2_factors_otherOrganizational);
     }
     /// <summary>
@@ -1198,489 +1633,454 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
     /// <param name="e">The text changed event.</param>
-    protected void tbx_p2_factors_otherWorker_OnTextChanged(object sender, EventArgs e)
-    {
+    protected void tbx_p2_factors_otherWorker_OnTextChanged(object sender, EventArgs e) {
         toggleOther(tbx_p2_factors_otherWorker, cbx_p2_factors_otherWorker);
     }
     #endregion Toggle Other TextBox and CheckBox
 
-    #region Employee Info Related
-    #region Drop Down Lists
-
-    #region Load DropDownLists
-
+    #region Disable Form
     /// <summary>
-    /// Populates the employers drop down list.
+    /// Disabled the parameter TextBox control.
+    /// Changes the control's background color to the disabled color.
     /// </summary>
-    private void PopulateEmployersDdl()
-    {
-        ddlEmployers.DataSource = employers.OrderBy(e => e.ToString());
-        ddlEmployers.DataBind();
-        ddlEmployers.Items.Insert(ddlEmployers.Items.Count, otherOption);
+    /// <param name="cbx">The TextBox to disable.</param>
+    private void disableTextBox(TextBox tbx) {
+        tbx.Enabled = false;
+        tbx.BackColor = DisabledColor;
+        tbx.Visible = false;
+    }
+    /// <summary>
+    /// Disabled the parameter RadioButtonList control.
+    /// </summary>
+    /// <param name="cbx">The RadioButtonList to disable.</param>
+    private void disableRadioButtonList(RadioButtonList rbl) {
+        rbl.Enabled = false;
+    }
+    /// <summary>
+    /// Disabled the parameter TextBoxWatermarkExtender control.
+    /// </summary>
+    /// <param name="cbx">The TextBoxWatermarkExtender to disable.</param>
+    private void disableWatermark(TextBoxWatermarkExtender twe) {
+        twe.Enabled = false;
     }
 
     /// <summary>
-    /// Populates the positions drop down list.
-    /// Loads positions from the database.
-    /// Adds the "no selection" option to the front of the list.
-    /// Adds the "other" option to the end of the list.
+    /// Calls the disableTextBox method on each textbox in the form.
+    /// Disables all the watermarks as well.
     /// </summary>
-    private void PopulatePositionsDdl()
-    {
-        ddlPositions.DataSource = ctx.Positions.OrderBy(p => p.posName);
-        ddlPositions.DataValueField = "posName";
-        ddlPositions.DataBind();
-        ddlPositions.Items.Insert(ddlPositions.Items.Count, otherOption);
-        ddlPositions.Items.Insert(0, noOptionSpecified);
+    private void disableAllTextBoxes() {
+        #region A_IncidentInfo
+        disableTextBox(tbx_p1_action_medicalGP_date);
+        disableTextBox(tbx_p1_action_medicalER_date);
+        #endregion A_IncidentInfo
+
+        #region B_NatureOfInjury
+        disableTextBox(tbx_p1_numEmployeesInvolved);
+        disableTextBox(tbx_p2_patient_otherSpecify);
+        disableTextBox(tbx_p2_activity_otherPatientCare);
+        disableTextBox(tbx_p2_activity_otherMat);
+        disableTextBox(tbx_p2_activity_otherEquip);
+        disableTextBox(tbx_p2_activity_otherEquipDesc);
+        disableTextBox(tbx_p2_activity_other);
+        #endregion C_AccidentInvestigation
+
+        #region D_Cause
+        disableTextBox(tbx_p2_cause_other);
+        disableTextBox(tbx_p2_cause_aggression_other);
+
+        disableTextBox(tbx_p2_cause_exposure_chemName);
+        #endregion D_Cause
+
+        #region E_ContributingFactors
+        disableTextBox(tbx_p2_factors_otherEquip);
+        disableTextBox(tbx_p2_factors_otherEnv);
+        disableTextBox(tbx_p2_factors_otherWorkPractice);
+        disableTextBox(tbx_p2_factors_otherPatient);
+        disableTextBox(tbx_p2_factors_otherOrganizational);
+        disableTextBox(tbx_p2_factors_otherWorker);
+        #endregion E_ContributingFactors
+
+        #region watermarks
+        disableWatermark(tweMedicalGpDate);
+        disableWatermark(tweMedicalErDate);
+        #endregion watermarks
+    }
+    #endregion Disable Form
+    #endregion Advanced Search Filters
+        
+    #region gdvIncidents - Sorting and Paging
+    private DataView gdvIncidents_DataView = new DataView();
+
+    private string gdvIncidents_SortExpression {
+        get { return ViewState["gdvIncidents_SortExpression"] as string ?? String.Empty; }
+        set { ViewState["gdvIncidents_SortExpression"] = value; }
+    }
+
+    private string gdvIncidents_SortDirection {
+        get { return ViewState["gdvIncidents_SortDirection"] as string ?? "ASC"; }
+        set { ViewState["gdvIncidents_SortDirection"] = value; }
+    }
+
+    protected void gdvIncidents_Sorting(object sender, GridViewSortEventArgs e) {
+        gdvIncidents_SortDirection = getSortDirection(gdvIncidents_SortDirection);
+        gdvIncidents_SortExpression = e.SortExpression + " " + gdvIncidents_SortDirection;
+        gdvIncidents_Sort(gdvIncidents.PageIndex);
+    }
+
+    protected void gdvIncidents_PageIndexChanging(object sender, GridViewPageEventArgs e) {
+        gdvIncidents.PageIndex = e.NewPageIndex;
+        gdvIncidents_Sort(gdvIncidents.PageIndex);
+    }
+
+    private void gdvIncidents_Sort(int gdvPageIndex) {
+        gdvIncidents_DataView.Sort = gdvIncidents_SortExpression;
+        bindIncidents();
+        gdvIncidents.PageIndex = gdvPageIndex;
+    }
+    #endregion gdvIncidents - Sorting and Paging
+    #endregion Incidents
+
+    #region Lab Inspections
+    private void populateLabInspections() {
+        List<LabInspection> labInsp = applyLabInspFilters();
+        var qry = labInsp
+                  .Select(li => new {
+                      labInspectionNo = li.labInsNo,
+                      deptName = li.deptName,
+                      inspectionDate = li.date,
+                      followup = li.followUpStatus.Equals("1") ? "Yes" : "No",
+                      inspector = li.inspector,
+                      room = li.room,
+                      labMgr = li.labMgr
+                  });
+
+        qry = qry.OrderByDescending(li => li.inspectionDate);
+
+        DataTable dt = new DataTable();
+        dt.Columns.Add("labInspectionNo", typeof(int));
+        dt.Columns.Add("deptName", typeof(String));
+        dt.Columns.Add("inspectionDate", typeof(DateTime));
+        dt.Columns.Add("followup", typeof(String));
+        dt.Columns.Add("inspector", typeof(String));
+        dt.Columns.Add("room", typeof(String));
+        dt.Columns.Add("labMgr", typeof(String));
+
+        foreach (var item in qry) {
+            DataRow dr = dt.NewRow();
+            dr["labInspectionNo"] = item.labInspectionNo;
+            dr["deptName"] = item.deptName;
+            dr["inspectionDate"] = item.inspectionDate;
+            dr["followup"] = item.followup;
+            dr["inspector"] = item.inspector;
+            dr["room"] = item.room;
+            dr["labMgr"] = item.labMgr;
+            dt.Rows.Add(dr);
+        }
+
+        gdvLabInspections_DataView = new DataView(dt);
+        bindLabInsps();
+    }
+
+    private void bindLabInsps() {
+        gdvLabInspections.DataSource = gdvLabInspections_DataView;
+        gdvLabInspections.DataBind();
+    }
+
+    private List<LabInspection> applyLabInspFilters() {
+        setPageSize(gdvLabInspections, tbxLabInspPages, DefaultGridViewPageSize);
+        var qry = ctx.LabInspections.Select(li => li);
+
+        if (tbxLabInspDept.Text != null && !(tbxLabInspDept.Text.Equals(String.Empty))) {
+            if (cbxLabInspDept.Checked) {
+                qry = qry.Where(li => li.deptName != null && li.deptName.Equals(tbxLabInspDept.Text));
+            }
+            else {
+                qry = qry.Where(li => li.deptName != null && li.deptName.Contains(tbxLabInspDept.Text));
+            }
+        }
+
+        if (tbxLabInspInspector.Text != null && !(tbxLabInspInspector.Text.Equals(String.Empty))) {
+            if (cbxLabInspInspector.Checked) {
+                qry = qry.Where(li => li.inspector != null && li.inspector.Equals(tbxLabInspInspector.Text));
+            }
+            else {
+                qry = qry.Where(li => li.inspector != null && li.inspector.Contains(tbxLabInspInspector.Text));
+            }
+        }
+
+        if (tbxLabInspRoom.Text != null && !(tbxLabInspRoom.Text.Equals(String.Empty))) {
+            if (cbxLabInspRoom.Checked) {
+                qry = qry.Where(li => li.room != null && li.room.Equals(tbxLabInspRoom.Text));
+            }
+            else {
+                qry = qry.Where(li => li.room != null && li.room.Contains(tbxLabInspRoom.Text));
+            }
+        }
+
+        if (tbxLabInspLabMgr.Text != null && !(tbxLabInspLabMgr.Text.Equals(String.Empty))) {
+            if (cbxLabInspLabMgr.Checked) {
+                qry = qry.Where(li => li.labMgr != null && li.labMgr.Equals(tbxLabInspLabMgr.Text));
+            }
+            else {
+                qry = qry.Where(li => li.labMgr != null && li.labMgr.Contains(tbxLabInspLabMgr.Text));
+            }
+        }
+
+        DateTime date = getDateTime(tbxLabInspDate.Text);
+        if (!(date.Equals(DateTime.MinValue))) {
+            qry = qry.Where(li => li.date >= date);
+        }
+
+        if (rblLabInspFollowup.SelectedValue.ToString().Equals("yes")) {
+            qry = qry.Where(li => li.followUpStatus.Equals("1"));
+        }
+        else if (rblLabInspFollowup.SelectedValue.ToString().Equals("no")) {
+            qry = qry.Where(li => !(li.followUpStatus.Equals("1")));
+        }
+
+        return qry.ToList<LabInspection>();
     }
 
     /// <summary>
-    /// Populates the departments drop down list.
-    /// Loads departments from the database.
-    /// Adds the "no selection" option to the front of the list.
-    /// Adds the "other" option to the end of the list.
-    /// </summary>
-    private void PopulateDepartmentsDdl()
-    {
-        ddlDepartments.DataSource = ctx.Departments.OrderBy(d => d.deptName);
-        ddlDepartments.DataValueField = "deptName";
-        ddlDepartments.DataBind();
-        ddlDepartments.Items.Insert(ddlDepartments.Items.Count, otherOption);
-        ddlDepartments.Items.Insert(0, noOptionSpecified);
-    }
-
-    #endregion Load DropDownLists
-
-    #region Other Option Textbox Toggle
-    /// <summary>
-    /// Calls CheckPositionSelection(), which displays a textbox if the "Other (specify)" option is selected
-    /// and hides the textbox if any other option is selected
+    /// Re-populates the grid view so it reflects any modified search filters.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void ddlPositions_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        CheckPositionSelection();
+    /// <param name="e">The click event properties.</param>
+    protected void btnLabInspSearch_Click(object sender, EventArgs e) {
+        populateLabInspections();
     }
-
     /// <summary>
-    /// Calls CheckEmployeeSelection(), which displays a textbox if the "Other (specify)" option is selected
-    /// and hides the textbox if any other option is selected
+    /// Resets the search filters and re-populates the grid view so the default filters and results are showing.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void ddlEmployers_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        CheckEmployeeSelection();
+    /// <param name="e">The click event properties.</param>
+    protected void btnLabInspSearchReset_Click(object sender, EventArgs e) {
+        resetLabInspSearch();
+    }
+
+    private void resetLabInspSearch() {
+        tbxLabInspDept.Text = String.Empty;
+        cbxLabInspDept.Checked = false;
+        tbxLabInspInspector.Text = String.Empty;
+        cbxLabInspInspector.Checked = false;
+        tbxLabInspRoom.Text = String.Empty;
+        cbxLabInspRoom.Checked = false;
+        tbxLabInspLabMgr.Text = String.Empty;
+        cbxLabInspLabMgr.Checked = false;
+        rblLabInspFollowup.SelectedValue = null;
+        tbxLabInspDate.Text = String.Empty;
+        populateLabInspections();
     }
 
     /// <summary>
-    /// Calls CheckDepartmentSelection(), which displays a textbox if the "Other (specify)" option is selected
-    /// and hides the textbox if any other option is selected
+    /// Triggered when a lab inspection is selected from the grid view.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gdvLabInspections_SelectedIndexChanged(object sender, EventArgs e) {
+        String strId = gdvLabInspections.SelectedRow.Cells[0].Text;
+        selectLabInspection(strId);
+    }
+
+    private void selectLabInspection(String id) {
+        Response.Redirect("~/View/LabInspection.aspx?id=" + id);
+    }
+
+    #region gdvLabInspections - Sorting and Paging
+    private DataView gdvLabInspections_DataView = new DataView();
+
+    private string gdvLabInspections_SortExpression {
+        get { return ViewState["gdvLabInspections_SortExpression"] as string ?? String.Empty; }
+        set { ViewState["gdvLabInspections_SortExpression"] = value; }
+    }
+
+    private string gdvLabInspections_SortDirection {
+        get { return ViewState["gdvLabInspections_SortDirection"] as string ?? "ASC"; }
+        set { ViewState["gdvLabInspections_SortDirection"] = value; }
+    }
+
+    protected void gdvLabInspections_Sorting(object sender, GridViewSortEventArgs e) {
+        gdvLabInspections_SortDirection = getSortDirection(gdvLabInspections_SortDirection);
+        gdvLabInspections_SortExpression = e.SortExpression + " " + gdvLabInspections_SortDirection;
+        gdvLabInspections_Sort(gdvLabInspections.PageIndex);
+    }
+
+    protected void gdvLabInspections_PageIndexChanging(object sender, GridViewPageEventArgs e) {
+        gdvLabInspections.PageIndex = e.NewPageIndex;
+        gdvLabInspections_Sort(gdvLabInspections.PageIndex);
+    }
+
+    private void gdvLabInspections_Sort(int gdvPageIndex) {
+        gdvLabInspections_DataView.Sort = gdvLabInspections_SortExpression;
+        bindLabInsps();
+        gdvLabInspections.PageIndex = gdvPageIndex;
+    }
+    #endregion gdvLabInspections - Sorting and Paging
+    #endregion Lab Inspections
+
+    #region Office Inspections
+    private void populateOfficeInspections() {
+        List<OfficeInspection> offInsp = applyOffInspFilters();
+        var qry = offInsp
+                 .Select(oi => new {
+                     officeInspectionNo = oi.officeInsNo,
+                     deptName = oi.deptName,
+                     inspectionDate = oi.insDate,
+                     followup = oi.followUpStatus.Equals("1") ? "Yes" : "No",
+                     inspector = oi.inspector,
+                     area = oi.area
+                 });
+
+        qry = qry.OrderByDescending(oi => oi.inspectionDate);
+
+        DataTable dt = new DataTable();
+        dt.Columns.Add("officeInspectionNo", typeof(int));
+        dt.Columns.Add("deptName", typeof(String));
+        dt.Columns.Add("inspectionDate", typeof(DateTime));
+        dt.Columns.Add("followup", typeof(String));
+        dt.Columns.Add("inspector", typeof(String));
+        dt.Columns.Add("area", typeof(String));
+
+        foreach (var item in qry) {
+            DataRow dr = dt.NewRow();
+            dr["officeInspectionNo"] = item.officeInspectionNo;
+            dr["deptName"] = item.deptName;
+            dr["inspectionDate"] = item.inspectionDate;
+            dr["followup"] = item.followup;
+            dr["inspector"] = item.inspector;
+            dr["area"] = item.area;
+            dt.Rows.Add(dr);
+        }
+
+        gdvOfficeInspections_DataView = new DataView(dt);
+        bindOffInsps();
+    }
+
+    private void bindOffInsps() {
+        gdvOfficeInspections.DataSource = gdvOfficeInspections_DataView;
+        gdvOfficeInspections.DataBind();
+    }
+
+    private List<OfficeInspection> applyOffInspFilters() {
+        setPageSize(gdvOfficeInspections, tbxOffInspPages, DefaultGridViewPageSize);
+        var qry = ctx.OfficeInspections.Select(oi => oi);
+
+        if (tbxOffInspDept.Text != null && !(tbxOffInspDept.Text.Equals(String.Empty))) {
+            if (cbxOffInspDept.Checked) {
+                qry = qry.Where(oi => oi.deptName != null && oi.deptName.Equals(tbxOffInspDept.Text));
+            }
+            else {
+                qry = qry.Where(oi => oi.deptName != null && oi.deptName.Contains(tbxOffInspDept.Text));
+            }
+        }
+
+        if (tbxOffInspInspector.Text != null && !(tbxOffInspInspector.Text.Equals(String.Empty))) {
+            if (cbxOffInspInspector.Checked) {
+                qry = qry.Where(oi => oi.inspector != null && oi.inspector.Equals(tbxOffInspInspector.Text));
+            }
+            else {
+                qry = qry.Where(oi => oi.inspector != null && oi.inspector.Contains(tbxOffInspInspector.Text));
+            }
+        }
+
+        if (tbxOffInspArea.Text != null && !(tbxOffInspArea.Text.Equals(String.Empty))) {
+            if (cbxOffInspArea.Checked) {
+                qry = qry.Where(oi => oi.area != null && oi.area.Equals(tbxOffInspArea.Text));
+            }
+            else {
+                qry = qry.Where(oi => oi.area != null && oi.area.Contains(tbxOffInspArea.Text));
+            }
+        }
+
+        DateTime date = getDateTime(tbxOffInspDate.Text);
+        if (!(date.Equals(DateTime.MinValue))) {
+            qry = qry.Where(oi => oi.insDate >= date);
+        }
+
+        if (rblOffInspFollowup.SelectedValue.ToString().Equals("yes")) {
+            qry = qry.Where(oi => oi.followUpStatus.Equals("1"));
+        }
+        else if (rblOffInspFollowup.SelectedValue.ToString().Equals("no")) {
+            qry = qry.Where(oi => !(oi.followUpStatus.Equals("1")));
+        }
+        
+        return qry.ToList<OfficeInspection>();
+    }
+    
+    /// <summary>
+    /// Triggered when an office inspection is selected from the grid view.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gdvOfficeInspections_SelectedIndexChanged(object sender, EventArgs e) {
+        String strId = gdvOfficeInspections.SelectedRow.Cells[0].Text;
+        selectOfficeInspection(strId);
+    }
+
+    private void selectOfficeInspection(String id) {
+        Response.Redirect("~/View/OfficeInspection.aspx?id=" + id);
+    }
+
+    /// <summary>
+    /// Re-populates the grid view so it reflects any modified search filters.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void ddlDepartments_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        CheckDepartmentSelection();
+    /// <param name="e">The click event properties.</param>
+    protected void btnOffInspSearch_Click(object sender, EventArgs e) {
+        populateOfficeInspections();
     }
-
     /// <summary>
-    /// Displays a textbox if the "Other (specify)" option of the positions drop down list is selected.
-    /// Hides the textbox if any other option is selected
-    /// </summary>
-    private void CheckPositionSelection()
-    {
-        if (ddlPositions.SelectedValue.Equals(otherOption))
-        {
-            tbxPosition.Visible = true;
-        }
-        else
-        {
-            tbxPosition.Visible = false;
-        }
-    }
-
-    /// <summary>
-    /// Displays a textbox if the "Other (specify)" option of the employee drop down list is selected.
-    /// Hides the textbox if any other option is selected
-    /// </summary>
-    private void CheckEmployeeSelection()
-    {
-        if (ddlEmployers.SelectedValue.Equals(otherOption))
-        {
-            tbxEmployer.Visible = true;
-        }
-        else
-        {
-            tbxEmployer.Visible = false;
-        }
-    }
-
-    /// <summary>
-    /// Displays a textbox if the "Other (specify)" option of the departments drop down list is selected.
-    /// Hides the textbox if any other option is selected
-    /// </summary>
-    private void CheckDepartmentSelection()
-    {
-        if (ddlDepartments.SelectedValue.Equals(otherOption))
-        {
-            tbxDepartment.Visible = true;
-        }
-        else
-        {
-            tbxDepartment.Visible = false;
-        }
-    }
-    #endregion Other Option Textbox Toggle
-
-    #endregion DropDownLists
-
-    #region Load Employee Data
-    /// <summary>
-    /// Uses the employee's first and last name to get the rest employee's information from the database.
-    /// Populates the Header form with this data.
-    /// </summary>
-    private void getEmployeeData()
-    {
-        String first = tbxFirstName.Text;
-        String last = tbxLastName.Text;
-        Employee emp = null;
-
-        var qry = ctx.Employees
-                  .Where(e => e.fname.Equals(first) && e.lname.Equals(last))
-                  .Select(e => e);
-
-        if ((qry != null) && (qry.Count() == 1))
-        {
-            emp = qry.FirstOrDefault();
-
-            tbxId.Text = emp.empNo.ToString();
-            tbxFirstName.Text = emp.fname.ToString();
-            tbxLastName.Text = emp.lname.ToString();
-
-            // Position DDL
-            var position = ctx.Positions
-                           .Where(p => p.posName.Equals(emp.position))
-                           .Select(p => p).FirstOrDefault();
-
-            if (emp.position == null)
-            {
-                ddlPositions.SelectedIndex = 0;
-            }
-            else if (position != null)
-            {
-                ddlPositions.SelectedValue = position.posName;
-            }
-            else
-            {
-                ddlPositions.SelectedValue = otherOption;
-                tbxPosition.Text = emp.position;
-            }
-            CheckPositionSelection();
-
-            // Employer DDL
-            if (emp.employer == null)
-            {
-                ddlEmployers.SelectedIndex = 0;
-            }
-            else if (employers.Contains(emp.employer))
-            {
-                ddlEmployers.SelectedValue = emp.employer;
-            }
-            else
-            {
-                ddlEmployers.SelectedValue = otherOption;
-                tbxEmployer.Text = emp.employer;
-            }
-            CheckEmployeeSelection();
-
-            // Department DDL
-            var department = ctx.Departments
-                            .Where(d => d.deptName.Equals(emp.deptName))
-                            .Select(d => d).FirstOrDefault();
-
-            if (emp.deptName == null)
-            {
-                ddlDepartments.SelectedIndex = 0;
-            }
-            else if (department != null)
-            {
-                ddlDepartments.SelectedValue = department.deptName;
-            }
-            else
-            {
-                ddlDepartments.SelectedValue = otherOption;
-                tbxDepartment.Text = emp.deptName;
-            }
-            CheckDepartmentSelection();
-
-            if (emp.supervisor == null)
-            {
-                tbxSupervisor.Text = String.Empty;
-            }
-            else
-            {
-                tbxSupervisor.Text = emp.supervisor;
-            }
-
-            tbxRoom.Text = emp.room;
-
-            if (emp.startDate != null)
-            {
-                tbxStartDate.Text = Convert.ToDateTime(emp.startDate).ToString("M/d/yyyy");
-            }
-
-            if (emp.endDate != null)
-            {
-                tbxEndDate.Text = Convert.ToDateTime(emp.endDate).ToString("M/d/yyyy");
-            }
-
-        }
-        else if ((qry != null) && (qry.Count() <= 0))
-        {
-            Popup_Overlay("No employee with that first and last name found.", FailColour);
-        }
-        else
-        {
-            Popup_Overlay("There was more than one employee with that first and last name.", FailColour);
-        }
-    }
-
-    /// <summary>
-    /// Calls getEmployeeData(), which fetches the employee from the database using the employee's first and last name
-    /// then populates the rest of the form with the employee's information.
+    /// Resets the search filters and re-populates the grid view so the default filters and results are showing.
     /// </summary>
     /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void btnGetEmployee_Click(object sender, EventArgs e)
-    {
-        getEmployeeData();
-    }
-    #endregion LoadEmployeeData
-
-    #region Create Employee
-    /// <summary>
-    /// Calls the create Employee method, which creates and saves an Employee into the database.
-    /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void btnCreateEmployee_Click(object sender, EventArgs e)
-    {
-        createEmployee();
+    /// <param name="e">The click event properties.</param>
+    protected void btnOffInspSearchReset_Click(object sender, EventArgs e) {
+        resetOffInspSearch();
     }
 
-    /// <summary>
-    /// Creates a new Employee object (using the form fields) and saves it in the database.
-    /// Returns the new Employeeon success, null on failure.
-    /// Displays a pop-up with a success or fail message.
-    /// The new employee cannot have the same first and last name of an existing employee.
-    /// </summary>
-    private Employee createEmployee()
-    {
-        Employee emp = ctx.Employees
-                       .Where(et => et.fname.Equals(tbxFirstName.Text) && et.lname.Equals(tbxLastName.Text))
-                       .Select(et => et).FirstOrDefault();
-
-        if (emp != null)
-        {
-            Popup_Overlay("An employee with that first and last name already exists. Please change either the first or the last name.", FailColour);
-            return null;
-        }
-
-        emp = new Employee
-        {
-            fname = tbxFirstName.Text,
-            lname = tbxLastName.Text,
-            room = tbxRoom.Text,
-            supervisor = tbxSupervisor.Text,
-        };
-
-        #region dates
-        if (!tbxStartDate.Text.Equals(String.Empty))
-        {
-            DateTime formStartDate = Convert.ToDateTime(tbxStartDate.Text);
-            emp.startDate = formStartDate;
-        }
-        if (!tbxEndDate.Text.Equals(String.Empty))
-        {
-            DateTime formEndDate = Convert.ToDateTime(tbxEndDate.Text);
-            emp.endDate = formEndDate;
-        }
-        #endregion dates
-
-        #region position
-        if (ddlPositions.SelectedValue.Equals(otherOption))
-        {
-            emp.position = tbxPosition.Text;
-        }
-        else if (ddlPositions.SelectedValue.Equals(noOptionSpecified))
-        {
-            emp.position = null;
-        }
-        else
-        {
-            emp.position = ddlPositions.SelectedValue;
-        }
-        #endregion position
-
-        #region employer
-        if (ddlEmployers.SelectedValue.Equals(otherOption))
-        {
-            emp.employer = tbxEmployer.Text;
-        }
-        else if (ddlEmployers.SelectedValue.Equals(noOptionSpecified))
-        {
-            emp.employer = null;
-        }
-        else
-        {
-            emp.employer = ddlEmployers.SelectedValue;
-        }
-        #endregion employer
-
-        #region department
-        if (ddlDepartments.SelectedValue.Equals(otherOption))
-        {
-            emp.deptName = tbxDepartment.Text;
-        }
-        else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified))
-        {
-            emp.deptName = null;
-        }
-        else
-        {
-            emp.deptName = ddlDepartments.SelectedValue;
-        }
-        #endregion department
-
-        try
-        {
-            ctx.AddToEmployees(emp);
-            ctx.SaveChanges();
-            tbxId.Text = emp.empNo.ToString();
-            Popup_Overlay("Employee successfully created.", SuccessColour);
-            return emp;
-        }
-        catch (Exception ex)
-        {
-            Popup_Overlay("An error has occured while creating this employee. Please try again." + ex.StackTrace.ToString(), FailColour);
-            return null;
-        }
-
+    private void resetOffInspSearch() {
+        tbxOffInspDept.Text = String.Empty;
+        cbxOffInspDept.Checked = false;
+        tbxOffInspInspector.Text = String.Empty;
+        cbxOffInspInspector.Checked = false;
+        tbxOffInspArea.Text = String.Empty;
+        cbxOffInspArea.Checked = false;
+        rblOffInspFollowup.SelectedValue = null;
+        tbxOffInspDate.Text = String.Empty;
+        populateOfficeInspections();
     }
-    #endregion Create Employee
+    
+    #region gdvOfficeInspections - Sorting and Paging
+    private DataView gdvOfficeInspections_DataView = new DataView();
 
-    #region Update Employee
-    /// <summary>
-    /// Calls the update Employee method, which updates the employee's info in database to match the form.
-    /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The index changed event.</param>
-    protected void btnUpdateEmployee_Click(object sender, EventArgs e)
-    {
-        updateEmployee();
+    private string gdvOfficeInspections_SortExpression {
+        get { return ViewState["gdvOfficeInspections_SortExpression"] as string ?? String.Empty; }
+        set { ViewState["gdvOfficeInspections_SortExpression"] = value; }
     }
 
-    /// <summary>
-    /// Updates an employee object (using the form fields) and saves the changes to the database.
-    /// Returns the new Employeeon success, null on failure.
-    /// Displays a pop-up with a success or fail message.
-    /// The new employee cannot have the same first and last name of an existing employee.
-    /// The ID cannot be changed.
-    /// </summary>
-    private Employee updateEmployee()
-    {
-        int empId = Convert.ToInt32(tbxId.Text);
-
-        Employee emp = ctx.Employees
-                       .Where(et => et.empNo.Equals(empId))
-                       .Select(et => et).FirstOrDefault();
-
-        if (emp == null)
-        {
-            Popup_Overlay("Error updating employee. Please try again.", FailColour);
-            return null;
-        }
-
-        Employee otherEmp = ctx.Employees
-                            .Where(et => et.fname.Equals(tbxFirstName.Text)
-                                && et.lname.Equals(tbxLastName.Text)
-                                && !(et.empNo.Equals(emp.empNo)))
-                            .Select(et => et).FirstOrDefault();
-
-        if (otherEmp != null)
-        {
-            Popup_Overlay("An employee with that first and last name already exists. Please change either the first or the last name.", FailColour);
-            return null;
-        }
-
-        DateTime formStartDate = Convert.ToDateTime(tbxStartDate.Text);
-        DateTime formEndDate = Convert.ToDateTime(tbxEndDate.Text);
-
-        emp.fname = tbxFirstName.Text;
-        emp.lname = tbxLastName.Text;
-        emp.room = tbxRoom.Text;
-        emp.supervisor = tbxSupervisor.Text;
-        emp.startDate = formStartDate;
-        emp.endDate = formEndDate;
-
-        #region position
-        if (ddlPositions.SelectedValue.Equals(otherOption))
-        {
-            emp.position = tbxPosition.Text;
-        }
-        else if (ddlPositions.SelectedValue.Equals(noOptionSpecified))
-        {
-            emp.position = null;
-        }
-        else
-        {
-            emp.position = ddlPositions.SelectedValue;
-        }
-        #endregion position
-
-        #region employer
-        if (ddlEmployers.SelectedValue.Equals(otherOption))
-        {
-            emp.employer = tbxEmployer.Text;
-        }
-        else if (ddlEmployers.SelectedValue.Equals(noOptionSpecified))
-        {
-            emp.employer = null;
-        }
-        else
-        {
-            emp.employer = ddlEmployers.SelectedValue;
-        }
-        #endregion employer
-
-        #region department
-        //if (ddlDepartments.SelectedValue.Equals(otherOption)) {
-        //    emp.deptName = tbxDepartment.Text;
-        //}
-        //else if (ddlDepartments.SelectedValue.Equals(noOptionSpecified)) {
-        //    emp.deptName = null;
-        //}
-        //else {
-        //    emp.deptName = ddlDepartments.SelectedValue;
-        //}
-        #endregion department
-
-        try
-        {
-            ctx.SaveChanges();
-            Popup_Overlay("Employee successfully updated.", SuccessColour);
-            return emp;
-        }
-        catch (Exception ex)
-        {
-            Popup_Overlay("An error has occured while updatin this employee. Please try again." + ex.StackTrace.ToString(), FailColour);
-            return null;
-        }
+    private string gdvOfficeInspections_SortDirection {
+        get { return ViewState["gdvOfficeInspections_SortDirection"] as string ?? "ASC"; }
+        set { ViewState["gdvOfficeInspections_SortDirection"] = value; }
     }
-    #endregion Update Employee
-    #endregion EmployeeInfoRelated
+
+    protected void gdvOfficeInspections_Sorting(object sender, GridViewSortEventArgs e) {
+        gdvOfficeInspections_SortDirection = getSortDirection(gdvOfficeInspections_SortDirection);
+        gdvOfficeInspections_SortExpression = e.SortExpression + " " + gdvOfficeInspections_SortDirection;
+        gdvOfficeInspections_Sort(gdvOfficeInspections.PageIndex);
+    }
+
+    protected void gdvOfficeInspections_PageIndexChanging(object sender, GridViewPageEventArgs e) {
+        gdvOfficeInspections.PageIndex = e.NewPageIndex;
+        gdvOfficeInspections_Sort(gdvOfficeInspections.PageIndex);
+    }
+
+    private void gdvOfficeInspections_Sort(int gdvPageIndex) {
+        gdvOfficeInspections_DataView.Sort = gdvOfficeInspections_SortExpression;
+        bindOffInsps();
+        gdvOfficeInspections.PageIndex = gdvPageIndex;
+    }
+    #endregion gdvOfficeInspections - Sorting and Paging
+    #endregion Office Inspections
 
     #region Page Popup
     /// <summary>
@@ -1689,8 +2089,7 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="msg">Message displayed on confirmation overlay</param>
     /// <param name="color">Color for the message to be</param>
-    protected void Popup_Overlay(string msg, Color color)
-    {
+    protected void Popup_Overlay(string msg, Color color) {
         lblPnlPop.Text = msg;
         lblPnlPop.ForeColor = color;
         pnlPop.Style.Value = "display:block;";
@@ -1703,1144 +2102,17 @@ public partial class Summary_Default : System.Web.UI.Page
     /// </summary>
     /// <param name="sender">not used in our code</param>
     /// <param name="e">not used in our code</param>
-    protected void btnPnlPopClose_Click(object sender, EventArgs e)
-    {
+    protected void btnPnlPopClose_Click(object sender, EventArgs e) {
         // do nothing
     }
-    #endregion
+    #endregion Page Popup
 
-    #region Create New Incident Report
-    /// <summary>
-    /// Calls the create report method, which creates an Incident report using the form.
-    /// This method then saves that report in the database.
-    /// Displays a pop-up window with a success or fail message.
-    /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The button click event.</param>
-    protected void btnCreateReport_Click(object sender, EventArgs e)
-    {
-        Page.Validate("vgpEmpInfo");
-        Page.Validate("vgpPanelA");
-        Page.Validate("vgpFCorrective");
-        Page.Validate("vgpGRelevant");
-        Page.Validate("vgpHManagers");
-
-        if (Page.IsValid)
-        {
-            Incident report = createReport();
-            try
-            {
-                ctx.AddToIncidents(report);
-                ctx.SaveChanges();
-                Popup_Overlay("Report successfully created.", SuccessColour);
-            }
-            catch (Exception ex)
-            {
-                Popup_Overlay("An error has occured while creating your report. Please try again." + ex.StackTrace.ToString(), FailColour);
-                return;
-            }
+    protected void rblAdvancedSearch_SelectedIndexChanged(object sender, EventArgs e) {
+        if (rblAdvancedSearch.SelectedValue.Equals("yes")) {
+            pnlAdvancedIncidentSearchContainer.Visible = true;
+        }
+        else {
+            pnlAdvancedIncidentSearchContainer.Visible = false;
         }
     }
-
-    /// <summary>
-    /// Creates a new Incident report object (using the form fields) and returns that report.
-    /// Does not save the report into the database.
-    /// Returns the new Incident report on success, null on failure.
-    /// </summary>
-    /// <returns>the newly created Incident report</returns>
-    private Incident createReport()
-    {
-        getEmployeeData();
-        int empId = Convert.ToInt32(tbxId.Text);
-
-        DateTime dateOfIncident = Convert.ToDateTime(tbx_p1_dateOfIncident.Text + " " + tbx_p1_timeOfIncident.Text);
-        DateTime dateReported = Convert.ToDateTime(tbx_p1_dateReported.Text + " " + tbx_p1_timeReported.Text);
-
-        Incident report = new Incident
-        {
-
-            #region A_IncidentInfo
-            empNo = empId,
-            p1_dateOfIncident = dateOfIncident,
-            p1_dateReported = dateReported,
-            p1_incidentDesc = convertTextBox(tbx_p1_incidentDesc),
-            p1_witnessName1 = convertTextBox(tbx_p1_witnessName1),
-            p1_witnessPhone1 = convertTextBox(tbx_p1_witnessPhone1),
-            p1_witnessName2 = convertTextBox(tbx_p1_witnessName2),
-            p1_witnessPhone2 = convertTextBox(tbx_p1_witnessPhone2),
-            p1_action_report = convertCheckBox(cbx_p1_action_report),
-            p1_action_firstAid = convertCheckBox(cbx_p1_action_firstAid),
-            p1_action_medicalGP = convertCheckBox(cbx_p1_action_medicalGP),
-            p1_action_lostTime = convertCheckBox(cbx_p1_action_lostTime),
-            p1_action_medicalER = convertCheckBox(cbx_p1_action_medicalER),
-            #endregion A_IncidentInfo
-
-            #region B_NatureOfInjury
-            p1_nature_no = convertCheckBox(cbx_p1_nature_no),
-            p1_nature_musculoskeletal = convertCheckBox(cbx_p1_nature_musculoskeletal),
-            p1_nature_bruise = convertCheckBox(cbx_p1_nature_bruise),
-            p1_nature_burn = convertCheckBox(cbx_p1_nature_burn),
-            p1_nature_cut = convertCheckBox(cbx_p1_nature_cut),
-            p1_nature_puncture = convertCheckBox(cbx_p1_nature_puncture),
-            p1_nature_skinIrritation = convertCheckBox(cbx_p1_nature_skinIrritation),
-            p1_nature_skinMucous = convertCheckBox(cbx_p1_nature_skinMucous),
-            p1_nature_eye = convertCheckBox(cbx_p1_nature_eye),
-            p1_nature_allergic = convertCheckBox(cbx_p1_nature_allergic),
-            p1_nature_psychological = convertCheckBox(cbx_p1_nature_psychological),
-            p1_nature_respiratory = convertCheckBox(cbx_p1_nature_respiratory),
-            #endregion B_NatureOfInjury
-
-            #region C_AccidentInvestigation
-            p2_activity_no = convertCheckBox(cbx_p2_activity_no),
-            p2_activity_repositioning = convertCheckBox(cbx_p2_activity_repositioning),
-            p2_activity_transferring = convertCheckBox(cbx_p2_activity_transferring),
-            p2_activity_assistedWalking = convertCheckBox(cbx_p2_activity_assistedWalking),
-            p2_activity_assistedFloor = convertCheckBox(cbx_p2_activity_assistedFloor),
-            p2_activity_fall = convertCheckBox(cbx_p2_activity_fall),
-            p2_activity_holding = convertCheckBox(cbx_p2_activity_holding),
-            p2_activity_toileting = convertCheckBox(cbx_p2_activity_toileting),
-
-            p2_patient_ceilingLift = convertCheckBox(cbx_p2_patient_ceilingLift),
-            p2_patient_sitStandLift = convertCheckBox(cbx_p2_patient_sitStandLift),
-            p2_patient_floorLift = convertCheckBox(cbx_p2_patient_floorLift),
-            p2_patient_manualLift = convertCheckBox(cbx_p2_patient_manualLift),
-            p2_patient_otherSpecify = convertTextBox(tbx_p2_patient_otherSpecify),
-            p2_patient_adequateAssist = convertRadioButtonList(rbl_p2_patient_adequateAssist),
-
-            p2_activity_washing = convertCheckBox(cbx_p2_activity_washing),
-            p2_activity_dressing = convertCheckBox(cbx_p2_activity_dressing),
-            p2_activity_changing = convertCheckBox(cbx_p2_activity_changing),
-            p2_activity_feeding = convertCheckBox(cbx_p2_activity_feeding),
-            p2_activity_prep = convertCheckBox(cbx_p2_activity_prep),
-            p2_activity_dressingChanges = convertCheckBox(cbx_p2_activity_dressingChanges),
-            p2_activity_otherPatientCare = convertTextBox(tbx_p2_activity_otherPatientCare),
-
-            p2_activity_recapping = convertCheckBox(cbx_p2_activity_recapping),
-            p2_activity_puncture = convertCheckBox(cbx_p2_activity_puncture),
-            p2_activity_sharpsDisposal = convertCheckBox(cbx_p2_activity_sharpsDisposal),
-            p2_activity_otherSharps = convertCheckBox(cbx_p2_activity_otherSharps),
-
-            p2_activity_material = convertTextBox(tbx_p2_activity_material),
-            p2_activity_lift = convertCheckBox(cbx_p2_activity_lift),
-            p2_activity_push = convertCheckBox(cbx_p2_activity_push),
-            p2_activity_carry = convertCheckBox(cbx_p2_activity_carry),
-            p2_activity_otherMat = convertTextBox(tbx_p2_activity_otherMat),
-            p2_activity_driving = convertCheckBox(cbx_p2_activity_driving),
-            p2_activity_otherEquip = convertTextBox(tbx_p2_activity_otherEquip),
-            p2_activity_otherEquipDesc = convertTextBox(tbx_p2_activity_otherEquipDesc),
-            p2_activity_equipMain = convertCheckBox(cbx_p2_activity_equipMain),
-            p2_activity_comp = convertCheckBox(cbx_p2_activity_comp),
-            p2_activity_nonComp = convertCheckBox(cbx_p2_activity_nonComp),
-
-            p2_activity_walking = convertCheckBox(cbx_p2_activity_walking),
-            p2_activity_bending = convertCheckBox(cbx_p2_activity_bending),
-            p2_activity_reading = convertCheckBox(cbx_p2_activity_reading),
-            p2_activity_spill = convertCheckBox(cbx_p2_activity_spill),
-            p2_activity_cleaning = convertCheckBox(cbx_p2_activity_cleaning),
-            p2_activity_other = convertTextBox(tbx_p2_activity_other),
-            #endregion C_AccidentInvestigation
-
-            #region D_Cause
-            p2_cause_human = convertCheckBox(cbx_p2_cause_human),
-            p2_cause_animal = convertCheckBox(cbx_p2_cause_animal),
-
-            p2_cause_needle = convertCheckBox(cbx_p2_cause_needle),
-            p2_cause_otherSharps = convertCheckBox(cbx_p2_cause_otherSharps),
-            p2_cause_skin = convertCheckBox(cbx_p2_cause_skin),
-
-            p2_cause_awkwardPosture = convertCheckBox(cbx_p2_cause_awkwardPosture),
-            p2_cause_staticPosture = convertCheckBox(cbx_p2_cause_staticPosture),
-            p2_cause_contactStress = convertCheckBox(cbx_p2_cause_contactStress),
-            p2_cause_force = convertCheckBox(cbx_p2_cause_force),
-            p2_cause_rep = convertCheckBox(cbx_p2_cause_rep),
-
-            p2_cause_motor = convertCheckBox(cbx_p2_cause_motor),
-            p2_cause_slip = convertCheckBox(cbx_p2_cause_slip),
-            p2_cause_aggression = convertCheckBox(cbx_p2_cause_aggression),
-            p2_cause_undetermined = convertCheckBox(cbx_p2_cause_undetermined),
-            p2_cause_event = convertCheckBox(cbx_p2_cause_event),
-            p2_cause_underEquip = convertCheckBox(cbx_p2_cause_underEquip),
-            p2_cause_hit = convertCheckBox(cbx_p2_cause_hit),
-            p2_cause_other = convertTextBox(tbx_p2_cause_other),
-
-            p2_aggression_verbal = convertCheckBox(cbx_p2_cause_aggression_verbal),
-            p2_aggression_biting = convertCheckBox(cbx_p2_cause_aggression_biting),
-            p2_aggression_hitting = convertCheckBox(cbx_p2_cause_aggression_hitting),
-            p2_aggression_squeezing = convertCheckBox(cbx_p2_cause_aggression_squeezing),
-            p2_aggression_assault = convertCheckBox(cbx_p2_cause_aggression_assault),
-            p2_aggression_patient = convertCheckBox(cbx_p2_cause_aggression_patient),
-            p2_aggression_family = convertCheckBox(cbx_p2_cause_aggression_family),
-            p2_aggression_public = convertCheckBox(cbx_p2_cause_aggression_public),
-            p2_aggression_worker = convertCheckBox(cbx_p2_cause_aggression_worker),
-            p2_aggression_other = convertTextBox(tbx_p2_cause_aggression_other),
-            p2_cause_exposure_chemName = convertTextBox(tbx_p2_cause_exposure_chemName),
-            p2_cause_chemInhalation = convertCheckBox(cbx_p2_cause_chemInhalation),
-            p2_cause_chemIngest = convertCheckBox(cbx_p2_cause_chemIngest),
-            p2_cause_chemContact = convertCheckBox(cbx_p2_cause_chemContact),
-            p2_cause_latex = convertCheckBox(cbx_p2_cause_latex),
-            p2_cause_dust = convertCheckBox(cbx_p2_cause_dust),
-            p2_cause_disease = convertCheckBox(cbx_p2_cause_disease),
-            p2_cause_temp = convertCheckBox(cbx_p2_cause_temp),
-            p2_cause_noise = convertCheckBox(cbx_p2_cause_noise),
-            p2_cause_radiation = convertCheckBox(cbx_p2_cause_radiation),
-            p2_cause_elec = convertCheckBox(cbx_p2_cause_elec),
-            p2_cause_air = convertCheckBox(cbx_p2_cause_air),
-            #endregion D_Cause
-
-            #region E_ContributingFactors
-            p2_factors_malfunction = convertCheckBox(cbx_p2_factors_malfunction),
-            p2_factors_improperUse = convertCheckBox(cbx_p2_factors_improperUse),
-            p2_factors_signage = convertCheckBox(cbx_p2_factors_signage),
-            p2_factors_notAvailable = convertCheckBox(cbx_p2_factors_notAvailable),
-            p2_factors_poorDesign = convertCheckBox(cbx_p2_factors_poorDesign),
-            p2_factors_otherEquip = convertTextBox(tbx_p2_factors_otherEquip),
-
-            p2_factors_temp = convertCheckBox(cbx_p2_factors_temp),
-            p2_factors_workplace = convertCheckBox(cbx_p2_factors_workplace),
-            p2_factors_layout = convertCheckBox(cbx_p2_factors_layout),
-            p2_factors_limitedWorkspace = convertCheckBox(cbx_p2_factors_limitedWorkspace),
-            p2_factors_slippery = convertCheckBox(cbx_p2_factors_slippery),
-            p2_factors_lighting = convertCheckBox(cbx_p2_factors_lighting),
-            p2_factors_noise = convertCheckBox(cbx_p2_factors_noise),
-            p2_factors_vent = convertCheckBox(cbx_p2_factors_vent),
-            p2_factors_storage = convertCheckBox(cbx_p2_factors_storage),
-            p2_factors_otherEnv = convertTextBox(tbx_p2_factors_otherEnv),
-
-            p2_factors_assessment = convertCheckBox(cbx_p2_factors_assessment),
-            p2_factors_procedure = convertCheckBox(cbx_p2_factors_procedure),
-            p2_factors_appropriateEquip = convertCheckBox(cbx_p2_factors_appropriateEquip),
-            p2_factors_conduct = convertCheckBox(cbx_p2_factors_conduct),
-            p2_factors_extended = convertCheckBox(cbx_p2_factors_extended),
-            p2_factors_comm = convertCheckBox(cbx_p2_factors_comm),
-            p2_factors_unaccustomed = convertCheckBox(cbx_p2_factors_unaccustomed),
-            p2_factors_otherWorkPractice = convertTextBox(tbx_p2_factors_otherWorkPractice),
-
-            p2_factors_directions = convertCheckBox(cbx_p2_factors_directions),
-            p2_factors_weight = convertCheckBox(cbx_p2_factors_weight),
-            p2_factors_aggressive = convertCheckBox(cbx_p2_factors_aggressive),
-            p2_factors_patientResistive = convertCheckBox(cbx_p2_factors_patientResistive),
-            p2_factors_movement = convertCheckBox(cbx_p2_factors_movement),
-            p2_factors_confused = convertCheckBox(cbx_p2_factors_confused),
-            p2_factors_influence = convertCheckBox(cbx_p2_factors_influence),
-            p2_factors_lang = convertCheckBox(cbx_p2_factors_lang),
-            p2_factors_otherPatient = convertTextBox(tbx_p2_factors_otherPatient),
-
-            p2_factors_alone = convertCheckBox(cbx_p2_factors_alone),
-            p2_factors_info = convertCheckBox(cbx_p2_factors_info),
-            p2_factors_scheduling = convertCheckBox(cbx_p2_factors_scheduling),
-            p2_factors_training = convertCheckBox(cbx_p2_factors_training),
-            p2_factors_equip = convertCheckBox(cbx_p2_factors_equip),
-            p2_factors_personal = convertCheckBox(cbx_p2_factors_personal),
-            p2_factors_safe = convertCheckBox(cbx_p2_factors_safe),
-            p2_factors_perceived = convertCheckBox(cbx_p2_factors_perceived),
-            p2_factors_otherOrganizational = convertTextBox(tbx_p2_factors_otherOrganizational),
-
-            p2_factors_inexperienced = convertCheckBox(cbx_p2_factors_inexperienced),
-            p2_factors_communication = convertCheckBox(cbx_p2_factors_communication),
-            p2_factors_fatigued = convertCheckBox(cbx_p2_factors_fatigued),
-            p2_factors_distracted = convertCheckBox(cbx_p2_factors_distracted),
-            p2_factors_preexisting = convertCheckBox(cbx_p2_factors_preexisting),
-            p2_factors_sick = convertCheckBox(cbx_p2_factors_sick),
-            p2_factors_otherWorker = convertTextBox(tbx_p2_factors_otherWorker),
-            #endregion E_ContributingFactors
-
-            #region F_CorrectiveAction
-            p2_corrective_person = convertTextBox(tbx_p2_corrective_person),
-            p2_corrective_maintenance = convertRadioButtonList(rbl_p2_corrective_maintenance),
-            p2_corrective_communicated = convertRadioButtonList(rbl_p2_corrective_communicated),
-            p2_corrective_time = convertRadioButtonList(rbl_p2_corrective_time),
-            #endregion F_CorrectiveAction
-
-            #region G_FollowUp
-            p2_corrective_written = convertTextBox(tbx_p2_corrective_written),
-            p2_corrective_education = convertTextBox(tbx_p2_corrective_education),
-            p2_corrective_equipment = convertTextBox(tbx_p2_corrective_equipment),
-            p2_corrective_environment = convertTextBox(tbx_p2_corrective_environment),
-            p2_corrective_patient = convertTextBox(tbx_p2_corrective_patient),
-            #endregion G_FollowUp
-
-            #region G_ManagersReport
-            p2_manager_previous = convertTextBox(tbx_p2_manager_previous),
-            p2_manager_objections = convertTextBox(tbx_p2_manager_objections),
-            p2_manager_alternative = convertTextBox(tbx_p2_manager_alternative),
-            #endregion G_ManagersReport
-
-            followUpStatus = "0",
-        };
-
-        #region A_IncidentInfo_Dates
-        if (!tbx_p1_action_medicalER_date.Text.Equals(String.Empty))
-        {
-            DateTime dateMedicalER = Convert.ToDateTime(tbx_p1_action_medicalER_date.Text);
-            report.p1_action_medicalER_date = dateMedicalER;
-        }
-
-        if (!tbx_p1_action_medicalGP_date.Text.Equals(String.Empty))
-        {
-            DateTime dateMedicalGP = Convert.ToDateTime(tbx_p1_action_medicalGP_date.Text);
-            report.p1_action_medicalGP_date = dateMedicalGP;
-        }
-        #endregion A_IncidentInfo_Dates
-
-        #region C_AccidentInvestigation_PatientHandling
-        if (!tbx_p1_numEmployeesInvolved.Text.Equals(String.Empty))
-        {
-            try
-            {
-                report.p1_numEmployeesInvolved = Convert.ToInt32(tbx_p1_numEmployeesInvolved.Text);
-            }
-            catch (FormatException)
-            {
-                Popup_Overlay("Report not created. The number of employees involved (in Patient Handling of Section C) must be a number.", FailColour);
-                return null;
-            }
-        }
-        #endregion C_AccidentInvestigation_PatientHandling
-
-        #region F_CorrectiveAction_Dates
-        if (!tbx_p2_corrective_personDate.Text.Equals(String.Empty))
-        {
-            DateTime dateCorrectivePerson = Convert.ToDateTime(tbx_p2_corrective_personDate.Text);
-            report.p2_corrective_personDate = dateCorrectivePerson;
-        }
-
-        if (!tbx_p2_corrective_maintenanceDate.Text.Equals(String.Empty))
-        {
-            DateTime dateMaintenance = Convert.ToDateTime(tbx_p2_corrective_maintenanceDate.Text);
-            report.p2_corrective_maintenanceDate = dateMaintenance;
-        }
-
-        if (!tbx_p2_corrective_communicatedDate.Text.Equals(String.Empty))
-        {
-            DateTime dateCommunicated = Convert.ToDateTime(tbx_p2_corrective_communicatedDate.Text);
-            report.p2_corrective_communicatedDate = dateCommunicated;
-        }
-
-        if (!tbx_p2_corrective_timeDate.Text.Equals(String.Empty))
-        {
-            DateTime dateTimeLoss = Convert.ToDateTime(tbx_p2_corrective_timeDate.Text);
-            report.p2_corrective_timeDate = dateTimeLoss;
-        }
-        #endregion F_CorrectiveAction_Dates
-
-        #region G_FollowUp_Dates
-
-        #region G_FollowUp_Dates_Target
-
-        if (!tbx_p2_corrective_writtenTargetDate.Text.Equals(String.Empty))
-        {
-            DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenTargetDate.Text);
-            report.p2_corrective_writtenTargetDate = writtenDate;
-        }
-
-        if (!tbx_p2_corrective_educationTargetDate.Text.Equals(String.Empty))
-        {
-            DateTime educationDate = Convert.ToDateTime(tbx_p2_corrective_educationTargetDate.Text);
-            report.p2_corrective_educationTargetDate = educationDate;
-        }
-
-        if (!tbx_p2_corrective_equipmentTargetDate.Text.Equals(String.Empty))
-        {
-            DateTime equipmentDate = Convert.ToDateTime(tbx_p2_corrective_equipmentTargetDate.Text);
-            report.p2_corrective_equipmentTargetDate = equipmentDate;
-        }
-
-        if (!tbx_p2_corrective_environmentTargetDate.Text.Equals(String.Empty))
-        {
-            DateTime environmentDate = Convert.ToDateTime(tbx_p2_corrective_environmentTargetDate.Text);
-            report.p2_corrective_environmentTargetDate = environmentDate;
-        }
-
-        if (!tbx_p2_corrective_patientTargetDate.Text.Equals(String.Empty))
-        {
-            DateTime patientDate = Convert.ToDateTime(tbx_p2_corrective_patientTargetDate.Text);
-            report.p2_corrective_patientTargetDate = patientDate;
-        }
-
-        #endregion G_FollowUp_Dates_Target
-
-        #region G_FollowUp_Dates_Completed
-
-        if (!tbx_p2_corrective_writtenCompletedDate.Text.Equals(String.Empty))
-        {
-            DateTime writtenDate = Convert.ToDateTime(tbx_p2_corrective_writtenCompletedDate.Text);
-            report.p2_corrective_writtenCompletedDate = writtenDate;
-        }
-
-        if (!tbx_p2_corrective_educationCompletedDate.Text.Equals(String.Empty))
-        {
-            DateTime educationDate = Convert.ToDateTime(tbx_p2_corrective_educationCompletedDate.Text);
-            report.p2_corrective_educationCompletedDate = educationDate;
-        }
-
-        if (!tbx_p2_corrective_equipmentCompletedDate.Text.Equals(String.Empty))
-        {
-            DateTime equipmentDate = Convert.ToDateTime(tbx_p2_corrective_equipmentCompletedDate.Text);
-            report.p2_corrective_equipmentCompletedDate = equipmentDate;
-        }
-
-        if (!tbx_p2_corrective_environmentCompletedDate.Text.Equals(String.Empty))
-        {
-            DateTime environmentDate = Convert.ToDateTime(tbx_p2_corrective_environmentCompletedDate.Text);
-            report.p2_corrective_environmentCompletedDate = environmentDate;
-        }
-
-        if (!tbx_p2_corrective_patientCompletedDate.Text.Equals(String.Empty))
-        {
-            DateTime patientDate = Convert.ToDateTime(tbx_p2_corrective_patientCompletedDate.Text);
-            report.p2_corrective_patientCompletedDate = patientDate;
-        }
-
-        #endregion G_FollowUp_Dates_Completed
-
-        #endregion G_FollowUp_Dates
-
-        #region H_FixedShiftRotation
-        #region H_FixedShiftRotation_Week1
-        if (!tbx_p2_manager_week1_sun.Text.Equals(String.Empty))
-        {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sun.Text);
-            report.p2_manager_week1_sun = d;
-        }
-
-        if (!tbx_p2_manager_week1_mon.Text.Equals(String.Empty))
-        {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_mon.Text);
-            report.p2_manager_week1_mon = d;
-        }
-
-        if (!tbx_p2_manager_week1_tue.Text.Equals(String.Empty))
-        {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_tue.Text);
-            report.p2_manager_week1_tue = d;
-        }
-
-        if (!tbx_p2_manager_week1_wed.Text.Equals(String.Empty))
-        {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_wed.Text);
-            report.p2_manager_week1_wed = d;
-        }
-
-        if (!tbx_p2_manager_week1_thu.Text.Equals(String.Empty))
-        {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_thu.Text);
-            report.p2_manager_week1_thu = d;
-        }
-
-        if (!tbx_p2_manager_week1_fri.Text.Equals(String.Empty))
-        {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_fri.Text);
-            report.p2_manager_week1_fri = d;
-        }
-
-        if (!tbx_p2_manager_week1_sat.Text.Equals(String.Empty))
-        {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week1_sat.Text);
-            report.p2_manager_week1_sat = d;
-        }
-        #endregion H_FixedShiftRotation_Week1
-
-        #region H_FixedShiftRotation_Week2
-        if (!tbx_p2_manager_week2_sun.Text.Equals(String.Empty))
-        {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_sun.Text);
-            report.p2_manager_week2_sun = d;
-        }
-
-        if (!tbx_p2_manager_week2_mon.Text.Equals(String.Empty))
-        {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_mon.Text);
-            report.p2_manager_week2_mon = d;
-        }
-
-        if (!tbx_p2_manager_week2_tue.Text.Equals(String.Empty))
-        {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_tue.Text);
-            report.p2_manager_week2_tue = d;
-        }
-
-        if (!tbx_p2_manager_week2_wed.Text.Equals(String.Empty))
-        {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_wed.Text);
-            report.p2_manager_week2_wed = d;
-        }
-
-        if (!tbx_p2_manager_week2_thu.Text.Equals(String.Empty))
-        {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_thu.Text);
-            report.p2_manager_week2_thu = d;
-        }
-
-        if (!tbx_p2_manager_week2_fri.Text.Equals(String.Empty))
-        {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_fri.Text);
-            report.p2_manager_week2_fri = d;
-        }
-
-        if (!tbx_p2_manager_week2_sat.Text.Equals(String.Empty))
-        {
-            Decimal d = Convert.ToDecimal(tbx_p2_manager_week2_sat.Text);
-            report.p2_manager_week2_sat = d;
-        }
-        #endregion H_FixedShiftRotation_Week2
-        #endregion H_FixedShiftRotation
-
-        return report;
-    }
-
-    /// <summary>
-    /// Converts a radio button list into a String value that the database can accept.
-    /// If no value is selected returns null.
-    /// Otherwise, returns the value as a String ("1" for yes, "2" for no).
-    /// </summary>
-    /// <param name="cbx">The CheckBox to convert.</param>
-    /// <returns>String: 1 for yes/checked, 2 for no/unchecked.</returns>
-    private String convertCheckBox(CheckBox cbx)
-    {
-        if (!cbx.Checked)
-        {
-            return "2";
-        }
-        return "1";
-    }
-
-    /// <summary>
-    /// Converts a radio button list into a String value that the  database can accept.
-    /// If no value is selected returns null.
-    /// Otherwise, returns the value as a String ("1" for yes, "2" for no, "3" for unknown).
-    /// </summary>
-    /// <param name="rbl">The radio button list to convert.</param>
-    /// <returns>Returns a string: 1 for yes, 2 for no, 3 for N/A or Unknown, null for no value selected.</returns>
-    private String convertRadioButtonList(RadioButtonList rbl)
-    {
-        if ((rbl == null) || rbl.SelectedValue.Equals(String.Empty))
-        {
-            return null;
-        }
-        else
-        {
-            return rbl.SelectedValue.ToString();
-        }
-    }
-
-    /// <summary>
-    /// Converts a textbox into a String value that the database can accept.
-    /// If the textbox is null or empty, returns null.
-    /// Otherwise, returns the text in the textbox.
-    /// </summary>
-    /// <param name="tbx">The textbox to convert.</param>
-    /// <returns>Null: for null or empty textbox otherwise returns the textbox's text as a String.</returns>
-    private String convertTextBox(TextBox tbx)
-    {
-        if (tbx == null)
-        {
-            return null;
-        }
-        else if (tbx.Text.Equals(String.Empty))
-        {
-            return null;
-        }
-        else
-        {
-            return tbx.Text;
-        }
-    }
-    #endregion Create New Incident Report
-
-    #region Load Incident Report
-    /// <summary>
-    /// Calls the getReport method, which load an Incident report from the database into the form.
-    /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The button click event.</param>
-    protected void btnLoadReport_Click(object sender, EventArgs e)
-    {
-        getReport(2);
-    }
-
-    private Incident getReport(int id)
-    {
-        var report = ctx.Incidents
-                     .Where(r => r.incidentNo.Equals(id))
-                     .Select(r => r).FirstOrDefault();
-
-        if (report == null)
-        {
-            Popup_Overlay("Report not found.", SuccessColour);
-        }
-
-        tbxFirstName.Text = report.Employee.fname.ToString();
-        tbxLastName.Text = report.Employee.lname.ToString();
-        getEmployeeData();
-
-        #region A_IncidentInfo
-        tbx_p1_dateOfIncident.Text = convertDateTimeToString(report.p1_dateOfIncident);
-        tbx_p1_timeOfIncident.Text = convertTimeToString(report.p1_dateOfIncident);
-        tbx_p1_dateReported.Text = convertDateTimeToString(report.p1_dateReported);
-        tbx_p1_timeReported.Text = convertTimeToString(report.p1_dateReported);
-        tbx_p1_incidentDesc.Text = convertToTextBoxValue(report.p1_incidentDesc);
-        tbx_p1_witnessName1.Text = convertToTextBoxValue(report.p1_witnessName1);
-        tbx_p1_witnessPhone1.Text = convertToTextBoxValue(report.p1_witnessPhone1);
-        tbx_p1_witnessName2.Text = convertToTextBoxValue(report.p1_witnessName2);
-        tbx_p1_witnessPhone2.Text = convertToTextBoxValue(report.p1_witnessPhone2);
-        cbx_p1_action_report.Checked = convertToCheckBoxValue(report.p1_action_report);
-        cbx_p1_action_firstAid.Checked = convertToCheckBoxValue(report.p1_action_firstAid);
-        cbx_p1_action_medicalGP.Checked = convertToCheckBoxValue(report.p1_action_medicalGP);
-        tbx_p1_action_medicalGP_date.Text = convertDateTimeToString(report.p1_action_medicalGP_date);
-        cbx_p1_action_medicalER.Checked = convertToCheckBoxValue(report.p1_action_medicalER);
-        tbx_p1_action_medicalER_date.Text = convertDateTimeToString(report.p1_action_medicalER_date);
-        cbx_p1_action_lostTime.Checked = convertToCheckBoxValue(report.p1_action_lostTime);
-        #endregion A_IncidentInfo
-
-        #region B_NatureOfInjury
-        cbx_p1_nature_no.Checked = convertToCheckBoxValue(report.p1_nature_no);
-        cbx_p1_nature_musculoskeletal.Checked = convertToCheckBoxValue(report.p1_nature_musculoskeletal);
-        cbx_p1_nature_bruise.Checked = convertToCheckBoxValue(report.p1_nature_bruise);
-        cbx_p1_nature_burn.Checked = convertToCheckBoxValue(report.p1_nature_burn);
-        cbx_p1_nature_cut.Checked = convertToCheckBoxValue(report.p1_nature_cut);
-        cbx_p1_nature_puncture.Checked = convertToCheckBoxValue(report.p1_nature_puncture);
-        cbx_p1_nature_skinIrritation.Checked = convertToCheckBoxValue(report.p1_nature_skinIrritation);
-        cbx_p1_nature_skinMucous.Checked = convertToCheckBoxValue(report.p1_nature_skinMucous);
-        cbx_p1_nature_eye.Checked = convertToCheckBoxValue(report.p1_nature_eye);
-        cbx_p1_nature_allergic.Checked = convertToCheckBoxValue(report.p1_nature_allergic);
-        cbx_p1_nature_psychological.Checked = convertToCheckBoxValue(report.p1_nature_psychological);
-        cbx_p1_nature_respiratory.Checked = convertToCheckBoxValue(report.p1_nature_respiratory);
-        #endregion B_NatureOfInjury
-
-        #region C_AccidentInvestigation
-        cbx_p2_activity_no.Checked = convertToCheckBoxValue(report.p2_activity_no);
-        cbx_p2_activity_repositioning.Checked = convertToCheckBoxValue(report.p2_activity_repositioning);
-        cbx_p2_activity_transferring.Checked = convertToCheckBoxValue(report.p2_activity_transferring);
-        cbx_p2_activity_assistedWalking.Checked = convertToCheckBoxValue(report.p2_activity_assistedWalking);
-        cbx_p2_activity_assistedFloor.Checked = convertToCheckBoxValue(report.p2_activity_assistedFloor);
-        cbx_p2_activity_fall.Checked = convertToCheckBoxValue(report.p2_activity_fall);
-        cbx_p2_activity_holding.Checked = convertToCheckBoxValue(report.p2_activity_holding);
-        cbx_p2_activity_toileting.Checked = convertToCheckBoxValue(report.p2_activity_toileting);
-
-        cbx_p2_patient_ceilingLift.Checked = convertToCheckBoxValue(report.p2_patient_ceilingLift);
-        cbx_p2_patient_sitStandLift.Checked = convertToCheckBoxValue(report.p2_patient_sitStandLift);
-        cbx_p2_patient_floorLift.Checked = convertToCheckBoxValue(report.p2_patient_floorLift);
-        cbx_p2_patient_manualLift.Checked = convertToCheckBoxValue(report.p2_patient_manualLift);
-        cbx_p2_patient_other.Checked = convertToCheckBoxValue(report.p2_patient_otherSpecify);
-        tbx_p2_patient_otherSpecify.Text = convertToTextBoxValue(report.p2_patient_otherSpecify);
-        tbx_p1_numEmployeesInvolved.Text = (report.p1_numEmployeesInvolved == null) ? String.Empty : report.p1_numEmployeesInvolved.ToString();
-
-        tbx_p2_patient_otherSpecify.Text = convertToTextBoxValue(report.p2_patient_otherSpecify);
-        rbl_p2_patient_adequateAssist.SelectedValue = convertToTextBoxValue(report.p2_patient_adequateAssist);
-
-        cbx_p2_activity_washing.Checked = convertToCheckBoxValue(report.p2_activity_washing);
-        cbx_p2_activity_dressing.Checked = convertToCheckBoxValue(report.p2_activity_dressing);
-        cbx_p2_activity_changing.Checked = convertToCheckBoxValue(report.p2_activity_changing);
-        cbx_p2_activity_feeding.Checked = convertToCheckBoxValue(report.p2_activity_feeding);
-        cbx_p2_activity_prep.Checked = convertToCheckBoxValue(report.p2_activity_prep);
-        cbx_p2_activity_dressingChanges.Checked = convertToCheckBoxValue(report.p2_activity_dressingChanges);
-        tbx_p2_activity_otherPatientCare.Text = convertToTextBoxValue(report.p2_activity_otherPatientCare);
-
-        cbx_p2_activity_recapping.Checked = convertToCheckBoxValue(report.p2_activity_recapping);
-        cbx_p2_activity_puncture.Checked = convertToCheckBoxValue(report.p2_activity_puncture);
-        cbx_p2_activity_sharpsDisposal.Checked = convertToCheckBoxValue(report.p2_activity_sharpsDisposal);
-        cbx_p2_activity_otherSharps.Checked = convertToCheckBoxValue(report.p2_activity_otherSharps);
-
-        tbx_p2_activity_material.Text = convertToTextBoxValue(report.p2_activity_material);
-        cbx_p2_activity_lift.Checked = convertToCheckBoxValue(report.p2_activity_lift);
-        cbx_p2_activity_push.Checked = convertToCheckBoxValue(report.p2_activity_push);
-        cbx_p2_activity_carry.Checked = convertToCheckBoxValue(report.p2_activity_carry);
-        tbx_p2_activity_otherMat.Text = convertToTextBoxValue(report.p2_activity_otherMat);
-        cbx_p2_activity_driving.Checked = convertToCheckBoxValue(report.p2_activity_driving);
-        tbx_p2_activity_otherEquip.Text = convertToTextBoxValue(report.p2_activity_otherEquip);
-        cbx_p2_activity_otherEquipDesc.Checked = convertToCheckBoxValue(report.p2_activity_otherEquipDesc);
-        tbx_p2_activity_otherEquipDesc.Text = convertToTextBoxValue(report.p2_activity_otherEquipDesc);
-
-        cbx_p2_activity_equipMain.Checked = convertToCheckBoxValue(report.p2_activity_equipMain);
-        cbx_p2_activity_comp.Checked = convertToCheckBoxValue(report.p2_activity_comp);
-        cbx_p2_activity_nonComp.Checked = convertToCheckBoxValue(report.p2_activity_nonComp);
-
-        cbx_p2_activity_walking.Checked = convertToCheckBoxValue(report.p2_activity_walking);
-        cbx_p2_activity_bending.Checked = convertToCheckBoxValue(report.p2_activity_bending);
-        cbx_p2_activity_reading.Checked = convertToCheckBoxValue(report.p2_activity_reading);
-        cbx_p2_activity_spill.Checked = convertToCheckBoxValue(report.p2_activity_spill);
-        cbx_p2_activity_cleaning.Checked = convertToCheckBoxValue(report.p2_activity_cleaning);
-        tbx_p2_activity_other.Text = convertToTextBoxValue(report.p2_activity_other);
-        #endregion C_AccidentInvestigation
-
-        #region D_Cause
-        cbx_p2_cause_human.Checked = convertToCheckBoxValue(report.p2_cause_human);
-        cbx_p2_cause_animal.Checked = convertToCheckBoxValue(report.p2_cause_animal);
-
-        cbx_p2_cause_needle.Checked = convertToCheckBoxValue(report.p2_cause_needle);
-        cbx_p2_cause_otherSharps.Checked = convertToCheckBoxValue(report.p2_cause_otherSharps);
-        cbx_p2_cause_skin.Checked = convertToCheckBoxValue(report.p2_cause_skin);
-
-        cbx_p2_cause_awkwardPosture.Checked = convertToCheckBoxValue(report.p2_cause_awkwardPosture);
-        cbx_p2_cause_staticPosture.Checked = convertToCheckBoxValue(report.p2_cause_staticPosture);
-        cbx_p2_cause_contactStress.Checked = convertToCheckBoxValue(report.p2_cause_contactStress);
-        cbx_p2_cause_force.Checked = convertToCheckBoxValue(report.p2_cause_force);
-        cbx_p2_cause_rep.Checked = convertToCheckBoxValue(report.p2_cause_rep);
-
-        cbx_p2_cause_motor.Checked = convertToCheckBoxValue(report.p2_cause_motor);
-        cbx_p2_cause_slip.Checked = convertToCheckBoxValue(report.p2_cause_slip);
-        cbx_p2_cause_aggression.Checked = convertToCheckBoxValue(report.p2_cause_aggression);
-        cbx_p2_cause_undetermined.Checked = convertToCheckBoxValue(report.p2_cause_undetermined);
-        cbx_p2_cause_event.Checked = convertToCheckBoxValue(report.p2_cause_event);
-        cbx_p2_cause_underEquip.Checked = convertToCheckBoxValue(report.p2_cause_underEquip);
-        cbx_p2_cause_hit.Checked = convertToCheckBoxValue(report.p2_cause_hit);
-        tbx_p2_cause_other.Text = convertToTextBoxValue(report.p2_cause_other);
-
-        cbx_p2_cause_aggression_verbal.Checked = convertToCheckBoxValue(report.p2_aggression_verbal);
-        cbx_p2_cause_aggression_biting.Checked = convertToCheckBoxValue(report.p2_aggression_biting);
-        cbx_p2_cause_aggression_hitting.Checked = convertToCheckBoxValue(report.p2_aggression_hitting);
-        cbx_p2_cause_aggression_squeezing.Checked = convertToCheckBoxValue(report.p2_aggression_squeezing);
-        cbx_p2_cause_aggression_assault.Checked = convertToCheckBoxValue(report.p2_aggression_assault);
-        cbx_p2_cause_aggression_patient.Checked = convertToCheckBoxValue(report.p2_aggression_patient);
-        cbx_p2_cause_aggression_family.Checked = convertToCheckBoxValue(report.p2_aggression_family);
-        cbx_p2_cause_aggression_public.Checked = convertToCheckBoxValue(report.p2_aggression_public);
-        cbx_p2_cause_aggression_worker.Checked = convertToCheckBoxValue(report.p2_aggression_worker);
-        tbx_p2_cause_aggression_other.Text = convertToTextBoxValue(report.p2_aggression_other);
-
-        tbx_p2_cause_exposure_chemName.Text = convertToTextBoxValue(report.p2_cause_exposure_chemName);
-        cbx_p2_cause_chemInhalation.Checked = convertToCheckBoxValue(report.p2_cause_chemInhalation);
-        cbx_p2_cause_chemIngest.Checked = convertToCheckBoxValue(report.p2_cause_chemIngest);
-        cbx_p2_cause_chemContact.Checked = convertToCheckBoxValue(report.p2_cause_chemContact);
-        cbx_p2_cause_latex.Checked = convertToCheckBoxValue(report.p2_cause_latex);
-        cbx_p2_cause_dust.Checked = convertToCheckBoxValue(report.p2_cause_dust);
-        cbx_p2_cause_disease.Checked = convertToCheckBoxValue(report.p2_cause_disease);
-        cbx_p2_cause_temp.Checked = convertToCheckBoxValue(report.p2_cause_temp);
-        cbx_p2_cause_noise.Checked = convertToCheckBoxValue(report.p2_cause_noise);
-        cbx_p2_cause_radiation.Checked = convertToCheckBoxValue(report.p2_cause_radiation);
-        cbx_p2_cause_elec.Checked = convertToCheckBoxValue(report.p2_cause_elec);
-        cbx_p2_cause_air.Checked = convertToCheckBoxValue(report.p2_cause_air);
-        #endregion D_Cause
-
-        #region E_ContributingFactors
-        cbx_p2_factors_malfunction.Checked = convertToCheckBoxValue(report.p2_factors_malfunction);
-        cbx_p2_factors_improperUse.Checked = convertToCheckBoxValue(report.p2_factors_improperUse);
-        cbx_p2_factors_signage.Checked = convertToCheckBoxValue(report.p2_factors_signage);
-        cbx_p2_factors_notAvailable.Checked = convertToCheckBoxValue(report.p2_factors_notAvailable);
-        cbx_p2_factors_poorDesign.Checked = convertToCheckBoxValue(report.p2_factors_poorDesign);
-        tbx_p2_factors_otherEquip.Text = convertToTextBoxValue(report.p2_factors_otherEquip);
-
-        cbx_p2_factors_temp.Checked = convertToCheckBoxValue(report.p2_factors_temp);
-        cbx_p2_factors_workplace.Checked = convertToCheckBoxValue(report.p2_factors_workplace);
-        cbx_p2_factors_layout.Checked = convertToCheckBoxValue(report.p2_factors_layout);
-        cbx_p2_factors_limitedWorkspace.Checked = convertToCheckBoxValue(report.p2_factors_limitedWorkspace);
-        cbx_p2_factors_slippery.Checked = convertToCheckBoxValue(report.p2_factors_slippery);
-        cbx_p2_factors_lighting.Checked = convertToCheckBoxValue(report.p2_factors_lighting);
-        cbx_p2_factors_noise.Checked = convertToCheckBoxValue(report.p2_factors_noise);
-        cbx_p2_factors_vent.Checked = convertToCheckBoxValue(report.p2_factors_vent);
-        cbx_p2_factors_storage.Checked = convertToCheckBoxValue(report.p2_factors_storage);
-        tbx_p2_factors_otherEnv.Text = convertToTextBoxValue(report.p2_factors_otherEnv);
-
-        cbx_p2_factors_assessment.Checked = convertToCheckBoxValue(report.p2_factors_assessment);
-        cbx_p2_factors_procedure.Checked = convertToCheckBoxValue(report.p2_factors_procedure);
-        cbx_p2_factors_appropriateEquip.Checked = convertToCheckBoxValue(report.p2_factors_appropriateEquip);
-        cbx_p2_factors_conduct.Checked = convertToCheckBoxValue(report.p2_factors_conduct);
-        cbx_p2_factors_extended.Checked = convertToCheckBoxValue(report.p2_factors_extended);
-        cbx_p2_factors_comm.Checked = convertToCheckBoxValue(report.p2_factors_comm);
-        cbx_p2_factors_unaccustomed.Checked = convertToCheckBoxValue(report.p2_factors_unaccustomed);
-        tbx_p2_factors_otherWorkPractice.Text = convertToTextBoxValue(report.p2_factors_otherWorkPractice);
-
-        cbx_p2_factors_directions.Checked = convertToCheckBoxValue(report.p2_factors_directions);
-        cbx_p2_factors_weight.Checked = convertToCheckBoxValue(report.p2_factors_weight);
-        cbx_p2_factors_aggressive.Checked = convertToCheckBoxValue(report.p2_factors_aggressive);
-        cbx_p2_factors_patientResistive.Checked = convertToCheckBoxValue(report.p2_factors_patientResistive);
-        cbx_p2_factors_movement.Checked = convertToCheckBoxValue(report.p2_factors_movement);
-        cbx_p2_factors_confused.Checked = convertToCheckBoxValue(report.p2_factors_confused);
-        cbx_p2_factors_influence.Checked = convertToCheckBoxValue(report.p2_factors_influence);
-        cbx_p2_factors_lang.Checked = convertToCheckBoxValue(report.p2_factors_lang);
-        tbx_p2_factors_otherPatient.Text = convertToTextBoxValue(report.p2_factors_otherPatient);
-
-        cbx_p2_factors_alone.Checked = convertToCheckBoxValue(report.p2_factors_alone);
-        cbx_p2_factors_info.Checked = convertToCheckBoxValue(report.p2_factors_info);
-        cbx_p2_factors_scheduling.Checked = convertToCheckBoxValue(report.p2_factors_scheduling);
-        cbx_p2_factors_training.Checked = convertToCheckBoxValue(report.p2_factors_training);
-        cbx_p2_factors_equip.Checked = convertToCheckBoxValue(report.p2_factors_equip);
-        cbx_p2_factors_personal.Checked = convertToCheckBoxValue(report.p2_factors_personal);
-        cbx_p2_factors_safe.Checked = convertToCheckBoxValue(report.p2_factors_safe);
-        cbx_p2_factors_perceived.Checked = convertToCheckBoxValue(report.p2_factors_perceived);
-        tbx_p2_factors_otherOrganizational.Text = convertToTextBoxValue(report.p2_factors_otherOrganizational);
-
-        cbx_p2_factors_inexperienced.Checked = convertToCheckBoxValue(report.p2_factors_inexperienced);
-        cbx_p2_factors_communication.Checked = convertToCheckBoxValue(report.p2_factors_communication);
-        cbx_p2_factors_fatigued.Checked = convertToCheckBoxValue(report.p2_factors_fatigued);
-        cbx_p2_factors_distracted.Checked = convertToCheckBoxValue(report.p2_factors_distracted);
-        cbx_p2_factors_preexisting.Checked = convertToCheckBoxValue(report.p2_factors_preexisting);
-        cbx_p2_factors_sick.Checked = convertToCheckBoxValue(report.p2_factors_sick);
-        tbx_p2_factors_otherWorker.Text = convertToTextBoxValue(report.p2_factors_otherWorker);
-        #endregion E_ContributingFactors
-
-        #region F_CorrectiveAction
-        tbx_p2_corrective_person.Text = convertToTextBoxValue(report.p2_corrective_person);
-        tbx_p2_corrective_personDate.Text = convertDateTimeToString(report.p2_corrective_personDate);
-        rbl_p2_corrective_maintenance.SelectedValue = convertToTextBoxValue(report.p2_corrective_maintenance);
-        tbx_p2_corrective_maintenanceDate.Text = convertDateTimeToString(report.p2_corrective_maintenanceDate);
-        rbl_p2_corrective_communicated.SelectedValue = convertToTextBoxValue(report.p2_corrective_communicated);
-        tbx_p2_corrective_communicatedDate.Text = convertDateTimeToString(report.p2_corrective_communicatedDate);
-        rbl_p2_corrective_time.SelectedValue = convertToTextBoxValue(report.p2_corrective_time);
-        tbx_p2_corrective_timeDate.Text = convertDateTimeToString(report.p2_corrective_timeDate);
-        #endregion F_CorrectiveAction
-
-        #region G_FollowUp
-        tbx_p2_corrective_written.Text = convertToTextBoxValue(report.p2_corrective_written);
-        tbx_p2_corrective_writtenTargetDate.Text = convertDateTimeToString(report.p2_corrective_writtenTargetDate);
-        tbx_p2_corrective_writtenCompletedDate.Text = convertDateTimeToString(report.p2_corrective_writtenCompletedDate);
-        tbx_p2_corrective_education.Text = convertToTextBoxValue(report.p2_corrective_education);
-        tbx_p2_corrective_educationTargetDate.Text = convertDateTimeToString(report.p2_corrective_educationTargetDate);
-        tbx_p2_corrective_educationCompletedDate.Text = convertDateTimeToString(report.p2_corrective_educationCompletedDate);
-        tbx_p2_corrective_equipment.Text = convertToTextBoxValue(report.p2_corrective_equipment);
-        tbx_p2_corrective_equipmentTargetDate.Text = convertDateTimeToString(report.p2_corrective_equipmentTargetDate);
-        tbx_p2_corrective_equipmentCompletedDate.Text = convertDateTimeToString(report.p2_corrective_equipmentCompletedDate);
-        tbx_p2_corrective_environment.Text = convertToTextBoxValue(report.p2_corrective_environment);
-        tbx_p2_corrective_environmentTargetDate.Text = convertDateTimeToString(report.p2_corrective_environmentTargetDate);
-        tbx_p2_corrective_environmentCompletedDate.Text = convertDateTimeToString(report.p2_corrective_environmentCompletedDate);
-        tbx_p2_corrective_patient.Text = convertToTextBoxValue(report.p2_corrective_patient);
-        tbx_p2_corrective_patientTargetDate.Text = convertDateTimeToString(report.p2_corrective_patientTargetDate);
-        tbx_p2_corrective_patientCompletedDate.Text = convertDateTimeToString(report.p2_corrective_patientCompletedDate);
-        #endregion G_FollowUp
-
-        #region G_ManagersReport
-        tbx_p2_manager_previous.Text = convertToTextBoxValue(report.p2_manager_previous);
-        tbx_p2_manager_objections.Text = convertToTextBoxValue(report.p2_manager_objections);
-        tbx_p2_manager_alternative.Text = convertToTextBoxValue(report.p2_manager_alternative);
-        #endregion G_ManagersReport
-
-        #region H_FixedShiftRotation
-
-        #region H_FixedShiftRotation_Week1
-        tbx_p2_manager_week1_sun.Text = report.p2_manager_week1_sun == null ? String.Empty : report.p2_manager_week1_sun.ToString();
-        tbx_p2_manager_week1_mon.Text = report.p2_manager_week1_mon == null ? String.Empty : report.p2_manager_week1_mon.ToString();
-        tbx_p2_manager_week1_tue.Text = report.p2_manager_week1_tue == null ? String.Empty : report.p2_manager_week1_tue.ToString();
-        tbx_p2_manager_week1_wed.Text = report.p2_manager_week1_wed == null ? String.Empty : report.p2_manager_week1_wed.ToString();
-        tbx_p2_manager_week1_thu.Text = report.p2_manager_week1_thu == null ? String.Empty : report.p2_manager_week1_thu.ToString();
-        tbx_p2_manager_week1_fri.Text = report.p2_manager_week1_fri == null ? String.Empty : report.p2_manager_week1_fri.ToString();
-        tbx_p2_manager_week1_sat.Text = report.p2_manager_week1_sat == null ? String.Empty : report.p2_manager_week1_sat.ToString();
-        #endregion H_FixedShiftRotation_Week1
-
-        #region H_FixedShiftRotation_Week2
-        tbx_p2_manager_week2_sun.Text = report.p2_manager_week2_sun == null ? String.Empty : report.p2_manager_week2_sun.ToString();
-        tbx_p2_manager_week2_mon.Text = report.p2_manager_week2_mon == null ? String.Empty : report.p2_manager_week2_mon.ToString();
-        tbx_p2_manager_week2_tue.Text = report.p2_manager_week2_tue == null ? String.Empty : report.p2_manager_week2_tue.ToString();
-        tbx_p2_manager_week2_wed.Text = report.p2_manager_week2_wed == null ? String.Empty : report.p2_manager_week2_wed.ToString();
-        tbx_p2_manager_week2_thu.Text = report.p2_manager_week2_thu == null ? String.Empty : report.p2_manager_week2_thu.ToString();
-        tbx_p2_manager_week2_fri.Text = report.p2_manager_week2_fri == null ? String.Empty : report.p2_manager_week2_fri.ToString();
-        tbx_p2_manager_week2_sat.Text = report.p2_manager_week2_sat == null ? String.Empty : report.p2_manager_week2_sat.ToString();
-        #endregion H_FixedShiftRotation_Week2
-
-        #endregion H_FixedShiftRotation
-
-        return report;
-    }
-
-    /// <summary>
-    /// Converts a String value in the database to a radio button list value.
-    /// If the value is null or "2", returns false.
-    /// If the value is "1" returns true;
-    /// </summary>
-    /// <param name="value">The String to convert.</param>
-    /// <returns>Boolean: true for 1, false for 2 or null.</returns>
-    private Boolean convertToCheckBoxValue(String value)
-    {
-        if ((value == null) || value.Equals("2"))
-        {
-            return false;
-        }
-        return true;
-    }
-
-    /// <summary>
-    /// If a string is NULL, returns an empty string.
-    /// Otherwise, returns the value.
-    /// This is so textboxes display an empty string instead of NULL.
-    /// </summary>
-    /// <param name="value">The String to convert.</param>
-    /// <returns>Empty string if null, otherwise returns the value.</returns>
-    private String convertToTextBoxValue(String value)
-    {
-        if (value == null)
-        {
-            return String.Empty;
-        }
-        return value;
-    }
-
-    /// <summary>
-    /// Converts a DateTime into a formatted string.
-    /// Returns the date in the format "M/d/yyyy" (e.g. 11/1/2010).
-    /// Returns an empty string if the value is null.
-    /// </summary>
-    /// <param name="value">The Date to convert.</param>
-    /// <returns>The date in the format "M/d/yyyy" or an empty string if the value is null.</returns>
-    private String convertDateTimeToString(Object value)
-    {
-        if (value == null)
-        {
-            return String.Empty;
-        }
-        return Convert.ToDateTime(value).ToString("M/d/yyyy");
-    }
-
-    /// <summary>
-    /// Converts a DateTime into a formatted string.
-    /// Returns the date in the format "h:mm tt" (e.g. 5:37 PM).
-    /// Returns an empty string if the value is null.
-    /// </summary>
-    /// <param name="value">The Date to convert.</param>
-    /// <returns>The time in the format "h:mm tt" or an empty string if the value is null.</returns>
-    private String convertTimeToString(Object value)
-    {
-        if (value == null)
-        {
-            return String.Empty;
-        }
-        return Convert.ToDateTime(value).ToString("h:mm tt");
-    }
-    #endregion Load Incident Report
-
-    #region Filter Report
-    /// <summary>
-    /// Calls the filter report method, which gets a list of incident reports that match ONLY the data entered
-    /// into the form. Only considers the checkboxes (Section B, C, D, and E).
-    /// </summary>
-    /// <param name="sender">The object that triggered the event.</param>
-    /// <param name="e">The button click event.</param>
-    protected void btnFilterReport_Click(object sender, EventArgs e)
-    {
-        filterReport(gdvTracker);
-    }
-
-    /// <summary>
-    /// Gets a list of incident reports that match ONLY the data entered into the form.
-    /// Only considers the checkboxes in sections B, C, D, and E of the form.
-    /// Populates the GridView parameter with the resulting reports.
-    /// </summary>
-    private void filterReport(GridView gdv)
-    {
-        var reports = ctx.Incidents
-                      .Select(r => r);
-
-        if (!tbxFirstName.Text.Equals(String.Empty))
-        {
-            reports = reports.Where(r => r.Employee.fname.Equals(tbxFirstName.Text));
-        }
-
-        #region B_NatureOfInjury
-        if (cbx_p1_nature_no.Checked) { reports = reports.Where(r => r.p1_nature_no.Equals("1")); }
-        if (cbx_p1_nature_musculoskeletal.Checked) { reports = reports.Where(r => r.p1_nature_musculoskeletal.Equals("1")); }
-        if (cbx_p1_nature_bruise.Checked) { reports = reports.Where(r => r.p1_nature_bruise.Equals("1")); }
-        if (cbx_p1_nature_burn.Checked) { reports = reports.Where(r => r.p1_nature_burn.Equals("1")); }
-        if (cbx_p1_nature_cut.Checked) { reports = reports.Where(r => r.p1_nature_cut.Equals("1")); }
-        if (cbx_p1_nature_puncture.Checked) { reports = reports.Where(r => r.p1_nature_puncture.Equals("1")); }
-        if (cbx_p1_nature_skinIrritation.Checked) { reports = reports.Where(r => r.p1_nature_skinIrritation.Equals("1")); }
-        if (cbx_p1_nature_skinMucous.Checked) { reports = reports.Where(r => r.p1_nature_skinMucous.Equals("1")); }
-        if (cbx_p1_nature_eye.Checked) { reports = reports.Where(r => r.p1_nature_eye.Equals("1")); }
-        if (cbx_p1_nature_allergic.Checked) { reports = reports.Where(r => r.p1_nature_allergic.Equals("1")); }
-        if (cbx_p1_nature_psychological.Checked) { reports = reports.Where(r => r.p1_nature_psychological.Equals("1")); }
-        if (cbx_p1_nature_respiratory.Checked) { reports = reports.Where(r => r.p1_nature_respiratory.Equals("1")); }
-        #endregion B_NatureOfInjury
-
-        #region C_AccidentInvestigation
-        if (cbx_p2_activity_no.Checked) { reports = reports.Where(r => r.p2_activity_no.Equals("1")); }
-        if (cbx_p2_activity_repositioning.Checked) { reports = reports.Where(r => r.p2_activity_repositioning.Equals("1")); }
-        if (cbx_p2_activity_transferring.Checked) { reports = reports.Where(r => r.p2_activity_transferring.Equals("1")); }
-        if (cbx_p2_activity_assistedWalking.Checked) { reports = reports.Where(r => r.p2_activity_assistedWalking.Equals("1")); }
-        if (cbx_p2_activity_assistedFloor.Checked) { reports = reports.Where(r => r.p2_activity_assistedFloor.Equals("1")); }
-        if (cbx_p2_activity_fall.Checked) { reports = reports.Where(r => r.p2_activity_fall.Equals("1")); }
-        if (cbx_p2_activity_holding.Checked) { reports = reports.Where(r => r.p2_activity_holding.Equals("1")); }
-        if (cbx_p2_activity_toileting.Checked) { reports = reports.Where(r => r.p2_activity_toileting.Equals("1")); }
-
-        if (cbx_p2_patient_ceilingLift.Checked) { reports = reports.Where(r => r.p2_patient_ceilingLift.Equals("1")); }
-        if (cbx_p2_patient_sitStandLift.Checked) { reports = reports.Where(r => r.p2_patient_sitStandLift.Equals("1")); }
-        if (cbx_p2_patient_floorLift.Checked) { reports = reports.Where(r => r.p2_patient_floorLift.Equals("1")); }
-        if (cbx_p2_patient_manualLift.Checked) { reports = reports.Where(r => r.p2_patient_manualLift.Equals("1")); }
-        if (cbx_p2_patient_other.Checked) { reports = reports.Where(r => !(r.p2_patient_otherSpecify.Equals(null))); }
-        if (!rbl_p2_patient_adequateAssist.SelectedValue.Equals(String.Empty))
-        {
-            reports = reports.Where(r => r.p2_patient_adequateAssist.Equals(rbl_p2_patient_adequateAssist.SelectedValue));
-        }
-
-        if (cbx_p2_activity_washing.Checked) { reports = reports.Where(r => r.p2_activity_washing.Equals("1")); }
-        if (cbx_p2_activity_dressing.Checked) { reports = reports.Where(r => r.p2_activity_dressing.Equals("1")); }
-        if (cbx_p2_activity_changing.Checked) { reports = reports.Where(r => r.p2_activity_changing.Equals("1")); }
-        if (cbx_p2_activity_feeding.Checked) { reports = reports.Where(r => r.p2_activity_feeding.Equals("1")); }
-        if (cbx_p2_activity_prep.Checked) { reports = reports.Where(r => r.p2_activity_prep.Equals("1")); }
-        if (cbx_p2_activity_dressingChanges.Checked) { reports = reports.Where(r => r.p2_activity_dressingChanges.Equals("1")); }
-        if (cbx_p2_activity_otherPatientCare.Checked) { reports = reports.Where(r => r.p2_activity_otherPatientCare.Equals("1")); }
-
-        if (cbx_p2_activity_recapping.Checked) { reports = reports.Where(r => r.p2_activity_recapping.Equals("1")); }
-        if (cbx_p2_activity_puncture.Checked) { reports = reports.Where(r => r.p2_activity_puncture.Equals("1")); }
-        if (cbx_p2_activity_sharpsDisposal.Checked) { reports = reports.Where(r => r.p2_activity_sharpsDisposal.Equals("1")); }
-        if (cbx_p2_activity_otherSharps.Checked) { reports = reports.Where(r => r.p2_activity_otherSharps.Equals("1")); }
-
-        //if (tbx_p2_acitvity_material.Checked) { reports = reports.Where(r => r.p2_activity_material.Equals("1")); }
-        if (cbx_p2_activity_lift.Checked) { reports = reports.Where(r => r.p2_activity_lift.Equals("1")); }
-        if (cbx_p2_activity_push.Checked) { reports = reports.Where(r => r.p2_activity_push.Equals("1")); }
-        if (cbx_p2_activity_carry.Checked) { reports = reports.Where(r => r.p2_activity_carry.Equals("1")); }
-        if (cbx_p2_activity_otherMat.Checked) { reports = reports.Where(r => r.p2_activity_otherMat != null); }
-        if (cbx_p2_activity_driving.Checked) { reports = reports.Where(r => r.p2_activity_driving.Equals("1")); }
-        if (cbx_p2_activity_otherEquip.Checked) { reports = reports.Where(r => r.p2_activity_otherEquip != null); }
-        if (cbx_p2_activity_otherEquipDesc.Checked) { reports = reports.Where(r => r.p2_activity_otherEquipDesc != null); }
-        if (cbx_p2_activity_equipMain.Checked) { reports = reports.Where(r => r.p2_activity_equipMain.Equals("1")); }
-        if (cbx_p2_activity_comp.Checked) { reports = reports.Where(r => r.p2_activity_comp.Equals("1")); }
-        if (cbx_p2_activity_nonComp.Checked) { reports = reports.Where(r => r.p2_activity_nonComp.Equals("1")); }
-
-        if (cbx_p2_activity_walking.Checked) { reports = reports.Where(r => r.p2_activity_walking.Equals("1")); }
-        if (cbx_p2_activity_bending.Checked) { reports = reports.Where(r => r.p2_activity_bending.Equals("1")); }
-        if (cbx_p2_activity_reading.Checked) { reports = reports.Where(r => r.p2_activity_reading.Equals("1")); }
-        if (cbx_p2_activity_spill.Checked) { reports = reports.Where(r => r.p2_activity_spill.Equals("1")); }
-        if (cbx_p2_activity_cleaning.Checked) { reports = reports.Where(r => r.p2_activity_cleaning.Equals("1")); }
-        if (cbx_p2_activity_other.Checked) { reports = reports.Where(r => r.p2_activity_other != null); }
-        #endregion C_AccidentInvestigation
-
-        #region D_Cause
-        if (cbx_p2_cause_human.Checked) { reports = reports.Where(r => r.p2_cause_human.Equals("1")); }
-        if (cbx_p2_cause_animal.Checked) { reports = reports.Where(r => r.p2_cause_animal.Equals("1")); }
-
-        if (cbx_p2_cause_needle.Checked) { reports = reports.Where(r => r.p2_cause_needle.Equals("1")); }
-        if (cbx_p2_cause_otherSharps.Checked) { reports = reports.Where(r => r.p2_cause_otherSharps.Equals("1")); }
-        if (cbx_p2_cause_skin.Checked) { reports = reports.Where(r => r.p2_cause_skin.Equals("1")); }
-
-        if (cbx_p2_cause_awkwardPosture.Checked) { reports = reports.Where(r => r.p2_cause_awkwardPosture.Equals("1")); }
-        if (cbx_p2_cause_staticPosture.Checked) { reports = reports.Where(r => r.p2_cause_staticPosture.Equals("1")); }
-        if (cbx_p2_cause_contactStress.Checked) { reports = reports.Where(r => r.p2_cause_contactStress.Equals("1")); }
-        if (cbx_p2_cause_force.Checked) { reports = reports.Where(r => r.p2_cause_force.Equals("1")); }
-        if (cbx_p2_cause_rep.Checked) { reports = reports.Where(r => r.p2_cause_rep.Equals("1")); }
-
-        if (cbx_p2_cause_motor.Checked) { reports = reports.Where(r => r.p2_cause_motor.Equals("1")); }
-        if (cbx_p2_cause_slip.Checked) { reports = reports.Where(r => r.p2_cause_slip.Equals("1")); }
-        if (cbx_p2_cause_aggression.Checked) { reports = reports.Where(r => r.p2_cause_aggression.Equals("1")); }
-        if (cbx_p2_cause_undetermined.Checked) { reports = reports.Where(r => r.p2_cause_undetermined.Equals("1")); }
-        if (cbx_p2_cause_event.Checked) { reports = reports.Where(r => r.p2_cause_event.Equals("1")); }
-        if (cbx_p2_cause_underEquip.Checked) { reports = reports.Where(r => r.p2_cause_underEquip.Equals("1")); }
-        if (cbx_p2_cause_hit.Checked) { reports = reports.Where(r => r.p2_cause_hit.Equals("1")); }
-        if (cbx_p2_cause_other.Checked) { reports = reports.Where(r => r.p2_cause_other != null); }
-
-        if (cbx_p2_cause_aggression_verbal.Checked) { reports = reports.Where(r => r.p2_aggression_verbal.Equals("1")); }
-        if (cbx_p2_cause_aggression_biting.Checked) { reports = reports.Where(r => r.p2_aggression_biting.Equals("1")); }
-        if (cbx_p2_cause_aggression_hitting.Checked) { reports = reports.Where(r => r.p2_aggression_hitting.Equals("1")); }
-        if (cbx_p2_cause_aggression_squeezing.Checked) { reports = reports.Where(r => r.p2_aggression_squeezing.Equals("1")); }
-        if (cbx_p2_cause_aggression_assault.Checked) { reports = reports.Where(r => r.p2_aggression_assault.Equals("1")); }
-        if (cbx_p2_cause_aggression_patient.Checked) { reports = reports.Where(r => r.p2_aggression_patient.Equals("1")); }
-        if (cbx_p2_cause_aggression_family.Checked) { reports = reports.Where(r => r.p2_aggression_family.Equals("1")); }
-        if (cbx_p2_cause_aggression_public.Checked) { reports = reports.Where(r => r.p2_aggression_public.Equals("1")); }
-        if (cbx_p2_cause_aggression_worker.Checked) { reports = reports.Where(r => r.p2_aggression_worker.Equals("1")); }
-        if (cbx_p2_cause_aggression_other.Checked) { reports = reports.Where(r => r.p2_aggression_other != null); }
-
-        //if (tbx_p2_cause_exposure_chemName.Checked) { reports = reports.Where(r => r.p2_cause_exposure_chemName.Equals("1")); }
-        if (cbx_p2_cause_chemInhalation.Checked) { reports = reports.Where(r => r.p2_cause_chemInhalation.Equals("1")); }
-        if (cbx_p2_cause_chemIngest.Checked) { reports = reports.Where(r => r.p2_cause_chemIngest.Equals("1")); }
-        if (cbx_p2_cause_chemContact.Checked) { reports = reports.Where(r => r.p2_cause_chemContact.Equals("1")); }
-        if (cbx_p2_cause_latex.Checked) { reports = reports.Where(r => r.p2_cause_latex.Equals("1")); }
-        if (cbx_p2_cause_dust.Checked) { reports = reports.Where(r => r.p2_cause_dust.Equals("1")); }
-        if (cbx_p2_cause_disease.Checked) { reports = reports.Where(r => r.p2_cause_disease.Equals("1")); }
-        if (cbx_p2_cause_temp.Checked) { reports = reports.Where(r => r.p2_cause_temp.Equals("1")); }
-        if (cbx_p2_cause_noise.Checked) { reports = reports.Where(r => r.p2_cause_noise.Equals("1")); }
-        if (cbx_p2_cause_radiation.Checked) { reports = reports.Where(r => r.p2_cause_radiation.Equals("1")); }
-        if (cbx_p2_cause_elec.Checked) { reports = reports.Where(r => r.p2_cause_elec.Equals("1")); }
-        if (cbx_p2_cause_air.Checked) { reports = reports.Where(r => r.p2_cause_air.Equals("1")); }
-        #endregion D_Cause
-
-        #region E_ContributingFactors
-        if (cbx_p2_factors_malfunction.Checked) { reports = reports.Where(r => r.p2_factors_malfunction.Equals("1")); }
-        if (cbx_p2_factors_improperUse.Checked) { reports = reports.Where(r => r.p2_factors_improperUse.Equals("1")); }
-        if (cbx_p2_factors_signage.Checked) { reports = reports.Where(r => r.p2_factors_signage.Equals("1")); }
-        if (cbx_p2_factors_notAvailable.Checked) { reports = reports.Where(r => r.p2_factors_notAvailable.Equals("1")); }
-        if (cbx_p2_factors_poorDesign.Checked) { reports = reports.Where(r => r.p2_factors_poorDesign.Equals("1")); }
-        if (cbx_p2_factors_otherEquip.Checked) { reports = reports.Where(r => r.p2_factors_otherEquip != null); }
-
-        if (cbx_p2_factors_temp.Checked) { reports = reports.Where(r => r.p2_factors_temp.Equals("1")); }
-        if (cbx_p2_factors_workplace.Checked) { reports = reports.Where(r => r.p2_factors_workplace.Equals("1")); }
-        if (cbx_p2_factors_layout.Checked) { reports = reports.Where(r => r.p2_factors_layout.Equals("1")); }
-        if (cbx_p2_factors_limitedWorkspace.Checked) { reports = reports.Where(r => r.p2_factors_limitedWorkspace.Equals("1")); }
-        if (cbx_p2_factors_slippery.Checked) { reports = reports.Where(r => r.p2_factors_slippery.Equals("1")); }
-        if (cbx_p2_factors_lighting.Checked) { reports = reports.Where(r => r.p2_factors_lighting.Equals("1")); }
-        if (cbx_p2_factors_noise.Checked) { reports = reports.Where(r => r.p2_factors_noise.Equals("1")); }
-        if (cbx_p2_factors_vent.Checked) { reports = reports.Where(r => r.p2_factors_vent.Equals("1")); }
-        if (cbx_p2_factors_storage.Checked) { reports = reports.Where(r => r.p2_factors_storage.Equals("1")); }
-        if (cbx_p2_factors_otherEnv.Checked) { reports = reports.Where(r => r.p2_factors_otherEnv != null); }
-
-        if (cbx_p2_factors_assessment.Checked) { reports = reports.Where(r => r.p2_factors_assessment.Equals("1")); }
-        if (cbx_p2_factors_procedure.Checked) { reports = reports.Where(r => r.p2_factors_procedure.Equals("1")); }
-        if (cbx_p2_factors_appropriateEquip.Checked) { reports = reports.Where(r => r.p2_factors_appropriateEquip.Equals("1")); }
-        if (cbx_p2_factors_conduct.Checked) { reports = reports.Where(r => r.p2_factors_conduct.Equals("1")); }
-        if (cbx_p2_factors_extended.Checked) { reports = reports.Where(r => r.p2_factors_extended.Equals("1")); }
-        if (cbx_p2_factors_comm.Checked) { reports = reports.Where(r => r.p2_factors_comm.Equals("1")); }
-        if (cbx_p2_factors_unaccustomed.Checked) { reports = reports.Where(r => r.p2_factors_unaccustomed.Equals("1")); }
-        if (cbx_p2_factors_otherWorkPractice.Checked) { reports = reports.Where(r => r.p2_factors_otherWorkPractice != null); }
-
-        if (cbx_p2_factors_directions.Checked) { reports = reports.Where(r => r.p2_factors_directions.Equals("1")); }
-        if (cbx_p2_factors_weight.Checked) { reports = reports.Where(r => r.p2_factors_weight.Equals("1")); }
-        if (cbx_p2_factors_aggressive.Checked) { reports = reports.Where(r => r.p2_factors_aggressive.Equals("1")); }
-        if (cbx_p2_factors_patientResistive.Checked) { reports = reports.Where(r => r.p2_factors_patientResistive.Equals("1")); }
-        if (cbx_p2_factors_movement.Checked) { reports = reports.Where(r => r.p2_factors_movement.Equals("1")); }
-        if (cbx_p2_factors_confused.Checked) { reports = reports.Where(r => r.p2_factors_confused.Equals("1")); }
-        if (cbx_p2_factors_influence.Checked) { reports = reports.Where(r => r.p2_factors_influence.Equals("1")); }
-        if (cbx_p2_factors_lang.Checked) { reports = reports.Where(r => r.p2_factors_lang.Equals("1")); }
-        if (cbx_p2_factors_otherPatient.Checked) { reports = reports.Where(r => r.p2_factors_otherPatient != null); }
-
-        if (cbx_p2_factors_alone.Checked) { reports = reports.Where(r => r.p2_factors_alone.Equals("1")); }
-        if (cbx_p2_factors_info.Checked) { reports = reports.Where(r => r.p2_factors_info.Equals("1")); }
-        if (cbx_p2_factors_scheduling.Checked) { reports = reports.Where(r => r.p2_factors_scheduling.Equals("1")); }
-        if (cbx_p2_factors_training.Checked) { reports = reports.Where(r => r.p2_factors_training.Equals("1")); }
-        if (cbx_p2_factors_equip.Checked) { reports = reports.Where(r => r.p2_factors_equip.Equals("1")); }
-        if (cbx_p2_factors_personal.Checked) { reports = reports.Where(r => r.p2_factors_personal.Equals("1")); }
-        if (cbx_p2_factors_safe.Checked) { reports = reports.Where(r => r.p2_factors_safe.Equals("1")); }
-        if (cbx_p2_factors_perceived.Checked) { reports = reports.Where(r => r.p2_factors_perceived.Equals("1")); }
-        if (cbx_p2_factors_otherOrganizational.Checked) { reports = reports.Where(r => r.p2_factors_otherOrganizational != null); }
-
-        if (cbx_p2_factors_inexperienced.Checked) { reports = reports.Where(r => r.p2_factors_inexperienced.Equals("1")); }
-        if (cbx_p2_factors_communication.Checked) { reports = reports.Where(r => r.p2_factors_communication.Equals("1")); }
-        if (cbx_p2_factors_fatigued.Checked) { reports = reports.Where(r => r.p2_factors_fatigued.Equals("1")); }
-        if (cbx_p2_factors_distracted.Checked) { reports = reports.Where(r => r.p2_factors_distracted.Equals("1")); }
-        if (cbx_p2_factors_preexisting.Checked) { reports = reports.Where(r => r.p2_factors_preexisting.Equals("1")); }
-        if (cbx_p2_factors_sick.Checked) { reports = reports.Where(r => r.p2_factors_sick.Equals("1")); }
-        if (cbx_p2_factors_otherWorker.Checked) { reports = reports.Where(r => r.p2_factors_otherWorker != null); }
-        #endregion E_ContributingFactors
-
-        gdv.DataSource = reports;
-        gdv.DataBind();
-    }
-    #endregion Filter Report
-
-    String selection = "";
-
-    protected void gdvTracker_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        //incidentReportId = gdvTracker.SelectedRow.Cells[1].Text;
-        selection = "Incident";
-    }
-
-    protected void gdvTracker_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-        switch (e.CommandName)
-        {
-            case "RowViewReport":
-                // Get the row that called the event
-                int index = Convert.ToInt32(e.CommandArgument);
-                GridViewRow row = gdvTracker.Rows[index];
-                // Get the text of the label holding the Incident No
-                String incidentNo = ((Label)row.FindControl("lblIncidentNo")).Text;
-                Response.Redirect("~/Reporting/ViewIncidentReport.aspx?IncidentNo=" + incidentNo);
-                break;
-            case "RowViewEmployees":
-                // code here
-                break;
-            case "RowViewCourses":
-                // code here
-                break;
-            case "RowViewLabInspections":
-                // code here
-                break;
-            case "RowViewOfficeInspections":
-                // code here
-                break;
-            default:
-                throw new System.SystemException("Default case of switch should never be reached");
-        }
-
-        if (e.CommandName.Equals("ViewReport"))
-        {
-            Popup_Overlay("View Report Code.", SuccessColour);
-        }
-
-    }
-    #endregion
-}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+}

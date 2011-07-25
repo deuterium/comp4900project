@@ -1,8 +1,9 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
+﻿<%@ Page Title="BCCA - Training and Orientation" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
     CodeFile="Default.aspx.cs" Inherits="Training_Default" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="head">
+    <script language="javascript" src="../Print.js" ></script>
     <style type="text/css">
         .style2
         {
@@ -22,18 +23,6 @@
         ExpandedText="(Hide Details)" ImageControlID="imgExpandCollapseCourses" TextLabelID="ExpandCollapseCourses"
         CollapsedImage="../images/expand.jpg" ExpandedImage="../images/collapse.jpg">
     </asp:CollapsiblePanelExtender>
-    <asp:CollapsiblePanelExtender ID="cpeCoursesCompleted" runat="server" Collapsed="true"
-        CollapsedText="(Show Details)" ExpandedText="(Hide Details)" CollapseControlID="hr3CoursesCompleted"
-        ExpandControlID="hr3CoursesCompleted" TargetControlID="pnlCoursesCompleted" ImageControlID="imgExpandCollapseCoursesCompleted"
-        TextLabelID="ExpandCollapseCoursesCompleted" CollapsedImage="../images/expand.jpg"
-        ExpandedImage="../images/collapse.jpg">
-    </asp:CollapsiblePanelExtender>
-    <asp:CollapsiblePanelExtender ID="cpeCoursesExpired" runat="server" Collapsed="true"
-        CollapsedText="(Show Details)" ExpandedText="(Hide Details)" CollapseControlID="hr3CoursesExpired"
-        ExpandControlID="hr3CoursesExpired" TargetControlID="pnlCoursesExpired" ImageControlID="imgExpandCollapseCoursesExpired"
-        TextLabelID="ExpandCollapseCoursesExpired" CollapsedImage="../images/expand.jpg"
-        ExpandedImage="../images/collapse.jpg">
-    </asp:CollapsiblePanelExtender>
     <asp:CollapsiblePanelExtender ID="cpeCoursesCatalog" runat="server" Collapsed="true"
         CollapsedText="(Show Details)" ExpandedText="(Hide Details)" CollapseControlID="hr3CoursesCatalog"
         ExpandControlID="hr3CoursesCatalog" TargetControlID="pnlCoursesCatalog" ImageControlID="imgExpandCollapseCoursesCatalog"
@@ -44,10 +33,9 @@
         CollapseControlID="" ExpandControlID="" TargetControlID="pnlEmployeeInfo">
     </asp:CollapsiblePanelExtender>
     <div id="divContent">
-        <div id="divReportInfo">
-            <h3 id="hr3EmployeeInfo">
-                Employee Information</h3>
+            <h3 id="hr3EmployeeInfo">Employee Information</h3>
             <asp:Panel ID="pnlEmployeeInfo" CssClass="panel" runat="server">
+        <div id="divEmpInfo">
             <div id="divEmpInfoLeftPanel">
                 <table>
                     <tr>
@@ -238,6 +226,7 @@
                     </tr>
                 </table>
             </div>
+        </div>
             <div id="divEmpInfoButtons" class="summariesAndButtons">
                 <asp:Button TabIndex="111" ID="btnGetEmployee" runat="server" ValidationGroup="vgpEmpName"
                     Text="Get Employee" OnClick="btnGetEmployee_Click" />
@@ -245,6 +234,7 @@
                     Text="Create Employee" OnClick="btnCreateEmployee_Click" />
                 <asp:Button TabIndex="111" ID="btnUpdateEmployee" runat="server" ValidationGroup="vgpAllEmpInfo"
                     Text="Update  Employee" OnClick="btnUpdateEmployee_Click" />
+                <asp:Button TabIndex="111" ID="btnPrint" runat="server" Text="Print Record" />
                 <asp:Button TabIndex="111" ID="btnClear" runat="server" Text="Clear" OnClick="btnClear_Click" />
                 <asp:ConfirmButtonExtender ID="cbeClear" runat="server"
                     ConfirmText="Are you sure you want to clear the form? All unsaved data will be permanently lost." Enabled="True"
@@ -255,68 +245,189 @@
                     DisplayMode="BulletList" />
             </div>
         </asp:Panel>
-            
-        </div>
+         
         <div id="divCourses">
             <h3 id="hr3Courses">
                 <asp:Image ID="imgExpandCollapseCourses" runat="server" />
                 Courses
                 <asp:Label ID="ExpandCollapseCourses" runat="server" Text=""></asp:Label></h3>
-            <asp:Panel ID="pnlCourses" CssClass="parentPanel" runat="server">
-                <h3 id="hr3CoursesCompleted">
-                    <asp:Image ID="imgExpandCollapseCoursesCompleted" runat="server" />
-                    Valid:
-                    <asp:Label ID="ExpandCollapseCoursesCompleted" runat="server" Text=""></asp:Label></h3>
-                <asp:Panel ID="pnlCoursesCompleted" Width="790px" runat="server">
-                    <asp:GridView ID="grvValidCourses" runat="server" Width="790px" OnRowCancelingEdit="grvValidCourses_RowCancelingEdit"
+            <asp:Panel ID="pnlCourses" CssClass="panel" runat="server">
+                
+                <table>
+                    <tr>
+                        <td>Results per page:</td>
+                        <td>
+                            <asp:TextBox ID="tbxTrainingSearchPages" runat="server" ></asp:TextBox>
+                            <asp:FilteredTextBoxExtender ID="fteTrainingSearchPages" runat="server" TargetControlID="tbxTrainingSearchPages"
+                                ValidChars="0123456789" />
+                            (leave blank to show all results)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Training name:</td>
+                        <td>
+                            <asp:TextBox ID="tbxTrainingNameFilter" runat="server"></asp:TextBox>
+                            <asp:CheckBox ID="cbxTrainingNameExactMatch" Text="Exact match only" runat="server" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Course date from: </td>
+                        <td>
+                            <asp:TextBox ID="tbxEarliestCourseDate" runat="server"></asp:TextBox>
+                            <asp:TextBoxWatermarkExtender ID="tweEarliestCourseDate" runat="server" TargetControlID="tbxEarliestCourseDate"
+                                WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
+                            </asp:TextBoxWatermarkExtender>
+                            <asp:CalendarExtender ID="cexEarliestCourseDate" runat="server" Enabled="True"
+                                TargetControlID="tbxEarliestCourseDate" Format="M/d/yyyy">
+                            </asp:CalendarExtender>
+                            <asp:RegularExpressionValidator ID="revEarliestCourseDate" runat="server" ValidationGroup="vgpValidCourseSearch"
+                                Display="Dynamic" ControlToValidate="tbxEarliestCourseDate"
+                                ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                                ErrorMessage="Earliest course date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                            <asp:CustomValidator ID="cmvEarliestCourseDate" runat="server" ValidationGroup="vgpValidCourseSearch"
+                                Display="Dynamic" ErrorMessage="Earliest course date must be in the format 'MM/DD/YYYY'" OnServerValidate="cmvEarliestCourseDate_ServerValidate"></asp:CustomValidator>
+                            to 
+                            <asp:TextBox ID="tbxLatestCourseDate" runat="server"></asp:TextBox>
+                            <asp:TextBoxWatermarkExtender ID="tweLatestCourseDate" runat="server" TargetControlID="tbxLatestCourseDate"
+                                WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
+                            </asp:TextBoxWatermarkExtender>
+                            <asp:CalendarExtender ID="cexLatestCourseDate" runat="server" Enabled="True"
+                                TargetControlID="tbxLatestCourseDate" Format="M/d/yyyy">
+                            </asp:CalendarExtender>
+                            <asp:RegularExpressionValidator ID="revLatestCourseDate" runat="server" ValidationGroup="vgpValidCourseSearch"
+                                Display="Dynamic" ControlToValidate="tbxLatestCourseDate"
+                                ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                                ErrorMessage="Latest course date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                            <asp:CustomValidator ID="cmvLatestCourseDate" runat="server" ValidationGroup="vgpValidCourseSearch"
+                                Display="Dynamic" ErrorMessage="" OnServerValidate="cmvLatestCourseDate_ServerValidate"></asp:CustomValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Expiry date from: </td>
+                        <td>
+                            <asp:TextBox ID="tbxEarliestExpiryDate" runat="server"></asp:TextBox>
+                            <asp:TextBoxWatermarkExtender ID="tweEarliestExpiryDate" runat="server" TargetControlID="tbxEarliestExpiryDate"
+                                WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
+                            </asp:TextBoxWatermarkExtender>
+                            <asp:CalendarExtender ID="cexEarliestExpiryDate" runat="server" Enabled="True"
+                                TargetControlID="tbxEarliestExpiryDate" Format="M/d/yyyy">
+                            </asp:CalendarExtender>
+                            <asp:RegularExpressionValidator ID="revEarliestExpiryDate" runat="server" ValidationGroup="vgpValidCourseSearch"
+                                Display="Dynamic" ControlToValidate="tbxEarliestExpiryDate"
+                                ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                                ErrorMessage="Earliest expiry date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                            <asp:CustomValidator ID="cmvEarliestExpiryDate" runat="server" ValidationGroup="vgpValidCourseSearch"
+                                Display="Dynamic" ErrorMessage="Earliest expiry date must be in the format 'MM/DD/YYYY'" OnServerValidate="cmvEarliestExpiryDate_ServerValidate"></asp:CustomValidator>
+                            to 
+                            <asp:TextBox ID="tbxLatestExpiryDate" runat="server"></asp:TextBox>
+                            <asp:TextBoxWatermarkExtender ID="tweLatestExpiryDate" runat="server" TargetControlID="tbxLatestExpiryDate"
+                                WatermarkCssClass="watermarked" WatermarkText="MM/DD/YYYY">
+                            </asp:TextBoxWatermarkExtender>
+                            <asp:CalendarExtender ID="cexLatestExpiryDate" runat="server" Enabled="True"
+                                TargetControlID="tbxLatestExpiryDate" Format="M/d/yyyy">
+                            </asp:CalendarExtender>
+                            <asp:RegularExpressionValidator ID="revLatestExpiryDate" runat="server" ValidationGroup="vgpValidCourseSearch"
+                                Display="Dynamic" ControlToValidate="tbxLatestExpiryDate"
+                                ValidationExpression="^[0-9]{1,2}/{1}[0-9]{1,2}/{1}[0-9]{4}$"
+                                ErrorMessage="Latest expiry date must be in the format 'MM/DD/YYYY'"></asp:RegularExpressionValidator>
+                            <asp:CustomValidator ID="cmvLatestExpiryDate" runat="server" ValidationGroup="vgpValidCourseSearch"
+                                Display="Dynamic" ErrorMessage="" OnServerValidate="cmvLatestExpiryDate_ServerValidate"></asp:CustomValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Show results: </td>
+                        <td>
+                            <asp:RadioButtonList ID="rblMostRecent" runat="server" RepeatDirection="Horizontal">
+                                <asp:ListItem Text="All training" Value="all"></asp:ListItem>
+                                <asp:ListItem Text="Most recent training" Value="mostRecent" Selected="True" ></asp:ListItem>
+                            </asp:RadioButtonList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><asp:CheckBox ID="cbxIncludeDeleted" Text="Include deleted courses" runat="server" /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><asp:CheckBox ID="cbxIncludeValid" Text="Include valid courses" runat="server" Checked="True" /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <asp:CheckBox ID="cbxIncludeExpired" Text="Include expired courses" runat="server" Checked="True" />
+                            &nbsp;(<asp:CheckBox ID="cbxHighlightExpired" Text="Highlight" runat="server" Checked="True" />)
+                        </td>
+                    </tr>
+                </table>
+                <asp:Button ID="btnValidCourseSearch" runat="server" Text="Search" OnClick="btnValidCourseSearch_Click" ValidationGroup="vgpValidCourseSearch" />
+                <asp:Button ID="btnCourseSearchReset" runat="server" Text="Reset" OnClick="btnCourseSearchReset_Click" />
+                <asp:ValidationSummary ID="vsyValidCourseSearch" runat="server" DisplayMode="BulletList" ValidationGroup="vgpValidCourseSearch" />
+                    
+                <br /><br />
+
+                <%--<asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                <ContentTemplate>--%>
+                <div id="divPrint">
+                <asp:GridView ID="grvValidCourses" runat="server" Width="790px" OnRowCancelingEdit="grvValidCourses_RowCancelingEdit"
                         OnRowEditing="grvValidCourses_RowEditing" OnRowUpdating="grvValidCourses_RowUpdating" OnRowDeleting="grvValidCourses_RowDeleting"
-                        AutoGenerateColumns="False" OnSelectedIndexChanged="grvValidCourses_SelectedIndexChanged">
-                        <Columns>
-                            <asp:CommandField ShowEditButton="True" EditText="Edit" UpdateText="Update |" />
-                            <asp:TemplateField ShowHeader="False">
-                                 <ItemTemplate>
-                                   <asp:LinkButton ID="lbnDelete" runat="server" CausesValidation="False" CommandName="Delete"
-                                                OnClientClick='return confirm("Are you sure you want to delete this training course?");'
-                                                Text="Delete" />
-                                 </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:CommandField ShowSelectButton="True" SelectText="Details" />
-                            <asp:TemplateField HeaderText="Training Name" SortExpression="coursename">
-                                <EditItemTemplate>
-                                    <asp:Label ID="Label1" runat="server" Text='<%# Eval("coursename") %>'></asp:Label>
-                                </EditItemTemplate>
+                        AutoGenerateColumns="False" OnSelectedIndexChanged="grvValidCourses_SelectedIndexChanged" OnRowDataBound="grvValidCourses_RowDataBound"
+                        OnSorting="grvValidCourses_Sorting" AllowSorting="true"
+                        OnPageIndexChanging="grvValidCourses_PageIndexChanging" AllowPaging="true" EnableViewState="true" 
+                        PagerSettings-PageButtonCount="10" PagerSettings-Mode="NumericFirstLast"  >
+                    <HeaderStyle BackColor="#89c123" ForeColor="White" />
+                    <PagerStyle CssClass="GridViewPagerStyle" />
+                    <Columns>
+                        <asp:CommandField ShowEditButton="True" EditText="Edit" UpdateText="Update |" />
+                        <asp:TemplateField ShowHeader="False">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label2" runat="server" Text='<%# Bind("coursename") %>'></asp:Label>
+                                <asp:LinkButton ID="lbnDelete" runat="server" CausesValidation="False" CommandName="Delete"
+                                    Text='<%# (Eval("active") == null ? "Delete" : ((Eval("active").ToString() == "0" ? "Restore" : "Delete"))) %>' />  
                                 </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:BoundField DataField="ttNo" HeaderText="#" SortExpression="ttNo" ReadOnly="True" />
-                            <asp:TemplateField HeaderText="Course Date" SortExpression="startDate">
-                                <EditItemTemplate>
-                                    <asp:TextBox ID="TextBox3" runat="server" Text='<%# Bind("startDate", "{0:M/d/yyyy}") %>'></asp:TextBox>
-                                    <asp:CalendarExtender ID="TextBox3_CalendarExtender" runat="server" Enabled="True"
-                                        TargetControlID="TextBox3" Format="M/d/yyyy">
-                                    </asp:CalendarExtender>
-                                </EditItemTemplate>
-                                <ItemTemplate>
-                                    <asp:Label ID="Label3" runat="server" Text='<%# Bind("startDate", "{0:M/d/yyyy}") %>'></asp:Label>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Expiry Date" SortExpression="endDate">
-                                <EditItemTemplate>
-                                    <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("endDate", "{0:M/d/yyy}") %>'></asp:TextBox>
-                                    <asp:CalendarExtender ID="TextBox1_CalendarExtender" runat="server" Enabled="True"
-                                        TargetControlID="TextBox1" Format="M/d/yyyy">
-                                    </asp:CalendarExtender>
-                                </EditItemTemplate>
-                                <ItemTemplate>
-                                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("endDate", "{0:M/d/yyyy}") %>'></asp:Label>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                        </Columns>
-                        <EmptyDataTemplate>No valid courses found.</EmptyDataTemplate>
-                    </asp:GridView>
-                    <asp:Button ID="btnAddCrs" runat="server" Text="Add Course" OnClick="btnAddCrs_Click"
-                        Visible="False" />
+                        </asp:TemplateField>
+                        <asp:CommandField ShowSelectButton="True" SelectText="Details" />
+                        <asp:TemplateField HeaderText="Training Name" SortExpression="coursename">
+                            <EditItemTemplate>
+                                <asp:Label ID="Label1" runat="server" Text='<%# Eval("coursename") %>'></asp:Label>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:Label ID="Label2" runat="server" Text='<%# Bind("coursename") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:BoundField DataField="ttNo" HeaderText="#" SortExpression="ttNo" ReadOnly="True" />
+                        <asp:TemplateField HeaderText="Course Date" SortExpression="startdate">
+                            <EditItemTemplate>
+                                <asp:TextBox ID="TextBox3" runat="server" Text='<%# Bind("startdate", "{0:M/d/yyyy}") %>'></asp:TextBox>
+                                <asp:CalendarExtender ID="TextBox3_CalendarExtender" runat="server" Enabled="True"
+                                    TargetControlID="TextBox3" Format="M/d/yyyy">
+                                </asp:CalendarExtender>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:Label ID="Label3" runat="server" Text='<%# Bind("startdate", "{0:M/d/yyyy}") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Expiry Date" SortExpression="enddate">
+                            <EditItemTemplate>
+                                <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("enddate", "{0:M/d/yyy}") %>'></asp:TextBox>
+                                <asp:CalendarExtender ID="TextBox1_CalendarExtender" runat="server" Enabled="True"
+                                    TargetControlID="TextBox1" Format="M/d/yyyy">
+                                </asp:CalendarExtender>
+                            </EditItemTemplate>
+                            <ItemTemplate>
+                                <asp:Label ID="lblEndDate" runat="server" Text='<%# Bind("enddate", "{0:M/d/yyyy}") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:BoundField DataField="expired" HeaderText="*" SortExpression="expired" ReadOnly="True" />
+                    </Columns>
+                    <EmptyDataTemplate>No courses found.</EmptyDataTemplate>
+                </asp:GridView>
+                </div>
+                <%--</ContentTemplate>
+                </asp:UpdatePanel>--%>
+
+                <asp:Button ID="btnAddCrs" runat="server" Text="Add Course" OnClick="btnAddCrs_Click"
+                    Visible="False" />
+
+                    <br /><br />
                     <asp:Panel ID="pnlCrsDetails" runat="server" Width="600">
                         <div>
                             <asp:Panel ID="pnlBiosafetyInfo" runat="server" Width="600">
@@ -466,7 +577,8 @@
                                     </tr>
                                 </table>
                             </asp:Panel>
-                            &nbsp;<asp:Button ID="btnSaveCrsDetails" runat="server" Text="Save Details" OnClick="btnSaveCrsDetails_Click" />
+                            <asp:Button ID="btnSaveCrsDetails" runat="server" Text="Save Details" OnClick="btnSaveCrsDetails_Click" />
+                            <asp:Button ID="btnCancelSaveCrsDetails" runat="server" Text="Cancel" OnClick="btnCancelSaveCrsDetails_Click" />
                             <br />
                         </div>
                     </asp:Panel>
@@ -477,7 +589,8 @@
                                     Training Name
                                 </td>
                                 <td>
-                                    <asp:DropDownList ID="ddlNewCrs" runat="server">
+                                    <asp:DropDownList ID="ddlNewCrs" runat="server" OnSelectedIndexChanged="ddlNewCrs_SelectedIndexChanged"
+                                        AutoPostBack="True">
                                     </asp:DropDownList>
                                 </td>
                             </tr>
@@ -486,10 +599,30 @@
                                     Course Date
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="tbxNewCrsStart" runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="tbxNewCrsStart" runat="server" OnTextChanged="tbxNewCrsStart_OnTextChanged"
+                                        AutoPostBack="True" ></asp:TextBox>
                                     <asp:CalendarExtender ID="tbxNewCrsStart_CalendarExtender" runat="server" Enabled="True"
                                         TargetControlID="tbxNewCrsStart">
                                     </asp:CalendarExtender>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Expiry Date
+                                </td>
+                                <td>
+                                    <asp:UpdatePanel ID="uplExpiryDate" runat="server" >
+                                        <ContentTemplate>
+                                             <asp:TextBox ID="tbxNewCrsExpiry" runat="server"></asp:TextBox>
+                                             <asp:CalendarExtender ID="tbxNewCrsExpiry_CalendarExtender" runat="server" Enabled="True"
+                                                 TargetControlID="tbxNewCrsExpiry">
+                                             </asp:CalendarExtender>
+                                        </ContentTemplate>
+                                        <Triggers>
+                                            <asp:AsyncPostBackTrigger ControlID="tbxNewCrsStart" EventName="TextChanged" />
+                                            <asp:AsyncPostBackTrigger ControlID="ddlNewCrs" EventName="SelectedIndexChanged" />
+                                        </Triggers>
+                                    </asp:UpdatePanel>
                                 </td>
                             </tr>
                             <tr>
@@ -504,228 +637,27 @@
                         </table>
                     </asp:Panel>
                 </asp:Panel>
-                <h3 id="hr3CoursesExpired">
-                    <asp:Image ID="imgExpandCollapseCoursesExpired" runat="server" />
-                    Expired:
-                    <asp:Label ID="ExpandCollapseCoursesExpired" runat="server" Text=""></asp:Label></h3>
-                <asp:Panel ID="pnlCoursesExpired" CssClass="childPanel" runat="server">
-                    <asp:GridView ID="grvExpiredCourses" runat="server" AutoGenerateColumns="False" OnRowCancelingEdit="grvExpiredCourses_RowCancelingEdit"
-                        OnRowEditing="grvExpiredCourses_RowEditing" OnRowUpdating="grvExpiredCourses_RowUpdating" OnRowDeleting="grvExpiredCourses_RowDeleting"
-                        OnSelectedIndexChanged="grvExpiredCourses_SelectedIndexChanged">
-                        <Columns>
-                            <asp:CommandField ShowEditButton="True" UpdateText="Update |" />
-                            <asp:TemplateField ShowHeader="False">
-                                 <ItemTemplate>
-                                     <asp:LinkButton ID="lbnDelete" runat="server" CausesValidation="False" CommandName="Delete"
-                                                    OnClientClick='return confirm("Are you sure you want to delete this training course?");'
-                                                    Text="Delete" />
-                                 </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:CommandField ShowSelectButton="True" SelectText="Details" />
-                            <asp:BoundField DataField="coursename" HeaderText="Training Name" SortExpression="coursename"
-                                ReadOnly="True" />
-                            <asp:BoundField DataField="ttNo" HeaderText="#" ReadOnly="True" SortExpression="ttNo" />
-                            <asp:TemplateField HeaderText="Course Date" SortExpression="startdate">
-                                <EditItemTemplate>
-                                    <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("startdate", "{0:M/d/yyy}") %>'></asp:TextBox>
-                                    <asp:CalendarExtender ID="TextBox1_CalendarExtender" runat="server" Enabled="True"
-                                        TargetControlID="TextBox1">
-                                    </asp:CalendarExtender>
-                                </EditItemTemplate>
-                                <ItemTemplate>
-                                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("startdate", "{0:M/d/yyy}") %>'></asp:Label>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Expiry Date" SortExpression="enddate">
-                                <EditItemTemplate>
-                                    <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("enddate", "{0:M/d/yyy}") %>'></asp:TextBox>
-                                    <asp:CalendarExtender ID="TextBox2_CalendarExtender" runat="server" Enabled="True"
-                                        TargetControlID="TextBox2">
-                                    </asp:CalendarExtender>
-                                </EditItemTemplate>
-                                <ItemTemplate>
-                                    <asp:Label ID="Label2" runat="server" Text='<%# Bind("enddate", "{0:M/d/yyy}") %>'></asp:Label>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                        </Columns>
-                        <EmptyDataTemplate>No expired courses found.</EmptyDataTemplate>
-                    </asp:GridView>
-                    <asp:Panel ID="pnlExpiredCourseDetails" runat="server">
-                        <asp:Panel ID="pnlCrsDetails0" runat="server" Width="600">
-                            <div>
-                                <asp:Panel ID="pnlBiosafetyInfoExp" runat="server" Width="600">
-                                    <table id="tblCrsDetails3">
-                                        <tr>
-                                            <td class="style4">
-                                                <asp:Label ID="lblBSCDate0" runat="server" Text="Date of BSC Seminar"></asp:Label>
-                                            </td>
-                                            <td class="style2">
-                                                <asp:TextBox ID="tbxBSCDateExp" runat="server" ReadOnly="True" Enabled="False"></asp:TextBox>
-                                                <asp:CalendarExtender ID="tbxBSCDate_CalendarExtender0" runat="server" Enabled="True"
-                                                    TargetControlID="tbxBSCDate">
-                                                </asp:CalendarExtender>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </asp:Panel>
-                                <asp:Panel ID="pnlGeneralCourseInfoExp" runat="server" Width="600">
-                                    <table id="tblCrsDetails4">
-                                        <tr>
-                                            <td class="style4">
-                                                <asp:Label ID="lblSOPSignedExp" runat="server" Text="SOP Signed:"></asp:Label>
-                                            </td>
-                                            <td class="style2">
-                                                <asp:RadioButtonList ID="rblSignedExp" runat="server" Enabled="False" RepeatDirection="Horizontal">
-                                                    <asp:ListItem ID="limSigned3" runat="server" Text="Yes" Value="Yes" />
-                                                    <asp:ListItem ID="limNotSigned3" runat="server" Text="No" Value="No" />
-                                                </asp:RadioButtonList>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="style4">
-                                                <asp:Label ID="lblEval0" runat="server" Text="Evaluation:"></asp:Label>
-                                            </td>
-                                            <td class="style2">
-                                                <asp:RadioButtonList ID="rblEvaluationExp" runat="server" Enabled="False" RepeatDirection="Horizontal">
-                                                    <asp:ListItem ID="limPassed0" runat="server" Text="Pass" Value="Pass" />
-                                                    <asp:ListItem ID="limFailed0" runat="server" Text="Fail" Value="Fail" />
-                                                </asp:RadioButtonList>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="style4">
-                                                <asp:Label ID="lblCert0" runat="server" Text="Certificate Number:"></asp:Label>
-                                            </td>
-                                            <td class="style2">
-                                                <asp:TextBox ID="tbxCertExp" runat="server" ReadOnly="True" Enabled="False"></asp:TextBox>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </asp:Panel>
-                                <asp:Panel ID="pnlLabTrainingInfoExp" runat="server" Width="600">
-                                    <table id="tblCrsDetails5">
-                                        <tr>
-                                            <td class="style4">
-                                                <asp:Label ID="lblresp2" runat="server" Text="Respirator Fit-Testing:"></asp:Label>
-                                            </td>
-                                            <td>
-                                                &nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="style4">
-                                                &nbsp;&nbsp;&nbsp;
-                                                <asp:Label ID="lblRespFit0" runat="server" Text="Date of fit:"></asp:Label>
-                                            </td>
-                                            <td>
-                                                <asp:TextBox ID="tbxDateFitExp" runat="server" Enabled="False" ReadOnly="True"></asp:TextBox>
-                                                <asp:CalendarExtender ID="tbxDateFit_CalendarExtender0" runat="server" Enabled="True"
-                                                    TargetControlID="tbxDateFit">
-                                                </asp:CalendarExtender>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="style4">
-                                                &nbsp;&nbsp; &nbsp;<asp:Label ID="lblRespType0" runat="server" Text="Type of Respirator:"></asp:Label>
-                                            </td>
-                                            <td>
-                                                <asp:TextBox ID="tbxRespTypeExp" runat="server" Enabled="False" ReadOnly="True"></asp:TextBox>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="style4">
-                                                &nbsp;&nbsp;&nbsp;
-                                                <asp:Label ID="lblRespModel0" runat="server" Text="Model:"></asp:Label>
-                                            </td>
-                                            <td>
-                                                <asp:TextBox ID="tbxRespModelExp" runat="server" Enabled="False" ReadOnly="True"></asp:TextBox>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="style4">
-                                                &nbsp;&nbsp;&nbsp;
-                                                <asp:Label ID="lblRespComment0" runat="server" Text="Comments:"></asp:Label>
-                                            </td>
-                                            <td>
-                                                <asp:TextBox ID="tbxRespCommentExp" runat="server" Enabled="False" ReadOnly="True"></asp:TextBox>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="style4">
-                                                <asp:Label ID="lblSpillDate0" runat="server" Text="Date of Spill Clean-up training:"></asp:Label>
-                                            </td>
-                                            <td>
-                                                <asp:TextBox ID="tbxSpillDateExp" runat="server" Enabled="False" ReadOnly="True"></asp:TextBox>
-                                                <asp:CalendarExtender ID="tbxSpillDate_CalendarExtender0" runat="server" Enabled="True"
-                                                    TargetControlID="tbxSpillDate">
-                                                </asp:CalendarExtender>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </asp:Panel>
-                                <asp:Panel ID="pnlRadiationTrainingInfoExp" runat="server" Width="600">
-                                    <table id="tblCrsDetails6">
-                                        <tr>
-                                            <td class="radiation">
-                                                <asp:Label ID="lblDosSubmitted0" runat="server" Text="Dosimeter request form submitted:"></asp:Label>
-                                            </td>
-                                            <td class="style2">
-                                                <asp:RadioButtonList ID="rblDosSubmittedExp" runat="server" Enabled="False" RepeatDirection="Horizontal">
-                                                    <asp:ListItem ID="limSigned4" runat="server" Text="Yes" Value="Yes" />
-                                                    <asp:ListItem ID="limNotSigned4" runat="server" Text="No" Value="No" />
-                                                </asp:RadioButtonList>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="radiation">
-                                                <asp:Label ID="lblDosIssued0" runat="server" Text="Dosimeter issued:"></asp:Label>
-                                            </td>
-                                            <td class="style2">
-                                                <asp:RadioButtonList ID="rblDosIssuedExp" runat="server" Enabled="False" RepeatDirection="Horizontal">
-                                                    <asp:ListItem ID="limSigned5" runat="server" Text="Yes" Value="Yes" />
-                                                    <asp:ListItem ID="limNotSigned5" runat="server" Text="No" Value="No" />
-                                                </asp:RadioButtonList>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="radiation">
-                                                <asp:Label ID="lblRingIssued0" runat="server" Text="Ring issued:"></asp:Label>
-                                            </td>
-                                            <td class="style2">
-                                                <asp:RadioButtonList ID="rblRingIssuedExp" runat="server" Enabled="False" RepeatDirection="Horizontal">
-                                                    <asp:ListItem ID="limSigned6" runat="server" Text="Yes" Value="Yes" />
-                                                    <asp:ListItem ID="limNotSigned6" runat="server" Text="No" Value="No" />
-                                                </asp:RadioButtonList>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </asp:Panel>
-                                <br />
-                            </div>
-                        </asp:Panel>
-                    </asp:Panel>
-                </asp:Panel>
+
+
                 <h3 id="hr3CoursesCatalog">
                     <asp:Image ID="imgExpandCollapseCoursesCatalog" runat="server" />
                     Catalogue
                     <asp:Label ID="ExpandCollapseCoursesCatalog" runat="server" Text=""></asp:Label></h3>
                 <asp:Panel ID="pnlCoursesCatalog" CssClass="childPanel" runat="server">
-                    <asp:GridView ID="gdvCoursesCatalog" runat="server" ForeColor="Black" Width="300"
-                        AutoGenerateColumns="False" DataSourceID="EntityDataSource1">
+                    <asp:GridView ID="gdvCoursesCatalog" runat="server" AutoGenerateColumns="False" HeaderStyle-HorizontalAlign="Left">
                         <Columns>
+                            <asp:BoundField DataField="trainingNo" HeaderText="#" ReadOnly="True"
+                                SortExpression="trainingNo" ItemStyle-Width="50" />
                             <asp:BoundField DataField="trainingName" HeaderText="Course Name" ReadOnly="True"
                                 SortExpression="trainingName" />
+                            <asp:BoundField DataField="monthsValid" HeaderText="Months Valid" ReadOnly="True"
+                                SortExpression="monthsValid" ItemStyle-Width="400"  />
                         </Columns>
                         <EmptyDataTemplate>No courses found.</EmptyDataTemplate>
                     </asp:GridView>
-                    <asp:EntityDataSource ID="EntityDataSource1" runat="server" ConnectionString="name=BCCAEntities"
-                        DefaultContainerName="BCCAEntities" EnableFlattening="False" EntitySetName="TrainingCourses"
-                        Select="it.[trainingName]">
-                    </asp:EntityDataSource>
                 </asp:Panel>
-            </asp:Panel>
         </div>
-        <div id="divCourseDetails">
+
             <asp:Panel ID="pnlPop" BackColor="White" Width="400px" Height="100px" CssClass="popPanel"
                 runat="server">
                 <table width="100%" cellpadding="5">
@@ -744,6 +676,4 @@
             <asp:Button runat="server" ID="btnHidden" CssClass="hidden" />
             <asp:ModalPopupExtender ID="mpePop" runat="server" PopupControlID="pnlPop" TargetControlID="btnHidden"
                 DropShadow="true" BackgroundCssClass="modalBackground" OkControlID="btnPnlPopClose" />
-        </div>
-    </div>
 </asp:Content>

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="LabInspection.aspx.cs"
+﻿<%@ Page Title="BCCA - View Lab Inspection" Language="C#" AutoEventWireup="true" CodeFile="LabInspection.aspx.cs"
     Inherits="Tracking_LabInspection" %>
 
 <asp:content id="Content1" contentplaceholderid="head" runat="Server">

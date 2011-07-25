@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using AjaxControlToolkit;
 using BCCAModel;
+using System.Data.Objects;
 
 /// <summary>
 /// Tracking/Default.aspx.cs
@@ -38,10 +39,9 @@ public partial class Tracking_Default : System.Web.UI.Page {
     public static List<String> employers = new List<String> {
         noOptionSpecified, "BCCA", "BCCDC", "BCTS", "C&W", "Corporate", "FPSC", "RVH", otherOption
     };
-    // The pink colour of the header text.
-    public static Color HeaderForeColor = ColorTranslator.FromHtml("#d80080");
-    // The back colour of header rows.
-    public static Color HeaderBackColor = ColorTranslator.FromHtml("#F778A1");
+
+    // The default number of pages to show for a grid view.
+    public static int DefaultGridViewPageSize = 10;
     // The format for percents.
     public static String PercentFormat = "{0:0%}";
     // List of incident reports that match the filters.
@@ -77,17 +77,125 @@ public partial class Tracking_Default : System.Web.UI.Page {
             lblUnauthorizedMsg.Visible = true;
         }
         if (!IsPostBack) {
+            
+        }
+               
+        if (!IsPostBack) {
             pnlPop.Style.Value = "display:none;";
             disableAllTextBoxes();
             cpeFilters.Collapsed = false;
             cpeFilters.ClientState = "false";
             cpeA.Collapsed = false;
             cpeA.ClientState = "false";
+            tbxEmpSearchPages.Text = DefaultGridViewPageSize.ToString();
+            tbxTrainingSearchPages.Text = DefaultGridViewPageSize.ToString();
+            tbxIncidentSearchPages.Text = DefaultGridViewPageSize.ToString();
+            tbxLabInspPages.Text = DefaultGridViewPageSize.ToString();
+            tbxOffInspPages.Text = DefaultGridViewPageSize.ToString();
         }
         else {
             filterReports();
-            displayResults();
+            populateDepartments();
         }
+
+        populateDepartments();
+        populateEmployees();
+        populateTraining();
+        populateIncidents();
+        populateLabInspections();
+        populateOfficeInspections();
+        
+        gdvTraining.Sort("expiryDate", gdvTraining.SortDirection);
+        gdvTraining.Sort("expiryDate", gdvTraining.SortDirection);
+
+        btnPrintDepts.Attributes.Add("onClick", "javascript:PrintWithHeader('divDeptsHeader', 'divDepts')");
+        btnPrintEmps.Attributes.Add("onClick", "javascript:Print('divEmps')");
+        btnPrintTraining.Attributes.Add("onClick", "javascript:Print('divTraining')");
+        btnPrintIncidents.Attributes.Add("onClick", "javascript:Print('divIncidents')");
+        btnPrintLabInsps.Attributes.Add("onClick", "javascript:Print('divLabInsps')");
+        btnPrintOffInsps.Attributes.Add("onClick", "javascript:Print('divOffInsps')");
+    }
+
+
+    private string getSortDirection(String sortDirection) {
+        switch (sortDirection) {
+            case "ASC":
+                sortDirection = "DESC";
+                break;
+            case "DESC":
+                sortDirection = "ASC";
+                break;
+        }
+        return sortDirection;
+    }
+
+    private void setPageSize(GridView gdv, TextBox tbx, int defaultPageSize) {
+        if (tbx.Text == null || tbx.Text.Equals(String.Empty)) {
+            gdv.AllowPaging = false;
+        }
+        else {
+            gdv.AllowPaging = true;
+            int pageSize = defaultPageSize;
+            try {
+                pageSize = Convert.ToInt32(tbx.Text);
+            }
+            catch (FormatException ex) {
+                ex.ToString();
+                pageSize = defaultPageSize;
+                tbx.Text = defaultPageSize.ToString();
+            }
+            gdv.PageSize = pageSize;
+        }
+    }
+
+    /// <summary>
+    /// Checks if a the given String is a date in the correct format.
+    /// Returns the minimum date time value if the String is null or empty.
+    /// Returns the date of the String if that String holds a date in the format "MM/DD/YYYY".
+    /// </summary>
+    /// <param name="str">The String to extract a date from</param>
+    /// <returns>The String as a date, if it's valid, otherwise the minimum date.</returns>
+    private DateTime getDateTime(String strDate) {
+        if (strDate == null) {
+            return DateTime.MinValue;
+        }
+        DateTime date;
+        if (strDate == null || strDate.Equals(String.Empty)) {
+            return DateTime.MinValue;
+        }
+        try {
+            date = DateTime.ParseExact(strDate, dateFormat, locale);
+        }
+        catch (FormatException ex) {
+            ex.ToString();
+            return DateTime.MinValue;
+        }
+        return date;
+    }
+
+    /// <summary>
+    /// Makes sure the earliest date (in a range) is in the correct format (MM/DD/YYYY).
+    /// For example, 13/24/2011 would be invalid but the client-side validator doesn't catch it.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvEarliestDate_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+
+        CustomValidator cmv = (CustomValidator)source;
+        TextBox tbx = (TextBox)cmv.Parent.FindControl(cmv.ControlToValidate);
+        String strDate = tbx.Text;
+        if (strDate == null || strDate.Equals(String.Empty)) {
+            args.IsValid = true;
+            return;
+        }
+
+        DateTime date = getDateTime(tbx.Text);
+        if (date.Equals(DateTime.MinValue)) {
+            return;
+        }
+
+        args.IsValid = true;
     }
 
     #region Page Popup
@@ -125,7 +233,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
     protected void btnFilterReport_Click(object sender, EventArgs e) {
         collapseAllFilterPanels();
         filterReports();
-        displayResults();
+        populateDepartments();
         pnlResultsContainer.Visible = true;
         cpeResults.Collapsed = false;
         cpeResults.ClientState = "false";
@@ -193,22 +301,12 @@ public partial class Tracking_Default : System.Web.UI.Page {
         pnlFiltersSelected.Controls.Add(new LiteralControl("<br />"));
     }
 
-    private void formatIncidentGridViewRows(GridView gdv) {
-        // Set the Grid View column widths
-        gdv.Columns[0].ItemStyle.Width = 30;
-        gdv.Columns[1].ItemStyle.Width = 80;
-        gdv.Columns[2].ItemStyle.Width = 200;
-        gdv.Columns[3].ItemStyle.Width = 200;
-        gdv.Columns[4].ItemStyle.Width = 450;
-    }
-
     /// <summary>
     /// Gets a list of incident reports that match ONLY the data entered into the form.
     /// Only considers the checkboxes in sections B, C, D, and E of the form.
     /// Populates the GridView parameter with the resulting reports.
     /// </summary>
     private void filterReports() {
-        pnlDepartments.Controls.Clear();
         pnlFiltersSelected.Controls.Clear();
 
         var reports = ctx.Incidents
@@ -217,7 +315,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         totalReports = reports.Count();
 
         #region A_IncidentInfo
-        if (cbx_p1_action_report.Checked) { reports = reports.Where(r => r.p1_action_medicalER.Equals("1")); addToFilters(cbx_p1_action_report); }
+        if (cbx_p1_action_report.Checked) { reports = reports.Where(r => r.p1_action_report.Equals("1")); addToFilters(cbx_p1_action_report); }
         if (cbx_p1_action_firstAid.Checked) { reports = reports.Where(r => r.p1_action_firstAid.Equals("1")); addToFilters(cbx_p1_action_firstAid); }
         if (cbx_p1_action_medicalGP.Checked) { reports = reports.Where(r => r.p1_action_medicalGP.Equals("1")); addToFilters(cbx_p1_action_medicalGP); }
         if (cbx_p1_action_lostTime.Checked) { reports = reports.Where(r => r.p1_action_lostTime.Equals("1")); addToFilters(cbx_p1_action_lostTime); }
@@ -400,8 +498,7 @@ public partial class Tracking_Default : System.Web.UI.Page {
         matchingIncidents = reports.ToList<Incident>();
 
         totalMatchingReports = reports.Count();
-
-
+        
         #region other depts
         //// Get the other depts that were NOT in the dept table
         //var otherDeptReports = reports
@@ -433,160 +530,6 @@ public partial class Tracking_Default : System.Web.UI.Page {
         //DataRow drTotal = dt.NewRow();
         //drTotal["incidentNo"] = "Total Number of Incidents: " + reports.Count();
         //dt.Rows.Add(drTotal);
-    }
-
-    private void setUpResults() {
-    }
-
-    private void displayResults() {
-
-        var depts = ctx.Departments
-                    .OrderBy(d => d.deptName)
-                    .Select(d => d.deptNo);
-
-        foreach (int deptNumber in depts) {
-            var deptReports = from r in matchingIncidents
-                              join d in ctx.Departments on r.deptNo equals d.deptNo
-                              where r.deptNo == deptNumber
-                              select r;
-
-            int deptReportsCount = deptReports.Count();
-            
-            String deptName = (from d in ctx.Departments
-                               where d.deptNo == deptNumber
-                               select d.deptName).FirstOrDefault();
-
-            Panel pnl = new Panel();
-            pnl.CssClass = "childPanel";
-            pnl.ID = "pnl" + deptNumber;
-
-            LiteralControl hr3Open = new LiteralControl();
-            hr3Open.Text = "<h3 id='hr3" + deptNumber + "' >";
-            pnlDepartments.Controls.Add(hr3Open);
-
-            System.Web.UI.WebControls.Image img = new System.Web.UI.WebControls.Image();
-            img.ID = "imgExpandCollapse" + deptNumber;
-            pnlDepartments.Controls.Add(img);
-
-            int totalDeptReports = (from r in ctx.Incidents
-                                    where r.deptNo == deptNumber
-                                    select r).Count();
-
-            Label lblHr3 = new Label();
-            if (deptReports.Count() != 1) {
-                lblHr3.Text = " " + deptName + " --- " + deptReportsCount + " matches";
-            }
-            else {
-                lblHr3.Text = " " + deptName + " --- " + deptReportsCount + " matches";
-            }
-            lblHr3.ID = "lblHr3" + deptNumber;
-            pnlDepartments.Controls.Add(lblHr3);
-
-            // "(Show/Hide Details)" label
-            Label lblExpandCollapse = new Label();
-            lblExpandCollapse.ID = "lblExpandCollapse" + deptNumber;
-            pnlDepartments.Controls.Add(lblExpandCollapse);
-
-            LiteralControl hr3Close = new LiteralControl();
-            hr3Close.Text = "</h3>";
-            pnlDepartments.Controls.Add(hr3Close);
-
-            CollapsiblePanelExtender cpe = new CollapsiblePanelExtender();
-            cpe.ID = "cpe" + deptNumber;
-            cpe.Collapsed = true;
-            cpe.ClientState = "true";
-            cpe.ExpandControlID = "hr3" + deptNumber;
-            cpe.CollapseControlID = "hr3" + deptNumber;
-            cpe.TargetControlID = "pnl" + deptNumber;
-            cpe.CollapsedText = " (Show Details)";
-            cpe.ExpandedText = " (Hide Details)";
-            cpe.TextLabelID = "lblExpandCollapse" + deptNumber;
-            cpe.ImageControlID = "imgExpandCollapse" + deptNumber;
-            cpe.CollapsedImage = "../images/expand.jpg";
-            cpe.ExpandedImage = "../images/collapse.jpg";
-            pnlDepartments.Controls.Add(cpe);
-            
-            Label lblCount = new Label();
-            lblCount.ID = "lblIncidentMatches" + deptNumber;
-            lblCount.Text = "Number of matching incidents in this department: " + deptReportsCount;
-            if (totalDeptReports != 0) {
-                lblCount.Text += "/" + totalDeptReports + " ("
-                                + String.Format(PercentFormat, (((double) deptReportsCount) / totalDeptReports))
-                                + ")";
-            }
-            else {
-                lblCount.Text += "/" + totalDeptReports + " ("
-                                + String.Format(PercentFormat, 0)
-                                + ")";
-            }
-            pnl.Controls.Add(lblCount);
-            pnl.Controls.Add(new LiteralControl("<br />"));
-
-            lblCount = new Label();
-            lblCount.ID = "lblTotalIncidentMatches" + deptNumber;
-            lblCount.Text = "Number of matching incidents: " + deptReportsCount;
-            if (totalMatchingReports != 0) {
-                lblCount.Text += "/" + totalMatchingReports + " ("
-                                + String.Format(PercentFormat, (((double) deptReportsCount) / totalMatchingReports))
-                                + ")";
-            }
-            else {
-                lblCount.Text += "/" + totalMatchingReports + " ("
-                                + String.Format(PercentFormat, 0)
-                                + ")";
-            }
-            pnl.Controls.Add(lblCount);
-            pnl.Controls.Add(new LiteralControl("<br />"));
-
-            lblCount = new Label();
-            lblCount.ID = "lblTotalIncidents" + deptNumber;
-            lblCount.Text = "Total number of incidents in this department: " + totalDeptReports;
-            if (totalReports != 0) {
-                lblCount.Text += "/" + totalReports + " ("
-                                + String.Format(PercentFormat, (((double) totalDeptReports) / totalReports))
-                                + ")";
-            }
-            else {
-                lblCount.Text += "/" + totalReports + " ("
-                                + String.Format(PercentFormat, 0)
-                                + ")";
-            }
-            pnl.Controls.Add(lblCount);
-            pnl.Controls.Add(new LiteralControl("<br />"));
-
-            UserControl uc = (UserControl)Page.LoadControl("DepartmentTrackerGridViews.ascx");
-            GridView gdv = ((Tracking_DepartmentTrackerGridViews)uc).getIncidentsGridView();
-            
-            gdv.RowCommand += new GridViewCommandEventHandler(gdvDepartmentTracker_RowCommand);
-
-            DataTable dt = new DataTable();
-            dt.Columns.Add(new DataColumn("incidentNo", typeof(System.String)));
-            dt.Columns.Add(new DataColumn("date", typeof(System.String)));
-            dt.Columns.Add(new DataColumn("submitter", typeof(System.String)));
-            dt.Columns.Add(new DataColumn("employee", typeof(System.String)));
-
-            foreach (var report in deptReports) {
-                DataRow dr = dt.NewRow();
-                dr["incidentNo"] = report.incidentNo;
-                if (report.p1_dateOfIncident != null) {
-                    dr["date"] = Convert.ToDateTime(report.p1_dateOfIncident, locale).ToString(dateFormat, locale);
-                }
-                dr["submitter"] = report.reportSubmitter;
-                dr["employee"] = report.Employee.fname + " " + report.Employee.lname;
-                dt.Rows.Add(dr);
-            }
-
-            gdv.DataSource = dt;
-            gdv.DataBind();
-
-            gdv.RowCommand += new GridViewCommandEventHandler(this.gdvDepartmentTracker_RowCommand);
-            formatIncidentGridViewRows(gdv);
-
-            gdv.ID = "gdvDeptTracker" + deptNumber;
-
-            pnl.Controls.Add(gdv);
-            pnlDepartments.Controls.Add(pnl);
-        }
     }
     #endregion Filter Report
 
@@ -781,264 +724,1354 @@ public partial class Tracking_Default : System.Web.UI.Page {
     }
     #endregion Disable Form
 
-    protected void gdvDepartmentTracker_RowCommand(object sender, GridViewCommandEventArgs e) {
-        // Get the Grid View and Row that called the event
-        int index = Convert.ToInt32(e.CommandArgument);
-        GridView gdv = (GridView)sender;
-        // Find out which button was clicked, take appropriate action
-        switch (e.CommandName) {
-            case "RowViewReport":
-                Response.Redirect("~/View/IncidentReport.aspx?id=" + GetIncidentIdFromRow(index, gdv));
-                break;
-            case "RowViewEmpCourses":
-                loadEmployee(getEmployeeFromIncidentId(GetIncidentIdFromRow(index, gdv)));
-                loadCourses(getEmployeeFromIncidentId(GetIncidentIdFromRow(index, gdv)));
-                break;
-            //case "RowViewCourses":
-            //    loadCourses(getEmployeeFromIncidentId(GetIncidentIdFromRow(index, gdv)));
-            //    break;
-            //case "RowViewLabInspections":
-            //    loadLabInspections(GetIncidentIdFromRow(index + 1, gdv)); // subheader rows don't have incident numbers
-            //    break;
-            //case "RowViewOfficeInspections":
-            //    loadOfficeInspections(GetIncidentIdFromRow(index + 1, gdv)); // subheader rows don't have incident numbers
-            //    break;
-            default:
-                throw new System.SystemException("Default case of switch should never be reached");
-        }
-    }
+    #region Departments
 
-    private int GetIncidentIdFromRow(int index, GridView gdv) {
-        GridViewRow row = gdv.Rows[index];
-        String strIncidentNo = ((Label)row.FindControl("lblIncidentNo")).Text;
-        int incidentNo = -1;
-        try {
-            incidentNo = Convert.ToInt32(strIncidentNo);
-        }
-        catch (FormatException ex) {
-            ex.ToString();
-            Popup_Overlay("An unexpected error has occured. Please refresh the page and try again.", FailColour);
-        }
-        return incidentNo;
-    }
+    private void populateDepartments() {
+        setPageSize(gdvDepts, tbxDeptSearchPages, 20);
 
-    private Employee getEmployeeFromIncidentId(int incidentNo) {
-        Employee emp = ctx.Incidents
-                        .Where(i => i.incidentNo.Equals(incidentNo))
-                        .Select(i => i.Employee).FirstOrDefault();
-        return emp;
-    }
-
-    #region Look Up Courses
-    private string ConvertDateToString(Object date) {
-        if (date.Equals(DateTime.MinValue)) {
-            return String.Empty;
-        }
-        return Convert.ToDateTime(date, locale).ToString(dateFormat, locale);
-    }
-
-    private void loadCourses(Employee employee) {
-        if (employee == null) {
-            return;
-        }
-        lblCoursesTitle.Text = employee.fname.ToString() + " " + employee.lname.ToString();
-
-        var qry = ctx.TrainingTakens
-                  .OrderByDescending(tt => tt.startDate)
-                  .Select(tt => new {
-                      courseName = tt.TrainingCours.trainingName,
-                      status = (tt.completed == 1) ? "Complete" : "Incomplete",
-                      completionDate = tt.startDate,
-                      expirationDate = tt.endDate,
-                      required = "Yes"
-                  });
-        gdvEmpCourses.DataSource = qry;
-        gdvEmpCourses.DataBind();
-
-        foreach (GridViewRow row in gdvEmpCourses.Rows) {
-            String strExpirationDate = ((Label)row.FindControl("lblExpirationDate")).Text;
-            if ((strExpirationDate != null) && (!strExpirationDate.Equals(String.Empty))) {
-                DateTime expirationDate = DateTime.ParseExact(strExpirationDate, dateFormat, locale);
-                if (expirationDate.CompareTo(DateTime.Now) <= 0) {
-                    row.ForeColor = Color.Red;
-                }
+        var qry = ctx.Departments.Select(d => d);
+                    
+        if (tbxDeptSearchDept.Text != null && !(tbxDeptSearchDept.Text.Equals(String.Empty))) {
+            if (cbxDeptSearchDept.Checked) {
+                qry = qry.Where(d => d.deptName != null && d.deptName.Equals(tbxDeptSearchDept.Text));
+            }
+            else {
+                qry = qry.Where(d => d.deptName != null && d.deptName.Contains(tbxDeptSearchDept.Text));
             }
         }
 
-        pnlEmpCoursesContainer.Visible = true;
-        cpeEmployeeCourses.Collapsed = false;
-        cpeEmployeeCourses.ClientState = "false";
-    }
+        var depts = qry.OrderBy(d => d.deptName)
+                    .Select(d => d.deptNo);
+        
+        //gdvResults
+        DataTable dt = new DataTable();
+        dt.Columns.Add(new DataColumn("deptNo", typeof(System.String)));
+        dt.Columns.Add(new DataColumn("deptName", typeof(System.String)));
+        dt.Columns.Add(new DataColumn("matchesInDept", typeof(System.String)));
+        dt.Columns.Add(new DataColumn("matchesInDeptPercent", typeof(Double)));
+        dt.Columns.Add(new DataColumn("totalMatches", typeof(System.String)));
+        dt.Columns.Add(new DataColumn("totalMatchesPercent", typeof(Double)));
+        dt.Columns.Add(new DataColumn("totalIncidents", typeof(System.String)));
+        dt.Columns.Add(new DataColumn("totalIncidentsPercent", typeof(Double)));
 
-    // not used atm, will be?
-    private void getCourses2(Employee employee) {
-        var q = from x in ctx.TrainingCourses
-                select x;
-        var total = q.Count();
+        foreach (int deptNumber in depts) {
+            DataRow dr = dt.NewRow();
+            dr["deptNo"] = deptNumber;
 
-        List<String> courseArray = ctx.TrainingCourses.Select(c => c.trainingName).ToList();
+            var deptReports = from r in matchingIncidents
+                              join d in ctx.Departments on r.deptNo equals d.deptNo
+                              where r.deptNo == deptNumber
+                              select r;
 
-        for (int i = 0; i < total; i++) {
-            GridView grvCourseLookUp = new GridView();
-            String temp = courseArray[i];
-            grvCourseLookUp.DataSource = ctx.Employees
-                               .Join(
-                                  ctx.TrainingTakens,
-                                  emp => emp.empNo,
-                                  TT => TT.empNo,
-                                  (emp, TT) =>
-                                     new {
-                                         emp = emp,
-                                         TT = TT
-                                     }
-                               )
-                               .Join(
-                                  ctx.TrainingCourses,
-                                  temp0 => temp0.TT.trainingNo,
-                                  TC => TC.trainingNo,
-                                  (temp0, TC) =>
-                                     new {
-                                         temp0 = temp0,
-                                         TC = TC
-                                     }
-                               )
-                               .Where(temp1 => (temp1.TC.trainingName == temp))
-                               .Select(
-                                  temp1 =>
-                                     new {
-                                         lastname = temp1.temp0.emp.lname,
-                                         firstname = temp1.temp0.emp.fname,
-                                         startdate = temp1.temp0.TT.startDate,
-                                         enddate = temp1.temp0.TT.endDate
-                                     }
-                               );
-            pnlEmployeeCourses.Controls.Add(grvCourseLookUp);
+            int deptReportsCount = deptReports.Count();
+            dr["deptName"] = (from d in ctx.Departments
+                              where d.deptNo == deptNumber
+                              select d.deptName).FirstOrDefault();
 
-            grvCourseLookUp.Caption = "<table width=\"100%\" class=\"gvCaption\"><tr><td>" + temp + "</td></tr></table>";
-            grvCourseLookUp.DataBind();
+            int totalDeptReports = (from r in ctx.Incidents
+                                    where r.deptNo == deptNumber
+                                    select r).Count();
 
-            //pnlEmpCoursesContainer.Visible = true;
-            //cpeEmployeeCourses.Collapsed = false;
-            //cpeEmployeeCourses.ClientState = "false";
-        }
-
-    }
-    #endregion Look Up Courses
-
-    #region Look Up Employee Info
-    private void loadEmployee(Employee emp) {
-        if (emp != null) {
-            lblId.Text = emp.empNo.ToString();
-            lblFirstName.Text = emp.fname.ToString();
-            lblLastName.Text = emp.lname.ToString();
-            lblPosition.Text = convertToTextBoxValue(emp.position);
-            lblEmployer.Text = convertToTextBoxValue(emp.employer);
-            lblDepartment.Text = convertToTextBoxValue(emp.deptName);
-            lblSupervisor.Text = convertToTextBoxValue(emp.supervisor);
-            lblRoom.Text = convertToTextBoxValue(emp.room);
-
-            if (emp.startDate != null) {
-                lblStartDate.Text = Convert.ToDateTime(emp.startDate, locale).ToString(dateFormat, locale);
+            //lblCount.Text = "Number of matching incidents in this department: " + deptReportsCount;
+            if (totalDeptReports != 0) {
+                dr["matchesInDept"] = deptReportsCount + " / " + totalDeptReports;
+                dr["matchesInDeptPercent"] = ((double)deptReportsCount) / totalDeptReports;
+            }
+            else {
+                dr["matchesInDept"] = deptReportsCount + " / " + totalDeptReports;
+                dr["matchesInDeptPercent"] = 0;
             }
 
-            if (emp.endDate != null) {
-                lblEndDate.Text = Convert.ToDateTime(emp.endDate, locale).ToString(dateFormat, locale);
+            //lblCount.Text = "Number of matching incidents: " + deptReportsCount;
+            if (totalMatchingReports != 0) {
+                dr["totalMatches"] = deptReportsCount + " / " + totalMatchingReports;
+                dr["totalMatchesPercent"] = ((double)deptReportsCount) / totalMatchingReports;
             }
+            else {
+                dr["totalMatches"] = deptReportsCount + " / " + totalMatchingReports;
+                dr["totalMatchesPercent"] = 0;
+            }
+
+            //lblCount.Text = "Total number of incidents in this department: " + totalDeptReports;
+            if (totalReports != 0) {
+                dr["totalIncidents"] = totalDeptReports + " / " + totalReports;
+                dr["totalIncidentsPercent"] = ((double)totalDeptReports) / totalReports;
+            }
+            else {
+                dr["totalIncidents"] = totalDeptReports + " / " + totalReports;
+                dr["totalIncidentsPercent"] = 0;
+            }
+
+            dt.Rows.Add(dr);
         }
-        pnlEmpInfoContainer.Visible = true;
-        cpeEmpInfo.Collapsed = false;
-        cpeEmpInfo.ClientState = "false";
+
+        gdvDepts_DataView = new DataView(dt);
+        bindDepts();
+    }
+
+    private void bindDepts() {
+        gdvDepts.DataSource = gdvDepts_DataView;
+        gdvDepts.DataBind();
     }
 
     /// <summary>
-    /// If a string is NULL, returns an empty string.
-    /// Otherwise, returns the value.
-    /// This is so textboxes display an empty string instead of NULL.
+    /// Triggered when a department is selected from the grid view.
     /// </summary>
-    /// <param name="value">The String to convert.</param>
-    /// <returns>Empty string if null, otherwise returns the value.</returns>
-    private String convertToTextBoxValue(String value) {
-        if (value == null) {
-            return String.Empty;
-        }
-        return value;
-    }
-    #endregion Look Up Employee Info
-
-    protected void gdvLabInspections_RowCommand(object sender, GridViewCommandEventArgs e) {
-        // Get the row that called the event
-        int index = Convert.ToInt32(e.CommandArgument);
-        GridViewRow row = gdvLabInspections.Rows[index];
-        // Get the Lab Inspection No
-        String strLabInspectionNo = String.Empty;
-        Label lbl = (Label)row.FindControl("lblLabInspectionNo");
-        if (lbl != null) {
-            strLabInspectionNo = lbl.Text;
-        }
-        // Find out which button was clicked, take appropriate action
-        if (e.CommandName.Equals("RowViewLabInspection")) {
-            Response.Redirect("~/Tracking/ViewLabInspection.aspx?LabInspectionNo=" + strLabInspectionNo);
-        }
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gdvDepts_SelectedIndexChanged(object sender, EventArgs e) {
+        String deptName = gdvDepts.SelectedRow.Cells[1].Text;
+        selectDepartment(deptName);
     }
 
-    private void loadLabInspections(int incidentNo) {
-        var qry = from l in ctx.LabInspections
-                  join i in ctx.Incidents on l.deptName equals i.Department.deptName
-                  where (i.incidentNo.Equals(incidentNo))
-                  select new {
-                      labInspectionNo = l.labInsNo,
-                      deptName = l.deptName,
-                      inspectionDate = l.date,
-                      followup = l.followUpStatus.Equals("1") ? "Yes" : "No",
-                      inspector = l.inspector,
-                      labManager = l.labMgr,
-                      supervisor = l.supervisor,
-                      room = l.room
-                  };
+    private void selectDepartment(String deptName) {
+        tbxEmpSearchDept.Text = deptName;
+        cbxEmpSearchDept.Checked = true;
+        populateEmployees();
+        tbxTrainingSearchDept.Text = deptName;
+        cbxTrainingSearchDept.Checked = true;
+        populateTraining();
+        tbxIncSearchDept.Text = deptName;
+        cbxIncSearchDept.Checked = true;
+        populateIncidents();
+        tbxLabInspDept.Text = deptName;
+        cbxLabInspDept.Checked = true;
+        populateLabInspections();
+        tbxOffInspDept.Text = deptName;
+        cbxOffInspDept.Checked = true;
+        populateOfficeInspections();
+    }
 
-        gdvLabInspections.DataSource = qry;
+    /// <summary>
+    /// Re-populates the grid view so it reflects any modified search filters.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnDeptSearch_Click(object sender, EventArgs e) {
+        populateDepartments();
+    }
+    /// <summary>
+    /// Resets the search filters and re-populates the grid view so the default filters and results are showing.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnDeptSearchReset_Click(object sender, EventArgs e) {
+        resetDeptartmentSearch();
+    }
+
+    private void resetDeptartmentSearch() {
+        tbxDeptSearchDept.Text = String.Empty;
+        cbxDeptSearchDept.Checked = false;
+        pnlFiltersSelected.Controls.Clear();
+        lblFilters.Text = "No filters selected.";
+        populateDepartments();
+    }
+
+    #region gdvDepts - Sorting and Paging
+    private DataView gdvDepts_DataView = new DataView();
+
+    private string gdvDepts_SortExpression {
+        get { return ViewState["gdvDepts_SortExpression"] as string ?? String.Empty; }
+        set { ViewState["gdvDepts_SortExpression"] = value; }
+    }
+
+    private string gdvDepts_SortDirection {
+        get { return ViewState["gdvDepts_SortDirection"] as string ?? "ASC"; }
+        set { ViewState["gdvDepts_SortDirection"] = value; }
+    }
+
+    protected void gdvDepts_Sorting(object sender, GridViewSortEventArgs e) {
+        gdvDepts_SortDirection = getSortDirection(gdvDepts_SortDirection);
+        gdvDepts_SortExpression = e.SortExpression + " " + gdvDepts_SortDirection;
+        gdvDepts_Sort(gdvDepts.PageIndex);
+    }
+
+    protected void gdvDepts_PageIndexChanging(object sender, GridViewPageEventArgs e) {
+        gdvDepts.PageIndex = e.NewPageIndex;
+        gdvDepts_Sort(gdvDepts.PageIndex);
+    }
+
+    private void gdvDepts_Sort(int gdvPageIndex) {
+        gdvDepts_DataView.Sort = gdvDepts_SortExpression;
+        bindDepts();
+        gdvDepts.PageIndex = gdvPageIndex;
+    }
+    #endregion gdvDepts - Sorting and Paging
+    #endregion Departments
+
+    #region Employees
+    private void populateEmployees() {
+        DataTable dt = new DataTable();
+        dt.Columns.Add("empNo", typeof(int));
+        dt.Columns.Add("empDept", typeof(String)); 
+        dt.Columns.Add("empName", typeof(String));
+        dt.Columns.Add("employer", typeof(String));
+        dt.Columns.Add("incidents", typeof(int));
+        dt.Columns.Add("totalCourses", typeof(int));
+        dt.Columns.Add("validCourses", typeof(int));
+        dt.Columns.Add("expiredCourses", typeof(int));
+        
+        List<Employee> emps = applyEmployeeFilters();
+        emps.OrderBy(e => e.deptName).ThenBy(e => (e.fname + " " + e.lname));
+
+        int totalValid = 0;
+        int totalExpired = 0;
+        int totalCourses = 0;
+
+        foreach (Employee emp in emps) {
+            var training = ctx.TrainingTakens
+                         .Where(tt => tt.empNo.Equals(emp.empNo))
+                         .Where(tt => (tt.active == null || tt.active.Equals("1")))
+                         .Where(tt => tt.trainingTakenNo.Equals(
+                                     ctx.TrainingTakens
+                                     .Where(ttRecent => ttRecent.TrainingCours.trainingName.Equals(tt.TrainingCours.trainingName))
+                                     .Select(ttRecent => ttRecent)
+                                     .OrderByDescending(ttRecent => ttRecent.startDate).FirstOrDefault().trainingTakenNo))
+                         .Select(tt => tt);
+
+            int valid = training.Where(tt => (tt.endDate == null) || (DateTime.Now < tt.endDate)).Count();
+            int expired = training.Where(tt => (tt.endDate != null) && (DateTime.Now >= tt.endDate)).Count();
+            int courses = training.Count();
+                        
+            DataRow dr = dt.NewRow();
+            dr["empNo"] = emp.empNo;
+            dr["empDept"] = emp.deptName;
+            dr["empName"] = emp.fname + " " + emp.lname;
+            dr["employer"] = emp.employer;
+            dr["incidents"] = 0;
+            dr["totalCourses"] = courses;
+            dr["validCourses"] = valid;
+            dr["expiredCourses"] = expired;
+            
+
+            totalValid += valid;
+            totalExpired += expired;
+            totalCourses += courses;
+
+            dt.Rows.Add(dr);
+        }
+
+        drEmpTotal = dt.NewRow();
+        drEmpTotal["empNo"] = 0;
+        drEmpTotal["empDept"] = "Total: ";
+        drEmpTotal["empName"] = String.Empty;
+        drEmpTotal["employer"] = String.Empty;
+        drEmpTotal["incidents"] = 0;
+        drEmpTotal["totalCourses"] = totalCourses;
+        drEmpTotal["validCourses"] = totalValid;
+        drEmpTotal["expiredCourses"] = totalExpired;
+        
+        gdvEmployees_DataView = new DataView(dt);
+
+        bindEmps();
+    }
+
+    private DataRow drEmpTotal = null;
+
+    private void bindEmps() {
+        gdvEmployees.DataSource = gdvEmployees_DataView;
+        gdvEmployees.DataBind();
+    }
+
+    protected void gdvEmployees_RowDataBound(Object sender, GridViewRowEventArgs e) {
+        if (e.Row.RowType == DataControlRowType.Footer) {
+            GridViewRow footer = e.Row;
+            for (int i = 1; i < footer.Cells.Count - 1; i++) {
+                footer.Cells[i].Text = drEmpTotal[i].ToString();
+            }
+
+            footer.Cells[0].Visible = false;
+            footer.Cells[2].Visible = false;
+            footer.Cells[3].Visible = false;
+            footer.Cells[1].ColumnSpan = 4;
+            footer.Cells[footer.Cells.Count - 1].Text = String.Empty;
+        }
+    }
+
+    private List<Employee> applyEmployeeFilters() {
+        setPageSize(gdvEmployees, tbxEmpSearchPages, DefaultGridViewPageSize);
+
+        var qry = matchingIncidents.Select(mi => mi.Employee).Distinct();
+
+        if (tbxEmpSearchDept.Text != null && !(tbxEmpSearchDept.Text.Equals(String.Empty))) {
+            if (cbxEmpSearchDept.Checked) {
+                qry = qry.Where(emp => emp.deptName.Equals(tbxEmpSearchDept.Text));
+            }
+            else {
+                qry = qry.Where(emp => emp.deptName.Contains(tbxEmpSearchDept.Text));
+            }
+        }
+
+        if (tbxEmpSearchName.Text != null && !(tbxEmpSearchName.Text.Equals(String.Empty))) {
+            if (cbxEmpSearchName.Checked) {
+                qry = qry.Where(emp => (emp.fname + " " + emp.lname).Equals(tbxEmpSearchName.Text));
+            }
+            else {
+                qry = qry.Where(emp => (emp.fname + " " + emp.lname).Contains(tbxEmpSearchName.Text));
+            }
+        }
+
+        if (tbxEmpSearchEmployer.Text != null && !(tbxEmpSearchEmployer.Text.Equals(String.Empty))) {
+            if (cbxEmpSearchEmployer.Checked) {
+                qry = qry.Where(emp => emp.employer.Equals(tbxEmpSearchEmployer.Text));
+            }
+            else {
+                qry = qry.Where(emp => emp.employer.Contains(tbxEmpSearchEmployer.Text));
+            }
+        }
+
+        if (cbxEmpSearchCurrent.Checked && cbxEmpSearchFormer.Checked) {
+            // if both current and former are checked, do nothing to query
+        }
+        else if (cbxEmpSearchFormer.Checked) {
+            qry = qry.Where(emp => (emp.endDate != null) && (DateTime.Now > emp.endDate));
+        }
+        else if (cbxEmpSearchCurrent.Checked) {
+            qry = qry.Where(emp => (emp.endDate == null) || (DateTime.Now <= emp.endDate));
+        }
+        else {
+            return new List<Employee>(); // no results if neither is checked
+        }
+
+        return qry.ToList<Employee>();
+    }
+
+    /// <summary>
+    /// Triggered when an employee is selected from the grid view.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gdvEmployees_SelectedIndexChanged(object sender, EventArgs e) {
+        String strId = gdvEmployees.SelectedRow.Cells[0].Text;
+        selectEmployee(strId);
+    }
+
+    private void selectEmployee(String id) {
+        Response.Redirect("~/Training/Default.aspx?id=" + id);
+    }
+    
+    /// <summary>
+    /// Re-populates the grid view so it reflects any modified search filters.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnEmpSearch_Click(object sender, EventArgs e) {
+        populateEmployees();
+    }
+    /// <summary>
+    /// Resets the search filters and re-populates the grid view so the default filters and results are showing.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnEmpSearchReset_Click(object sender, EventArgs e) {
+        resetEmpSearch();
+    }
+
+    private void resetEmpSearch() {
+        tbxEmpSearchDept.Text = String.Empty;
+        cbxEmpSearchDept.Checked = false;
+        tbxEmpSearchName.Text = String.Empty;
+        cbxEmpSearchName.Checked = false;
+        tbxEmpSearchEmployer.Text = String.Empty;
+        cbxEmpSearchEmployer.Checked = false;
+        cbxEmpSearchCurrent.Checked = true;
+        cbxEmpSearchFormer.Checked = false;
+        populateEmployees();
+    }
+    
+    #region gdvEmployees - Sorting and Paging
+    private DataView gdvEmployees_DataView = new DataView();
+
+    private string gdvEmployees_SortExpression {
+        get { return ViewState["gdvEmployees_SortExpression"] as string ?? String.Empty; }
+        set { ViewState["gdvEmployees_SortExpression"] = value; }
+    }
+
+    private string gdvEmployees_SortDirection {
+        get { return ViewState["gdvEmployees_SortDirection"] as string ?? "ASC"; }
+        set { ViewState["gdvEmployees_SortDirection"] = value; }
+    }
+
+    protected void gdvEmployees_Sorting(object sender, GridViewSortEventArgs e) {
+        gdvEmployees_SortDirection = getSortDirection(gdvEmployees_SortDirection);
+        gdvEmployees_SortExpression = e.SortExpression + " " + gdvEmployees_SortDirection;
+        gdvEmployees_Sort(gdvEmployees.PageIndex);
+    }
+
+    protected void gdvEmployees_PageIndexChanging(object sender, GridViewPageEventArgs e) {
+        gdvEmployees.PageIndex = e.NewPageIndex;
+        gdvEmployees_Sort(gdvEmployees.PageIndex);
+    }
+
+    private void gdvEmployees_Sort(int gdvPageIndex) {
+        gdvEmployees_DataView.Sort = gdvEmployees_SortExpression;
+        bindEmps();
+        gdvEmployees.PageIndex = gdvPageIndex;
+    }
+    #endregion gdvEmployees - Sorting and Paging
+    #endregion Employees
+
+    #region Training
+    private void populateTraining() {
+        List<TrainingTaken> training = applyTrainingFilters();
+        var qry = training
+                  .Select(tt => new {
+                      ttNo = tt.trainingTakenNo,
+                      empDept = tt.Employee.deptName,
+                      empName = tt.Employee.fname + " " + tt.Employee.lname,
+                      courseName = tt.TrainingCours.trainingName,
+                      courseDate = tt.startDate,
+                      expiryDate = tt.endDate,
+                  });
+        
+        //qry = qry.OrderBy(tt => tt.expiryDate);
+
+        DataTable dt = new DataTable();
+        dt.Columns.Add("ttNo", typeof(int));
+        dt.Columns.Add("empDept", typeof(String));
+        dt.Columns.Add("empName", typeof(String));
+        dt.Columns.Add("courseName", typeof(String));
+        dt.Columns.Add("courseDate", typeof(DateTime));
+        dt.Columns.Add("expiryDate", typeof(DateTime));
+        dt.Columns.Add("expired", typeof(String));
+                
+        foreach (var item in qry) {
+            DataRow dr = dt.NewRow();
+            dr["ttNo"] = item.ttNo;
+            dr["empDept"] = item.empDept;
+            dr["empName"] = item.empName;
+            dr["courseName"] = item.courseName;
+            dr["courseDate"] = item.courseDate;
+            dr["expiryDate"] = item.expiryDate == null ? DateTime.MaxValue : item.expiryDate;
+            dr["expired"] = item.expiryDate == null ? "N" : (item.expiryDate <= DateTime.Now ? "*" : String.Empty);
+            dt.Rows.Add(dr);
+        }
+
+        gdvTraining_DataView = new DataView(dt);
+        bindTraining();
+    }
+
+    private void bindTraining() {
+        gdvTraining.DataSource = gdvTraining_DataView;
+        gdvTraining.DataBind();
+    }
+
+    private List<TrainingTaken> applyTrainingFilters() {
+        setPageSize(gdvTraining, tbxTrainingSearchPages, DefaultGridViewPageSize);
+        
+        List<int> empNos = matchingIncidents.Select(mi => mi.empNo).Distinct().ToList<int>();
+
+        var qry = ctx.TrainingTakens.Select(tt => tt);
+        
+        var ttMatches = qry;
+
+        if (tbxTrainingSearchDept.Text != null && !(tbxTrainingSearchDept.Text.Equals(String.Empty))) {
+            if (cbxTrainingSearchDept.Checked) {
+                qry = qry.Where(tt => tt.Employee.deptName.Equals(tbxTrainingSearchDept.Text));
+            }
+            else {
+                qry = qry.Where(tt => tt.Employee.deptName.Contains(tbxTrainingSearchDept.Text));
+            }
+        }
+
+        if (tbxTrainingSearchEmp.Text != null && !(tbxTrainingSearchEmp.Text.Equals(String.Empty))) {
+            if (cbxTrainingSearchEmp.Checked) {
+                qry = qry.Where(tt => (tt.Employee.fname + " " + tt.Employee.lname).Equals(tbxTrainingSearchEmp.Text));
+            }
+            else {
+                qry = qry.Where(tt => (tt.Employee.fname + " " + tt.Employee.lname).Contains(tbxTrainingSearchEmp.Text));
+            }
+        }
+
+        if (tbxTrainingSearchCourse.Text != null && !(tbxTrainingSearchCourse.Text.Equals(String.Empty))) {
+            if (cbxTrainingSearchCourse.Checked) {
+                qry = qry.Where(tt => tt.TrainingCours.trainingName.Equals(tbxTrainingSearchCourse.Text));
+            }
+            else {
+                qry = qry.Where(tt => tt.TrainingCours.trainingName.Contains(tbxTrainingSearchCourse.Text));
+            }
+        }
+
+        DateTime earliestCourseDate = getDateTime(tbxEarliestCourseDate.Text);
+        if (!(earliestCourseDate.Equals(DateTime.MinValue))) {
+            qry = qry.Where(tt => tt.startDate >= earliestCourseDate);
+        }
+
+        DateTime latestCourseDate = getDateTime(tbxLatestCourseDate.Text);
+        if (!(latestCourseDate.Equals(DateTime.MinValue))) {
+            qry = qry.Where(tt => tt.startDate <= latestCourseDate);
+        }
+
+        DateTime earliestExpiryDate = getDateTime(tbxEarliestExpiryDate.Text);
+        if (!(earliestExpiryDate.Equals(DateTime.MinValue))) {
+            qry = qry.Where(tt => (tt.endDate == null || tt.endDate >= earliestExpiryDate));
+        }
+
+        DateTime latestExpiryDate = getDateTime(tbxLatestExpiryDate.Text);
+        if (!(latestExpiryDate.Equals(DateTime.MinValue))) {
+            qry = qry.Where(tt => tt.endDate <= latestExpiryDate);
+        }
+
+        if (rblMostRecent.SelectedValue.ToString().Equals("mostRecent")) {
+            qry = qry.Where(tt => tt.trainingTakenNo.Equals(
+                            ttMatches
+                            .Where(ttRecent => ttRecent.TrainingCours.trainingName.Equals(tt.TrainingCours.trainingName))
+                            .Select(ttRecent => ttRecent)
+                            .OrderByDescending(ttRecent => ttRecent.startDate).FirstOrDefault().trainingTakenNo));
+        }
+
+        if (!cbxIncludeDeleted.Checked) {
+            qry = qry.Where(tt => (tt.active == null || tt.active.Equals("1")));
+        }
+
+        if (cbxIncludeExpired.Checked && cbxIncludeValid.Checked) {
+            // if both expired and valid are checked, do nothing to query
+        }
+        else if (cbxIncludeExpired.Checked) {
+            qry = qry.Where(tt => (tt.endDate != null) && (DateTime.Now >= tt.endDate));
+        }
+        else if (cbxIncludeValid.Checked) {
+            qry = qry.Where(tt => (tt.endDate == null) || (DateTime.Now < tt.endDate));
+        }
+        else {
+            return new List<TrainingTaken>(); // no results if neither is checked
+        }
+
+        List<TrainingTaken> list = new List<TrainingTaken>();
+        
+        foreach (var item in qry) {
+            if (empNos.Contains(item.empNo)) {
+                list.Add(item);
+            }
+        }
+
+        return list;
+    }
+
+    protected void gdvTraining_RowDataBound(Object sender, GridViewRowEventArgs e) {
+        if (e.Row.RowType != DataControlRowType.DataRow) {
+            return;
+        }
+
+        GridViewRow row = e.Row;
+        // if the expiry date is null (N is a flag)
+        if (row.Cells[6].Text.Equals("N")) {
+            row.Cells[6].Text = String.Empty;
+            row.Cells[5].Text = String.Empty;
+            return;
+        }
+
+        if (!cbxHighlightExpired.Checked) {
+            return;
+        }
+
+        if (row.Cells[6].Text.Equals("*")) {
+            e.Row.ForeColor = Color.Red;
+        }
+    }
+
+    /// <summary>
+    /// Triggered when a training record is selected from the grid view.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gdvTraining_SelectedIndexChanged(object sender, EventArgs e) {
+        String name = gdvTraining.SelectedRow.Cells[2].Text;
+        int empNo = -1;
+        Employee employee = ctx.Employees.Where(emp => (emp.fname + " " + emp.lname).Equals(name)).FirstOrDefault();
+        if (employee != null) {
+            empNo = employee.empNo;
+        }
+        selectTraining(empNo);
+    }
+
+    private void selectTraining(int id) {
+        Response.Redirect("~/Training/Default.aspx?id=" + id);
+    }
+
+    /// <summary>
+    /// Checkes latest date is in correct format and compares the earliest and latest dates in a range.
+    /// Makes sure latest date is after earliest date.
+    /// If the earliest date is invalid, ignores it (the other validator will catch it).
+    /// If the latest date is in an invalid format, validates false, sets appropriate message.
+    /// If the latest date is null or empty, validates true becuase there's nothing to compare.
+    /// If both dates are specified and in the proper format, the dates are compared.
+    /// If the latest date is before the earliest date, validates false.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvLatestCourseDate_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strLatestDate = tbxLatestCourseDate.Text;
+        DateTime earliestDate = getDateTime(tbxEarliestCourseDate.Text);
+        DateTime latestDate = getDateTime(tbxLatestCourseDate.Text);
+
+        // end date
+        if (strLatestDate == null || strLatestDate.Equals(String.Empty)) {
+            args.IsValid = true; // nothing to compare, so it's valid
+            return;
+        }
+
+        if (latestDate.Equals(DateTime.MinValue)) {
+            cmvLatestCourseDate.ErrorMessage = "Latest course date must be in the format 'MM/DD/YYYY'";
+            return;
+        }
+
+        if (earliestDate.Equals(DateTime.MinValue)) {
+            args.IsValid = true;
+            return; // other server validator will catch the error
+        }
+
+        // comparison
+        if (latestDate.CompareTo(earliestDate) > 0) {
+            args.IsValid = true;
+            return;
+        }
+
+        cmvLatestCourseDate.ErrorMessage = "Latest course date must be later than earliest course date.";
+    }
+
+    /// <summary>
+    /// Checkes latest date is in correct format and compares the earliest and latest dates in a range.
+    /// Makes sure latest date is after earliest date.
+    /// If the earliest date is invalid, ignores it (the other validator will catch it).
+    /// If the latest date is in an invalid format, validates false, sets appropriate message.
+    /// If the latest date is null or empty, validates true becuase there's nothing to compare.
+    /// If both dates are specified and in the proper format, the dates are compared.
+    /// If the latest date is before the earliest date, validates false.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvLatestExpiryDate_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strLatestDate = tbxLatestExpiryDate.Text;
+        DateTime earliestDate = getDateTime(tbxEarliestExpiryDate.Text);
+        DateTime latestDate = getDateTime(tbxLatestExpiryDate.Text);
+
+        // end date
+        if (strLatestDate == null || strLatestDate.Equals(String.Empty)) {
+            args.IsValid = true; // nothing to compare, so it's valid
+            return;
+        }
+
+        if (latestDate.Equals(DateTime.MinValue)) {
+            cmvLatestExpiryDate.ErrorMessage = "Latest expiry date must be in the format 'MM/DD/YYYY'";
+            return;
+        }
+
+        if (earliestDate.Equals(DateTime.MinValue)) {
+            args.IsValid = true;
+            return; // other server validator will catch the error
+        }
+
+        // comparison
+        if (latestDate.CompareTo(earliestDate) > 0) {
+            args.IsValid = true;
+            return;
+        }
+
+        cmvLatestExpiryDate.ErrorMessage = "Latest expiry date must be later than earliest expiry date.";
+    }
+
+    /// <summary>
+    /// Re-populates the grid view so it reflects any modified search filters.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnTrainingSearch_Click(object sender, EventArgs e) {
+        populateTraining();
+    }
+    /// <summary>
+    /// Resets the search filters and re-populates the grid view so the default filters and results are showing.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnTrainingSearchReset_Click(object sender, EventArgs e) {
+        resetTrainingSearch();
+    }
+
+    private void resetTrainingSearch() {
+        tbxTrainingSearchDept.Text = String.Empty;
+        cbxTrainingSearchDept.Checked = false;
+        tbxTrainingSearchEmp.Text = String.Empty;
+        cbxTrainingSearchEmp.Checked = false;
+        tbxTrainingSearchCourse.Text = String.Empty;
+        cbxTrainingSearchCourse.Checked = false;
+        tbxEarliestCourseDate.Text = String.Empty;
+        tbxLatestCourseDate.Text = String.Empty;
+        tbxEarliestExpiryDate.Text = String.Empty;
+        tbxLatestExpiryDate.Text = String.Empty;
+        rblMostRecent.SelectedValue = "mostRecent";
+        cbxIncludeDeleted.Checked = false;
+        cbxIncludeValid.Checked = true;
+        cbxIncludeExpired.Checked = true;
+        cbxHighlightExpired.Checked = true;
+        populateTraining();
+    }
+    
+    #region gdvTraining - Sorting and Paging
+    private DataView gdvTraining_DataView = new DataView();
+
+    private string gdvTraining_SortExpression {
+        get { return ViewState["gdvTraining_SortExpression"] as string ?? String.Empty; }
+        set { ViewState["gdvTraining_SortExpression"] = value; }
+    }
+
+    private string gdvTraining_SortDirection {
+        get { return ViewState["gdvTraining_SortDirection"] as string ?? "ASC"; }
+        set { ViewState["gdvTraining_SortDirection"] = value; }
+    }
+
+    protected void gdvTraining_Sorting(object sender, GridViewSortEventArgs e) {
+        gdvTraining_SortDirection = getSortDirection(gdvTraining_SortDirection);
+        gdvTraining_SortExpression = e.SortExpression + " " + gdvTraining_SortDirection;
+        gdvTraining_Sort(gdvTraining.PageIndex);
+    }
+
+    protected void gdvTraining_PageIndexChanging(object sender, GridViewPageEventArgs e) {
+        gdvTraining.PageIndex = e.NewPageIndex;
+        gdvTraining_Sort(gdvTraining.PageIndex);
+    }
+
+    private void gdvTraining_Sort(int gdvPageIndex) {
+        gdvTraining_DataView.Sort = gdvTraining_SortExpression;
+        bindTraining();
+        gdvTraining.PageIndex = gdvPageIndex;
+    }
+    #endregion gdvEmployees - Sorting and Paging
+    #endregion Training
+    
+    #region Incidents
+    private void populateIncidents() {
+        List<Incident> incidents = applyIncidentFilters();
+
+        var qry = incidents
+                  .Select(inc => new {
+                      incidentNo = inc.incidentNo,
+                      employee = inc.Employee.fname + " " + inc.Employee.lname,
+                      deptName = inc.Department == null ? "Other" : inc.Department.deptName,
+                      incidentDate = inc.p1_dateOfIncident,
+                      reportDate = inc.p1_dateReported,
+                      submitter = inc.reportSubmitter
+                  });
+
+        qry = qry.OrderByDescending(inc => inc.incidentDate);
+
+        DataTable dt = new DataTable();
+        dt.Columns.Add("incidentNo", typeof(int));
+        dt.Columns.Add("deptName", typeof(String));
+        dt.Columns.Add("employee", typeof(String));
+        dt.Columns.Add("incidentDate", typeof(DateTime));
+        dt.Columns.Add("reportDate", typeof(DateTime));
+        dt.Columns.Add("submitter", typeof(String));
+
+        foreach (var incident in qry) {
+            DataRow dr = dt.NewRow();
+            dr["incidentNo"] = incident.incidentNo;
+            dr["deptName"] = incident.deptName;
+            dr["employee"] = incident.employee;
+            dr["incidentDate"] = incident.incidentDate;
+            dr["reportDate"] = incident.reportDate;
+            dr["submitter"] = incident.submitter;
+            dt.Rows.Add(dr);
+        }
+
+        gdvIncidents_DataView = new DataView(dt);
+        bindIncidents();
+    }
+
+    private void bindIncidents() {
+        gdvIncidents.DataSource = gdvIncidents_DataView;
+        gdvIncidents.DataBind();
+    }
+
+    private List<Incident> applyIncidentFilters() {
+        setPageSize(gdvIncidents, tbxIncidentSearchPages, DefaultGridViewPageSize);
+        List<Incident> incidents = matchingIncidents;
+
+        if (!tbxIncSearchDept.Text.Equals(String.Empty)) {
+            String dept = tbxIncSearchDept.Text;
+            if (!cbxIncSearchDept.Checked) {
+                incidents = incidents.Where(i => ((i.Department == null) ? false : i.Department.deptName.Contains(dept))).ToList<Incident>();
+            }
+            else {
+                incidents = incidents.Where(i => ((i.Department == null) ? false : i.Department.deptName.Equals(dept))).ToList<Incident>();
+            }
+        }
+
+        if (!tbxIncSearchEmp.Text.Equals(String.Empty)) {
+            String emp = tbxIncSearchEmp.Text;
+            if (!cbxIncSearchEmp.Checked) {
+                incidents = incidents.Where(i => (i.Employee.fname + " " + i.Employee.lname).Contains(emp)).ToList<Incident>();
+            }
+            else {
+                incidents = incidents.Where(i => (i.Employee.fname + " " + i.Employee.lname).Equals(emp)).ToList<Incident>();
+            }
+        }
+
+        if (!tbxIncSearchSubmitter.Text.Equals(String.Empty)) {
+            String submitter = tbxIncSearchSubmitter.Text;
+            if (!cbxIncSearchSubmitter.Checked) {
+                incidents = incidents.Where(i => (i.reportSubmitter).Contains(submitter)).ToList<Incident>();
+            }
+            else {
+                incidents = incidents.Where(i => (i.reportSubmitter).Equals(submitter)).ToList<Incident>();
+            }
+        }
+
+        DateTime date = getDateTime(tbxEarliestIncidentDate.Text);
+        if (!(date.Equals(DateTime.MinValue))) {
+            incidents = incidents.Where(i => i.p1_dateOfIncident >= date).ToList<Incident>();
+        }
+
+        date = getDateTime(tbxLatestIncidentDate.Text);
+        if (!(date.Equals(DateTime.MinValue))) {
+            incidents = incidents.Where(i => i.p1_dateOfIncident <= date).ToList<Incident>();
+        }
+
+        date = getDateTime(tbxEarliestReportDate.Text);
+        if (!(date.Equals(DateTime.MinValue))) {
+            incidents = incidents.Where(i => i.p1_dateOfIncident >= date).ToList<Incident>();
+        }
+
+        date = getDateTime(tbxLatestReportDate.Text);
+        if (!(date.Equals(DateTime.MinValue))) {
+            incidents = incidents.Where(i => i.p1_dateOfIncident <= date).ToList<Incident>();
+        }
+
+        return incidents;
+    }
+
+    /// <summary>
+    /// Triggered when an incident is selected from the grid view.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gdvIncidents_SelectedIndexChanged(object sender, EventArgs e) {
+        String strId = gdvIncidents.SelectedRow.Cells[0].Text;
+        selectIncident(strId);
+    }
+
+    /// <summary>
+    /// Redirects browser to a separate page for viewing the incident report.
+    /// </summary>
+    /// <param name="id"></param>
+    private void selectIncident(String id) {
+        Response.Redirect("~/View/IncidentReport.aspx?id=" + id);
+    }
+
+    /// <summary>
+    /// Checkes latest date is in correct format and compares the earliest and latest dates in a range.
+    /// Makes sure latest date is after earliest date.
+    /// If the earliest date is invalid, ignores it (the other validator will catch it).
+    /// If the latest date is in an invalid format, validates false, sets appropriate message.
+    /// If the latest date is null or empty, validates true becuase there's nothing to compare.
+    /// If both dates are specified and in the proper format, the dates are compared.
+    /// If the latest date is before the earliest date, validates false.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvLatestIncidentDate_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strLatestDate = tbxLatestIncidentDate.Text;
+        DateTime earliestDate = getDateTime(tbxEarliestIncidentDate.Text);
+        DateTime latestDate = getDateTime(tbxLatestIncidentDate.Text);
+
+        // end date
+        if (strLatestDate == null || strLatestDate.Equals(String.Empty)) {
+            args.IsValid = true; // nothing to compare, so it's valid
+            return;
+        }
+
+        if (latestDate.Equals(DateTime.MinValue)) {
+            cmvLatestIncidentDate.ErrorMessage = "Latest incident date must be in the format 'MM/DD/YYYY'";
+            return;
+        }
+
+        if (earliestDate.Equals(DateTime.MinValue)) {
+            args.IsValid = true;
+            return; // other server validator will catch the error
+        }
+
+        // comparison
+        if (latestDate.CompareTo(earliestDate) > 0) {
+            args.IsValid = true;
+            return;
+        }
+
+        cmvLatestIncidentDate.ErrorMessage = "Latest incident date must be later than earliest incident date.";
+    }
+
+    /// <summary>
+    /// Checkes latest date is in correct format and compares the earliest and latest dates in a range.
+    /// Makes sure latest date is after earliest date.
+    /// If the earliest date is invalid, ignores it (the other validator will catch it).
+    /// If the latest date is in an invalid format, validates false, sets appropriate message.
+    /// If the latest date is null or empty, validates true becuase there's nothing to compare.
+    /// If both dates are specified and in the proper format, the dates are compared.
+    /// If the latest date is before the earliest date, validates false.
+    /// </summary>
+    /// <param name="source">The validator control.</param>
+    /// <param name="args">The event properties.</param>
+    protected void cmvLatestReportDate_ServerValidate(object source, ServerValidateEventArgs args) {
+        args.IsValid = false;
+        String strLatestDate = tbxLatestReportDate.Text;
+        DateTime earliestDate = getDateTime(tbxEarliestReportDate.Text);
+        DateTime latestDate = getDateTime(tbxLatestReportDate.Text);
+
+        // end date
+        if (strLatestDate == null || strLatestDate.Equals(String.Empty)) {
+            args.IsValid = true; // nothing to compare, so it's valid
+            return;
+        }
+        if (latestDate.Equals(DateTime.MinValue)) {
+            cmvLatestReportDate.ErrorMessage = "Latest report date must be in the format 'MM/DD/YYYY'";
+            return;
+        }
+        if (earliestDate.Equals(DateTime.MinValue)) {
+            args.IsValid = true;
+            return; // other server validator will catch the error
+        }
+        // comparison
+        if (latestDate.CompareTo(earliestDate) > 0) {
+            args.IsValid = true;
+            return;
+        }
+        cmvLatestReportDate.ErrorMessage = "Latest report date must be later than earliest report date.";
+    }
+
+    /// <summary>
+    /// Re-populates the grid view so it reflects any modified search filters.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnIncidentSearch_Click(object sender, EventArgs e) {
+        populateIncidents();
+    }
+    /// <summary>
+    /// Resets the search filters and re-populates the grid view so the default filters and results are showing.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnIncidentSearchReset_Click(object sender, EventArgs e) {
+        resetIncidentSearch();
+    }
+
+    /// <summary>
+    /// Resets the search filters and re-populates the grid view so the default filters and results are showing.
+    /// </summary>
+    private void resetIncidentSearch() {
+        tbxIncSearchDept.Text = String.Empty;
+        cbxIncSearchDept.Checked = false;
+        tbxIncSearchEmp.Text = String.Empty;
+        cbxIncSearchEmp.Checked = false;
+        tbxIncSearchSubmitter.Text = String.Empty;
+        cbxIncSearchSubmitter.Checked = false;
+        tbxEarliestIncidentDate.Text = String.Empty;
+        tbxLatestIncidentDate.Text = String.Empty;
+        tbxEarliestReportDate.Text = String.Empty;
+        tbxLatestReportDate.Text = String.Empty;
+        populateIncidents();
+    }
+    
+    #region gdvIncidents - Sorting and Paging
+    private DataView gdvIncidents_DataView = new DataView();
+
+    private string gdvIncidents_SortExpression {
+        get { return ViewState["gdvIncidents_SortExpression"] as string ?? String.Empty; }
+        set { ViewState["gdvIncidents_SortExpression"] = value; }
+    }
+
+    private string gdvIncidents_SortDirection {
+        get { return ViewState["gdvIncidents_SortDirection"] as string ?? "ASC"; }
+        set { ViewState["gdvIncidents_SortDirection"] = value; }
+    }
+
+    protected void gdvIncidents_Sorting(object sender, GridViewSortEventArgs e) {
+        gdvIncidents_SortDirection = getSortDirection(gdvIncidents_SortDirection);
+        gdvIncidents_SortExpression = e.SortExpression + " " + gdvIncidents_SortDirection;
+        gdvIncidents_Sort(gdvIncidents.PageIndex);
+    }
+
+    protected void gdvIncidents_PageIndexChanging(object sender, GridViewPageEventArgs e) {
+        gdvIncidents.PageIndex = e.NewPageIndex;
+        gdvIncidents_Sort(gdvIncidents.PageIndex);
+    }
+
+    private void gdvIncidents_Sort(int gdvPageIndex) {
+        gdvIncidents_DataView.Sort = gdvIncidents_SortExpression;
+        bindIncidents();
+        gdvIncidents.PageIndex = gdvPageIndex;
+    }
+    #endregion gdvIncidents - Sorting and Paging
+    #endregion Incident Reports
+
+    #region Lab Inspections
+    private void populateLabInspections() {
+        List<LabInspection> labInsp = applyLabInspFilters();
+        var qry = labInsp
+                  .Select(li => new {
+                      labInspectionNo = li.labInsNo,
+                      deptName = li.deptName,
+                      inspectionDate = li.date,
+                      followup = li.followUpStatus.Equals("1") ? "Yes" : "No",
+                      inspector = li.inspector,
+                      room = li.room,
+                      labMgr = li.labMgr
+                  });
+
+        qry = qry.OrderByDescending(li => li.inspectionDate);
+
+        DataTable dt = new DataTable();
+        dt.Columns.Add("labInspectionNo", typeof(int));
+        dt.Columns.Add("deptName", typeof(String));
+        dt.Columns.Add("inspectionDate", typeof(DateTime));
+        dt.Columns.Add("followup", typeof(String));
+        dt.Columns.Add("inspector", typeof(String));
+        dt.Columns.Add("room", typeof(String));
+        dt.Columns.Add("labMgr", typeof(String));
+
+        foreach (var item in qry) {
+            DataRow dr = dt.NewRow();
+            dr["labInspectionNo"] = item.labInspectionNo;
+            dr["deptName"] = item.deptName;
+            dr["inspectionDate"] = item.inspectionDate;
+            dr["followup"] = item.followup;
+            dr["inspector"] = item.inspector;
+            dr["room"] = item.room;
+            dr["labMgr"] = item.labMgr;
+            dt.Rows.Add(dr);
+        }
+
+        gdvLabInspections_DataView = new DataView(dt);
+        bindLabInsps();
+    }
+
+    private void bindLabInsps() {
+        gdvLabInspections.DataSource = gdvLabInspections_DataView;
         gdvLabInspections.DataBind();
-
-        pnlLabInspectionsContainer.Visible = true;
-        cpeLabInspections.Collapsed = false;
-        cpeLabInspections.ClientState = "false";
     }
 
-    protected void gdvOfficeInspections_RowCommand(object sender, GridViewCommandEventArgs e) {
-        // Get the row that called the event
-        int index = Convert.ToInt32(e.CommandArgument);
-        GridViewRow row = gdvOfficeInspections.Rows[index];
-        // Get the Office Inspection No
-        String strOfficeInspectionNo = String.Empty;
-        Label lbl = (Label)row.FindControl("lblOfficeInspectionNo");
-        if (lbl != null) {
-            strOfficeInspectionNo = lbl.Text;
+    private List<LabInspection> applyLabInspFilters() {
+        setPageSize(gdvLabInspections, tbxLabInspPages, DefaultGridViewPageSize);
+
+        List<String> deptNames = matchingIncidents
+                                .Where(mi => mi.Department != null)
+                                .Select(mi => mi.Department.deptName).Distinct().ToList<String>();
+
+        var qry = ctx.LabInspections.Select(li => li);
+
+        if (tbxLabInspDept.Text != null && !(tbxLabInspDept.Text.Equals(String.Empty))) {
+            if (cbxLabInspDept.Checked) {
+                qry = qry.Where(li => li.deptName != null && li.deptName.Equals(tbxLabInspDept.Text));
+            }
+            else {
+                qry = qry.Where(li => li.deptName != null && li.deptName.Contains(tbxLabInspDept.Text));
+            }
         }
-        // Find out which button was clicked, take appropriate action
-        if (e.CommandName.Equals("RowViewOfficeInspection")) {
-            Response.Redirect("~/Tracking/ViewOfficeInspection.aspx?OfficeInspectionNo=" + strOfficeInspectionNo);
+
+        if (tbxLabInspInspector.Text != null && !(tbxLabInspInspector.Text.Equals(String.Empty))) {
+            if (cbxLabInspInspector.Checked) {
+                qry = qry.Where(li => li.inspector != null && li.inspector.Equals(tbxLabInspInspector.Text));
+            }
+            else {
+                qry = qry.Where(li => li.inspector != null && li.inspector.Contains(tbxLabInspInspector.Text));
+            }
         }
+
+        if (tbxLabInspRoom.Text != null && !(tbxLabInspRoom.Text.Equals(String.Empty))) {
+            if (cbxLabInspRoom.Checked) {
+                qry = qry.Where(li => li.room != null && li.room.Equals(tbxLabInspRoom.Text));
+            }
+            else {
+                qry = qry.Where(li => li.room != null && li.room.Contains(tbxLabInspRoom.Text));
+            }
+        }
+
+        if (tbxLabInspLabMgr.Text != null && !(tbxLabInspLabMgr.Text.Equals(String.Empty))) {
+            if (cbxLabInspLabMgr.Checked) {
+                qry = qry.Where(li => li.labMgr != null && li.labMgr.Equals(tbxLabInspLabMgr.Text));
+            }
+            else {
+                qry = qry.Where(li => li.labMgr != null && li.labMgr.Contains(tbxLabInspLabMgr.Text));
+            }
+        }
+
+        DateTime date = getDateTime(tbxLabInspDate.Text);
+        if (!(date.Equals(DateTime.MinValue))) {
+            qry = qry.Where(li => li.date >= date);
+        }
+
+        if (rblLabInspFollowup.SelectedValue.ToString().Equals("yes")) {
+            qry = qry.Where(li => li.followUpStatus.Equals("1"));
+        }
+        else if (rblLabInspFollowup.SelectedValue.ToString().Equals("no")) {
+            qry = qry.Where(li => !(li.followUpStatus.Equals("1")));
+        }
+
+        List<LabInspection> list = new List<LabInspection>();
+
+        foreach (var item in qry) {
+            if (deptNames.Contains(item.deptName)) {
+                list.Add(item);
+            }
+        }
+
+        return list;
     }
 
-    private void loadOfficeInspections(int incidentNo) {
-        var qry = from l in ctx.OfficeInspections
-                  join i in ctx.Incidents on l.deptName equals i.Department.deptName
-                  where (i.incidentNo.Equals(incidentNo))
-                  select new {
-                      officeInspectionNo = l.officeInsNo,
-                      deptName = l.deptName,
-                      inspectionDate = l.insDate,
-                      followup = l.followupComment,
-                      inspector = l.inspector,
-                      area = l.area
-                  };
+    /// <summary>
+    /// Re-populates the grid view so it reflects any modified search filters.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnLabInspSearch_Click(object sender, EventArgs e) {
+        populateLabInspections();
+    }
+    /// <summary>
+    /// Resets the search filters and re-populates the grid view so the default filters and results are showing.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnLabInspSearchReset_Click(object sender, EventArgs e) {
+        resetLabInspSearch();
+    }
 
-        gdvOfficeInspections.DataSource = qry;
+    private void resetLabInspSearch() {
+        tbxLabInspDept.Text = String.Empty;
+        cbxLabInspDept.Checked = false;
+        tbxLabInspInspector.Text = String.Empty;
+        cbxLabInspInspector.Checked = false;
+        tbxLabInspRoom.Text = String.Empty;
+        cbxLabInspRoom.Checked = false;
+        tbxLabInspLabMgr.Text = String.Empty;
+        cbxLabInspLabMgr.Checked = false;
+        rblLabInspFollowup.SelectedValue = null;
+        tbxLabInspDate.Text = String.Empty;
+        populateLabInspections();
+    }
+
+    /// <summary>
+    /// Triggered when a lab inspection is selected from the grid view.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gdvLabInspections_SelectedIndexChanged(object sender, EventArgs e) {
+        String strId = gdvLabInspections.SelectedRow.Cells[0].Text;
+        selectLabInspection(strId);
+    }
+
+    private void selectLabInspection(String id) {
+        Response.Redirect("~/View/LabInspection.aspx?id=" + id);
+    }
+
+    #region gdvLabInspections - Sorting and Paging
+    private DataView gdvLabInspections_DataView = new DataView();
+
+    private string gdvLabInspections_SortExpression {
+        get { return ViewState["gdvLabInspections_SortExpression"] as string ?? String.Empty; }
+        set { ViewState["gdvLabInspections_SortExpression"] = value; }
+    }
+
+    private string gdvLabInspections_SortDirection {
+        get { return ViewState["gdvLabInspections_SortDirection"] as string ?? "ASC"; }
+        set { ViewState["gdvLabInspections_SortDirection"] = value; }
+    }
+
+    protected void gdvLabInspections_Sorting(object sender, GridViewSortEventArgs e) {
+        gdvLabInspections_SortDirection = getSortDirection(gdvLabInspections_SortDirection);
+        gdvLabInspections_SortExpression = e.SortExpression + " " + gdvLabInspections_SortDirection;
+        gdvLabInspections_Sort(gdvLabInspections.PageIndex);
+    }
+
+    protected void gdvLabInspections_PageIndexChanging(object sender, GridViewPageEventArgs e) {
+        gdvLabInspections.PageIndex = e.NewPageIndex;
+        gdvLabInspections_Sort(gdvLabInspections.PageIndex);
+    }
+
+    private void gdvLabInspections_Sort(int gdvPageIndex) {
+        gdvLabInspections_DataView.Sort = gdvLabInspections_SortExpression;
+        bindLabInsps();
+        gdvLabInspections.PageIndex = gdvPageIndex;
+    }
+    #endregion gdvLabInspections - Sorting and Paging
+    #endregion Lab Inspections
+
+    #region Office Inspections
+    private void populateOfficeInspections() {
+        List<OfficeInspection> offInsp = applyOffInspFilters();
+        var qry = offInsp
+                 .Select(oi => new {
+                     officeInspectionNo = oi.officeInsNo,
+                     deptName = oi.deptName,
+                     inspectionDate = oi.insDate,
+                     followup = oi.followUpStatus.Equals("1") ? "Yes" : "No",
+                     inspector = oi.inspector,
+                     area = oi.area
+                 });
+
+        qry = qry.OrderByDescending(oi => oi.inspectionDate);
+
+        DataTable dt = new DataTable();
+        dt.Columns.Add("officeInspectionNo", typeof(int));
+        dt.Columns.Add("deptName", typeof(String));
+        dt.Columns.Add("inspectionDate", typeof(DateTime));
+        dt.Columns.Add("followup", typeof(String));
+        dt.Columns.Add("inspector", typeof(String));
+        dt.Columns.Add("area", typeof(String));
+
+        foreach (var item in qry) {
+            DataRow dr = dt.NewRow();
+            dr["officeInspectionNo"] = item.officeInspectionNo;
+            dr["deptName"] = item.deptName;
+            dr["inspectionDate"] = item.inspectionDate;
+            dr["followup"] = item.followup;
+            dr["inspector"] = item.inspector;
+            dr["area"] = item.area;
+            dt.Rows.Add(dr);
+        }
+
+        gdvOfficeInspections_DataView = new DataView(dt);
+        bindOffInsps();
+    }
+
+    private void bindOffInsps() {
+        gdvOfficeInspections.DataSource = gdvOfficeInspections_DataView;
         gdvOfficeInspections.DataBind();
-
-        pnlOfficeInspectionsContainer.Visible = true;
-        cpeOfficeInspections.Collapsed = false;
-        cpeOfficeInspections.ClientState = "false";
     }
+
+    private List<OfficeInspection> applyOffInspFilters() {
+        setPageSize(gdvOfficeInspections, tbxOffInspPages, DefaultGridViewPageSize);
+
+        List<String> deptNames = matchingIncidents
+                                .Where(mi => mi.Department != null)
+                                .Select(mi => mi.Department.deptName).Distinct().ToList<String>();
+        
+        var qry = ctx.OfficeInspections.Select(oi => oi);
+
+        if (tbxOffInspDept.Text != null && !(tbxOffInspDept.Text.Equals(String.Empty))) {
+            if (cbxOffInspDept.Checked) {
+                qry = qry.Where(oi => oi.deptName != null && oi.deptName.Equals(tbxOffInspDept.Text));
+            }
+            else {
+                qry = qry.Where(oi => oi.deptName != null && oi.deptName.Contains(tbxOffInspDept.Text));
+            }
+        }
+
+        if (tbxOffInspInspector.Text != null && !(tbxOffInspInspector.Text.Equals(String.Empty))) {
+            if (cbxOffInspInspector.Checked) {
+                qry = qry.Where(oi => oi.inspector != null && oi.inspector.Equals(tbxOffInspInspector.Text));
+            }
+            else {
+                qry = qry.Where(oi => oi.inspector != null && oi.inspector.Contains(tbxOffInspInspector.Text));
+            }
+        }
+
+        if (tbxOffInspArea.Text != null && !(tbxOffInspArea.Text.Equals(String.Empty))) {
+            if (cbxOffInspArea.Checked) {
+                qry = qry.Where(oi => oi.area != null && oi.area.Equals(tbxOffInspArea.Text));
+            }
+            else {
+                qry = qry.Where(oi => oi.area != null && oi.area.Contains(tbxOffInspArea.Text));
+            }
+        }
+
+        DateTime date = getDateTime(tbxOffInspDate.Text);
+        if (!(date.Equals(DateTime.MinValue))) {
+            qry = qry.Where(oi => oi.insDate >= date);
+        }
+
+        if (rblOffInspFollowup.SelectedValue.ToString().Equals("yes")) {
+            qry = qry.Where(oi => oi.followUpStatus.Equals("1"));
+        }
+        else if (rblOffInspFollowup.SelectedValue.ToString().Equals("no")) {
+            qry = qry.Where(oi => !(oi.followUpStatus.Equals("1")));
+        }
+
+        List<OfficeInspection> list = new List<OfficeInspection>();
+
+        foreach (var item in qry) {
+            if (deptNames.Contains(item.deptName)) {
+                list.Add(item);
+            }
+        }
+
+        return list;
+    }
+
+    /// <summary>
+    /// Triggered when an office inspection is selected from the grid view.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gdvOfficeInspections_SelectedIndexChanged(object sender, EventArgs e) {
+        String strId = gdvOfficeInspections.SelectedRow.Cells[0].Text;
+        selectOfficeInspection(strId);
+    }
+
+    private void selectOfficeInspection(String id) {
+        Response.Redirect("~/View/OfficeInspection.aspx?id=" + id);
+    }
+
+    /// <summary>
+    /// Re-populates the grid view so it reflects any modified search filters.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnOffInspSearch_Click(object sender, EventArgs e) {
+        populateOfficeInspections();
+    }
+    /// <summary>
+    /// Resets the search filters and re-populates the grid view so the default filters and results are showing.
+    /// </summary>
+    /// <param name="sender">The object that triggered the event.</param>
+    /// <param name="e">The click event properties.</param>
+    protected void btnOffInspSearchReset_Click(object sender, EventArgs e) {
+        resetOffInspSearch();
+    }
+
+    private void resetOffInspSearch() {
+        tbxOffInspDept.Text = String.Empty;
+        cbxOffInspDept.Checked = false;
+        tbxOffInspInspector.Text = String.Empty;
+        cbxOffInspInspector.Checked = false;
+        tbxOffInspArea.Text = String.Empty;
+        cbxOffInspArea.Checked = false;
+        rblOffInspFollowup.SelectedValue = null;
+        tbxOffInspDate.Text = String.Empty;
+        populateOfficeInspections();
+    }
+
+    #region gdvOfficeInspections - Sorting and Paging
+    private DataView gdvOfficeInspections_DataView = new DataView();
+
+    private string gdvOfficeInspections_SortExpression {
+        get { return ViewState["gdvOfficeInspections_SortExpression"] as string ?? String.Empty; }
+        set { ViewState["gdvOfficeInspections_SortExpression"] = value; }
+    }
+
+    private string gdvOfficeInspections_SortDirection {
+        get { return ViewState["gdvOfficeInspections_SortDirection"] as string ?? "ASC"; }
+        set { ViewState["gdvOfficeInspections_SortDirection"] = value; }
+    }
+
+    protected void gdvOfficeInspections_Sorting(object sender, GridViewSortEventArgs e) {
+        gdvOfficeInspections_SortDirection = getSortDirection(gdvOfficeInspections_SortDirection);
+        gdvOfficeInspections_SortExpression = e.SortExpression + " " + gdvOfficeInspections_SortDirection;
+        gdvOfficeInspections_Sort(gdvOfficeInspections.PageIndex);
+    }
+
+    protected void gdvOfficeInspections_PageIndexChanging(object sender, GridViewPageEventArgs e) {
+        gdvOfficeInspections.PageIndex = e.NewPageIndex;
+        gdvOfficeInspections_Sort(gdvOfficeInspections.PageIndex);
+    }
+
+    private void gdvOfficeInspections_Sort(int gdvPageIndex) {
+        gdvOfficeInspections_DataView.Sort = gdvOfficeInspections_SortExpression;
+        bindOffInsps();
+        gdvOfficeInspections.PageIndex = gdvPageIndex;
+    }
+    #endregion gdvOfficeInspections - Sorting and Paging
+    #endregion Office Inspections
 
 }

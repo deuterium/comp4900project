@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Followup_Default" %>
+﻿<%@ Page  Title="BCCA - Followup" Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Followup_Default" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <asp:content id="Content1" contentplaceholderid="head" runat="Server">

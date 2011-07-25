@@ -486,6 +486,8 @@ public partial class Reporting_Default : System.Web.UI.Page
             PopUpErrorMsg = null;
             return;
         }
+        cpeA.Collapsed = false;
+        cpeA.ClientState = "false";
     }
 
 

@@ -48,7 +48,7 @@ public partial class Tracking_LabInspection : System.Web.UI.Page
             hideAllPanels();
         }
 
-        String reqIncidentNo = Request.QueryString["LabInspectionNo"];
+        String reqIncidentNo = Request.QueryString["id"];
         int incidentNo = -1;
         try
         {

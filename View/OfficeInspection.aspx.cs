@@ -44,7 +44,7 @@ public partial class Tracking_OfficeInspection : System.Web.UI.Page
             hideAllPanels();
         }
 
-        String reqInspectionNo = Request.QueryString["OfficeInspectionNo"];
+        String reqInspectionNo = Request.QueryString["id"];
         int inspectionNo = -1;
         try
         {
